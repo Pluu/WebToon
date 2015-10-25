@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+	<style name="BaseMaterialAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/theme_primary</item>
+		<item name="colorPrimaryDark">@color/theme_primary_dark</item>
+		<item name="colorAccent">@color/color_accent</item>
+		<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+	</style>
+
+	<style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+		<item name="spinBars">true</item>
+		<item name="color">@android:color/white</item>
+	</style>
+
+	<style name="ActionBarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark">
+	</style>
+
+	<style name="ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+		<item name="android:textColor">@android:color/white</item>
+		<item name="android:textSize">18sp</item>
+	</style>
+</resources>

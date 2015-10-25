@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PluuToon</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="network_fail">통신에 실패했습니다. 잠시후 다시 시도해주세요.</string>
+    <string name="login_from_service_access">로그인후 사용가능한 메뉴입니다.</string>
+    <string name="login_from_adult_service_access">성인 인증후 사용가능한 메뉴입니다.</string>
+	<string name="title_activity_intro">IntroActivity</string>
+
+    <string name="title_naver">Naver</string>
+    <string name="title_duam">Daum</string>
+    <string name="title_olleh">olleh</string>
+    <string name="title_kakao_page">Kakao Page</string>
+    <string name="title_nate">Nate</string>
+    <string name="title_t_store">T Store</string>
+
+    <string name="msg_loading">Loading ...</string>
+
+    <string name="favorite_add">즐겨찾기 추가</string>
+    <string name="favorite_delete">즐겨찾기 제거</string>
+
+</resources>

@@ -1,0 +1,70 @@
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.pluu.webtoon.DetailActivity">
+
+	<WebView
+		android:id="@+id/webview"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar_actionbar"
+		android:layout_width="match_parent"
+		android:layout_height="?actionBarSize">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				tools:text="Large Text"
+				android:singleLine="true"
+				android:textColor="@android:color/white"
+				android:id="@+id/tvTitle"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				tools:text="New Text"
+				android:singleLine="true"
+				android:textColor="@android:color/white"
+				android:id="@+id/tvSubTitle"/>
+		</LinearLayout>
+	</android.support.v7.widget.Toolbar>
+
+	<LinearLayout
+		android:id="@+id/bottomMenu"
+		android:layout_width="match_parent"
+		android:layout_alignParentBottom="true"
+		android:layout_height="wrap_content">
+
+		<Button
+			android:id="@+id/btnPrev"
+			android:textStyle="bold"
+			android:layout_width="0dp"
+			android:background="@color/theme_primary"
+			android:drawableLeft="@drawable/chevron_left_selector"
+			android:textColor="@android:color/white"
+			android:layout_height="wrap_content"
+			android:text="이전 화"
+			android:layout_weight="1"/>
+
+		<Button
+			android:id="@+id/btnNext"
+			android:textStyle="bold"
+			android:layout_width="0dp"
+			android:background="@color/theme_primary"
+			android:drawableRight="@drawable/chevron_right_selector"
+			android:textColor="@android:color/white"
+			android:text="다음 화"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
+	</LinearLayout>
+</RelativeLayout>

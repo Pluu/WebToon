@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="color_3f51b5">#3F51B5</color>
+	<color name="color_1a237e">#1A237E</color>
+	<color name="color_f44336">#F44336</color>
+	<color name="color_de000000">#de000000</color>
+	<color name="color_888888">#888</color>
+	<color name="color_12000000">#12000000</color>
+	<color name="color_0091ea">#0091EA</color>
+
+	<color name="color1">#ff0f9d58</color>
+	<color name="color2">#ffdb4437</color>
+	<color name="color3">#ff4285f4</color>
+	<color name="color4">#fff4b400</color>
+
+	<color name="naver_color">#2D8400</color>
+	<color name="daum_color">#608EFC</color>
+	<color name="olleh_color">#E70012</color>
+	<color name="kakao_color">#3F3035</color>
+	<color name="nate_color">#EB1B00</color>
+	<color name="t_store_color">#EA002C</color>
+
+
+	<!-- 상단에 정의된 내용만 하단에 사용 -->
+	<!-- Base -->
+	<color name="body_text_1">@color/color_de000000</color>
+	<color name="theme_primary">@color/color_3f51b5</color>
+	<color name="theme_primary_dark">@color/color_1a237e</color>
+	<color name="color_accent">#F44336</color>
+
+	<!-- navdrawer -->
+	<color name="navdrawer_background">@android:color/white</color>
+	<color name="navdrawer_text_color">@color/body_text_1</color>
+	<color name="navdrawer_text_color_selected">@color/theme_primary</color>
+	<color name="navdrawer_icon_tint">@color/color_888888</color>
+	<color name="navdrawer_icon_tint_selected">@color/theme_primary</color>
+	<color name="navdrawer_pressed">@color/color_12000000</color>
+
+</resources>

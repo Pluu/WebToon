@@ -1,0 +1,51 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="@dimen/navigation_drawer_width"
+	android:layout_height="match_parent"
+	android:background="@color/navdrawer_background"
+	android:orientation="vertical"
+	android:layout_gravity="start"
+	android:id="@+id/navdrawer"
+	android:fitsSystemWindows="true"
+	tools:context=".NavigationDrawerFragment">
+
+	<FrameLayout
+		android:id="@+id/chosen_account_view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/theme_primary">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="?actionBarSize"
+			android:orientation="vertical"
+			android:id="@+id/chosen_account_content_view"
+			android:gravity="center_vertical"
+			android:paddingLeft="16dp">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:text="@string/app_name"
+				android:textColor="@android:color/white"
+				android:textStyle="bold"/>
+		</LinearLayout>
+
+	</FrameLayout>
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<!-- Drawer items -->
+		<LinearLayout
+			android:id="@+id/navdrawer_items_list"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginBottom="8dp"
+			android:orientation="vertical" />
+	</ScrollView>
+
+</LinearLayout>

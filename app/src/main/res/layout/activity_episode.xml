@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<include layout="@layout/toolbar_actionbar"/>
+
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/swipe_refresh_widget"
+		android:layout_width="match_parent"
+		android:layout_below="@+id/toolbar_actionbar"
+		android:layout_above="@+id/bottom"
+		android:layout_height="match_parent">
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@android:id/list"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:scrollbars="vertical"/>
+	</android.support.v4.widget.SwipeRefreshLayout>
+
+	<LinearLayout
+		android:id="@+id/bottom"
+		android:layout_alignParentBottom="true"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical"
+		android:padding="3dp">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_marginRight="10dp"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:layout_weight="1">
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+				tools:text="제작자 이름"
+				tools:textColor="@android:color/black"
+				android:textStyle="bold"
+				android:singleLine="true"
+				android:textColor="@android:color/white"
+				android:id="@+id/tvName"/>
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+				tools:text="평점 : "
+				android:visibility="gone"
+				tools:textColor="@android:color/black"
+				android:layout_marginTop="3dp"
+				android:singleLine="true"
+				android:textColor="@android:color/white"
+				android:id="@+id/tvRate"/>
+		</LinearLayout>
+
+		<Button
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="첫화보기"
+			android:background="@android:color/black"
+			android:drawableLeft="@drawable/ic_looks_one_white_36dp"
+			android:textColor="@android:color/white"
+			android:layout_centerVertical="true"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:drawablePadding="10dp"
+			android:layout_alignParentRight="true"
+			android:id="@+id/btnFirst"/>
+
+	</LinearLayout>
+
+</RelativeLayout>
+
+

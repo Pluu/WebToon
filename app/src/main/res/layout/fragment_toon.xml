@@ -1,0 +1,20 @@
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity">
+
+	<com.google.samples.apps.iosched.ui.widget.SlidingTabLayout
+		android:id="@+id/slidingTabLayout"
+		android:layout_width="match_parent"
+		android:layout_margin="3dp"
+		android:layout_height="wrap_content"/>
+
+	<android.support.v4.view.ViewPager
+		android:id="@+id/viewPager"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_below="@id/slidingTabLayout"
+		android:layout_alignParentBottom="true"/>
+</RelativeLayout>
