@@ -1,4 +1,4 @@
-package com.pluu.support;
+package com.pluu.support.kakao;
 
 import android.content.Context;
 
@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.pluu.webtoon.BaseActivity;
+import com.pluu.support.BaseApiImpl;
+import com.pluu.webtoon.ui.BaseActivity;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.DetailView;

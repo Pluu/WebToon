@@ -1,4 +1,4 @@
-package com.pluu.webtoon;
+package com.pluu.webtoon.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 
 public class MainActivity extends BaseActivity {

@@ -1,4 +1,4 @@
-package com.pluu.webtoon;
+package com.pluu.webtoon.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -48,6 +48,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.pluu.support.ApiImpl;
+import com.pluu.webtoon.AppController;
+import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.DetailView;
 import com.pluu.webtoon.api.Episode;

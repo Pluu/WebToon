@@ -1,4 +1,4 @@
-package com.pluu.webtoon;
+package com.pluu.webtoon.ui;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -45,7 +45,9 @@ import com.bumptech.glide.request.target.Target;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.pluu.support.ApiImpl;
 import com.pluu.support.BaseApiImpl;
-import com.pluu.support.NaverApi;
+import com.pluu.support.naver.NaverApi;
+import com.pluu.webtoon.AppController;
+import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.WebToonInfo;
 import com.pluu.webtoon.api.WebToonType;
 import com.pluu.webtoon.common.Const;

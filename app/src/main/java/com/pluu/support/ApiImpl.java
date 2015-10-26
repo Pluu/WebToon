@@ -4,13 +4,12 @@ import android.content.Context;
 
 import java.util.List;
 
+import com.pluu.webtoon.ui.BaseActivity.NAV_ITEM;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.LoginResultInfo;
 import com.pluu.webtoon.api.ShareItem;
 import com.pluu.webtoon.api.WebToon;
 import com.pluu.webtoon.api.WebToonInfo;
-import com.pluu.webtoon.BaseActivity.NAV_ITEM;
 
 /**
  * Base API Interface
@@ -48,14 +47,6 @@ public interface ApiImpl {
 
 	void refreshEpisode();
 
-	boolean isLoginSupport();
-
-	/**
-	 * 로그인 관련 데이터 초기화
-	 * @param context Context
-	 */
-	void loginDataInit(Context context);
-
 	/**
 	 * 로그인 데이터 존재여부 체크
 	 * @param context Context
@@ -63,7 +54,4 @@ public interface ApiImpl {
 	 */
 	boolean isLoginDataExist(Context context);
 
-	LoginResultInfo autoLogin(Context context);
-
-	LoginResultInfo login(Context context, String email, String password);
 }

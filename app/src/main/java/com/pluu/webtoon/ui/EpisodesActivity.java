@@ -1,25 +1,19 @@
-package com.pluu.webtoon;
+package com.pluu.webtoon.ui;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +28,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,8 +44,9 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pluu.support.ApiImpl;
+import com.pluu.webtoon.AppController;
+import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.LoginResultInfo;
 import com.pluu.webtoon.api.WebToon;
 import com.pluu.webtoon.api.WebToonInfo;
 import com.pluu.webtoon.common.Const;
@@ -149,10 +143,6 @@ public class EpisodesActivity extends AppCompatActivity
 								Toast.makeText(EpisodesActivity.this,
 											   R.string.login_from_adult_service_access,
 											   Toast.LENGTH_SHORT).show();
-								if (serviceApi.isLoginSupport()) {
-									new LoginDialogFragment().show(getSupportFragmentManager(),
-																   LOGIN_DIALOG_TAG);
-								}
 								return;
 							}
 						}
@@ -425,9 +415,6 @@ public class EpisodesActivity extends AppCompatActivity
 			} else if (item.isAdult()) {
 				Toast.makeText(this, R.string.login_from_adult_service_access, Toast.LENGTH_SHORT)
 					 .show();
-				if (serviceApi.isLoginSupport()) {
-					new LoginDialogFragment().show(getSupportFragmentManager(), LOGIN_DIALOG_TAG);
-				}
 				return;
 			}
 		}
@@ -532,49 +519,6 @@ public class EpisodesActivity extends AppCompatActivity
 			}
 		}
 	};
-
-    @SuppressLint("ValidFragment")
-	class LoginDialogFragment extends DialogFragment {
-        @Bind(R.id.email)
-        EditText emailView;
-
-        @Bind(R.id.password)
-        EditText passwordView;
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            View view = getActivity().getLayoutInflater().inflate(R.layout.layout_login, null);
-            ButterKnife.bind(this, view);
-            return new AlertDialog.Builder(getActivity())
-                    .setView(view)
-                    .setPositiveButton("로그인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            final String email = emailView.getText().toString();
-                            final String password = passwordView.getText().toString();
-                            new AsyncTask<Void, Void, LoginResultInfo>() {
-                                @Override
-                                protected LoginResultInfo doInBackground(Void... voids) {
-                                    return serviceApi.login(EpisodesActivity.this, email, password);
-                                }
-
-                                @Override
-                                protected void onPostExecute(LoginResultInfo s) {
-                                    if (s != null && !s.isError) {
-										adapter.setIsLogin(true);
-                                        onRefresh();
-                                    } else {
-                                        Toast.makeText(getActivity(), s.errorMsg, Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }.execute();
-                        }
-                    })
-                    .setNegativeButton("취소", null)
-                    .create();
-        }
-    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

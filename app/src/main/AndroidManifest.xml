@@ -11,7 +11,7 @@
 		android:label="@string/app_name"
 		android:theme="@style/BaseMaterialAppTheme" >
 		<activity
-			android:name=".IntroActivity"
+			android:name=".ui.IntroActivity"
 			android:screenOrientation="portrait"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -20,13 +20,13 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".MainActivity"
+			android:name=".ui.MainActivity"
 			android:configChanges="orientation|screenSize" />
 		<activity
-			android:name=".EpisodesActivity"
+			android:name=".ui.EpisodesActivity"
 			android:configChanges="orientation|screenSize" />
 		<activity
-			android:name=".DetailActivity"
+			android:name=".ui.DetailActivity"
 			android:configChanges="orientation|screenSize" />
 	</application>
 

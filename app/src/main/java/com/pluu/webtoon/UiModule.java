@@ -1,5 +1,8 @@
 package com.pluu.webtoon;
 
+import com.pluu.webtoon.ui.DetailActivity;
+import com.pluu.webtoon.ui.EpisodesActivity;
+import com.pluu.webtoon.ui.MainFragment;
 import dagger.Module;
 
 /**

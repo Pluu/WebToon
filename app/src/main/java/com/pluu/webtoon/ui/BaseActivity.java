@@ -1,4 +1,4 @@
-package com.pluu.webtoon;
+package com.pluu.webtoon.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,12 +19,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.pluu.support.BaseApiImpl;
-import com.pluu.support.DaumApi;
-import com.pluu.support.KakaoPageApi;
-import com.pluu.support.NateApi;
-import com.pluu.support.NaverApi;
-import com.pluu.support.OllehApi;
-import com.pluu.support.TStoreApi;
+import com.pluu.support.daum.DaumApi;
+import com.pluu.support.kakao.KakaoPageApi;
+import com.pluu.support.nate.NateApi;
+import com.pluu.support.naver.NaverApi;
+import com.pluu.support.olleh.OllehApi;
+import com.pluu.support.tstore.TStoreApi;
+import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 
 /**

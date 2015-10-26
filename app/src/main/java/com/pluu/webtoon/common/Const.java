@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.pluu.support.ApiImpl;
 import com.pluu.support.BaseApiImpl;
-import com.pluu.support.NaverApi;
+import com.pluu.support.naver.NaverApi;
 
 /**
  * Created by nohhs on 2015-03-02.

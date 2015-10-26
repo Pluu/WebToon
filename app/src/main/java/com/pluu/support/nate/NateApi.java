@@ -1,4 +1,4 @@
-package com.pluu.support;
+package com.pluu.support.nate;
 
 import android.content.Context;
 
@@ -12,7 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.pluu.webtoon.BaseActivity;
+import com.pluu.support.BaseApiImpl;
+import com.pluu.webtoon.ui.BaseActivity;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.DetailView;

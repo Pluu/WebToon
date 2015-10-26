@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.LoginResultInfo;
 import com.pluu.webtoon.api.WebToon;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -59,25 +58,8 @@ public abstract class BaseApiImpl implements ApiImpl {
 	public void refreshEpisode() { }
 
 	@Override
-	public boolean isLoginSupport() {
-		return false;
-	}
-
-	@Override
-	public void loginDataInit(Context context) { }
-
-	@Override
 	public boolean isLoginDataExist(Context context) {
 		return false;
 	}
 
-	@Override
-	public LoginResultInfo autoLogin(Context context) {
-		return null;
-	}
-
-	@Override
-    public LoginResultInfo login(Context context, String email, String password) {
-        return null;
-    }
 }
