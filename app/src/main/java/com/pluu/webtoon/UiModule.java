@@ -3,6 +3,7 @@ package com.pluu.webtoon;
 import com.pluu.webtoon.ui.DetailActivity;
 import com.pluu.webtoon.ui.EpisodesActivity;
 import com.pluu.webtoon.ui.MainFragment;
+import com.pluu.webtoon.ui.WebtoonListFragment;
 import dagger.Module;
 
 /**
@@ -11,6 +12,7 @@ import dagger.Module;
 @Module(
 	injects = {
 		MainFragment.class,
+		WebtoonListFragment.class,
 		EpisodesActivity.class,
 		DetailActivity.class
 	},

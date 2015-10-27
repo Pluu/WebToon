@@ -47,7 +47,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.pluu.support.ApiImpl;
+import com.pluu.support.BaseApiImpl;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
@@ -88,7 +88,7 @@ public class DetailActivity extends AppCompatActivity {
 	private int SWIPE_THRESHOLD_VELOCITY;
 	private ObjectAnimator statusBarAnimator;
 
-	private ApiImpl serviceApi;
+	private BaseApiImpl serviceApi;
 	private Detail currentItem;
 	private Episode episode;
 

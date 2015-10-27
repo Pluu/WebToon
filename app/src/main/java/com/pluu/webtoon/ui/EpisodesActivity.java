@@ -43,7 +43,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pluu.support.ApiImpl;
+import com.pluu.support.BaseApiImpl;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Episode;
@@ -87,7 +87,7 @@ public class EpisodesActivity extends AppCompatActivity
 	private WebToonInfo webToonInfo;
 	private int titleColor, statusColor;
 
-	private ApiImpl serviceApi;
+	private BaseApiImpl serviceApi;
 	private List<String> readIdxs;
 
 	@Inject

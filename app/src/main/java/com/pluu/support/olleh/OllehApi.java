@@ -50,7 +50,6 @@ public class OllehApi extends BaseApiImpl {
 		super(new String[]{"월", "화", "수", "목", "금", "토", "일"});
 	}
 
-	@Override
 	public BaseActivity.NAV_ITEM getNaviItem() {
 		return BaseActivity.NAV_ITEM.OLLEH;
 	}
@@ -60,7 +59,6 @@ public class OllehApi extends BaseApiImpl {
 		return context.getResources().getColor(R.color.olleh_color);
 	}
 
-	@Override
 	public String getWeeklyUrl(int position) {
 		return WEEKLY_URL;
 	}
@@ -73,7 +71,6 @@ public class OllehApi extends BaseApiImpl {
 		return connection;
 	}
 
-	@Override
 	public List<WebToonInfo> parseMain(Context context, String url, int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 		try {
@@ -148,7 +145,6 @@ public class OllehApi extends BaseApiImpl {
 		return list;
 	}
 
-	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
 		WebToon webToon = new WebToon(this, url);
 		try {
@@ -216,7 +212,6 @@ public class OllehApi extends BaseApiImpl {
 		return null;
 	}
 
-	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -269,20 +264,6 @@ public class OllehApi extends BaseApiImpl {
 	}
 
 	private void parserToon(Detail ret, List<DetailView> list, JSONObject obj) {
-//		JSONObject info = obj.optJSONObject("toon");
-//		ret.title = info.optString("timestitle");
-//		int webtoonseq = info.optInt("webtoonseq");
-//		ret.episodeId = info.optString("timesseq");
-//
-//		int prev = info.optInt("prevtimesseq", 0);
-//		if (prev > 0) {
-//			ret.prevLink = String.format(DETAIL_IMG_URL, webtoonseq, prev);
-//		}
-//		int next = info.optInt("nexttimesseq", 0);
-//		if (next > 0) {
-//			ret.nextLink = String.format(DETAIL_IMG_URL, webtoonseq, next);
-//		}
-
 		JSONArray array = obj.optJSONArray("imageList");
 		JSONObject obj2;
 		for (int i = 0; i < array.length(); i++) {
@@ -291,41 +272,10 @@ public class OllehApi extends BaseApiImpl {
 		}
 	}
 
-//	private void parserNovel(Detail ret, List<DetailView> list, JSONObject obj) {
-//		JSONObject info = obj.optJSONObject("toon");
-//		ret.title = info.optString("timestitle");
-//		int webtoonseq = info.optInt("webtoonseq");
-//		ret.episodeId = info.optString("timesseq");
-//
-//		int prev = info.optInt("prevtimesseq", 0);
-//		if (prev > 0) {
-//			ret.prevLink = String.format(DETAIL_NOVEL_URL, webtoonseq, prev);
-//		}
-//		int next = info.optInt("nexttimesseq", 0);
-//		if (next > 0) {
-//			ret.nextLink = String.format(DETAIL_NOVEL_URL, webtoonseq, next);
-//		}
-//
-//		JSONArray array = obj.optJSONArray("novelFileList");
-//		JSONObject obj2;
-//		String text = "txt";
-//
-//		for (int i = 0; i < array.length(); i++) {
-//			obj2 = array.optJSONObject(i);
-//			if (text.equals(obj2.optString("filefg"))) {
-//				list.add(DetailView.createText(obj2.optString("contents")));
-//			} else {
-//				list.add(DetailView.createImage(obj2.optString("filepath")));
-//			}
-//		}
-//	}
-
-	@Override
 	public Episode getFirstEpisode(Episode item) {
 		return firstEpisode;
 	}
 
-	@Override
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		String url = String.format("http://webtoon.olleh.com/web/times_view.kt?webtoonseq=%s&timesseq=%s",
 								   detail.webtoonId, detail.episodeId);

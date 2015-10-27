@@ -43,7 +43,6 @@ public class KakaoPageApi extends BaseApiImpl {
 		super(new String[]{"월", "화", "수", "목", "금", "토", "일"});
 	}
 
-	@Override
 	public BaseActivity.NAV_ITEM getNaviItem() {
 		return BaseActivity.NAV_ITEM.KAKAOPAGE;
 	}
@@ -53,12 +52,10 @@ public class KakaoPageApi extends BaseApiImpl {
 		return context.getResources().getColor(R.color.kakao_color);
 	}
 
-	@Override
 	public String getWeeklyUrl(int position) {
 		return String.format(WEEKLY_URL, position + 1);
 	}
 
-	@Override
 	public List<WebToonInfo> parseMain(Context context, String url, int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 		try {
@@ -93,7 +90,6 @@ public class KakaoPageApi extends BaseApiImpl {
 		return list;
 	}
 
-	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
 		WebToon webToon = new WebToon(this, url);
 		try {
@@ -147,7 +143,6 @@ public class KakaoPageApi extends BaseApiImpl {
 		return info.getUrl();
 	}
 
-	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -193,12 +188,10 @@ public class KakaoPageApi extends BaseApiImpl {
 		return ret;
 	}
 
-	@Override
 	public Episode getFirstEpisode(Episode item) {
 		return firstEpisode;
 	}
 
-	@Override
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		ShareItem item = new ShareItem();
 		item.title = episode.getTitle() + " / " + detail.title;

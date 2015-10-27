@@ -12,9 +12,12 @@ import com.pluu.webtoon.api.WebToonInfo;
  */
 public abstract class AbstractEpisodeApi {
 
+	public void init() { }
+
 	public abstract WebToon parseEpisode(Context context, WebToonInfo info, String url);
 
 	public abstract Episode getFirstEpisode(Episode item);
+
 
 
 }

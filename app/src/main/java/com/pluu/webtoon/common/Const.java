@@ -2,7 +2,6 @@ package com.pluu.webtoon.common;
 
 import android.content.Intent;
 
-import com.pluu.support.ApiImpl;
 import com.pluu.support.BaseApiImpl;
 import com.pluu.support.naver.NaverApi;
 
@@ -15,13 +14,14 @@ public class Const {
 	public static final String EXTRA_EPISODE = "EXTRA_EPISODE";
 	public static final String EXTRA_MAIN_COLOR = "EXTRA_MAIN_COLOR";
 	public static final String EXTRA_STATUS_COLOR = "EXTRA_STATUS_COLOR";
+	public static final String ARG_API = "api";
 
 	private static final String RATE_FORMAT = "평점 : %.2f";
 
 	public static final String MAIN_FRAG_TAG = "main_frag_tag";
 
-	public static ApiImpl getServiceApi(Intent intent) {
-		ApiImpl serviceApi;
+	public static BaseApiImpl getServiceApi(Intent intent) {
+		BaseApiImpl serviceApi;
 		if (intent == null || !intent.hasExtra(EXTRA_API)) {
 			serviceApi = new NaverApi();
 		} else {
@@ -36,8 +36,8 @@ public class Const {
 		return serviceApi;
 	}
 
-	public static ApiImpl getServiceApi(Class<? extends BaseApiImpl> target) {
-		ApiImpl serviceApi;
+	public static BaseApiImpl getServiceApi(Class<? extends BaseApiImpl> target) {
+		BaseApiImpl serviceApi;
 		try {
 			serviceApi = target.getConstructor().newInstance();
 		} catch (Exception e) {

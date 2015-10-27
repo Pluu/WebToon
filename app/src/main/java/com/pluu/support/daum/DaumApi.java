@@ -41,7 +41,6 @@ public class DaumApi extends BaseApiImpl {
 		super(new String[]{"월", "화", "수", "목", "금", "토", "일"});
 	}
 
-	@Override
 	public BaseActivity.NAV_ITEM getNaviItem() {
 		return BaseActivity.NAV_ITEM.DAUM;
 	}
@@ -51,12 +50,10 @@ public class DaumApi extends BaseApiImpl {
 		return context.getResources().getColor(R.color.daum_color);
 	}
 
-	@Override
 	public String getWeeklyUrl(int position) {
 		return WEEKLY_URL + value[position];
 	}
 
-	@Override
 	public List<WebToonInfo> parseMain(Context context, String url, int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 		try {
@@ -106,7 +103,6 @@ public class DaumApi extends BaseApiImpl {
 		return list;
 	}
 
-	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
 		WebToon webToon = new WebToon(this, url);
 		try {
@@ -169,7 +165,6 @@ public class DaumApi extends BaseApiImpl {
 		}
 	}
 
-	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -209,7 +204,6 @@ public class DaumApi extends BaseApiImpl {
 		return ret;
 	}
 
-	@Override
 	public Episode getFirstEpisode(Episode item) {
 		Episode ret;
 		try {
@@ -223,7 +217,6 @@ public class DaumApi extends BaseApiImpl {
 		return ret;
 	}
 
-	@Override
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		ShareItem item = new ShareItem();
 		item.title = episode.getTitle() + " / " + detail.title;

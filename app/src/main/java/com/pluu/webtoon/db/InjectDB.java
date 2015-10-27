@@ -105,7 +105,7 @@ public class InjectDB {
 									final WebToonInfo info,
 									Action1<Boolean> onAction) {
 
-		Log.d(TAG, "getEpisodeFavorite, " + info.toString());
+//		Log.d(TAG, "getEpisodeFavorite, " + info.toString());
 
 		return db.createQuery(
 			FavoriteItem.TABLE, FAVORITE_QUERY,

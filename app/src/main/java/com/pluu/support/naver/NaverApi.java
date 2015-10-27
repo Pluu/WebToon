@@ -40,7 +40,6 @@ public class NaverApi extends BaseApiImpl {
 		super(new String[]{"월", "화", "수", "목", "금", "토", "일", "완결"});
 	}
 
-	@Override
 	public BaseActivity.NAV_ITEM getNaviItem() {
 		return BaseActivity.NAV_ITEM.NAVER;
 	}
@@ -50,12 +49,10 @@ public class NaverApi extends BaseApiImpl {
 		return context.getResources().getColor(R.color.naver_color);
 	}
 
-	@Override
 	public String getWeeklyUrl(int position) {
 		return HOST_URL + "?week=" + value[position];
 	}
 
-	@Override
 	public List<WebToonInfo> parseMain(Context context, String url, int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 		try {
@@ -92,7 +89,6 @@ public class NaverApi extends BaseApiImpl {
 		return list;
 	}
 
-	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
 		WebToon webToon = new WebToon(this, url);
 		try {
@@ -162,7 +158,6 @@ public class NaverApi extends BaseApiImpl {
 		return item.getNextLink();
 	}
 
-	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -269,7 +264,6 @@ public class NaverApi extends BaseApiImpl {
 		return list;
 	}
 
-	@Override
 	public Episode getFirstEpisode(Episode item) {
 		Episode ret;
 		try {
@@ -283,7 +277,6 @@ public class NaverApi extends BaseApiImpl {
 		return ret;
 	}
 
-	@Override
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		String url = String.format("http://m.comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s",
 								   detail.webtoonId, detail.episodeId);
