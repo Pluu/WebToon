@@ -10,7 +10,7 @@ import com.pluu.webtoon.api.ShareItem;
  * Detail Parse API
  * Created by PLUUSYSTEM-NEW on 2015-10-26.
  */
-public abstract class AbstractDetailApi {
+public abstract class AbstractDetailApi extends NetworkSupportApi {
 
 	public abstract Detail parseDetail(Context context, Episode episode, String url);
 

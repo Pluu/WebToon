@@ -9,6 +9,7 @@ import com.pluu.support.naver.NaverApi;
  * Created by nohhs on 2015-03-02.
  */
 public class Const {
+	public static final String LOG_TAG = "PluuToon";
 	public static final String EXTRA_API = "EXTRA_API";
 	public static final String EXTRA_URL = "EXTRA_URL";
 	public static final String EXTRA_EPISODE = "EXTRA_EPISODE";

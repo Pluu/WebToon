@@ -1,21 +1,21 @@
 package com.pluu.support.impl;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import com.pluu.webtoon.ui.BaseActivity;
-import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.ui.BaseActivity.NAV_ITEM;
+
+;
 
 /**
  * Week API
  * Created by PLUUSYSTEM-NEW on 2015-10-26.
  */
-public abstract class AbstractWeekApi {
+public abstract class AbstractWeekApi extends NetworkSupportApi {
 
 	private final String[] CURRENT_TABS;
 
@@ -23,11 +23,9 @@ public abstract class AbstractWeekApi {
 		this.CURRENT_TABS = tabs;
 	}
 
-	public abstract BaseActivity.NAV_ITEM getNaviItem();
+	public abstract NAV_ITEM getNaviItem();
 
-	public int getMainTitleColor(Context context) {
-		return ContextCompat.getColor(context, R.color.theme_primary);
-	}
+	public abstract int getMainTitleColor(Context context);
 
 	public int getWeeklyTabSize() {
 		return CURRENT_TABS.length;
