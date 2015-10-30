@@ -1,6 +1,7 @@
 package com.pluu.support.impl;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
 import java.util.Calendar;
 import java.util.List;
@@ -24,6 +25,11 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 	}
 
 	public abstract NAV_ITEM getNaviItem();
+
+	// TODO : 컬러 취득 로직 추후 수정 필요
+	public int getTitleColor(Context context) {
+		return ContextCompat.getColor(context, getMainTitleColor(context));
+	}
 
 	public abstract int getMainTitleColor(Context context);
 

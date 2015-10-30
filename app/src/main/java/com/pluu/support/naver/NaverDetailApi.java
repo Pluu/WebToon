@@ -45,6 +45,7 @@ public class NaverDetailApi extends AbstractDetailApi {
 			response = requestApi();
 		} catch (Exception e) {
 			e.printStackTrace();
+			ret.list = new ArrayList<>();
 			return ret;
 		}
 

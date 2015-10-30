@@ -1,7 +1,6 @@
 package com.pluu.support.naver;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +46,7 @@ public class NaverWeekApi extends AbstractWeekApi {
 
 	@Override
 	public int getMainTitleColor(Context context) {
-		return ContextCompat.getColor(context, R.color.naver_color);
+		return R.color.naver_color;
 	}
 
 	@Override

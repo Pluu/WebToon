@@ -1,0 +1,128 @@
+package com.pluu.support.daum;
+
+import android.content.Context;
+import android.text.TextUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.pluu.support.impl.AbstractWeekApi;
+import com.pluu.webtoon.R;
+import com.pluu.webtoon.api.Status;
+import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.common.Const;
+import com.pluu.webtoon.ui.BaseActivity.NAV_ITEM;
+
+/**
+ * 다음 웹툰 Week Api
+ * Created by PLUUSYSTEM-NEW on 2015-10-30.
+ */
+public class DaumWeekApi extends AbstractWeekApi {
+
+	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일"};
+	private static final String URL = "http://m.webtoon.daum.net/data/mobile/webtoon?sort=update&page_no=1&week=";
+	private final String[] URL_VALUE = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
+
+	private int currentPos;
+
+	public DaumWeekApi() {
+		super(TITLE);
+	}
+
+	@Override
+	public NAV_ITEM getNaviItem() {
+		return NAV_ITEM.DAUM;
+	}
+
+	@Override
+	public int getMainTitleColor(Context context) {
+		return R.color.daum_color;
+	}
+
+	@Override
+	public int getTodayTabPosition() {
+		return Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK);
+	}
+
+	@Override
+	public List<WebToonInfo> parseMain(Context context, String url, int position) {
+		this.currentPos = position;
+
+		ArrayList<WebToonInfo> list = new ArrayList<>();
+
+		try {
+			String response = requestApi();
+			JSONArray array = new JSONObject(response)
+				.optJSONObject("data").optJSONArray("webtoons");
+			if (array != null && array.length() > 0) {
+				WebToonInfo item;
+				JSONObject obj, lastObj;
+				String emptyAverageScore = "0.0";
+				String today = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
+				String date;
+				for (int i = 0; i < array.length(); i++) {
+					obj = array.optJSONObject(i);
+
+					item = new WebToonInfo(obj.optString("nickname"));
+					item.setUrl(obj.optString("nickname"));
+					item.setTitle(obj.optString("title"));
+					lastObj = obj.optJSONObject("latestWebtoonEpisode");
+					item.setImage(lastObj.optJSONObject("thumbnailImage").optString("url"));
+
+					JSONObject info = obj.optJSONObject("cartoon").optJSONArray("artists").optJSONObject(0);
+					item.setWriter(info.optString("name"));
+					item.setRate(Const.getRateNameByRate(obj.optString("averageScore")));
+					if (TextUtils.equals(emptyAverageScore, item.getRate())) {
+						item.setRate(null);
+					}
+
+					date = lastObj.optString("dateCreated");
+					item.setUpdateDate(
+						date.substring(2, 4) + "." + date.substring(4, 6) + "." + date.substring(6,
+																								 8));
+					if (today.equals(date.substring(0, 8))) {
+						// 최근 업데이트
+						item.setStatus(Status.UPDATE);
+					} else if ("Y".equals(obj.optString("restYn"))){
+						// 휴재
+						item.setStatus(Status.BREAK);
+					}
+
+					item.setIsAdult(obj.optInt("ageGrade") == 19);
+					list.add(item);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public String getMethod() {
+		return POST;
+	}
+
+	@Override
+	public String getUrl() {
+		return URL;
+	}
+
+	@Override
+	public Map<String, String> getParams() {
+		Map<String, String> map = new HashMap<>();
+		map.put("week", URL_VALUE[currentPos]);
+		return map;
+	}
+
+}

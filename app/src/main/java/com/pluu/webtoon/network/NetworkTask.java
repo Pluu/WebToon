@@ -24,8 +24,6 @@ public class NetworkTask {
 	private final OkHttpClient client = new OkHttpClient();
 
 	public String requestApi(final IRequest request) throws Exception {
-		client.interceptors().add(new LoggingInterceptor());
-
 		Request.Builder builder = new Request.Builder()
 			.url(request.getUrl());
 
@@ -42,13 +40,14 @@ public class NetworkTask {
 			builder.post(requestBody);
 		}
 
-		Request requestImpl = builder.build();
+		return requestApi(builder.build());
+	}
 
-		Response response = client.newCall(requestImpl).execute();
+	public String requestApi(Request request) throws Exception {
+		client.interceptors().add(new LoggingInterceptor());
+		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-
 		Log.i(Const.LOG_TAG, "Response: " + result);
-
 		return result;
 	}
 

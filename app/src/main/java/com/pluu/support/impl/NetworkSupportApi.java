@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import com.pluu.webtoon.network.NetworkTask;
+import com.squareup.okhttp.Request;
 
 /**
  * Network Support API Class
@@ -30,6 +31,10 @@ public abstract class NetworkSupportApi implements IRequest {
 
 	protected String requestApi() throws Exception {
 		return new NetworkTask().requestApi(this);
+	}
+
+	protected String requestApi(Request request) throws Exception {
+		return new NetworkTask().requestApi(request);
 	}
 
 
