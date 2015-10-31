@@ -54,7 +54,6 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 				.optJSONObject("data").optInt("firstEpisodeId");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return webToon;
 		}
 
 		return webToon;
