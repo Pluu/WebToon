@@ -9,6 +9,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
+import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 
 public class MainActivity extends BaseActivity {
 

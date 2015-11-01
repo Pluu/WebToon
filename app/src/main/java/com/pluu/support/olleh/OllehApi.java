@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.BaseApiImpl;
-import com.pluu.webtoon.ui.BaseActivity;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.DetailView;
@@ -50,8 +50,8 @@ public class OllehApi extends BaseApiImpl {
 		super(new String[]{"월", "화", "수", "목", "금", "토", "일"});
 	}
 
-	public BaseActivity.NAV_ITEM getNaviItem() {
-		return BaseActivity.NAV_ITEM.OLLEH;
+	public ServiceConst.NAV_ITEM getNaviItem() {
+		return ServiceConst.NAV_ITEM.OLLEH;
 	}
 
 	@Override

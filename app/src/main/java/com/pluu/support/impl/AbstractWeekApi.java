@@ -1,16 +1,21 @@
 package com.pluu.support.impl;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import com.pluu.support.daum.DaumWeekApi;
+import com.pluu.support.impl.ServiceConst.NAV_ITEM;
+import com.pluu.support.kakao.KakaoWeekApi;
+import com.pluu.support.nate.NateWeekApi;
+import com.pluu.support.naver.NaverWeekApi;
+import com.pluu.support.olleh.OllehWeekApi;
+import com.pluu.support.tstore.TStorerWeekApi;
 import com.pluu.webtoon.api.WebToonInfo;
-import com.pluu.webtoon.ui.BaseActivity.NAV_ITEM;
-
-;
 
 /**
  * Week API
@@ -26,12 +31,11 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 
 	public abstract NAV_ITEM getNaviItem();
 
-	// TODO : 컬러 취득 로직 추후 수정 필요
 	public int getTitleColor(Context context) {
 		return ContextCompat.getColor(context, getMainTitleColor(context));
 	}
 
-	public abstract int getMainTitleColor(Context context);
+	protected abstract int getMainTitleColor(Context context);
 
 	public int getWeeklyTabSize() {
 		return CURRENT_TABS.length;
@@ -41,12 +45,29 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 		return CURRENT_TABS[position];
 	}
 
-	protected int getTodayPosition() {
-		return Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK);
+	public int getTodayTabPosition() {
+		return (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7;
 	}
 
-	public abstract int getTodayTabPosition();
+	public abstract List<WebToonInfo> parseMain(Context context, int position);
 
-	public abstract List<WebToonInfo> parseMain(Context context, String url, int position);
+	public static AbstractWeekApi getApi(NAV_ITEM item) {
+		switch (item) {
+			case NAVER:
+				return new NaverWeekApi();
+			case DAUM:
+				return new DaumWeekApi();
+			case OLLEH:
+				return new OllehWeekApi();
+			case KAKAOPAGE:
+				return new KakaoWeekApi();
+			case NATE:
+				return new NateWeekApi();
+			case T_STORE:
+				return new TStorerWeekApi();
+			default:
+				throw new Resources.NotFoundException("Not Found API");
+		}
+	}
 
 }

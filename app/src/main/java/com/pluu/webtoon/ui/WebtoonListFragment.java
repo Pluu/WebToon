@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +26,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.pluu.event.OttoBusHolder;
-import com.pluu.support.BaseApiImpl;
-import com.pluu.support.naver.NaverApi;
+import com.pluu.support.impl.AbstractWeekApi;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.MainListAdapter;
@@ -48,9 +49,6 @@ import rx.functions.Action1;
 public class WebtoonListFragment extends Fragment {
 	private final String TAG = WebtoonListFragment.class.getSimpleName();
 
-	public static final String ARGUMENT_URL = "url";
-	public static final String ARGUMENT_POS = "pos";
-
 	private RecyclerView recyclerView;
 	private GridLayoutManager manager;
 	private int position;
@@ -60,34 +58,28 @@ public class WebtoonListFragment extends Fragment {
 	@Inject
 	BriteDatabase db;
 
-	private BaseApiImpl serviceApi;
+	private AbstractWeekApi serviceApi;
 	private WebToonInfo selectInfo;
+	private int columnCount;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments() != null) {
-			serviceApi = Const.getServiceApi(
-				(Class<BaseApiImpl>) getArguments().getSerializable(Const.EXTRA_API));
-		} else {
-			serviceApi = Const.getServiceApi(NaverApi.class);
-		}
+		ServiceConst.NAV_ITEM service = ServiceConst.getApiType(getArguments());
+		serviceApi = AbstractWeekApi.getApi(service);
+		position = getArguments().getInt(Const.EXTRA_POS);
+		columnCount = getResources().getInteger(R.integer.webtoon_column_count);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
 							 @Nullable Bundle savedInstanceState) {
 		recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_webtoon_list, null);
-		int columnCount = getResources().getInteger(R.integer.webtoon_column_count);
 		manager = new GridLayoutManager(getActivity(), columnCount);
-
-		position = getArguments().getInt(ARGUMENT_POS);
-
 		recyclerView.setLayoutManager(manager);
 
 		AppController.objectGraph(getActivity()).inject(this);
-
 		return recyclerView;
 	}
 
@@ -104,11 +96,9 @@ public class WebtoonListFragment extends Fragment {
 
 			@Override
 			protected List<WebToonInfo> doInBackground(Void... params) {
-				String url = getArguments().getString(ARGUMENT_URL);
+				Log.i(TAG, "Load pos=" + position);
 
-				Log.i(TAG, "Load=" + url.toString() + ", pos=" + position);
-
-				List<WebToonInfo> list = serviceApi.parseMain(getActivity(), url, position);
+				List<WebToonInfo> list = serviceApi.parseMain(getActivity(), position);
 
 				for (final WebToonInfo item : list) {
 					InjectDB
@@ -182,21 +172,22 @@ public class WebtoonListFragment extends Fragment {
 				 @Override
 				 public void onResourceReady(Bitmap resource,
 											 GlideAnimation<? super Bitmap> glideAnimation) {
-					 Palette.generateAsync(resource,
-										   new Palette.PaletteAsyncListener() {
-											   @Override
-											   public void onGenerated(Palette palette) {
-												   int bgColor = palette.getDarkVibrantColor(
-													   Color.BLACK);
-												   int statusColor = palette.getDarkMutedColor(
-													   context.getResources()
-															  .getColor(
-																  R.color.theme_primary_dark));
-												   moveEpisode(item, bgColor, statusColor);
-											   }
-										   });
+					 asyncPalette(item, resource);
 				 }
 			 });
+	}
+
+	private void asyncPalette(final WebToonInfo item, Bitmap bitmap) {
+		final Context context = getActivity();
+		Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+			public void onGenerated(Palette p) {
+				int bgColor = p.getDarkVibrantColor(
+					Color.BLACK);
+				int statusColor = p.getDarkMutedColor(
+					ContextCompat.getColor(context, R.color.theme_primary_dark));
+				moveEpisode(item, bgColor, statusColor);
+			}
+		});
 	}
 
 	private void moveEpisode(WebToonInfo item, int bgColor, int statusColor) {

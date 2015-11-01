@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.pluu.support.BaseApiImpl;
-import com.pluu.webtoon.ui.BaseActivity;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.DetailView;
@@ -40,8 +40,8 @@ public class NaverApi extends BaseApiImpl {
 		super(new String[]{"월", "화", "수", "목", "금", "토", "일", "완결"});
 	}
 
-	public BaseActivity.NAV_ITEM getNaviItem() {
-		return BaseActivity.NAV_ITEM.NAVER;
+	public ServiceConst.NAV_ITEM getNaviItem() {
+		return ServiceConst.NAV_ITEM.NAVER;
 	}
 
 	@Override

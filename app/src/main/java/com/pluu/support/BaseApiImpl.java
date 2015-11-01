@@ -6,13 +6,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.Episode;
 import com.pluu.webtoon.api.ShareItem;
 import com.pluu.webtoon.api.WebToon;
 import com.pluu.webtoon.api.WebToonInfo;
-import com.pluu.webtoon.ui.BaseActivity;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
@@ -61,7 +61,7 @@ public abstract class BaseApiImpl {
 		return false;
 	}
 
-	public abstract BaseActivity.NAV_ITEM getNaviItem();
+	public abstract ServiceConst.NAV_ITEM getNaviItem();
 
 	public abstract String getWeeklyUrl(int position);
 

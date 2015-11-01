@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.BaseApiImpl;
-import com.pluu.webtoon.ui.BaseActivity;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
 import com.pluu.webtoon.api.DetailView;
@@ -47,8 +47,8 @@ public class TStoreApi extends BaseApiImpl {
 		super(new String[]{"월", "화", "수", "목", "금", "토", "일"});
 	}
 
-	public BaseActivity.NAV_ITEM getNaviItem() {
-		return BaseActivity.NAV_ITEM.T_STORE;
+	public ServiceConst.NAV_ITEM getNaviItem() {
+		return ServiceConst.NAV_ITEM.T_STORE;
 	}
 
 	@Override
@@ -88,7 +88,6 @@ public class TStoreApi extends BaseApiImpl {
 				item.setTitle(a.select(".detail dl dt").text());
 				item.setImage(a.select(".thum img").last().absUrl("src"));
 				item.setWriter(a.select(".txt").text());
-				// TODO : Rate 갱신 체크
 //				item.setRate(a.select(".cRed1").text());
 				item.setUpdateDate(a.select(".grade strong").text());
 

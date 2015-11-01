@@ -4,21 +4,19 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractWeekApi;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Status;
 import com.pluu.webtoon.api.WebToonInfo;
 import com.pluu.webtoon.api.WebToonType;
-import com.pluu.webtoon.ui.BaseActivity.NAV_ITEM;
 
 /**
  * 올레 웹툰 Week API
@@ -41,22 +39,17 @@ public class OllehWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public NAV_ITEM getNaviItem() {
-		return NAV_ITEM.OLLEH;
+	public ServiceConst.NAV_ITEM getNaviItem() {
+		return ServiceConst.NAV_ITEM.OLLEH;
 	}
 
 	@Override
-	public int getMainTitleColor(Context context) {
+	protected int getMainTitleColor(Context context) {
 		return R.color.olleh_color;
 	}
 
 	@Override
-	public int getTodayTabPosition() {
-		return Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK);
-	}
-
-	@Override
-	public List<WebToonInfo> parseMain(Context context, String url, int position) {
+	public List<WebToonInfo> parseMain(Context context, int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 
 		try {

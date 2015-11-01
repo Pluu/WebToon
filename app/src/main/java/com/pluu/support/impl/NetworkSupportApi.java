@@ -37,5 +37,4 @@ public abstract class NetworkSupportApi implements IRequest {
 		return new NetworkTask().requestApi(request);
 	}
 
-
 }

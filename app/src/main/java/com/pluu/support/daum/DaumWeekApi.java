@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractWeekApi;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Status;
 import com.pluu.webtoon.api.WebToonInfo;
 import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.ui.BaseActivity.NAV_ITEM;
 
 /**
  * 다음 웹툰 Week Api
@@ -29,7 +28,7 @@ import com.pluu.webtoon.ui.BaseActivity.NAV_ITEM;
 public class DaumWeekApi extends AbstractWeekApi {
 
 	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일"};
-	private static final String URL = "http://m.webtoon.daum.net/data/mobile/webtoon?sort=update&page_no=1&week=";
+	private static final String URL = "http://m.webtoon.daum.net/data/mobile/webtoon";
 	private final String[] URL_VALUE = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
 
 	private int currentPos;
@@ -39,22 +38,17 @@ public class DaumWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public NAV_ITEM getNaviItem() {
-		return NAV_ITEM.DAUM;
+	public ServiceConst.NAV_ITEM getNaviItem() {
+		return ServiceConst.NAV_ITEM.DAUM;
 	}
 
 	@Override
-	public int getMainTitleColor(Context context) {
+	protected int getMainTitleColor(Context context) {
 		return R.color.daum_color;
 	}
 
 	@Override
-	public int getTodayTabPosition() {
-		return Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK);
-	}
-
-	@Override
-	public List<WebToonInfo> parseMain(Context context, String url, int position) {
+	public List<WebToonInfo> parseMain(Context context, int position) {
 		this.currentPos = position;
 
 		ArrayList<WebToonInfo> list = new ArrayList<>();
@@ -121,6 +115,8 @@ public class DaumWeekApi extends AbstractWeekApi {
 	@Override
 	public Map<String, String> getParams() {
 		Map<String, String> map = new HashMap<>();
+		map.put("sort", "update");
+		map.put("page_no", "1");
 		map.put("week", URL_VALUE[currentPos]);
 		return map;
 	}

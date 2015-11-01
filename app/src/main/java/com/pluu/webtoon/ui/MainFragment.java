@@ -25,8 +25,9 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.pluu.event.OttoBusHolder;
-import com.pluu.support.BaseApiImpl;
-import com.pluu.support.naver.NaverApi;
+import com.pluu.support.impl.AbstractWeekApi;
+import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.WebToonInfo;
@@ -54,7 +55,7 @@ public class MainFragment extends Fragment {
 	@Inject
 	BriteDatabase db;
 
-	private BaseApiImpl serviceApi;
+	private AbstractWeekApi serviceApi;
 
 	private Subscription subscriptions;
 	private static WebToonInfo selectInfo;
@@ -62,10 +63,10 @@ public class MainFragment extends Fragment {
 	private boolean isFirstDlg = true;
 	private ProgressDialog loadDlg;
 
-	public static MainFragment newInstance(Class<? extends BaseApiImpl> target) {
+	public static MainFragment newInstance(NAV_ITEM item) {
 		MainFragment fragment = new MainFragment();
 		Bundle args = new Bundle();
-		args.putSerializable(Const.ARG_API, target);
+		args.putSerializable(Const.EXTRA_API, item);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -76,16 +77,12 @@ public class MainFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments() != null) {
-			serviceApi = Const.getServiceApi(
-				(Class<BaseApiImpl>) getArguments().getSerializable(Const.ARG_API));
-		} else {
-			serviceApi = Const.getServiceApi(NaverApi.class);
-		}
+		NAV_ITEM service = ServiceConst.getApiType(getArguments());
+		serviceApi = AbstractWeekApi.getApi(service);
 
 		if (getActivity() instanceof MainActivity) {
 			MainActivity activity = (MainActivity) getActivity();
-			activity.setSelfDrawerItem(serviceApi.getNaviItem());
+			activity.setSelfDrawerItem(service);
 		}
 	}
 
@@ -134,10 +131,8 @@ public class MainFragment extends Fragment {
 			public Fragment getItem(int position) {
 				WebtoonListFragment fragment = new WebtoonListFragment();
 				Bundle args = new Bundle();
-				String url = serviceApi.getWeeklyUrl(position);
-				args.putString(WebtoonListFragment.ARGUMENT_URL, url);
-				args.putInt(WebtoonListFragment.ARGUMENT_POS, position);
-				args.putSerializable(Const.EXTRA_API, serviceApi.getClass());
+				args.putInt(Const.EXTRA_POS, position);
+				args.putSerializable(Const.EXTRA_API, serviceApi.getNaviItem());
 				fragment.setArguments(args);
 
 				views.put(position, fragment);
@@ -168,11 +163,11 @@ public class MainFragment extends Fragment {
 		setServiceTheme(serviceApi);
 	}
 
-	private void setServiceTheme(BaseApiImpl serviceApi) {
+	private void setServiceTheme(AbstractWeekApi serviceApi) {
 		TypedValue value = new TypedValue();
 		getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
 
-		int titleColor = serviceApi.getMainTitleColor(getActivity());
+		int titleColor = serviceApi.getTitleColor(getActivity());
 		ValueAnimator bg = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
 		bg.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
@@ -191,7 +186,7 @@ public class MainFragment extends Fragment {
 		bg.setInterpolator(new DecelerateInterpolator());
 		bg.start();
 
-		slidingTabLayout.setSelectedIndicatorColors(serviceApi.getMainTitleColor(getActivity()));
+		slidingTabLayout.setSelectedIndicatorColors(titleColor);
 	}
 
 	@Override

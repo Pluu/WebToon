@@ -18,13 +18,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import com.pluu.support.BaseApiImpl;
-import com.pluu.support.daum.DaumApi;
-import com.pluu.support.kakao.KakaoPageApi;
-import com.pluu.support.nate.NateApi;
-import com.pluu.support.naver.NaverApi;
-import com.pluu.support.olleh.OllehApi;
-import com.pluu.support.tstore.TStoreApi;
+import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 
@@ -44,37 +39,6 @@ public class BaseActivity extends AppCompatActivity {
 	private DrawerLayout mDrawerLayout;
 	private ViewGroup mDrawerItemsListContainer;
 	private Handler mHandler;
-
-	public enum NAV_ITEM {
-		NAVER,
-		DAUM,
-		OLLEH,
-		KAKAOPAGE,
-		NATE,
-		T_STORE,
-		SEPARATOR,		// Separator
-		INVALID			// Only Temp
-	}
-
-	// titles for navdrawer items (indices must correspond to the above)
-	private static final int[] NAVDRAWER_TITLE_RES_ID = new int[]{
-		R.string.title_naver,
-		R.string.title_duam,
-		R.string.title_olleh,
-		R.string.title_kakao_page,
-		R.string.title_nate,
-		R.string.title_t_store,
-	};
-
-	// icons for navdrawer items (indices must correspond to above array)
-	private static final int[] NAVDRAWER_ICON_RES_ID = new int[] {
-		0,		// NAVER
-		0,		// DAUM
-		0,		// OLLEH
-		0, 		// Kakao Page
-		0, 		// Nate
-		0, 		// T Store
-	};
 
 	// delay to launch nav drawer item, to allow close animation to play
 	private static final int NAVDRAWER_LAUNCH_DELAY = 250;
@@ -204,8 +168,8 @@ public class BaseActivity extends AppCompatActivity {
 		ImageView iconView = (ImageView) view.findViewById(R.id.icon);
 		TextView titleView = (TextView) view.findViewById(R.id.title);
 		int idx = item.ordinal();
-		int iconId = NAVDRAWER_ICON_RES_ID[idx];
-		int titleId = NAVDRAWER_TITLE_RES_ID[idx];
+		int iconId = ServiceConst.NAVDRAWER_ICON_RES_ID[idx];
+		int titleId = ServiceConst.NAVDRAWER_TITLE_RES_ID[idx];
 
 		// set icon and text
 		iconView.setVisibility(iconId > 0 ? View.VISIBLE : View.GONE);
@@ -312,35 +276,13 @@ public class BaseActivity extends AppCompatActivity {
 	}
 
 	private void goToNavDrawerItem(NAV_ITEM item) {
-		Class<? extends BaseApiImpl> serviceApi = null;
-		switch (item) {
-			case NAVER:
-				serviceApi = NaverApi.class;
-				break;
-			case DAUM:
-				serviceApi = DaumApi.class;
-				break;
-			case OLLEH:
-				serviceApi = OllehApi.class;
-				break;
-			case KAKAOPAGE:
-				serviceApi = KakaoPageApi.class;
-				break;
-			case NATE:
-				serviceApi = NateApi.class;
-				break;
-			case T_STORE:
-				serviceApi = TStoreApi.class;
-				break;
-		}
-
-		if (serviceApi != null) {
+		if (item != null) {
 			FragmentManager manager = getSupportFragmentManager();
 			FragmentTransaction transaction = manager.beginTransaction();
 			Fragment tag = manager.findFragmentByTag(Const.MAIN_FRAG_TAG);
 			transaction.remove(tag);
-			transaction.replace(R.id.container, MainFragment.newInstance(
-				serviceApi), Const.MAIN_FRAG_TAG);
+			transaction.replace(R.id.container,
+								MainFragment.newInstance(item), Const.MAIN_FRAG_TAG);
 			transaction.commit();
 		}
 	}

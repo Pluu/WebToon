@@ -1,5 +1,6 @@
 package com.pluu.webtoon.network;
 
+import android.net.Uri;
 import android.util.Log;
 
 import java.util.Map;
@@ -24,20 +25,29 @@ public class NetworkTask {
 	private final OkHttpClient client = new OkHttpClient();
 
 	public String requestApi(final IRequest request) throws Exception {
-		Request.Builder builder = new Request.Builder()
-			.url(request.getUrl());
+		Request.Builder builder = new Request.Builder();
 
 		for (Map.Entry<String, String> entry : request.getHeaders().entrySet()) {
 			builder.addHeader(entry.getKey(), entry.getValue());
 		}
 
 		if (NetworkSupportApi.POST.equals(request.getMethod())) {
+			// POST
 			FormEncodingBuilder encodingBuilder = new FormEncodingBuilder();
 			for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
 				encodingBuilder.add(entry.getKey(), entry.getValue());
 			}
 			RequestBody requestBody = encodingBuilder.build();
 			builder.post(requestBody);
+			builder.url(request.getUrl());
+		} else {
+			// GET
+			Uri.Builder uriBuilder = new Uri.Builder();
+			uriBuilder.encodedPath(request.getUrl());
+			for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
+				uriBuilder.appendQueryParameter(entry.getKey(), entry.getValue());
+			}
+			builder.url(uriBuilder.build().toString());
 		}
 
 		return requestApi(builder.build());
