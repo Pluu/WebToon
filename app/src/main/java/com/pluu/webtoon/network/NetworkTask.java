@@ -1,13 +1,11 @@
 package com.pluu.webtoon.network;
 
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.Map;
 
 import com.pluu.support.impl.IRequest;
 import com.pluu.support.impl.NetworkSupportApi;
-import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.common.LoggingInterceptor;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -39,11 +37,11 @@ public class NetworkTask {
 			}
 			RequestBody requestBody = encodingBuilder.build();
 			builder.post(requestBody);
-			builder.url(request.getUrl());
+			builder.url(request.getId());
 		} else {
 			// GET
 			Uri.Builder uriBuilder = new Uri.Builder();
-			uriBuilder.encodedPath(request.getUrl());
+			uriBuilder.encodedPath(request.getId());
 			for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
 				uriBuilder.appendQueryParameter(entry.getKey(), entry.getValue());
 			}
@@ -57,7 +55,7 @@ public class NetworkTask {
 		client.interceptors().add(new LoggingInterceptor());
 		Response response = client.newCall(request).execute();
 		String result = response.body().string();
-		Log.i(Const.LOG_TAG, "Response: " + result);
+//		Log.i(Const.LOG_TAG, "Response: " + result);
 		return result;
 	}
 

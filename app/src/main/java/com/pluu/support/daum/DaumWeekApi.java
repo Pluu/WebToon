@@ -108,7 +108,7 @@ public class DaumWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return URL;
 	}
 

@@ -31,20 +31,16 @@ public class OllehDetailApi extends AbstractDetailApi {
 
 	private String wettonId, timesseq;
 
-
 	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
 		this.wettonId = episode.getWebtoonId();
 		this.timesseq = episode.getTag() != null
 			? String.valueOf(episode.getTag()) : episode.getEpisodeId();
 
-
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
 
 		JSONObject obj;
-		List<DetailView> list = new ArrayList<>();
-
 		try {
 			String response = requestApi();
 			obj = new JSONObject(response);
@@ -68,10 +64,10 @@ public class OllehDetailApi extends AbstractDetailApi {
 				}
 			}
 
-			parserToon(ret, list, getRequestImg());
+			ret.list = parserToon(getRequestImg());
 		} catch (Exception e) {
 			e.printStackTrace();
-			ret.list = list;
+			ret.list = new ArrayList<>();
 			return ret;
 		}
 		return ret;
@@ -96,13 +92,15 @@ public class OllehDetailApi extends AbstractDetailApi {
 		return new JSONObject(response);
 	}
 
-	private void parserToon(Detail ret, List<DetailView> list, JSONObject obj) {
+	private List<DetailView> parserToon(JSONObject obj) {
+		List<DetailView> list = new ArrayList<>();
 		JSONArray array = obj.optJSONArray("imageList");
 		JSONObject obj2;
 		for (int i = 0; i < array.length(); i++) {
 			obj2 = array.optJSONObject(i);
 			list.add(DetailView.createImage(obj2.optString("imagepath")));
 		}
+		return list;
 	}
 
 	@Override
@@ -120,7 +118,7 @@ public class OllehDetailApi extends AbstractDetailApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return DETAIL_URL;
 	}
 

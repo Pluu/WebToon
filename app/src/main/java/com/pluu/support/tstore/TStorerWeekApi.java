@@ -75,7 +75,7 @@ public class TStorerWeekApi extends AbstractWeekApi {
 				item = new WebToonInfo(matcher2.group());
 				item.setUrl(matcher.group());
 				item.setTitle(a.select(".detail dl dt").text());
-				item.setImage(a.select(".thum img").last().absUrl("src"));
+				item.setImage(a.select(".thum img").last().attr("src"));
 				item.setWriter(a.select(".txt").text());
 //				item.setRate(a.select(".cRed1").text());
 				item.setUpdateDate(a.select(".grade strong").text());
@@ -100,7 +100,7 @@ public class TStorerWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return WEEKLY_URL + (currentPos + 1) ;
 	}
 }

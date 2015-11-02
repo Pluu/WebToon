@@ -72,7 +72,7 @@ public class NaverWeekApi extends AbstractWeekApi {
 			}
 
 			item = new WebToonInfo(matcher.group());
-			item.setUrl(a.absUrl("href"));
+			item.setUrl(a.attr("href"));
 			item.setTitle(a.select(".toon_name").text());
 			item.setImage(a.select("img").first().attr("src"));
 
@@ -98,7 +98,7 @@ public class NaverWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return URL;
 	}
 

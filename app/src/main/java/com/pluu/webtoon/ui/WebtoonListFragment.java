@@ -192,7 +192,7 @@ public class WebtoonListFragment extends Fragment {
 
 	private void moveEpisode(WebToonInfo item, int bgColor, int statusColor) {
 		Intent intent = new Intent(getActivity(), EpisodesActivity.class);
-		intent.putExtra(Const.EXTRA_API, serviceApi.getClass());
+		intent.putExtra(Const.EXTRA_API, serviceApi.getNaviItem());
 		intent.putExtra(Const.EXTRA_EPISODE, item);
 		intent.putExtra(Const.EXTRA_MAIN_COLOR, bgColor);
 		intent.putExtra(Const.EXTRA_STATUS_COLOR, statusColor);

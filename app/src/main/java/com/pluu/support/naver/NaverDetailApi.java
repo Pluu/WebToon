@@ -25,8 +25,8 @@ import org.jsoup.select.Elements;
 public class NaverDetailApi extends AbstractDetailApi {
 
 	private final String SHARE_URL = "http://m.comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s";
+	private static final String HOST_URL = "http://m.comic.naver.com";
 	private String url;
-
 
 	private final List<String> SKIP_DETAIL = new ArrayList<String>() {{
 		add("http://static.naver.com/m/comic/im/txt_ads.png");
@@ -62,11 +62,11 @@ public class NaverDetailApi extends AbstractDetailApi {
 			Elements navi = doc.select(".viewer_inner");
 			Elements temp = navi.select("a[class=btn_next]");
 			if (temp != null && !temp.isEmpty()) {
-				ret.nextLink = temp.first().absUrl("href");
+				ret.nextLink = temp.first().attr("href");
 			}
 			temp = navi.select("a[class=btn_prev]");
 			if (temp != null && !temp.isEmpty()) {
-				ret.prevLink = temp.first().absUrl("href");
+				ret.prevLink = temp.first().attr("href");
 			}
 		} else {
 			cutToonElements = doc.select("div[class=viewer cuttoon]");
@@ -78,11 +78,11 @@ public class NaverDetailApi extends AbstractDetailApi {
 				Elements navi = doc.select(".paging_wrap");
 				Elements temp = navi.select("a[class=pg_next]");
 				if (temp != null && !temp.isEmpty()) {
-					ret.nextLink = temp.first().absUrl("href");
+					ret.nextLink = temp.first().attr("href");
 				}
 				temp = navi.select("a[class=pg_prev]");
 				if (temp != null && !temp.isEmpty()) {
-					ret.prevLink = temp.first().absUrl("href");
+					ret.prevLink = temp.first().attr("href");
 				}
 			} else {
 				// 일반 웹툰
@@ -91,9 +91,9 @@ public class NaverDetailApi extends AbstractDetailApi {
 				// 이전, 다음화
 				for (Element element : doc.select("div[class=sc2] a")) {
 					if (!element.select("span[class=nx]").isEmpty()) {
-						ret.nextLink = element.absUrl("href");
+						ret.nextLink = element.attr("href");
 					} else if (!element.select("span[class=pv]").isEmpty()) {
-						ret.prevLink = element.absUrl("href");
+						ret.prevLink = element.attr("href");
 					}
 				}
 			}
@@ -161,7 +161,7 @@ public class NaverDetailApi extends AbstractDetailApi {
 	}
 
 	@Override
-	public String getUrl() {
-		return url;
+	public String getId() {
+		return HOST_URL + url;
 	}
 }

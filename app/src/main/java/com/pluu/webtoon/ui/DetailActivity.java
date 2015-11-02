@@ -47,7 +47,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.pluu.support.BaseApiImpl;
+import com.pluu.support.impl.AbstractDetailApi;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Detail;
@@ -88,7 +89,7 @@ public class DetailActivity extends AppCompatActivity {
 	private int SWIPE_THRESHOLD_VELOCITY;
 	private ObjectAnimator statusBarAnimator;
 
-	private BaseApiImpl serviceApi;
+	private AbstractDetailApi serviceApi;
 	private Detail currentItem;
 	private Episode episode;
 
@@ -122,7 +123,8 @@ public class DetailActivity extends AppCompatActivity {
 
 	private void getApi() {
 		Intent intent = getIntent();
-		serviceApi = Const.getServiceApi(intent);
+		serviceApi = AbstractDetailApi.getApi(
+			(ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API));
 	}
 
 	private void initView() {
@@ -285,7 +287,7 @@ public class DetailActivity extends AppCompatActivity {
 											  })
 						   .show();
 					return;
-				} else if (item == null || item.list.isEmpty()) {
+				} else if (item == null || item.list == null || item.list.isEmpty()) {
 					Toast.makeText(getBaseContext(), R.string.network_fail,
 								   Toast.LENGTH_SHORT).show();
 					dlg.dismiss();
@@ -322,7 +324,7 @@ public class DetailActivity extends AppCompatActivity {
 		DetailView item;
 		while (iterator.hasNext()) {
 			item = iterator.next();
-			Log.i(TAG, "Load=" + item);
+//			Log.i(TAG, "Load=" + item);
 			strBuffer.append("<li>");
 
 			switch (item.getType()) {
@@ -337,7 +339,7 @@ public class DetailActivity extends AppCompatActivity {
 		}
 
 		strBuffer.append("</ul></body></html>");
-		Log.i(TAG, "Result=" + strBuffer.toString());
+//		Log.i(TAG, "Result=" + strBuffer.toString());
 		webview.loadDataWithBaseURL(null, strBuffer.toString(), "text/html", "utf-8", null);
 	}
 

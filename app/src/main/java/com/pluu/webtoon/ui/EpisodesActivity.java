@@ -43,7 +43,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pluu.support.BaseApiImpl;
+import com.pluu.support.impl.AbstractEpisodeApi;
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.Episode;
@@ -87,7 +88,7 @@ public class EpisodesActivity extends AppCompatActivity
 	private WebToonInfo webToonInfo;
 	private int titleColor, statusColor;
 
-	private BaseApiImpl serviceApi;
+	private AbstractEpisodeApi serviceApi;
 	private List<String> readIdxs;
 
 	@Inject
@@ -101,6 +102,7 @@ public class EpisodesActivity extends AppCompatActivity
 
 	private boolean isEdit = false;
 	private boolean isFavorite = false;
+	private ServiceConst.NAV_ITEM service;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,19 +134,10 @@ public class EpisodesActivity extends AppCompatActivity
 					@Override
 					public void onClick(View v) {
 						Episode item = adapter.getItem(vh.getAdapterPosition());
-						boolean isCheck = serviceApi.isLoginDataExist(getBaseContext());
-						if (!isCheck) {
-							if (item.isLocked()) {
-								Toast.makeText(EpisodesActivity.this,
-											   R.string.login_from_service_access,
-											   Toast.LENGTH_SHORT).show();
-								return;
-							} else if (item.isAdult()) {
-								Toast.makeText(EpisodesActivity.this,
-											   R.string.login_from_adult_service_access,
-											   Toast.LENGTH_SHORT).show();
-								return;
-							}
+						if (item.isLoginNeed()) {
+							Toast.makeText(EpisodesActivity.this,
+										   R.string.msg_not_support,
+										   Toast.LENGTH_SHORT).show();
 						}
 						moveDetailPage(item);
 					}
@@ -152,8 +145,6 @@ public class EpisodesActivity extends AppCompatActivity
 				return vh;
 			}
 		};
-
-		adapter.setIsLogin(serviceApi.isLoginDataExist(this));
 
 		int columnCount = getResources().getInteger(R.integer.episode_column_count);
 		manager = new GridLayoutManager(this, columnCount);
@@ -175,7 +166,8 @@ public class EpisodesActivity extends AppCompatActivity
 
 	private void getApi() {
 		Intent intent = getIntent();
-		serviceApi = Const.getServiceApi(intent);
+		service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
+		serviceApi = AbstractEpisodeApi.getApi(service);
 	}
 
 	private void initView() {
@@ -307,7 +299,7 @@ public class EpisodesActivity extends AppCompatActivity
 	@Override
 	public void onRefresh() {
 		adapter.clear();
-		serviceApi.refreshEpisode();
+		serviceApi.init();
 		loading(webToonInfo.getUrl());
 	}
 
@@ -315,7 +307,6 @@ public class EpisodesActivity extends AppCompatActivity
 		private final Context mContext;
 		private final LayoutInflater mInflater;
 		private final List<Episode> list;
-		private boolean isLogin;
 
 		public ListAdapter(Context context) {
 			mContext = context;
@@ -337,10 +328,6 @@ public class EpisodesActivity extends AppCompatActivity
 
 		public void clear() {
 			list.clear();
-		}
-
-		public void setIsLogin(boolean isLogin) {
-			this.isLogin = isLogin;
 		}
 
 		@Override
@@ -378,8 +365,8 @@ public class EpisodesActivity extends AppCompatActivity
 				 .into(viewHolder.thumbnailView);
 			viewHolder.readView.setVisibility(item.isReaded() ? View.VISIBLE : View.GONE);
 
-			if (item.isLocked() || item.isAdult()) {
-				viewHolder.lockView.setImageResource(isLogin ? R.drawable.lock_open_circle : R.drawable.lock_circle);
+			if (item.isLoginNeed()) {
+				viewHolder.lockView.setImageResource(R.drawable.lock_circle);
 			} else {
 				viewHolder.lockView.setVisibility(View.GONE);
 			}
@@ -407,16 +394,9 @@ public class EpisodesActivity extends AppCompatActivity
 	@OnClick(R.id.btnFirst)
 	public void firstViewClick() {
 		Episode item = adapter.getItem(0);
-		boolean isCheck = serviceApi.isLoginDataExist(getBaseContext());
-		if (!isCheck) {
-			if (item.isLocked()) {
-				Toast.makeText(this, R.string.login_from_service_access, Toast.LENGTH_SHORT).show();
-				return;
-			} else if (item.isAdult()) {
-				Toast.makeText(this, R.string.login_from_adult_service_access, Toast.LENGTH_SHORT)
-					 .show();
-				return;
-			}
+		if (item.isLoginNeed()) {
+			Toast.makeText(this, R.string.msg_not_support, Toast.LENGTH_SHORT).show();
+			return;
 		}
 
 		if (firstItem == null) {
@@ -431,7 +411,7 @@ public class EpisodesActivity extends AppCompatActivity
 
 	private void moveDetailPage(Episode item) {
 		Intent intent = new Intent(this, DetailActivity.class);
-		intent.putExtra(Const.EXTRA_API, serviceApi.getClass());
+		intent.putExtra(Const.EXTRA_API, service);
 		intent.putExtra(Const.EXTRA_EPISODE, item);
 		intent.putExtra(Const.EXTRA_MAIN_COLOR, titleColor);
 		intent.putExtra(Const.EXTRA_STATUS_COLOR, statusColor);

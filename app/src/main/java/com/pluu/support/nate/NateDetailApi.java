@@ -23,6 +23,7 @@ import org.jsoup.select.Elements;
  */
 public class NateDetailApi extends AbstractDetailApi {
 
+	private final String HOST_URL = "http://m.comics.nate.com";
 	private final Pattern EPISODE_ID_PATTERN = Pattern.compile("(?<=bsno=)\\d+");
 
 	private String url;
@@ -53,18 +54,18 @@ public class NateDetailApi extends AbstractDetailApi {
 
 		Elements temp = doc.select(".btn_prev");
 		if (temp != null && !temp.isEmpty()) {
-			ret.prevLink = temp.first().absUrl("href");
+			ret.prevLink = "/view/" + temp.first().attr("href");
 		}
 
 		temp = doc.select(".btn_next");
 		if (temp != null && !temp.isEmpty()) {
-			ret.nextLink = temp.first().absUrl("href");
+			ret.nextLink = "/view/" + temp.first().attr("href");
 		}
 
 		List<DetailView> list = new ArrayList<>();
 		Elements elements = doc.select(".fview");
 		for (Element img : elements) {
-			list.add(DetailView.createImage(img.absUrl("src")));
+			list.add(DetailView.createImage(img.attr("src")));
 		}
 
 		ret.list = list;
@@ -85,8 +86,8 @@ public class NateDetailApi extends AbstractDetailApi {
 	}
 
 	@Override
-	public String getUrl() {
-		return url;
+	public String getId() {
+		return HOST_URL + url;
 	}
 
 }

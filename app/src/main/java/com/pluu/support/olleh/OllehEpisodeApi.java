@@ -31,20 +31,20 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 	private Episode firstEpisode;
 	private int page = 0;
 
+	private String id;
+
 	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
+		id = info.getWebtoonId();
+
 		WebToon webToon = new WebToon(this, url);
 
 		try {
 			String response;
 			if (savedArray == null) {
 				response = requestApi();
-				savedArray = new JSONObject(response).optJSONArray("workList");
+				savedArray = new JSONObject(response).optJSONArray("timesList");
 				totalSize = savedArray.length();
-
-				JSONObject obj = new JSONObject(response);
-				savedArray = obj.optJSONArray("timesList");
-
 				if (savedArray != null) {
 					totalSize = savedArray.length();
 					firstEpisode
@@ -116,7 +116,7 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return EPISODE_URL;
 	}
 
@@ -133,6 +133,7 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 		map.put("mobileyn", "N");
 		map.put("toonfg", "toon");
 		map.put("sort", "subject");
+		map.put("webtoonseq", id);
 		return map;
 	}
 

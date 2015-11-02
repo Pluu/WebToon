@@ -26,7 +26,7 @@ import org.jsoup.select.Elements;
  */
 public class NateEpisodeApi extends AbstractEpisodeApi {
 
-	private final String WEEKLY_URL = "http://m.comics.nate.com/main/index";
+	private final String HOST_URL = "http://m.comics.nate.com";
 	private final String MORE_EPISODE_URL = "http://m.comics.nate.com/rest/infoList?btno=%s&page=%d";
 
 	private final Pattern EPISODE_ID_PATTERN = Pattern.compile("(?<=bsno=)\\d+");
@@ -43,7 +43,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 		if (isMorePage) {
 			this.url = String.format(MORE_EPISODE_URL, info.getWebtoonId(), pageNo++);
 		} else {
-			this.url = url;
+			this.url = HOST_URL + url;
 		}
 
 		WebToon webToon = new WebToon(this, url);
@@ -63,7 +63,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 				webToon.episodes = parseList(info, new JSONArray(response));
 			} else {
 				if (firstEpisode == null) {
-					String href = doc.select(".btn_1stEpisode").first().absUrl("href");
+					String href = doc.select(".btn_1stEpisode").first().attr("href");
 					Matcher matcher = EPISODE_ID_PATTERN.matcher(href);
 					if (matcher.find()) {
 						firstEpisode = new Episode(info, matcher.group());
@@ -97,7 +97,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 			String href;
 
 			for (Element a : links) {
-				href = a.select("a").first().absUrl("href");
+				href = a.select("a").first().attr("href");
 
 				matcher = EPISODE_ID_PATTERN.matcher(href);
 				if (!matcher.find()) {
@@ -161,7 +161,8 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return url;
 	}
+
 }

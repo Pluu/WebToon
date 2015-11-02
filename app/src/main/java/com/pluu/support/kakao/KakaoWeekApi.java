@@ -92,7 +92,7 @@ public class KakaoWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return WEEK_URL;
 	}
 

@@ -17,7 +17,7 @@ public abstract class NetworkSupportApi implements IRequest {
 
 	public abstract String getMethod();
 
-	public abstract String getUrl();
+	public abstract String getId();
 
 	@Override
 	public Map<String, String> getParams() {

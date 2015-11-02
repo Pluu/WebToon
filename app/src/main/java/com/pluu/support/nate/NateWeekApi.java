@@ -80,7 +80,7 @@ public class NateWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return WEEKLY_URL;
 	}
 }

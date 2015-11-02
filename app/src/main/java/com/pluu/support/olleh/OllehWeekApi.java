@@ -76,6 +76,7 @@ public class OllehWeekApi extends AbstractWeekApi {
 				}
 
 				item = new WebToonInfo(obj.optString("webtoonseq"));
+				item.setUrl(item.getWebtoonId());
 				item.setTitle(obj.optString("webtoonnm"));
 				item.setImage(obj.optString("newthumbpath"));
 
@@ -125,7 +126,7 @@ public class OllehWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getUrl() {
+	public String getId() {
 		return WEEKLY_URL;
 	}
 

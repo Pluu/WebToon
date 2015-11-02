@@ -3,7 +3,9 @@ package com.pluu.support.daum;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,17 +22,17 @@ import com.squareup.okhttp.Request;
  */
 public class DaumEpisodeApi extends AbstractEpisodeApi {
 
-	private final String PREFIX_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname?page_size=10&nickname=";
-	private final String PREFIX_FIRST_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/view?nickname=";
+	private static final String EPISODE_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname";
+	private static final String PREFIX_FIRST_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/view?nickname=";
 
-	private String URL;
+	private String name;
 
 	private int firstEpisodeId;
+	private int pageNo = 0;
 
 	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
-		this.URL = url;
-
+		this.name = url;
 		WebToon webToon = new WebToon(this, url);
 
 		String response;
@@ -50,8 +52,10 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 				webToon.nextLink = parsePage(page, nick);
 			}
 
-			firstEpisodeId = getFirstEpisode(nick)
-				.optJSONObject("data").optInt("firstEpisodeId");
+			if (firstEpisodeId == 0) {
+				firstEpisodeId = getFirstEpisode(nick)
+					.optJSONObject("data").optInt("firstEpisodeId");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,7 +100,8 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 		int current = obj.optInt("no", 1);
 		if (total >= current + 1) {
 			// 다음 페이지 존재
-			return nickName + "&page_no=" + (current + 1);
+			pageNo = current + 1;
+			return nickName;
 		} else {
 			// 끝
 			return null;
@@ -112,9 +117,10 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 	public Episode getFirstEpisode(Episode item) {
 		Episode ret = null;
 		try {
+			String id = String.valueOf(firstEpisodeId);
 			ret = item.clone();
-			ret.setUrl(DaumDetailApi.DETAIL_URL + firstEpisodeId);
-			ret.setEpisodeId(String.valueOf(firstEpisodeId));
+			ret.setUrl(id);
+			ret.setEpisodeId(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -127,7 +133,18 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getUrl() {
-		return PREFIX_URL + URL;
+	public String getId() {
+		return EPISODE_URL;
+	}
+
+	@Override
+	public Map<String, String> getParams() {
+		Map<String, String> map = new HashMap<>();
+		map.put("page_size", "10");
+		map.put("nickname", name);
+		if (pageNo > 0) {
+			map.put("page_no", String.valueOf(pageNo));
+		}
+		return map;
 	}
 }

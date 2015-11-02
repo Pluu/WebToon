@@ -3,7 +3,9 @@ package com.pluu.support.daum;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,13 +22,13 @@ import com.pluu.webtoon.api.ShareItem;
  */
 public class DaumDetailApi extends AbstractDetailApi {
 
-	public static final String DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer?id=";
-	private final String SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/";
-	private String url;
+	private static final String DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer";
+	private static final String SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/";
+	private String id;
 
 	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
-		this.url = url;
+		this.id = url;
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -42,10 +44,10 @@ public class DaumDetailApi extends AbstractDetailApi {
 			int nextId = json.optInt("nextEpisodeId", 0);
 			int prevId = json.optInt("prevEpisodeId", 0);
 			if (nextId > 0) {
-				ret.nextLink = DETAIL_URL + nextId;
+				ret.nextLink = String.valueOf(nextId);
 			}
 			if (prevId > 0) {
-				ret.prevLink = DETAIL_URL + prevId;
+				ret.prevLink = String.valueOf(prevId);
 			}
 			JSONArray array = json.optJSONArray("webtoonImages");
 			for (int i = 0; i < array.length(); i++) {
@@ -80,7 +82,14 @@ public class DaumDetailApi extends AbstractDetailApi {
 	}
 
 	@Override
-	public String getUrl() {
-		return url;
+	public String getId() {
+		return DETAIL_URL;
+	}
+
+	@Override
+	public Map<String, String> getParams() {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		return map;
 	}
 }

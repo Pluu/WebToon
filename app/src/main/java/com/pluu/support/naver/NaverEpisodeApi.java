@@ -23,11 +23,12 @@ import org.jsoup.select.Elements;
  */
 public class NaverEpisodeApi extends AbstractEpisodeApi {
 
-	private String URL;
+	private static final String HOST_URL = "http://m.comic.naver.com";
+	private String url;
 
 	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
-		this.URL = url;
+		this.url = url;
 
 		WebToon webToon = new WebToon(this, url);
 
@@ -54,7 +55,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 		try {
 			Episode episode = null;
 			for (Element a : links) {
-				href = a.absUrl("href");
+				href = a.attr("href");
 
 				Matcher matcher = pattern.matcher(href);
 				if (!matcher.find()) {
@@ -92,7 +93,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	private String parsePage(Document doc) {
 		Elements nextPage = doc.select("#nextButton");
 		if (nextPage != null && !nextPage.isEmpty()) {
-			return nextPage.first().absUrl("href");
+			return nextPage.first().attr("href");
 		}
 		return null;
 	}
@@ -122,7 +123,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getUrl() {
-		return URL;
+	public String getId() {
+		return HOST_URL + url;
 	}
 }
