@@ -51,14 +51,13 @@ public class NateWeekApi extends AbstractWeekApi {
 			return list;
 		}
 
-		// TODO : Parse Error 수정 필요
 		Document doc = Jsoup.parse(response);
 		Elements links = doc.select(".wkTypeAll_" + position);
 		WebToonInfo item;
 		Pattern pattern = Pattern.compile("(?<=btno=)\\d+");
 		String href;
 		for (Element a : links) {
-			href = a.absUrl("href");
+			href = a.attr("href");
 			Matcher matcher = pattern.matcher(href);
 			if (!matcher.find()) {
 				continue;

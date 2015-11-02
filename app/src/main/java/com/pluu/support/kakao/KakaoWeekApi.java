@@ -57,7 +57,6 @@ public class KakaoWeekApi extends AbstractWeekApi {
 			return list;
 		}
 
-		// TODO : Parse Error 수정 필요
 		Document doc = Jsoup.parse(response);
 		Elements links = doc.select(".l_link");
 		WebToonInfo item = null;
@@ -66,7 +65,7 @@ public class KakaoWeekApi extends AbstractWeekApi {
 
 		String updateStatus = "up";
 		for (Element a : links) {
-			href = a.absUrl("data-href");
+			href = a.attr("data-href");
 			Matcher matcher = pattern.matcher(href);
 			if (!matcher.find()) {
 				continue;
