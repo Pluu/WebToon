@@ -4,8 +4,6 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.api.Detail;
@@ -24,12 +22,11 @@ import org.jsoup.select.Elements;
 public class KakaoDetailApi extends AbstractDetailApi {
 
 	private final String DETAIL_URL = "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0";
-	private Pattern pattern = Pattern.compile("(?<=productId=)\\d+");
-	private String url;
+	private String id;
 
 	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
-		this.url = String.format(DETAIL_URL, url);
+		this.id = url;
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -44,35 +41,26 @@ public class KakaoDetailApi extends AbstractDetailApi {
 		}
 
 		Document doc = Jsoup.parse(response);
-		ret.title = doc.select(".productTitle").text();
+		ret.title = doc.select("span[class=title ellipsis_hd]").text();
+		ret.episodeId = id;
 
-		Matcher matcher = pattern.matcher(url);
-		if (matcher.find()) {
-			ret.episodeId = matcher.group();
+		String link = doc.select(".pc_view_prev").attr("data-previous");
+		if (!"0".equals(link)) {
+			ret.prevLink = link;
 		}
-
-		Element menuDoc = doc.select("div[class=remoteBar clearfix]").first();
-		matcher = pattern.matcher(menuDoc.select(".prevBtn").attr("data-href"));
-		if (matcher.find()) {
-			if (!"0".equals(matcher.group())) {
-				ret.prevLink = String.format(DETAIL_URL, matcher.group());
-			}
-		}
-		matcher = pattern.matcher(menuDoc.select(".nextBtn").attr("data-href"));
-		if (matcher.find()) {
-			if (!"0".equals(matcher.group())) {
-				ret.nextLink = String.format(DETAIL_URL, matcher.group());
-			}
+		link = doc.select(".pc_view_next").attr("data-next");
+		if (!"0".equals(link)) {
+			ret.nextLink = link;
 		}
 
 		List<DetailView> list = new ArrayList<>();
 		Elements elements = doc.select(".targetImg");
 		for (Element img : elements) {
-			list.add(DetailView.createImage(img.absUrl("data-original")));
+			list.add(DetailView.createImage(img.attr("data-original")));
 		}
 		elements = doc.select(".viewWrp li input");
 		for (Element img : elements) {
-			list.add(DetailView.createImage(img.absUrl("value")));
+			list.add(DetailView.createImage(img.attr("value")));
 		}
 
 		ret.list = list;
@@ -94,6 +82,6 @@ public class KakaoDetailApi extends AbstractDetailApi {
 
 	@Override
 	public String getUrl() {
-		return url;
+		return String.format(DETAIL_URL, id);
 	}
 }
