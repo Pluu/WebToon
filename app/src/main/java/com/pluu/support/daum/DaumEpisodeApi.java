@@ -133,7 +133,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return EPISODE_URL;
 	}
 

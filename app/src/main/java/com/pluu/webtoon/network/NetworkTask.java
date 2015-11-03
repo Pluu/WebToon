@@ -37,11 +37,11 @@ public class NetworkTask {
 			}
 			RequestBody requestBody = encodingBuilder.build();
 			builder.post(requestBody);
-			builder.url(request.getId());
+			builder.url(request.getUrl());
 		} else {
 			// GET
 			Uri.Builder uriBuilder = new Uri.Builder();
-			uriBuilder.encodedPath(request.getId());
+			uriBuilder.encodedPath(request.getUrl());
 			for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
 				uriBuilder.appendQueryParameter(entry.getKey(), entry.getValue());
 			}

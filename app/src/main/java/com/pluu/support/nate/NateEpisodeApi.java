@@ -161,7 +161,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return url;
 	}
 

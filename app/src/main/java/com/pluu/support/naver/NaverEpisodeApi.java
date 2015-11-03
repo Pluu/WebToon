@@ -123,7 +123,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return HOST_URL + url;
 	}
 }

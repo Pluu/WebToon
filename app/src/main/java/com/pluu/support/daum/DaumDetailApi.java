@@ -82,7 +82,7 @@ public class DaumDetailApi extends AbstractDetailApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return DETAIL_URL;
 	}
 

@@ -115,7 +115,7 @@ public class TStoreDetailApi extends AbstractDetailApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return DETAIL_URL + id;
 	}
 }

@@ -98,7 +98,7 @@ public class NaverWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return URL;
 	}
 

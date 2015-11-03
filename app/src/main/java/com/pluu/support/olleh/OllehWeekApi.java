@@ -126,7 +126,7 @@ public class OllehWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return WEEKLY_URL;
 	}
 

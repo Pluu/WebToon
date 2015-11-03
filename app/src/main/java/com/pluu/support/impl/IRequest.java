@@ -18,7 +18,7 @@ public interface IRequest {
 	 * 요청할 target url.
 	 * @return 요청할 target url.
 	 */
-	String getId();
+	String getUrl();
 
 	/**
 	 * http 요청에 필요한 params.

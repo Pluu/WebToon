@@ -116,7 +116,7 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return EPISODE_URL;
 	}
 

@@ -100,7 +100,7 @@ public class TStorerWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public String getId() {
+	public String getUrl() {
 		return WEEKLY_URL + (currentPos + 1) ;
 	}
 }
