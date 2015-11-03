@@ -204,7 +204,7 @@ public class MainFragment extends Fragment {
 
 		subscriptions = InjectDB.getEpisodeFavorite(
 			db,
-			serviceApi.getClass().getSimpleName(),
+			serviceApi.getNaviItem().name(),
 			selectInfo,
 			new Action1<Boolean>() {
 				@Override

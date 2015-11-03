@@ -26,12 +26,13 @@ public class TStoreDetailApi extends AbstractDetailApi {
 	private static final String MAIN_HOST_URL = "http://m.tstore.co.kr";
 	private static final String DETAIL_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=";
 	private static final Pattern EPISODE_ID = Pattern.compile("(?<=prodId=)\\w+");
+	private static final String SHARE_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=%s&PrePageNm=/detail/webtoon/mw";
 
-	private String url;
+	private String id;
 
 	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
-		this.url = url;
+		this.id = url;
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -46,28 +47,24 @@ public class TStoreDetailApi extends AbstractDetailApi {
 
 		Document doc = Jsoup.parse(response);
 		ret.title = doc.select(".episode-num").text();
+		ret.episodeId = id;
 
-		Matcher matcher = EPISODE_ID.matcher(url);
-		if (matcher.find()) {
-			ret.episodeId = matcher.group();
-		}
-
+		Matcher matcher;
 		Elements navi = doc.select(".prev-next a");
-		Pattern naviPattern = Pattern.compile("/mobilepoc.+(?='\\);)");
 
 		Element temp = navi.first();
 		if (temp.hasAttr("href")) {
-			matcher = naviPattern.matcher(temp.attr("href"));
+			matcher = EPISODE_ID.matcher(temp.attr("href"));
 			if (matcher.find()) {
-				ret.prevLink = MAIN_HOST_URL + matcher.group();
+				ret.prevLink = matcher.group();
 			}
 		}
 
 		temp = navi.last();
 		if (temp.hasAttr("href")) {
-			matcher = naviPattern.matcher(temp.attr("href"));
+			matcher = EPISODE_ID.matcher(temp.attr("href"));
 			if (matcher.find()) {
-				ret.nextLink = MAIN_HOST_URL + matcher.group();
+				ret.nextLink = matcher.group();
 			}
 		}
 
@@ -105,7 +102,11 @@ public class TStoreDetailApi extends AbstractDetailApi {
 
 	@Override
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
-		return null;
+		String url = String.format(SHARE_URL, detail.episodeId);
+		ShareItem item = new ShareItem();
+		item.title = episode.getTitle() + " / " + detail.title;
+		item.url = url;
+		return item;
 	}
 
 	@Override
@@ -114,7 +115,7 @@ public class TStoreDetailApi extends AbstractDetailApi {
 	}
 
 	@Override
-	public String getUrl() {
-		return DETAIL_URL + url;
+	public String getId() {
+		return DETAIL_URL + id;
 	}
 }

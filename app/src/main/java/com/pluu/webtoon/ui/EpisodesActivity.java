@@ -103,6 +103,7 @@ public class EpisodesActivity extends AppCompatActivity
 	private boolean isEdit = false;
 	private boolean isFavorite = false;
 	private ServiceConst.NAV_ITEM service;
+	private String serviceName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +168,7 @@ public class EpisodesActivity extends AppCompatActivity
 	private void getApi() {
 		Intent intent = getIntent();
 		service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
+		serviceName = service.name();
 		serviceApi = AbstractEpisodeApi.getApi(service);
 	}
 
@@ -457,11 +459,11 @@ public class EpisodesActivity extends AppCompatActivity
 		}
 
 		subscriptions = InjectDB.getEpisodeInfo(db,
-												serviceApi.getClass().getSimpleName(),
+												serviceName,
 												webToonInfo,
 												onAction);
 		InjectDB.getEpisodeFavorite(db,
-									serviceApi.getClass().getSimpleName(),
+									serviceName,
 									webToonInfo,
 									onFavoriteAction);
 	}
@@ -528,14 +530,14 @@ public class EpisodesActivity extends AppCompatActivity
 					subscriptions.unsubscribe();
 				}
 				subscriptions = InjectDB.favoriteAdd(db,
-													 serviceApi.getClass().getSimpleName(),
+													 serviceName,
 													 webToonInfo);
 				setFavorite(true);
 				break;
 			case R.id.menu_item_favorite_delete:
 				// 즐겨찾기 삭제
 				InjectDB.favoriteDelete(db,
-										serviceApi.getClass().getSimpleName(),
+										serviceName,
 										webToonInfo);
 				setFavorite(false);
 				break;

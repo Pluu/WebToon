@@ -28,8 +28,7 @@ import org.jsoup.select.Elements;
  */
 public class TStoreEpisodeApi extends AbstractEpisodeApi {
 
-	private final String MAIN_HOST_URL = "http://m.tstore.co.kr";
-	private final String HOST_URL = MAIN_HOST_URL + "/mobilepoc";
+	private final String HOST_URL = "http://m.tstore.co.kr/mobilepoc";
 	private final String MORE_EPISODE_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonListMore.omp";
 
 	private final Pattern URL_PATTERN = Pattern.compile("(?<=goInnerUrlDetail\\(\\\\\\').+(?=\\\\'\\)'\\);)");
@@ -179,8 +178,8 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String getUrl() {
-		return url;
+	public String getId() {
+		return HOST_URL + url;
 	}
 
 }

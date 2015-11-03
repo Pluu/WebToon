@@ -103,7 +103,7 @@ public class WebtoonListFragment extends Fragment {
 				for (final WebToonInfo item : list) {
 					InjectDB
 						.getEpisodeFavorite(db,
-											serviceApi.getClass().getSimpleName(),
+											serviceApi.getNaviItem().name(),
 											item,
 											new Action1<Boolean>() {
 												@Override

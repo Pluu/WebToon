@@ -76,7 +76,7 @@ public class NateDetailApi extends AbstractDetailApi {
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		ShareItem item = new ShareItem();
 		item.title = episode.getTitle() + " / " + detail.title;
-		item.url = episode.getUrl();
+		item.url = HOST_URL + episode.getUrl();
 		return item;
 	}
 

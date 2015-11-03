@@ -90,6 +90,7 @@ public class DetailActivity extends AppCompatActivity {
 	private ObjectAnimator statusBarAnimator;
 
 	private AbstractDetailApi serviceApi;
+	private ServiceConst.NAV_ITEM service;
 	private Detail currentItem;
 	private Episode episode;
 
@@ -123,8 +124,8 @@ public class DetailActivity extends AppCompatActivity {
 
 	private void getApi() {
 		Intent intent = getIntent();
-		serviceApi = AbstractDetailApi.getApi(
-			(ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API));
+		service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
+		serviceApi = AbstractDetailApi.getApi(service);
 	}
 
 	private void initView() {
@@ -295,7 +296,7 @@ public class DetailActivity extends AppCompatActivity {
 					return;
 				}
 
-				InjectDB.updateDetail(db, serviceApi.getClass().getSimpleName(), item);
+				InjectDB.updateDetail(db, service.name(), item);
 
 				currentItem = item;
 				tvTitle.setText(item.title);
