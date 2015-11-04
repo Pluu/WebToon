@@ -48,7 +48,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 			String response = requestApi();
 			Document doc = Jsoup.parse(response);
 
-			if (pageNo != 1) {
+			if (pageNo > 0) {
 				JSONObject subJson = getMoreJson(info.getWebtoonId(), pageNo);
 				webToon.episodes = parseList(info, subJson.optJSONArray("webtoonList"));
 				pageNo++;
@@ -125,7 +125,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 				}
 
 				item = new Episode(info, matcher2.group());
-				item.setUrl(HOST_URL + matcher.group());
+				item.setUrl(item.getEpisodeId());
 				item.setImage(a.select(".thum img").last().attr("src"));
 				item.setEpisodeTitle(a.select(".detail dt").text());
 				item.setUpdateDate(a.select(".txt").text());
@@ -152,7 +152,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 		}
 
 		Episode ret = new Episode(info, matcher2.group());
-		ret.setUrl(HOST_URL + matcher.group());
+		ret.setUrl(ret.getEpisodeId());
 		return ret;
 	}
 

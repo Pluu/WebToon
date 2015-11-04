@@ -4,13 +4,13 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.api.Episode;
 import com.pluu.webtoon.api.WebToon;
 import com.pluu.webtoon.api.WebToonInfo;
+import com.squareup.okhttp.Request;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,7 +23,7 @@ import org.jsoup.select.Elements;
 public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
 	private final String FIRST_EPISODE= "http://page.kakao.com/home/%s?categoryUid=10&subCategoryUid=0&navi=1&inkatalk=0";
-	private final String MORE_EPISODE = "http://page.kakao.com/home/singlelist?seriesId=%s&offset=%d&navi=1&inkatalk=0";
+	private final String EPISODE_URL = "http://page.kakao.com/home/singlelist?seriesId=%s&offset=%d&navi=1&inkatalk=0";
 
 	private Pattern pattern = Pattern.compile("(?<=productId=)\\d+");
 	private final int SIZE = 25;
@@ -34,13 +34,9 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
-		WebToon webToon = new WebToon(this, url);
+		this.url = String.format(EPISODE_URL, info.getWebtoonId(), offset);
 
-		if (offset > 0) {
-			url = String.format(MORE_EPISODE, info.getWebtoonId(), offset);
-		} else {
-			url = String.format(FIRST_EPISODE, info.getWebtoonId());
-		}
+		WebToon webToon = new WebToon(this, url);
 
 		String response;
 		try {
@@ -53,11 +49,10 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		Document doc = Jsoup.parse(response);
 
 		if (offset == 0) {
-			String firstUrl = doc.select("span[class=firstItemViewBtn]").first().absUrl("data-href");
-			Matcher matcher = pattern.matcher(firstUrl);
-			if (matcher.find()) {
-				firstEpisode = new Episode(info, matcher.group());
-				firstEpisode.setUrl(firstUrl);
+			try {
+				firstEpisode = getFirstItem(info);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -69,6 +64,17 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		return webToon;
 	}
 
+	private Episode getFirstItem(WebToonInfo info) throws Exception {
+		Request.Builder builder = new Request.Builder()
+			.url(String.format(FIRST_EPISODE, info.getWebtoonId()));
+		String response = requestApi(builder.build());
+		Document doc = Jsoup.parse(response);
+		String id = doc.select(".firstViewBtn").attr("data-productId");
+		Episode ret= new Episode(info, id);
+		ret.setUrl(id);
+		return ret;
+	}
+
 	private List<Episode> parseList(WebToonInfo info, String url, Document doc) {
 		List<Episode> list = new ArrayList<>();
 		Elements links = doc.select("li[class=list viewerList]");
@@ -77,7 +83,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		try {
 			for (Element a : links) {
 				item = new Episode(info, a.select(".productId").attr("value"));
-				item.setUrl(String.valueOf(item.getEpisodeId()));
+				item.setUrl(item.getEpisodeId());
 				item.setImage(a.select(".thum").attr("src"));
 				item.setEpisodeTitle(a.select("span[class=title ellipsis_hd]").text());
 				item.setUpdateDate(a.select(".date").text());
