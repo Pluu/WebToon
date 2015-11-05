@@ -13,7 +13,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,6 +57,10 @@ import com.pluu.webtoon.api.ShareItem;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
 import com.squareup.sqlbrite.BriteDatabase;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 상세화면 Activity
@@ -259,57 +262,63 @@ public class DetailActivity extends AppCompatActivity {
 		loading(episode, episode.getUrl());
 	}
 
-	private void loading(Episode item, String url) {
+	private void loading(final Episode item, final String url) {
 		Log.i(TAG, "Load Detail=" + url);
 		if (currentItem != null) {
 			currentItem.prevLink = currentItem.nextLink = null;
 		}
-		new AsyncTask<Object, Void, Detail>() {
+		dlg.show();
 
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				dlg.show();
-			}
-
-			@Override
-			protected Detail doInBackground(Object... params) {
-				return serviceApi.parseDetail(getBaseContext(), (Episode) params[0], (String) params[1]);
-			}
-
-			@Override
-			protected void onPostExecute(final Detail item) {
-				if (item != null && item.errorType != null) {
-					dlg.dismiss();
-					AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-					builder.setMessage(item.errorMsg)
-						   .setCancelable(false)
-						   .setPositiveButton(android.R.string.ok,
-											  new DialogInterface.OnClickListener() {
-												  @Override
-												  public void onClick(DialogInterface dialogInterface, int i) {
-													  finish();
-												  }
-											  })
-						   .show();
-					return;
-				} else if (item == null || item.list == null || item.list.isEmpty()) {
-					Toast.makeText(getBaseContext(), R.string.network_fail,
-								   Toast.LENGTH_SHORT).show();
-					dlg.dismiss();
-					finish();
-					return;
+		Observable
+			.create(new Observable.OnSubscribe<Detail>() {
+				@Override
+				public void call(Subscriber<? super Detail> subscriber) {
+					Detail detail = serviceApi.parseDetail(getBaseContext(), item, url);
+					subscriber.onNext(detail);
+					subscriber.onCompleted();
 				}
+			})
+			.subscribeOn(Schedulers.newThread())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(new Subscriber<Detail>() {
+				@Override
+				public void onCompleted() { }
 
-				InjectDB.updateDetail(db, service.name(), item);
+				@Override
+				public void onError(Throwable e) { }
 
-				currentItem = item;
-				tvTitle.setText(item.title);
-				btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
-				btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
-				loadWebView(item.list);
-			}
-		}.execute(item, url);
+				@Override
+				public void onNext(Detail item) {
+					if (item != null && item.errorType != null) {
+						dlg.dismiss();
+						AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+						builder.setMessage(item.errorMsg)
+							   .setCancelable(false)
+							   .setPositiveButton(android.R.string.ok,
+												  new DialogInterface.OnClickListener() {
+													  @Override
+													  public void onClick(DialogInterface dialogInterface, int i) {
+														  finish();
+													  }
+												  })
+							   .show();
+						return;
+					} else if (item == null || item.list == null || item.list.isEmpty()) {
+						Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT).show();
+						dlg.dismiss();
+						finish();
+						return;
+					}
+
+					InjectDB.updateDetail(db, service.name(), item);
+
+					currentItem = item;
+					tvTitle.setText(item.title);
+					btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
+					btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
+					loadWebView(item.list);
+				}
+			});
 	}
 
 	@Override

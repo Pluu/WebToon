@@ -33,6 +33,7 @@ import com.pluu.webtoon.R;
 import com.pluu.webtoon.api.WebToonInfo;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
+import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.squareup.otto.Subscribe;
@@ -114,17 +115,6 @@ public class MainFragment extends Fragment {
 			public void destroyItem(ViewGroup container, int position, Object object) {
 				super.destroyItem(container, position, object);
 				views.remove(position);
-			}
-
-			@Override
-			public void notifyDataSetChanged() {
-				int key;
-				int size = views.size();
-				for (int i = 0; i < size; i++) {
-					key = views.keyAt(i);
-					views.get(key).update();
-				}
-				super.notifyDataSetChanged();
 			}
 
 			@Override
@@ -210,7 +200,7 @@ public class MainFragment extends Fragment {
 				@Override
 				public void call(Boolean aBoolean) {
 					selectInfo.setIsFavorite(aBoolean);
-					viewPager.getAdapter().notifyDataSetChanged();
+					OttoBusHolder.get().post(new ListUpdateEvent());
 				}
 			});
 	}

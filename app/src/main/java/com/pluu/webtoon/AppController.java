@@ -9,6 +9,7 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.cache.DiskCache;
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
+import com.squareup.leakcanary.RefWatcher;
 import dagger.ObjectGraph;
 
 /**
@@ -26,6 +27,8 @@ public class AppController extends Application {
 		super.onCreate();
 		objectGraph = ObjectGraph.create(new AppModule(this));
 
+//		refWatcher = LeakCanary.install(this);
+
 		new GlideBuilder(this)
 			.setMemoryCache(new LruResourceCache(cacheSize))
 			.setDiskCache(new DiskCache.Factory() {
@@ -41,4 +44,12 @@ public class AppController extends Application {
 	public static ObjectGraph objectGraph(Context context) {
 		return ((AppController) context.getApplicationContext()).objectGraph;
 	}
+
+	public static RefWatcher getRefWatcher(Context context) {
+		AppController application = (AppController) context.getApplicationContext();
+		return application.refWatcher;
+	}
+
+	private RefWatcher refWatcher;
+
 }

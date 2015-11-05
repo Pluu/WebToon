@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -54,7 +53,11 @@ import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
 import com.pluu.webtoon.utils.MoreRefreshListener;
 import com.squareup.sqlbrite.BriteDatabase;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -233,57 +236,62 @@ public class EpisodesActivity extends AppCompatActivity
 		statusBarAnimator.start();
 	}
 
-	private void loading(String url) {
-		new AsyncTask<Object, Void, List<Episode>>() {
+	private void loading(final String url) {
+		loadDlg.show();
+		if (swipeRefreshWidget.isRefreshing()) {
+			swipeRefreshWidget.setRefreshing(false);
+		}
 
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				loadDlg.show();
-
-				if (swipeRefreshWidget.isRefreshing()) {
-					swipeRefreshWidget.setRefreshing(false);
-				}
-			}
-
-			@Override
-			protected List<Episode> doInBackground(Object... params) {
-				Log.i(TAG, "Load Episode=" + params[1].toString());
-				WebToon webToon = serviceApi.parseEpisode(EpisodesActivity.this,
-														  (WebToonInfo) params[0],
-														  (String) params[1]);
-				List<Episode> list = webToon.getEpisodes();
-				nextLink = webToon.moreLink();
-				if (!TextUtils.isEmpty(nextLink)) {
-					scrollListener.setLoadingMore(false);
-				}
-
-				// Set Readed
-				if (readIdxs != null && !readIdxs.isEmpty() && list != null) {
-					for (Episode items : list) {
-						items.setIsReaded(readIdxs.contains(items.getEpisodeId()));
+		Observable
+			.create(new Observable.OnSubscribe<List<Episode>>() {
+				@Override
+				public void call(Subscriber<? super List<Episode>> subscriber) {
+					Log.i(TAG, "Load Episode=" + url);
+					WebToon webToon = serviceApi.parseEpisode(EpisodesActivity.this,
+															  webToonInfo,
+															  url);
+					List<Episode> list = webToon.getEpisodes();
+					nextLink = webToon.moreLink();
+					if (!TextUtils.isEmpty(nextLink)) {
+						scrollListener.setLoadingMore(false);
 					}
+
+					// Set Readed
+					if (readIdxs != null && !readIdxs.isEmpty() && list != null) {
+						for (Episode items : list) {
+							items.setIsReaded(readIdxs.contains(items.getEpisodeId()));
+						}
+					}
+
+					subscriber.onNext(list);
+					subscriber.onCompleted();
 				}
+			})
+			.subscribeOn(Schedulers.newThread())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(new Subscriber<List<Episode>>() {
+				@Override
+				public void onCompleted() { }
 
-				return list;
-			}
+				@Override
+				public void onError(Throwable e) { }
 
-			@Override
-			protected void onPostExecute(List<Episode> list) {
-				if (list == null || list.isEmpty()) {
+				@Override
+				public void onNext(List<Episode> list) {
+					if (list == null || list.isEmpty()) {
+						loadDlg.dismiss();
+						if (list == null) {
+							Toast.makeText(getBaseContext(), R.string.network_fail,
+										   Toast.LENGTH_SHORT).show();
+							finish();
+						}
+						return;
+					}
+					adapter.addItems(list);
+					adapter.notifyDataSetChanged();
 					loadDlg.dismiss();
-					if (list == null) {
-						Toast.makeText(getBaseContext(), R.string.network_fail,
-									   Toast.LENGTH_SHORT).show();
-						finish();
-					}
-					return;
 				}
-				adapter.addItems(list);
-				adapter.notifyDataSetChanged();
-				loadDlg.dismiss();
-			}
-		}.execute(webToonInfo, url);
+			});
 	}
 
 	private final MoreRefreshListener scrollListener = new MoreRefreshListener() {

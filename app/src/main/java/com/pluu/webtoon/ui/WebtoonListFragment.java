@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,12 +34,18 @@ import com.pluu.webtoon.adapter.MainListAdapter;
 import com.pluu.webtoon.api.WebToonInfo;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
+import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.event.WebToonSelectEvent;
 import com.squareup.otto.Subscribe;
 import com.squareup.sqlbrite.BriteDatabase;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Main WebToon List Fragment
@@ -87,50 +93,64 @@ public class WebtoonListFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		new AsyncTask<Void, Void, List<WebToonInfo>>() {
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				OttoBusHolder.get().post(new MainEpisodeStartEvent());
-			}
-
-			@Override
-			protected List<WebToonInfo> doInBackground(Void... params) {
-				Log.i(TAG, "Load pos=" + position);
-
-				List<WebToonInfo> list = serviceApi.parseMain(getActivity(), position);
-
-				for (final WebToonInfo item : list) {
-					InjectDB
-						.getEpisodeFavorite(db,
-											serviceApi.getNaviItem().name(),
-											item,
-											new Action1<Boolean>() {
-												@Override
-												public void call(Boolean aBoolean) {
-													item.setIsFavorite(aBoolean);
-												}
-											}
-						);
+		OttoBusHolder.get().post(new MainEpisodeStartEvent());
+		Observable
+			.create(new Observable.OnSubscribe<List<WebToonInfo>>() {
+				@Override
+				public void call(Subscriber<? super List<WebToonInfo>> subscriber) {
+					Log.i(TAG, "Load pos=" + position);
+					List<WebToonInfo> list = serviceApi.parseMain(getActivity(), position);
+					subscriber.onNext(list);
+					subscriber.onCompleted();
 				}
-
-				return list;
-			}
-
-			@Override
-			protected void onPostExecute(List<WebToonInfo> list) {
-				recyclerView.setAdapter(new MainListAdapter(getActivity(), list) {
-					@Override
-					public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-						ViewHolder vh = super.onCreateViewHolder(viewGroup, i);
-						setClickListener(vh);
-						return vh;
+			})
+			.subscribeOn(Schedulers.newThread())
+			.observeOn(AndroidSchedulers.mainThread())
+			.map(new Func1<List<WebToonInfo>, List<WebToonInfo>>() {
+				@Override
+				public List<WebToonInfo> call(List<WebToonInfo> list) {
+					for (final WebToonInfo item : list) {
+						InjectDB
+							.getEpisodeFavorite(db,
+												serviceApi.getNaviItem().name(),
+												item,
+												new Action1<Boolean>() {
+													@Override
+													public void call(Boolean aBoolean) {
+														item.setIsFavorite(aBoolean);
+													}
+												}
+							);
 					}
-				});
+					return list;
+				}
+			})
+			.subscribe(new Subscriber<List<WebToonInfo>>() {
+				@Override
+				public void onCompleted() { }
 
-				OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
-			}
-		}.execute();
+				@Override
+				public void onError(Throwable e) { }
+
+				@Override
+				public void onNext(List<WebToonInfo> list) {
+					final FragmentActivity activity = getActivity();
+					if (activity == null || activity.isFinishing()) {
+						return;
+					}
+
+					recyclerView.setAdapter(new MainListAdapter(activity, list) {
+						@Override
+						public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+							ViewHolder vh = super.onCreateViewHolder(viewGroup, i);
+							setClickListener(vh);
+							return vh;
+						}
+					});
+
+					OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
+				}
+			});
 	}
 
 	@Override
@@ -141,14 +161,19 @@ public class WebtoonListFragment extends Fragment {
 
 	@Override
 	public void onPause() {
-		OttoBusHolder.get().unregister(this);
 		super.onPause();
+		OttoBusHolder.get().unregister(this);
 	}
 
 	@Subscribe
 	public void responseNetwork(WebToonSelectEvent result) {
 		selectInfo = result.item;
 		((MainListAdapter) recyclerView.getAdapter()).setSelectInfo(selectInfo);
+	}
+
+	@Subscribe
+	public void favoriteUpdate(ListUpdateEvent event) {
+		recyclerView.getAdapter().notifyDataSetChanged();
 	}
 
 	private void setClickListener(final MainListAdapter.ViewHolder vh) {
@@ -199,13 +224,9 @@ public class WebtoonListFragment extends Fragment {
 		getActivity().startActivityForResult(intent, REQUEST_CODE);
 	}
 
-	public void updateSpanCount() {
+	private void updateSpanCount() {
 		int columnCount = getResources().getInteger(R.integer.webtoon_column_count);
 		manager.setSpanCount(columnCount);
-		recyclerView.getAdapter().notifyDataSetChanged();
-	}
-
-	public void update() {
 		recyclerView.getAdapter().notifyDataSetChanged();
 	}
 
