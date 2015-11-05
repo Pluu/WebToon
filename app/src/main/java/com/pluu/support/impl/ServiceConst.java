@@ -12,15 +12,18 @@ import com.pluu.webtoon.common.Const;
 public class ServiceConst {
 
 	public enum NAV_ITEM {
-		NAVER,
-		DAUM,
-		OLLEH,
-		KAKAOPAGE,
-		NATE,
-		T_STORE,
-		SEPARATOR,		// Separator
-		INVALID;		// Only Temp
+		NAVER(true),
+		DAUM(true),
+		OLLEH(true),
+		KAKAOPAGE(true),
+		NATE(true),
+		T_STORE(true),
+		SEPARATOR(false),		// Separator
+		INVALID(false);			// Only Temp
 
+		public final boolean isSelect;
+
+		NAV_ITEM(boolean isSelect) {this.isSelect = isSelect;}
 		public static NAV_ITEM getDefault() {
 			return NAVER;
 		}

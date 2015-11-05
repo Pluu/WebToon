@@ -13,7 +13,7 @@ import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 
 public class MainActivity extends BaseActivity {
 
-	private NAV_ITEM selfDrawerItem = NAV_ITEM.NAVER;
+	private NAV_ITEM selfDrawerItem;
 
 	@Bind(R.id.toolbar_actionbar)
 	Toolbar toolbar;
@@ -31,6 +31,8 @@ public class MainActivity extends BaseActivity {
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
+
+		selfDrawerItem = NAV_ITEM.getDefault();
 
 		getSupportFragmentManager()
 			.beginTransaction()

@@ -54,8 +54,8 @@ import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
 import com.pluu.webtoon.utils.MoreRefreshListener;
 import com.squareup.sqlbrite.BriteDatabase;
-import rx.Subscription;
 import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by anchangbeom on 15. 2. 26..
@@ -94,7 +94,10 @@ public class EpisodesActivity extends AppCompatActivity
 	@Inject
 	BriteDatabase db;
 
-	private Subscription subscriptions;
+//	private Subscription subscriptions;
+
+	private CompositeSubscription mCompositeSubscription
+		= new CompositeSubscription();
 
 	private Episode firstItem;
 
@@ -441,11 +444,14 @@ public class EpisodesActivity extends AppCompatActivity
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mCompositeSubscription.unsubscribe();
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
-		if (subscriptions != null) {
-			subscriptions.unsubscribe();
-		}
 		Glide.with(this).pauseRequests();
 	}
 
@@ -454,18 +460,10 @@ public class EpisodesActivity extends AppCompatActivity
 			return;
 		}
 
-		if (subscriptions != null) {
-			subscriptions.unsubscribe();
-		}
-
-		subscriptions = InjectDB.getEpisodeInfo(db,
-												serviceName,
-												webToonInfo,
-												onAction);
-		InjectDB.getEpisodeFavorite(db,
-									serviceName,
-									webToonInfo,
-									onFavoriteAction);
+		mCompositeSubscription.add(
+			InjectDB.getEpisodeInfo(db, serviceName, webToonInfo, onAction));
+		mCompositeSubscription.add(
+			InjectDB.getEpisodeFavorite(db, serviceName, webToonInfo, onFavoriteAction));
 	}
 
 	private Action1<List<String>> onAction
@@ -495,10 +493,6 @@ public class EpisodesActivity extends AppCompatActivity
 		@Override
 		public void call(Boolean aBoolean) {
 			isFavorite = aBoolean;
-
-			if (subscriptions != null) {
-				subscriptions.unsubscribe();
-			}
 		}
 	};
 
@@ -526,12 +520,8 @@ public class EpisodesActivity extends AppCompatActivity
 		switch (item.getItemId()) {
 			case R.id.menu_item_favorite_add:
 				// 즐겨찾기 추가
-				if (subscriptions != null) {
-					subscriptions.unsubscribe();
-				}
-				subscriptions = InjectDB.favoriteAdd(db,
-													 serviceName,
-													 webToonInfo);
+				mCompositeSubscription.add(
+					InjectDB.favoriteAdd(db, serviceName, webToonInfo));
 				setFavorite(true);
 				break;
 			case R.id.menu_item_favorite_delete:

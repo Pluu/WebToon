@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -123,12 +124,11 @@ public class BaseActivity extends AppCompatActivity {
 	private void populateNavDrawer() {
 		mNavDrawerItems.clear();
 
-		mNavDrawerItems.add(NAV_ITEM.NAVER);
-		mNavDrawerItems.add(NAV_ITEM.DAUM);
-		mNavDrawerItems.add(NAV_ITEM.OLLEH);
-		mNavDrawerItems.add(NAV_ITEM.KAKAOPAGE);
-		mNavDrawerItems.add(NAV_ITEM.NATE);
-		mNavDrawerItems.add(NAV_ITEM.T_STORE);
+		for (NAV_ITEM item : NAV_ITEM.values()) {
+			if (item.isSelect) {
+				mNavDrawerItems.add(item);
+			}
+		}
 
 		createNavDrawerItems();
 	}
@@ -147,7 +147,6 @@ public class BaseActivity extends AppCompatActivity {
 			mDrawerItemsListContainer.addView(mNavDrawerItemViews[i]);
 			++i;
 		}
-
 	}
 
 	private View makeNavDrawerItem(final NAV_ITEM item, ViewGroup container) {
@@ -208,10 +207,10 @@ public class BaseActivity extends AppCompatActivity {
 		// configure its appearance according to whether or not it's selected
 		titleView.setTextColor(selected ?
 								   getNaviSelectedTextColor() :
-								   getResources().getColor(R.color.navdrawer_text_color));
+								   ContextCompat.getColor(this, R.color.navdrawer_text_color));
 		iconView.setColorFilter(selected ?
 									getNaviSelectedIconColorFilter() :
-									getResources().getColor(R.color.navdrawer_icon_tint));
+									ContextCompat.getColor(this, R.color.navdrawer_icon_tint));
 	}
 
 	/**
@@ -219,7 +218,7 @@ public class BaseActivity extends AppCompatActivity {
 	 * @return color
 	 */
 	protected int getNaviSelectedTextColor() {
-		return getResources().getColor(R.color.navdrawer_text_color_selected);
+		return ContextCompat.getColor(this, R.color.navdrawer_text_color_selected);
 	}
 
 	/**
@@ -227,7 +226,7 @@ public class BaseActivity extends AppCompatActivity {
 	 * @return color
 	 */
 	protected int getNaviSelectedIconColorFilter() {
-		return getResources().getColor(R.color.navdrawer_icon_tint_selected);
+		return ContextCompat.getColor(this, R.color.navdrawer_icon_tint_selected);
 	}
 
 	private boolean isSpecialItem(NAV_ITEM item) {

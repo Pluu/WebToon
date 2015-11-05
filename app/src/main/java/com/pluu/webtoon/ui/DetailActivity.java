@@ -179,6 +179,11 @@ public class DetailActivity extends AppCompatActivity {
 		webview.getSettings().setLoadsImagesAutomatically(true);
 		webview.getSettings().setUseWideViewPort(false);
 		webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+		webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
+
 		webview.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageFinished(WebView view, String url) {
@@ -307,41 +312,49 @@ public class DetailActivity extends AppCompatActivity {
 		}.execute(item, url);
 	}
 
-	private void loadWebView(List<DetailView> list) {
-		StringBuffer strBuffer = new StringBuffer();
-		strBuffer.append("<!DOCTYPE html>")
-				 .append("<html>")
-				 .append("<head><meta charset=\"utf-8\"><style>")
-				 .append("body{").append("padding-top:").append(actionBarHeight).append("px; padding-bottom:").append(bottomMenu.getHeight()).append("px; }")
-				 .append("img{max-width: 100%; height: auto; display:block;}")
-				 .append("ul{list-style: none; padding-left: 0px;}")
-			.append("ul li:before{padding:0px; position:absolute; top:0; left:0px; }")
-				 .append("</style></head>")
-				 .append("<body>");
+	@Override
+	protected void onStop() {
+		if (webview != null) {
+			webview.stopLoading();
+		}
+		super.onStop();
+	}
 
-		strBuffer.append("<ul>");
+	private void loadWebView(List<DetailView> list) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("<!DOCTYPE html>")
+			   .append("<html>")
+			   .append("<head><meta charset=\"utf-8\"><style>")
+			   .append("body{").append("padding-top:").append(actionBarHeight).append("px; padding-bottom:").append(bottomMenu.getHeight()).append("px; }")
+			   .append("img{max-width: 100%; height: auto; display:block;}")
+			   .append("ul{list-style: none; padding-left: 0px;}")
+		   .append("ul li:before{padding:0px; position:absolute; top:0; left:0px; }")
+			   .append("</style></head>")
+			   .append("<body>");
+
+		builder.append("<ul>");
 
 		Iterator<DetailView> iterator = list.iterator();
 		DetailView item;
 		while (iterator.hasNext()) {
 			item = iterator.next();
 //			Log.i(TAG, "Load=" + item);
-			strBuffer.append("<li>");
+			builder.append("<li>");
 
 			switch (item.getType()) {
 				case IMAGE:
-					strBuffer.append("<img src=\"").append(item.getValue()).append("\" />");
+					builder.append("<img src=\"").append(item.getValue()).append("\" />");
 					break;
 				case TEXT:
-					strBuffer.append(item.getValue().replaceAll("\n", "<br></br>"));
+					builder.append(item.getValue().replaceAll("\n", "<br></br>"));
 					break;
 			}
-			strBuffer.append("</li>");
+			builder.append("</li>");
 		}
 
-		strBuffer.append("</ul></body></html>");
-//		Log.i(TAG, "Result=" + strBuffer.toString());
-		webview.loadDataWithBaseURL(null, strBuffer.toString(), "text/html", "utf-8", null);
+		builder.append("</ul></body></html>");
+//		Log.i(TAG, "Result=" + builder.toString());
+		webview.loadDataWithBaseURL(null, builder.toString(), "text/html", "utf-8", null);
 	}
 
 	@Override
