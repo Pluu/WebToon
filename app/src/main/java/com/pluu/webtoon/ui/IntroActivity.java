@@ -40,8 +40,7 @@ public class IntroActivity extends Activity {
 	}
 
 	private void initWork() {
-		Observable
-			.empty().delay(1, TimeUnit.SECONDS)
+		getIntro()
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Subscriber<Object>() {
@@ -61,6 +60,12 @@ public class IntroActivity extends Activity {
 				@Override
 				public void onNext(Object o) { }
 			});
+	}
+
+//	@RxLogObservable
+	private Observable<Object> getIntro() {
+		return Observable
+			.empty().delay(1, TimeUnit.SECONDS);
 	}
 
 }

@@ -262,22 +262,14 @@ public class DetailActivity extends AppCompatActivity {
 		loading(episode, episode.getUrl());
 	}
 
-	private void loading(final Episode item, final String url) {
+	private void loading(Episode item, String url) {
 		Log.i(TAG, "Load Detail=" + url);
 		if (currentItem != null) {
 			currentItem.prevLink = currentItem.nextLink = null;
 		}
 		dlg.show();
 
-		Observable
-			.create(new Observable.OnSubscribe<Detail>() {
-				@Override
-				public void call(Subscriber<? super Detail> subscriber) {
-					Detail detail = serviceApi.parseDetail(getBaseContext(), item, url);
-					subscriber.onNext(detail);
-					subscriber.onCompleted();
-				}
-			})
+		getRequestApi(item, url)
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Subscriber<Detail>() {
@@ -297,14 +289,16 @@ public class DetailActivity extends AppCompatActivity {
 							   .setPositiveButton(android.R.string.ok,
 												  new DialogInterface.OnClickListener() {
 													  @Override
-													  public void onClick(DialogInterface dialogInterface, int i) {
+													  public void onClick(
+														  DialogInterface dialogInterface, int i) {
 														  finish();
 													  }
 												  })
 							   .show();
 						return;
 					} else if (item == null || item.list == null || item.list.isEmpty()) {
-						Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT)
+							 .show();
 						dlg.dismiss();
 						finish();
 						return;
@@ -317,6 +311,19 @@ public class DetailActivity extends AppCompatActivity {
 					btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
 					btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
 					loadWebView(item.list);
+				}
+			});
+	}
+
+//	@RxLogObservable
+	private Observable<Detail> getRequestApi(final Episode item, final String url) {
+		return Observable
+			.create(new Observable.OnSubscribe<Detail>() {
+				@Override
+				public void call(Subscriber<? super Detail> subscriber) {
+					Detail detail = serviceApi.parseDetail(getBaseContext(), item, url);
+					subscriber.onNext(detail);
+					subscriber.onCompleted();
 				}
 			});
 	}

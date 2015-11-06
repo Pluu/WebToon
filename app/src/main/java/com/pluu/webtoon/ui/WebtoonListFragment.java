@@ -94,16 +94,7 @@ public class WebtoonListFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 
 		OttoBusHolder.get().post(new MainEpisodeStartEvent());
-		Observable
-			.create(new Observable.OnSubscribe<List<WebToonInfo>>() {
-				@Override
-				public void call(Subscriber<? super List<WebToonInfo>> subscriber) {
-					Log.i(TAG, "Load pos=" + position);
-					List<WebToonInfo> list = serviceApi.parseMain(getActivity(), position);
-					subscriber.onNext(list);
-					subscriber.onCompleted();
-				}
-			})
+		getApiRequest()
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.map(new Func1<List<WebToonInfo>, List<WebToonInfo>>() {
@@ -151,6 +142,19 @@ public class WebtoonListFragment extends Fragment {
 					OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
 				}
 			});
+	}
+
+//	@RxLogObservable
+	private Observable<List<WebToonInfo>> getApiRequest() {
+		return Observable.create(new Observable.OnSubscribe<List<WebToonInfo>>() {
+			@Override
+			public void call(Subscriber<? super List<WebToonInfo>> subscriber) {
+				Log.i(TAG, "Load pos=" + position);
+				List<WebToonInfo> list = serviceApi.parseMain(getActivity(), position);
+				subscriber.onNext(list);
+				subscriber.onCompleted();
+			}
+		});
 	}
 
 	@Override

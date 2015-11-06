@@ -236,37 +236,13 @@ public class EpisodesActivity extends AppCompatActivity
 		statusBarAnimator.start();
 	}
 
-	private void loading(final String url) {
+	private void loading(String url) {
 		loadDlg.show();
 		if (swipeRefreshWidget.isRefreshing()) {
 			swipeRefreshWidget.setRefreshing(false);
 		}
 
-		Observable
-			.create(new Observable.OnSubscribe<List<Episode>>() {
-				@Override
-				public void call(Subscriber<? super List<Episode>> subscriber) {
-					Log.i(TAG, "Load Episode=" + url);
-					WebToon webToon = serviceApi.parseEpisode(EpisodesActivity.this,
-															  webToonInfo,
-															  url);
-					List<Episode> list = webToon.getEpisodes();
-					nextLink = webToon.moreLink();
-					if (!TextUtils.isEmpty(nextLink)) {
-						scrollListener.setLoadingMore(false);
-					}
-
-					// Set Readed
-					if (readIdxs != null && !readIdxs.isEmpty() && list != null) {
-						for (Episode items : list) {
-							items.setIsReaded(readIdxs.contains(items.getEpisodeId()));
-						}
-					}
-
-					subscriber.onNext(list);
-					subscriber.onCompleted();
-				}
-			})
+		getRequestApi(url)
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Subscriber<List<Episode>>() {
@@ -290,6 +266,35 @@ public class EpisodesActivity extends AppCompatActivity
 					adapter.addItems(list);
 					adapter.notifyDataSetChanged();
 					loadDlg.dismiss();
+				}
+			});
+	}
+
+//	@RxLogObservable
+	private Observable<List<Episode>> getRequestApi(final String url) {
+		return Observable
+			.create(new Observable.OnSubscribe<List<Episode>>() {
+				@Override
+				public void call(Subscriber<? super List<Episode>> subscriber) {
+					Log.i(TAG, "Load Episode=" + url);
+					WebToon webToon = serviceApi.parseEpisode(EpisodesActivity.this,
+															  webToonInfo,
+															  url);
+					List<Episode> list = webToon.getEpisodes();
+					nextLink = webToon.moreLink();
+					if (!TextUtils.isEmpty(nextLink)) {
+						scrollListener.setLoadingMore(false);
+					}
+
+					// Set Readed
+					if (readIdxs != null && !readIdxs.isEmpty() && list != null) {
+						for (Episode items : list) {
+							items.setIsReaded(readIdxs.contains(items.getEpisodeId()));
+						}
+					}
+
+					subscriber.onNext(list);
+					subscriber.onCompleted();
 				}
 			});
 	}
