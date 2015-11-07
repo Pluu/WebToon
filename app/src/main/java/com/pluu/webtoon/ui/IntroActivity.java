@@ -3,6 +3,7 @@ package com.pluu.webtoon.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -43,29 +44,35 @@ public class IntroActivity extends Activity {
 		getIntro()
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<Object>() {
-				@Override
-				public void onCompleted() {
-					Log.i(TAG, "Login Process Complete");
-					tvMsg.setText("다됐어.. 이제 갈거야...");
-					progressBar.setVisibility(View.INVISIBLE);
-
-					startActivity(new Intent(IntroActivity.this, MainActivity.class));
-					finish();
-				}
-
-				@Override
-				public void onError(Throwable e) { }
-
-				@Override
-				public void onNext(Object o) { }
-			});
+			.subscribe(getIntroSubscriber());
 	}
 
 //	@RxLogObservable
 	private Observable<Object> getIntro() {
 		return Observable
 			.empty().delay(1, TimeUnit.SECONDS);
+	}
+
+//	@RxLogSubscriber
+	@NonNull
+	private Subscriber<Object> getIntroSubscriber() {
+		return new Subscriber<Object>() {
+			@Override
+			public void onCompleted() {
+				Log.i(TAG, "Login Process Complete");
+				tvMsg.setText("다됐어.. 이제 갈거야...");
+				progressBar.setVisibility(View.INVISIBLE);
+
+				startActivity(new Intent(IntroActivity.this, MainActivity.class));
+				finish();
+			}
+
+			@Override
+			public void onError(Throwable e) { }
+
+			@Override
+			public void onNext(Object o) { }
+		};
 	}
 
 }

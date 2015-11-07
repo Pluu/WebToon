@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -245,29 +246,7 @@ public class EpisodesActivity extends AppCompatActivity
 		getRequestApi(url)
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<List<Episode>>() {
-				@Override
-				public void onCompleted() { }
-
-				@Override
-				public void onError(Throwable e) { }
-
-				@Override
-				public void onNext(List<Episode> list) {
-					if (list == null || list.isEmpty()) {
-						loadDlg.dismiss();
-						if (list == null) {
-							Toast.makeText(getBaseContext(), R.string.network_fail,
-										   Toast.LENGTH_SHORT).show();
-							finish();
-						}
-						return;
-					}
-					adapter.addItems(list);
-					adapter.notifyDataSetChanged();
-					loadDlg.dismiss();
-				}
-			});
+			.subscribe(getRequestSubscriber());
 	}
 
 //	@RxLogObservable
@@ -297,6 +276,34 @@ public class EpisodesActivity extends AppCompatActivity
 					subscriber.onCompleted();
 				}
 			});
+	}
+
+//	@RxLogSubscriber
+	@NonNull
+	private Subscriber<List<Episode>> getRequestSubscriber() {
+		return new Subscriber<List<Episode>>() {
+			@Override
+			public void onCompleted() { }
+
+			@Override
+			public void onError(Throwable e) { }
+
+			@Override
+			public void onNext(List<Episode> list) {
+				if (list == null || list.isEmpty()) {
+					loadDlg.dismiss();
+					if (list == null) {
+						Toast.makeText(getBaseContext(), R.string.network_fail,
+									   Toast.LENGTH_SHORT).show();
+						finish();
+					}
+					return;
+				}
+				adapter.addItems(list);
+				adapter.notifyDataSetChanged();
+				loadDlg.dismiss();
+			}
+		};
 	}
 
 	private final MoreRefreshListener scrollListener = new MoreRefreshListener() {

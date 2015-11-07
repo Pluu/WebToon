@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,7 @@ import android.widget.Toast;
 import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -99,6 +101,8 @@ public class DetailActivity extends AppCompatActivity {
 
 	@Inject
 	BriteDatabase db;
+
+	private final long DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +196,7 @@ public class DetailActivity extends AppCompatActivity {
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
 				dlg.dismiss();
-				mToggleHandler.sendEmptyMessageDelayed(0, 1500L);
+				toggleDelay(true);
 			}
 		});
 
@@ -272,50 +276,10 @@ public class DetailActivity extends AppCompatActivity {
 		getRequestApi(item, url)
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Subscriber<Detail>() {
-				@Override
-				public void onCompleted() { }
-
-				@Override
-				public void onError(Throwable e) { }
-
-				@Override
-				public void onNext(Detail item) {
-					if (item != null && item.errorType != null) {
-						dlg.dismiss();
-						AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-						builder.setMessage(item.errorMsg)
-							   .setCancelable(false)
-							   .setPositiveButton(android.R.string.ok,
-												  new DialogInterface.OnClickListener() {
-													  @Override
-													  public void onClick(
-														  DialogInterface dialogInterface, int i) {
-														  finish();
-													  }
-												  })
-							   .show();
-						return;
-					} else if (item == null || item.list == null || item.list.isEmpty()) {
-						Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT)
-							 .show();
-						dlg.dismiss();
-						finish();
-						return;
-					}
-
-					InjectDB.updateDetail(db, service.name(), item);
-
-					currentItem = item;
-					tvTitle.setText(item.title);
-					btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
-					btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
-					loadWebView(item.list);
-				}
-			});
+			.subscribe(getRequestSubscriber());
 	}
 
-//	@RxLogObservable
+	//	@RxLogObservable
 	private Observable<Detail> getRequestApi(final Episode item, final String url) {
 		return Observable
 			.create(new Observable.OnSubscribe<Detail>() {
@@ -326,6 +290,53 @@ public class DetailActivity extends AppCompatActivity {
 					subscriber.onCompleted();
 				}
 			});
+	}
+
+//	@RxLogSubscriber
+	@NonNull
+	private Subscriber<Detail> getRequestSubscriber() {
+		return new Subscriber<Detail>() {
+			@Override
+			public void onCompleted() { }
+
+			@Override
+			public void onError(Throwable e) {
+				dlg.dismiss();
+			}
+
+			@Override
+			public void onNext(Detail item) {
+				dlg.dismiss();
+				if (item != null && item.errorType != null) {
+					new AlertDialog.Builder(DetailActivity.this)
+						.setMessage(item.errorMsg)
+						.setCancelable(false)
+						.setPositiveButton(android.R.string.ok,
+										   new DialogInterface.OnClickListener() {
+											   @Override
+											   public void onClick(
+												   DialogInterface dialogInterface, int i) {
+												   finish();
+											   }
+										   })
+						   .show();
+					return;
+				} else if (item == null || item.list == null || item.list.isEmpty()) {
+					Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT)
+						 .show();
+					finish();
+					return;
+				}
+
+				InjectDB.updateDetail(db, service.name(), item);
+
+				currentItem = item;
+				tvTitle.setText(item.title);
+				btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
+				btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
+				loadWebView(item.list);
+			}
+		};
 	}
 
 	@Override
@@ -453,8 +464,7 @@ public class DetailActivity extends AppCompatActivity {
 		= new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
-			mToggleHandler.removeMessages(0);
-			mToggleHandler.sendEmptyMessage(0);
+			toggleDelay(false);
 			return true;
 		}
 
@@ -473,6 +483,12 @@ public class DetailActivity extends AppCompatActivity {
 			return super.onFling(e1, e2, velocityX, velocityY);
 		}
 	};
+
+	private void toggleDelay(boolean isDelay) {
+		final int TOGGLE_ID = 0;
+		mToggleHandler.removeMessages(TOGGLE_ID);
+		mToggleHandler.sendEmptyMessageDelayed(TOGGLE_ID, isDelay ? DELAY_TIME : 0);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

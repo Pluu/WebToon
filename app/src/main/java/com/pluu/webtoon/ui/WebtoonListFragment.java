@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -97,54 +98,64 @@ public class WebtoonListFragment extends Fragment {
 		getApiRequest()
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.map(new Func1<List<WebToonInfo>, List<WebToonInfo>>() {
-				@Override
-				public List<WebToonInfo> call(List<WebToonInfo> list) {
-					for (final WebToonInfo item : list) {
-						InjectDB
-							.getEpisodeFavorite(db,
-												serviceApi.getNaviItem().name(),
-												item,
-												new Action1<Boolean>() {
-													@Override
-													public void call(Boolean aBoolean) {
-														item.setIsFavorite(aBoolean);
-													}
-												}
-							);
-					}
-					return list;
-				}
-			})
-			.subscribe(new Subscriber<List<WebToonInfo>>() {
-				@Override
-				public void onCompleted() { }
-
-				@Override
-				public void onError(Throwable e) { }
-
-				@Override
-				public void onNext(List<WebToonInfo> list) {
-					final FragmentActivity activity = getActivity();
-					if (activity == null || activity.isFinishing()) {
-						return;
-					}
-
-					recyclerView.setAdapter(new MainListAdapter(activity, list) {
-						@Override
-						public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-							ViewHolder vh = super.onCreateViewHolder(viewGroup, i);
-							setClickListener(vh);
-							return vh;
-						}
-					});
-
-					OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
-				}
-			});
+			.map(getFavoriteProcessFunc())
+			.subscribe(getRequestSubscriber());
 	}
 
-//	@RxLogObservable
+//	@RxLogSubscriber
+	@NonNull
+	private Subscriber<List<WebToonInfo>> getRequestSubscriber() {
+		return new Subscriber<List<WebToonInfo>>() {
+			@Override
+			public void onCompleted() { }
+
+			@Override
+			public void onError(Throwable e) { }
+
+			@Override
+			public void onNext(List<WebToonInfo> list) {
+				final FragmentActivity activity = getActivity();
+				if (activity == null || activity.isFinishing()) {
+					return;
+				}
+
+				recyclerView.setAdapter(new MainListAdapter(activity, list) {
+					@Override
+					public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+						ViewHolder vh = super.onCreateViewHolder(viewGroup, i);
+						setClickListener(vh);
+						return vh;
+					}
+				});
+
+				OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
+			}
+		};
+	}
+
+	@NonNull
+	private Func1<List<WebToonInfo>, List<WebToonInfo>> getFavoriteProcessFunc() {
+		return new Func1<List<WebToonInfo>, List<WebToonInfo>>() {
+			@Override
+			public List<WebToonInfo> call(List<WebToonInfo> list) {
+				for (final WebToonInfo item : list) {
+					InjectDB
+						.getEpisodeFavorite(
+							db, serviceApi.getNaviItem().name(), item,
+							new Action1<Boolean>() {
+								@Override
+								public void call(Boolean aBoolean) {
+									item.setIsFavorite(aBoolean);
+								}
+							}
+						);
+				}
+				return list;
+			}
+		};
+	}
+
+	//	@RxLogObservable
 	private Observable<List<WebToonInfo>> getApiRequest() {
 		return Observable.create(new Observable.OnSubscribe<List<WebToonInfo>>() {
 			@Override
