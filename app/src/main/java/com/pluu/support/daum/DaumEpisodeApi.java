@@ -1,7 +1,5 @@
 package com.pluu.support.daum;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +29,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 	private int pageNo = 0;
 
 	@Override
-	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+	public EpisodePage parseEpisode(WebToonInfo info) {
 		this.name = info.getWebtoonId();
 		EpisodePage episodePage = new EpisodePage(this);
 

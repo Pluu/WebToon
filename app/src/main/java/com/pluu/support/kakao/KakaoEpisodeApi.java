@@ -1,7 +1,5 @@
 package com.pluu.support.kakao;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -33,7 +31,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 	private Episode firstEpisode;
 
 	@Override
-	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+	public EpisodePage parseEpisode(WebToonInfo info) {
 		this.url = String.format(EPISODE_URL, info.getWebtoonId(), offset);
 
 		EpisodePage episodePage = new EpisodePage(this);

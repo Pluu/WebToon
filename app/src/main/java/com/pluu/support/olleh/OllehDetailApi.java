@@ -1,7 +1,5 @@
 package com.pluu.support.olleh;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +30,7 @@ public class OllehDetailApi extends AbstractDetailApi {
 	private String wettonId, timesseq;
 
 	@Override
-	public Detail parseDetail(Context context, Episode episode, String url) {
+	public Detail parseDetail(Episode episode) {
 		this.wettonId = episode.getWebtoonId();
 		this.timesseq = episode.getEpisodeId();
 

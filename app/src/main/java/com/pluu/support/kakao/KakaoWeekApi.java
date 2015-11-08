@@ -1,7 +1,5 @@
 package com.pluu.support.kakao;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,12 +37,12 @@ public class KakaoWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor(Context context) {
+	protected int getMainTitleColor() {
 		return R.color.kakao_color;
 	}
 
 	@Override
-	public List<WebToonInfo> parseMain(Context context, int position) {
+	public List<WebToonInfo> parseMain(int position) {
 		this.currentPos = position;
 
 		ArrayList<WebToonInfo> list = new ArrayList<>();

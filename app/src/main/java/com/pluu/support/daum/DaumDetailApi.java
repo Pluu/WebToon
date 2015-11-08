@@ -1,7 +1,5 @@
 package com.pluu.support.daum;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +25,8 @@ public class DaumDetailApi extends AbstractDetailApi {
 	private String id;
 
 	@Override
-	public Detail parseDetail(Context context, Episode episode, String url) {
-		this.id = url;
+	public Detail parseDetail(Episode episode) {
+		this.id = episode.getEpisodeId();
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();

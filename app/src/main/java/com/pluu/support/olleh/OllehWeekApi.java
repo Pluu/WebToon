@@ -1,6 +1,5 @@
 package com.pluu.support.olleh;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -44,12 +43,12 @@ public class OllehWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor(Context context) {
+	protected int getMainTitleColor() {
 		return R.color.olleh_color;
 	}
 
 	@Override
-	public List<WebToonInfo> parseMain(Context context, int position) {
+	public List<WebToonInfo> parseMain(int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 
 		try {

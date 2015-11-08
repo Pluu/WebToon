@@ -32,10 +32,10 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 	public abstract NAV_ITEM getNaviItem();
 
 	public int getTitleColor(Context context) {
-		return ContextCompat.getColor(context, getMainTitleColor(context));
+		return ContextCompat.getColor(context, getMainTitleColor());
 	}
 
-	protected abstract int getMainTitleColor(Context context);
+	protected abstract int getMainTitleColor();
 
 	public int getWeeklyTabSize() {
 		return CURRENT_TABS.length;
@@ -49,7 +49,7 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 		return (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7;
 	}
 
-	public abstract List<WebToonInfo> parseMain(Context context, int position);
+	public abstract List<WebToonInfo> parseMain(int position);
 
 	public static AbstractWeekApi getApi(NAV_ITEM item) {
 		switch (item) {

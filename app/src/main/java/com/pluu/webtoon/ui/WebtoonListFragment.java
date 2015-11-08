@@ -159,7 +159,7 @@ public class WebtoonListFragment extends Fragment {
 			@Override
 			public void call(Subscriber<? super List<WebToonInfo>> subscriber) {
 				Log.i(TAG, "Load pos=" + position);
-				List<WebToonInfo> list = serviceApi.parseMain(getActivity(), position);
+				List<WebToonInfo> list = serviceApi.parseMain(position);
 				subscriber.onNext(list);
 				subscriber.onCompleted();
 			}

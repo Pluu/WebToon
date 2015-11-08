@@ -1,7 +1,5 @@
 package com.pluu.support.nate;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class NateDetailApi extends AbstractDetailApi {
 	private String webToonId, episodeId;
 
 	@Override
-	public Detail parseDetail(Context context, Episode episode, String url) {
+	public Detail parseDetail(Episode episode) {
 		this.webToonId = episode.getWebtoonId();
 		this.episodeId = episode.getEpisodeId();
 

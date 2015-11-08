@@ -1,6 +1,5 @@
 package com.pluu.support.naver;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class NaverDetailApi extends AbstractDetailApi {
 	private String webToonId, episodeId;
 
 	@Override
-	public Detail parseDetail(Context context, Episode episode, String url) {
+	public Detail parseDetail(Episode episode) {
 		this.webToonId = episode.getWebtoonId();
 		this.episodeId = episode.getEpisodeId();
 

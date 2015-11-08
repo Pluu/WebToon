@@ -1,7 +1,5 @@
 package com.pluu.support.naver;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,7 +26,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	private int pageNo = 1;
 
 	@Override
-	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+	public EpisodePage parseEpisode(WebToonInfo info) {
 		webToonId = info.getWebtoonId();
 
 		EpisodePage episodePage = new EpisodePage(this);

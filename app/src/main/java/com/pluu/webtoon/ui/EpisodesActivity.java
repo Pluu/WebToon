@@ -256,8 +256,7 @@ public class EpisodesActivity extends AppCompatActivity
 				@Override
 				public void call(Subscriber<? super List<Episode>> subscriber) {
 					Log.i(TAG, "Load Episode=" + webToonInfo.getWebtoonId());
-					EpisodePage episodePage = serviceApi
-						.parseEpisode(EpisodesActivity.this, webToonInfo);
+					EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
 					List<Episode> list = episodePage.getEpisodes();
 					nextLink = episodePage.moreLink();
 					if (!TextUtils.isEmpty(nextLink)) {

@@ -1,7 +1,5 @@
 package com.pluu.support.nate;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -35,12 +33,12 @@ public class NateWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor(Context context) {
+	protected int getMainTitleColor() {
 		return R.color.nate_color;
 	}
 
 	@Override
-	public List<WebToonInfo> parseMain(Context context, int position) {
+	public List<WebToonInfo> parseMain(int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 
 		String response;

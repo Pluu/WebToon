@@ -1,7 +1,5 @@
 package com.pluu.support.nate;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -37,7 +35,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 	private int pageNo;
 
 	@Override
-	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+	public EpisodePage parseEpisode(WebToonInfo info) {
 		boolean isMorePage = pageNo > 1;
 
 		if (isMorePage) {
@@ -70,7 +68,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 					}
 				}
 
-				episodePage.episodes = parseList(info, url, doc);
+				episodePage.episodes = parseList(info, doc);
 			}
 
 			if (!episodePage.episodes.isEmpty()) {
@@ -87,7 +85,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 		return episodePage;
 	}
 
-	private List<Episode> parseList(WebToonInfo info, String url, Document doc) {
+	private List<Episode> parseList(WebToonInfo info, Document doc) {
 		List<Episode> list = new ArrayList<>();
 		Elements links = doc.select(".first");
 		Episode item;

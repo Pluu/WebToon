@@ -1,7 +1,5 @@
 package com.pluu.support.tstore;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,7 +21,7 @@ import org.jsoup.select.Elements;
  */
 public class TStorerWeekApi extends AbstractWeekApi {
 
-	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일"};
+	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "T툰"};
 	private final String WEEKLY_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/weekdayList.omp?weekday=";
 	private final Pattern URL_PATTERN = Pattern.compile("(?<=goInnerUrlDetail\\(\\\\\\').+(?=\\\\'\\)'\\);)");
 	private final Pattern ID_PATTERN = Pattern.compile("(?<=prodId=).+(?=&)");
@@ -40,12 +38,12 @@ public class TStorerWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor(Context context) {
+	protected int getMainTitleColor() {
 		return R.color.t_store_color;
 	}
 
 	@Override
-	public List<WebToonInfo> parseMain(Context context, int position) {
+	public List<WebToonInfo> parseMain(int position) {
 		this.currentPos = position;
 
 		ArrayList<WebToonInfo> list = new ArrayList<>();

@@ -1,6 +1,5 @@
 package com.pluu.support.impl;
 
-import android.content.Context;
 import android.content.res.Resources;
 
 import com.pluu.support.daum.DaumDetailApi;
@@ -20,7 +19,7 @@ import com.pluu.webtoon.item.ShareItem;
  */
 public abstract class AbstractDetailApi extends NetworkSupportApi {
 
-	public abstract Detail parseDetail(Context context, Episode episode, String url);
+	public abstract Detail parseDetail(Episode episode);
 
 	public abstract ShareItem getDetailShare(Episode episode, Detail detail);
 

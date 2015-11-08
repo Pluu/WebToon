@@ -1,6 +1,5 @@
 package com.pluu.support.daum;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import java.text.SimpleDateFormat;
@@ -17,9 +16,9 @@ import org.json.JSONObject;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
+import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.pluu.webtoon.common.Const;
 
 /**
  * 다음 웹툰 Week Api
@@ -43,12 +42,12 @@ public class DaumWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor(Context context) {
+	protected int getMainTitleColor() {
 		return R.color.daum_color;
 	}
 
 	@Override
-	public List<WebToonInfo> parseMain(Context context, int position) {
+	public List<WebToonInfo> parseMain(int position) {
 		this.currentPos = position;
 
 		ArrayList<WebToonInfo> list = new ArrayList<>();

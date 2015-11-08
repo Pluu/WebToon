@@ -266,29 +266,29 @@ public class DetailActivity extends AppCompatActivity {
 	}
 
 	private void initLoad() {
-		loading(episode, episode.getEpisodeId());
+		loading(episode);
 	}
 
-	private void loading(Episode item, String url) {
-		Log.i(TAG, "Load Detail=" + url);
+	private void loading(Episode item) {
+		Log.i(TAG, "Load Detail: " + item.getWebtoonId() + ", " + item.getEpisodeId());
 		if (currentItem != null) {
 			currentItem.prevLink = currentItem.nextLink = null;
 		}
 		dlg.show();
 
-		getRequestApi(item, url)
+		getRequestApi(item)
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(getRequestSubscriber());
 	}
 
-	//	@RxLogObservable
-	private Observable<Detail> getRequestApi(final Episode item, final String url) {
+//	@RxLogObservable
+	private Observable<Detail> getRequestApi(final Episode item) {
 		return Observable
 			.create(new Observable.OnSubscribe<Detail>() {
 				@Override
 				public void call(Subscriber<? super Detail> subscriber) {
-					Detail detail = serviceApi.parseDetail(getBaseContext(), item, url);
+					Detail detail = serviceApi.parseDetail(item);
 					subscriber.onNext(detail);
 					subscriber.onCompleted();
 				}
@@ -422,7 +422,7 @@ public class DetailActivity extends AppCompatActivity {
 			return;
 		}
 		episode.setEpisodeId(link);
-		loading(episode, link);
+		loading(episode);
 	}
 
 	private final Handler mToggleHandler = new Handler(new Handler.Callback() {

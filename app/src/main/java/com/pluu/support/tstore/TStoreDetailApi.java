@@ -1,7 +1,5 @@
 package com.pluu.support.tstore;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,8 +29,8 @@ public class TStoreDetailApi extends AbstractDetailApi {
 	private String id;
 
 	@Override
-	public Detail parseDetail(Context context, Episode episode, String url) {
-		this.id = url;
+	public Detail parseDetail(Episode episode) {
+		this.id = episode.getEpisodeId();
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();

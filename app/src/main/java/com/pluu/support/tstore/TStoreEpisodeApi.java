@@ -1,7 +1,5 @@
 package com.pluu.support.tstore;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -39,7 +37,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 	private Episode firstEpisode;
 
 	@Override
-	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+	public EpisodePage parseEpisode(WebToonInfo info) {
 		this.id = info.getWebtoonId();
 
 		EpisodePage episodePage = new EpisodePage(this);

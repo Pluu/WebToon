@@ -1,6 +1,5 @@
 package com.pluu.support.impl;
 
-import android.content.Context;
 import android.content.res.Resources;
 
 import com.pluu.support.daum.DaumEpisodeApi;
@@ -22,7 +21,7 @@ public abstract class AbstractEpisodeApi extends NetworkSupportApi {
 
 	public void init() { }
 
-	public abstract EpisodePage parseEpisode(Context context, WebToonInfo info);
+	public abstract EpisodePage parseEpisode(WebToonInfo info);
 
 	public abstract String moreParseEpisode(EpisodePage item);
 
