@@ -11,10 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.DetailView;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -34,8 +34,7 @@ public class OllehDetailApi extends AbstractDetailApi {
 	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
 		this.wettonId = episode.getWebtoonId();
-		this.timesseq = episode.getTag() != null
-			? String.valueOf(episode.getTag()) : episode.getEpisodeId();
+		this.timesseq = episode.getEpisodeId();
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -53,12 +52,10 @@ public class OllehDetailApi extends AbstractDetailApi {
 					ret.episodeId = obj.optString("timesseq");
 					ret.title = obj.optString("timestitle");
 					if (i - 1 >= 0) {
-						ret.nextLink = DETAIL_URL;
-						ret.nextIdx = array.optJSONObject(i - 1).optInt("timesseq");
+						ret.nextLink = String.valueOf(array.optJSONObject(i - 1).optInt("timesseq"));
 					}
 					if (i + 1 < array.length()) {
-						ret.prevLink = DETAIL_URL;
-						ret.prevIdx = array.optJSONObject(i + 1).optInt("timesseq");
+						ret.prevLink = String.valueOf(array.optJSONObject(i + 1).optInt("timesseq"));
 					}
 					break;
 				}

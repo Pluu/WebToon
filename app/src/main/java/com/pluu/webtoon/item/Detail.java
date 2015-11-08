@@ -1,4 +1,4 @@
-package com.pluu.webtoon.api;
+package com.pluu.webtoon.item;
 
 import java.util.List;
 
@@ -10,7 +10,6 @@ public class Detail {
 	public String title;
 	public String webtoonId, episodeId;
 	public String nextLink, prevLink;
-	public int nextIdx, prevIdx;
 	public List<DetailView> list;
 
 	// ERROR_TYPE

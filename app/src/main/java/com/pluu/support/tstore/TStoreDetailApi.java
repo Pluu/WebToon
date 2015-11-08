@@ -8,10 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.DetailView;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

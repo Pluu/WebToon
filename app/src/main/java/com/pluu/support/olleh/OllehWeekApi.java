@@ -14,9 +14,9 @@ import org.json.JSONObject;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.Status;
-import com.pluu.webtoon.api.WebToonInfo;
-import com.pluu.webtoon.api.WebToonType;
+import com.pluu.webtoon.item.Status;
+import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.item.WebToonType;
 
 /**
  * 올레 웹툰 Week API
@@ -76,7 +76,6 @@ public class OllehWeekApi extends AbstractWeekApi {
 				}
 
 				item = new WebToonInfo(obj.optString("webtoonseq"));
-				item.setUrl(item.getWebtoonId());
 				item.setTitle(obj.optString("webtoonnm"));
 				item.setImage(obj.optString("newthumbpath"));
 

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.DetailView;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -71,7 +71,7 @@ public class KakaoDetailApi extends AbstractDetailApi {
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		ShareItem item = new ShareItem();
 		item.title = episode.getTitle() + " / " + detail.title;
-		item.url = episode.getUrl();
+		item.url = String.format(DETAIL_URL, episode.getEpisodeId());
 		return item;
 	}
 

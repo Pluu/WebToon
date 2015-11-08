@@ -1,4 +1,4 @@
-package com.pluu.webtoon.api;
+package com.pluu.webtoon.item;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,15 +10,15 @@ import android.os.Parcelable;
 public class WebToonInfo implements Parcelable {
 
 	protected final String webtoonId;
-	protected String url;
 	protected String title;
 	protected String image;
 	protected WebToonType type = WebToonType.TOON;
 	protected String rate, writer;
 	protected String updateDate;
 	protected Status status = Status.NONE;
-	protected boolean isAdult = false;
-	protected boolean isFavorite = false;
+	protected boolean adult = false;
+	protected boolean loginNeed = false;
+	protected boolean favorite = false;
 
 	public WebToonInfo(String id) {
 		this.webtoonId = id;
@@ -26,7 +26,6 @@ public class WebToonInfo implements Parcelable {
 
 	public WebToonInfo(WebToonInfo item) {
 		this.webtoonId = item.webtoonId;
-		this.url = item.url;
 		this.title = item.title;
 		this.image = item.image;
 		this.type = item.type;
@@ -34,16 +33,13 @@ public class WebToonInfo implements Parcelable {
 		this.writer = item.writer;
 		this.updateDate = item.updateDate;
 		this.status = item.status;
-		this.isAdult = item.isAdult;
-		this.isFavorite = item.isFavorite;
+		this.adult = item.adult;
+		this.loginNeed = item.loginNeed;
+		this.favorite = item.favorite;
 	}
 
 	public String getWebtoonId() {
 		return webtoonId;
-	}
-
-	public String getUrl() {
-		return url;
 	}
 
 	public String getTitle() {
@@ -75,15 +71,11 @@ public class WebToonInfo implements Parcelable {
 	}
 
 	public boolean isAdult() {
-		return isAdult;
+		return adult;
 	}
 
 	public boolean isFavorite() {
-		return isFavorite;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
+		return favorite;
 	}
 
 	public void setTitle(String title) {
@@ -115,11 +107,19 @@ public class WebToonInfo implements Parcelable {
 	}
 
 	public void setIsAdult(boolean isAdult) {
-		this.isAdult = isAdult;
+		this.adult = isAdult;
 	}
 
 	public void setIsFavorite(boolean isFavorite) {
-		this.isFavorite = isFavorite;
+		this.favorite = isFavorite;
+	}
+
+	public boolean isLoginNeed() {
+		return loginNeed || adult;
+	}
+
+	public void setIsLoginNeed(boolean isLoginNeed) {
+		this.loginNeed = isLoginNeed;
 	}
 
 	@Override
@@ -128,7 +128,6 @@ public class WebToonInfo implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.webtoonId);
-		dest.writeString(this.url);
 		dest.writeString(this.title);
 		dest.writeString(this.image);
 		dest.writeInt(this.type == null ? -1 : this.type.ordinal());
@@ -136,13 +135,13 @@ public class WebToonInfo implements Parcelable {
 		dest.writeString(this.writer);
 		dest.writeString(this.updateDate);
 		dest.writeInt(this.status == null ? -1 : this.status.ordinal());
-		dest.writeByte(isAdult ? (byte) 1 : (byte) 0);
-		dest.writeByte(isFavorite ? (byte) 1 : (byte) 0);
+		dest.writeByte(adult ? (byte) 1 : (byte) 0);
+		dest.writeByte(loginNeed ? (byte) 1 : (byte) 0);
+		dest.writeByte(favorite ? (byte) 1 : (byte) 0);
 	}
 
 	protected WebToonInfo(Parcel in) {
 		this.webtoonId = in.readString();
-		this.url = in.readString();
 		this.title = in.readString();
 		this.image = in.readString();
 		int tmpType = in.readInt();
@@ -152,8 +151,9 @@ public class WebToonInfo implements Parcelable {
 		this.updateDate = in.readString();
 		int tmpStatus = in.readInt();
 		this.status = tmpStatus == -1 ? null : Status.values()[tmpStatus];
-		this.isAdult = in.readByte() != 0;
-		this.isFavorite = in.readByte() != 0;
+		this.adult = in.readByte() != 0;
+		this.loginNeed = in.readByte() != 0;
+		this.favorite = in.readByte() != 0;
 	}
 
 	public static final Creator<WebToonInfo> CREATOR = new Creator<WebToonInfo>() {
@@ -166,7 +166,6 @@ public class WebToonInfo implements Parcelable {
 	public String toString() {
 		return "WebToonInfo{" +
 			"webtoonId='" + webtoonId + '\'' +
-			", url='" + url + '\'' +
 			", title='" + title + '\'' +
 			", image='" + image + '\'' +
 			", type=" + type +
@@ -174,8 +173,8 @@ public class WebToonInfo implements Parcelable {
 			", writer='" + writer + '\'' +
 			", updateDate='" + updateDate + '\'' +
 			", status=" + status +
-			", isAdult=" + isAdult +
-			", isFavorite=" + isFavorite +
+			", adult=" + adult +
+			", favorite=" + favorite +
 			'}';
 	}
 }

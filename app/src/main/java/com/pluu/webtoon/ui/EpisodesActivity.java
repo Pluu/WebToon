@@ -47,9 +47,9 @@ import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
 import com.pluu.webtoon.utils.MoreRefreshListener;
@@ -237,30 +237,29 @@ public class EpisodesActivity extends AppCompatActivity
 		statusBarAnimator.start();
 	}
 
-	private void loading(String url) {
+	private void loading() {
 		loadDlg.show();
 		if (swipeRefreshWidget.isRefreshing()) {
 			swipeRefreshWidget.setRefreshing(false);
 		}
 
-		getRequestApi(url)
+		getRequestApi()
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(getRequestSubscriber());
 	}
 
 //	@RxLogObservable
-	private Observable<List<Episode>> getRequestApi(final String url) {
+	private Observable<List<Episode>> getRequestApi() {
 		return Observable
 			.create(new Observable.OnSubscribe<List<Episode>>() {
 				@Override
 				public void call(Subscriber<? super List<Episode>> subscriber) {
-					Log.i(TAG, "Load Episode=" + url);
-					WebToon webToon = serviceApi.parseEpisode(EpisodesActivity.this,
-															  webToonInfo,
-															  url);
-					List<Episode> list = webToon.getEpisodes();
-					nextLink = webToon.moreLink();
+					Log.i(TAG, "Load Episode=" + webToonInfo.getWebtoonId());
+					EpisodePage episodePage = serviceApi
+						.parseEpisode(EpisodesActivity.this, webToonInfo);
+					List<Episode> list = episodePage.getEpisodes();
+					nextLink = episodePage.moreLink();
 					if (!TextUtils.isEmpty(nextLink)) {
 						scrollListener.setLoadingMore(false);
 					}
@@ -316,7 +315,7 @@ public class EpisodesActivity extends AppCompatActivity
 	private void moreLoad() {
 		if (!TextUtils.isEmpty(nextLink)) {
 			Log.i(TAG, "Next Page Link=" + nextLink);
-			loading(nextLink);
+			loading();
 			nextLink = null;
 		}
 	}
@@ -325,7 +324,7 @@ public class EpisodesActivity extends AppCompatActivity
 	public void onRefresh() {
 		adapter.clear();
 		serviceApi.init();
-		loading(webToonInfo.getUrl());
+		loading();
 	}
 
 	public static class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
@@ -495,7 +494,7 @@ public class EpisodesActivity extends AppCompatActivity
 			}
 			readIdxs = strings;
 			if (adapter.getItemCount() == 0) {
-				loading(webToonInfo.getUrl());
+				loading();
 			} else {
 				if (readIdxs != null && !readIdxs.isEmpty()) {
 					for (Episode item : adapter.getList()) {

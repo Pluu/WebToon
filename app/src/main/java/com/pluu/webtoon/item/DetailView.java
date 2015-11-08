@@ -1,4 +1,4 @@
-package com.pluu.webtoon.api;
+package com.pluu.webtoon.item;
 
 /**
  * 상세데이터 타입

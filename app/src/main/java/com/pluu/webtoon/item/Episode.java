@@ -1,4 +1,4 @@
-package com.pluu.webtoon.api;
+package com.pluu.webtoon.item;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,10 +10,7 @@ import android.os.Parcelable;
 public class Episode extends WebToonInfo implements Parcelable {
 	private String episodeId;
 	private String episodeTitle;
-	private boolean isLoginNeed = false;
-	private boolean isLocked = false;
-	private boolean isReaded;
-	private Object tag;
+	private boolean readed;
 
 	public Episode(WebToonInfo info, String episodeId) {
 		super(info);
@@ -28,16 +25,8 @@ public class Episode extends WebToonInfo implements Parcelable {
 		return episodeTitle;
 	}
 
-	public boolean isLoginNeed() {
-		return isLoginNeed;
-	}
-
-	public boolean isLocked() {
-		return isLocked;
-	}
-
 	public boolean isReaded() {
-		return isReaded;
+		return readed;
 	}
 
 	public void setEpisodeId(String episodeId) {
@@ -48,24 +37,8 @@ public class Episode extends WebToonInfo implements Parcelable {
 		this.episodeTitle = episodeTitle;
 	}
 
-	public void setIsLoginNeed(boolean isLoginNeed) {
-		this.isLoginNeed = isLoginNeed;
-	}
-
-	public void setIsLocked(boolean isLocked) {
-		this.isLocked = isLocked;
-	}
-
 	public void setIsReaded(boolean isReaded) {
-		this.isReaded = isReaded;
-	}
-
-	public Object getTag() {
-		return tag;
-	}
-
-	public void setTag(Object tag) {
-		this.tag = tag;
+		this.readed = isReaded;
 	}
 
 	@Override
@@ -77,9 +50,7 @@ public class Episode extends WebToonInfo implements Parcelable {
 		super(item);
 		this.episodeId = item.episodeId;
 		this.episodeTitle = item.episodeTitle;
-		this.isLoginNeed = item.isLoginNeed;
-		this.isLocked = item.isLocked;
-		this.isReaded = item.isReaded;
+		this.readed = item.readed;
 	}
 
 	@Override
@@ -90,18 +61,14 @@ public class Episode extends WebToonInfo implements Parcelable {
 		super.writeToParcel(dest, flags);
 		dest.writeString(this.episodeId);
 		dest.writeString(this.episodeTitle);
-		dest.writeByte(isLoginNeed ? (byte) 1 : (byte) 0);
-		dest.writeByte(isLocked ? (byte) 1 : (byte) 0);
-		dest.writeByte(isReaded ? (byte) 1 : (byte) 0);
+		dest.writeByte(readed ? (byte) 1 : (byte) 0);
 	}
 
 	private Episode(Parcel in) {
 		super(in);
 		this.episodeId = in.readString();
 		this.episodeTitle = in.readString();
-		this.isLoginNeed = in.readByte() != 0;
-		this.isLocked = in.readByte() != 0;
-		this.isReaded = in.readByte() != 0;
+		this.readed = in.readByte() != 0;
 	}
 
 	public static final Creator<Episode> CREATOR = new Creator<Episode>() {

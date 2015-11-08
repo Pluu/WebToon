@@ -12,9 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.WebToonInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,7 +26,7 @@ import org.jsoup.select.Elements;
  */
 public class NateEpisodeApi extends AbstractEpisodeApi {
 
-	private final String HOST_URL = "http://m.comics.nate.com";
+	private final String EPISODE_URL = "http://m.comics.nate.com/main/info?btno=%s&order=up";
 	private final String MORE_EPISODE_URL = "http://m.comics.nate.com/rest/infoList?btno=%s&page=%d";
 
 	private final Pattern EPISODE_ID_PATTERN = Pattern.compile("(?<=bsno=)\\d+");
@@ -37,54 +37,54 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 	private int pageNo;
 
 	@Override
-	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
+	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
 		boolean isMorePage = pageNo > 1;
 
 		if (isMorePage) {
-			this.url = String.format(MORE_EPISODE_URL, info.getWebtoonId(), pageNo++);
+			this.url = String.format(MORE_EPISODE_URL, info.getWebtoonId(), pageNo);
 		} else {
-			this.url = HOST_URL + url;
+			this.url = String.format(EPISODE_URL, info.getWebtoonId());
 		}
 
-		WebToon webToon = new WebToon(this, url);
+		EpisodePage episodePage = new EpisodePage(this);
 
 		String response;
 		try {
 			response = requestApi();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return webToon;
+			return episodePage;
 		}
 
 		Document doc = Jsoup.parse(response);
 
 		try {
 			if (isMorePage) {
-				webToon.episodes = parseList(info, new JSONArray(response));
+				episodePage.episodes = parseList(info, new JSONArray(response));
 			} else {
 				if (firstEpisode == null) {
 					String href = doc.select(".btn_1stEpisode").first().attr("href");
 					Matcher matcher = EPISODE_ID_PATTERN.matcher(href);
 					if (matcher.find()) {
 						firstEpisode = new Episode(info, matcher.group());
-						firstEpisode.setUrl(href);
 					}
 				}
 
-				webToon.episodes = parseList(info, url, doc);
-				pageNo++;
+				episodePage.episodes = parseList(info, url, doc);
 			}
 
-			if (!webToon.episodes.isEmpty()) {
-				webToon.nextLink = url;
+			if (!episodePage.episodes.isEmpty()) {
+				episodePage.nextLink = info.getWebtoonId();
 			}
+
+			pageNo++;
 		} catch (JSONException e) {
 			e.printStackTrace();
-			webToon.episodes = new ArrayList<>();
+			episodePage.episodes = new ArrayList<>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return webToon;
+		return episodePage;
 	}
 
 	private List<Episode> parseList(WebToonInfo info, String url, Document doc) {
@@ -105,7 +105,6 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 				}
 
 				item = new Episode(info, matcher.group());
-				item.setUrl(href);
 				item.setImage(a.select("img").first().attr("src"));
 				item.setEpisodeTitle(a.select(".tel_episode").text() + " " + a.select(".tel_title").text());
 				item.setUpdateDate(a.select(".tel_date").text());
@@ -136,7 +135,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String moreParseEpisode(WebToon item) {
+	public String moreParseEpisode(EpisodePage item) {
 		return item.nextLink;
 	}
 

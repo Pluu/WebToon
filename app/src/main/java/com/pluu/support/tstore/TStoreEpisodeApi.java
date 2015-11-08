@@ -11,9 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -28,53 +28,52 @@ import org.jsoup.select.Elements;
  */
 public class TStoreEpisodeApi extends AbstractEpisodeApi {
 
-	private final String HOST_URL = "http://m.tstore.co.kr/mobilepoc";
+	private final String EPISODE_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonList.omp?prodId=%s";
 	private final String MORE_EPISODE_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonListMore.omp";
 
 	private final Pattern URL_PATTERN = Pattern.compile("(?<=goInnerUrlDetail\\(\\\\\\').+(?=\\\\'\\)'\\);)");
 	private final Pattern EPISODE_ID = Pattern.compile("(?<=prodId=)\\w+");
 
-	private String url;
+	private String id;
 	private int pageNo;
 	private Episode firstEpisode;
 
 	@Override
-	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
-		this.url = url;
+	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+		this.id = info.getWebtoonId();
 
-		WebToon webToon = new WebToon(this, url);
+		EpisodePage episodePage = new EpisodePage(this);
 
 		try {
-			String response = requestApi();
-			Document doc = Jsoup.parse(response);
-
 			if (pageNo > 0) {
 				JSONObject subJson = getMoreJson(info.getWebtoonId(), pageNo);
-				webToon.episodes = parseList(info, subJson.optJSONArray("webtoonList"));
+				episodePage.episodes = parseList(info, subJson.optJSONArray("webtoonList"));
 				pageNo++;
 			} else {
+				String response = requestApi();
+				Document doc = Jsoup.parse(response);
 				firstEpisode = getFirstItem(info, doc);
-				webToon.episodes = parseList(info, url, doc);
-				pageNo += 2;
+				episodePage.episodes = parseList(info, doc);
+				pageNo = 3;
 			}
 
-			if (!webToon.episodes.isEmpty()) {
-				webToon.nextLink = url;
+			if (!episodePage.episodes.isEmpty()) {
+				episodePage.nextLink = info.getWebtoonId();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return webToon;
+			return episodePage;
 		}
 
-		return webToon;
+		return episodePage;
 	}
 
-	private JSONObject getMoreJson(String webtoonId, int pageNo) throws Exception {
+	private JSONObject getMoreJson(String id, int pageNo) throws Exception {
 		Request.Builder builder = new Request.Builder()
 			.url(MORE_EPISODE_URL);
 
 		FormEncodingBuilder fromBuilder = new FormEncodingBuilder();
-		fromBuilder.add("prodId", webtoonId);
+		fromBuilder.add("prodId", id);
 		fromBuilder.add("currentPage", String.valueOf(pageNo));
 		RequestBody requestBody = fromBuilder.build();
 		builder.post(requestBody);
@@ -93,7 +92,6 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 			obj = array.optJSONObject(i);
 
 			item = new Episode(info, obj.optString("prodId"));
-			item.setUrl(item.getEpisodeId());
 			item.setImage(obj.optString("filePos"));
 			item.setEpisodeTitle(obj.optString("prodNm"));
 			item.setUpdateDate(obj.optString("updateDate"));
@@ -103,7 +101,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 		return list;
 	}
 
-	private List<Episode> parseList(WebToonInfo info, String url, Document doc) {
+	private List<Episode> parseList(WebToonInfo info, Document doc) {
 		List<Episode> list = new ArrayList<>();
 		Elements links = doc.select("ul[class=list-one type-comic2] a");
 		Episode item;
@@ -125,7 +123,6 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 				}
 
 				item = new Episode(info, matcher2.group());
-				item.setUrl(item.getEpisodeId());
 				item.setImage(a.select(".thum img").last().attr("src"));
 				item.setEpisodeTitle(a.select(".detail dt").text());
 				item.setUpdateDate(a.select(".txt").text());
@@ -152,12 +149,11 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 		}
 
 		Episode ret = new Episode(info, matcher2.group());
-		ret.setUrl(ret.getEpisodeId());
 		return ret;
 	}
 
 	@Override
-	public String moreParseEpisode(WebToon item) {
+	public String moreParseEpisode(EpisodePage item) {
 		return item.nextLink;
 	}
 
@@ -169,7 +165,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 	@Override
 	public void init() {
 		super.init();
-		pageNo = 1;
+		pageNo = 0;
 	}
 
 	@Override
@@ -179,7 +175,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public String getUrl() {
-		return HOST_URL + url;
+		return String.format(EPISODE_URL, id);
 	}
 
 }

@@ -11,10 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.DetailView;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 
 /**
  * 다음 웹툰 상세 API

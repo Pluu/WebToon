@@ -9,10 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.DetailView;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -25,20 +25,22 @@ import org.jsoup.select.Elements;
 public class NaverDetailApi extends AbstractDetailApi {
 
 	private final String SHARE_URL = "http://m.comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s";
-	private static final String HOST_URL = "http://m.comic.naver.com";
-	private String url;
-
 	private final List<String> SKIP_DETAIL = new ArrayList<String>() {{
 		add("http://static.naver.com/m/comic/im/txt_ads.png");
 		add("http://static.naver.com/m/comic/im/toon_app_pop.png");
 	}};
+	private final Pattern ID_PATTERN = Pattern.compile("(?<=no=)\\d+");
+
+	private String webToonId, episodeId;
 
 	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
-		this.url = url;
+		this.webToonId = episode.getWebtoonId();
+		this.episodeId = episode.getEpisodeId();
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
+		ret.episodeId = episodeId;
 
 		String response;
 		try {
@@ -50,7 +52,6 @@ public class NaverDetailApi extends AbstractDetailApi {
 		}
 
 		Document doc = Jsoup.parse(response);
-		Pattern pattern = Pattern.compile("no=\\d+");
 		ret.title = doc.select("div[class=chh] span, h1[class=tit]").first().text();
 
 		Elements cutToonElements = doc.select("a[class=prev smt-btn-prev-cut]");
@@ -62,11 +63,11 @@ public class NaverDetailApi extends AbstractDetailApi {
 			Elements navi = doc.select(".viewer_inner");
 			Elements temp = navi.select("a[class=btn_next]");
 			if (temp != null && !temp.isEmpty()) {
-				ret.nextLink = temp.first().attr("href");
+				ret.nextLink = getEpisodeId(temp.first().attr("href"));
 			}
 			temp = navi.select("a[class=btn_prev]");
 			if (temp != null && !temp.isEmpty()) {
-				ret.prevLink = temp.first().attr("href");
+				ret.prevLink = getEpisodeId(temp.first().attr("href"));
 			}
 		} else {
 			cutToonElements = doc.select("div[class=viewer cuttoon]");
@@ -78,11 +79,11 @@ public class NaverDetailApi extends AbstractDetailApi {
 				Elements navi = doc.select(".paging_wrap");
 				Elements temp = navi.select("a[class=pg_next]");
 				if (temp != null && !temp.isEmpty()) {
-					ret.nextLink = temp.first().attr("href");
+					ret.nextLink = getEpisodeId(temp.first().attr("href"));
 				}
 				temp = navi.select("a[class=pg_prev]");
 				if (temp != null && !temp.isEmpty()) {
-					ret.prevLink = temp.first().attr("href");
+					ret.prevLink = getEpisodeId(temp.first().attr("href"));
 				}
 			} else {
 				// 일반 웹툰
@@ -91,20 +92,23 @@ public class NaverDetailApi extends AbstractDetailApi {
 				// 이전, 다음화
 				for (Element element : doc.select("div[class=sc2] a")) {
 					if (!element.select("span[class=nx]").isEmpty()) {
-						ret.nextLink = element.attr("href");
+						ret.nextLink = getEpisodeId(element.attr("href"));
 					} else if (!element.select("span[class=pv]").isEmpty()) {
-						ret.prevLink = element.attr("href");
+						ret.prevLink = getEpisodeId(element.attr("href"));
 					}
 				}
 			}
 		}
 
-		Matcher matcher = pattern.matcher(url);
-		if (matcher.find()) {
-			ret.episodeId = matcher.group().substring(3);
-		}
-
 		return ret;
+	}
+
+	private String getEpisodeId(String str) {
+		Matcher matcher = ID_PATTERN.matcher(str);
+		if (matcher.find()) {
+			return matcher.group();
+		}
+		return null;
 	}
 
 	private List<DetailView> parseDetailCutToonType(Document doc) {
@@ -162,6 +166,6 @@ public class NaverDetailApi extends AbstractDetailApi {
 
 	@Override
 	public String getUrl() {
-		return HOST_URL + url;
+		return String.format(SHARE_URL, webToonId, episodeId);
 	}
 }

@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.Status;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Status;
+import com.pluu.webtoon.item.WebToonInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -72,7 +72,6 @@ public class KakaoWeekApi extends AbstractWeekApi {
 			}
 
 			item = new WebToonInfo(matcher.group());
-			item.setUrl(href);
 			item.setTitle(a.select(".title").first().text());
 			item.setImage(a.select(".listImg").first().attr("src"));
 

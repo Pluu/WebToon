@@ -30,7 +30,7 @@ import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
 import com.pluu.webtoon.event.ListUpdateEvent;

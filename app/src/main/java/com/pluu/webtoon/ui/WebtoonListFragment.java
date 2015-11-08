@@ -1,6 +1,5 @@
 package com.pluu.webtoon.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -32,7 +31,7 @@ import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.MainListAdapter;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
 import com.pluu.webtoon.event.ListUpdateEvent;
@@ -49,10 +48,9 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Main WebToon List Fragment
+ * Main EpisodePage List Fragment
  * Created by PLUUSYSTEM-NEW on 2015-10-27.
  */
-@SuppressLint("ValidFragment")
 public class WebtoonListFragment extends Fragment {
 	private final String TAG = WebtoonListFragment.class.getSimpleName();
 

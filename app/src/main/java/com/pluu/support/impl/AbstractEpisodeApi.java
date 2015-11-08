@@ -10,9 +10,9 @@ import com.pluu.support.nate.NateEpisodeApi;
 import com.pluu.support.naver.NaverEpisodeApi;
 import com.pluu.support.olleh.OllehEpisodeApi;
 import com.pluu.support.tstore.TStoreEpisodeApi;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.WebToonInfo;
 
 /**
  * Episode API
@@ -22,9 +22,9 @@ public abstract class AbstractEpisodeApi extends NetworkSupportApi {
 
 	public void init() { }
 
-	public abstract WebToon parseEpisode(Context context, WebToonInfo info, String url);
+	public abstract EpisodePage parseEpisode(Context context, WebToonInfo info);
 
-	public abstract String moreParseEpisode(WebToon item);
+	public abstract String moreParseEpisode(EpisodePage item);
 
 	public abstract Episode getFirstEpisode(Episode item);
 

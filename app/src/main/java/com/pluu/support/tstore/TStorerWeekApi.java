@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.Status;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Status;
+import com.pluu.webtoon.item.WebToonInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,7 +27,6 @@ public class TStorerWeekApi extends AbstractWeekApi {
 	private final String WEEKLY_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/weekdayList.omp?weekday=";
 	private final Pattern URL_PATTERN = Pattern.compile("(?<=goInnerUrlDetail\\(\\\\\\').+(?=\\\\'\\)'\\);)");
 	private final Pattern ID_PATTERN = Pattern.compile("(?<=prodId=).+(?=&)");
-	private final Pattern EPISODE_ID = Pattern.compile("(?<=prodId=)\\w+");
 
 	private int currentPos;
 
@@ -73,7 +72,6 @@ public class TStorerWeekApi extends AbstractWeekApi {
 				}
 
 				item = new WebToonInfo(matcher2.group());
-				item.setUrl(matcher.group());
 				item.setTitle(a.select(".detail dl dt").text());
 				item.setImage(a.select(".thum img").last().attr("src"));
 				item.setWriter(a.select(".txt").text());

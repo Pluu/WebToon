@@ -11,10 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
-import com.pluu.webtoon.api.WebToonType;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.item.WebToonType;
 
 /**
  * 올레 웹툰 Episode API
@@ -34,10 +34,10 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 	private String id;
 
 	@Override
-	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
+	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
 		id = info.getWebtoonId();
 
-		WebToon webToon = new WebToon(this, url);
+		EpisodePage episodePage = new EpisodePage(this);
 
 		try {
 			String response;
@@ -53,14 +53,14 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 			}
 
 			if (totalSize > 0) {
-				webToon.episodes = parseList(info, savedArray, page);
-				webToon.nextLink = getNextPageLink(totalSize, page);
+				episodePage.episodes = parseList(info, savedArray, page);
+				episodePage.nextLink = getNextPageLink(totalSize, page);
 			}
 			page++;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return webToon;
+		return episodePage;
 	}
 
 	private List<Episode> parseList(WebToonInfo info, JSONArray array, int page) {
@@ -101,13 +101,20 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String moreParseEpisode(WebToon item) {
+	public String moreParseEpisode(EpisodePage item) {
 		return item.nextLink;
 	}
 
 	@Override
 	public Episode getFirstEpisode(Episode item) {
 		return firstEpisode;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		savedArray = null;
+		page = 0;
 	}
 
 	@Override

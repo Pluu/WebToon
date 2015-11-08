@@ -1,4 +1,4 @@
-package com.pluu.webtoon.api;
+package com.pluu.webtoon.item;
 
 /**
  * 해당 내용 상태 정보

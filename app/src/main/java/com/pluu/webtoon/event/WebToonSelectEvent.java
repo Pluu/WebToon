@@ -1,6 +1,6 @@
 package com.pluu.webtoon.event;
 
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.WebToonInfo;
 
 /**
  * Episode Select Event

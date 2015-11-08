@@ -4,14 +4,12 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.DetailView;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,14 +21,13 @@ import org.jsoup.select.Elements;
  */
 public class NateDetailApi extends AbstractDetailApi {
 
-	private final String HOST_URL = "http://m.comics.nate.com";
-	private final Pattern EPISODE_ID_PATTERN = Pattern.compile("(?<=bsno=)\\d+");
-
-	private String url;
+	private final String DETAIL_URL = "http://m.comics.nate.com/view/show?btno=%s&bsno=%s&order=up";
+	private String webToonId, episodeId;
 
 	@Override
 	public Detail parseDetail(Context context, Episode episode, String url) {
-		this.url = url;
+		this.webToonId = episode.getWebtoonId();
+		this.episodeId = episode.getEpisodeId();
 
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getWebtoonId();
@@ -46,11 +43,7 @@ public class NateDetailApi extends AbstractDetailApi {
 
 		Document doc = Jsoup.parse(response);
 		ret.title = doc.select(".tvi_header").text();
-
-		Matcher matcher = EPISODE_ID_PATTERN.matcher(url);
-		if (matcher.find()) {
-			ret.episodeId = matcher.group();
-		}
+		ret.episodeId = episodeId;
 
 		Elements temp = doc.select(".btn_prev");
 		if (temp != null && !temp.isEmpty()) {
@@ -76,7 +69,7 @@ public class NateDetailApi extends AbstractDetailApi {
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		ShareItem item = new ShareItem();
 		item.title = episode.getTitle() + " / " + detail.title;
-		item.url = HOST_URL + episode.getUrl();
+		item.url = String.format(DETAIL_URL, episode.getWebtoonId(), episode.getEpisodeId());
 		return item;
 	}
 
@@ -87,7 +80,7 @@ public class NateDetailApi extends AbstractDetailApi {
 
 	@Override
 	public String getUrl() {
-		return HOST_URL + url;
+		return String.format(DETAIL_URL, webToonId, episodeId);
 	}
 
 }

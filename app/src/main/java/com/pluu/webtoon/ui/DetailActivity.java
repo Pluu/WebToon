@@ -52,12 +52,12 @@ import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.DetailView;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.InjectDB;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 import com.squareup.sqlbrite.BriteDatabase;
 import rx.Observable;
 import rx.Subscriber;
@@ -147,6 +147,9 @@ public class DetailActivity extends AppCompatActivity {
 
 		TypedValue value = new TypedValue();
 		getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
+
+		btnPrev.setEnabled(false);
+		btnNext.setEnabled(false);
 
 		ValueAnimator bg = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
 		bg.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -263,7 +266,7 @@ public class DetailActivity extends AppCompatActivity {
 	}
 
 	private void initLoad() {
-		loading(episode, episode.getUrl());
+		loading(episode, episode.getEpisodeId());
 	}
 
 	private void loading(Episode item, String url) {
@@ -418,8 +421,7 @@ public class DetailActivity extends AppCompatActivity {
 		if (TextUtils.isEmpty(link)) {
 			return;
 		}
-		int idx = view.getId() == R.id.btnPrev ? currentItem.prevIdx : currentItem.nextIdx;
-		episode.setTag(idx);
+		episode.setEpisodeId(link);
 		loading(episode, link);
 	}
 

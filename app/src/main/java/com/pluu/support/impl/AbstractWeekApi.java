@@ -15,7 +15,7 @@ import com.pluu.support.nate.NateWeekApi;
 import com.pluu.support.naver.NaverWeekApi;
 import com.pluu.support.olleh.OllehWeekApi;
 import com.pluu.support.tstore.TStorerWeekApi;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.WebToonInfo;
 
 /**
  * Week API

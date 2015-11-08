@@ -1,6 +1,7 @@
 package com.pluu.webtoon.common;
 
 /**
+ * Application Const Set
  * Created by nohhs on 2015-03-02.
  */
 public class Const {

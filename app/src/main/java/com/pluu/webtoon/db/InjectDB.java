@@ -5,8 +5,8 @@ import android.util.Log;
 
 import java.util.List;
 
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.db.item.EpisodeItem;
 import com.pluu.webtoon.db.item.FavoriteItem;
 import com.squareup.sqlbrite.BriteDatabase;

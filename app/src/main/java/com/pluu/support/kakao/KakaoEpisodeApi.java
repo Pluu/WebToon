@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.squareup.okhttp.Request;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,17 +33,17 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 	private Episode firstEpisode;
 
 	@Override
-	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
+	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
 		this.url = String.format(EPISODE_URL, info.getWebtoonId(), offset);
 
-		WebToon webToon = new WebToon(this, url);
+		EpisodePage episodePage = new EpisodePage(this);
 
 		String response;
 		try {
 			response = requestApi();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return webToon;
+			return episodePage;
 		}
 
 		Document doc = Jsoup.parse(response);
@@ -56,12 +56,13 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 			}
 		}
 
-		webToon.episodes = parseList(info, url, doc);
-		if (!webToon.episodes.isEmpty()) {
-			webToon.nextLink = parsePage(info);
+		episodePage.episodes = parseList(info, url, doc);
+		if (!episodePage.episodes.isEmpty()) {
+			offset += SIZE;
+			episodePage.nextLink = info.getWebtoonId();
 		}
 
-		return webToon;
+		return episodePage;
 	}
 
 	private Episode getFirstItem(WebToonInfo info) throws Exception {
@@ -71,7 +72,6 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		Document doc = Jsoup.parse(response);
 		String id = doc.select(".firstViewBtn").attr("data-productId");
 		Episode ret= new Episode(info, id);
-		ret.setUrl(id);
 		return ret;
 	}
 
@@ -83,7 +83,6 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		try {
 			for (Element a : links) {
 				item = new Episode(info, a.select(".productId").attr("value"));
-				item.setUrl(item.getEpisodeId());
 				item.setImage(a.select(".thum").attr("src"));
 				item.setEpisodeTitle(a.select("span[class=title ellipsis_hd]").text());
 				item.setUpdateDate(a.select(".date").text());
@@ -96,13 +95,8 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		return list;
 	}
 
-	private String parsePage(WebToonInfo info) {
-		offset += SIZE;
-		return info.getUrl();
-	}
-
 	@Override
-	public String moreParseEpisode(WebToon item) {
+	public String moreParseEpisode(EpisodePage item) {
 		return item.nextLink;
 	}
 

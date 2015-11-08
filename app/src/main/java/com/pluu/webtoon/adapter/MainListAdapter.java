@@ -18,8 +18,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.WebToonInfo;
-import com.pluu.webtoon.api.WebToonType;
+import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.item.WebToonType;
 
 /**
  * Main Episode List Adapter

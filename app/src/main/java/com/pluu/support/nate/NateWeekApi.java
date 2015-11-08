@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.WebToonInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -64,7 +64,6 @@ public class NateWeekApi extends AbstractWeekApi {
 			}
 
 			item = new WebToonInfo(matcher.group());
-			item.setUrl(href);
 			item.setTitle(a.select(".wtl_title").text());
 			item.setImage(a.select(".wtl_img img").first().attr("src"));
 			item.setWriter(a.select(".wtl_author").text());

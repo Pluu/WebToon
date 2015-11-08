@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.api.Status;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Status;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.common.Const;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -72,7 +72,6 @@ public class NaverWeekApi extends AbstractWeekApi {
 			}
 
 			item = new WebToonInfo(matcher.group());
-			item.setUrl(a.attr("href"));
 			item.setTitle(a.select(".toon_name").text());
 			item.setImage(a.select("img").first().attr("src"));
 

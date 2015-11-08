@@ -8,10 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.Status;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.Status;
+import com.pluu.webtoon.item.WebToonInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,28 +23,30 @@ import org.jsoup.select.Elements;
  */
 public class NaverEpisodeApi extends AbstractEpisodeApi {
 
-	private static final String HOST_URL = "http://m.comic.naver.com";
-	private String url;
+	private static final String HOST_URL = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=%d";
+	private String webToonId;
+	private int pageNo = 1;
 
 	@Override
-	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
-		this.url = url;
+	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+		webToonId = info.getWebtoonId();
 
-		WebToon webToon = new WebToon(this, url);
+		EpisodePage episodePage = new EpisodePage(this);
 
 		String response;
 		try {
 			response = requestApi();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return webToon;
+			return episodePage;
 		}
 
 		Document doc = Jsoup.parse(response);
-		webToon.episodes = parseList(info, doc);
-		webToon.nextLink = parsePage(doc);
+		episodePage.episodes = parseList(info, doc);
+		episodePage.nextLink = parsePage(doc);
+		pageNo++;
 
-		return webToon;
+		return episodePage;
 	}
 
 	private List<Episode> parseList(WebToonInfo info, Document doc) {
@@ -53,7 +55,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 		Pattern pattern = Pattern.compile("no=\\d+");
 		String href;
 		try {
-			Episode episode = null;
+			Episode episode;
 			for (Element a : links) {
 				href = a.attr("href");
 
@@ -63,11 +65,8 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 				}
 
 				episode = new Episode(info, matcher.group().substring(3));
-				String title = a.select(".toon_name").text();
-				String image = a.select("img").first().attr("src");
-				episode.setUrl(href);
-				episode.setEpisodeTitle(title);
-				episode.setImage(image);
+				episode.setEpisodeTitle(a.select(".toon_name").text());
+				episode.setImage(a.select("img").first().attr("src"));
 				parseToonInfo(a, episode);
 				list.add(episode);
 			}
@@ -99,7 +98,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String moreParseEpisode(WebToon item) {
+	public String moreParseEpisode(EpisodePage item) {
 		return item.getNextLink();
 	}
 
@@ -108,7 +107,6 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 		Episode ret;
 		try {
 			ret = item.clone();
-			ret.setUrl(item.getUrl().replaceFirst("no=\\d+", "no=1"));
 			ret.setEpisodeId("1");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,12 +116,18 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
+	public void init() {
+		super.init();
+		pageNo = 1;
+	}
+
+	@Override
 	public String getMethod() {
 		return GET;
 	}
 
 	@Override
 	public String getUrl() {
-		return HOST_URL + url;
+		return String.format(HOST_URL, webToonId, pageNo);
 	}
 }

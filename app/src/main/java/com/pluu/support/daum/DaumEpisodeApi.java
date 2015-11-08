@@ -11,9 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.WebToon;
-import com.pluu.webtoon.api.WebToonInfo;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.EpisodePage;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.squareup.okhttp.Request;
 
 /**
@@ -31,9 +31,9 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 	private int pageNo = 0;
 
 	@Override
-	public WebToon parseEpisode(Context context, WebToonInfo info, String url) {
-		this.name = url;
-		WebToon webToon = new WebToon(this, url);
+	public EpisodePage parseEpisode(Context context, WebToonInfo info) {
+		this.name = info.getWebtoonId();
+		EpisodePage episodePage = new EpisodePage(this);
 
 		String response;
 		try {
@@ -41,15 +41,15 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 			JSONObject json = new JSONObject(response);
 			JSONArray data = json.optJSONObject("data").optJSONArray("webtoonEpisodes");
 			if (data != null && data.length() > 0) {
-				webToon.episodes = parseList(info, data);
+				episodePage.episodes = parseList(info, data);
 			} else {
-				webToon.episodes = new ArrayList<>();
+				episodePage.episodes = new ArrayList<>();
 			}
 			JSONObject page = json.optJSONObject("page");
 
 			String nick = info.getWebtoonId();
-			if (webToon.episodes != null && !webToon.episodes.isEmpty()) {
-				webToon.nextLink = parsePage(page, nick);
+			if (episodePage.episodes != null && !episodePage.episodes.isEmpty()) {
+				episodePage.nextLink = parsePage(page, nick);
 			}
 
 			if (firstEpisodeId == 0) {
@@ -60,7 +60,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 			e.printStackTrace();
 		}
 
-		return webToon;
+		return episodePage;
 	}
 
 	private JSONObject getFirstEpisode(String nick) throws Exception {
@@ -80,11 +80,10 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 				obj = data.optJSONObject(i);
 
 				item = new Episode(info, obj.optString("id"));
-				item.setUrl(obj.optString("id"));
 				item.setEpisodeTitle(obj.optString("title"));
 				item.setImage(obj.optJSONObject("thumbnailImage").optString("url"));
 				item.setRate(obj.optJSONObject("voteTarget").optString("voteTotalScore"));
-				item.setIsLocked(obj.optInt("price", 0) > 0);
+				item.setIsLoginNeed(obj.optInt("price", 0) > 0);
 				item.setUpdateDate(obj.optString("dateCreated"));
 				list.add(item);
 			}
@@ -109,7 +108,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	@Override
-	public String moreParseEpisode(WebToon item) {
+	public String moreParseEpisode(EpisodePage item) {
 		return item.nextLink;
 	}
 
@@ -119,12 +118,17 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 		try {
 			String id = String.valueOf(firstEpisodeId);
 			ret = item.clone();
-			ret.setUrl(id);
 			ret.setEpisodeId(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		pageNo = 0;
 	}
 
 	@Override

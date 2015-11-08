@@ -10,9 +10,9 @@ import com.pluu.support.nate.NateDetailApi;
 import com.pluu.support.naver.NaverDetailApi;
 import com.pluu.support.olleh.OllehDetailApi;
 import com.pluu.support.tstore.TStoreDetailApi;
-import com.pluu.webtoon.api.Detail;
-import com.pluu.webtoon.api.Episode;
-import com.pluu.webtoon.api.ShareItem;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
 
 /**
  * Detail Parse API
