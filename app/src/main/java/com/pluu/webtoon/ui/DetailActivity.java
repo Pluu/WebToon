@@ -121,8 +121,10 @@ public class DetailActivity extends AppCompatActivity {
 
 	private void initSupportActionBar() {
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
+		}
 
 		TypedValue t = new TypedValue();
 		getTheme().resolveAttribute(android.R.attr.actionBarSize, t, true);

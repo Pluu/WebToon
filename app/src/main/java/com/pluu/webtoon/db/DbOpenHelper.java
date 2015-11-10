@@ -9,6 +9,7 @@ import com.pluu.webtoon.db.item.FavoriteItem;
 
 
 /**
+ * DbOpenHelper
  * Created by nohhs on 2015-03-17.
  */
 public class DbOpenHelper extends SQLiteOpenHelper {

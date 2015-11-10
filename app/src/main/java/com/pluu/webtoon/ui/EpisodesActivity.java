@@ -62,6 +62,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
+ * 에피소드 리스트 Activity
  * Created by anchangbeom on 15. 2. 26..
  */
 public class EpisodesActivity extends AppCompatActivity
@@ -167,9 +168,11 @@ public class EpisodesActivity extends AppCompatActivity
 
 	private void initSupportActionBar() {
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(webToonInfo.getTitle());
-		actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle(webToonInfo.getTitle());
+			actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
+		}
 	}
 
 	private void getApi() {

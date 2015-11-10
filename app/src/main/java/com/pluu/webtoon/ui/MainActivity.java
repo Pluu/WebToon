@@ -3,6 +3,7 @@ package com.pluu.webtoon.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import butterknife.Bind;
@@ -29,8 +30,11 @@ public class MainActivity extends BaseActivity {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setHomeButtonEnabled(true);
+		}
 
 		selfDrawerItem = NAV_ITEM.getDefault();
 
