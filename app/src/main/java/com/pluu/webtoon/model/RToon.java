@@ -1,5 +1,6 @@
 package com.pluu.webtoon.model;
 
+import com.pluu.webtoon.db.item.FavoriteItem;
 import io.realm.RealmObject;
 
 /**
@@ -10,6 +11,14 @@ public class RToon extends RealmObject {
 	private String service;
 	private String toonId;
 	private boolean favorite;
+
+	public RToon() { }
+
+	public RToon(FavoriteItem source) {
+		this.service = source.service;
+		this.toonId = source.webtoon;
+		this.favorite = source.favorite > 0;
+	}
 
 	public void setService(String service) {
 		this.service = service;
