@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.pluu.webtoon.R;
+import com.pluu.webtoon.db.SqliteToRealm;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -51,6 +52,18 @@ public class IntroActivity extends Activity {
 	private Observable<Object> getIntro() {
 		return Observable
 			.empty().delay(1, TimeUnit.SECONDS);
+	}
+
+//	@RxLogObservable
+	private Observable<Object> getSqlite2Realm() {
+		return Observable.create(new Observable.OnSubscribe<Object>() {
+			@Override
+			public void call(Subscriber<? super Object> subscriber) {
+				SqliteToRealm migrate = new SqliteToRealm(IntroActivity.this);
+				migrate.migrateToon();
+				migrate.migrateEpisode();
+			}
+		});
 	}
 
 //	@RxLogSubscriber

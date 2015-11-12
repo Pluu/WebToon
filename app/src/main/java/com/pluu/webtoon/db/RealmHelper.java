@@ -19,13 +19,10 @@ public class RealmHelper {
 
 	private static RealmHelper mInstance;
 
-	public static RealmHelper createInstance(){
+	public static RealmHelper getInstance() {
 		if (mInstance == null) {
-			mInstance  = new RealmHelper();
+			mInstance = new RealmHelper();
 		}
-		return mInstance  = new RealmHelper();
-	}
-	public static RealmHelper getIntance(){
 		return mInstance;
 	}
 
