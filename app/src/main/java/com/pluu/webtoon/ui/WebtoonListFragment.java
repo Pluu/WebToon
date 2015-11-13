@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import javax.inject.Inject;
 import java.util.List;
 
 import com.bumptech.glide.Glide;
@@ -31,19 +30,17 @@ import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.MainListAdapter;
-import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.db.InjectDB;
+import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.event.WebToonSelectEvent;
+import com.pluu.webtoon.item.WebToonInfo;
 import com.squareup.otto.Subscribe;
-import com.squareup.sqlbrite.BriteDatabase;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -59,9 +56,6 @@ public class WebtoonListFragment extends Fragment {
 	private int position;
 
 	private static final int REQUEST_CODE = 1000;
-
-	@Inject
-	BriteDatabase db;
 
 	private AbstractWeekApi serviceApi;
 	private WebToonInfo selectInfo;
@@ -136,17 +130,11 @@ public class WebtoonListFragment extends Fragment {
 		return new Func1<List<WebToonInfo>, List<WebToonInfo>>() {
 			@Override
 			public List<WebToonInfo> call(List<WebToonInfo> list) {
+				RealmHelper helper = RealmHelper.getInstance();
 				for (final WebToonInfo item : list) {
-					InjectDB
-						.getEpisodeFavorite(
-							db, serviceApi.getNaviItem().name(), item,
-							new Action1<Boolean>() {
-								@Override
-								public void call(Boolean aBoolean) {
-									item.setIsFavorite(aBoolean);
-								}
-							}
-						);
+					item.setIsFavorite(
+						helper.getFavoriteToon(getContext(), serviceApi.getNaviItem(), item.getWebtoonId())
+					);
 				}
 				return list;
 			}

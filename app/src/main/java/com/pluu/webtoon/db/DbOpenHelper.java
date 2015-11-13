@@ -5,9 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
+import android.text.TextUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.pluu.webtoon.db.item.EpisodeItem;
@@ -86,10 +89,24 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 		}
 	}
 
+	private String getPath() {
+		return DB_PATH + DB_NAME;
+	}
+
+	public boolean checkDatabase() {
+		String path = getPath();
+		if (TextUtils.isEmpty(path)) {
+			return false;
+		}
+
+		File dbFile = new File(path);
+		return dbFile.exists();
+	}
+
 	public boolean openDatabase() throws IOException {
-		String mPath = DB_PATH + DB_NAME;
+		String path = getPath();
 		//Log.v("mPath", mPath);
-		db = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+		db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.CREATE_IF_NECESSARY);
 		//mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 
 		return db != null;
@@ -98,41 +115,54 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 	public List<FavoriteItem> getFavoriteList()  {
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.query(FavoriteItem.TABLE, FAVORITE_COLUMNS, null, null, null, null, null);
-		cursor.moveToFirst();
 
-		int size = cursor.getCount();
-
-		List<FavoriteItem> list = new ArrayList<>(size);
-		do {
-			FavoriteItem item = new FavoriteItem();
-			item.service = cursor.getString(cursor.getColumnIndex(FavoriteItem.SERVICE));
-			item.webtoon = cursor.getString(cursor.getColumnIndex(FavoriteItem.WEBTOON));
-			item.favorite = cursor.getInt(cursor.getColumnIndex(FavoriteItem.FAVORITE));
-			list.add(item);
-		} while (cursor.moveToNext());
+		List<FavoriteItem> list;
+		if (cursor.moveToFirst()) {
+			int size = cursor.getCount();
+			list = new ArrayList<>(size);
+			do {
+				FavoriteItem item = new FavoriteItem();
+				item.service = cursor.getString(cursor.getColumnIndex(FavoriteItem.SERVICE));
+				item.webtoon = cursor.getString(cursor.getColumnIndex(FavoriteItem.WEBTOON));
+				item.favorite = cursor.getInt(cursor.getColumnIndex(FavoriteItem.FAVORITE));
+				list.add(item);
+			} while (cursor.moveToNext());
+		} else {
+			list = Collections.emptyList();
+		}
 
 		cursor.close();
+
 		return list;
 	}
 
 	public List<EpisodeItem> getEpisodeListe() {
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.query(EpisodeItem.TABLE, EPISODE_COLUMNS, null, null, null, null, null);
-		cursor.moveToFirst();
 
-		int size = cursor.getCount();
-
-		List<EpisodeItem> list = new ArrayList<>(size);
-		do {
-			EpisodeItem item = new EpisodeItem();
-			item.service = cursor.getString(cursor.getColumnIndex(EpisodeItem.SERVICE));
-			item.webtoon = cursor.getString(cursor.getColumnIndex(EpisodeItem.WEBTOON));
-			item.episode = cursor.getString(cursor.getColumnIndex(EpisodeItem.EPISODE));
-			list.add(item);
-		} while (cursor.moveToNext());
+		List<EpisodeItem> list;
+		if (cursor.moveToFirst()) {
+			int size = cursor.getCount();
+			list = new ArrayList<>(size);
+			do {
+				EpisodeItem item = new EpisodeItem();
+				item.service = cursor.getString(cursor.getColumnIndex(EpisodeItem.SERVICE));
+				item.webtoon = cursor.getString(cursor.getColumnIndex(EpisodeItem.WEBTOON));
+				item.episode = cursor.getString(cursor.getColumnIndex(EpisodeItem.EPISODE));
+				list.add(item);
+			} while (cursor.moveToNext());
+		} else {
+			list = Collections.emptyList();
+		}
 
 		cursor.close();
 		return list;
+	}
+
+	public void migrateComplete() {
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete(FavoriteItem.TABLE, null, null);
+		db.delete(EpisodeItem.TABLE, null, null);
 	}
 
 	@Override

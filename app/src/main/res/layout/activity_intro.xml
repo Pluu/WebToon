@@ -32,7 +32,7 @@
 			android:id="@+id/tvMsg"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="준비중이야... 기다려..."
+			android:text="@string/msg_intro_ready"
 			android:textColor="@android:color/white"
 			android:textStyle="bold"
 			android:textAppearance="@android:style/TextAppearance.Large"

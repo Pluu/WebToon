@@ -18,9 +18,12 @@
     <string name="title_nate">Nate</string>
     <string name="title_t_store">T Store</string>
 
-    <string name="msg_loading">Loading ...</string>
+    <string name="msg_loading">Loading &#8230;</string>
 
     <string name="favorite_add">즐겨찾기 추가</string>
     <string name="favorite_delete">즐겨찾기 제거</string>
+
+    <string name="msg_intro_ready">준비중이야&#8230; 기다려&#8230;</string>
+    <string name="msg_intro_complete">다됐어&#8230; 이제 갈거야&#8230;</string>
 
 </resources>

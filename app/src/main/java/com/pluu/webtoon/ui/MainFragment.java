@@ -18,8 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -28,20 +26,15 @@ import com.pluu.event.OttoBusHolder;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
-import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.db.InjectDB;
 import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.squareup.otto.Subscribe;
-import com.squareup.sqlbrite.BriteDatabase;
-import rx.Subscription;
-import rx.functions.Action1;
 
 /**
+ * Main View Fragment
  * Created by PLUUSYSTEM-NEW on 2015-04-06.
  */
 public class MainFragment extends Fragment {
@@ -53,13 +46,7 @@ public class MainFragment extends Fragment {
 	@Bind(R.id.viewPager)
 	ViewPager viewPager;
 
-	@Inject
-	BriteDatabase db;
-
 	private AbstractWeekApi serviceApi;
-
-	private Subscription subscriptions;
-	private static WebToonInfo selectInfo;
 
 	private boolean isFirstDlg = true;
 	private ProgressDialog loadDlg;
@@ -92,7 +79,6 @@ public class MainFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_toon, null);
 		ButterKnife.bind(this, view);
-		AppController.objectGraph(getActivity()).inject(this);
 
 		loadDlg = new ProgressDialog(getActivity());
 		loadDlg.setCancelable(false);
@@ -186,23 +172,7 @@ public class MainFragment extends Fragment {
 			return;
 		}
 
-		if (subscriptions != null) {
-			subscriptions.unsubscribe();
-		}
-
-		selectInfo = data.getParcelableExtra(Const.EXTRA_EPISODE);
-
-		subscriptions = InjectDB.getEpisodeFavorite(
-			db,
-			serviceApi.getNaviItem().name(),
-			selectInfo,
-			new Action1<Boolean>() {
-				@Override
-				public void call(Boolean aBoolean) {
-					selectInfo.setIsFavorite(aBoolean);
-					OttoBusHolder.get().post(new ListUpdateEvent());
-				}
-			});
+		OttoBusHolder.get().post(new ListUpdateEvent());
 	}
 
 	@Override

@@ -1,9 +1,11 @@
 package com.pluu.webtoon.db;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
+import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.db.item.EpisodeItem;
 import com.pluu.webtoon.db.item.FavoriteItem;
 import com.pluu.webtoon.model.REpisode;
@@ -16,6 +18,8 @@ import io.realm.RealmList;
  * Created by PLUUSYSTEM-NEW on 2015-11-12.
  */
 public class RealmHelper {
+
+	private final String TAG = RealmHelper.class.getSimpleName();
 
 	private static RealmHelper mInstance;
 
@@ -34,6 +38,8 @@ public class RealmHelper {
 		for (FavoriteItem item : list) {
 			toons.add(new RToon(item));
 		}
+		Log.d(TAG, "Migrate Toon Count:" + list.size());
+
 		realm.copyToRealm(toons);
 		realm.commitTransaction();
 	}
@@ -46,8 +52,24 @@ public class RealmHelper {
 		for (EpisodeItem item : list) {
 			episodes.add(new REpisode(item));
 		}
+		Log.d(TAG, "Migrate Episode Count:" + list.size());
+
 		realm.copyToRealm(episodes);
 		realm.commitTransaction();
+	}
+
+	public boolean getFavoriteToon(Context context, ServiceConst.NAV_ITEM item, String id) {
+		return Realm.getInstance(context).where(RToon.class)
+					.equalTo("service", item.name())
+					.equalTo("toonId", id)
+					.count() > 0;
+	}
+
+	public List<REpisode> getEpisode(Context context, ServiceConst.NAV_ITEM item, String id) {
+		return Realm.getInstance(context).where(REpisode.class)
+					.equalTo("service", item.name())
+					.equalTo("toonId", id)
+					.findAll();
 	}
 
 }
