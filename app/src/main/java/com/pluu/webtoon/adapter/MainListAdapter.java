@@ -112,8 +112,17 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 		return list != null ? list.size() : 0;
 	}
 
-	public void setSelectInfo(WebToonInfo selectInfo) {
-		this.selectInfo = selectInfo;
+	public void setSelectInfo(WebToonInfo info) {
+		this.selectInfo = info;
+	}
+
+	public void modifyInfo(WebToonInfo info) {
+		for (WebToonInfo item : list) {
+			if (TextUtils.equals(info.getWebtoonId(), item.getWebtoonId())) {
+				item.setIsFavorite(info.isFavorite());
+				break;
+			}
+		}
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {

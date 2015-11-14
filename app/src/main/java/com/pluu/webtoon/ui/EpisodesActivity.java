@@ -116,6 +116,8 @@ public class EpisodesActivity extends AppCompatActivity
 		setSupportActionBar(toolbar);
 
 		webToonInfo = getIntent().getParcelableExtra(Const.EXTRA_EPISODE);
+		isFavorite = webToonInfo.isFavorite();
+
 		initSupportActionBar();
 		getApi();
 		initView();

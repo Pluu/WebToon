@@ -174,7 +174,9 @@ public class WebtoonListFragment extends Fragment {
 
 	@Subscribe
 	public void favoriteUpdate(ListUpdateEvent event) {
-		recyclerView.getAdapter().notifyDataSetChanged();
+		MainListAdapter adapter = (MainListAdapter) recyclerView.getAdapter();
+		adapter.modifyInfo(event.info);
+		adapter.notifyDataSetChanged();
 	}
 
 	private void setClickListener(final MainListAdapter.ViewHolder vh) {

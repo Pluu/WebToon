@@ -12,6 +12,7 @@ import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.event.ListUpdateEvent;
+import com.pluu.webtoon.item.WebToonInfo;
 
 public class MainActivity extends BaseActivity {
 
@@ -56,11 +57,7 @@ public class MainActivity extends BaseActivity {
 			return;
 		}
 
-		((OttoBusHolder) OttoBusHolder.get()).postQueue(new ListUpdateEvent());
-
-//		Fragment fragment = getSupportFragmentManager().findFragmentByTag(Const.MAIN_FRAG_TAG);
-//		if (fragment != null) {
-//			fragment.onActivityResult(requestCode, resultCode, data);
-//		}
+		WebToonInfo editItem = data.getParcelableExtra(Const.EXTRA_EPISODE);
+		((OttoBusHolder) OttoBusHolder.get()).postQueue(new ListUpdateEvent(editItem));
 	}
 }
