@@ -10,14 +10,12 @@ import io.realm.RealmObject;
 public class RToon extends RealmObject {
 	private String service;
 	private String toonId;
-	private boolean favorite;
 
 	public RToon() { }
 
 	public RToon(FavoriteItem source) {
 		this.service = source.service;
 		this.toonId = source.webtoon;
-		this.favorite = source.favorite > 0;
 	}
 
 	public void setService(String service) {
@@ -28,10 +26,6 @@ public class RToon extends RealmObject {
 		this.toonId = toonId;
 	}
 
-	public void setFavorite(boolean favorite) {
-		this.favorite = favorite;
-	}
-
 	public String getService() {
 		return service;
 	}
@@ -40,7 +34,4 @@ public class RToon extends RealmObject {
 		return toonId;
 	}
 
-	public boolean isFavorite() {
-		return favorite;
-	}
 }

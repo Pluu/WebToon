@@ -2,9 +2,7 @@ package com.pluu.webtoon.ui;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -28,7 +26,6 @@ import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.squareup.otto.Subscribe;
@@ -163,16 +160,6 @@ public class MainFragment extends Fragment {
 		bg.start();
 
 		slidingTabLayout.setSelectedIndicatorColors(titleColor);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			return;
-		}
-
-		OttoBusHolder.get().post(new ListUpdateEvent());
 	}
 
 	@Override

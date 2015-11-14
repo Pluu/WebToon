@@ -72,4 +72,25 @@ public class RealmHelper {
 					.findAll();
 	}
 
+	public void addFavorite(Context context, ServiceConst.NAV_ITEM item, String id) {
+		Realm realm = Realm.getInstance(context);
+		realm.beginTransaction();
+		RToon toon = realm.createObject(RToon.class);
+		toon.setService(item.name());
+		toon.setToonId(id);
+		realm.commitTransaction();
+	}
+
+	public void removeFavorite(Context context, ServiceConst.NAV_ITEM item, String id) {
+		Realm realm = Realm.getInstance(context);
+		realm.beginTransaction();
+		RToon toon = realm.where(RToon.class)
+						  .equalTo("service", item.name())
+						  .equalTo("toonId", id)
+						  .findFirst();
+		toon.removeFromRealm();
+		realm.commitTransaction();
+	}
+
+
 }

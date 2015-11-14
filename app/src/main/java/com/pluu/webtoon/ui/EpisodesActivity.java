@@ -32,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,17 +46,17 @@ import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
+import com.pluu.webtoon.common.Const;
+import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.db.InjectDB;
+import com.pluu.webtoon.model.REpisode;
 import com.pluu.webtoon.utils.MoreRefreshListener;
-import com.squareup.sqlbrite.BriteDatabase;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -94,12 +93,6 @@ public class EpisodesActivity extends AppCompatActivity
 	private int titleColor, statusColor;
 
 	private AbstractEpisodeApi serviceApi;
-	private List<String> readIdxs;
-
-	@Inject
-	BriteDatabase db;
-
-//	private Subscription subscriptions;
 
 	private CompositeSubscription mCompositeSubscription
 		= new CompositeSubscription();
@@ -122,48 +115,11 @@ public class EpisodesActivity extends AppCompatActivity
 
 		setSupportActionBar(toolbar);
 
-		getApi();
-
-		swipeRefreshWidget.setColorSchemeResources(
-			R.color.color1,
-			R.color.color2,
-			R.color.color3,
-			R.color.color4);
-		swipeRefreshWidget.setOnRefreshListener(this);
-
-		loadDlg = new ProgressDialog(this);
-		loadDlg.setCancelable(false);
-		loadDlg.setMessage("Loading ...");
-		adapter = new ListAdapter(this) {
-			@Override
-			public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
-												 int position) {
-				final ViewHolder vh = super.onCreateViewHolder(viewGroup, position);
-				vh.thumbnailView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Episode item = adapter.getItem(vh.getAdapterPosition());
-						if (item.isLoginNeed()) {
-							Toast.makeText(EpisodesActivity.this,
-										   R.string.msg_not_support,
-										   Toast.LENGTH_SHORT).show();
-						}
-						moveDetailPage(item);
-					}
-				});
-				return vh;
-			}
-		};
-
-		int columnCount = getResources().getInteger(R.integer.episode_column_count);
-		manager = new GridLayoutManager(this, columnCount);
-		recyclerView.setLayoutManager(manager);
-		recyclerView.setAdapter(adapter);
-		recyclerView.setOnScrollListener(scrollListener);
-
 		webToonInfo = getIntent().getParcelableExtra(Const.EXTRA_EPISODE);
 		initSupportActionBar();
+		getApi();
 		initView();
+		loading();
 	}
 
 	private void initSupportActionBar() {
@@ -222,6 +178,43 @@ public class EpisodesActivity extends AppCompatActivity
 			tvRate.setText(webToonInfo.getRate());
 			tvRate.setVisibility(View.VISIBLE);
 		}
+
+		swipeRefreshWidget.setColorSchemeResources(
+			R.color.color1,
+			R.color.color2,
+			R.color.color3,
+			R.color.color4);
+		swipeRefreshWidget.setOnRefreshListener(this);
+
+		loadDlg = new ProgressDialog(this);
+		loadDlg.setCancelable(false);
+		loadDlg.setMessage("Loading ...");
+		adapter = new ListAdapter(this) {
+			@Override
+			public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
+												 int position) {
+				final ViewHolder vh = super.onCreateViewHolder(viewGroup, position);
+				vh.thumbnailView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Episode item = adapter.getItem(vh.getAdapterPosition());
+						if (item.isLoginNeed()) {
+							Toast.makeText(EpisodesActivity.this,
+										   R.string.msg_not_support,
+										   Toast.LENGTH_SHORT).show();
+						}
+						moveDetailPage(item);
+					}
+				});
+				return vh;
+			}
+		};
+
+		int columnCount = getResources().getInteger(R.integer.episode_column_count);
+		manager = new GridLayoutManager(this, columnCount);
+		recyclerView.setLayoutManager(manager);
+		recyclerView.setAdapter(adapter);
+		recyclerView.setOnScrollListener(scrollListener);
 	}
 
 	private ObjectAnimator statusBarAnimator;
@@ -248,6 +241,7 @@ public class EpisodesActivity extends AppCompatActivity
 
 		getRequestApi()
 			.subscribeOn(Schedulers.newThread())
+			.map(getReadAction())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(getRequestSubscriber());
 	}
@@ -265,18 +259,32 @@ public class EpisodesActivity extends AppCompatActivity
 					if (!TextUtils.isEmpty(nextLink)) {
 						scrollListener.setLoadingMore(false);
 					}
-
-					// Set Readed
-					if (readIdxs != null && !readIdxs.isEmpty() && list != null) {
-						for (Episode items : list) {
-							items.setIsReaded(readIdxs.contains(items.getEpisodeId()));
-						}
-					}
-
 					subscriber.onNext(list);
 					subscriber.onCompleted();
 				}
 			});
+	}
+
+	@NonNull
+	private Func1<List<Episode>, List<Episode>> getReadAction() {
+		return new Func1<List<Episode>, List<Episode>>() {
+			@Override
+			public List<Episode> call(List<Episode> list) {
+				RealmHelper helper = RealmHelper.getInstance();
+				List<REpisode> readList = helper.getEpisode(getBaseContext(),
+														   service,
+														   webToonInfo.getWebtoonId());
+				for (REpisode readItem : readList) {
+					for (Episode episode : list) {
+						if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
+							episode.setIsReaded(true);
+							break;
+						}
+					}
+				}
+				return list;
+			}
+		};
 	}
 
 //	@RxLogSubscriber
@@ -460,7 +468,6 @@ public class EpisodesActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		loadReaded();
 		Glide.with(this).resumeRequests();
 	}
 
@@ -475,47 +482,6 @@ public class EpisodesActivity extends AppCompatActivity
 		super.onPause();
 		Glide.with(this).pauseRequests();
 	}
-
-	private void loadReaded() {
-		if (TextUtils.isEmpty(webToonInfo.getWebtoonId())) {
-			return;
-		}
-
-		mCompositeSubscription.add(
-			InjectDB.getEpisodeInfo(db, serviceName, webToonInfo, onAction));
-		mCompositeSubscription.add(
-			InjectDB.getEpisodeFavorite(db, serviceName, webToonInfo, onFavoriteAction));
-	}
-
-	private Action1<List<String>> onAction
-		= new Action1<List<String>>() {
-		@Override
-		public void call(List<String> strings) {
-			if (readIdxs != null && !readIdxs.isEmpty()) {
-				readIdxs.clear();
-			}
-			readIdxs = strings;
-			if (adapter.getItemCount() == 0) {
-				loading();
-			} else {
-				if (readIdxs != null && !readIdxs.isEmpty()) {
-					for (Episode item : adapter.getList()) {
-						item.setIsReaded(readIdxs.contains(item.getEpisodeId()));
-					}
-				}
-
-				adapter.notifyDataSetChanged();
-			}
-		}
-	};
-
-	private Action1<Boolean> onFavoriteAction
-		= new Action1<Boolean>() {
-		@Override
-		public void call(Boolean aBoolean) {
-			isFavorite = aBoolean;
-		}
-	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -541,15 +507,14 @@ public class EpisodesActivity extends AppCompatActivity
 		switch (item.getItemId()) {
 			case R.id.menu_item_favorite_add:
 				// 즐겨찾기 추가
-				mCompositeSubscription.add(
-					InjectDB.favoriteAdd(db, serviceName, webToonInfo));
+				RealmHelper.getInstance()
+						   .addFavorite(this, service, webToonInfo.getWebtoonId());
 				setFavorite(true);
 				break;
 			case R.id.menu_item_favorite_delete:
 				// 즐겨찾기 삭제
-				InjectDB.favoriteDelete(db,
-										serviceName,
-										webToonInfo);
+				RealmHelper.getInstance()
+						   .removeFavorite(this, service, webToonInfo.getWebtoonId());
 				setFavorite(false);
 				break;
 		}
