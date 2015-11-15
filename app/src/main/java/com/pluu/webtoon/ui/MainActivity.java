@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
 		getSupportFragmentManager()
 			.beginTransaction()
-			.add(R.id.container, new MainFragment(), Const.MAIN_FRAG_TAG)
+			.replace(R.id.container, new MainFragment(), Const.MAIN_FRAG_TAG)
 			.commit();
 	}
 

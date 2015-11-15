@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 /**
  * 에피소드 Item Class
- * Created by anchangbeom on 15. 2. 26..
+ * Created by nohhs on 2015-04-06.
  */
 public class Episode extends WebToonInfo implements Parcelable {
 	private String episodeId;

@@ -8,7 +8,7 @@ import com.pluu.support.impl.AbstractEpisodeApi;
 
 /**
  * Episode Page Info Class
- * Created by anchangbeom on 15. 2. 26..
+ * Created by nohhs on 2015-04-06.
  */
 public class EpisodePage {
 	private final AbstractEpisodeApi api;
