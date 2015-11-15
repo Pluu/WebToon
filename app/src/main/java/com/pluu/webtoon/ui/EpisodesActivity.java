@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -21,14 +20,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,13 +36,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
+import com.pluu.webtoon.adapter.EpisodeAdapter;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.item.Episode;
@@ -86,7 +81,7 @@ public class EpisodesActivity extends AppCompatActivity
 
 	private String nextLink;
 	private ProgressDialog loadDlg;
-	private ListAdapter adapter;
+	private EpisodeAdapter adapter;
 
 	private GridLayoutManager manager;
 	private WebToonInfo webToonInfo;
@@ -104,7 +99,6 @@ public class EpisodesActivity extends AppCompatActivity
 	private boolean isEdit = false;
 	private boolean isFavorite = false;
 	private ServiceConst.NAV_ITEM service;
-	private String serviceName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +130,6 @@ public class EpisodesActivity extends AppCompatActivity
 	private void getApi() {
 		Intent intent = getIntent();
 		service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
-		serviceName = service.name();
 		serviceApi = AbstractEpisodeApi.getApi(service);
 	}
 
@@ -191,7 +184,7 @@ public class EpisodesActivity extends AppCompatActivity
 		loadDlg = new ProgressDialog(this);
 		loadDlg.setCancelable(false);
 		loadDlg.setMessage("Loading ...");
-		adapter = new ListAdapter(this) {
+		adapter = new EpisodeAdapter(this) {
 			@Override
 			public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
 												 int position) {
@@ -297,7 +290,9 @@ public class EpisodesActivity extends AppCompatActivity
 			public void onCompleted() { }
 
 			@Override
-			public void onError(Throwable e) { }
+			public void onError(Throwable e) {
+				loadDlg.dismiss();
+			}
 
 			@Override
 			public void onNext(List<Episode> list) {
@@ -339,94 +334,6 @@ public class EpisodesActivity extends AppCompatActivity
 		loading();
 	}
 
-	public static class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-		private final Context mContext;
-		private final LayoutInflater mInflater;
-		private final List<Episode> list;
-
-		public ListAdapter(Context context) {
-			mContext = context;
-			mInflater = LayoutInflater.from(context);
-			list = new ArrayList<>();
-		}
-
-		public void addItems(List<Episode> list) {
-			this.list.addAll(list);
-		}
-
-		public List<Episode> getList() {
-			return list;
-		}
-
-		public Episode getItem(int position) {
-			return list.get(position);
-		}
-
-		public void clear() {
-			list.clear();
-		}
-
-		@Override
-		public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-			View v = mInflater.inflate(R.layout.layout_episode_list_item, viewGroup, false);
-			return new ViewHolder(v);
-		}
-
-		@Override
-		public void onBindViewHolder(final ViewHolder viewHolder, int i) {
-			Episode item = list.get(i);
-			viewHolder.titleView.setText(item.getEpisodeTitle());
-			Glide.with(mContext)
-				 .load(item.getImage())
-				 .centerCrop()
-				 .error(R.drawable.abc_ic_clear_mtrl_alpha)
-				 .listener(new RequestListener<String, GlideDrawable>() {
-					 @Override
-					 public boolean onException(Exception e, String model,
-												Target<GlideDrawable> target,
-												boolean isFirstResource) {
-						 viewHolder.progress.setVisibility(View.GONE);
-						 return false;
-					 }
-
-					 @Override
-					 public boolean onResourceReady(GlideDrawable resource, String model,
-													Target<GlideDrawable> target,
-													boolean isFromMemoryCache,
-													boolean isFirstResource) {
-						 viewHolder.progress.setVisibility(View.GONE);
-						 return false;
-					 }
-				 })
-				 .into(viewHolder.thumbnailView);
-			viewHolder.readView.setVisibility(item.isReaded() ? View.VISIBLE : View.GONE);
-
-			if (item.isLoginNeed()) {
-				viewHolder.lockView.setImageResource(R.drawable.lock_circle);
-			} else {
-				viewHolder.lockView.setVisibility(View.GONE);
-			}
-		}
-
-		@Override
-		public int getItemCount() {
-			return list != null ? list.size() : 0;
-		}
-
-		public static class ViewHolder extends RecyclerView.ViewHolder {
-			@Bind(R.id.textView) public TextView titleView;
-			@Bind(R.id.imageView) public ImageView thumbnailView;
-			@Bind(R.id.readView) public View readView;
-			@Bind(R.id.lockStatusView) public ImageView lockView;
-			@Bind(R.id.progress) public View progress;
-
-			public ViewHolder(View v) {
-				super(v);
-				ButterKnife.bind(this, v);
-			}
-		}
-	}
-
 	@OnClick(R.id.btnFirst)
 	public void firstViewClick() {
 		Episode item = adapter.getItem(0);
@@ -451,7 +358,7 @@ public class EpisodesActivity extends AppCompatActivity
 		intent.putExtra(Const.EXTRA_EPISODE, item);
 		intent.putExtra(Const.EXTRA_MAIN_COLOR, titleColor);
 		intent.putExtra(Const.EXTRA_STATUS_COLOR, statusColor);
-		startActivity(intent);
+		startActivityForResult(intent, 0);
 	}
 
 	@Override
@@ -468,21 +375,41 @@ public class EpisodesActivity extends AppCompatActivity
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode != RESULT_OK) {
+			return;
+		}
+
+		readUpdate();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		Glide.with(this).resumeRequests();
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		mCompositeSubscription.unsubscribe();
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 		Glide.with(this).pauseRequests();
+	}
+
+	@Override
+	public void finish() {
+		if (isEdit) {
+			Intent intent = new Intent();
+			intent.putExtra(Const.EXTRA_EPISODE, webToonInfo);
+			setResult(RESULT_OK, intent);
+		}
+		super.finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mCompositeSubscription.unsubscribe();
 	}
 
 	@Override
@@ -534,13 +461,41 @@ public class EpisodesActivity extends AppCompatActivity
 					   Toast.LENGTH_SHORT).show();
 	}
 
-	@Override
-	public void finish() {
-		if (isEdit) {
-			Intent intent = new Intent();
-			intent.putExtra(Const.EXTRA_EPISODE, webToonInfo);
-			setResult(RESULT_OK, intent);
-		}
-		super.finish();
+	private void readUpdate() {
+		loadDlg.show();
+		Observable.create(new Observable.OnSubscribe<List<String>>() {
+			@Override
+			public void call(Subscriber<? super List<String>> subscriber) {
+				RealmHelper helper = RealmHelper.getInstance();
+				List<REpisode> list = helper.getEpisode(getBaseContext(),
+														service,
+														webToonInfo.getWebtoonId());
+
+				List<String> result = new ArrayList<>(list.size());
+				for (REpisode item : list) {
+					result.add(item.getEpisodeId());
+				}
+				subscriber.onNext(result);
+				subscriber.onCompleted();
+			}})
+			.subscribeOn(Schedulers.newThread())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(new Subscriber<List<String>>() {
+				@Override
+				public void onCompleted() { }
+
+				@Override
+				public void onError(Throwable e) {
+					loadDlg.dismiss();
+				}
+
+				@Override
+				public void onNext(List<String> list) {
+					adapter.updateRead(list);
+					adapter.notifyDataSetChanged();
+					loadDlg.dismiss();
+				}
+			});
 	}
+
 }

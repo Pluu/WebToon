@@ -8,6 +8,7 @@ import java.util.List;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.db.item.EpisodeItem;
 import com.pluu.webtoon.db.item.FavoriteItem;
+import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.model.REpisode;
 import com.pluu.webtoon.model.RToon;
 import io.realm.Realm;
@@ -92,5 +93,14 @@ public class RealmHelper {
 		realm.commitTransaction();
 	}
 
+	public void readEpisode(Context context, ServiceConst.NAV_ITEM service, Detail item) {
+		Realm realm = Realm.getInstance(context);
+		realm.beginTransaction();
+		REpisode episode = realm.createObject(REpisode.class);
+		episode.setService(service.name());
+		episode.setToonId(item.webtoonId);
+		episode.setEpisodeId(item.episodeId);
+		realm.commitTransaction();
+	}
 
 }

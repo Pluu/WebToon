@@ -40,7 +40,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,15 +49,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.support.impl.ServiceConst;
-import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.db.InjectDB;
+import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
-import com.squareup.sqlbrite.BriteDatabase;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -99,9 +96,6 @@ public class DetailActivity extends AppCompatActivity {
 	private Detail currentItem;
 	private Episode episode;
 
-	@Inject
-	BriteDatabase db;
-
 	private final long DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS);
 
 	@Override
@@ -109,7 +103,6 @@ public class DetailActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
 		ButterKnife.bind(this);
-		AppController.objectGraph(this).inject(this);
 
 		setSupportActionBar(toolbar);
 		initSupportActionBar();
@@ -333,7 +326,7 @@ public class DetailActivity extends AppCompatActivity {
 					return;
 				}
 
-				InjectDB.updateDetail(db, service.name(), item);
+				readAsync(item);
 
 				currentItem = item;
 				tvTitle.setText(item.title);
@@ -342,6 +335,15 @@ public class DetailActivity extends AppCompatActivity {
 				loadWebView(item.list);
 			}
 		};
+	}
+
+	/**
+	 * Read Detail Item
+	 * @param item Item
+	 */
+	private void readAsync(Detail item) {
+		RealmHelper helper = RealmHelper.getInstance();
+		helper.readEpisode(this, service, item);
 	}
 
 	@Override
@@ -498,5 +500,11 @@ public class DetailActivity extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_detail, menu);
 		return true;
+	}
+
+	@Override
+	public void finish() {
+		setResult(RESULT_OK);
+		super.finish();
 	}
 }

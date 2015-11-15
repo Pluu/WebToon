@@ -102,7 +102,9 @@ public class WebtoonListFragment extends Fragment {
 			public void onCompleted() { }
 
 			@Override
-			public void onError(Throwable e) { }
+			public void onError(Throwable e) {
+				OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
+			}
 
 			@Override
 			public void onNext(List<WebToonInfo> list) {
