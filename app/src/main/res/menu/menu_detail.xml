@@ -5,5 +5,5 @@
 		android:id="@+id/menu_item_share"
 		android:icon="@drawable/ic_share_white_36dp"
 		app:showAsAction="ifRoom"
-		android:title="Share" />
+		android:title="@string/label_share" />
 </menu>

@@ -2,9 +2,7 @@ package com.pluu.webtoon.ui;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -28,20 +24,14 @@ import com.pluu.event.OttoBusHolder;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
-import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.db.InjectDB;
-import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.squareup.otto.Subscribe;
-import com.squareup.sqlbrite.BriteDatabase;
-import rx.Subscription;
-import rx.functions.Action1;
 
 /**
+ * Main View Fragment
  * Created by PLUUSYSTEM-NEW on 2015-04-06.
  */
 public class MainFragment extends Fragment {
@@ -53,13 +43,7 @@ public class MainFragment extends Fragment {
 	@Bind(R.id.viewPager)
 	ViewPager viewPager;
 
-	@Inject
-	BriteDatabase db;
-
 	private AbstractWeekApi serviceApi;
-
-	private Subscription subscriptions;
-	private static WebToonInfo selectInfo;
 
 	private boolean isFirstDlg = true;
 	private ProgressDialog loadDlg;
@@ -90,9 +74,8 @@ public class MainFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_toon, null);
+		View view = inflater.inflate(R.layout.fragment_toon, container, false);
 		ButterKnife.bind(this, view);
-		AppController.objectGraph(getActivity()).inject(this);
 
 		loadDlg = new ProgressDialog(getActivity());
 		loadDlg.setCancelable(false);
@@ -109,7 +92,7 @@ public class MainFragment extends Fragment {
 
 		viewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 
-			private SparseArray<WebtoonListFragment> views = new SparseArray<>();
+			private final SparseArray<WebtoonListFragment> views = new SparseArray<>();
 
 			@Override
 			public void destroyItem(ViewGroup container, int position, Object object) {
@@ -177,32 +160,6 @@ public class MainFragment extends Fragment {
 		bg.start();
 
 		slidingTabLayout.setSelectedIndicatorColors(titleColor);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			return;
-		}
-
-		if (subscriptions != null) {
-			subscriptions.unsubscribe();
-		}
-
-		selectInfo = data.getParcelableExtra(Const.EXTRA_EPISODE);
-
-		subscriptions = InjectDB.getEpisodeFavorite(
-			db,
-			serviceApi.getNaviItem().name(),
-			selectInfo,
-			new Action1<Boolean>() {
-				@Override
-				public void call(Boolean aBoolean) {
-					selectInfo.setIsFavorite(aBoolean);
-					OttoBusHolder.get().post(new ListUpdateEvent());
-				}
-			});
 	}
 
 	@Override

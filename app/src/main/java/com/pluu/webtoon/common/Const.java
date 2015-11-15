@@ -12,6 +12,8 @@ public class Const {
 	public static final String EXTRA_MAIN_COLOR = "EXTRA_MAIN_COLOR";
 	public static final String EXTRA_STATUS_COLOR = "EXTRA_STATUS_COLOR";
 
+	public static final String CONFIG_NAME = "service";
+
 	private static final String RATE_FORMAT = "평점 : %.2f";
 
 	public static final String MAIN_FRAG_TAG = "main_frag_tag";

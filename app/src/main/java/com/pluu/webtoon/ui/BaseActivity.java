@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
@@ -28,7 +29,7 @@ import com.pluu.webtoon.common.Const;
  * Base ActionBar Activity
  * Created by nohhs on 2015-04-06.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
 	private final String TAG = BaseActivity.class.getSimpleName();
 
@@ -45,7 +46,7 @@ public class BaseActivity extends AppCompatActivity {
 	private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
 	// list of navdrawer items that were actually added to the navdrawer, in order
-	private ArrayList<NAV_ITEM> mNavDrawerItems = new ArrayList<>();
+	private final List<NAV_ITEM> mNavDrawerItems = new ArrayList<>();
 
 	// views that correspond to each navdrawer item, null if not yet created
 	private View[] mNavDrawerItemViews = null;
@@ -95,17 +96,9 @@ public class BaseActivity extends AppCompatActivity {
 		}
 
 		mDrawerLayout.setStatusBarBackgroundColor(
-			getResources().getColor(R.color.theme_primary_dark));
+			ContextCompat.getColor(this, R.color.theme_primary_dark));
 
 		if (mActionBarToolbar != null) {
-//			mActionBarToolbar.setNavigationIcon(R.drawable.ic_drawer);
-//			mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//				@Override
-//				public void onClick(View view) {
-//					mDrawerLayout.openDrawer(Gravity.START);
-//				}
-//			});
-
 			mDrawerToggle = new ActionBarDrawerToggle(
 				this,                    /* host Activity */
 				mDrawerLayout,                    /* DrawerLayout object */

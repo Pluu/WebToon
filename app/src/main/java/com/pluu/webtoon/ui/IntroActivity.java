@@ -1,7 +1,9 @@
 package com.pluu.webtoon.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -14,6 +16,9 @@ import java.util.concurrent.TimeUnit;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.pluu.webtoon.R;
+import com.pluu.webtoon.common.Const;
+import com.pluu.webtoon.common.PrefConfig;
+import com.pluu.webtoon.db.SqliteToRealm;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,7 +46,7 @@ public class IntroActivity extends Activity {
 	}
 
 	private void initWork() {
-		getIntro()
+		Observable.concat(getSqlite2Realm(), getIntro())
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(getIntroSubscriber());
@@ -53,6 +58,27 @@ public class IntroActivity extends Activity {
 			.empty().delay(1, TimeUnit.SECONDS);
 	}
 
+//	@RxLogObservable
+	private Observable<Object> getSqlite2Realm() {
+		return Observable.create(new Observable.OnSubscribe<Object>() {
+			@Override
+			public void call(Subscriber<? super Object> subscriber) {
+				final String keyMigrate = "MIGRATE";
+
+				Context context = getBaseContext();
+				SharedPreferences pref = PrefConfig.getPreferences(context, Const.CONFIG_NAME);
+				if (!pref.getBoolean(keyMigrate, false)) {
+					SqliteToRealm migrate = new SqliteToRealm();
+					migrate.migrateToon(context);
+					migrate.migrateEpisode(context);
+					migrate.complete(context);
+					pref.edit().putBoolean(keyMigrate, true).apply();
+				}
+				subscriber.onCompleted();
+			}
+		});
+	}
+
 //	@RxLogSubscriber
 	@NonNull
 	private Subscriber<Object> getIntroSubscriber() {
@@ -60,7 +86,7 @@ public class IntroActivity extends Activity {
 			@Override
 			public void onCompleted() {
 				Log.i(TAG, "Login Process Complete");
-				tvMsg.setText("다됐어.. 이제 갈거야...");
+				tvMsg.setText(R.string.msg_intro_complete);
 				progressBar.setVisibility(View.INVISIBLE);
 
 				startActivity(new Intent(IntroActivity.this, MainActivity.class));

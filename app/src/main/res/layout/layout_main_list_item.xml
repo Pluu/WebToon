@@ -43,10 +43,12 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true"
 			android:layout_alignParentTop="true"
 			android:layout_marginLeft="6dp"
+			android:layout_marginStart="6dp"
 			android:orientation="vertical"
-			android:gravity="right">
+			android:gravity="end">
 
 			<TextView
 				android:id="@+id/tvNovel"
@@ -54,7 +56,7 @@
 				android:layout_height="wrap_content"
 				android:background="@drawable/border_gray"
 				android:textColor="@android:color/white"
-				android:text="웹 소설"
+				android:text="@string/label_novel"
 				android:visibility="gone"/>
 
 			<TextView
@@ -63,7 +65,7 @@
 				android:layout_height="wrap_content"
 				android:background="@drawable/border_red"
 				android:textColor="@android:color/white"
-				android:text="UP"
+				android:text="@string/label_up"
 				android:visibility="gone"/>
 
 			<TextView
@@ -72,7 +74,7 @@
 				android:layout_height="wrap_content"
 				android:background="@drawable/border_circle_red"
 				android:textColor="@android:color/white"
-				android:text="19"
+				android:text="@string/label_19"
 				android:visibility="gone"/>
 
 			<TextView
@@ -81,7 +83,7 @@
 				android:layout_height="wrap_content"
 				android:background="@drawable/border_gray"
 				android:textColor="@android:color/white"
-				android:text="휴재"
+				android:text="@string/label_sleep"
 				android:visibility="gone"/>
 		</LinearLayout>
 

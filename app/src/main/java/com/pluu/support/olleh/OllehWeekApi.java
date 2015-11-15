@@ -61,7 +61,7 @@ public class OllehWeekApi extends AbstractWeekApi {
 			WebToonInfo item;
 			JSONObject obj;
 
-			StringBuffer writerBuffer = new StringBuffer();
+			StringBuilder builder = new StringBuilder();
 			String temp;
 			final String optY = "Y";
 			final String optN = "N";
@@ -78,18 +78,18 @@ public class OllehWeekApi extends AbstractWeekApi {
 				item.setTitle(obj.optString("webtoonnm"));
 				item.setImage(obj.optString("newthumbpath"));
 
-				writerBuffer.setLength(0);
-				writerBuffer.append(obj.optString("authornm1"));
+				builder.setLength(0);
+				builder.append(obj.optString("authornm1"));
 
 				temp = obj.optString("authornm2");
 				if (!TextUtils.isEmpty(temp)) {
-					writerBuffer.append(", ").append(temp);
+					builder.append(", ").append(temp);
 				}
 				temp = obj.optString("authornm3");
 				if (!TextUtils.isEmpty(temp)) {
-					writerBuffer.append(", ").append(temp);
+					builder.append(", ").append(temp);
 				}
-				item.setWriter(writerBuffer.toString());
+				item.setWriter(builder.toString());
 				item.setRate(obj.optString("totalstickercnt"));
 				item.setUpdateDate(obj.optString("regdt"));
 				if (optN.equals(obj.optString("endyn", optN))) {

@@ -90,10 +90,9 @@ public abstract class MoreRefreshListener extends RecyclerView.OnScrollListener 
 
 	/**
 	 * Enable/Disable the More event
-	 * @param isLoadingMore true/false
 	 */
-	public void setLoadingMore(boolean isLoadingMore) {
-		this.isLoadingMore = isLoadingMore;
+	public void setLoadingMorePause() {
+		this.isLoadingMore = false;
 	}
 
 	public abstract void onMoreRefresh();
