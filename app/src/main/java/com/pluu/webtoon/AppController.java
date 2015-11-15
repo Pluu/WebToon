@@ -10,13 +10,12 @@ import com.bumptech.glide.load.engine.cache.DiskCache;
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.squareup.leakcanary.RefWatcher;
-import dagger.ObjectGraph;
 
 /**
+ * Application Controller
  * Created by nohhs on 2015-03-17.
  */
 public class AppController extends Application {
-	private ObjectGraph objectGraph;
 
 	private final static int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 	private final static int cacheSize = maxMemory / 8;
@@ -25,7 +24,6 @@ public class AppController extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		objectGraph = ObjectGraph.create(new AppModule(this));
 
 //		refWatcher = LeakCanary.install(this);
 
@@ -39,10 +37,6 @@ public class AppController extends Application {
 					return DiskLruCacheWrapper.get(cacheLocation, DISK_CACHE_SIZE);
 				}
 			});
-	}
-
-	public static ObjectGraph objectGraph(Context context) {
-		return ((AppController) context.getApplicationContext()).objectGraph;
 	}
 
 	public static RefWatcher getRefWatcher(Context context) {

@@ -27,7 +27,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.pluu.event.OttoBusHolder;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
-import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.MainListAdapter;
 import com.pluu.webtoon.common.Const;
@@ -74,11 +73,10 @@ public class WebtoonListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
 							 @Nullable Bundle savedInstanceState) {
-		recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_webtoon_list, null);
+		recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_webtoon_list, container, false);
 		manager = new GridLayoutManager(getActivity(), columnCount);
 		recyclerView.setLayoutManager(manager);
 
-		AppController.objectGraph(getActivity()).inject(this);
 		return recyclerView;
 	}
 

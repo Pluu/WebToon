@@ -38,7 +38,6 @@ import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.support.impl.ServiceConst;
-import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.EpisodeAdapter;
 import com.pluu.webtoon.common.Const;
@@ -105,7 +104,6 @@ public class EpisodesActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_episode);
 		ButterKnife.bind(this);
-		AppController.objectGraph(this).inject(this);
 
 		setSupportActionBar(toolbar);
 
