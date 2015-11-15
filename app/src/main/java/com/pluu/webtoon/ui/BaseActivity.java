@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
@@ -45,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
 	// list of navdrawer items that were actually added to the navdrawer, in order
-	private ArrayList<NAV_ITEM> mNavDrawerItems = new ArrayList<>();
+	private final List<NAV_ITEM> mNavDrawerItems = new ArrayList<>();
 
 	// views that correspond to each navdrawer item, null if not yet created
 	private View[] mNavDrawerItemViews = null;
@@ -95,7 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 		}
 
 		mDrawerLayout.setStatusBarBackgroundColor(
-			getResources().getColor(R.color.theme_primary_dark));
+			ContextCompat.getColor(this, R.color.theme_primary_dark));
 
 		if (mActionBarToolbar != null) {
 			mDrawerToggle = new ActionBarDrawerToggle(

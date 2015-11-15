@@ -25,7 +25,7 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 
 	private final String[] CURRENT_TABS;
 
-	public AbstractWeekApi(String[] tabs) {
+	protected AbstractWeekApi(String[] tabs) {
 		this.CURRENT_TABS = tabs;
 	}
 

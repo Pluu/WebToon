@@ -62,7 +62,6 @@ public class EpisodesActivity extends AppCompatActivity
 	implements SwipeRefreshLayout.OnRefreshListener {
 
 	private final String TAG = EpisodesActivity.class.getSimpleName();
-	private static final String RECYCLER_TAG = "EPISODE_RECYCLER_VIEW";
 
 	@Bind(R.id.swipe_refresh_widget)
 	SwipeRefreshLayout swipeRefreshWidget;
@@ -88,12 +87,10 @@ public class EpisodesActivity extends AppCompatActivity
 
 	private AbstractEpisodeApi serviceApi;
 
-	private CompositeSubscription mCompositeSubscription
+	private final CompositeSubscription mCompositeSubscription
 		= new CompositeSubscription();
 
 	private Episode firstItem;
-
-	private final String LOGIN_DIALOG_TAG = "LoginDialogFragment";
 
 	private boolean isEdit = false;
 	private boolean isFavorite = false;
@@ -250,7 +247,7 @@ public class EpisodesActivity extends AppCompatActivity
 					List<Episode> list = episodePage.getEpisodes();
 					nextLink = episodePage.moreLink();
 					if (!TextUtils.isEmpty(nextLink)) {
-						scrollListener.setLoadingMore(false);
+						scrollListener.setLoadingMorePause();
 					}
 					subscriber.onNext(list);
 					subscriber.onCompleted();
@@ -270,7 +267,7 @@ public class EpisodesActivity extends AppCompatActivity
 				for (REpisode readItem : readList) {
 					for (Episode episode : list) {
 						if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
-							episode.setIsReaded(true);
+							episode.setReadFlag();
 							break;
 						}
 					}

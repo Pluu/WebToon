@@ -37,8 +37,8 @@ public class Episode extends WebToonInfo implements Parcelable {
 		this.episodeTitle = episodeTitle;
 	}
 
-	public void setIsReaded(boolean isReaded) {
-		this.readed = isReaded;
+	public void setReadFlag() {
+		this.readed = true;
 	}
 
 	@Override

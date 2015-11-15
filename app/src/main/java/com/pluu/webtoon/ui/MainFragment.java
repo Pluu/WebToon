@@ -92,7 +92,7 @@ public class MainFragment extends Fragment {
 
 		viewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 
-			private SparseArray<WebtoonListFragment> views = new SparseArray<>();
+			private final SparseArray<WebtoonListFragment> views = new SparseArray<>();
 
 			@Override
 			public void destroyItem(ViewGroup container, int position, Object object) {

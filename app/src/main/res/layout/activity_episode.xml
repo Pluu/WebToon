@@ -32,6 +32,7 @@
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_marginRight="10dp"
+			android:layout_marginEnd="10dp"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:gravity="center_vertical"
@@ -65,15 +66,14 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="첫화보기"
+			android:text="@string/label_first"
 			android:background="@android:color/black"
 			android:drawableLeft="@drawable/ic_looks_one_white_36dp"
+			android:drawableStart="@drawable/ic_looks_one_white_36dp"
 			android:textColor="@android:color/white"
-			android:layout_centerVertical="true"
 			android:paddingLeft="10dp"
 			android:paddingRight="10dp"
 			android:drawablePadding="10dp"
-			android:layout_alignParentRight="true"
 			android:id="@+id/btnFirst"/>
 
 	</LinearLayout>

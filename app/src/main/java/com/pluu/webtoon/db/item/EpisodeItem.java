@@ -15,7 +15,6 @@ public class EpisodeItem implements Parcelable {
 	public static final String WEBTOON = "webtoon";
 	public static final String EPISODE = "episode";
 
-	public long id;
 	public String service;
 	public String webtoon;
 	public String episode;
@@ -25,7 +24,6 @@ public class EpisodeItem implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(this.id);
 		dest.writeString(this.service);
 		dest.writeString(this.webtoon);
 		dest.writeString(this.episode);
@@ -34,7 +32,6 @@ public class EpisodeItem implements Parcelable {
 	public EpisodeItem() {}
 
 	private EpisodeItem(Parcel in) {
-		this.id = in.readLong();
 		this.service = in.readString();
 		this.webtoon = in.readString();
 		this.episode = in.readString();

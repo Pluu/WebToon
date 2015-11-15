@@ -51,9 +51,10 @@
 			android:layout_width="0dp"
 			android:background="@color/theme_primary"
 			android:drawableLeft="@drawable/chevron_left_selector"
+			android:drawableStart="@drawable/chevron_left_selector"
 			android:textColor="@android:color/white"
 			android:layout_height="wrap_content"
-			android:text="이전 화"
+			android:text="@string/label_prev_view"
 			android:layout_weight="1"/>
 
 		<Button
@@ -62,8 +63,9 @@
 			android:layout_width="0dp"
 			android:background="@color/theme_primary"
 			android:drawableRight="@drawable/chevron_right_selector"
+			android:drawableEnd="@drawable/chevron_right_selector"
 			android:textColor="@android:color/white"
-			android:text="다음 화"
+			android:text="@string/label_next_view"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"/>
 	</LinearLayout>

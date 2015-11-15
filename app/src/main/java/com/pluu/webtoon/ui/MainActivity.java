@@ -3,10 +3,7 @@ package com.pluu.webtoon.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.pluu.event.OttoBusHolder;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
@@ -18,9 +15,6 @@ public class MainActivity extends BaseActivity {
 
 	private NAV_ITEM selfDrawerItem;
 
-	@Bind(R.id.toolbar_actionbar)
-	Toolbar toolbar;
-
 	@Override
 	protected NAV_ITEM getSelfNavDrawerItem() {
 		return selfDrawerItem;
@@ -30,7 +24,6 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		ButterKnife.bind(this);
 
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {

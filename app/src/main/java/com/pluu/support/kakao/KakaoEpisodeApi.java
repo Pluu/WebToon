@@ -23,7 +23,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 	private final String FIRST_EPISODE= "http://page.kakao.com/home/%s?categoryUid=10&subCategoryUid=0&navi=1&inkatalk=0";
 	private final String EPISODE_URL = "http://page.kakao.com/home/singlelist?seriesId=%s&offset=%d&navi=1&inkatalk=0";
 
-	private Pattern pattern = Pattern.compile("(?<=productId=)\\d+");
+	private final Pattern pattern = Pattern.compile("(?<=productId=)\\d+");
 	private final int SIZE = 25;
 
 	private String url;
@@ -54,7 +54,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 			}
 		}
 
-		episodePage.episodes = parseList(info, url, doc);
+		episodePage.episodes = parseList(info, doc);
 		if (!episodePage.episodes.isEmpty()) {
 			offset += SIZE;
 			episodePage.nextLink = info.getWebtoonId();
@@ -69,11 +69,10 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		String response = requestApi(builder.build());
 		Document doc = Jsoup.parse(response);
 		String id = doc.select(".firstViewBtn").attr("data-productId");
-		Episode ret= new Episode(info, id);
-		return ret;
+		return new Episode(info, id);
 	}
 
-	private List<Episode> parseList(WebToonInfo info, String url, Document doc) {
+	private List<Episode> parseList(WebToonInfo info, Document doc) {
 		List<Episode> list = new ArrayList<>();
 		Elements links = doc.select("li[class=list viewerList]");
 		Episode item;

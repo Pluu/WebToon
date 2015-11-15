@@ -103,7 +103,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
 		for (String id : readList) {
 			for (Episode item : list) {
 				if (TextUtils.equals(id, item.getEpisodeId())) {
-					item.setIsReaded(true);
+					item.setReadFlag();
 					break;
 				}
 			}

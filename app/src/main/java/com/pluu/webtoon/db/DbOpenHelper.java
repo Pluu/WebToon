@@ -44,13 +44,13 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 		+ FavoriteItem.FAVORITE + " INTEGER NOT NULL"
 		+ ")";
 
-	private String[] FAVORITE_COLUMNS = {
+	private final String[] FAVORITE_COLUMNS = {
 		FavoriteItem.SERVICE,
 		FavoriteItem.WEBTOON,
 		FavoriteItem.FAVORITE
 	};
 
-	private String[] EPISODE_COLUMNS = {
+	private final String[] EPISODE_COLUMNS = {
 		EpisodeItem.SERVICE,
 		EpisodeItem.WEBTOON,
 		EpisodeItem.EPISODE

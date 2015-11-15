@@ -57,7 +57,6 @@ public class KakaoWeekApi extends AbstractWeekApi {
 
 		Document doc = Jsoup.parse(response);
 		Elements links = doc.select(".l_link");
-		WebToonInfo item = null;
 		Pattern pattern = Pattern.compile("(?<=/home/)\\d+");
 		String href;
 
@@ -69,7 +68,7 @@ public class KakaoWeekApi extends AbstractWeekApi {
 				continue;
 			}
 
-			item = new WebToonInfo(matcher.group());
+			WebToonInfo item = new WebToonInfo(matcher.group());
 			item.setTitle(a.select(".title").first().text());
 			item.setImage(a.select(".listImg").first().attr("src"));
 

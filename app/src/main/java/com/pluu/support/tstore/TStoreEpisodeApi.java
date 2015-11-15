@@ -146,8 +146,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 			return null;
 		}
 
-		Episode ret = new Episode(info, matcher2.group());
-		return ret;
+		return new Episode(info, matcher2.group());
 	}
 
 	@Override

@@ -2,28 +2,14 @@
 	  xmlns:app="http://schemas.android.com/apk/res-auto"
 	  xmlns:tools="http://schemas.android.com/tools"
 	  tools:context=".ui.MainActivity">
-	<group>
-		<item
-			android:id="@+id/menu_naver"
-			android:title="Naver"
-			app:showAsAction="never"/>
-		<item
-			android:id="@+id/menu_daum"
-			android:title="Daum"
-			app:showAsAction="never"/>
-		<item
-			android:id="@+id/menu_olleh"
-			android:title="Olleh"
-			app:showAsAction="never"/>
-	</group>
 	<group android:checkableBehavior="single">
 		<item
 			android:id="@+id/menu_view_grid"
-			android:title="Grid"
+			android:title="@string/label_grid"
 			app:showAsAction="never"/>
 		<item
 			android:id="@+id/menu_view_single"
-			android:title="Single"
+			android:title="@string/label_single"
 			android:checked="true"
 			app:showAsAction="never"/>
 	</group>

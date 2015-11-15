@@ -4,9 +4,9 @@
 	<item
 		android:id="@+id/menu_item_favorite_add"
 		app:showAsAction="never"
-		android:title="Favorite Add" />
+		android:title="@string/label_favorite_add" />
 	<item
 		android:id="@+id/menu_item_favorite_delete"
 		app:showAsAction="never"
-		android:title="Favorite Delete" />
+		android:title="@string/label_favorite_delete" />
 </menu>

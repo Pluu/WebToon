@@ -61,7 +61,6 @@ public class NaverWeekApi extends AbstractWeekApi {
 
 		Document doc = Jsoup.parse(response);
 		Elements links = doc.select("#pageList a");
-		WebToonInfo item = null;
 		Pattern pattern = Pattern.compile("(?<=titleId=)\\d+");
 		for (Element a : links) {
 			Matcher matcher = pattern.matcher(a.attr("href"));
@@ -69,7 +68,7 @@ public class NaverWeekApi extends AbstractWeekApi {
 				continue;
 			}
 
-			item = new WebToonInfo(matcher.group());
+			WebToonInfo item = new WebToonInfo(matcher.group());
 			item.setTitle(a.select(".toon_name").text());
 			item.setImage(a.select("img").first().attr("src"));
 

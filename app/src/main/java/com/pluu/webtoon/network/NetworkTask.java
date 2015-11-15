@@ -54,9 +54,7 @@ public class NetworkTask {
 	public String requestApi(Request request) throws Exception {
 		client.interceptors().add(new LoggingInterceptor());
 		Response response = client.newCall(request).execute();
-		String result = response.body().string();
-//		Log.i(Const.LOG_TAG, "Response: " + result);
-		return result;
+		return response.body().string();
 	}
 
 

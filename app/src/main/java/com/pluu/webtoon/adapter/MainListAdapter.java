@@ -1,6 +1,7 @@
 package com.pluu.webtoon.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,7 +39,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 		mInflater = LayoutInflater.from(context);
 		this.list = list;
 
-		filterColor = context.getResources().getColor(R.color.color_accent);
+		filterColor = ContextCompat.getColor(context, R.color.color_accent);
 	}
 
 	@Override
