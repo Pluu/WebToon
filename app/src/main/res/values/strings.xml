@@ -7,8 +7,6 @@
 
     <string name="network_fail">통신에 실패했습니다. 잠시후 다시 시도해주세요.</string>
     <string name="msg_not_support">현재 성인, 과금 관련 메뉴 접근은 지원하지 않습니다.</string>
-    <string name="login_from_service_access">로그인후 사용가능한 메뉴입니다.</string>
-    <string name="login_from_adult_service_access">성인 인증후 사용가능한 메뉴입니다.</string>
 	<string name="title_activity_intro">IntroActivity</string>
 
     <string name="title_naver">Naver</string>

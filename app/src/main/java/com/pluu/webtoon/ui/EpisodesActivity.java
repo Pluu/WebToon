@@ -192,8 +192,9 @@ public class EpisodesActivity extends AppCompatActivity
 							Toast.makeText(EpisodesActivity.this,
 										   R.string.msg_not_support,
 										   Toast.LENGTH_SHORT).show();
+						} else {
+							moveDetailPage(item);
 						}
-						moveDetailPage(item);
 					}
 				});
 				return vh;
