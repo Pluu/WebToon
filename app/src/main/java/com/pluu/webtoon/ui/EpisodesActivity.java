@@ -208,13 +208,13 @@ public class EpisodesActivity extends AppCompatActivity {
 			case R.id.menu_item_favorite_add:
 				// 즐겨찾기 추가
 				RealmHelper.getInstance()
-						   .addFavorite(this, service, webToonInfo.getWebtoonId());
+						   .addFavorite(this, service, webToonInfo.getToonId());
 				setFavorite(true);
 				break;
 			case R.id.menu_item_favorite_delete:
 				// 즐겨찾기 삭제
 				RealmHelper.getInstance()
-						   .removeFavorite(this, service, webToonInfo.getWebtoonId());
+						   .removeFavorite(this, service, webToonInfo.getToonId());
 				setFavorite(false);
 				break;
 		}

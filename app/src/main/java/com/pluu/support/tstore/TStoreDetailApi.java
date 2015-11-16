@@ -33,7 +33,7 @@ public class TStoreDetailApi extends AbstractDetailApi {
 		this.id = episode.getEpisodeId();
 
 		Detail ret = new Detail();
-		ret.webtoonId = episode.getWebtoonId();
+		ret.webtoonId = episode.getToonId();
 		String response;
 		try {
 			response = requestApi();
@@ -69,13 +69,13 @@ public class TStoreDetailApi extends AbstractDetailApi {
 		List<DetailView> list = new ArrayList<>();
 		Elements scripts = doc.select("script[type=text/javascript]");
 		String html;
+		Pattern urlPattern = Pattern.compile("(?<=FILE_POS = \\\").+(?=\\\";)");
+		Pattern endPattern = Pattern.compile("(?<=bookPages = Number\\(\\\")\\d+(?=\\\"\\))");
+
 		for (Element script : scripts) {
 			html = script.html();
 			if (html.contains("bookPages")) {
 				html = html.replace("\r\n", "");
-
-				Pattern urlPattern = Pattern.compile("(?<=FILE_POS = \\\").+(?=\\\";)");
-				Pattern endPattern = Pattern.compile("(?<=bookPages = Number\\(\\\")\\d+(?=\\\"\\))");
 
 				Matcher urlMatcher = urlPattern.matcher(html);
 				Matcher endMatcher = endPattern.matcher(html);

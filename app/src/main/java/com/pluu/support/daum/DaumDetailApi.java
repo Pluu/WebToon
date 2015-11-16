@@ -29,7 +29,7 @@ public class DaumDetailApi extends AbstractDetailApi {
 		this.id = episode.getEpisodeId();
 
 		Detail ret = new Detail();
-		ret.webtoonId = episode.getWebtoonId();
+		ret.webtoonId = episode.getToonId();
 
 		List<DetailView> list = new ArrayList<>();
 		try {

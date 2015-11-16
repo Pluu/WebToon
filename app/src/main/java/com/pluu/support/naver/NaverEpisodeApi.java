@@ -27,7 +27,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		webToonId = info.getWebtoonId();
+		webToonId = info.getToonId();
 
 		EpisodePage episodePage = new EpisodePage(this);
 
@@ -104,7 +104,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	public Episode getFirstEpisode(Episode item) {
 		Episode ret;
 		try {
-			ret = item.clone();
+			ret = new Episode(item);
 			ret.setEpisodeId("1");
 		} catch (Exception e) {
 			e.printStackTrace();

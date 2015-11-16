@@ -133,7 +133,7 @@ public class WebtoonListFragment extends Fragment {
 				RealmHelper helper = RealmHelper.getInstance();
 				for (final WebToonInfo item : list) {
 					item.setIsFavorite(
-						helper.getFavoriteToon(getContext(), serviceApi.getNaviItem(), item.getWebtoonId())
+						helper.getFavoriteToon(getContext(), serviceApi.getNaviItem(), item.getToonId())
 					);
 				}
 				return list;

@@ -38,13 +38,13 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		this.id = info.getWebtoonId();
+		this.id = info.getToonId();
 
 		EpisodePage episodePage = new EpisodePage(this);
 
 		try {
 			if (pageNo > 0) {
-				JSONObject subJson = getMoreJson(info.getWebtoonId(), pageNo);
+				JSONObject subJson = getMoreJson(info.getToonId(), pageNo);
 				episodePage.episodes = parseList(info, subJson.optJSONArray("webtoonList"));
 				pageNo++;
 			} else {
@@ -56,7 +56,7 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 			}
 
 			if (!episodePage.episodes.isEmpty()) {
-				episodePage.nextLink = info.getWebtoonId();
+				episodePage.nextLink = info.getToonId();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

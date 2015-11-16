@@ -24,11 +24,11 @@ public class NateDetailApi extends AbstractDetailApi {
 
 	@Override
 	public Detail parseDetail(Episode episode) {
-		this.webToonId = episode.getWebtoonId();
+		this.webToonId = episode.getToonId();
 		this.episodeId = episode.getEpisodeId();
 
 		Detail ret = new Detail();
-		ret.webtoonId = episode.getWebtoonId();
+		ret.webtoonId = webToonId;
 
 		String response;
 		try {
@@ -67,7 +67,7 @@ public class NateDetailApi extends AbstractDetailApi {
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
 		ShareItem item = new ShareItem();
 		item.title = episode.getTitle() + " / " + detail.title;
-		item.url = String.format(DETAIL_URL, episode.getWebtoonId(), episode.getEpisodeId());
+		item.url = String.format(DETAIL_URL, episode.getToonId(), episode.getEpisodeId());
 		return item;
 	}
 

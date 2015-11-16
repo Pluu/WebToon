@@ -31,11 +31,11 @@ public class OllehDetailApi extends AbstractDetailApi {
 
 	@Override
 	public Detail parseDetail(Episode episode) {
-		this.wettonId = episode.getWebtoonId();
+		this.wettonId = episode.getToonId();
 		this.timesseq = episode.getEpisodeId();
 
 		Detail ret = new Detail();
-		ret.webtoonId = episode.getWebtoonId();
+		ret.webtoonId = wettonId;
 
 		JSONObject obj;
 		try {

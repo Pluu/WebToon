@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -74,13 +73,12 @@ public class IntroActivity extends Activity {
 					migrate.complete(context);
 					pref.edit().putBoolean(keyMigrate, true).apply();
 				}
+				subscriber.onNext(null);
 				subscriber.onCompleted();
 			}
 		});
 	}
 
-//	@RxLogSubscriber
-	@NonNull
 	private Subscriber<Object> getIntroSubscriber() {
 		return new Subscriber<Object>() {
 			@Override

@@ -30,7 +30,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		this.name = info.getWebtoonId();
+		this.name = info.getTitle();
 		EpisodePage episodePage = new EpisodePage(this);
 
 		String response;
@@ -45,7 +45,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 			}
 			JSONObject page = json.optJSONObject("page");
 
-			String nick = info.getWebtoonId();
+			String nick = info.getToonId();
 			if (episodePage.episodes != null && !episodePage.episodes.isEmpty()) {
 				episodePage.nextLink = parsePage(page, nick);
 			}
@@ -81,7 +81,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 				item.setEpisodeTitle(obj.optString("title"));
 				item.setImage(obj.optJSONObject("thumbnailImage").optString("url"));
 				item.setRate(obj.optJSONObject("voteTarget").optString("voteTotalScore"));
-				item.setIsLoginNeed(obj.optInt("price", 0) > 0);
+				item.setLoginNeed(obj.optInt("price", 0) > 0);
 				item.setUpdateDate(obj.optString("dateCreated"));
 				list.add(item);
 			}
@@ -115,7 +115,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 		Episode ret = null;
 		try {
 			String id = String.valueOf(firstEpisodeId);
-			ret = item.clone();
+			ret = new Episode(item);
 			ret.setEpisodeId(id);
 		} catch (Exception e) {
 			e.printStackTrace();

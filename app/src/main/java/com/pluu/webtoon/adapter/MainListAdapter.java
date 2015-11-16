@@ -103,7 +103,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 		viewHolder.favorite.setVisibility(item.isFavorite() ? View.VISIBLE : View.GONE);
 
 		if (selectInfo != null &&
-			selectInfo.getWebtoonId().equals(item.getWebtoonId())) {
+			selectInfo.getToonId().equals(item.getToonId())) {
 			viewHolder.favorite.setVisibility(selectInfo.isFavorite() ? View.VISIBLE : View.GONE);
 		}
 	}
@@ -119,7 +119,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 
 	public void modifyInfo(WebToonInfo info) {
 		for (WebToonInfo item : list) {
-			if (TextUtils.equals(info.getWebtoonId(), item.getWebtoonId())) {
+			if (TextUtils.equals(info.getToonId(), item.getToonId())) {
 				item.setIsFavorite(info.isFavorite());
 				break;
 			}

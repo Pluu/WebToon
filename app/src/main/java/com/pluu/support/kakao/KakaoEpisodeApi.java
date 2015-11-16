@@ -32,7 +32,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		this.url = String.format(EPISODE_URL, info.getWebtoonId(), offset);
+		this.url = String.format(EPISODE_URL, info.getToonId(), offset);
 
 		EpisodePage episodePage = new EpisodePage(this);
 
@@ -57,7 +57,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 		episodePage.episodes = parseList(info, doc);
 		if (!episodePage.episodes.isEmpty()) {
 			offset += SIZE;
-			episodePage.nextLink = info.getWebtoonId();
+			episodePage.nextLink = info.getToonId();
 		}
 
 		return episodePage;
@@ -65,7 +65,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
 	private Episode getFirstItem(WebToonInfo info) throws Exception {
 		Request.Builder builder = new Request.Builder()
-			.url(String.format(FIRST_EPISODE, info.getWebtoonId()));
+			.url(String.format(FIRST_EPISODE, info.getToonId()));
 		String response = requestApi(builder.build());
 		Document doc = Jsoup.parse(response);
 		String id = doc.select(".firstViewBtn").attr("data-productId");

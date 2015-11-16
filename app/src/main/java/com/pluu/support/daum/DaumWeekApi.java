@@ -17,6 +17,7 @@ import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
+import com.pluu.webtoon.item.BaseToonInfo;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
 
@@ -57,7 +58,6 @@ public class DaumWeekApi extends AbstractWeekApi {
 			JSONArray array = new JSONObject(response)
 				.optJSONObject("data").optJSONArray("webtoons");
 			if (array != null && array.length() > 0) {
-				WebToonInfo item;
 				JSONObject obj, lastObj;
 				String emptyAverageScore = "0.0";
 				String today = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
@@ -65,8 +65,10 @@ public class DaumWeekApi extends AbstractWeekApi {
 				for (int i = 0; i < array.length(); i++) {
 					obj = array.optJSONObject(i);
 
-					item = new WebToonInfo(obj.optString("nickname"));
-					item.setTitle(obj.optString("title"));
+					BaseToonInfo baseInfo = new BaseToonInfo(obj.optString("nickname"));
+					baseInfo.setTitle(obj.optString("title"));
+
+					WebToonInfo item = new WebToonInfo(baseInfo);
 					lastObj = obj.optJSONObject("latestWebtoonEpisode");
 					item.setImage(lastObj.optJSONObject("thumbnailImage").optString("url"));
 

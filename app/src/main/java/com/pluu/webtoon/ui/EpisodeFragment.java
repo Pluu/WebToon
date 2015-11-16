@@ -127,7 +127,7 @@ public class EpisodeFragment extends Fragment
 					@Override
 					public void onClick(View v) {
 						Episode item = adapter.getItem(vh.getAdapterPosition());
-						if (item.isLoginNeed()) {
+						if (item.isLock()) {
 							Toast.makeText(getContext(),
 										   R.string.msg_not_support,
 										   Toast.LENGTH_SHORT).show();
@@ -220,7 +220,7 @@ public class EpisodeFragment extends Fragment
 			.create(new Observable.OnSubscribe<List<Episode>>() {
 				@Override
 				public void call(Subscriber<? super List<Episode>> subscriber) {
-					Log.i(TAG, "Load Episode=" + webToonInfo.getWebtoonId());
+					Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
 					EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
 					List<Episode> list = episodePage.getEpisodes();
 					nextLink = episodePage.moreLink();
@@ -240,7 +240,7 @@ public class EpisodeFragment extends Fragment
 			public void call(Subscriber<? super List<REpisode>> subscriber) {
 				RealmHelper helper = RealmHelper.getInstance();
 				List<REpisode> list = helper.getEpisode(getContext(),
-														service, webToonInfo.getWebtoonId());
+														service, webToonInfo.getToonId());
 				subscriber.onNext(list);
 				subscriber.onCompleted();
 			}
@@ -265,7 +265,6 @@ public class EpisodeFragment extends Fragment
 		};
 	}
 
-//	@RxLogSubscriber
 	@NonNull
 	private Subscriber<List<Episode>> getRequestSubscriber() {
 		return new Subscriber<List<Episode>>() {
@@ -333,7 +332,7 @@ public class EpisodeFragment extends Fragment
 	@Subscribe
 	public void firstItemSelect(FirstItemSelectEvent event) {
 		Episode item = adapter.getItem(0);
-		if (item.isLoginNeed()) {
+		if (item.isLock()) {
 			Toast.makeText(getContext(), R.string.msg_not_support, Toast.LENGTH_SHORT).show();
 			return;
 		}

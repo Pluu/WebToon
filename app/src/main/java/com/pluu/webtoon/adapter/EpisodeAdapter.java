@@ -85,9 +85,9 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
 				 }
 			 })
 			 .into(viewHolder.thumbnailView);
-		viewHolder.readView.setVisibility(item.isReaded() ? View.VISIBLE : View.GONE);
+		viewHolder.readView.setVisibility(item.isReadFlag() ? View.VISIBLE : View.GONE);
 
-		if (item.isLoginNeed()) {
+		if (item.isLock()) {
 			viewHolder.lockView.setImageResource(R.drawable.lock_circle);
 		} else {
 			viewHolder.lockView.setVisibility(View.GONE);

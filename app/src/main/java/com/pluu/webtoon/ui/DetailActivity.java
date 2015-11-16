@@ -265,7 +265,7 @@ public class DetailActivity extends AppCompatActivity {
 	}
 
 	private void loading(Episode item) {
-		Log.i(TAG, "Load Detail: " + item.getWebtoonId() + ", " + item.getEpisodeId());
+		Log.i(TAG, "Load Detail: " + item.getToonId() + ", " + item.getEpisodeId());
 		if (currentItem != null) {
 			currentItem.prevLink = currentItem.nextLink = null;
 		}

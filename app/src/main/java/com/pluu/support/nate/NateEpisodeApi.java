@@ -39,9 +39,9 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 		boolean isMorePage = pageNo > 1;
 
 		if (isMorePage) {
-			this.url = String.format(MORE_EPISODE_URL, info.getWebtoonId(), pageNo);
+			this.url = String.format(MORE_EPISODE_URL, info.getToonId(), pageNo);
 		} else {
-			this.url = String.format(EPISODE_URL, info.getWebtoonId());
+			this.url = String.format(EPISODE_URL, info.getToonId());
 		}
 
 		EpisodePage episodePage = new EpisodePage(this);
@@ -72,7 +72,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 			}
 
 			if (!episodePage.episodes.isEmpty()) {
-				episodePage.nextLink = info.getWebtoonId();
+				episodePage.nextLink = info.getToonId();
 			}
 
 			pageNo++;

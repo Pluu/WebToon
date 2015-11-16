@@ -7,14 +7,21 @@ import android.os.Parcelable;
  * 에피소드 Item Class
  * Created by nohhs on 2015-04-06.
  */
-public class Episode extends WebToonInfo implements Parcelable {
+public class Episode extends BaseToonInfo implements Parcelable {
 	private String episodeId;
 	private String episodeTitle;
-	private boolean readed;
+	private boolean readFlag;
 
-	public Episode(WebToonInfo info, String episodeId) {
+	public Episode(BaseToonInfo info, String episodeId) {
 		super(info);
 		this.episodeId = episodeId;
+	}
+
+	public Episode(Episode item) {
+		super(item);
+		this.episodeId = item.episodeId;
+		this.episodeTitle = item.episodeTitle;
+		this.readFlag = item.readFlag;
 	}
 
 	public String getEpisodeId() {
@@ -25,8 +32,8 @@ public class Episode extends WebToonInfo implements Parcelable {
 		return episodeTitle;
 	}
 
-	public boolean isReaded() {
-		return readed;
+	public boolean isReadFlag() {
+		return readFlag;
 	}
 
 	public void setEpisodeId(String episodeId) {
@@ -38,19 +45,7 @@ public class Episode extends WebToonInfo implements Parcelable {
 	}
 
 	public void setReadFlag() {
-		this.readed = true;
-	}
-
-	@Override
-	public Episode clone() throws CloneNotSupportedException {
-		return new Episode(this);
-	}
-
-	public Episode(Episode item) {
-		super(item);
-		this.episodeId = item.episodeId;
-		this.episodeTitle = item.episodeTitle;
-		this.readed = item.readed;
+		this.readFlag = true;
 	}
 
 	@Override
@@ -61,14 +56,14 @@ public class Episode extends WebToonInfo implements Parcelable {
 		super.writeToParcel(dest, flags);
 		dest.writeString(this.episodeId);
 		dest.writeString(this.episodeTitle);
-		dest.writeByte(readed ? (byte) 1 : (byte) 0);
+		dest.writeByte(readFlag ? (byte) 1 : (byte) 0);
 	}
 
 	private Episode(Parcel in) {
 		super(in);
 		this.episodeId = in.readString();
 		this.episodeTitle = in.readString();
-		this.readed = in.readByte() != 0;
+		this.readFlag = in.readByte() != 0;
 	}
 
 	public static final Creator<Episode> CREATOR = new Creator<Episode>() {

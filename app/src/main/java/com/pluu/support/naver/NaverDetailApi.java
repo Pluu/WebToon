@@ -34,11 +34,11 @@ public class NaverDetailApi extends AbstractDetailApi {
 
 	@Override
 	public Detail parseDetail(Episode episode) {
-		this.webToonId = episode.getWebtoonId();
+		this.webToonId = episode.getToonId();
 		this.episodeId = episode.getEpisodeId();
 
 		Detail ret = new Detail();
-		ret.webtoonId = episode.getWebtoonId();
+		ret.webtoonId = webToonId;
 		ret.episodeId = episodeId;
 
 		String response;

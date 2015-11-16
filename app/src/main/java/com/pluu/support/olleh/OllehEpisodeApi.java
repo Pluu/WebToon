@@ -33,7 +33,7 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		id = info.getWebtoonId();
+		id = info.getToonId();
 
 		EpisodePage episodePage = new EpisodePage(this);
 
