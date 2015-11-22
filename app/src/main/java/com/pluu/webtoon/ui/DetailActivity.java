@@ -97,6 +97,7 @@ public class DetailActivity extends AppCompatActivity {
 	private Episode episode;
 
 	private final long DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS);
+	private boolean loadingFlag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,22 @@ public class DetailActivity extends AppCompatActivity {
 		getApi();
 		initView();
 		initWebViewSetting();
-		initLoad();
+
+		loadingFlag = false;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (!loadingFlag) {
+			loading(episode);
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		loadingFlag = true;
 	}
 
 	private void initSupportActionBar() {
@@ -258,10 +274,6 @@ public class DetailActivity extends AppCompatActivity {
 		};
 
 		return new ColorStateList(state, colors);
-	}
-
-	private void initLoad() {
-		loading(episode);
 	}
 
 	private void loading(Episode item) {
@@ -426,6 +438,7 @@ public class DetailActivity extends AppCompatActivity {
 			return;
 		}
 		episode.setEpisodeId(link);
+		loadingFlag = false;
 		loading(episode);
 	}
 
