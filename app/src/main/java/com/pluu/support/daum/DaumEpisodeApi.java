@@ -30,7 +30,7 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		this.name = info.getTitle();
+		this.name = info.getToonId();
 		EpisodePage episodePage = new EpisodePage(this);
 
 		String response;

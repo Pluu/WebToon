@@ -1,22 +1,16 @@
 package com.pluu.webtoon.ui;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +26,7 @@ import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.FirstItemSelectEvent;
 import com.pluu.webtoon.event.ReadUpdateEvent;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.utils.DisplayUtils;
 
 /**
  * 에피소드 리스트 Activity
@@ -100,11 +95,7 @@ public class EpisodesActivity extends AppCompatActivity {
 			}
 		}
 
-		TypedValue value = new TypedValue();
-		getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
-
-		ValueAnimator bg = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
-		bg.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+		ValueAnimator.AnimatorUpdateListener listener = new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animation) {
 				Integer value = (Integer) animation.getAnimatedValue();
@@ -116,13 +107,14 @@ public class EpisodesActivity extends AppCompatActivity {
 
 				tvName.setTextColor(value);
 				tvRate.setTextColor(value);
-			}
-		});
-		bg.setDuration(2000L);
-		bg.setInterpolator(new DecelerateInterpolator());
-		bg.start();
 
-		changeStatusBar();
+				DisplayUtils.setStatusBarColor(EpisodesActivity.this, value);
+			}
+		};
+
+		ValueAnimator animator = DisplayUtils.animatorToolbarColor(this, titleColor, listener);
+		animator.setDuration(1000L);
+		animator.start();
 
 		tvName.setText(webToonInfo.getWriter());
 		if (!TextUtils.isEmpty(webToonInfo.getRate())) {
@@ -140,23 +132,6 @@ public class EpisodesActivity extends AppCompatActivity {
 			.beginTransaction()
 			.replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)
 			.commit();
-	}
-
-	private ObjectAnimator statusBarAnimator;
-
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	private void changeStatusBar() {
-		if (statusBarAnimator != null) {
-			statusBarAnimator.cancel();
-		}
-		ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-		TypedValue resValue = new TypedValue();
-		getTheme().resolveAttribute(R.attr.colorPrimaryDark, resValue, true);
-		statusBarAnimator = ObjectAnimator.ofInt(getWindow(), "statusBarColor", resValue.data,
-												 statusColor);
-		statusBarAnimator.setDuration(250L);
-		statusBarAnimator.setEvaluator(argbEvaluator);
-		statusBarAnimator.start();
 	}
 
 	@OnClick(R.id.btnFirst)

@@ -42,6 +42,11 @@ public class KakaoWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
+	protected int getMainTitleColorDark() {
+		return R.color.kakao_color_dark;
+	}
+
+	@Override
 	public List<WebToonInfo> parseMain(int position) {
 		this.currentPos = position;
 

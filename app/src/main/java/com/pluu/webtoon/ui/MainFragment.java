@@ -1,20 +1,19 @@
 package com.pluu.webtoon.ui;
 
-import android.animation.ArgbEvaluator;
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,6 +27,8 @@ import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
+import com.pluu.webtoon.event.ThemeEvent;
+import com.pluu.webtoon.utils.DisplayUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -137,29 +138,26 @@ public class MainFragment extends Fragment {
 	}
 
 	private void setServiceTheme(AbstractWeekApi serviceApi) {
-		TypedValue value = new TypedValue();
-		getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
+		int color = serviceApi.getTitleColor(getContext());
+		int colorDark = serviceApi.getTitleColorDark(getContext());
+		FragmentActivity activity = getActivity();
 
-		int titleColor = serviceApi.getTitleColor(getActivity());
-		ValueAnimator bg = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
-		bg.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				Integer value = (Integer) animation.getAnimatedValue();
-				MainActivity activity = (MainActivity) getActivity();
-				if (activity != null) {
-					Toolbar toolbar = activity.getActionBarToolbar();
-					if (toolbar != null) {
-						toolbar.setBackgroundColor(value);
-					}
-				}
-			}
-		});
-		bg.setDuration(2000L);
-		bg.setInterpolator(new DecelerateInterpolator());
-		bg.start();
+		if (activity instanceof AppCompatActivity) {
+			ValueAnimator animator1
+				= DisplayUtils.animatorToolbarColor((AppCompatActivity) activity, color);
 
-		slidingTabLayout.setSelectedIndicatorColors(titleColor);
+			ValueAnimator animator2 = DisplayUtils
+				.animatorStatusBarColor(activity,
+										colorDark);
+
+			AnimatorSet set = new AnimatorSet();
+			set.playTogether(animator1, animator2);
+			set.setDuration(250L);
+			set.start();
+		}
+
+		((OttoBusHolder) OttoBusHolder.get()).postQueue(new ThemeEvent(color, colorDark));
+		slidingTabLayout.setSelectedIndicatorColors(color);
 	}
 
 	@Override

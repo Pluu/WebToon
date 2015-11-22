@@ -38,6 +38,11 @@ public class NateWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
+	protected int getMainTitleColorDark() {
+		return R.color.nate_color_dark;
+	}
+
+	@Override
 	public List<WebToonInfo> parseMain(int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 

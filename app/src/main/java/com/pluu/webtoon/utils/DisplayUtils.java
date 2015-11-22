@@ -2,7 +2,6 @@ package com.pluu.webtoon.utils;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -21,22 +20,23 @@ import com.pluu.webtoon.R;
  */
 public class DisplayUtils {
 
-	public static ValueAnimator createToolbarColorAnimator(final AppCompatActivity activity, int color) {
-		return createToolbarColorAnimator(activity, color,
-				  new ValueAnimator.AnimatorUpdateListener() {
-					  @Override
-					  public void onAnimationUpdate(ValueAnimator animation) {
-						  Integer value = (Integer) animation.getAnimatedValue();
-						  ActionBar actionBar = activity.getSupportActionBar();
-						  if (actionBar != null) {
-							  actionBar.setBackgroundDrawable(new ColorDrawable(value));
-						  }
-					  }
-				  });
+	public static ValueAnimator animatorToolbarColor(final AppCompatActivity activity, int color) {
+		return animatorToolbarColor(activity, color,
+									new ValueAnimator.AnimatorUpdateListener() {
+										@Override
+										public void onAnimationUpdate(ValueAnimator animation) {
+											Integer value = (Integer) animation.getAnimatedValue();
+											ActionBar actionBar = activity.getSupportActionBar();
+											if (actionBar != null) {
+												actionBar.setBackgroundDrawable(
+													new ColorDrawable(value));
+											}
+										}
+									});
 	}
 
-	public static ValueAnimator createToolbarColorAnimator(final AppCompatActivity activity, int color,
-													  ValueAnimator.AnimatorUpdateListener listener) {
+	public static ValueAnimator animatorToolbarColor(final AppCompatActivity activity, int color,
+													 ValueAnimator.AnimatorUpdateListener listener) {
 		TypedValue value = new TypedValue();
 		activity.getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
 
@@ -44,7 +44,6 @@ public class DisplayUtils {
 		if (listener != null) {
 			animator.addUpdateListener(listener);
 		}
-		animator.setDuration(2000L);
 		animator.setInterpolator(new DecelerateInterpolator());
 		return animator;
 	}
@@ -58,8 +57,7 @@ public class DisplayUtils {
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public static ValueAnimator createStatusBarColorAnimator(final Activity activity, int color) {
+	public static ValueAnimator animatorStatusBarColor(final Activity activity, int color) {
 		TypedValue value = new TypedValue();
 		activity.getTheme().resolveAttribute(R.attr.colorPrimaryDark, value, true);
 
@@ -67,14 +65,9 @@ public class DisplayUtils {
 		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animation) {
-				Integer value = (Integer) animation.getAnimatedValue();
-				Window window = activity.getWindow();
-				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-				window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-				window.setStatusBarColor(value);
+				setStatusBarColor(activity, (Integer) animation.getAnimatedValue());
 			}
 		});
-		animator.setDuration(2000L);
 		animator.setInterpolator(new DecelerateInterpolator());
 		return animator;
 	}

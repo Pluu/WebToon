@@ -11,6 +11,7 @@
 	tools:context=".NavigationDrawerFragment">
 
 	<FrameLayout
+		android:id="@+id/navTitle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@color/theme_primary">

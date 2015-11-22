@@ -43,6 +43,11 @@ public class TStorerWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
+	protected int getMainTitleColorDark() {
+		return R.color.t_store_color_dark;
+	}
+
+	@Override
 	public List<WebToonInfo> parseMain(int position) {
 		this.currentPos = position;
 

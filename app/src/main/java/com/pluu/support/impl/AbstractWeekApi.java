@@ -37,6 +37,12 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 
 	protected abstract int getMainTitleColor();
 
+	public int getTitleColorDark(Context context) {
+		return ContextCompat.getColor(context, getMainTitleColorDark());
+	}
+
+	protected abstract int getMainTitleColorDark();
+
 	public int getWeeklyTabSize() {
 		return CURRENT_TABS.length;
 	}
