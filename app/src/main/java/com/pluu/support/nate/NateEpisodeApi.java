@@ -25,7 +25,7 @@ import org.jsoup.select.Elements;
 public class NateEpisodeApi extends AbstractEpisodeApi {
 
 	private final String EPISODE_URL = "http://m.comics.nate.com/main/info?btno=%s&order=up";
-	private final String MORE_EPISODE_URL = "http://m.comics.nate.com/rest/infoList?btno=%s&page=%d";
+	private final String MORE_EPISODE_URL = "http://m.comics.nate.com/main2/webtoon/WebtoonInfoMore.php?btno=%s&page=%d";
 
 	private final Pattern EPISODE_ID_PATTERN = Pattern.compile("(?<=bsno=)\\d+");
 
@@ -36,7 +36,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		boolean isMorePage = pageNo > 1;
+		boolean isMorePage = pageNo > 0;
 
 		if (isMorePage) {
 			this.url = String.format(MORE_EPISODE_URL, info.getToonId(), pageNo);
@@ -61,7 +61,7 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 				episodePage.episodes = parseList(info, new JSONArray(response));
 			} else {
 				if (firstEpisode == null) {
-					String href = doc.select(".btn_1stEpisode").first().attr("href");
+					String href = doc.select(".tp").first().attr("href");
 					Matcher matcher = EPISODE_ID_PATTERN.matcher(href);
 					if (matcher.find()) {
 						firstEpisode = new Episode(info, matcher.group());
@@ -123,9 +123,9 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 		for (int i = 0; i < array.length(); i++) {
 			obj = array.optJSONObject(i);
 			item = new Episode(info, obj.optString("bsno"));
-			item.setImage(obj.optString("thumb_app"));
+			item.setImage(obj.optString("thumb"));
 			item.setEpisodeTitle(obj.optString("volume_txt") + " " + obj.optString("sub_title"));
-			item.setUpdateDate(obj.optString("date_write"));
+			item.setUpdateDate(obj.optString("last_update"));
 			list.add(item);
 		}
 

@@ -19,7 +19,7 @@ import org.jsoup.select.Elements;
  */
 public class NateDetailApi extends AbstractDetailApi {
 
-	private final String DETAIL_URL = "http://m.comics.nate.com/view/show?btno=%s&bsno=%s&order=up";
+	private final String DETAIL_URL = "http://m.comics.nate.com/main2/webtoon/WebtoonView.php?btno=%s&bsno=%s";
 	private String webToonId, episodeId;
 
 	@Override
@@ -54,7 +54,7 @@ public class NateDetailApi extends AbstractDetailApi {
 		}
 
 		List<DetailView> list = new ArrayList<>();
-		Elements elements = doc.select(".fview");
+		Elements elements = doc.select(".toonView img");
 		for (Element img : elements) {
 			list.add(DetailView.createImage(img.attr("src")));
 		}
