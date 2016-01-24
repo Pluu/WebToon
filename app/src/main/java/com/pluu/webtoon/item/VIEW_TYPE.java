@@ -5,5 +5,10 @@ package com.pluu.webtoon.item;
  */
 public enum VIEW_TYPE {
 	IMAGE,
-	TEXT
+	TEXT,
+	CHAT_NOTICE,
+	CHAT_NOTICE_IMAGE,
+	CHAT_LEFT,
+	CHAT_RIGHT,
+	CHAT_EMPTY
 }

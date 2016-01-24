@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -21,6 +22,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -31,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -40,6 +44,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pluu.support.impl.AbstractDetailApi;
+import com.pluu.support.impl.ServiceConst;
+import com.pluu.webtoon.R;
+import com.pluu.webtoon.adapter.DetailChatAdapter;
+import com.pluu.webtoon.common.Const;
+import com.pluu.webtoon.db.RealmHelper;
+import com.pluu.webtoon.item.Detail;
+import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.Episode;
+import com.pluu.webtoon.item.ShareItem;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,15 +62,6 @@ import java.util.concurrent.TimeUnit;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.support.impl.ServiceConst;
-import com.pluu.webtoon.R;
-import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.db.RealmHelper;
-import com.pluu.webtoon.item.Detail;
-import com.pluu.webtoon.item.DetailView;
-import com.pluu.webtoon.item.Episode;
-import com.pluu.webtoon.item.ShareItem;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -66,458 +72,510 @@ import rx.schedulers.Schedulers;
  * Created by nohhs on 15. 3. 2.
  */
 public class DetailActivity extends AppCompatActivity {
-	private final String TAG = DetailActivity.class.getSimpleName();
+    private final String TAG = DetailActivity.class.getSimpleName();
 
-	@Bind(R.id.webview)
-	WebView webview;
-	@Bind(R.id.toolbar_actionbar)
-	Toolbar toolbar;
-	@Bind(R.id.btnPrev)
-	Button btnPrev;
-	@Bind(R.id.btnNext)
-	Button btnNext;
-	@Bind(R.id.tvTitle)
-	TextView tvTitle;
-	@Bind(R.id.tvSubTitle)
-	TextView tvSubTitle;
-	@Bind(R.id.bottomMenu)
-	LinearLayout bottomMenu;
+    @Bind(R.id.webView)
+    WebView webview;
+    @Bind(R.id.chattingList)
+    RecyclerView chattingList;
+    @Bind(R.id.toolbar_actionbar)
+    Toolbar toolbar;
+    @Bind(R.id.btnPrev)
+    Button btnPrev;
+    @Bind(R.id.btnNext)
+    Button btnNext;
+    @Bind(R.id.tvTitle)
+    TextView tvTitle;
+    @Bind(R.id.tvSubTitle)
+    TextView tvSubTitle;
+    @Bind(R.id.bottomMenu)
+    LinearLayout bottomMenu;
 
-	private ProgressDialog dlg;
-	private int titleColor, statusColor;
-	private int actionBarHeight;
+    private ProgressDialog dlg;
+    private int titleColor, statusColor;
+    private int actionBarHeight;
 
-	private int SWIPE_MIN_DISTANCE;
-	private int SWIPE_THRESHOLD_VELOCITY;
-	private ObjectAnimator statusBarAnimator;
+    private int SWIPE_MIN_DISTANCE;
+    private int SWIPE_THRESHOLD_VELOCITY;
+    private ObjectAnimator statusBarAnimator;
 
-	private AbstractDetailApi serviceApi;
-	private ServiceConst.NAV_ITEM service;
-	private Detail currentItem;
-	private Episode episode;
+    private AbstractDetailApi serviceApi;
+    private ServiceConst.NAV_ITEM service;
+    private Detail currentItem;
+    private Episode episode;
 
-	private final long DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS);
-	private boolean loadingFlag;
+    private final long DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS);
+    private boolean loadingFlag;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_detail);
-		ButterKnife.bind(this);
+    private DetailChatAdapter adapter;
 
-		setSupportActionBar(toolbar);
-		initSupportActionBar();
-		getApi();
-		initView();
-		initWebViewSetting();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
 
-		loadingFlag = false;
-	}
+        setSupportActionBar(toolbar);
+        initSupportActionBar();
+        getApi();
+        initView();
+        initChattingSetting();
+        initWebViewSetting();
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!loadingFlag) {
-			loading(episode);
-		}
-	}
+        loadingFlag = false;
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		loadingFlag = true;
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loadingFlag) {
+            loading(episode);
+        }
+    }
 
-	private void initSupportActionBar() {
-		ActionBar actionBar = getSupportActionBar();
-		if (actionBar != null) {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
-		}
+    @Override
+    protected void onPause() {
+        super.onPause();
+        loadingFlag = true;
+    }
 
-		TypedValue t = new TypedValue();
-		getTheme().resolveAttribute(android.R.attr.actionBarSize, t, true);
-		actionBarHeight = getResources().getDimensionPixelSize(t.resourceId);
-	}
+    private void initSupportActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
+        }
 
-	private void getApi() {
-		Intent intent = getIntent();
-		service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
-		serviceApi = AbstractDetailApi.getApi(service);
-	}
+        TypedValue t = new TypedValue();
+        getTheme().resolveAttribute(android.R.attr.actionBarSize, t, true);
+        actionBarHeight = getResources().getDimensionPixelSize(t.resourceId);
+    }
 
-	private void initView() {
-		episode = getIntent().getParcelableExtra(Const.EXTRA_EPISODE);
-		tvSubTitle.setText(episode.getTitle());
+    private void getApi() {
+        Intent intent = getIntent();
+        service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
+        serviceApi = AbstractDetailApi.getApi(service);
+    }
 
-		dlg = new ProgressDialog(this);
-		dlg.setMessage(getString(R.string.msg_loading));
+    private void initView() {
+        episode = getIntent().getParcelableExtra(Const.EXTRA_EPISODE);
+        tvSubTitle.setText(episode.getTitle());
 
-		titleColor = getIntent().getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK);
-		statusColor = getIntent().getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK);
+        dlg = new ProgressDialog(this);
+        dlg.setMessage(getString(R.string.msg_loading));
 
-		TypedValue value = new TypedValue();
-		getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
+        titleColor = getIntent().getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK);
+        statusColor = getIntent().getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK);
 
-		btnPrev.setEnabled(false);
-		btnNext.setEnabled(false);
+        TypedValue value = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
 
-		ValueAnimator bg = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
-		bg.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				Integer value = (Integer) animation.getAnimatedValue();
-				toolbar.setBackgroundColor(value);
-				btnPrev.setBackgroundColor(value);
-				btnNext.setBackgroundColor(value);
-			}
-		});
-		bg.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				btnNext.setBackgroundDrawable(getStateListBgDrawable());
-				btnPrev.setBackgroundDrawable(getStateListBgDrawable());
+        btnPrev.setEnabled(false);
+        btnNext.setEnabled(false);
 
-				btnNext.setTextColor(getStateListTextDrawable());
-				btnPrev.setTextColor(getStateListTextDrawable());
-			}
-		});
-		bg.setDuration(1000L);
-		bg.setInterpolator(new DecelerateInterpolator());
-		bg.start();
+        ValueAnimator bg = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
+        bg.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                toolbar.setBackgroundColor(value);
+                btnPrev.setBackgroundColor(value);
+                btnNext.setBackgroundColor(value);
+            }
+        });
+        bg.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                btnNext.setBackgroundDrawable(getStateListBgDrawable());
+                btnPrev.setBackgroundDrawable(getStateListBgDrawable());
 
-		changeStatusBar();
-	}
+                btnNext.setTextColor(getStateListTextDrawable());
+                btnPrev.setTextColor(getStateListTextDrawable());
+            }
+        });
+        bg.setDuration(1000L);
+        bg.setInterpolator(new DecelerateInterpolator());
+        bg.start();
 
-	private void initWebViewSetting() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
-		} else {
-			webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-		}
+        changeStatusBar();
+    }
 
-		webview.getSettings().setBlockNetworkImage(false);
-		webview.getSettings().setLoadsImagesAutomatically(true);
-		webview.getSettings().setUseWideViewPort(false);
-		webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+    private void initChattingSetting() {
+        chattingList.setLayoutManager(new LinearLayoutManager(this));
+        final int profileSize = getResources().getDimensionPixelSize(R.dimen.chatting_profile_size);
 
-		webview.setWebViewClient(new WebViewClient() {
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				dlg.dismiss();
-				toggleDelay(true);
-			}
-		});
+        adapter = new DetailChatAdapter(this, profileSize) {
+            @Override
+            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                ViewHolder holder = super.onCreateViewHolder(parent, viewType);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toggleDelay(false);
+                    }
+                });
+                return holder;
+            }
+        };
+        chattingList.setAdapter(adapter);
 
-		final GestureDetector gd = new GestureDetector(this, listener);
-		webview.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return gd.onTouchEvent(event);
-			}
-		});
-		webview.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View view) {
-				// LongClick Disable
-				return true;
-			}
-		});
+        final int padding = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        chattingList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.bottom = padding;
+            }
+        });
+    }
 
-		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		SWIPE_MIN_DISTANCE = metrics.widthPixels / 3;
-		SWIPE_THRESHOLD_VELOCITY = metrics.widthPixels / 2;
-	}
+    private void initWebViewSetting() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        } else {
+            webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        }
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	private void changeStatusBar() {
-		if (statusBarAnimator != null) {
-			statusBarAnimator.cancel();
-		}
-		ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-		TypedValue resValue = new TypedValue();
-		getTheme().resolveAttribute(R.attr.colorPrimaryDark, resValue, true);
-		statusBarAnimator = ObjectAnimator.ofInt(getWindow(), "statusBarColor", resValue.data,
-												 statusColor);
-		statusBarAnimator.setDuration(250L);
-		statusBarAnimator.setEvaluator(argbEvaluator);
-		statusBarAnimator.start();
-	}
+        webview.getSettings().setBlockNetworkImage(false);
+        webview.getSettings().setLoadsImagesAutomatically(true);
+        webview.getSettings().setUseWideViewPort(false);
+        webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
 
-	private StateListDrawable getStateListBgDrawable() {
-		StateListDrawable list = new StateListDrawable();
-		// disabled
-		list.addState(new int[]{-android.R.attr.state_enabled}, new ColorDrawable(Color.GRAY));
-		// pressed
-		list.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(Color.WHITE));
-		// enabled
-		list.addState(new int[]{android.R.attr.state_enabled}, new ColorDrawable(titleColor));
-		return list;
-	}
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                dlg.dismiss();
+                toggleDelay(true);
+            }
+        });
 
-	private ColorStateList getStateListTextDrawable() {
-		int[][] state = {
-			new int[]{-android.R.attr.state_enabled},
-			new int[]{android.R.attr.state_pressed},
-			new int[]{android.R.attr.state_enabled},
-		};
+        final GestureDetector gd = new GestureDetector(this, listener);
+        webview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gd.onTouchEvent(event);
+            }
+        });
+        webview.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // LongClick Disable
+                return true;
+            }
+        });
 
-		int[] colors = {
-			Color.WHITE,
-			titleColor,
-			Color.WHITE
-		};
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        SWIPE_MIN_DISTANCE = metrics.widthPixels / 3;
+        SWIPE_THRESHOLD_VELOCITY = metrics.widthPixels / 2;
+    }
 
-		return new ColorStateList(state, colors);
-	}
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void changeStatusBar() {
+        if (statusBarAnimator != null) {
+            statusBarAnimator.cancel();
+        }
+        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+        TypedValue resValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimaryDark, resValue, true);
+        statusBarAnimator = ObjectAnimator.ofInt(getWindow(), "statusBarColor", resValue.data,
+                statusColor);
+        statusBarAnimator.setDuration(250L);
+        statusBarAnimator.setEvaluator(argbEvaluator);
+        statusBarAnimator.start();
+    }
 
-	private void loading(Episode item) {
-		Log.i(TAG, "Load Detail: " + item.getToonId() + ", " + item.getEpisodeId());
-		if (currentItem != null) {
-			currentItem.prevLink = currentItem.nextLink = null;
-		}
-		dlg.show();
+    private StateListDrawable getStateListBgDrawable() {
+        StateListDrawable list = new StateListDrawable();
+        // disabled
+        list.addState(new int[]{-android.R.attr.state_enabled}, new ColorDrawable(Color.GRAY));
+        // pressed
+        list.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(Color.WHITE));
+        // enabled
+        list.addState(new int[]{android.R.attr.state_enabled}, new ColorDrawable(titleColor));
+        return list;
+    }
 
-		getRequestApi(item)
-			.subscribeOn(Schedulers.newThread())
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(getRequestSubscriber());
-	}
+    private ColorStateList getStateListTextDrawable() {
+        int[][] state = {
+                new int[]{-android.R.attr.state_enabled},
+                new int[]{android.R.attr.state_pressed},
+                new int[]{android.R.attr.state_enabled},
+        };
 
-//	@RxLogObservable
-	private Observable<Detail> getRequestApi(final Episode item) {
-		return Observable
-			.create(new Observable.OnSubscribe<Detail>() {
-				@Override
-				public void call(Subscriber<? super Detail> subscriber) {
-					Detail detail = serviceApi.parseDetail(item);
-					subscriber.onNext(detail);
-					subscriber.onCompleted();
-				}
-			});
-	}
+        int[] colors = {
+                Color.WHITE,
+                titleColor,
+                Color.WHITE
+        };
 
-//	@RxLogSubscriber
-	@NonNull
-	private Subscriber<Detail> getRequestSubscriber() {
-		return new Subscriber<Detail>() {
-			@Override
-			public void onCompleted() { }
+        return new ColorStateList(state, colors);
+    }
 
-			@Override
-			public void onError(Throwable e) {
-				dlg.dismiss();
-			}
+    private void loading(Episode item) {
+        Log.i(TAG, "Load Detail: " + item.getToonId() + ", " + item.getEpisodeId());
+        if (currentItem != null) {
+            currentItem.prevLink = currentItem.nextLink = null;
+        }
+        dlg.show();
 
-			@Override
-			public void onNext(Detail item) {
-				dlg.dismiss();
-				if (item != null && item.errorType != null) {
-					new AlertDialog.Builder(DetailActivity.this)
-						.setMessage(item.errorMsg)
-						.setCancelable(false)
-						.setPositiveButton(android.R.string.ok,
-										   new DialogInterface.OnClickListener() {
-											   @Override
-											   public void onClick(
-												   DialogInterface dialogInterface, int i) {
-												   finish();
-											   }
-										   })
-						   .show();
-					return;
-				} else if (item == null || item.list == null || item.list.isEmpty()) {
-					Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT)
-						 .show();
-					finish();
-					return;
-				}
+        getRequestApi(item)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getRequestSubscriber());
+    }
 
-				readAsync(item);
+    //	@RxLogObservable
+    private Observable<Detail> getRequestApi(final Episode item) {
+        return Observable
+                .create(new Observable.OnSubscribe<Detail>() {
+                    @Override
+                    public void call(Subscriber<? super Detail> subscriber) {
+                        Detail detail = serviceApi.parseDetail(item);
+                        subscriber.onNext(detail);
+                        subscriber.onCompleted();
+                    }
+                });
+    }
 
-				currentItem = item;
-				tvTitle.setText(item.title);
-				btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
-				btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
-				loadWebView(item.list);
-			}
-		};
-	}
+    //	@RxLogSubscriber
+    @NonNull
+    private Subscriber<Detail> getRequestSubscriber() {
+        return new Subscriber<Detail>() {
+            @Override
+            public void onCompleted() {
+            }
 
-	/**
-	 * Read Detail Item
-	 * @param item Item
-	 */
-	private void readAsync(Detail item) {
-		RealmHelper helper = RealmHelper.getInstance();
-		helper.readEpisode(this, service, item);
-	}
+            @Override
+            public void onError(Throwable e) {
+                dlg.dismiss();
+            }
 
-	@Override
-	protected void onStop() {
-		if (webview != null) {
-			webview.stopLoading();
-		}
-		super.onStop();
-	}
+            @Override
+            public void onNext(Detail item) {
+                dlg.dismiss();
+                if (item != null && item.errorType != null) {
+                    new AlertDialog.Builder(DetailActivity.this)
+                            .setMessage(item.errorMsg)
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(
+                                                DialogInterface dialogInterface, int i) {
+                                            finish();
+                                        }
+                                    })
+                            .show();
+                    return;
+                } else if (item == null || item.list == null || item.list.isEmpty()) {
+                    Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT)
+                            .show();
+                    finish();
+                    return;
+                }
 
-	private void loadWebView(List<DetailView> list) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("<!DOCTYPE html>")
-			   .append("<html>")
-			   .append("<head><meta charset=\"utf-8\"><style>")
-			   .append("body{").append("padding-top:").append(actionBarHeight).append("px; padding-bottom:").append(bottomMenu.getHeight()).append("px; }")
-			   .append("img{max-width: 100%; height: auto; display:block;}")
-			   .append("ul{list-style: none; padding-left: 0px;}")
-		   .append("ul li:before{padding:0px; position:absolute; top:0; left:0px; }")
-			   .append("</style></head>")
-			   .append("<body>");
+                readAsync(item);
 
-		builder.append("<ul>");
+                currentItem = item;
+                tvTitle.setText(item.title);
+                btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
+                btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
 
-		Iterator<DetailView> iterator = list.iterator();
-		DetailView item;
-		while (iterator.hasNext()) {
-			item = iterator.next();
+                if (!item.isChatVIew) {
+                    loadWebView(item.list);
+                } else {
+                    loadChatView(item.list);
+                }
+            }
+        };
+    }
+
+    /**
+     * Read Detail Item
+     *
+     * @param item Item
+     */
+    private void readAsync(Detail item) {
+        RealmHelper helper = RealmHelper.getInstance();
+        helper.readEpisode(this, service, item);
+    }
+
+    @Override
+    protected void onStop() {
+        if (webview != null) {
+            webview.stopLoading();
+        }
+        super.onStop();
+    }
+
+    private void loadWebView(List<DetailView> list) {
+        webview.setVisibility(View.VISIBLE);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<!DOCTYPE html>")
+                .append("<html>")
+                .append("<head><meta charset=\"utf-8\"><style>")
+                .append("body{").append("padding-top:").append(actionBarHeight).append("px; padding-bottom:").append(bottomMenu.getHeight()).append("px; }")
+                .append("img{max-width: 100%; height: auto; display:block;}")
+                .append("ul{list-style: none; padding-left: 0px;}")
+                .append("ul li:before{padding:0px; position:absolute; top:0; left:0px; }")
+                .append("</style></head>")
+                .append("<body>");
+
+        builder.append("<ul>");
+
+        Iterator<DetailView> iterator = list.iterator();
+        DetailView item;
+        while (iterator.hasNext()) {
+            item = iterator.next();
 //			Log.i(TAG, "Load=" + item);
-			builder.append("<li>");
+            builder.append("<li>");
 
-			switch (item.getType()) {
-				case IMAGE:
-					builder.append("<img src=\"").append(item.getValue()).append("\" />");
-					break;
-				case TEXT:
-					builder.append(item.getValue().replaceAll("\n", "<br></br>"));
-					break;
-			}
-			builder.append("</li>");
-		}
+            switch (item.getType()) {
+                case IMAGE:
+                    builder.append("<img src=\"").append(item.getValue()).append("\" />");
+                    break;
+                case TEXT:
+                    builder.append(item.getValue().replaceAll("\n", "<br></br>"));
+                    break;
+            }
+            builder.append("</li>");
+        }
 
-		builder.append("</ul></body></html>");
+        builder.append("</ul></body></html>");
 //		Log.i(TAG, "Result=" + builder.toString());
-		webview.loadDataWithBaseURL(null, builder.toString(), "text/html", "utf-8", null);
-	}
+        webview.loadDataWithBaseURL(null, builder.toString(), "text/html", "utf-8", null);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			finish();
-			return true;
-		}
+    private void loadChatView(List<DetailView> list) {
+        chattingList.setVisibility(View.VISIBLE);
+        adapter.clear();
+        adapter.setList(list);
+        adapter.notifyDataSetChanged();
+        chattingList.scrollToPosition(0);
+        toggleDelay(true);
+    }
 
-		switch (item.getItemId()) {
-			case R.id.menu_item_share:
-				// 공유하기
-				if (currentItem != null && serviceApi != null) {
-					ShareItem sender = serviceApi.getDetailShare(episode, currentItem);
-					if (sender != null) {
-						Log.i(TAG, "Share=" + sender);
-						Intent intent = new Intent(Intent.ACTION_SEND);
-						intent.setType("text/plain");
-						intent.putExtra(Intent.EXTRA_SUBJECT, sender.title);
-						intent.putExtra(Intent.EXTRA_TEXT, sender.url);
-						startActivity(Intent.createChooser(intent, "Share"));
-					}
-				}
-				break;
-		}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
 
-		return super.onOptionsItemSelected(item);
-	}
+        switch (item.getItemId()) {
+            case R.id.menu_item_share:
+                // 공유하기
+                if (currentItem != null && serviceApi != null) {
+                    ShareItem sender = serviceApi.getDetailShare(episode, currentItem);
+                    if (sender != null) {
+                        Log.i(TAG, "Share=" + sender);
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, sender.title);
+                        intent.putExtra(Intent.EXTRA_TEXT, sender.url);
+                        startActivity(Intent.createChooser(intent, "Share"));
+                    }
+                }
+                break;
+        }
 
-	@OnClick({R.id.btnPrev, R.id.btnNext})
-	public void onMovePage(View view) {
-		String link;
-		link = view.getId() == R.id.btnPrev ? currentItem.prevLink : currentItem.nextLink;
-		if (TextUtils.isEmpty(link)) {
-			return;
-		}
-		episode.setEpisodeId(link);
-		loadingFlag = false;
-		loading(episode);
-	}
+        return super.onOptionsItemSelected(item);
+    }
 
-	private final Handler mToggleHandler = new Handler(new Handler.Callback() {
-		@Override
-		public boolean handleMessage(Message msg) {
-			toggleHideBar();
-			return true;
-		}
-	});
+    @OnClick({R.id.btnPrev, R.id.btnNext})
+    public void onMovePage(View view) {
+        String link;
+        link = view.getId() == R.id.btnPrev ? currentItem.prevLink : currentItem.nextLink;
+        if (TextUtils.isEmpty(link)) {
+            return;
+        }
+        episode.setEpisodeId(link);
+        loadingFlag = false;
+        loading(episode);
+    }
 
-	/**
-	 * Detects and toggles immersive mode.
-	 */
-	private void toggleHideBar() {
-		int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+    private final Handler mToggleHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            toggleHideBar();
+            return true;
+        }
+    });
 
-		if ((uiOptions & View.SYSTEM_UI_FLAG_LOW_PROFILE) == 0) {
-			moveToAxisY(toolbar, true);
-			moveToAxisY(bottomMenu, false);
-		} else {
-			moveRevert(toolbar);
-			moveRevert(bottomMenu);
-		}
+    /**
+     * Detects and toggles immersive mode.
+     */
+    private void toggleHideBar() {
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
 
-		int newUiOptions = uiOptions;
-		newUiOptions ^= View.SYSTEM_UI_FLAG_LOW_PROFILE;
-		getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
-	}
+        if ((uiOptions & View.SYSTEM_UI_FLAG_LOW_PROFILE) == 0) {
+            moveToAxisY(toolbar, true);
+            moveToAxisY(bottomMenu, false);
+        } else {
+            moveRevert(toolbar);
+            moveRevert(bottomMenu);
+        }
 
-	private void moveToAxisY(View view, boolean isToTop) {
-		view.animate()
-			.translationY(isToTop ? -view.getHeight() : view.getHeight())
-			.start();
-	}
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+    }
 
-	private void moveRevert(View view) {
-		view.animate().translationY(0).start();
-	}
+    private void moveToAxisY(View view, boolean isToTop) {
+        view.animate()
+                .translationY(isToTop ? -view.getHeight() : view.getHeight())
+                .start();
+    }
 
-	private final GestureDetector.SimpleOnGestureListener listener
-		= new GestureDetector.SimpleOnGestureListener() {
-		@Override
-		public boolean onSingleTapUp(MotionEvent e) {
-			toggleDelay(false);
-			return true;
-		}
+    private void moveRevert(View view) {
+        view.animate().translationY(0).start();
+    }
 
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-				&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				onMovePage(btnNext);
-				return true;
-			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-				&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				onMovePage(btnPrev);
-				return true;
-			}
+    private final GestureDetector.SimpleOnGestureListener listener
+            = new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            toggleDelay(false);
+            return true;
+        }
 
-			return super.onFling(e1, e2, velocityX, velocityY);
-		}
-	};
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                onMovePage(btnNext);
+                return true;
+            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                onMovePage(btnPrev);
+                return true;
+            }
 
-	private void toggleDelay(boolean isDelay) {
-		final int TOGGLE_ID = 0;
-		mToggleHandler.removeMessages(TOGGLE_ID);
-		mToggleHandler.sendEmptyMessageDelayed(TOGGLE_ID, isDelay ? DELAY_TIME : 0);
-	}
+            return super.onFling(e1, e2, velocityX, velocityY);
+        }
+    };
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_detail, menu);
-		return true;
-	}
+    private void toggleDelay(boolean isDelay) {
+        final int TOGGLE_ID = 0;
+        mToggleHandler.removeMessages(TOGGLE_ID);
+        mToggleHandler.sendEmptyMessageDelayed(TOGGLE_ID, isDelay ? DELAY_TIME : 0);
+    }
 
-	@Override
-	public void finish() {
-		setResult(RESULT_OK);
-		super.finish();
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public void finish() {
+        setResult(RESULT_OK);
+        super.finish();
+    }
 }

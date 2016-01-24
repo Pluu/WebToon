@@ -1,18 +1,18 @@
 package com.pluu.support.daum;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 다음 웹툰 상세 API
@@ -31,7 +31,7 @@ public class DaumDetailApi extends AbstractDetailApi {
 		Detail ret = new Detail();
 		ret.webtoonId = episode.getToonId();
 
-		List<DetailView> list = new ArrayList<>();
+		List<DetailView> list = null;
 		try {
 			String response = requestApi();
 			JSONObject json = new JSONObject(response).optJSONObject("data");
@@ -47,23 +47,68 @@ public class DaumDetailApi extends AbstractDetailApi {
 			if (prevId > 0) {
 				ret.prevLink = String.valueOf(prevId);
 			}
-			JSONArray array = json.optJSONArray("webtoonImages");
-			for (int i = 0; i < array.length(); i++) {
-				list.add(DetailView.createImage(array.optJSONObject(i).optString("url")));
-			}
-			array = json.optJSONArray("webtoonEpisodePages");
-			for (int i = 0; i < array.length(); i++) {
-				list.add(DetailView.createImage(array.optJSONObject(i)
-													 .optJSONArray("webtoonEpisodePageMultimedias")
-													 .optJSONObject(0)
-													 .optJSONObject("image")
-													 .optString("url")));
+
+			if (info.isNull("multiType")) {
+				list = defaultDetailParse(json);
+			} else {
+				list = chattingDetailParse(json);
+				ret.isChatVIew = true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		ret.list = list;
 		return ret;
+	}
+
+	private List<DetailView> defaultDetailParse(JSONObject json) {
+		List<DetailView> list = new ArrayList<>();
+		JSONArray array = json.optJSONArray("webtoonImages");
+		for (int i = 0; i < array.length(); i++) {
+            list.add(DetailView.createImage(array.optJSONObject(i).optString("url")));
+        }
+		array = json.optJSONArray("webtoonEpisodePages");
+		for (int i = 0; i < array.length(); i++) {
+            list.add(DetailView.createImage(array.optJSONObject(i)
+                    .optJSONArray("webtoonEpisodePageMultimedias")
+                    .optJSONObject(0)
+                    .optJSONObject("image")
+                    .optString("url")));
+        }
+		return list;
+	}
+
+	private List<DetailView> chattingDetailParse(JSONObject json) {
+		List<DetailView> list = new ArrayList<>();
+		JSONArray array = json.optJSONArray("webtoonEpisodeChattings");
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject object = array.optJSONObject(i);
+			String type = object.optString("messageType");
+			if ("notice".equals(type)) {
+				if (object.isNull("message")) {
+					list.add(DetailView.createChatNoticeImage(object.optJSONObject("image").optString("url")));
+				} else {
+					list.add(DetailView.createChatNotice(object.optString("message")));
+				}
+			} else if ("another".equals(type)) {
+				list.add(DetailView.createChatLeft(
+						object.optJSONObject("profileImage").optString("url"),
+						object.optString("profileName"),
+						object.optString("message"))
+				);
+			} else if ("own".equals(type)) {
+				list.add(DetailView.createChatRight(
+						object.optJSONObject("profileImage").optString("url"),
+						object.optString("profileName"),
+						object.optString("message"))
+				);
+			}
+		}
+		if (!list.isEmpty()) {
+			list.add(0, DetailView.createChatEmpty());
+			list.add(DetailView.createChatEmpty());
+		}
+		return list;
 	}
 
 	@Override

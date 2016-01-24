@@ -1,72 +1,92 @@
 <RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".ui.DetailActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.DetailActivity"
+    >
 
-	<WebView
-		android:id="@+id/webview"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
 
-	<android.support.v7.widget.Toolbar
-		android:id="@+id/toolbar_actionbar"
-		android:layout_width="match_parent"
-		android:layout_height="?actionBarSize">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chattingList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E0E0E0"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        />
 
-		<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        >
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				tools:text="Large Text"
-				android:singleLine="true"
-				android:textColor="@android:color/white"
-				android:id="@+id/tvTitle"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="New Text"
-				android:singleLine="true"
-				android:textColor="@android:color/white"
-				android:id="@+id/tvSubTitle"/>
-		</LinearLayout>
-	</android.support.v7.widget.Toolbar>
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white"
+                tools:text="Large Text"
+                />
 
-	<LinearLayout
-		android:id="@+id/bottomMenu"
-		android:layout_width="match_parent"
-		android:layout_alignParentBottom="true"
-		android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                tools:text="New Text"
+                />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
 
-		<Button
-			android:id="@+id/btnPrev"
-			android:textStyle="bold"
-			android:layout_width="0dp"
-			android:background="@color/theme_primary"
-			android:drawableLeft="@drawable/chevron_left_selector"
-			android:drawableStart="@drawable/chevron_left_selector"
-			android:textColor="@android:color/white"
-			android:layout_height="wrap_content"
-			android:text="@string/label_prev_view"
-			android:layout_weight="1"/>
+    <LinearLayout
+        android:id="@+id/bottomMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
 
-		<Button
-			android:id="@+id/btnNext"
-			android:textStyle="bold"
-			android:layout_width="0dp"
-			android:background="@color/theme_primary"
-			android:drawableRight="@drawable/chevron_right_selector"
-			android:drawableEnd="@drawable/chevron_right_selector"
-			android:textColor="@android:color/white"
-			android:text="@string/label_next_view"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"/>
-	</LinearLayout>
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/theme_primary"
+            android:drawableLeft="@drawable/chevron_left_selector"
+            android:drawableStart="@drawable/chevron_left_selector"
+            android:text="@string/label_prev_view"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/theme_primary"
+            android:drawableEnd="@drawable/chevron_right_selector"
+            android:drawableRight="@drawable/chevron_right_selector"
+            android:text="@string/label_next_view"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
 </RelativeLayout>

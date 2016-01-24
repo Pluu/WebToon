@@ -15,6 +15,8 @@
     <dimen name="text_size_xlarge">20sp</dimen>
     <dimen name="text_size_diff_large_small">6sp</dimen>
     <dimen name="actionbar_size">48dp</dimen>
+    <dimen name="chatting_margin">72dp</dimen>
+    <dimen name="chatting_profile_size">52dp</dimen>
 
     <dimen name="toon_weekly_min_height">100dp</dimen>
     <dimen name="toon_episode_min_height">100dp</dimen>
