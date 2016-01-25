@@ -108,6 +108,7 @@ public class DetailActivity extends AppCompatActivity {
     private boolean loadingFlag;
 
     private DetailChatAdapter adapter;
+    private GestureDetector gd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +124,7 @@ public class DetailActivity extends AppCompatActivity {
         initWebViewSetting();
 
         loadingFlag = false;
+        gd = new GestureDetector(this, listener);
     }
 
     @Override
@@ -220,6 +222,18 @@ public class DetailActivity extends AppCompatActivity {
         chattingList.setAdapter(adapter);
 
         final int padding = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        chattingList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return gd.onTouchEvent(e);
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) { }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) { }
+        });
         chattingList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -254,7 +268,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        final GestureDetector gd = new GestureDetector(this, listener);
         webview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
