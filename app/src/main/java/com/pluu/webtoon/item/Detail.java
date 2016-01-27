@@ -12,8 +12,8 @@ public class Detail {
 	public String nextLink, prevLink;
 	public List<DetailView> list;
 
-	// Chatting 웹툰 Flag
-	public boolean isChatVIew = false;
+	// View Type
+	public DETAIL_TYPE type = DETAIL_TYPE.DEFAULT;
 
 	// ERROR_TYPE
 	public ERROR_TYPE errorType;

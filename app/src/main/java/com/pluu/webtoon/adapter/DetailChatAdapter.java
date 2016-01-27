@@ -1,6 +1,7 @@
 package com.pluu.webtoon.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.ChatView;
 import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.ui.view.AspectRatioImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +61,7 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         DetailView item = list.get(position);
 
         holder.layoutNotice.setVisibility(View.GONE);
@@ -65,7 +69,7 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
         holder.leftLayout.setVisibility(View.GONE);
         holder.empty.setVisibility(View.GONE);
 
-        ChatView chatValue = item.getChatValue();
+        final ChatView chatValue = item.getChatValue();
 
         switch (item.getType()) {
             case CHAT_NOTICE:
@@ -78,32 +82,38 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
                 holder.layoutNotice.setVisibility(View.VISIBLE);
                 holder.text1.setVisibility(View.GONE);
                 holder.noticeImageLayout.setVisibility(View.VISIBLE);
-                Glide.with(context)
-                        .load(chatValue.getImgUrl())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(holder.noticeImageView);
+
+                if (chatValue.getHRatio() != 0) {
+                    holder.noticeImageView.sethRatio(chatValue.getHRatio());
+                    Glide.with(context)
+                            .load(chatValue.getImgUrl())
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .into(holder.noticeImageView);
+                } else {
+                    Glide.with(context)
+                            .load(chatValue.getImgUrl())
+                            .asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    float hRatio = (float) resource.getHeight() / resource.getWidth();
+                                    chatValue.setHRatio(hRatio);
+                                    holder.noticeImageView.sethRatio(hRatio);
+                                    holder.noticeImageView.setImageBitmap(resource);
+                                }
+                            });
+                }
                 break;
             case CHAT_LEFT:
+                loadProfileImage(holder.leftProfileImageView, chatValue.getImgUrl());
                 holder.leftLayout.setVisibility(View.VISIBLE);
-                Glide.with(context)
-                        .load(chatValue.getImgUrl())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .override(profileSize, profileSize)
-                        .centerCrop()
-                        .placeholder(R.drawable.transparent_background)
-                        .into(holder.leftProfileImageView);
                 holder.leftNameTextView.setText(chatValue.getName());
                 holder.leftMessageTextView.setText(chatValue.getText());
                 break;
             case CHAT_RIGHT:
+                loadProfileImage(holder.rightProfileImageView, chatValue.getImgUrl());
                 holder.rightLayout.setVisibility(View.VISIBLE);
-                Glide.with(context)
-                        .load(chatValue.getImgUrl())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .override(profileSize, profileSize)
-                        .centerCrop()
-                        .placeholder(R.drawable.transparent_background)
-                        .into(holder.rightProfileImageView);
                 holder.rightNameTextView.setText(chatValue.getName());
                 holder.rightMessageTextView.setText(chatValue.getText());
                 break;
@@ -111,6 +121,16 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
                 holder.empty.setVisibility(View.VISIBLE);
                 break;
         }
+    }
+
+    private void loadProfileImage(ImageView view, String url) {
+        Glide.with(context)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .override(profileSize, profileSize)
+                .centerCrop()
+                .placeholder(R.drawable.transparent_background)
+                .into(view);
     }
 
     @Override
@@ -122,7 +142,7 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
         @Bind(android.R.id.text1)
         TextView text1;
         @Bind(R.id.noticeImageView)
-        ImageView noticeImageView;
+        AspectRatioImageView noticeImageView;
         @Bind(R.id.noticeVideoView)
         ImageView noticeVideoView;
         @Bind(R.id.noticeImageLayout)

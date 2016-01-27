@@ -7,11 +7,20 @@ package com.pluu.webtoon.item;
 public class ChatView {
     private final String imgUrl;
     private final String name, text;
+    private float hRatio;
 
     public ChatView(String imgUrl, String name, String text) {
         this.imgUrl = imgUrl;
         this.name = name;
         this.text = text;
+    }
+
+    public void setHRatio(float hRatio) {
+        this.hRatio = hRatio;
+    }
+
+    public float getHRatio() {
+        return hRatio;
     }
 
     public String getImgUrl() {

@@ -1,6 +1,7 @@
 package com.pluu.support.daum;
 
 import com.pluu.support.impl.AbstractDetailApi;
+import com.pluu.webtoon.item.DETAIL_TYPE;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
@@ -52,7 +53,7 @@ public class DaumDetailApi extends AbstractDetailApi {
 				list = defaultDetailParse(json);
 			} else {
 				list = chattingDetailParse(json);
-				ret.isChatVIew = true;
+				ret.type = DETAIL_TYPE.DAUM_CHATTING;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

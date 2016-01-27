@@ -50,6 +50,7 @@ import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.DetailChatAdapter;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
+import com.pluu.webtoon.item.DETAIL_TYPE;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
@@ -399,7 +400,7 @@ public class DetailActivity extends AppCompatActivity {
                 btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
                 btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
 
-                if (!item.isChatVIew) {
+                if (item.type == DETAIL_TYPE.DEFAULT) {
                     loadWebView(item.list);
                 } else {
                     loadChatView(item.list);
