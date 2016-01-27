@@ -15,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.pluu.event.OttoBusHolder;
@@ -30,6 +28,9 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.event.ThemeEvent;
 import com.pluu.webtoon.utils.DisplayUtils;
 import com.squareup.otto.Subscribe;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Main View Fragment
@@ -161,17 +162,27 @@ public class MainFragment extends Fragment {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		Glide.with(this).resumeRequests();
+	public void onStart() {
+		super.onStart();
 		OttoBusHolder.get().register(this);
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		Glide.with(this).resumeRequests();
+	}
+
+	@Override
 	public void onPause() {
-		OttoBusHolder.get().unregister(this);
 		Glide.with(this).pauseRequests();
 		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		OttoBusHolder.get().unregister(this);
+		super.onStop();
 	}
 
 	@Subscribe

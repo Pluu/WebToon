@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.ChatView;
 import com.pluu.webtoon.item.DetailView;
@@ -79,12 +80,14 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
                 holder.noticeImageLayout.setVisibility(View.VISIBLE);
                 Glide.with(context)
                         .load(chatValue.getImgUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(holder.noticeImageView);
                 break;
             case CHAT_LEFT:
                 holder.leftLayout.setVisibility(View.VISIBLE);
                 Glide.with(context)
                         .load(chatValue.getImgUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .override(profileSize, profileSize)
                         .centerCrop()
                         .placeholder(R.drawable.transparent_background)
@@ -96,6 +99,7 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
                 holder.rightLayout.setVisibility(View.VISIBLE);
                 Glide.with(context)
                         .load(chatValue.getImgUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .override(profileSize, profileSize)
                         .centerCrop()
                         .placeholder(R.drawable.transparent_background)
