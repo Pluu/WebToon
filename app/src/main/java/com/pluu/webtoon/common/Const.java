@@ -17,6 +17,7 @@ public class Const {
 	private static final String RATE_FORMAT = "평점 : %.2f";
 
 	public static final String MAIN_FRAG_TAG = "main_frag_tag";
+	public static final String DETAIL_FRAG_TAG = "detail_frag_tag";
 
 	public static String getRateNameByRate(String data) {
 		return String.format(RATE_FORMAT, Double.valueOf(data));

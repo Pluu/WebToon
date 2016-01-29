@@ -6,5 +6,6 @@ package com.pluu.webtoon.item;
  */
 public enum DETAIL_TYPE {
     DEFAULT,
-    DAUM_CHATTING
+    DAUM_CHATTING,
+    DAUM_MULTI
 }

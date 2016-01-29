@@ -6,6 +6,7 @@ import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+import com.pluu.webtoon.item.VIEW_TYPE;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,14 +53,42 @@ public class DaumDetailApi extends AbstractDetailApi {
 			if (info.isNull("multiType")) {
 				list = defaultDetailParse(json);
 			} else {
-				list = chattingDetailParse(json);
-				ret.type = DETAIL_TYPE.DAUM_CHATTING;
+				String type = info.optString("multiType");
+				if ("chatting".equals(type)) {
+					list = chattingDetailParse(json);
+					ret.type = DETAIL_TYPE.DAUM_CHATTING;
+				} else if ("multi".equals(type)) {
+					list = multiDetailParse(json);
+					ret.type = DETAIL_TYPE.DAUM_MULTI;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		ret.list = list;
 		return ret;
+	}
+
+	private List<DetailView> multiDetailParse(JSONObject json) {
+		List<DetailView> list = new ArrayList<>();
+		JSONArray array = json.optJSONArray("webtoonEpisodePages");
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject object = array.optJSONObject(i);
+			JSONArray multimedias = object.optJSONArray("webtoonEpisodePageMultimedias");
+			for (int j = 0; j < multimedias.length(); j++) {
+				JSONObject multimedia = multimedias.optJSONObject(j);
+				String mediaType = multimedia.optString("multimediaType");
+				if ("image".equals(mediaType)) {
+					list.add(DetailView.generate(VIEW_TYPE.MULTI_IMAGE,
+							multimedia.optJSONObject("image").optString("url")));
+				} else if ("gif".equals(mediaType)) {
+					list.add(DetailView.generate(VIEW_TYPE.MULTI_GIF,
+							multimedia.optJSONObject("image").optString("url")));
+				}
+			}
+		}
+
+		return list;
 	}
 
 	private List<DetailView> defaultDetailParse(JSONObject json) {

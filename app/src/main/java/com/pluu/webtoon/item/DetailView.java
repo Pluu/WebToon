@@ -63,7 +63,7 @@ public class DetailView {
 		return generate(VIEW_TYPE.CHAT_EMPTY, null);
 	}
 
-	private static DetailView generate(VIEW_TYPE type, String value) {
+	public static DetailView generate(VIEW_TYPE type, String value) {
 		return new DetailView(type, value);
 	}
 

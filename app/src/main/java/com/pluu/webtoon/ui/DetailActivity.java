@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -19,11 +18,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -34,11 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,7 +41,6 @@ import android.widget.Toast;
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.adapter.DetailChatAdapter;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.item.DETAIL_TYPE;
@@ -55,8 +48,12 @@ import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+import com.pluu.webtoon.ui.detail.BaseDetailFragment;
+import com.pluu.webtoon.ui.detail.DaumChattingFragment;
+import com.pluu.webtoon.ui.detail.DefaultDetailFragment;
+import com.pluu.webtoon.ui.detail.FirstBindListener;
+import com.pluu.webtoon.ui.detail.ToggleListener;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -72,13 +69,11 @@ import rx.schedulers.Schedulers;
  * 상세화면 Activity
  * Created by nohhs on 15. 3. 2.
  */
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+    implements ToggleListener, FirstBindListener {
+
     private final String TAG = DetailActivity.class.getSimpleName();
 
-    @Bind(R.id.webView)
-    WebView webview;
-    @Bind(R.id.chattingList)
-    RecyclerView chattingList;
     @Bind(R.id.toolbar_actionbar)
     Toolbar toolbar;
     @Bind(R.id.btnPrev)
@@ -94,7 +89,6 @@ public class DetailActivity extends AppCompatActivity {
 
     private ProgressDialog dlg;
     private int titleColor, statusColor;
-    private int actionBarHeight;
 
     private int SWIPE_MIN_DISTANCE;
     private int SWIPE_THRESHOLD_VELOCITY;
@@ -108,8 +102,9 @@ public class DetailActivity extends AppCompatActivity {
     private final long DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS);
     private boolean loadingFlag;
 
-    private DetailChatAdapter adapter;
     private GestureDetector gd;
+
+    private boolean isFragmentAttach = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +116,10 @@ public class DetailActivity extends AppCompatActivity {
         initSupportActionBar();
         getApi();
         initView();
-        initChattingSetting();
-        initWebViewSetting();
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        SWIPE_MIN_DISTANCE = metrics.widthPixels / 3;
+        SWIPE_THRESHOLD_VELOCITY = metrics.widthPixels / 2;
 
         loadingFlag = false;
         gd = new GestureDetector(this, listener);
@@ -148,10 +145,6 @@ public class DetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
         }
-
-        TypedValue t = new TypedValue();
-        getTheme().resolveAttribute(android.R.attr.actionBarSize, t, true);
-        actionBarHeight = getResources().getDimensionPixelSize(t.resourceId);
     }
 
     private void getApi() {
@@ -201,91 +194,6 @@ public class DetailActivity extends AppCompatActivity {
         bg.start();
 
         changeStatusBar();
-    }
-
-    private void initChattingSetting() {
-        chattingList.setLayoutManager(new LinearLayoutManager(this));
-        final int profileSize = getResources().getDimensionPixelSize(R.dimen.chatting_profile_size);
-
-        adapter = new DetailChatAdapter(this, profileSize) {
-            @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                ViewHolder holder = super.onCreateViewHolder(parent, viewType);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        toggleDelay(false);
-                    }
-                });
-                return holder;
-            }
-        };
-        chattingList.setAdapter(adapter);
-
-        final int padding = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
-        chattingList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                return gd.onTouchEvent(e);
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) { }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) { }
-        });
-        chattingList.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.bottom = padding;
-            }
-        });
-    }
-
-    private void initWebViewSetting() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
-        } else {
-            webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-        }
-
-        webview.getSettings().setBlockNetworkImage(false);
-        webview.getSettings().setLoadsImagesAutomatically(true);
-        webview.getSettings().setUseWideViewPort(false);
-        webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-
-        webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                dlg.dismiss();
-                toggleDelay(true);
-            }
-        });
-
-        webview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gd.onTouchEvent(event);
-            }
-        });
-        webview.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                // LongClick Disable
-                return true;
-            }
-        });
-
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        SWIPE_MIN_DISTANCE = metrics.widthPixels / 3;
-        SWIPE_THRESHOLD_VELOCITY = metrics.widthPixels / 2;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -400,79 +308,50 @@ public class DetailActivity extends AppCompatActivity {
                 btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
                 btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
 
-                if (item.type == DETAIL_TYPE.DEFAULT) {
-                    loadWebView(item.list);
-                } else {
-                    loadChatView(item.list);
-                }
+                fragmentInit(item.type);
+                fragmentAttach(item.list);
             }
         };
     }
 
+    private void fragmentInit(DETAIL_TYPE type) {
+        if (isFragmentAttach) {
+            return;
+        }
+        Fragment f = null;
+        switch (type) {
+            case DEFAULT:
+                f = new DefaultDetailFragment(gd, bottomMenu.getHeight());
+                break;
+            case DAUM_CHATTING:
+                f = new DaumChattingFragment(gd);
+                break;
+            case DAUM_MULTI:
+                break;
+        }
+        if (f != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
+                    .commit();
+        }
+        isFragmentAttach = true;
+    }
+
+    private void fragmentAttach(List<DetailView> list) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(Const.DETAIL_FRAG_TAG);
+        if (fragment != null) {
+            ((BaseDetailFragment) fragment).loadView(list);
+        }
+    }
+
     /**
      * Read Detail Item
-     *
      * @param item Item
      */
     private void readAsync(Detail item) {
         RealmHelper helper = RealmHelper.getInstance();
         helper.readEpisode(this, service, item);
-    }
-
-    @Override
-    protected void onStop() {
-        if (webview != null) {
-            webview.stopLoading();
-        }
-        super.onStop();
-    }
-
-    private void loadWebView(List<DetailView> list) {
-        webview.setVisibility(View.VISIBLE);
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("<!DOCTYPE html>")
-                .append("<html>")
-                .append("<head><meta charset=\"utf-8\"><style>")
-                .append("body{").append("padding-top:").append(actionBarHeight).append("px; padding-bottom:").append(bottomMenu.getHeight()).append("px; }")
-                .append("img{max-width: 100%; height: auto; display:block;}")
-                .append("ul{list-style: none; padding-left: 0px;}")
-                .append("ul li:before{padding:0px; position:absolute; top:0; left:0px; }")
-                .append("</style></head>")
-                .append("<body>");
-
-        builder.append("<ul>");
-
-        Iterator<DetailView> iterator = list.iterator();
-        DetailView item;
-        while (iterator.hasNext()) {
-            item = iterator.next();
-//			Log.i(TAG, "Load=" + item);
-            builder.append("<li>");
-
-            switch (item.getType()) {
-                case IMAGE:
-                    builder.append("<img src=\"").append(item.getValue()).append("\" />");
-                    break;
-                case TEXT:
-                    builder.append(item.getValue().replaceAll("\n", "<br></br>"));
-                    break;
-            }
-            builder.append("</li>");
-        }
-
-        builder.append("</ul></body></html>");
-//		Log.i(TAG, "Result=" + builder.toString());
-        webview.loadDataWithBaseURL(null, builder.toString(), "text/html", "utf-8", null);
-    }
-
-    private void loadChatView(List<DetailView> list) {
-        chattingList.setVisibility(View.VISIBLE);
-        adapter.clear();
-        adapter.setList(list);
-        adapter.notifyDataSetChanged();
-        chattingList.scrollToPosition(0);
-        toggleDelay(true);
     }
 
     @Override
@@ -592,4 +471,20 @@ public class DetailActivity extends AppCompatActivity {
         setResult(RESULT_OK);
         super.finish();
     }
+
+    @Override
+    public void childCallToggle(boolean isDelay) {
+        toggleDelay(isDelay);
+    }
+
+    @Override
+    public void loadingHide() {
+        dlg.dismiss();
+    }
+
+    @Override
+    public void firstBind() {
+        fragmentAttach(currentItem.list);
+    }
+
 }
