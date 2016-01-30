@@ -8,6 +8,7 @@ public class DetailView {
 	private final VIEW_TYPE type;
 	private final String value;
 	private final ChatView chatValue;
+	private float height;
 
 	public DetailView(VIEW_TYPE type, String value) {
 		this.type = type;
@@ -31,6 +32,14 @@ public class DetailView {
 
 	public ChatView getChatValue() {
 		return chatValue;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public float getHeight() {
+		return height;
 	}
 
 	public static DetailView createImage(String value) {

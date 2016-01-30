@@ -87,6 +87,10 @@ public class DaumDetailApi extends AbstractDetailApi {
 				}
 			}
 		}
+		if (!list.isEmpty()) {
+			list.add(0, DetailView.createChatEmpty());
+			list.add(DetailView.createChatEmpty());
+		}
 
 		return list;
 	}

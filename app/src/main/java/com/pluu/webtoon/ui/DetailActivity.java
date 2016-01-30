@@ -50,6 +50,7 @@ import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
 import com.pluu.webtoon.ui.detail.BaseDetailFragment;
 import com.pluu.webtoon.ui.detail.DaumChattingFragment;
+import com.pluu.webtoon.ui.detail.DaumMultiFragment;
 import com.pluu.webtoon.ui.detail.DefaultDetailFragment;
 import com.pluu.webtoon.ui.detail.FirstBindListener;
 import com.pluu.webtoon.ui.detail.ToggleListener;
@@ -327,14 +328,13 @@ public class DetailActivity extends AppCompatActivity
                 f = new DaumChattingFragment(gd);
                 break;
             case DAUM_MULTI:
+                f = new DaumMultiFragment(gd);
                 break;
         }
-        if (f != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
-                    .commit();
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
+                .commit();
         isFragmentAttach = true;
     }
 
