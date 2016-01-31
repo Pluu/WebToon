@@ -99,8 +99,10 @@ public class DefaultDetailFragment extends BaseDetailFragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                listener.loadingHide();
-                listener.childCallToggle(true);
+                if (listener != null) {
+                    listener.loadingHide();
+                    listener.childCallToggle(true);
+                }
             }
         });
 

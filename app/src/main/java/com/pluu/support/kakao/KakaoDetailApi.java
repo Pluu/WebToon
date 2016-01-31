@@ -1,17 +1,18 @@
 package com.pluu.support.kakao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 카카오 페이지 웹툰 상세 API
@@ -52,10 +53,16 @@ public class KakaoDetailApi extends AbstractDetailApi {
 		}
 
 		List<DetailView> list = new ArrayList<>();
-		Elements elements = doc.select(".targetImg");
+		Elements rootArea = doc.select(".webToonArea");
+		Elements elements = rootArea.select(".targetImg");
 		for (Element img : elements) {
 			list.add(DetailView.createImage(img.attr("data-original")));
 		}
+		elements = rootArea.select("input[class$=fileSize]");
+		for (Element img : elements) {
+			list.add(DetailView.createImage(img.attr("value")));
+		}
+
 		elements = doc.select(".viewWrp li input");
 		for (Element img : elements) {
 			list.add(DetailView.createImage(img.attr("value")));
