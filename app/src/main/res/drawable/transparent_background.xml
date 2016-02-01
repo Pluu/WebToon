@@ -3,8 +3,8 @@
     <item>
         <shape android:shape="rectangle">
             <size
-                android:width="62dp"
-                android:height="62dp"/>
+                android:width="@dimen/chatting_profile_size"
+                android:height="@dimen/chatting_profile_size"/>
             <solid
                 android:color="@android:color/transparent"/>
         </shape>
