@@ -89,6 +89,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
 
 		if (item.isLock()) {
 			viewHolder.lockView.setImageResource(R.drawable.lock_circle);
+			viewHolder.lockView.setVisibility(View.VISIBLE);
 		} else {
 			viewHolder.lockView.setVisibility(View.GONE);
 		}
