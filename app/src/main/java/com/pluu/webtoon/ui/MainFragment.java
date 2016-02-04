@@ -129,7 +129,8 @@ public class MainFragment extends Fragment {
 		// 금일 기준으로 ViewPager 기본 표시
 		viewPager.setCurrentItem(serviceApi.getTodayTabPosition());
 
-		slidingTabLayout.setDistributeEvenly(true);
+		slidingTabLayout.setCustomTabView(R.layout.view_sliding_tab,
+				android.R.id.text1);
 		slidingTabLayout.setViewPager(viewPager);
 	}
 
