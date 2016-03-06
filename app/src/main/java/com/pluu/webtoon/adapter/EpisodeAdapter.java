@@ -9,17 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.Episode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 에피소드 화면 Adapter
@@ -65,7 +66,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
 		Glide.with(mContext)
 			 .load(item.getImage())
 			 .centerCrop()
-			 .error(R.drawable.abc_ic_clear_mtrl_alpha)
+			 .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
 			 .listener(new RequestListener<String, GlideDrawable>() {
 				 @Override
 				 public boolean onException(Exception e, String model,

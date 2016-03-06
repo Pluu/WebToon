@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -21,6 +17,11 @@ import com.bumptech.glide.request.target.Target;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.item.WebToonType;
+
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Main Episode List Adapter
@@ -58,7 +59,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 		Glide.with(mContext)
 			 .load(item.getImage())
 			 .centerCrop()
-			 .error(R.drawable.abc_ic_clear_mtrl_alpha)
+			 .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
 			 .listener(new RequestListener<String, GlideDrawable>() {
 				 @Override
 				 public boolean onException(Exception e, String model,
