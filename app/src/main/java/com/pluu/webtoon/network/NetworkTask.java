@@ -2,8 +2,6 @@ package com.pluu.webtoon.network;
 
 import android.net.Uri;
 
-import java.util.Map;
-
 import com.pluu.support.impl.IRequest;
 import com.pluu.support.impl.NetworkSupportApi;
 import com.pluu.webtoon.common.LoggingInterceptor;
@@ -12,6 +10,8 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
+import java.util.Map;
 
 /**
  * Network Request Task
@@ -56,6 +56,5 @@ public class NetworkTask {
 		Response response = client.newCall(request).execute();
 		return response.body().string();
 	}
-
 
 }

@@ -43,11 +43,11 @@ public class KakaoDetailApi extends AbstractDetailApi {
 		ret.title = doc.select("span[class=title ellipsis_hd]").text();
 		ret.episodeId = id;
 
-		String link = doc.select(".pc_view_prev").attr("data-previous");
+		String link = doc.select(".prevSectionBtn").attr("data-productid");
 		if (!"0".equals(link)) {
 			ret.prevLink = link;
 		}
-		link = doc.select(".pc_view_next").attr("data-next");
+		link = doc.select(".nextSectionBtn").attr("data-productid");
 		if (!"0".equals(link)) {
 			ret.nextLink = link;
 		}

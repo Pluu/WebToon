@@ -1,18 +1,19 @@
 package com.pluu.support.kakao;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.squareup.okhttp.Request;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 카카오 페이지 웹툰 Episode API
@@ -20,11 +21,8 @@ import org.jsoup.select.Elements;
  */
 public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
-	private final String FIRST_EPISODE= "http://page.kakao.com/home/%s?categoryUid=10&subCategoryUid=0&navi=1&inkatalk=0";
-	private final String EPISODE_URL = "http://page.kakao.com/home/singlelist?seriesId=%s&offset=%d&navi=1&inkatalk=0";
-
-	private final Pattern pattern = Pattern.compile("(?<=productId=)\\d+");
-	private final int SIZE = 25;
+	private final String EPISODE_URL = "http://page.kakao.com/home/%s?categoryUid=10&subCategoryUid=1000&navi=1&inkatalk=0";
+	private final String MORE_EPISODE_URL = "http://page.kakao.com/home/ajaxCallHomeSingleList?seriesId=%s&page=%d&navi=1&inkatalk=0";
 
 	private String url;
 	private int offset;
@@ -32,7 +30,11 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
-		this.url = String.format(EPISODE_URL, info.getToonId(), offset);
+		if (offset > 0) {
+			this.url = String.format(MORE_EPISODE_URL, info.getToonId(), offset);
+		} else {
+			this.url = String.format(EPISODE_URL, info.getToonId());
+		}
 
 		EpisodePage episodePage = new EpisodePage(this);
 
@@ -48,7 +50,7 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
 		if (offset == 0) {
 			try {
-				firstEpisode = getFirstItem(info);
+				firstEpisode = getFirstItem(info, doc);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -56,32 +58,28 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 
 		episodePage.episodes = parseList(info, doc);
 		if (!episodePage.episodes.isEmpty()) {
-			offset += SIZE;
+			offset++;
 			episodePage.nextLink = info.getToonId();
 		}
 
 		return episodePage;
 	}
 
-	private Episode getFirstItem(WebToonInfo info) throws Exception {
-		Request.Builder builder = new Request.Builder()
-			.url(String.format(FIRST_EPISODE, info.getToonId()));
-		String response = requestApi(builder.build());
-		Document doc = Jsoup.parse(response);
-		String id = doc.select(".firstViewBtn").attr("data-productId");
+	private Episode getFirstItem(WebToonInfo info, Document doc) throws Exception {
+		String id = doc.select(".topContentWrp .viewerLinkBtn").attr("data-productId");
 		return new Episode(info, id);
 	}
 
 	private List<Episode> parseList(WebToonInfo info, Document doc) {
 		List<Episode> list = new ArrayList<>();
-		Elements links = doc.select("li[class=list viewerList]");
+		Elements links = doc.select(".list");
 		Episode item;
 
 		try {
 			for (Element a : links) {
-				item = new Episode(info, a.select(".productId").attr("value"));
-				item.setImage(a.select(".thum").attr("src"));
-				item.setEpisodeTitle(a.select("span[class=title ellipsis_hd]").text());
+				item = new Episode(info, a.attr("data-productid"));
+				item.setImage(a.select(".thumbnail img").attr("src"));
+				item.setEpisodeTitle(a.select(".title").text());
 				item.setUpdateDate(a.select(".date").text());
 				list.add(item);
 			}
@@ -116,5 +114,12 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 	@Override
 	public String getUrl() {
 		return url;
+	}
+
+	@Override
+	public Map<String, String> getHeaders() {
+		Map<String, String> map = new HashMap<>();
+		map.put("User-Agent", "Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.23 Mobile Safari/537.36");
+		return map;
 	}
 }

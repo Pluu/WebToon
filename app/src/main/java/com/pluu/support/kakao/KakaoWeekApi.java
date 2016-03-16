@@ -1,21 +1,20 @@
 package com.pluu.support.kakao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 카카오 페이지 웹툰 Week API
@@ -24,7 +23,7 @@ import org.jsoup.select.Elements;
 public class KakaoWeekApi extends AbstractWeekApi {
 
 	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일"};
-	private final String WEEK_URL = "http://page.kakao.com/main/ajax_weekly_web";
+	private final String WEEK_URL = "http://page.kakao.com/main/ajaxCallWeeklyList";
 	private int currentPos;
 
 	public KakaoWeekApi() {
@@ -61,26 +60,22 @@ public class KakaoWeekApi extends AbstractWeekApi {
 		}
 
 		Document doc = Jsoup.parse(response);
-		Elements links = doc.select(".l_link");
-		Pattern pattern = Pattern.compile("(?<=/home/)\\d+");
-		String href;
+		Elements links = doc.select(".list");
 
-		String updateStatus = "up";
+		final String idAttribute = "data-seriesId";
 		for (Element a : links) {
-			href = a.attr("data-href");
-			Matcher matcher = pattern.matcher(href);
-			if (!matcher.find()) {
+			if (!a.hasAttr(idAttribute)) {
 				continue;
 			}
 
-			WebToonInfo item = new WebToonInfo(matcher.group());
+			WebToonInfo item = new WebToonInfo(a.attr(idAttribute));
 			item.setTitle(a.select(".title").first().text());
-			item.setImage(a.select(".listImg").first().attr("src"));
+			item.setImage(a.select(".thumbnail img").first().attr("src"));
 
-			if (updateStatus.equals(a.select(".badgeImg").attr("alt"))) {
+			if (!a.select(".badgeImg").isEmpty()) {
 				item.setStatus(Status.UPDATE);
 			}
-			item.setWriter(a.select("span[class=info elInfo ellipsis]").text());
+			item.setWriter(a.select(".info ").text().split("•")[1]);
 			list.add(item);
 		}
 
@@ -100,12 +95,11 @@ public class KakaoWeekApi extends AbstractWeekApi {
 	@Override
 	public Map<String, String> getParams() {
 		Map<String, String> map = new HashMap<>();
-		map.put("week", String.valueOf(currentPos + 1));
-		map.put("categoryType", "MC09");
 		map.put("navi", "1");
+		map.put("day", String.valueOf(currentPos + 1));
 		map.put("inkatalk", "0");
 		map.put("categoryUid", "10");
-		map.put("subCategoryUid", "0");
+		map.put("subCategoryUid", "1000");
 		return map;
 	}
 }
