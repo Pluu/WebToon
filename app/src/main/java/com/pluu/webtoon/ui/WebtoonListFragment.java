@@ -19,8 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -37,6 +35,9 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.event.WebToonSelectEvent;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.squareup.otto.Subscribe;
+
+import java.util.List;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
