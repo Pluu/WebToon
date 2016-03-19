@@ -9,7 +9,6 @@ import com.pluu.webtoon.item.ShareItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,18 +52,11 @@ public class KakaoDetailApi extends AbstractDetailApi {
 		}
 
 		List<DetailView> list = new ArrayList<>();
-		Elements rootArea = doc.select(".webToonArea");
-		Elements elements = rootArea.select(".targetImg");
-		for (Element img : elements) {
+
+		for (Element img : doc.select(".targetImg")) {
 			list.add(DetailView.createImage(img.attr("data-original")));
 		}
-		elements = rootArea.select("input[class$=fileSize]");
-		for (Element img : elements) {
-			list.add(DetailView.createImage(img.attr("value")));
-		}
-
-		elements = doc.select(".viewWrp li input");
-		for (Element img : elements) {
+		for (Element img : doc.select(".viewWrp li input")) {
 			list.add(DetailView.createImage(img.attr("value")));
 		}
 
