@@ -33,7 +33,6 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 	private final List<WebToonInfo> list;
 
 	private final int filterColor;
-	private WebToonInfo selectInfo;
 
 	public MainListAdapter(Context context, List<WebToonInfo> list) {
 		mContext = context;
@@ -102,11 +101,6 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 		viewHolder.tvNovel.setVisibility(item.getType() == WebToonType.NOVEL ? View.VISIBLE : View.GONE);
 		viewHolder.tv19.setVisibility(item.isAdult() ? View.VISIBLE : View.GONE);
 		viewHolder.favorite.setVisibility(item.isFavorite() ? View.VISIBLE : View.GONE);
-
-		if (selectInfo != null &&
-			selectInfo.getToonId().equals(item.getToonId())) {
-			viewHolder.favorite.setVisibility(selectInfo.isFavorite() ? View.VISIBLE : View.GONE);
-		}
 	}
 
 	@Override
@@ -114,17 +108,15 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 		return list != null ? list.size() : 0;
 	}
 
-	public void setSelectInfo(WebToonInfo info) {
-		this.selectInfo = info;
-	}
-
-	public void modifyInfo(WebToonInfo info) {
-		for (WebToonInfo item : list) {
+	public int modifyInfo(WebToonInfo info) {
+		for (int i = 0, size = list.size(); i < size; i++) {
+			WebToonInfo item = list.get(i);
 			if (TextUtils.equals(info.getToonId(), item.getToonId())) {
 				item.setIsFavorite(info.isFavorite());
-				break;
+				return i;
 			}
 		}
+		return -1;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -30,8 +30,8 @@ public class DetailMultiAdapter extends RecyclerView.Adapter<DetailMultiAdapter.
 
     private final Context context;
     private final LayoutInflater inflater;
-    private List<DetailView> list;
-    private int profileSize;
+    private final List<DetailView> list;
+    private final int profileSize;
 
     public DetailMultiAdapter(Context context, int profileSize) {
         this.context = context;

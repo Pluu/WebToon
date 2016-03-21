@@ -1,5 +1,6 @@
 package com.pluu.webtoon.ui;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,13 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
-import com.pluu.event.OttoBusHolder;
+import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
@@ -30,19 +26,26 @@ import com.pluu.webtoon.adapter.EpisodeAdapter;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.FirstItemSelectEvent;
-import com.pluu.webtoon.event.ReadUpdateEvent;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.model.REpisode;
 import com.pluu.webtoon.utils.MoreRefreshListener;
-import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * 에피소드 리스트 Fragment
@@ -52,6 +55,7 @@ public class EpisodeFragment extends Fragment
 	implements SwipeRefreshLayout.OnRefreshListener {
 
 	private final String TAG = EpisodeFragment.class.getSimpleName();
+	private final int REQUEST_DETAIL = 1000;
 
 	@Bind(R.id.swipe_refresh_widget)
 	SwipeRefreshLayout swipeRefreshWidget;
@@ -69,6 +73,7 @@ public class EpisodeFragment extends Fragment
 	private AbstractEpisodeApi serviceApi;
 
 	private int[] color;
+	private CompositeSubscription mCompositeSubscription;
 
 	public EpisodeFragment() { }
 
@@ -164,14 +169,20 @@ public class EpisodeFragment extends Fragment
 	public void onResume() {
 		super.onResume();
 		Glide.with(this).resumeRequests();
-		OttoBusHolder.get().register(this);
+		mCompositeSubscription = new CompositeSubscription();
+		mCompositeSubscription.add(
+				RxBusProvider.getInstance()
+						.toObservable()
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribe(getBusEvent())
+		);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		OttoBusHolder.get().unregister(this);
 		Glide.with(this).pauseRequests();
+		mCompositeSubscription.unsubscribe();
 	}
 
 	@Override
@@ -203,18 +214,39 @@ public class EpisodeFragment extends Fragment
 	}
 
 	private void loading() {
-		loadDlg.show();
 		if (swipeRefreshWidget.isRefreshing()) {
 			swipeRefreshWidget.setRefreshing(false);
 		}
 
 		Observable.zip(getRequestApi(), getReadAction(), getRequestReadAction())
-				  .subscribeOn(Schedulers.newThread())
-				  .observeOn(AndroidSchedulers.mainThread())
-				  .subscribe(getRequestSubscriber());
+				.subscribeOn(Schedulers.newThread())
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnSubscribe(getSubscribeAction())
+				.doOnUnsubscribe(getUnsubscribeAction())
+				.subscribe(getRequestSubscriber());
 	}
 
-//	@RxLogObservable
+	@NonNull
+	private Action0 getUnsubscribeAction() {
+		return new Action0() {
+            @Override
+            public void call() {
+                loadDlg.dismiss();
+            }
+        };
+	}
+
+	@NonNull
+	private Action0 getSubscribeAction() {
+		return new Action0() {
+            @Override
+            public void call() {
+                loadDlg.show();
+            }
+        };
+	}
+
+	//	@RxLogObservable
 	private Observable<List<Episode>> getRequestApi() {
 		return Observable
 			.create(new Observable.OnSubscribe<List<Episode>>() {
@@ -272,14 +304,11 @@ public class EpisodeFragment extends Fragment
 			public void onCompleted() { }
 
 			@Override
-			public void onError(Throwable e) {
-				loadDlg.dismiss();
-			}
+			public void onError(Throwable e) { }
 
 			@Override
 			public void onNext(List<Episode> list) {
 				if (list == null || list.isEmpty()) {
-					loadDlg.dismiss();
 					if (list == null) {
 						Toast.makeText(getContext(), R.string.network_fail,
 									   Toast.LENGTH_SHORT).show();
@@ -289,15 +318,34 @@ public class EpisodeFragment extends Fragment
 				}
 				adapter.addItems(list);
 				adapter.notifyDataSetChanged();
-				loadDlg.dismiss();
 			}
 		};
 	}
 
-	@Subscribe
-	public void readUpdate(ReadUpdateEvent event) {
-		loadDlg.show();
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode != Activity.RESULT_OK) {
+			return;
+		}
+		if (requestCode == REQUEST_DETAIL) {
+			readUpdate();
+		}
+	}
 
+	@NonNull
+	private Action1<Object> getBusEvent() {
+		return new Action1<Object>() {
+			@Override
+			public void call(Object o) {
+				if (o instanceof FirstItemSelectEvent) {
+					firstItemSelect();
+				}
+			}
+		};
+	}
+
+	private void readUpdate() {
 		getReadAction()
 			.map(new Func1<List<REpisode>, List<String>>() {
 				@Override
@@ -311,26 +359,24 @@ public class EpisodeFragment extends Fragment
 			})
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
+			.doOnSubscribe(getSubscribeAction())
+			.doOnUnsubscribe(getUnsubscribeAction())
 			.subscribe(new Subscriber<List<String>>() {
 				@Override
 				public void onCompleted() { }
 
 				@Override
-				public void onError(Throwable e) {
-					loadDlg.dismiss();
-				}
+				public void onError(Throwable e) { }
 
 				@Override
 				public void onNext(List<String> list) {
 					adapter.updateRead(list);
 					adapter.notifyDataSetChanged();
-					loadDlg.dismiss();
 				}
 			});
 	}
 
-	@Subscribe
-	public void firstItemSelect(FirstItemSelectEvent event) {
+	private void firstItemSelect() {
 		Episode item = adapter.getItem(0);
 		if (item.isLock()) {
 			Toast.makeText(getContext(), R.string.msg_not_support, Toast.LENGTH_SHORT).show();
@@ -351,7 +397,7 @@ public class EpisodeFragment extends Fragment
 		intent.putExtra(Const.EXTRA_EPISODE, item);
 		intent.putExtra(Const.EXTRA_MAIN_COLOR, color[0]);
 		intent.putExtra(Const.EXTRA_STATUS_COLOR, color[1]);
-		startActivityForResult(intent, 0);
+		startActivityForResult(intent, REQUEST_DETAIL);
 	}
 
 }

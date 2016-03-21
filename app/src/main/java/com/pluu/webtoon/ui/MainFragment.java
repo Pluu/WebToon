@@ -2,35 +2,39 @@ package com.pluu.webtoon.ui;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
-import com.pluu.event.OttoBusHolder;
+import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
+import com.pluu.webtoon.adapter.MainFragmentAdapter;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.event.ThemeEvent;
 import com.pluu.webtoon.utils.DisplayUtils;
-import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Main View Fragment
@@ -45,10 +49,13 @@ public class MainFragment extends Fragment {
 	@Bind(R.id.viewPager)
 	ViewPager viewPager;
 
+	private CompositeSubscription mCompositeSubscription;
+
 	private AbstractWeekApi serviceApi;
 
 	private boolean isFirstDlg = true;
 	private ProgressDialog loadDlg;
+	private MainFragmentAdapter adapter;
 
 	public static MainFragment newInstance(NAV_ITEM item) {
 		MainFragment fragment = new MainFragment();
@@ -92,40 +99,8 @@ public class MainFragment extends Fragment {
 
 		getApi();
 
-		viewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
-
-			private final SparseArray<WebtoonListFragment> views = new SparseArray<>();
-
-			@Override
-			public void destroyItem(ViewGroup container, int position, Object object) {
-				super.destroyItem(container, position, object);
-				views.remove(position);
-			}
-
-			@Override
-			public Fragment getItem(int position) {
-				WebtoonListFragment fragment = new WebtoonListFragment();
-				Bundle args = new Bundle();
-				args.putInt(Const.EXTRA_POS, position);
-				args.putSerializable(Const.EXTRA_API, serviceApi.getNaviItem());
-				fragment.setArguments(args);
-
-				views.put(position, fragment);
-
-				return fragment;
-			}
-
-			@Override
-			public int getCount() {
-				return serviceApi.getWeeklyTabSize();
-			}
-
-			@Override
-			public CharSequence getPageTitle(int position) {
-				return serviceApi.getWeeklyTabName(position);
-			}
-		});
-
+		adapter = new MainFragmentAdapter(getFragmentManager(), serviceApi);
+		viewPager.setAdapter(adapter);
 		// 금일 기준으로 ViewPager 기본 표시
 		viewPager.setCurrentItem(serviceApi.getTodayTabPosition());
 
@@ -158,36 +133,58 @@ public class MainFragment extends Fragment {
 			set.start();
 		}
 
-		((OttoBusHolder) OttoBusHolder.get()).postQueue(new ThemeEvent(color, colorDark));
+		RxBusProvider.getInstance().send(new ThemeEvent(color, colorDark));
 		slidingTabLayout.setSelectedIndicatorColors(color);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		OttoBusHolder.get().register(this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		Glide.with(this).resumeRequests();
+		mCompositeSubscription = new CompositeSubscription();
+		mCompositeSubscription.add(
+				RxBusProvider.getInstance()
+				.toObservable()
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(getBusEvent())
+		);
 	}
 
 	@Override
 	public void onPause() {
 		Glide.with(this).pauseRequests();
+		mCompositeSubscription.unsubscribe();
 		super.onPause();
 	}
 
 	@Override
-	public void onStop() {
-		OttoBusHolder.get().unregister(this);
-		super.onStop();
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode != Activity.RESULT_OK) {
+			return;
+		}
+
+		if (requestCode == WebtoonListFragment.REQUEST_DETAIL_REFERRER) {
+			// 포함되어있는 ViewPager 의 Fragment 갱신 처리
+			adapter.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
-	@Subscribe
-	public void eventStartEvent(MainEpisodeStartEvent event) {
+	@NonNull
+	private Action1<Object> getBusEvent() {
+		return new Action1<Object>() {
+			@Override
+			public void call(Object o) {
+				if (o instanceof MainEpisodeStartEvent) {
+					eventStartEvent();
+				} else if (o instanceof MainEpisodeLoadedEvent) {
+					eventLoadedEvent();
+				}
+			}
+		};
+	}
+
+	private void eventStartEvent() {
 		if (isFirstDlg) {
 			Log.d(TAG, "eventStartEvent");
 			loadDlg.show();
@@ -195,8 +192,7 @@ public class MainFragment extends Fragment {
 		}
 	}
 
-	@Subscribe
-	public void eventLoadedEvent(MainEpisodeLoadedEvent event) {
+	private void eventLoadedEvent() {
 		if (!isFirstDlg) {
 			Log.d(TAG, "eventLoadedEvent");
 			loadDlg.dismiss();

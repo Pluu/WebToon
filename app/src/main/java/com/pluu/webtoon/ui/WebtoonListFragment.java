@@ -1,5 +1,6 @@
 package com.pluu.webtoon.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -22,25 +23,24 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.pluu.event.OttoBusHolder;
+import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.MainListAdapter;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
-import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
-import com.pluu.webtoon.event.WebToonSelectEvent;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -55,10 +55,10 @@ public class WebtoonListFragment extends Fragment {
 	private GridLayoutManager manager;
 	private int position;
 
-	private static final int REQUEST_CODE = 1000;
+	private final int REQUEST_DETAIL = 1000;
+	public static final int REQUEST_DETAIL_REFERRER = 1001;
 
 	private AbstractWeekApi serviceApi;
-	private WebToonInfo selectInfo;
 	private int columnCount;
 
 	@Override
@@ -85,15 +85,36 @@ public class WebtoonListFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		OttoBusHolder.get().post(new MainEpisodeStartEvent());
 		getApiRequest()
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.map(getFavoriteProcessFunc())
+			.doOnSubscribe(getSubscribeAction())
+			.doOnUnsubscribe(getUnsubscribeAction())
 			.subscribe(getRequestSubscriber());
 	}
 
-//	@RxLogSubscriber
+	@NonNull
+	private Action0 getSubscribeAction() {
+		return new Action0() {
+			@Override
+			public void call() {
+				RxBusProvider.getInstance().send(new MainEpisodeStartEvent());
+			}
+		};
+	}
+
+	@NonNull
+	private Action0 getUnsubscribeAction() {
+		return new Action0() {
+            @Override
+            public void call() {
+				RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent());
+            }
+        };
+	}
+
+	//	@RxLogSubscriber
 	@NonNull
 	private Subscriber<List<WebToonInfo>> getRequestSubscriber() {
 		return new Subscriber<List<WebToonInfo>>() {
@@ -101,9 +122,7 @@ public class WebtoonListFragment extends Fragment {
 			public void onCompleted() { }
 
 			@Override
-			public void onError(Throwable e) {
-				OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
-			}
+			public void onError(Throwable e) { }
 
 			@Override
 			public void onNext(List<WebToonInfo> list) {
@@ -120,8 +139,6 @@ public class WebtoonListFragment extends Fragment {
 						return vh;
 					}
 				});
-
-				OttoBusHolder.get().post(new MainEpisodeLoadedEvent());
 			}
 		};
 	}
@@ -144,40 +161,41 @@ public class WebtoonListFragment extends Fragment {
 
 	//	@RxLogObservable
 	private Observable<List<WebToonInfo>> getApiRequest() {
-		return Observable.create(new Observable.OnSubscribe<List<WebToonInfo>>() {
+		return Observable.defer(new Func0<Observable<List<WebToonInfo>>>() {
 			@Override
-			public void call(Subscriber<? super List<WebToonInfo>> subscriber) {
+			public Observable<List<WebToonInfo>> call() {
 				Log.i(TAG, "Load pos=" + position);
-				List<WebToonInfo> list = serviceApi.parseMain(position);
-				subscriber.onNext(list);
-				subscriber.onCompleted();
+				return Observable.just(serviceApi.parseMain(position));
 			}
 		});
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		OttoBusHolder.get().register(this);
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode != Activity.RESULT_OK) {
+			return;
+		}
+
+		if (requestCode == REQUEST_DETAIL) {
+			// 즐겨찾기 변경 처리 > 다른 ViewPager의 Fragment도 수신받기위해 Referrer
+			Fragment frag = getFragmentManager().findFragmentByTag(Const.MAIN_FRAG_TAG);
+			if (frag != null) {
+				frag.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data);
+			}
+		} else if (requestCode == REQUEST_DETAIL_REFERRER) {
+			// ViewPager 로부터 전달받은 Referrer
+			WebToonInfo info = data.getParcelableExtra(Const.EXTRA_EPISODE);
+			favoriteUpdate(info);
+		}
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		OttoBusHolder.get().unregister(this);
-	}
-
-	@Subscribe
-	public void responseNetwork(WebToonSelectEvent result) {
-		selectInfo = result.item;
-		((MainListAdapter) recyclerView.getAdapter()).setSelectInfo(selectInfo);
-	}
-
-	@Subscribe
-	public void favoriteUpdate(ListUpdateEvent event) {
+	private void favoriteUpdate(WebToonInfo info) {
 		MainListAdapter adapter = (MainListAdapter) recyclerView.getAdapter();
-		adapter.modifyInfo(event.info);
-		adapter.notifyDataSetChanged();
+		int position = adapter.modifyInfo(info);
+		if (position != -1) {
+			adapter.notifyItemChanged(position);
+		}
 	}
 
 	private void setClickListener(final MainListAdapter.ViewHolder vh) {
@@ -186,7 +204,6 @@ public class WebtoonListFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				final WebToonInfo item = (WebToonInfo) vh.titleView.getTag();
-				selectInfo = item;
 				loadPalette(item);
 			}
 		});
@@ -225,7 +242,7 @@ public class WebtoonListFragment extends Fragment {
 		intent.putExtra(Const.EXTRA_EPISODE, item);
 		intent.putExtra(Const.EXTRA_MAIN_COLOR, bgColor);
 		intent.putExtra(Const.EXTRA_STATUS_COLOR, statusColor);
-		getActivity().startActivityForResult(intent, REQUEST_CODE);
+		startActivityForResult(intent, REQUEST_DETAIL);
 	}
 
 	private void updateSpanCount() {

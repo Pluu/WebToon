@@ -34,8 +34,8 @@ public class DetailChatAdapter extends RecyclerView.Adapter<DetailChatAdapter.Vi
 
     private final Context context;
     private final LayoutInflater inflater;
-    private List<DetailView> list;
-    private int profileSize;
+    private final List<DetailView> list;
+    private final int profileSize;
 
     public DetailChatAdapter(Context context, int profileSize) {
         this.context = context;

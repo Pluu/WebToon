@@ -1,6 +1,7 @@
 package com.pluu.webtoon.item;
 
 /**
+ * Share Item Class
  * Created by nohhs on 2015-03-23.
  */
 public class ShareItem {

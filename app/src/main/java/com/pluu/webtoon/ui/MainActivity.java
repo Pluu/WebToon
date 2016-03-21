@@ -2,19 +2,22 @@ package com.pluu.webtoon.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import com.pluu.event.OttoBusHolder;
+import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.event.ListUpdateEvent;
 import com.pluu.webtoon.event.ThemeEvent;
-import com.pluu.webtoon.item.WebToonInfo;
-import com.squareup.otto.Subscribe;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends BaseActivity {
 
@@ -22,6 +25,8 @@ public class MainActivity extends BaseActivity {
 
 	@Bind(R.id.navTitle)
 	View navTitle;
+
+	private CompositeSubscription mCompositeSubscription;
 
 	@Override
 	protected NAV_ITEM getSelfNavDrawerItem() {
@@ -53,30 +58,48 @@ public class MainActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK) {
-			return;
-		}
-
-		WebToonInfo editItem = data.getParcelableExtra(Const.EXTRA_EPISODE);
-		((OttoBusHolder) OttoBusHolder.get()).postQueue(new ListUpdateEvent(editItem));
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
-		OttoBusHolder.get().register(this);
+		mCompositeSubscription = new CompositeSubscription();
+		mCompositeSubscription.add(
+				RxBusProvider.getInstance()
+						.toObservable()
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribe(getBusEvent())
+		);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		OttoBusHolder.get().unregister(this);
+		mCompositeSubscription.unsubscribe();
 	}
 
-	@Subscribe
-	public void themeChange(ThemeEvent event) {
+	@NonNull
+	private Action1<Object> getBusEvent() {
+		return new Action1<Object>() {
+			@Override
+			public void call(Object o) {
+				if (o instanceof ThemeEvent) {
+					themeChange((ThemeEvent) o);
+				}
+			}
+		};
+	}
+
+	private void themeChange(ThemeEvent event) {
 		navTitle.setBackgroundColor(event.getDarlColor());
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == RESULT_OK) {
+			Fragment fragment = getSupportFragmentManager().findFragmentByTag(Const.MAIN_FRAG_TAG);
+			if (fragment != null) {
+				fragment.onActivityResult(requestCode, resultCode, data);
+			}
+		}
 	}
 }

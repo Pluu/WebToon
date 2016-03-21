@@ -15,18 +15,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import com.pluu.event.OttoBusHolder;
+import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.FirstItemSelectEvent;
-import com.pluu.webtoon.event.ReadUpdateEvent;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.utils.DisplayUtils;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 에피소드 리스트 Activity
@@ -136,16 +136,7 @@ public class EpisodesActivity extends AppCompatActivity {
 
 	@OnClick(R.id.btnFirst)
 	public void firstViewClick() {
-		OttoBusHolder.get().post(new FirstItemSelectEvent());
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK) {
-			return;
-		}
-		((OttoBusHolder) OttoBusHolder.get()).postQueue(new ReadUpdateEvent());
+		RxBusProvider.getInstance().send(new FirstItemSelectEvent());
 	}
 
 	@Override
