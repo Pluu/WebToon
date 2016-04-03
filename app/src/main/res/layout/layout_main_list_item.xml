@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -40,6 +39,7 @@
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@android:color/white"
+            android:textSize="20sp"
             android:textStyle="bold"
             tools:text="Title"
             />
@@ -75,26 +75,31 @@
                 android:text="@string/label_up"
                 android:textColor="@android:color/white"
                 android:visibility="gone"
+                tools:visibility="visible"
                 />
 
             <TextView
                 android:id="@+id/tv19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:background="@drawable/border_circle_red"
                 android:text="@string/label_19"
                 android:textColor="@android:color/white"
                 android:visibility="gone"
+                tools:visibility="visible"
                 />
 
             <TextView
                 android:id="@+id/tvRest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:background="@drawable/border_gray"
                 android:text="@string/label_sleep"
                 android:textColor="@android:color/white"
                 android:visibility="gone"
+                tools:visibility="visible"
                 />
         </LinearLayout>
 
@@ -108,6 +113,7 @@
             android:layout_marginTop="8dip"
             android:background="@drawable/border_gray"
             android:textColor="@android:color/white"
+            tools:text="16.04.03"
             />
 
         <ImageView

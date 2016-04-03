@@ -1,22 +1,23 @@
 package com.pluu.support.naver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 네이버 웹툰 Week API
@@ -84,6 +85,7 @@ public class NaverWeekApi extends AbstractWeekApi {
 				// 휴재
 				item.setStatus(Status.BREAK);
 			}
+			item.setIsAdult(!a.select(".ico_adult2").isEmpty());
 			item.setWriter(a.select(".sub_info").text());
 			item.setRate(Const.getRateNameByRate(a.select("span[class=if1 st_r]").text()));
 			item.setUpdateDate(a.select("span[class=if1]").text());

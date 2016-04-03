@@ -2,6 +2,7 @@ package com.pluu.webtoon.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -164,14 +165,23 @@ public class DetailActivity extends AppCompatActivity
         titleColor = getIntent().getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK);
         statusColor = getIntent().getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK);
 
-        TypedValue value = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
-
         btnPrev.setEnabled(false);
         btnNext.setEnabled(false);
 
-        ValueAnimator bg = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
-        bg.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(getBgColorAnimator(), getStatusBarAnimator());
+        set.setDuration(1000L);
+        set.setInterpolator(new DecelerateInterpolator());
+        set.start();
+    }
+
+    @NonNull
+    private ValueAnimator getBgColorAnimator() {
+        TypedValue value = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
+
+        ValueAnimator bgColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
+        bgColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue();
@@ -180,7 +190,7 @@ public class DetailActivity extends AppCompatActivity
                 btnNext.setBackgroundColor(value);
             }
         });
-        bg.addListener(new AnimatorListenerAdapter() {
+        bgColorAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 btnNext.setBackgroundDrawable(getStateListBgDrawable());
@@ -190,15 +200,11 @@ public class DetailActivity extends AppCompatActivity
                 btnPrev.setTextColor(getStateListTextDrawable());
             }
         });
-        bg.setDuration(1000L);
-        bg.setInterpolator(new DecelerateInterpolator());
-        bg.start();
-
-        changeStatusBar();
+        return bgColorAnimator;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void changeStatusBar() {
+    private Animator getStatusBarAnimator() {
         if (statusBarAnimator != null) {
             statusBarAnimator.cancel();
         }
@@ -206,10 +212,9 @@ public class DetailActivity extends AppCompatActivity
         TypedValue resValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimaryDark, resValue, true);
         statusBarAnimator = ObjectAnimator.ofInt(getWindow(), "statusBarColor", resValue.data,
-                statusColor);
-        statusBarAnimator.setDuration(250L);
+                titleColor);
         statusBarAnimator.setEvaluator(argbEvaluator);
-        statusBarAnimator.start();
+        return statusBarAnimator;
     }
 
     private StateListDrawable getStateListBgDrawable() {

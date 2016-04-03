@@ -19,10 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
@@ -33,6 +31,7 @@ import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.utils.GlideUtils;
 
 import java.util.List;
 
@@ -204,23 +203,16 @@ public class WebtoonListFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				final WebToonInfo item = (WebToonInfo) vh.titleView.getTag();
-				loadPalette(item);
+				loadPalette(vh.thumbnailView, item);
 			}
 		});
 	}
 
-	private void loadPalette(final WebToonInfo item) {
-		final Context context = getActivity();
-		Glide.with(context)
-			 .load(item.getImage())
-			 .asBitmap()
-			 .into(new SimpleTarget<Bitmap>() {
-				 @Override
-				 public void onResourceReady(Bitmap resource,
-											 GlideAnimation<? super Bitmap> glideAnimation) {
-					 asyncPalette(item, resource);
-				 }
-			 });
+	private void loadPalette(ImageView view, final WebToonInfo item) {
+		Bitmap bitmap = GlideUtils.loadGlideBitmap(view);
+		if (bitmap != null) {
+			asyncPalette(item, bitmap);
+		}
 	}
 
 	private void asyncPalette(final WebToonInfo item, Bitmap bitmap) {
