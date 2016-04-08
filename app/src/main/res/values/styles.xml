@@ -13,6 +13,16 @@
 		<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 	</style>
 
+	<style name="BaeMaterialAppThemeToolBar" parent="Theme.AppCompat.Light.DarkActionBar">
+		<item name="colorPrimary">@color/theme_primary</item>
+		<item name="colorPrimaryDark">@color/theme_primary_dark</item>
+		<item name="colorAccent">@color/color_accent</item>
+	</style>
+
+	<style name="PreferenceToolBar" parent="BaeMaterialAppThemeToolBar">
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+	</style>
+
 	<style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
 		<item name="spinBars">true</item>
 		<item name="color">@android:color/white</item>

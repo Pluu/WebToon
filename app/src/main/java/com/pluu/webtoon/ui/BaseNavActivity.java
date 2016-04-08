@@ -17,21 +17,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Base ActionBar Activity
  * Created by nohhs on 2015-04-06.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseNavActivity extends AppCompatActivity {
 
-	private final String TAG = BaseActivity.class.getSimpleName();
+	private final String TAG = BaseNavActivity.class.getSimpleName();
 
 	// Primary toolbar and drawer toggle
 	private Toolbar mActionBarToolbar;
@@ -198,28 +198,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 		}
 
 		// configure its appearance according to whether or not it's selected
-		titleView.setTextColor(selected ?
-								   getNaviSelectedTextColor() :
-								   ContextCompat.getColor(this, R.color.navdrawer_text_color));
-		iconView.setColorFilter(selected ?
-									getNaviSelectedIconColorFilter() :
-									ContextCompat.getColor(this, R.color.navdrawer_icon_tint));
-	}
-
-	/**
-	 * Navi Drawer Title Color
-	 * @return color
-	 */
-	protected int getNaviSelectedTextColor() {
-		return ContextCompat.getColor(this, R.color.navdrawer_text_color_selected);
-	}
-
-	/**
-	 * Navi Drawer Icon Color Filter
-	 * @return color
-	 */
-	protected int getNaviSelectedIconColorFilter() {
-		return ContextCompat.getColor(this, R.color.navdrawer_icon_tint_selected);
+		titleView.setTextColor(ContextCompat.getColor(this,
+				selected ? item.color : R.color.navdrawer_text_color));
+		iconView.setColorFilter(ContextCompat.getColor(this,
+				selected ? item.bgColor : R.color.navdrawer_icon_tint));
 	}
 
 	private boolean isSpecialItem(NAV_ITEM item) {

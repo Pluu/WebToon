@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="@string/title_naver_key"
+        android:entries="@array/label_webtoon_list"
+        android:entryValues="@array/label_webtoon_value"
+        android:key="default_webtoon"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/label_default_webtoon"
+        />
+
+    <PreferenceScreen
+        android:fragment="com.pluu.webtoon.ui.settting.LicenseActivity"
+        android:title="@string/label_license"
+        />
+
+</PreferenceScreen>

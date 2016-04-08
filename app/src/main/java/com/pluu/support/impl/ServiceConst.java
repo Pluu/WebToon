@@ -1,6 +1,7 @@
 package com.pluu.support.impl;
 
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
@@ -12,18 +13,25 @@ import com.pluu.webtoon.common.Const;
 public class ServiceConst {
 
 	public enum NAV_ITEM {
-		NAVER(true),
-		DAUM(true),
-		OLLEH(true),
-		KAKAOPAGE(true),
-		NATE(true),
-		T_STORE(true),
-		SEPARATOR(false),		// Separator
-		INVALID(false);			// Only Temp
+		NAVER(true, R.color.naver_color, R.color.naver_color_dark),
+		DAUM(true, R.color.daum_color, R.color.daum_color_dark),
+		OLLEH(true, R.color.olleh_color, R.color.olleh_color_dark),
+		KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_dark),
+		NATE(true, R.color.nate_color, R.color.nate_color_dark),
+		T_STORE(true, R.color.t_store_color, R.color.t_store_color_dark),
+		SEPARATOR(false, 0, 0),			// Separator
+		INVALID(false, 0, 0);			// Only Temp
 
 		public final boolean isSelect;
+		public final int color;
+		public final int bgColor;
 
-		NAV_ITEM(boolean isSelect) {this.isSelect = isSelect;}
+		NAV_ITEM(boolean isSelect, @ColorRes int color, @ColorRes int bgColor) {
+			this.isSelect = isSelect;
+			this.color = color;
+			this.bgColor = bgColor;
+		}
+
 		public static NAV_ITEM getDefault() {
 			return NAVER;
 		}
@@ -32,7 +40,7 @@ public class ServiceConst {
 	// titles for navdrawer items (indices must correspond to the above)
 	public static final int[] NAVDRAWER_TITLE_RES_ID = new int[]{
 		R.string.title_naver,
-		R.string.title_duam,
+		R.string.title_daum,
 		R.string.title_olleh,
 		R.string.title_kakao_page,
 		R.string.title_nate,

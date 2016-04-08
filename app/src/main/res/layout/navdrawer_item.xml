@@ -7,15 +7,14 @@
     android:gravity="start|center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    >
+    android:paddingRight="16dp">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginRight="32dp"
-        />
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp" />
 
     <TextView
         android:id="@+id/title"
@@ -25,7 +24,6 @@
         android:fontFamily="@string/font_fontFamily_medium"
         android:gravity="start|center_vertical"
         android:textSize="@dimen/text_size_medium"
-        tools:text="Item Name"
-        />
+        tools:text="Item Name" />
 
 </LinearLayout>

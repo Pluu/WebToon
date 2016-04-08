@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-
 import com.pluu.support.daum.DaumWeekApi;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.support.kakao.KakaoWeekApi;
@@ -16,6 +12,10 @@ import com.pluu.support.naver.NaverWeekApi;
 import com.pluu.support.olleh.OllehWeekApi;
 import com.pluu.support.tstore.TStorerWeekApi;
 import com.pluu.webtoon.item.WebToonInfo;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Week API
@@ -32,16 +32,12 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 	public abstract NAV_ITEM getNaviItem();
 
 	public int getTitleColor(Context context) {
-		return ContextCompat.getColor(context, getMainTitleColor());
+		return ContextCompat.getColor(context, getNaviItem().color);
 	}
-
-	protected abstract int getMainTitleColor();
 
 	public int getTitleColorDark(Context context) {
-		return ContextCompat.getColor(context, getMainTitleColorDark());
+		return ContextCompat.getColor(context, getNaviItem().bgColor);
 	}
-
-	protected abstract int getMainTitleColorDark();
 
 	public int getWeeklyTabSize() {
 		return CURRENT_TABS.length;

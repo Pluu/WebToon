@@ -43,16 +43,6 @@ public class OllehWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor() {
-		return R.color.olleh_color;
-	}
-
-	@Override
-	protected int getMainTitleColorDark() {
-		return R.color.olleh_color_dark;
-	}
-
-	@Override
 	public List<WebToonInfo> parseMain(int position) {
 		ArrayList<WebToonInfo> list = new ArrayList<>();
 

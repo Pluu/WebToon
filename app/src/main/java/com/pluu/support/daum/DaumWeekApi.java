@@ -43,16 +43,6 @@ public class DaumWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor() {
-		return R.color.daum_color;
-	}
-
-	@Override
-	protected int getMainTitleColorDark() {
-		return R.color.daum_color_dark;
-	}
-
-	@Override
 	public List<WebToonInfo> parseMain(int position) {
 		this.currentPos = position;
 

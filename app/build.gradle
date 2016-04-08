@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.fernandocejas.frodo'
 //apply plugin: 'com.neenbedankt.android-apt'
 
+ext {
+    supporyLibraryVersion = '23.2.1'
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
@@ -12,6 +16,7 @@ android {
         targetSdkVersion 23
         versionCode 13
         versionName "1.1.11"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -38,17 +43,29 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile "com.android.support:support-v4:${google_support_library_version}"
-    compile("com.android.support:appcompat-v7:${google_support_library_version}") {
+
+    compile "com.android.support:support-annotations:${supporyLibraryVersion}"
+    compile "com.android.support:support-v4:${supporyLibraryVersion}"
+    compile("com.android.support:appcompat-v7:${supporyLibraryVersion}") {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    compile("com.android.support:recyclerview-v7:${google_support_library_version}") {
+    compile("com.android.support:recyclerview-v7:${supporyLibraryVersion}") {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    compile("com.android.support:palette-v7:${google_support_library_version}") {
+    compile("com.android.support:palette-v7:${supporyLibraryVersion}") {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    compile "com.android.support:cardview-v7:${google_support_library_version}"
+    compile "com.android.support:cardview-v7:${supporyLibraryVersion}"
+    compile "com.android.support:preference-v7:${supporyLibraryVersion}"
+
+//	// DI
+//    apt 'com.google.dagger:dagger-compiler:2.1'
+//    compile 'com.google.dagger:dagger:2.1'
+//    provided 'javax.annotation:jsr250-api:1.0'
+
+    // LeakCheck
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -56,13 +73,4 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'io.realm:realm-android:0.87.5'
-
-//	// DI
-//    apt 'com.google.dagger:dagger-compiler:2.1'
-//    compile 'com.google.dagger:dagger:2.1'
-//    provided 'javax.annotation:jsr250-api:1.0'
-
-	// LeakCheck
-	debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
 }

@@ -42,16 +42,6 @@ public class NaverWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	protected int getMainTitleColor() {
-		return R.color.naver_color;
-	}
-
-	@Override
-	protected int getMainTitleColorDark() {
-		return R.color.naver_color_dark;
-	}
-
-	@Override
 	public List<WebToonInfo> parseMain(int position) {
 		currentPos = position;
 

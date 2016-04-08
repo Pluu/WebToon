@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
@@ -11,15 +12,18 @@ import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
+import com.pluu.webtoon.common.PrefConfig;
 import com.pluu.webtoon.event.ThemeEvent;
+import com.pluu.webtoon.ui.settting.SettingsActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseNavActivity {
 
 	private NAV_ITEM selfDrawerItem;
 
@@ -45,11 +49,13 @@ public class MainActivity extends BaseActivity {
 			actionBar.setHomeButtonEnabled(true);
 		}
 
-		selfDrawerItem = NAV_ITEM.getDefault();
+		selfDrawerItem = PrefConfig.getDefaultWebToon(this);
+		themeChange(new ThemeEvent(ContextCompat.getColor(this, selfDrawerItem.color),
+				ContextCompat.getColor(this, selfDrawerItem.bgColor)));
 
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.container, new MainFragment(), Const.MAIN_FRAG_TAG)
+			.replace(R.id.container, MainFragment.newInstance(selfDrawerItem), Const.MAIN_FRAG_TAG)
 			.commit();
 	}
 
@@ -102,4 +108,12 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 	}
+
+	@OnClick(R.id.btnSetting)
+	public void clickSetting() {
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+		closeNavDrawer();
+	}
+
 }
