@@ -75,7 +75,6 @@ public class EpisodesActivity extends AppCompatActivity {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setTitle(webToonInfo.getTitle());
-			actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_36dp);
 		}
 	}
 

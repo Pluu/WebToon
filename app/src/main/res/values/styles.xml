@@ -29,6 +29,7 @@
 	</style>
 
 	<style name="ActionBarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark">
+		<item name="colorControlNormal">@android:color/white</item>
 	</style>
 
 	<style name="ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

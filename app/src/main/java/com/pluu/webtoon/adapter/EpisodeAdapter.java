@@ -66,7 +66,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
 		Glide.with(mContext)
 			 .load(item.getImage())
 			 .centerCrop()
-			 .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+			 .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp_vector_state)
 			 .listener(new RequestListener<String, GlideDrawable>() {
 				 @Override
 				 public boolean onException(Exception e, String model,

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.DetailActivity"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.DetailActivity"
     >
 
     <FrameLayout
@@ -13,9 +13,12 @@
         />
 
     <android.support.v7.widget.Toolbar
+        xmlns:iosched="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar_actionbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
+        iosched:theme="@style/ActionBarThemeOverlay"
+        tools:background="@color/theme_primary"
         >
 
         <LinearLayout
@@ -31,7 +34,7 @@
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"
-                tools:text="Large Text"
+                tools:text="Title Text"
                 />
 
             <TextView
@@ -40,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                tools:text="New Text"
+                tools:text="Sub Title"
                 />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
