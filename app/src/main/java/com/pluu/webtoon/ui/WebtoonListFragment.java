@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractWeekApi;
@@ -203,7 +204,13 @@ public class WebtoonListFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				final WebToonInfo item = (WebToonInfo) vh.titleView.getTag();
-				loadPalette(vh.thumbnailView, item);
+				if (item.isLock()) {
+					Toast.makeText(getContext(),
+							R.string.msg_not_support,
+							Toast.LENGTH_SHORT).show();
+				} else {
+					loadPalette(vh.thumbnailView, item);
+				}
 			}
 		});
 	}

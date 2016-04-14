@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item>
-		<shape
-			android:shape="oval">
-			<solid android:color="#CC222222"/>
-		</shape>
-	</item>
-	<item>
-		<bitmap android:src="@drawable/ic_lock_outline_white_24dp" />
-	</item>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="#CC222222"/>
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_lock_outline_white_24dp"/>
 </layer-list>
