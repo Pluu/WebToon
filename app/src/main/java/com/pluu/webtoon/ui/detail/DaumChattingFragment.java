@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.DetailChatAdapter;
+import com.pluu.webtoon.adapter.viewholder.BaseChattingViewHolder;
 import com.pluu.webtoon.item.DetailView;
 
 import java.util.List;
@@ -62,12 +63,11 @@ public class DaumChattingFragment extends BaseDetailFragment {
 
     private void initChattingSetting() {
         chattingList.setLayoutManager(new LinearLayoutManager(getContext()));
-        final int profileSize = getResources().getDimensionPixelSize(R.dimen.chatting_profile_size);
 
-        adapter = new DetailChatAdapter(getContext(), profileSize) {
+        adapter = new DetailChatAdapter(getContext()) {
             @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                ViewHolder holder = super.onCreateViewHolder(parent, viewType);
+            public BaseChattingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                BaseChattingViewHolder holder = super.onCreateViewHolder(parent, viewType);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
