@@ -1,8 +1,10 @@
 package com.pluu.webtoon.ui.settting;
 
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +15,6 @@ import com.pluu.event.RxBusProvider;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.LicenseAdapter;
 import com.pluu.webtoon.event.RecyclerViewEvent;
-import com.pluu.webtoon.ui.WebViewActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -104,10 +105,14 @@ public class LicenseActivity extends AppCompatActivity {
     private void itemClick(RecyclerViewEvent event) {
         String title = getResources().getStringArray(R.array.license_title)[event.getPos()];
         String url = getResources().getStringArray(R.array.license_url)[event.getPos()];
-        Intent intent = new Intent(this, WebViewActivity.class);
-        intent.putExtra(WebViewActivity.KEY_URL, url);
-        intent.putExtra(WebViewActivity.KEY_TITLE, title);
-        startActivity(intent);
+
+        // http://qiita.com/droibit/items/66704f96a602adec5a35
+
+        final CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
+                .setShowTitle(true)
+                .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary))
+                .build();
+        tabsIntent.launchUrl(this, Uri.parse(url));
     }
 
 }

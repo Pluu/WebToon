@@ -2,11 +2,13 @@ package com.pluu.webtoon.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.pluu.webtoon.R;
@@ -46,10 +48,10 @@ public class WebViewActivity extends AppCompatActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView() {
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
+//        WebSettings settings = webView.getSettings();
+//        settings.setJavaScriptEnabled(true);
+//        settings.setLoadWithOverviewMode(true);
+//        settings.setUseWideViewPort(true);
     }
 
     @Override
@@ -74,7 +76,13 @@ public class WebViewActivity extends AppCompatActivity {
             }
         }
 
-        loadUrl(intent.getStringExtra(KEY_URL));
+//        loadUrl(intent.getStringExtra(KEY_URL));
+
+        final CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
+                .setShowTitle(true)
+                .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary)).build();
+
+        tabsIntent.launchUrl(this, Uri.parse(intent.getStringExtra(KEY_URL)));
     }
 
     private void loadUrl(String url) {

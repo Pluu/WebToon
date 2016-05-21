@@ -58,7 +58,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 		Glide.with(mContext)
 			 .load(item.getImage())
 			 .centerCrop()
-			 .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp_vector_state)
+			 .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
 			 .listener(new RequestListener<String, GlideDrawable>() {
 				 @Override
 				 public boolean onException(Exception e, String model,
