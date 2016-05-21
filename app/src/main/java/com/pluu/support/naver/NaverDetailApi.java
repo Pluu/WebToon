@@ -2,20 +2,21 @@ package com.pluu.support.naver;
 
 import android.text.TextUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 네이버 웹툰 상세 API
@@ -114,9 +115,12 @@ public class NaverDetailApi extends AbstractDetailApi {
 		List<DetailView> list = new ArrayList<>();
 
 		Pattern pattern = Pattern.compile("(?<=sImageUrl :')https?://(\\w*:\\w*@)?[-\\w.]+(:\\d+)?(/([\\w/_.]*(\\?\\S+)?)?)?(?=', sWatermarkUrl)");
-		Matcher matcher = pattern.matcher(doc.select("script[type=text/javascript]").last().html().replace("\r\n", ""));
-		while (matcher.find()) {
-			list.add(DetailView.createImage(matcher.group()));
+		Elements select = doc.select("script[type=text/javascript]");
+		for (Element element : select) {
+			Matcher matcher = pattern.matcher(element.html().replace("\r\n", ""));
+			while (matcher.find()) {
+				list.add(DetailView.createImage(matcher.group()));
+			}
 		}
 		return list;
 	}
