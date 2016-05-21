@@ -12,9 +12,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 좌측 표시용 Item ViewHolder
  * Created by PLUUSYSTEM-SURFACE on 2016-05-21.
  */
-
 public class DaumLeftViewHolder extends BaseChattingViewHolder {
 
     @Bind(R.id.leftProfileImageView)

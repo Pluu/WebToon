@@ -11,6 +11,7 @@ import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.ChatView;
 
 /**
+ * Base Chatting ViewHolder
  * Created by PLUUSYSTEM-SURFACE on 2016-05-21.
  */
 public abstract class BaseChattingViewHolder extends RecyclerView.ViewHolder {

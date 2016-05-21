@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.pluu.webtoon.item.ERROR_TYPE.NOT_SUPPORT;
+
 /**
  * 네이버 웹툰 상세 API
  * Created by PLUUSYSTEM-NEW on 2015-10-29.
@@ -54,53 +56,74 @@ public class NaverDetailApi extends AbstractDetailApi {
 		Document doc = Jsoup.parse(response);
 		ret.title = doc.select("div[class=chh] span, h1[class=tit]").first().text();
 
-		Elements cutToonElements = doc.select("a[class=prev smt-btn-prev-cut]");
-		if (cutToonElements != null && !cutToonElements.isEmpty()) {
-			// 스마트툰
-			ret.list = parseDetailSmartToonType(doc);
-
-			// 이전, 다음화
-			Elements navi = doc.select(".viewer_inner");
-			Elements temp = navi.select("a[class=btn_next]");
-			if (temp != null && !temp.isEmpty()) {
-				ret.nextLink = getEpisodeId(temp.first().attr("href"));
-			}
-			temp = navi.select("a[class=btn_prev]");
-			if (temp != null && !temp.isEmpty()) {
-				ret.prevLink = getEpisodeId(temp.first().attr("href"));
-			}
-		} else {
-			cutToonElements = doc.select("div[class=viewer cuttoon]");
-			if (cutToonElements != null && !cutToonElements.isEmpty()) {
-				// 컷툰
-				ret.list = parseDetailCutToonType(doc);
-
-				// 이전, 다음화
-				Elements navi = doc.select(".paging_wrap");
-				Elements temp = navi.select("a[class=pg_next]");
-				if (temp != null && !temp.isEmpty()) {
-					ret.nextLink = getEpisodeId(temp.first().attr("href"));
-				}
-				temp = navi.select("a[class=pg_prev]");
-				if (temp != null && !temp.isEmpty()) {
-					ret.prevLink = getEpisodeId(temp.first().attr("href"));
-				}
-			} else {
-				// 일반 웹툰
-				ret.list = parseDetailNormalType(doc);
-
-				// 이전, 다음화
-				for (Element element : doc.select("div[class=sc2] a")) {
-					if (!element.select("span[class=nx]").isEmpty()) {
-						ret.nextLink = getEpisodeId(element.attr("href"));
-					} else if (!element.select("span[class=pv]").isEmpty()) {
-						ret.prevLink = getEpisodeId(element.attr("href"));
-					}
-				}
-			}
+		Elements tempElements = doc.select("a[class=prev smt-btn-prev-cut]");
+		if (tempElements != null && !tempElements.isEmpty()) {
+			parseSmartToon(ret, doc);
+			return ret;
 		}
 
+		tempElements = doc.select("div[class=viewer cuttoon]");
+		if (tempElements != null && !tempElements.isEmpty()) {
+			// 컷툰
+			parseCutToon(ret, doc);
+			return ret;
+		}
+
+		tempElements = doc.select(".oz-loader");
+		if (tempElements != null && !tempElements.isEmpty()) {
+			// osLoader
+			ret.errorType = NOT_SUPPORT;
+			return ret;
+		}
+
+		// 일반 웹툰
+		parseNormal(ret, doc);
+
 		return ret;
+	}
+
+	private void parseNormal(Detail ret, Document doc) {
+		ret.list = parseDetailNormalType(doc);
+
+		// 이전, 다음화
+		for (Element element : doc.select("div[class=sc2] a")) {
+            if (!element.select("span[class=nx]").isEmpty()) {
+                ret.nextLink = getEpisodeId(element.attr("href"));
+            } else if (!element.select("span[class=pv]").isEmpty()) {
+                ret.prevLink = getEpisodeId(element.attr("href"));
+            }
+        }
+	}
+
+	private void parseCutToon(Detail ret, Document doc) {
+		ret.list = parseDetailCutToonType(doc);
+
+		// 이전, 다음화
+		Elements navi = doc.select(".paging_wrap");
+		Elements temp = navi.select("a[class=pg_next]");
+		if (temp != null && !temp.isEmpty()) {
+            ret.nextLink = getEpisodeId(temp.first().attr("href"));
+        }
+		temp = navi.select("a[class=pg_prev]");
+		if (temp != null && !temp.isEmpty()) {
+            ret.prevLink = getEpisodeId(temp.first().attr("href"));
+        }
+	}
+
+	private void parseSmartToon(Detail ret, Document doc) {
+		// 스마트툰
+		ret.list = parseDetailSmartToonType(doc);
+
+		// 이전, 다음화
+		Elements navi = doc.select(".viewer_inner");
+		Elements temp = navi.select("a[class=btn_next]");
+		if (temp != null && !temp.isEmpty()) {
+            ret.nextLink = getEpisodeId(temp.first().attr("href"));
+        }
+		temp = navi.select("a[class=btn_prev]");
+		if (temp != null && !temp.isEmpty()) {
+            ret.prevLink = getEpisodeId(temp.first().attr("href"));
+        }
 	}
 
 	private String getEpisodeId(String str) {

@@ -10,9 +10,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 공지 텍스트용 Item ViewHolder
  * Created by PLUUSYSTEM-SURFACE on 2016-05-21.
  */
-
 public class DaumNoticeViewHolder extends BaseChattingViewHolder {
     @Bind(android.R.id.text1)
     TextView text1;

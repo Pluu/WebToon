@@ -2,7 +2,6 @@ package com.pluu.support.kakao;
 
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
-import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
 

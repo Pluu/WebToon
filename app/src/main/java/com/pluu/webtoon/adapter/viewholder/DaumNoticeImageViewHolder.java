@@ -16,9 +16,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 공지 이미지용 Item ViewHolder
  * Created by PLUUSYSTEM-SURFACE on 2016-05-21.
  */
-
 public class DaumNoticeImageViewHolder extends BaseChattingViewHolder {
     @Bind(R.id.noticeImageView)
     AspectRatioImageView noticeImageView;

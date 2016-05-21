@@ -37,7 +37,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.support.impl.ServiceConst;
@@ -47,6 +46,7 @@ import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.item.DETAIL_TYPE;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.ERROR_TYPE;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
 import com.pluu.webtoon.ui.detail.BaseDetailFragment;
@@ -55,6 +55,7 @@ import com.pluu.webtoon.ui.detail.DaumMultiFragment;
 import com.pluu.webtoon.ui.detail.DefaultDetailFragment;
 import com.pluu.webtoon.ui.detail.FirstBindListener;
 import com.pluu.webtoon.ui.detail.ToggleListener;
+import com.pluu.webtoon.utils.MessageUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -285,9 +286,20 @@ public class DetailActivity extends AppCompatActivity
             @Override
             public void onNext(Detail item) {
                 dlg.dismiss();
-                if (item != null && item.errorType != null) {
+                if (item == null
+                        || item.list == null || item.list.isEmpty()
+                        || item.errorType != null) {
+
+                    ERROR_TYPE type;
+
+                    if (item != null) {
+                        type = item.errorType;
+                    } else {
+                        type = ERROR_TYPE.DEFAULT_ERROR;
+                    }
+
                     new AlertDialog.Builder(DetailActivity.this)
-                            .setMessage(item.errorMsg)
+                            .setMessage(MessageUtils.getString(getBaseContext(), type))
                             .setCancelable(false)
                             .setPositiveButton(android.R.string.ok,
                                     new DialogInterface.OnClickListener() {
@@ -298,11 +310,6 @@ public class DetailActivity extends AppCompatActivity
                                         }
                                     })
                             .show();
-                    return;
-                } else if (item == null || item.list == null || item.list.isEmpty()) {
-                    Toast.makeText(getBaseContext(), R.string.network_fail, Toast.LENGTH_SHORT)
-                            .show();
-                    finish();
                     return;
                 }
 

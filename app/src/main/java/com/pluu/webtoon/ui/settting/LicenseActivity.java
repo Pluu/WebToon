@@ -55,7 +55,7 @@ public class LicenseActivity extends AppCompatActivity {
 
     private void initView() {
         listView.setLayoutManager(new LinearLayoutManager(this));
-        listView.setAdapter(new LicenseAdapter(this, R.array.license_title));
+        listView.setAdapter(new LicenseAdapter(this));
     }
 
     @Override
@@ -103,7 +103,6 @@ public class LicenseActivity extends AppCompatActivity {
      * @param event Click Event
      */
     private void itemClick(RecyclerViewEvent event) {
-        String title = getResources().getStringArray(R.array.license_title)[event.getPos()];
         String url = getResources().getStringArray(R.array.license_url)[event.getPos()];
 
         // http://qiita.com/droibit/items/66704f96a602adec5a35

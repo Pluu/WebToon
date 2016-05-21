@@ -2,6 +2,16 @@ package com.pluu.support.daum;
 
 import android.text.TextUtils;
 
+import com.pluu.support.impl.AbstractWeekApi;
+import com.pluu.support.impl.ServiceConst;
+import com.pluu.webtoon.common.Const;
+import com.pluu.webtoon.item.BaseToonInfo;
+import com.pluu.webtoon.item.Status;
+import com.pluu.webtoon.item.WebToonInfo;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,17 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.pluu.support.impl.AbstractWeekApi;
-import com.pluu.support.impl.ServiceConst;
-import com.pluu.webtoon.R;
-import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.item.BaseToonInfo;
-import com.pluu.webtoon.item.Status;
-import com.pluu.webtoon.item.WebToonInfo;
 
 /**
  * 다음 웹툰 Week Api

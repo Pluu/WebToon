@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pluu.event.RxBusProvider;
+import com.pluu.webtoon.R;
 import com.pluu.webtoon.event.RecyclerViewEvent;
 
 import butterknife.Bind;
@@ -21,9 +22,9 @@ public class LicenseAdapter extends RecyclerView.Adapter<LicenseAdapter.ViewHold
 	private final LayoutInflater mInflater;
 	private final String[] list;
 
-	public LicenseAdapter(Context context, int arrayId) {
+	public LicenseAdapter(Context context) {
 		mInflater = LayoutInflater.from(context);
-		list = context.getResources().getStringArray(arrayId);
+		list = context.getResources().getStringArray(R.array.license_title);
 	}
 
 	@Override

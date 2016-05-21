@@ -2,12 +2,9 @@
 <resources>
 
     <string name="app_name">PluuToon</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
     <string name="network_fail">통신에 실패했습니다. 잠시후 다시 시도해주세요.</string>
     <string name="msg_not_support">현재 성인, 과금 관련 메뉴 접근은 지원하지 않습니다.</string>
-    <string name="title_activity_intro">IntroActivity</string>
 
     <string name="title_naver">Naver</string>
     <string name="title_daum">Daum</string>
@@ -35,8 +32,6 @@
     <string name="label_share">Share</string>
     <string name="label_favorite_add">즐겨찾기 추가</string>
     <string name="label_favorite_delete">즐겨찾기 제거</string>
-    <string name="label_grid">Grid</string>
-    <string name="label_single">Single</string>
     <string name="label_prev_view">이전 화</string>
     <string name="label_next_view">다음 화</string>
     <string name="label_novel">웹 소설</string>
@@ -49,10 +44,7 @@
     <string name="label_default_webtoon">기본 웹툰</string>
     <string name="label_license">오픈소스 라이센스</string>
 
-    <string-array name="label_settings_array">
-        <item>@string/label_default_webtoon</item>
-        <item>@string/label_license</item>
-    </string-array>
+    <string name="not_support_type">현재 해당 웹툰은 지원하지 않습니다.</string>
 
     <string-array name="label_webtoon_list">
         <item>@string/title_naver</item>
