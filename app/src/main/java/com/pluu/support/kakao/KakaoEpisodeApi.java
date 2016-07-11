@@ -1,5 +1,7 @@
 package com.pluu.support.kakao;
 
+import android.content.Context;
+
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
@@ -27,6 +29,10 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 	private String url;
 	private int offset;
 	private Episode firstEpisode;
+
+	public KakaoEpisodeApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {

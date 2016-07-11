@@ -72,7 +72,7 @@ public class MainFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		NAV_ITEM service = ServiceConst.getApiType(getArguments());
-		serviceApi = AbstractWeekApi.getApi(service);
+		serviceApi = AbstractWeekApi.getApi(getContext(), service);
 
 		if (getActivity() instanceof MainActivity) {
 			MainActivity activity = (MainActivity) getActivity();

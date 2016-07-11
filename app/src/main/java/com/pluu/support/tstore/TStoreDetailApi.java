@@ -1,19 +1,22 @@
 package com.pluu.support.tstore;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.content.Context;
 
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * TStore 웹툰 상세 API
@@ -27,6 +30,10 @@ public class TStoreDetailApi extends AbstractDetailApi {
 	private static final String SHARE_URL = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=%s&PrePageNm=/detail/webtoon/mw";
 
 	private String id;
+
+	public TStoreDetailApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {

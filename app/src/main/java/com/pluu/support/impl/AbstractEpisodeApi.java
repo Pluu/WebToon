@@ -1,5 +1,6 @@
 package com.pluu.support.impl;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.pluu.support.daum.DaumEpisodeApi;
@@ -19,6 +20,10 @@ import com.pluu.webtoon.item.WebToonInfo;
  */
 public abstract class AbstractEpisodeApi extends NetworkSupportApi {
 
+	public AbstractEpisodeApi(Context context) {
+		super(context);
+	}
+
 	public void init() { }
 
 	public abstract EpisodePage parseEpisode(WebToonInfo info);
@@ -27,20 +32,20 @@ public abstract class AbstractEpisodeApi extends NetworkSupportApi {
 
 	public abstract Episode getFirstEpisode(Episode item);
 
-	public static AbstractEpisodeApi getApi(NAV_ITEM item) {
+	public static AbstractEpisodeApi getApi(Context context, NAV_ITEM item) {
 		switch (item) {
 			case NAVER:
-				return new NaverEpisodeApi();
+				return new NaverEpisodeApi(context);
 			case DAUM:
-				return new DaumEpisodeApi();
+				return new DaumEpisodeApi(context);
 			case OLLEH:
-				return new OllehEpisodeApi();
+				return new OllehEpisodeApi(context);
 			case KAKAOPAGE:
-				return new KakaoEpisodeApi();
+				return new KakaoEpisodeApi(context);
 			case NATE:
-				return new NateEpisodeApi();
+				return new NateEpisodeApi(context);
 			case T_STORE:
-				return new TStoreEpisodeApi();
+				return new TStoreEpisodeApi(context);
 			default:
 				throw new Resources.NotFoundException("Not Found API");
 		}

@@ -105,7 +105,7 @@ public class EpisodeFragment extends Fragment
 
 		Bundle args = getArguments();
 		service = (ServiceConst.NAV_ITEM) args.getSerializable(Const.EXTRA_API);
-		serviceApi = AbstractEpisodeApi.getApi(service);
+		serviceApi = AbstractEpisodeApi.getApi(getContext(), service);
 		webToonInfo = args.getParcelable(Const.EXTRA_EPISODE);
 		color = args.getIntArray(Const.EXTRA_MAIN_COLOR);
 

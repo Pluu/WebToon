@@ -25,7 +25,8 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 
 	private final String[] CURRENT_TABS;
 
-	protected AbstractWeekApi(String[] tabs) {
+	protected AbstractWeekApi(Context context, String[] tabs) {
+		super(context);
 		this.CURRENT_TABS = tabs;
 	}
 
@@ -53,20 +54,20 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 
 	public abstract List<WebToonInfo> parseMain(int position);
 
-	public static AbstractWeekApi getApi(NAV_ITEM item) {
+	public static AbstractWeekApi getApi(Context context, NAV_ITEM item) {
 		switch (item) {
 			case NAVER:
-				return new NaverWeekApi();
+				return new NaverWeekApi(context);
 			case DAUM:
-				return new DaumWeekApi();
+				return new DaumWeekApi(context);
 			case OLLEH:
-				return new OllehWeekApi();
+				return new OllehWeekApi(context);
 			case KAKAOPAGE:
-				return new KakaoWeekApi();
+				return new KakaoWeekApi(context);
 			case NATE:
-				return new NateWeekApi();
+				return new NateWeekApi(context);
 			case T_STORE:
-				return new TStorerWeekApi();
+				return new TStorerWeekApi(context);
 			default:
 				throw new Resources.NotFoundException("Not Found API");
 		}

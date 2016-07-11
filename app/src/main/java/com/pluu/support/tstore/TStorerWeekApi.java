@@ -1,18 +1,21 @@
 package com.pluu.support.tstore;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.content.Context;
 
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * TStore 웹툰 Week Api
@@ -27,8 +30,8 @@ public class TStorerWeekApi extends AbstractWeekApi {
 
 	private int currentPos;
 
-	public TStorerWeekApi() {
-		super(TITLE);
+	public TStorerWeekApi(Context context) {
+		super(context, TITLE);
 	}
 
 	@Override

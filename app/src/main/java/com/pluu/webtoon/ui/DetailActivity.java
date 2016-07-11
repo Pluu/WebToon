@@ -152,7 +152,7 @@ public class DetailActivity extends AppCompatActivity
     private void getApi() {
         Intent intent = getIntent();
         service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
-        serviceApi = AbstractDetailApi.getApi(service);
+        serviceApi = AbstractDetailApi.getApi(this, service);
     }
 
     private void initView() {

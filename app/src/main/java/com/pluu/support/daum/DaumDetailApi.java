@@ -1,5 +1,7 @@
 package com.pluu.support.daum;
 
+import android.content.Context;
+
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.DETAIL_TYPE;
 import com.pluu.webtoon.item.Detail;
@@ -25,6 +27,10 @@ public class DaumDetailApi extends AbstractDetailApi {
 	private static final String DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer";
 	private static final String SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/";
 	private String id;
+
+	public DaumDetailApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {

@@ -1,9 +1,9 @@
 package com.pluu.webtoon;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.squareup.leakcanary.RefWatcher;
+import com.pluu.webtoon.di.DaggerNetworkComponent;
+import com.pluu.webtoon.di.NetworkComponent;
 
 /**
  * Application Controller
@@ -11,18 +11,30 @@ import com.squareup.leakcanary.RefWatcher;
  */
 public class AppController extends Application {
 
+	private NetworkComponent component;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
 //		refWatcher = LeakCanary.install(this);
+		initApplicationComponent();
 	}
 
-	public static RefWatcher getRefWatcher(Context context) {
-		AppController application = (AppController) context.getApplicationContext();
-		return application.refWatcher;
+	private void initApplicationComponent() {
+		this.component = DaggerNetworkComponent.builder()
+				.build();
 	}
 
-	private RefWatcher refWatcher;
+	public NetworkComponent getNetworkComponent() {
+		return component;
+	}
+//
+//	public static RefWatcher getRefWatcher(Context context) {
+//		AppController application = (AppController) context.getApplicationContext();
+//		return application.refWatcher;
+//	}
+//
+//	private RefWatcher refWatcher;
 
 }

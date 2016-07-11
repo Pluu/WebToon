@@ -1,5 +1,6 @@
 package com.pluu.support.naver;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.pluu.support.impl.AbstractDetailApi;
@@ -34,6 +35,10 @@ public class NaverDetailApi extends AbstractDetailApi {
 	private final Pattern ID_PATTERN = Pattern.compile("(?<=no=)\\d+");
 
 	private String webToonId, episodeId;
+
+	public NaverDetailApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {

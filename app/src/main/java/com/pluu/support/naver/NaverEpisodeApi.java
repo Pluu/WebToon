@@ -1,19 +1,22 @@
 package com.pluu.support.naver;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.content.Context;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 네이버 웹툰 Episode API
@@ -24,6 +27,10 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	private static final String HOST_URL = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=%d";
 	private String webToonId;
 	private int pageNo = 1;
+
+	public NaverEpisodeApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {

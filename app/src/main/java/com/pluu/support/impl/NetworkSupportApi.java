@@ -1,10 +1,17 @@
 package com.pluu.support.impl;
 
+import android.content.Context;
+
+import com.pluu.webtoon.AppController;
+import com.pluu.webtoon.network.NetworkTask;
+
 import java.util.Collections;
 import java.util.Map;
 
-import com.pluu.webtoon.network.NetworkTask;
-import com.squareup.okhttp.Request;
+import javax.inject.Inject;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * Network Support API Class
@@ -12,8 +19,14 @@ import com.squareup.okhttp.Request;
  */
 public abstract class NetworkSupportApi implements IRequest {
 
+	@Inject
+	OkHttpClient client;
 	public static final String POST = "POST";
 	public static final String GET = "GET";
+
+	public NetworkSupportApi(Context context) {
+		((AppController) context.getApplicationContext()).getNetworkComponent().inject(this);
+	}
 
 	public abstract String getMethod();
 
@@ -30,11 +43,11 @@ public abstract class NetworkSupportApi implements IRequest {
 	}
 
 	protected String requestApi() throws Exception {
-		return new NetworkTask().requestApi(this);
+		return new NetworkTask(client).requestApi(this);
 	}
 
 	protected String requestApi(Request request) throws Exception {
-		return new NetworkTask().requestApi(request);
+		return new NetworkTask(client).requestApi(request);
 	}
 
 }

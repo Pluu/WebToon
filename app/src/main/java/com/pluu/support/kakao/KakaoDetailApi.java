@@ -1,5 +1,7 @@
 package com.pluu.support.kakao;
 
+import android.content.Context;
+
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
@@ -21,6 +23,10 @@ public class KakaoDetailApi extends AbstractDetailApi {
 
 	private final String DETAIL_URL = "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0";
 	private String id;
+
+	public KakaoDetailApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {

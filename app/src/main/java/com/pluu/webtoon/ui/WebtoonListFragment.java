@@ -66,7 +66,7 @@ public class WebtoonListFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		ServiceConst.NAV_ITEM service = ServiceConst.getApiType(getArguments());
-		serviceApi = AbstractWeekApi.getApi(service);
+		serviceApi = AbstractWeekApi.getApi(getContext(), service);
 		position = getArguments().getInt(Const.EXTRA_POS);
 		columnCount = getResources().getInteger(R.integer.webtoon_column_count);
 	}

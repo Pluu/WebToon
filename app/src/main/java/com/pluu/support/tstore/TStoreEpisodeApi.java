@@ -1,24 +1,27 @@
 package com.pluu.support.tstore;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import android.content.Context;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * TStore 웹툰 에피소드 Api
@@ -35,6 +38,10 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 	private String id;
 	private int pageNo;
 	private Episode firstEpisode;
+
+	public TStoreEpisodeApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {
@@ -70,10 +77,10 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 		Request.Builder builder = new Request.Builder()
 			.url(MORE_EPISODE_URL);
 
-		FormEncodingBuilder fromBuilder = new FormEncodingBuilder();
-		fromBuilder.add("prodId", id);
-		fromBuilder.add("currentPage", String.valueOf(pageNo));
-		RequestBody requestBody = fromBuilder.build();
+		FormBody.Builder formBuilder = new FormBody.Builder();
+		formBuilder.add("prodId", id);
+		formBuilder.add("currentPage", String.valueOf(pageNo));
+		RequestBody requestBody = formBuilder.build();
 		builder.post(requestBody);
 
 		String response = requestApi(builder.build());

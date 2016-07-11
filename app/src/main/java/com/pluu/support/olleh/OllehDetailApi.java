@@ -1,21 +1,24 @@
 package com.pluu.support.olleh;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import android.content.Context;
 
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * 올레 웹툰 상세 API
@@ -28,6 +31,10 @@ public class OllehDetailApi extends AbstractDetailApi {
 	private final String SHARE_URL = "http://webtoon.olleh.com/web/times_view.kt?webtoonseq=%s&timesseq=%s";
 
 	private String wettonId, timesseq;
+
+	public OllehDetailApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {
@@ -76,11 +83,11 @@ public class OllehDetailApi extends AbstractDetailApi {
 			builder.addHeader(entry.getKey(), entry.getValue());
 		}
 
-		FormEncodingBuilder encodingBuilder = new FormEncodingBuilder();
+		FormBody.Builder formBuilder = new FormBody.Builder();
 		for (Map.Entry<String, String> entry : getParams().entrySet()) {
-			encodingBuilder.add(entry.getKey(), entry.getValue());
+			formBuilder.add(entry.getKey(), entry.getValue());
 		}
-		RequestBody requestBody = encodingBuilder.build();
+		RequestBody requestBody = formBuilder.build();
 		builder.post(requestBody);
 
 		String response = requestApi(builder.build());

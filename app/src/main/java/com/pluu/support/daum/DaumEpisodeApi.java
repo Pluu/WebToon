@@ -1,18 +1,21 @@
 package com.pluu.support.daum;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import android.content.Context;
 
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.squareup.okhttp.Request;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.Request;
 
 /**
  * 다음 웹툰 Episode API
@@ -27,6 +30,10 @@ public class DaumEpisodeApi extends AbstractEpisodeApi {
 
 	private int firstEpisodeId;
 	private int pageNo = 0;
+
+	public DaumEpisodeApi(Context context) {
+		super(context);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {

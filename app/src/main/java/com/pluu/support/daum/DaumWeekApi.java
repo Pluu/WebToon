@@ -1,5 +1,6 @@
 package com.pluu.support.daum;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.pluu.support.impl.AbstractWeekApi;
@@ -32,8 +33,8 @@ public class DaumWeekApi extends AbstractWeekApi {
 
 	private int currentPos;
 
-	public DaumWeekApi() {
-		super(TITLE);
+	public DaumWeekApi(Context context) {
+		super(context, TITLE);
 	}
 
 	@Override

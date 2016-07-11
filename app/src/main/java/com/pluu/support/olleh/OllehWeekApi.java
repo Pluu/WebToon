@@ -1,20 +1,21 @@
 package com.pluu.support.olleh;
 
+import android.content.Context;
 import android.text.TextUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.item.WebToonType;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 올레 웹툰 Week API
@@ -32,8 +33,8 @@ public class OllehWeekApi extends AbstractWeekApi {
 	private final String adult = "adult";
 	private final String novel = "novel";
 
-	public OllehWeekApi() {
-		super(TITLE);
+	public OllehWeekApi(Context context) {
+		super(context, TITLE);
 	}
 
 	@Override

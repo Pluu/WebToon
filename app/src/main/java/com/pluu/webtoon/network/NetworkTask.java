@@ -4,14 +4,14 @@ import android.net.Uri;
 
 import com.pluu.support.impl.IRequest;
 import com.pluu.support.impl.NetworkSupportApi;
-import com.pluu.webtoon.common.LoggingInterceptor;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import java.util.Map;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Network Request Task
@@ -20,7 +20,11 @@ import java.util.Map;
  */
 public class NetworkTask {
 
-	private final OkHttpClient client = new OkHttpClient();
+	private final OkHttpClient client;
+
+	public NetworkTask(OkHttpClient client) {
+		this.client = client;
+	}
 
 	public String requestApi(final IRequest request) throws Exception {
 		Request.Builder builder = new Request.Builder();
@@ -31,11 +35,11 @@ public class NetworkTask {
 
 		if (NetworkSupportApi.POST.equals(request.getMethod())) {
 			// POST
-			FormEncodingBuilder encodingBuilder = new FormEncodingBuilder();
+			FormBody.Builder formBuilder = new FormBody.Builder();
 			for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
-				encodingBuilder.add(entry.getKey(), entry.getValue());
+				formBuilder.add(entry.getKey(), entry.getValue());
 			}
-			RequestBody requestBody = encodingBuilder.build();
+			RequestBody requestBody = formBuilder.build();
 			builder.post(requestBody);
 			builder.url(request.getUrl());
 		} else {
@@ -52,7 +56,6 @@ public class NetworkTask {
 	}
 
 	public String requestApi(Request request) throws Exception {
-		client.interceptors().add(new LoggingInterceptor());
 		Response response = client.newCall(request).execute();
 		return response.body().string();
 	}

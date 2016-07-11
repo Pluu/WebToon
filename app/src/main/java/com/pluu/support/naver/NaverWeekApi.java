@@ -1,5 +1,7 @@
 package com.pluu.support.naver;
 
+import android.content.Context;
+
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.common.Const;
@@ -31,8 +33,8 @@ public class NaverWeekApi extends AbstractWeekApi {
 
 	private int currentPos;
 
-	public NaverWeekApi() {
-		super(TITLE);
+	public NaverWeekApi(Context context) {
+		super(context, TITLE);
 	}
 
 	@Override

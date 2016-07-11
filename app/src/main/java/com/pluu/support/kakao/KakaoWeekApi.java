@@ -1,5 +1,7 @@
 package com.pluu.support.kakao;
 
+import android.content.Context;
+
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.item.Status;
@@ -25,8 +27,8 @@ public class KakaoWeekApi extends AbstractWeekApi {
 	private final String WEEK_URL = "http://page.kakao.com/main/ajaxCallWeeklyList";
 	private int currentPos;
 
-	public KakaoWeekApi() {
-		super(TITLE);
+	public KakaoWeekApi(Context context) {
+		super(context, TITLE);
 	}
 
 	@Override
