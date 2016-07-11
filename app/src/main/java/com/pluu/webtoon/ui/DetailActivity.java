@@ -60,7 +60,7 @@ import com.pluu.webtoon.utils.MessageUtils;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
@@ -77,17 +77,17 @@ public class DetailActivity extends AppCompatActivity
 
     private final String TAG = DetailActivity.class.getSimpleName();
 
-    @Bind(R.id.toolbar_actionbar)
+    @BindView(R.id.toolbar_actionbar)
     Toolbar toolbar;
-    @Bind(R.id.btnPrev)
+    @BindView(R.id.btnPrev)
     Button btnPrev;
-    @Bind(R.id.btnNext)
+    @BindView(R.id.btnNext)
     Button btnNext;
-    @Bind(R.id.tvTitle)
+    @BindView(R.id.tvTitle)
     TextView tvTitle;
-    @Bind(R.id.tvSubTitle)
+    @BindView(R.id.tvSubTitle)
     TextView tvSubTitle;
-    @Bind(R.id.bottomMenu)
+    @BindView(R.id.bottomMenu)
     LinearLayout bottomMenu;
 
     private ProgressDialog dlg;

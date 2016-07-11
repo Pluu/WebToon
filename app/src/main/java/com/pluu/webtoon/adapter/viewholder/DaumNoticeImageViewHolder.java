@@ -12,7 +12,7 @@ import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.ChatView;
 import com.pluu.webtoon.ui.view.AspectRatioImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by PLUUSYSTEM-SURFACE on 2016-05-21.
  */
 public class DaumNoticeImageViewHolder extends BaseChattingViewHolder {
-    @Bind(R.id.noticeImageView)
+    @BindView(R.id.noticeImageView)
     AspectRatioImageView noticeImageView;
 
     public DaumNoticeImageViewHolder(View v) {

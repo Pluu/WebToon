@@ -13,12 +13,12 @@ import android.webkit.WebView;
 
 import com.pluu.webtoon.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView webView;
 
     public static final String KEY_TITLE = "key_title";

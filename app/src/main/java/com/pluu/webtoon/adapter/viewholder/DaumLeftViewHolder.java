@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.ChatView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,11 +17,11 @@ import butterknife.ButterKnife;
  */
 public class DaumLeftViewHolder extends BaseChattingViewHolder {
 
-    @Bind(R.id.leftProfileImageView)
+    @BindView(R.id.leftProfileImageView)
     ImageView leftProfileImageView;
-    @Bind(R.id.leftNameTextView)
+    @BindView(R.id.leftNameTextView)
     TextView leftNameTextView;
-    @Bind(R.id.leftMessageTextView)
+    @BindView(R.id.leftMessageTextView)
     TextView leftMessageTextView;
 
     public DaumLeftViewHolder(View v) {

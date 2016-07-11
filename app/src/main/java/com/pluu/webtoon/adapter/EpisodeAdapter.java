@@ -19,7 +19,7 @@ import com.pluu.webtoon.item.Episode;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -113,11 +113,11 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.textView) public TextView titleView;
-		@Bind(R.id.imageView) public ImageView thumbnailView;
-		@Bind(R.id.readView) public View readView;
-		@Bind(R.id.lockStatusView) public ImageView lockView;
-		@Bind(R.id.progress) public View progress;
+		@BindView(R.id.textView) public TextView titleView;
+		@BindView(R.id.imageView) public ImageView thumbnailView;
+		@BindView(R.id.readView) public View readView;
+		@BindView(R.id.lockStatusView) public ImageView lockView;
+		@BindView(R.id.progress) public View progress;
 
 		public ViewHolder(View v) {
 			super(v);

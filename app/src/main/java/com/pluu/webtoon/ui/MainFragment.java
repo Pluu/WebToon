@@ -30,7 +30,7 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.event.ThemeEvent;
 import com.pluu.webtoon.utils.DisplayUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -44,9 +44,9 @@ public class MainFragment extends Fragment {
 
 	private final String TAG = MainFragment.class.getSimpleName();
 
-	@Bind(R.id.slidingTabLayout)
+	@BindView(R.id.slidingTabLayout)
 	SlidingTabLayout slidingTabLayout;
-	@Bind(R.id.viewPager)
+	@BindView(R.id.viewPager)
 	ViewPager viewPager;
 
 	private CompositeSubscription mCompositeSubscription;
@@ -166,7 +166,11 @@ public class MainFragment extends Fragment {
 
 		if (requestCode == WebtoonListFragment.REQUEST_DETAIL_REFERRER) {
 			// 포함되어있는 ViewPager 의 Fragment 갱신 처리
-			adapter.onActivityResult(requestCode, resultCode, data);
+			for (Fragment fragment : getFragmentManager().getFragments()) {
+				if (fragment instanceof WebtoonListFragment) {
+					fragment.onActivityResult(requestCode, resultCode, data);
+				}
+			}
 		}
 	}
 

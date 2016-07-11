@@ -1,6 +1,5 @@
 package com.pluu.webtoon.adapter;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -53,12 +52,6 @@ public class MainFragmentAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return serviceApi.getWeeklyTabName(position);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        for (int i = 0, size = views.size(); i < size; i++) {
-            views.get(i).onActivityResult(requestCode, resultCode, data);
-        }
     }
 
 }

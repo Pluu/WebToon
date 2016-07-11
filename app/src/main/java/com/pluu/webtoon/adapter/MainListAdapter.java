@@ -20,7 +20,7 @@ import com.pluu.webtoon.item.WebToonType;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -120,15 +120,15 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
-		@Bind(android.R.id.text1) public TextView titleView;
-		@Bind(R.id.imageview1) public ImageView thumbnailView;
-		@Bind(R.id.regDate) public TextView regDate;
-		@Bind(R.id.tvNovel) public TextView tvNovel;
-		@Bind(R.id.tv19) public TextView tv19;
-		@Bind(R.id.tvUp) public TextView tvUp;
-		@Bind(R.id.tvRest) public TextView tvRest;
-		@Bind(R.id.progress) public View progress;
-		@Bind(R.id.favorite) public ImageView favorite;
+		@BindView(android.R.id.text1) public TextView titleView;
+		@BindView(R.id.imageview1) public ImageView thumbnailView;
+		@BindView(R.id.regDate) public TextView regDate;
+		@BindView(R.id.tvNovel) public TextView tvNovel;
+		@BindView(R.id.tv19) public TextView tv19;
+		@BindView(R.id.tvUp) public TextView tvUp;
+		@BindView(R.id.tvRest) public TextView tvRest;
+		@BindView(R.id.progress) public View progress;
+		@BindView(R.id.favorite) public ImageView favorite;
 
 		public ViewHolder(View v) {
 			super(v);

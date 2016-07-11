@@ -20,8 +20,9 @@ import com.pluu.webtoon.item.DetailView;
 import java.util.Iterator;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Default Detail Fragment
@@ -30,12 +31,13 @@ import butterknife.ButterKnife;
 @SuppressLint("ValidFragment")
 public class DefaultDetailFragment extends BaseDetailFragment {
 
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView webview;
 
     private final GestureDetector gd;
     private final int bottomHeight;
     private int actionBarHeight;
+    private Unbinder bind;
 
     public DefaultDetailFragment(GestureDetector gd, int bottomHeight) {
         this.gd = gd;
@@ -46,7 +48,7 @@ public class DefaultDetailFragment extends BaseDetailFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_default_detail, container, false);
-        ButterKnife.bind(this, view);
+        bind = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -70,7 +72,7 @@ public class DefaultDetailFragment extends BaseDetailFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        bind.unbind();
     }
 
     private void init() {

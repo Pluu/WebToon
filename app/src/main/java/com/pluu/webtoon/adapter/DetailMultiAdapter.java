@@ -19,7 +19,7 @@ import com.pluu.webtoon.ui.view.AspectRatioImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -122,9 +122,9 @@ public class DetailMultiAdapter extends RecyclerView.Adapter<DetailMultiAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.imageView)
+        @BindView(R.id.imageView)
         AspectRatioImageView imageView;
-        @Bind(R.id.emptyView)
+        @BindView(R.id.emptyView)
         View empty;
 
         public ViewHolder(View v) {

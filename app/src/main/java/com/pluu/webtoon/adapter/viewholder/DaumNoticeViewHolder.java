@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.pluu.webtoon.item.ChatView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  * Created by PLUUSYSTEM-SURFACE on 2016-05-21.
  */
 public class DaumNoticeViewHolder extends BaseChattingViewHolder {
-    @Bind(android.R.id.text1)
+    @BindView(android.R.id.text1)
     TextView text1;
 
     public DaumNoticeViewHolder(View v) {

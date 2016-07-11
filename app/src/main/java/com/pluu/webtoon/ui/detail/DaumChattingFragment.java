@@ -19,8 +19,9 @@ import com.pluu.webtoon.item.DetailView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Daum Chatting Fragment
@@ -31,10 +32,11 @@ public class DaumChattingFragment extends BaseDetailFragment {
 
     private final GestureDetector gd;
 
-    @Bind(R.id.chattingList)
+    @BindView(R.id.chattingList)
     RecyclerView chattingList;
 
     private DetailChatAdapter adapter;
+    private Unbinder bind;
 
     public DaumChattingFragment(GestureDetector gd) {
         this.gd = gd;
@@ -44,7 +46,7 @@ public class DaumChattingFragment extends BaseDetailFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_daum_chatting, container, false);
-        ButterKnife.bind(this, view);
+        bind = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -58,7 +60,7 @@ public class DaumChattingFragment extends BaseDetailFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        bind.unbind();
     }
 
     private void initChattingSetting() {

@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
-//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath "com.fernandocejas.frodo:frodo-plugin:0.8.2"
 
         // NOTE: Do not place your application dependencies here; they belong

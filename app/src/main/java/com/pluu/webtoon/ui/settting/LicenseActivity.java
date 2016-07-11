@@ -16,7 +16,7 @@ import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.LicenseAdapter;
 import com.pluu.webtoon.event.RecyclerViewEvent;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -28,7 +28,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class LicenseActivity extends AppCompatActivity {
 
-    @Bind(R.id.listView)
+    @BindView(R.id.listView)
     RecyclerView listView;
 
     private CompositeSubscription mCompositeSubscription;

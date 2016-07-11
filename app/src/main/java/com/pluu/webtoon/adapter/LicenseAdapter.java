@@ -11,7 +11,7 @@ import com.pluu.event.RxBusProvider;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.event.RecyclerViewEvent;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -46,7 +46,7 @@ public class LicenseAdapter extends RecyclerView.Adapter<LicenseAdapter.ViewHold
 
 	public static class ViewHolder extends RecyclerView.ViewHolder
 		implements View.OnClickListener {
-		@Bind(android.R.id.text1) public TextView title;
+		@BindView(android.R.id.text1) public TextView title;
 
 		public ViewHolder(View v) {
 			super(v);

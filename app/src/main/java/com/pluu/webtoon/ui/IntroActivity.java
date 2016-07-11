@@ -10,14 +10,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.concurrent.TimeUnit;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.common.PrefConfig;
 import com.pluu.webtoon.db.SqliteToRealm;
+
+import java.util.concurrent.TimeUnit;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,9 +31,9 @@ import rx.schedulers.Schedulers;
 public class IntroActivity extends Activity {
 	private final String TAG = IntroActivity.class.getSimpleName();
 
-	@Bind(R.id.tvMsg)
+	@BindView(R.id.tvMsg)
 	TextView tvMsg;
-	@Bind(R.id.progressBar)
+	@BindView(R.id.progressBar)
 	ProgressBar progressBar;
 
 	@Override

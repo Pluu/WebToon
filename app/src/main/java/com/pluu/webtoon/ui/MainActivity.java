@@ -16,7 +16,7 @@ import com.pluu.webtoon.common.PrefConfig;
 import com.pluu.webtoon.event.ThemeEvent;
 import com.pluu.webtoon.ui.settting.SettingsActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,7 +27,7 @@ public class MainActivity extends BaseNavActivity {
 
 	private NAV_ITEM selfDrawerItem;
 
-	@Bind(R.id.navTitle)
+	@BindView(R.id.navTitle)
 	View navTitle;
 
 	private CompositeSubscription mCompositeSubscription;
@@ -59,7 +59,7 @@ public class MainActivity extends BaseNavActivity {
 			.commit();
 	}
 
-	public void setSelfDrawerItem(NAV_ITEM selfDrawerItem) {
+	void setSelfDrawerItem(NAV_ITEM selfDrawerItem) {
 		this.selfDrawerItem = selfDrawerItem;
 	}
 
@@ -110,7 +110,7 @@ public class MainActivity extends BaseNavActivity {
 	}
 
 	@OnClick(R.id.btnSetting)
-	public void clickSetting() {
+	void clickSetting() {
 		Intent intent = new Intent(this, SettingsActivity.class);
 		startActivity(intent);
 		closeNavDrawer();

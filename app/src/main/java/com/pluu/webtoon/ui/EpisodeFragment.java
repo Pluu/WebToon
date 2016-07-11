@@ -35,8 +35,9 @@ import com.pluu.webtoon.utils.MoreRefreshListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -57,9 +58,9 @@ public class EpisodeFragment extends Fragment
 	private final String TAG = EpisodeFragment.class.getSimpleName();
 	private final int REQUEST_DETAIL = 1000;
 
-	@Bind(R.id.swipe_refresh_widget)
+	@BindView(R.id.swipe_refresh_widget)
 	SwipeRefreshLayout swipeRefreshWidget;
-	@Bind(android.R.id.list)
+	@BindView(android.R.id.list)
 	RecyclerView recyclerView;
 
 	private GridLayoutManager manager;
@@ -74,6 +75,7 @@ public class EpisodeFragment extends Fragment
 
 	private int[] color;
 	private CompositeSubscription mCompositeSubscription;
+	private Unbinder bind;
 
 	public EpisodeFragment() { }
 
@@ -93,7 +95,7 @@ public class EpisodeFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_episode, container, false);
-		ButterKnife.bind(this, view);
+		bind = ButterKnife.bind(this, view);
 		return view;
 	}
 
@@ -188,7 +190,7 @@ public class EpisodeFragment extends Fragment
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		ButterKnife.unbind(this);
+		bind.unbind();
 	}
 
 	@Override

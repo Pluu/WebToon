@@ -24,7 +24,7 @@ import com.pluu.webtoon.event.FirstItemSelectEvent;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.utils.DisplayUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -36,13 +36,13 @@ public class EpisodesActivity extends AppCompatActivity {
 
 	private final String TAG = EpisodesActivity.class.getSimpleName();
 
-	@Bind(R.id.toolbar_actionbar)
+	@BindView(R.id.toolbar_actionbar)
 	Toolbar toolbar;
-	@Bind(R.id.btnFirst)
+	@BindView(R.id.btnFirst)
 	Button btnFirst;
-	@Bind(R.id.tvName)
+	@BindView(R.id.tvName)
 	TextView tvName;
-	@Bind(R.id.tvRate)
+	@BindView(R.id.tvRate)
 	TextView tvRate;
 	private View childTitle;
 
