@@ -26,9 +26,9 @@ import okhttp3.RequestBody;
  */
 public class OllehDetailApi extends AbstractDetailApi {
 
-	private final String DETAIL_URL = "http://webtoon.olleh.com/api/work/getTimesListByWork.kt";
-	private final String DETAIL_IMG_URL = "http://webtoon.olleh.com/api/work/getTimesDetailImageList.kt";
-	private final String SHARE_URL = "http://webtoon.olleh.com/web/times_view.kt?webtoonseq=%s&timesseq=%s";
+	private final String DETAIL_URL = OllehWeekApi.HOST + "/api/work/getTimesListByWork.kt";
+	private final String DETAIL_IMG_URL = OllehWeekApi.HOST + "/api/work/getTimesDetailImageList.kt";
+	private final String SHARE_URL = OllehWeekApi.HOST + "/web/times_view.kt?webtoonseq=%s&timesseq=%s";
 
 	private String wettonId, timesseq;
 
@@ -107,10 +107,9 @@ public class OllehDetailApi extends AbstractDetailApi {
 
 	@Override
 	public ShareItem getDetailShare(Episode episode, Detail detail) {
-		String url = String.format(SHARE_URL, detail.webtoonId, detail.episodeId);
 		ShareItem item = new ShareItem();
 		item.title = episode.getTitle() + " / " + detail.title;
-		item.url = url;
+		item.url = String.format(SHARE_URL, detail.webtoonId, detail.episodeId);
 		return item;
 	}
 
@@ -127,7 +126,7 @@ public class OllehDetailApi extends AbstractDetailApi {
 	@Override
 	public Map<String, String> getHeaders() {
 		Map<String, String> map = new HashMap<>();
-		map.put("Referer", "http://webtoon.olleh.com");
+		map.put("Referer", OllehWeekApi.HOST);
 		return map;
 	}
 
@@ -135,8 +134,6 @@ public class OllehDetailApi extends AbstractDetailApi {
 	public Map<String, String> getParams() {
 		Map<String, String> map = new HashMap<>();
 		map.put("mobileyn", "N");
-		map.put("toonfg", "toon");
-		map.put("sort", "subject");
 		map.put("webtoonseq", wettonId);
 		map.put("timesseq", timesseq);
 		return map;

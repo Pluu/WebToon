@@ -23,9 +23,10 @@ import java.util.Map;
  */
 public class OllehWeekApi extends AbstractWeekApi {
 
-	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일"};
-	private static final String WEEKLY_URL = "http://webtoon.olleh.com/api/work/getWorkList.kt";
-	private static final String[] WEEKLY_VALUE = {"mondayyn", "tuesdayyn", "wednesdayyn", "thursdayyn", "fridayyn", "saturdayyn", "sundayyn"};
+	public static final String HOST = "http://m.myktoon.com";
+	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일", "완결"};
+	private final String WEEKLY_URL = HOST + "/api/work/getWorkList.kt";
+	private final String[] WEEKLY_VALUE = {"mondayyn", "tuesdayyn", "wednesdayyn", "thursdayyn", "fridayyn", "saturdayyn", "sundayyn", "endyn"};
 
 	private JSONArray savedArray;
 	private int totalSize;
@@ -71,7 +72,7 @@ public class OllehWeekApi extends AbstractWeekApi {
 
 				item = new WebToonInfo(obj.optString("webtoonseq"));
 				item.setTitle(obj.optString("webtoonnm"));
-				item.setImage(obj.optString("newthumbpath"));
+				item.setImage(obj.optString("thumbpath"));
 
 				builder.setLength(0);
 				builder.append(obj.optString("authornm1"));
@@ -126,7 +127,7 @@ public class OllehWeekApi extends AbstractWeekApi {
 	@Override
 	public Map<String, String> getHeaders() {
 		Map<String, String> map = new HashMap<>();
-		map.put("Referer", "http://webtoon.olleh.com");
+		map.put("Referer", HOST);
 		return map;
 	}
 
@@ -135,6 +136,7 @@ public class OllehWeekApi extends AbstractWeekApi {
 		Map<String, String> map = new HashMap<>();
 		map.put("mobileyn", "N");
 		map.put("toonfg", "toon");
+		map.put("toonType", "toon");
 		map.put("sort", "subject");
 		return map;
 	}

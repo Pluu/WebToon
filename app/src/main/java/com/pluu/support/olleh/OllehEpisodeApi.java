@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class OllehEpisodeApi extends AbstractEpisodeApi {
 
-	private static final String EPISODE_URL = "http://webtoon.olleh.com/api/work/getTimesListByWork.kt";
+	private static final String EPISODE_URL = OllehWeekApi.HOST + "/api/work/getTimesListByWork.kt";
 	private final int PAGE_SIZE = 20;
 
 	private JSONArray savedArray;
@@ -43,28 +43,27 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 
 		EpisodePage episodePage = new EpisodePage(this);
 
-		try {
-			String response;
-			if (savedArray == null) {
-				response = requestApi();
-				savedArray = new JSONObject(response).optJSONArray("timesList");
-				totalSize = savedArray.length();
-				if (savedArray != null) {
-					totalSize = savedArray.length();
-					firstEpisode
-						= createEpisode(info, savedArray.optJSONObject(totalSize - 1));
-				}
+		if (savedArray == null) {
+			try {
+				bindRequest(info);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			if (totalSize > 0) {
-				episodePage.episodes = parseList(info, savedArray, page);
-				episodePage.nextLink = getNextPageLink(totalSize, page);
-			}
-			page++;
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		episodePage.episodes = parseList(info, savedArray, page);
+		episodePage.nextLink = getNextPageLink(totalSize, page);
+		page++;
 		return episodePage;
+	}
+
+	private void bindRequest(WebToonInfo info) throws Exception {
+		String response = requestApi();
+        savedArray = new JSONObject(response).optJSONArray("timesList");
+        totalSize = savedArray.length();
+        if (savedArray != null) {
+            totalSize = savedArray.length();
+            firstEpisode = createEpisode(info, savedArray.optJSONObject(totalSize - 1));
+		}
 	}
 
 	private List<Episode> parseList(WebToonInfo info, JSONArray array, int page) {
@@ -86,8 +85,8 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 		Episode item = new Episode(info, obj.optString("timesseq"));
 		item.setEpisodeTitle(obj.optString("timestitle"));
 		item.setImage(info.getType() == WebToonType.TOON
-						  ? obj.optString("thumbpath")
-						  : info.getImage());
+				? obj.optString("thumbpath")
+				: info.getImage());
 		item.setRate(obj.optString("totalstickercnt"));
 //				item.setUpdateDate(obj.optString("regdt"));
 
@@ -134,16 +133,13 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 	@Override
 	public Map<String, String> getHeaders() {
 		Map<String, String> map = new HashMap<>();
-		map.put("Referer", "http://webtoon.olleh.com");
+		map.put("Referer", OllehWeekApi.HOST);
 		return map;
 	}
 
 	@Override
 	public Map<String, String> getParams() {
 		Map<String, String> map = new HashMap<>();
-		map.put("mobileyn", "N");
-		map.put("toonfg", "toon");
-		map.put("sort", "subject");
 		map.put("webtoonseq", id);
 		return map;
 	}
