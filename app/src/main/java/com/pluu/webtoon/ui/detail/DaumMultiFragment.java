@@ -70,12 +70,7 @@ public class DaumMultiFragment extends BaseDetailFragment {
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 ViewHolder holder = super.onCreateViewHolder(parent, viewType);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.childCallToggle(false);
-                    }
-                });
+                holder.itemView.setOnClickListener(v -> listener.childCallToggle(false));
                 return holder;
             }
         };

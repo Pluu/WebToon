@@ -130,19 +130,16 @@ public class EpisodeFragment extends Fragment
 			public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
 												 int position) {
 				final ViewHolder vh = super.onCreateViewHolder(viewGroup, position);
-				vh.thumbnailView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Episode item = adapter.getItem(vh.getAdapterPosition());
-						if (item.isLock()) {
-							Toast.makeText(getContext(),
-										   R.string.msg_not_support,
-										   Toast.LENGTH_SHORT).show();
-						} else {
-							moveDetailPage(item);
-						}
-					}
-				});
+				vh.thumbnailView.setOnClickListener(v -> {
+                    Episode item = adapter.getItem(vh.getAdapterPosition());
+                    if (item.isLock()) {
+                        Toast.makeText(getContext(),
+                                       R.string.msg_not_support,
+                                       Toast.LENGTH_SHORT).show();
+                    } else {
+                        moveDetailPage(item);
+                    }
+                });
 				return vh;
 			}
 		};
@@ -230,73 +227,54 @@ public class EpisodeFragment extends Fragment
 
 	@NonNull
 	private Action0 getUnsubscribeAction() {
-		return new Action0() {
-            @Override
-            public void call() {
-                loadDlg.dismiss();
-            }
-        };
+		return () -> loadDlg.dismiss();
 	}
 
 	@NonNull
 	private Action0 getSubscribeAction() {
-		return new Action0() {
-            @Override
-            public void call() {
-                loadDlg.show();
-            }
-        };
+		return () -> loadDlg.show();
 	}
 
 	//	@RxLogObservable
 	private Observable<List<Episode>> getRequestApi() {
 		return Observable
-			.create(new Observable.OnSubscribe<List<Episode>>() {
-				@Override
-				public void call(Subscriber<? super List<Episode>> subscriber) {
-					Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
-					EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
-					List<Episode> list = episodePage.getEpisodes();
-					nextLink = episodePage.moreLink();
-					if (!TextUtils.isEmpty(nextLink)) {
-						scrollListener.setLoadingMorePause();
-					}
-					subscriber.onNext(list);
-					subscriber.onCompleted();
-				}
-			});
+			.create(subscriber -> {
+                Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
+                EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
+                List<Episode> list = episodePage.getEpisodes();
+                nextLink = episodePage.moreLink();
+                if (!TextUtils.isEmpty(nextLink)) {
+                    scrollListener.setLoadingMorePause();
+                }
+                subscriber.onNext(list);
+                subscriber.onCompleted();
+            });
 	}
 
 	@NonNull
 	private Observable<List<REpisode>> getReadAction() {
-		return Observable.create(new Observable.OnSubscribe<List<REpisode>>() {
-			@Override
-			public void call(Subscriber<? super List<REpisode>> subscriber) {
-				RealmHelper helper = RealmHelper.getInstance();
-				List<REpisode> list = helper.getEpisode(getContext(),
-														service, webToonInfo.getToonId());
-				subscriber.onNext(list);
-				subscriber.onCompleted();
-			}
-		});
+		return Observable.create(subscriber -> {
+            RealmHelper helper = RealmHelper.getInstance();
+            List<REpisode> list = helper.getEpisode(getContext(),
+                                                    service, webToonInfo.getToonId());
+            subscriber.onNext(list);
+            subscriber.onCompleted();
+        });
 	}
 
 	@NonNull
 	private Func2<List<Episode>, List<REpisode>, List<Episode>> getRequestReadAction() {
-		return new Func2<List<Episode>, List<REpisode>, List<Episode>>() {
-			@Override
-			public List<Episode> call(List<Episode> list, List<REpisode> readList) {
-				for (REpisode readItem : readList) {
-					for (Episode episode : list) {
-						if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
-							episode.setReadFlag();
-							break;
-						}
-					}
-				}
-				return list;
-			}
-		};
+		return (list, readList) -> {
+            for (REpisode readItem : readList) {
+                for (Episode episode : list) {
+                    if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
+                        episode.setReadFlag();
+                        break;
+                    }
+                }
+            }
+            return list;
+        };
 	}
 
 	@NonNull
@@ -337,28 +315,22 @@ public class EpisodeFragment extends Fragment
 
 	@NonNull
 	private Action1<Object> getBusEvent() {
-		return new Action1<Object>() {
-			@Override
-			public void call(Object o) {
-				if (o instanceof FirstItemSelectEvent) {
-					firstItemSelect();
-				}
-			}
-		};
+		return o -> {
+            if (o instanceof FirstItemSelectEvent) {
+                firstItemSelect();
+            }
+        };
 	}
 
 	private void readUpdate() {
 		getReadAction()
-			.map(new Func1<List<REpisode>, List<String>>() {
-				@Override
-				public List<String> call(List<REpisode> list) {
-					List<String> result = new ArrayList<>(list.size());
-					for (REpisode item : list) {
-						result.add(item.getEpisodeId());
-					}
-					return result;
-				}
-			})
+			.map(list -> {
+                List<String> result = new ArrayList<>(list.size());
+                for (REpisode item : list) {
+                    result.add(item.getEpisodeId());
+                }
+                return result;
+            })
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.doOnSubscribe(getSubscribeAction())

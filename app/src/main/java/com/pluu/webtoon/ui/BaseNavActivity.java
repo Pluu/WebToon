@@ -172,12 +172,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 
 		formatNavDrawerItem(view, item, selected);
 
-		view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onNavDrawerItemClicked(item);
-			}
-		});
+		view.setOnClickListener(v -> onNavDrawerItemClicked(item));
 
 		return view;
 	}
@@ -235,12 +230,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 			goToNavDrawerItem(item);
 		} else {
 			// launch the target Activity after a short delay, to allow the close animation to play
-			mHandler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					goToNavDrawerItem(item);
-				}
-			}, NAVDRAWER_LAUNCH_DELAY);
+			mHandler.postDelayed(() -> goToNavDrawerItem(item), NAVDRAWER_LAUNCH_DELAY);
 
 			// change the active item on the list so the user can see the item changed
 			setSelectedNavDrawerItem(item);

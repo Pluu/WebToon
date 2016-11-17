@@ -83,14 +83,11 @@ public class MainActivity extends BaseNavActivity {
 
 	@NonNull
 	private Action1<Object> getBusEvent() {
-		return new Action1<Object>() {
-			@Override
-			public void call(Object o) {
-				if (o instanceof ThemeEvent) {
-					themeChange((ThemeEvent) o);
-				}
-			}
-		};
+		return o -> {
+            if (o instanceof ThemeEvent) {
+                themeChange((ThemeEvent) o);
+            }
+        };
 	}
 
 	private void themeChange(ThemeEvent event) {

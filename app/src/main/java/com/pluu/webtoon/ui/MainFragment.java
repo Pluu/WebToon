@@ -176,16 +176,13 @@ public class MainFragment extends Fragment {
 
 	@NonNull
 	private Action1<Object> getBusEvent() {
-		return new Action1<Object>() {
-			@Override
-			public void call(Object o) {
-				if (o instanceof MainEpisodeStartEvent) {
-					eventStartEvent();
-				} else if (o instanceof MainEpisodeLoadedEvent) {
-					eventLoadedEvent();
-				}
-			}
-		};
+		return o -> {
+            if (o instanceof MainEpisodeStartEvent) {
+                eventStartEvent();
+            } else if (o instanceof MainEpisodeLoadedEvent) {
+                eventLoadedEvent();
+            }
+        };
 	}
 
 	private void eventStartEvent() {

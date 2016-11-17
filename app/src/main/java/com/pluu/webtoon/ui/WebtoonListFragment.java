@@ -96,22 +96,12 @@ public class WebtoonListFragment extends Fragment {
 
 	@NonNull
 	private Action0 getSubscribeAction() {
-		return new Action0() {
-			@Override
-			public void call() {
-				RxBusProvider.getInstance().send(new MainEpisodeStartEvent());
-			}
-		};
+		return () -> RxBusProvider.getInstance().send(new MainEpisodeStartEvent());
 	}
 
 	@NonNull
 	private Action0 getUnsubscribeAction() {
-		return new Action0() {
-            @Override
-            public void call() {
-				RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent());
-            }
-        };
+		return () -> RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent());
 	}
 
 	//	@RxLogSubscriber
@@ -145,29 +135,23 @@ public class WebtoonListFragment extends Fragment {
 
 	@NonNull
 	private Func1<List<WebToonInfo>, List<WebToonInfo>> getFavoriteProcessFunc() {
-		return new Func1<List<WebToonInfo>, List<WebToonInfo>>() {
-			@Override
-			public List<WebToonInfo> call(List<WebToonInfo> list) {
-				RealmHelper helper = RealmHelper.getInstance();
-				for (final WebToonInfo item : list) {
-					item.setIsFavorite(
-						helper.getFavoriteToon(getContext(), serviceApi.getNaviItem(), item.getToonId())
-					);
-				}
-				return list;
-			}
-		};
+		return list -> {
+            RealmHelper helper = RealmHelper.getInstance();
+            for (final WebToonInfo item : list) {
+                item.setIsFavorite(
+                    helper.getFavoriteToon(getContext(), serviceApi.getNaviItem(), item.getToonId())
+                );
+            }
+            return list;
+        };
 	}
 
 	//	@RxLogObservable
 	private Observable<List<WebToonInfo>> getApiRequest() {
-		return Observable.defer(new Func0<Observable<List<WebToonInfo>>>() {
-			@Override
-			public Observable<List<WebToonInfo>> call() {
-				Log.i(TAG, "Load pos=" + position);
-				return Observable.just(serviceApi.parseMain(position));
-			}
-		});
+		return Observable.defer(() -> {
+            Log.i(TAG, "Load pos=" + position);
+            return Observable.just(serviceApi.parseMain(position));
+        });
 	}
 
 	@Override
@@ -200,19 +184,16 @@ public class WebtoonListFragment extends Fragment {
 
 	private void setClickListener(final MainListAdapter.ViewHolder vh) {
 		View v = vh.itemView;
-		v.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final WebToonInfo item = (WebToonInfo) vh.titleView.getTag();
-				if (item.isLock()) {
-					Toast.makeText(getContext(),
-							R.string.msg_not_support,
-							Toast.LENGTH_SHORT).show();
-				} else {
-					loadPalette(vh.thumbnailView, item);
-				}
-			}
-		});
+		v.setOnClickListener(v1 -> {
+            final WebToonInfo item = (WebToonInfo) vh.titleView.getTag();
+            if (item.isLock()) {
+                Toast.makeText(getContext(),
+                        R.string.msg_not_support,
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                loadPalette(vh.thumbnailView, item);
+            }
+        });
 	}
 
 	private void loadPalette(ImageView view, final WebToonInfo item) {
@@ -224,15 +205,13 @@ public class WebtoonListFragment extends Fragment {
 
 	private void asyncPalette(final WebToonInfo item, Bitmap bitmap) {
 		final Context context = getActivity();
-		Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-			public void onGenerated(Palette p) {
-				int bgColor = p.getDarkVibrantColor(
-					Color.BLACK);
-				int statusColor = p.getDarkMutedColor(
-					ContextCompat.getColor(context, R.color.theme_primary_dark));
-				moveEpisode(item, bgColor, statusColor);
-			}
-		});
+		Palette.from(bitmap).generate(p -> {
+            int bgColor = p.getDarkVibrantColor(
+                Color.BLACK);
+            int statusColor = p.getDarkMutedColor(
+                ContextCompat.getColor(context, R.color.theme_primary_dark));
+            moveEpisode(item, bgColor, statusColor);
+        });
 	}
 
 	private void moveEpisode(WebToonInfo item, int bgColor, int statusColor) {

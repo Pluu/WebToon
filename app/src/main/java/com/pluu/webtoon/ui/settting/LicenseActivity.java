@@ -78,12 +78,9 @@ public class LicenseActivity extends AppCompatActivity {
 
     @NonNull
     private Action1<Object> getBusEvent() {
-        return new Action1<Object>() {
-            @Override
-            public void call(Object o) {
-                if (o instanceof RecyclerViewEvent) {
-                    itemClick((RecyclerViewEvent) o);
-                }
+        return o -> {
+            if (o instanceof RecyclerViewEvent) {
+                itemClick((RecyclerViewEvent) o);
             }
         };
     }

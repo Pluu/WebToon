@@ -181,14 +181,11 @@ public class DetailActivity extends AppCompatActivity
         getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
 
         ValueAnimator bgColorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, titleColor);
-        bgColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                toolbar.setBackgroundColor(value);
-                btnPrev.setBackgroundColor(value);
-                btnNext.setBackgroundColor(value);
-            }
+        bgColorAnimator.addUpdateListener(animation -> {
+            Integer value1 = (Integer) animation.getAnimatedValue();
+            toolbar.setBackgroundColor(value1);
+            btnPrev.setBackgroundColor(value1);
+            btnNext.setBackgroundColor(value1);
         });
         bgColorAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -260,13 +257,10 @@ public class DetailActivity extends AppCompatActivity
     //	@RxLogObservable
     private Observable<Detail> getRequestApi(final Episode item) {
         return Observable
-                .create(new Observable.OnSubscribe<Detail>() {
-                    @Override
-                    public void call(Subscriber<? super Detail> subscriber) {
-                        Detail detail = serviceApi.parseDetail(item);
-                        subscriber.onNext(detail);
-                        subscriber.onCompleted();
-                    }
+                .create(subscriber -> {
+                    Detail detail = serviceApi.parseDetail(item);
+                    subscriber.onNext(detail);
+                    subscriber.onCompleted();
                 });
     }
 
@@ -302,13 +296,7 @@ public class DetailActivity extends AppCompatActivity
                             .setMessage(MessageUtils.getString(getBaseContext(), type))
                             .setCancelable(false)
                             .setPositiveButton(android.R.string.ok,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(
-                                                DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    })
+                                    (dialogInterface, i) -> finish())
                             .show();
                     return;
                 }
@@ -404,12 +392,9 @@ public class DetailActivity extends AppCompatActivity
         loading(episode);
     }
 
-    private final Handler mToggleHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            toggleHideBar();
-            return true;
-        }
+    private final Handler mToggleHandler = new Handler(msg -> {
+        toggleHideBar();
+        return true;
     });
 
     /**

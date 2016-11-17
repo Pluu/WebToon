@@ -108,18 +108,10 @@ public class DefaultDetailFragment extends BaseDetailFragment {
             }
         });
 
-        webview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gd.onTouchEvent(event);
-            }
-        });
-        webview.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                // LongClick Disable
-                return true;
-            }
+        webview.setOnTouchListener((v, event) -> gd.onTouchEvent(event));
+        webview.setOnLongClickListener(view -> {
+            // LongClick Disable
+            return true;
         });
     }
 

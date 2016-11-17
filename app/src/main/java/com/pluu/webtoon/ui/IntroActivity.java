@@ -60,24 +60,21 @@ public class IntroActivity extends Activity {
 
 //	@RxLogObservable
 	private Observable<Object> getSqlite2Realm() {
-		return Observable.create(new Observable.OnSubscribe<Object>() {
-			@Override
-			public void call(Subscriber<? super Object> subscriber) {
-				final String keyMigrate = "MIGRATE";
+		return Observable.create(subscriber -> {
+            final String keyMigrate = "MIGRATE";
 
-				Context context = getBaseContext();
-				SharedPreferences pref = PrefConfig.getPreferences(context, Const.CONFIG_NAME);
-				if (!pref.getBoolean(keyMigrate, false)) {
-					SqliteToRealm migrate = new SqliteToRealm();
-					migrate.migrateToon(context);
-					migrate.migrateEpisode(context);
-					migrate.complete(context);
-					pref.edit().putBoolean(keyMigrate, true).apply();
-				}
-				subscriber.onNext(null);
-				subscriber.onCompleted();
-			}
-		});
+            Context context = getBaseContext();
+            SharedPreferences pref = PrefConfig.getPreferences(context, Const.CONFIG_NAME);
+            if (!pref.getBoolean(keyMigrate, false)) {
+                SqliteToRealm migrate = new SqliteToRealm();
+                migrate.migrateToon(context);
+                migrate.migrateEpisode(context);
+                migrate.complete(context);
+                pref.edit().putBoolean(keyMigrate, true).apply();
+            }
+            subscriber.onNext(null);
+            subscriber.onCompleted();
+        });
 	}
 
 	private Subscriber<Object> getIntroSubscriber() {
