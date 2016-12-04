@@ -235,31 +235,21 @@ public class EpisodeFragment extends Fragment
 
 	//	@RxLogObservable
 	private Observable<List<Episode>> getRequestApi() {
-		return Observable
-			.create(emitter -> {
-				if (!emitter.isDisposed()) {
-					Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
-					EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
-					List<Episode> list = episodePage.getEpisodes();
-					nextLink = episodePage.moreLink();
-					if (!TextUtils.isEmpty(nextLink)) {
-						scrollListener.setLoadingMorePause();
-					}
-					emitter.onNext(list);
-					emitter.onComplete();
-				}
-            });
+		return Observable.defer(() -> {
+            Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
+            EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
+            List<Episode> list = episodePage.getEpisodes();
+            nextLink = episodePage.moreLink();
+            if (!TextUtils.isEmpty(nextLink)) {
+                scrollListener.setLoadingMorePause();
+            }
+            return Observable.just(list);
+        });
 	}
 
 	@NonNull
 	private Observable<List<REpisode>> getReadAction() {
-		return Observable.create(emitter -> {
-			if (!emitter.isDisposed()) {
-				List<REpisode> list = realmHelper.getEpisode(service, webToonInfo.getToonId());
-				emitter.onNext(list);
-				emitter.onComplete();
-			}
-        });
+		return Observable.defer(() -> Observable.just(realmHelper.getEpisode(service, webToonInfo.getToonId())));
 	}
 
 	@NonNull

@@ -48,25 +48,24 @@ public class IntroActivity extends Activity {
 		Observable.concat(getSqlite2Realm(), getIntro())
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(o -> {
-				Log.i(TAG, "Login Process Complete");
-				tvMsg.setText(R.string.msg_intro_complete);
-				progressBar.setVisibility(View.INVISIBLE);
+				.subscribe(o -> {
+                    Log.i(TAG, "Login Process Complete");
+                    tvMsg.setText(R.string.msg_intro_complete);
+                    progressBar.setVisibility(View.INVISIBLE);
 
-				startActivity(new Intent(IntroActivity.this, MainActivity.class));
-				finish();
-			});
+                    startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                    finish();
+                });
 	}
 
 //	@RxLogObservable
 	private Observable<Object> getIntro() {
-		return Observable
-			.empty().delay(1, TimeUnit.SECONDS);
+		return Observable.empty().delay(1, TimeUnit.SECONDS);
 	}
 
 //	@RxLogObservable
 	private Observable<Object> getSqlite2Realm() {
-		return Observable.create(subscriber -> {
+		return Observable.fromCallable(() -> {
             final String keyMigrate = "MIGRATE";
 
             Context context = getBaseContext();
@@ -78,8 +77,7 @@ public class IntroActivity extends Activity {
                 migrate.complete(context);
                 pref.edit().putBoolean(keyMigrate, true).apply();
             }
-			subscriber.onNext("");
-            subscriber.onComplete();
+            return Observable.empty();
         });
 	}
 

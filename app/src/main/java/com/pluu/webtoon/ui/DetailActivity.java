@@ -245,29 +245,24 @@ public class DetailActivity extends AppCompatActivity
         if (currentItem != null) {
             currentItem.prevLink = currentItem.nextLink = null;
         }
-        dlg.show();
 
         getRequestApi(item)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> dlg.show())
+                .doOnDispose(() -> dlg.dismiss())
                 .subscribe(getRequestSubscriber());
     }
 
     //	@RxLogObservable
     private Observable<Detail> getRequestApi(final Episode item) {
-        return Observable
-                .create(subscriber -> {
-                    Detail detail = serviceApi.parseDetail(item);
-                    subscriber.onNext(detail);
-                    subscriber.onComplete();
-                });
+        return Observable.defer(() -> Observable.just(serviceApi.parseDetail(item)));
     }
 
     //	@RxLogSubscriber
     @NonNull
     private Consumer<Detail> getRequestSubscriber() {
         return item -> {
-            dlg.dismiss();
             if (item == null
                     || item.list == null || item.list.isEmpty()
                     || item.errorType != null) {

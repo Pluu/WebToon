@@ -34,6 +34,7 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.utils.GlideUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -88,6 +89,17 @@ public class WebtoonListFragment extends Fragment {
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.map(getFavoriteProcessFunc())
+			.map(unsortedList -> {
+				// 정렬
+				// 1. 즐겨찾기 여부
+				// 2. 이름
+				Collections.sort(unsortedList, (t1, t2) -> (
+						t1.isFavorite() == t2.isFavorite()
+								? t1.getTitle().compareTo(t2.getTitle())
+								: (t1.isFavorite() ? -1 : 1))
+				);
+				return unsortedList;
+			})
 			.doOnSubscribe(disposable -> RxBusProvider.getInstance().send(new MainEpisodeStartEvent()))
 			.doOnDispose(() -> RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent()))
 			.subscribe(getRequestSubscriber());
@@ -117,7 +129,7 @@ public class WebtoonListFragment extends Fragment {
 	private Function<List<WebToonInfo>, List<WebToonInfo>> getFavoriteProcessFunc() {
 		return list -> {
             RealmHelper helper = RealmHelper.getInstance();
-            for (final WebToonInfo item : list) {
+            for (WebToonInfo item : list) {
                 item.setIsFavorite(
                     helper.getFavoriteToon(serviceApi.getNaviItem(), item.getToonId())
                 );
