@@ -19,9 +19,9 @@ import com.pluu.webtoon.ui.settting.SettingsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseNavActivity {
 
@@ -30,7 +30,7 @@ public class MainActivity extends BaseNavActivity {
 	@BindView(R.id.navTitle)
 	View navTitle;
 
-	private CompositeSubscription mCompositeSubscription;
+	private CompositeDisposable mCompositeDisposable;
 
 	@Override
 	protected NAV_ITEM getSelfNavDrawerItem() {
@@ -66,8 +66,8 @@ public class MainActivity extends BaseNavActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mCompositeSubscription = new CompositeSubscription();
-		mCompositeSubscription.add(
+		mCompositeDisposable = new CompositeDisposable();
+		mCompositeDisposable.add(
 				RxBusProvider.getInstance()
 						.toObservable()
 						.observeOn(AndroidSchedulers.mainThread())
@@ -78,19 +78,16 @@ public class MainActivity extends BaseNavActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mCompositeSubscription.unsubscribe();
+		mCompositeDisposable.dispose();
 	}
 
 	@NonNull
-	private Action1<Object> getBusEvent() {
-		return new Action1<Object>() {
-			@Override
-			public void call(Object o) {
-				if (o instanceof ThemeEvent) {
-					themeChange((ThemeEvent) o);
-				}
-			}
-		};
+	private Consumer<Object> getBusEvent() {
+		return o -> {
+            if (o instanceof ThemeEvent) {
+                themeChange((ThemeEvent) o);
+            }
+        };
 	}
 
 	private void themeChange(ThemeEvent event) {

@@ -3,7 +3,11 @@ package com.pluu.webtoon;
 import android.app.Application;
 
 import com.pluu.webtoon.di.DaggerNetworkComponent;
+import com.pluu.webtoon.di.DaggerRealmHelperComponent;
 import com.pluu.webtoon.di.NetworkComponent;
+import com.pluu.webtoon.di.RealmHelperComponent;
+
+import io.realm.Realm;
 
 /**
  * Application Controller
@@ -11,7 +15,8 @@ import com.pluu.webtoon.di.NetworkComponent;
  */
 public class AppController extends Application {
 
-	private NetworkComponent component;
+	private NetworkComponent networkComponent;
+	private RealmHelperComponent realmComponent;
 
 	@Override
 	public void onCreate() {
@@ -19,16 +24,25 @@ public class AppController extends Application {
 
 //		refWatcher = LeakCanary.install(this);
 		initApplicationComponent();
+		Realm.init(this);
 	}
 
 	private void initApplicationComponent() {
-		this.component = DaggerNetworkComponent.builder()
+		this.networkComponent = DaggerNetworkComponent.builder()
+				.build();
+
+		this.realmComponent = DaggerRealmHelperComponent.builder()
 				.build();
 	}
 
 	public NetworkComponent getNetworkComponent() {
-		return component;
+		return networkComponent;
 	}
+
+	public RealmHelperComponent getRealmHelperComponent() {
+		return realmComponent;
+	}
+
 //
 //	public static RefWatcher getRefWatcher(Context context) {
 //		AppController application = (AppController) context.getApplicationContext();

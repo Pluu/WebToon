@@ -22,17 +22,14 @@ public class DisplayUtils {
 
 	public static ValueAnimator animatorToolbarColor(final AppCompatActivity activity, int color) {
 		return animatorToolbarColor(activity, color,
-									new ValueAnimator.AnimatorUpdateListener() {
-										@Override
-										public void onAnimationUpdate(ValueAnimator animation) {
-											Integer value = (Integer) animation.getAnimatedValue();
-											ActionBar actionBar = activity.getSupportActionBar();
-											if (actionBar != null) {
-												actionBar.setBackgroundDrawable(
-													new ColorDrawable(value));
-											}
-										}
-									});
+                animation -> {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    ActionBar actionBar = activity.getSupportActionBar();
+                    if (actionBar != null) {
+                        actionBar.setBackgroundDrawable(
+                            new ColorDrawable(value));
+                    }
+                });
 	}
 
 	public static ValueAnimator animatorToolbarColor(final AppCompatActivity activity, int color,
@@ -62,12 +59,7 @@ public class DisplayUtils {
 		activity.getTheme().resolveAttribute(R.attr.colorPrimaryDark, value, true);
 
 		ValueAnimator animator = ValueAnimator.ofObject(new ArgbEvaluator(), value.data, color);
-		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				setStatusBarColor(activity, (Integer) animation.getAnimatedValue());
-			}
-		});
+		animator.addUpdateListener(animation -> setStatusBarColor(activity, (Integer) animation.getAnimatedValue()));
 		animator.setInterpolator(new DecelerateInterpolator());
 		return animator;
 	}

@@ -19,10 +19,9 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 인트로 화면 Activity
@@ -49,55 +48,37 @@ public class IntroActivity extends Activity {
 		Observable.concat(getSqlite2Realm(), getIntro())
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(getIntroSubscriber());
+				.subscribe(o -> {
+                    Log.i(TAG, "Login Process Complete");
+                    tvMsg.setText(R.string.msg_intro_complete);
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                    startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                    finish();
+                });
 	}
 
 //	@RxLogObservable
 	private Observable<Object> getIntro() {
-		return Observable
-			.empty().delay(1, TimeUnit.SECONDS);
+		return Observable.empty().delay(1, TimeUnit.SECONDS);
 	}
 
 //	@RxLogObservable
 	private Observable<Object> getSqlite2Realm() {
-		return Observable.create(new Observable.OnSubscribe<Object>() {
-			@Override
-			public void call(Subscriber<? super Object> subscriber) {
-				final String keyMigrate = "MIGRATE";
+		return Observable.fromCallable(() -> {
+            final String keyMigrate = "MIGRATE";
 
-				Context context = getBaseContext();
-				SharedPreferences pref = PrefConfig.getPreferences(context, Const.CONFIG_NAME);
-				if (!pref.getBoolean(keyMigrate, false)) {
-					SqliteToRealm migrate = new SqliteToRealm();
-					migrate.migrateToon(context);
-					migrate.migrateEpisode(context);
-					migrate.complete(context);
-					pref.edit().putBoolean(keyMigrate, true).apply();
-				}
-				subscriber.onNext(null);
-				subscriber.onCompleted();
-			}
-		});
-	}
-
-	private Subscriber<Object> getIntroSubscriber() {
-		return new Subscriber<Object>() {
-			@Override
-			public void onCompleted() {
-				Log.i(TAG, "Login Process Complete");
-				tvMsg.setText(R.string.msg_intro_complete);
-				progressBar.setVisibility(View.INVISIBLE);
-
-				startActivity(new Intent(IntroActivity.this, MainActivity.class));
-				finish();
-			}
-
-			@Override
-			public void onError(Throwable e) { }
-
-			@Override
-			public void onNext(Object o) { }
-		};
+            Context context = getBaseContext();
+            SharedPreferences pref = PrefConfig.getPreferences(context, Const.CONFIG_NAME);
+            if (!pref.getBoolean(keyMigrate, false)) {
+                SqliteToRealm migrate = new SqliteToRealm();
+                migrate.migrateToon(context);
+                migrate.migrateEpisode(context);
+                migrate.complete(context);
+                pref.edit().putBoolean(keyMigrate, true).apply();
+            }
+            return Observable.empty();
+        });
 	}
 
 }

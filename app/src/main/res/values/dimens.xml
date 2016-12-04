@@ -1,25 +1,16 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="main_status_padding_height">2dp</dimen>
     <dimen name="main_status_padding_width">6dp</dimen>
 
     <dimen name="navigation_drawer_width">240dp</dimen>
-    <dimen name="navigation_padding">16dp</dimen>
 
-    <dimen name="text_size_xsmall">11sp</dimen>
-    <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>
-    <dimen name="text_size_large">18sp</dimen>
-    <dimen name="text_size_xlarge">20sp</dimen>
-    <dimen name="text_size_diff_large_small">6sp</dimen>
-    <dimen name="actionbar_size">48dp</dimen>
     <dimen name="chatting_margin">72dp</dimen>
     <dimen name="chatting_profile_size">52dp</dimen>
 
     <dimen name="toon_weekly_min_height">100dp</dimen>
-    <dimen name="toon_episode_min_height">100dp</dimen>
 
 
 </resources>

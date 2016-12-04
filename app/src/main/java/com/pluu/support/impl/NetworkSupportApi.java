@@ -19,8 +19,8 @@ import okhttp3.Request;
  */
 public abstract class NetworkSupportApi implements IRequest {
 
-	@Inject
-	OkHttpClient client;
+	@Inject OkHttpClient client;
+
 	public static final String POST = "POST";
 	public static final String GET = "GET";
 

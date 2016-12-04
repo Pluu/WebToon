@@ -94,22 +94,19 @@ public class EpisodesActivity extends AppCompatActivity {
 			}
 		}
 
-		ValueAnimator.AnimatorUpdateListener listener = new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				Integer value = (Integer) animation.getAnimatedValue();
-				toolbar.setBackgroundColor(value);
-				btnFirst.setBackgroundColor(value);
-				if (childTitle != null) {
-					childTitle.setBackgroundColor(value);
-				}
+		ValueAnimator.AnimatorUpdateListener listener = animation -> {
+            Integer value = (Integer) animation.getAnimatedValue();
+            toolbar.setBackgroundColor(value);
+            btnFirst.setBackgroundColor(value);
+            if (childTitle != null) {
+                childTitle.setBackgroundColor(value);
+            }
 
-				tvName.setTextColor(value);
-				tvRate.setTextColor(value);
+            tvName.setTextColor(value);
+            tvRate.setTextColor(value);
 
-				DisplayUtils.setStatusBarColor(EpisodesActivity.this, value);
-			}
-		};
+            DisplayUtils.setStatusBarColor(EpisodesActivity.this, value);
+        };
 
 		ValueAnimator animator = DisplayUtils.animatorToolbarColor(this, titleColor, listener);
 		animator.setDuration(1000L);
@@ -173,13 +170,13 @@ public class EpisodesActivity extends AppCompatActivity {
 			case R.id.menu_item_favorite_add:
 				// 즐겨찾기 추가
 				RealmHelper.getInstance()
-						   .addFavorite(this, service, webToonInfo.getToonId());
+						   .addFavorite(service, webToonInfo.getToonId());
 				setFavorite(true);
 				break;
 			case R.id.menu_item_favorite_delete:
 				// 즐겨찾기 삭제
 				RealmHelper.getInstance()
-						   .removeFavorite(this, service, webToonInfo.getToonId());
+						   .removeFavorite(service, webToonInfo.getToonId());
 				setFavorite(false);
 				break;
 		}

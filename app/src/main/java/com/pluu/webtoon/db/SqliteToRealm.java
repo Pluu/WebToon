@@ -2,10 +2,10 @@ package com.pluu.webtoon.db;
 
 import android.content.Context;
 
-import java.util.List;
-
 import com.pluu.webtoon.db.item.EpisodeItem;
 import com.pluu.webtoon.db.item.FavoriteItem;
+
+import java.util.List;
 
 /**
  * Sqlite to Realm Migrate
@@ -15,12 +15,12 @@ public class SqliteToRealm {
 
 	public void migrateToon(Context context) {
 		List<FavoriteItem> list = DbOpenHelper.getInstance(context).getFavoriteList();
-		RealmHelper.getInstance().convertToon(context, list);
+		RealmHelper.getInstance().convertToon(list);
 	}
 
 	public void migrateEpisode(Context context) {
 		List<EpisodeItem> list = DbOpenHelper.getInstance(context).getEpisodeListe();
-		RealmHelper.getInstance().convertEpisode(context, list);
+		RealmHelper.getInstance().convertEpisode(list);
 	}
 
 	public void complete(Context context) {

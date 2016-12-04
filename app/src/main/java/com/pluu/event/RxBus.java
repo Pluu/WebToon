@@ -1,20 +1,16 @@
 package com.pluu.event;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * RxBus from RxJava
  * Created by PLUUSYSTEM-NEW on 2016-03-21.
  */
 public class RxBus {
-    private final Subject<Object, Object> mBus =
-            new SerializedSubject<>(PublishSubject.create());
+    private final PublishSubject<Object> mBus = PublishSubject.create();
 
-    public RxBus() {
-    }
+    public RxBus() { }
 
     public void send(Object o) {
         mBus.onNext(o);

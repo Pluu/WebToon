@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.support.impl.ServiceConst;
+import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.EpisodeAdapter;
 import com.pluu.webtoon.common.Const;
@@ -32,21 +34,21 @@ import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.model.REpisode;
 import com.pluu.webtoon.utils.MoreRefreshListener;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.Observable;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 에피소드 리스트 Fragment
@@ -58,10 +60,9 @@ public class EpisodeFragment extends Fragment
 	private final String TAG = EpisodeFragment.class.getSimpleName();
 	private final int REQUEST_DETAIL = 1000;
 
-	@BindView(R.id.swipe_refresh_widget)
-	SwipeRefreshLayout swipeRefreshWidget;
-	@BindView(android.R.id.list)
-	RecyclerView recyclerView;
+	@BindView(R.id.swipe_refresh_widget) SwipeRefreshLayout swipeRefreshWidget;
+	@BindView(android.R.id.list) RecyclerView recyclerView;
+	@Inject	RealmHelper realmHelper;
 
 	private GridLayoutManager manager;
 	private EpisodeAdapter adapter;
@@ -74,7 +75,7 @@ public class EpisodeFragment extends Fragment
 	private AbstractEpisodeApi serviceApi;
 
 	private int[] color;
-	private CompositeSubscription mCompositeSubscription;
+	private CompositeDisposable mCompositeDisposable;
 	private Unbinder bind;
 
 	public EpisodeFragment() { }
@@ -89,6 +90,12 @@ public class EpisodeFragment extends Fragment
 		bundle.putIntArray(Const.EXTRA_MAIN_COLOR, color);
 		frag.setArguments(bundle);
 		return frag;
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		((AppController) getContext().getApplicationContext()).getRealmHelperComponent().inject(this);
 	}
 
 	@Override
@@ -130,19 +137,16 @@ public class EpisodeFragment extends Fragment
 			public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
 												 int position) {
 				final ViewHolder vh = super.onCreateViewHolder(viewGroup, position);
-				vh.thumbnailView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Episode item = adapter.getItem(vh.getAdapterPosition());
-						if (item.isLock()) {
-							Toast.makeText(getContext(),
-										   R.string.msg_not_support,
-										   Toast.LENGTH_SHORT).show();
-						} else {
-							moveDetailPage(item);
-						}
-					}
-				});
+				vh.thumbnailView.setOnClickListener(v -> {
+                    Episode item = adapter.getItem(vh.getAdapterPosition());
+                    if (item.isLock()) {
+                        Toast.makeText(getContext(),
+                                       R.string.msg_not_support,
+                                       Toast.LENGTH_SHORT).show();
+                    } else {
+                        moveDetailPage(item);
+                    }
+                });
 				return vh;
 			}
 		};
@@ -151,7 +155,7 @@ public class EpisodeFragment extends Fragment
 		manager = new GridLayoutManager(getContext(), columnCount);
 		recyclerView.setLayoutManager(manager);
 		recyclerView.setAdapter(adapter);
-		recyclerView.setOnScrollListener(scrollListener);
+		recyclerView.addOnScrollListener(scrollListener);
 	}
 
 	@Override
@@ -171,8 +175,8 @@ public class EpisodeFragment extends Fragment
 	public void onResume() {
 		super.onResume();
 		Glide.with(this).resumeRequests();
-		mCompositeSubscription = new CompositeSubscription();
-		mCompositeSubscription.add(
+		mCompositeDisposable = new CompositeDisposable();
+		mCompositeDisposable.add(
 				RxBusProvider.getInstance()
 						.toObservable()
 						.observeOn(AndroidSchedulers.mainThread())
@@ -184,7 +188,7 @@ public class EpisodeFragment extends Fragment
 	public void onPause() {
 		super.onPause();
 		Glide.with(this).pauseRequests();
-		mCompositeSubscription.unsubscribe();
+		mCompositeDisposable.dispose();
 	}
 
 	@Override
@@ -223,104 +227,59 @@ public class EpisodeFragment extends Fragment
 		Observable.zip(getRequestApi(), getReadAction(), getRequestReadAction())
 				.subscribeOn(Schedulers.newThread())
 				.observeOn(AndroidSchedulers.mainThread())
-				.doOnSubscribe(getSubscribeAction())
-				.doOnUnsubscribe(getUnsubscribeAction())
+				.doOnSubscribe(disposable -> loadDlg.show())
+				.doOnDispose(() -> loadDlg.dismiss())
+				.doOnError(throwable -> Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_SHORT).show())
 				.subscribe(getRequestSubscriber());
-	}
-
-	@NonNull
-	private Action0 getUnsubscribeAction() {
-		return new Action0() {
-            @Override
-            public void call() {
-                loadDlg.dismiss();
-            }
-        };
-	}
-
-	@NonNull
-	private Action0 getSubscribeAction() {
-		return new Action0() {
-            @Override
-            public void call() {
-                loadDlg.show();
-            }
-        };
 	}
 
 	//	@RxLogObservable
 	private Observable<List<Episode>> getRequestApi() {
-		return Observable
-			.create(new Observable.OnSubscribe<List<Episode>>() {
-				@Override
-				public void call(Subscriber<? super List<Episode>> subscriber) {
-					Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
-					EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
-					List<Episode> list = episodePage.getEpisodes();
-					nextLink = episodePage.moreLink();
-					if (!TextUtils.isEmpty(nextLink)) {
-						scrollListener.setLoadingMorePause();
-					}
-					subscriber.onNext(list);
-					subscriber.onCompleted();
-				}
-			});
+		return Observable.defer(() -> {
+            Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
+            EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
+            List<Episode> list = episodePage.getEpisodes();
+            nextLink = episodePage.moreLink();
+            if (!TextUtils.isEmpty(nextLink)) {
+                scrollListener.setLoadingMorePause();
+            }
+            return Observable.just(list);
+        });
 	}
 
 	@NonNull
 	private Observable<List<REpisode>> getReadAction() {
-		return Observable.create(new Observable.OnSubscribe<List<REpisode>>() {
-			@Override
-			public void call(Subscriber<? super List<REpisode>> subscriber) {
-				RealmHelper helper = RealmHelper.getInstance();
-				List<REpisode> list = helper.getEpisode(getContext(),
-														service, webToonInfo.getToonId());
-				subscriber.onNext(list);
-				subscriber.onCompleted();
-			}
-		});
+		return Observable.defer(() -> Observable.just(realmHelper.getEpisode(service, webToonInfo.getToonId())));
 	}
 
 	@NonNull
-	private Func2<List<Episode>, List<REpisode>, List<Episode>> getRequestReadAction() {
-		return new Func2<List<Episode>, List<REpisode>, List<Episode>>() {
-			@Override
-			public List<Episode> call(List<Episode> list, List<REpisode> readList) {
-				for (REpisode readItem : readList) {
-					for (Episode episode : list) {
-						if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
-							episode.setReadFlag();
-							break;
-						}
-					}
-				}
-				return list;
-			}
-		};
+	private BiFunction<List<Episode>, List<REpisode>, List<Episode>> getRequestReadAction() {
+		return (list, readList) -> {
+            for (REpisode readItem : readList) {
+                for (Episode episode : list) {
+                    if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
+                        episode.setReadFlag();
+                        break;
+                    }
+                }
+            }
+            return list;
+        };
 	}
 
 	@NonNull
-	private Subscriber<List<Episode>> getRequestSubscriber() {
-		return new Subscriber<List<Episode>>() {
-			@Override
-			public void onCompleted() { }
-
-			@Override
-			public void onError(Throwable e) { }
-
-			@Override
-			public void onNext(List<Episode> list) {
-				if (list == null || list.isEmpty()) {
-					if (list == null) {
-						Toast.makeText(getContext(), R.string.network_fail,
-									   Toast.LENGTH_SHORT).show();
-						getActivity().finish();
-					}
-					return;
+	private Consumer<List<Episode>> getRequestSubscriber() {
+		return episodes -> {
+			if (episodes == null || episodes.isEmpty()) {
+				if (episodes == null) {
+					Toast.makeText(getContext(), R.string.network_fail,
+							Toast.LENGTH_SHORT).show();
+					getActivity().finish();
 				}
-				adapter.addItems(list);
-				adapter.notifyDataSetChanged();
+				return;
 			}
+			adapter.addItems(episodes);
+			adapter.notifyDataSetChanged();
 		};
 	}
 
@@ -336,45 +295,35 @@ public class EpisodeFragment extends Fragment
 	}
 
 	@NonNull
-	private Action1<Object> getBusEvent() {
-		return new Action1<Object>() {
-			@Override
-			public void call(Object o) {
-				if (o instanceof FirstItemSelectEvent) {
-					firstItemSelect();
-				}
-			}
-		};
+	private Consumer<Object> getBusEvent() {
+		return o -> {
+            if (o instanceof FirstItemSelectEvent) {
+                firstItemSelect();
+            }
+        };
 	}
 
 	private void readUpdate() {
 		getReadAction()
-			.map(new Func1<List<REpisode>, List<String>>() {
-				@Override
-				public List<String> call(List<REpisode> list) {
-					List<String> result = new ArrayList<>(list.size());
-					for (REpisode item : list) {
-						result.add(item.getEpisodeId());
-					}
-					return result;
-				}
-			})
+			.flatMapIterable(list -> list)
+			.map(REpisode::getEpisodeId)
+			.toList()
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.doOnSubscribe(getSubscribeAction())
-			.doOnUnsubscribe(getUnsubscribeAction())
-			.subscribe(new Subscriber<List<String>>() {
+			.doOnSubscribe(disposable -> loadDlg.show())
+			.doOnEvent((strings, throwable) -> loadDlg.dismiss())
+			.subscribe(new SingleObserver<List<String>>() {
 				@Override
-				public void onCompleted() { }
+				public void onSubscribe(Disposable d) { }
 
 				@Override
-				public void onError(Throwable e) { }
-
-				@Override
-				public void onNext(List<String> list) {
-					adapter.updateRead(list);
+				public void onSuccess(List<String> value) {
+					adapter.updateRead(value);
 					adapter.notifyDataSetChanged();
 				}
+
+				@Override
+				public void onError(Throwable e) {}
 			});
 	}
 

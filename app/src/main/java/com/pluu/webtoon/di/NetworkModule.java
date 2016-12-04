@@ -21,7 +21,6 @@ public class NetworkModule {
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build();
-
     }
 
 }

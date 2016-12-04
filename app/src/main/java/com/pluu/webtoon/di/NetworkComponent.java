@@ -11,7 +11,7 @@ import dagger.Component;
  * Created by PLUUSYSTEM-SURFACE on 2016-07-12.
  */
 @Singleton
-@Component(modules={NetworkModule.class})
+@Component(modules = {NetworkModule.class})
 public interface NetworkComponent {
 
     void inject(NetworkSupportApi api);

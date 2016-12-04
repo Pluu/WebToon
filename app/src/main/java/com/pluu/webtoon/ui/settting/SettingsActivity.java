@@ -23,30 +23,27 @@ public class SettingsActivity extends AppCompatActivity {
      * to reflect its new value.
      */
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener
-            = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
+            = (preference, value) -> {
+                String stringValue = value.toString();
 
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
+                if (preference instanceof ListPreference) {
+                    // For list preferences, look up the correct display value in
+                    // the preference's 'entries' list.
+                    ListPreference listPreference = (ListPreference) preference;
+                    int index = listPreference.findIndexOfValue(stringValue);
 
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
-            }
-            return true;
-        }
-    };
+                    // Set the summary to reflect the new value.
+                    preference.setSummary(
+                            index >= 0
+                                    ? listPreference.getEntries()[index]
+                                    : null);
+                } else {
+                    // For all other preferences, set the summary to the value's
+                    // simple string representation.
+                    preference.setSummary(stringValue);
+                }
+                return true;
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
-            if (preference != null
-                    && TextUtils.equals(LicenseActivity.class.getCanonicalName(), preference.getFragment())) {
+            if (TextUtils.equals(LicenseActivity.class.getCanonicalName(), preference.getFragment())) {
                 startActivity(new Intent(getActivity(), LicenseActivity.class));
                 return true;
             }

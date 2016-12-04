@@ -31,15 +31,11 @@ import java.util.List;
  */
 public abstract class BaseNavActivity extends AppCompatActivity {
 
-	private final String TAG = BaseNavActivity.class.getSimpleName();
-
 	// Primary toolbar and drawer toggle
 	private Toolbar mActionBarToolbar;
-	private ActionBarDrawerToggle mDrawerToggle;
 
 	// Navigation drawer:
 	private DrawerLayout mDrawerLayout;
-	private ViewGroup mDrawerItemsListContainer;
 	private Handler mHandler;
 
 	// delay to launch nav drawer item, to allow close animation to play
@@ -99,7 +95,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 			ContextCompat.getColor(this, R.color.theme_primary_dark));
 
 		if (mActionBarToolbar != null) {
-			mDrawerToggle = new ActionBarDrawerToggle(
+			ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
 				this,                    /* host Activity */
 				mDrawerLayout,                    /* DrawerLayout object */
 				mActionBarToolbar,            /* nav drawer image to replace 'Up' caret */
@@ -107,7 +103,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 				R.string.app_name /* "close drawer" description for accessibility */
 			);
 			mDrawerToggle.setDrawerIndicatorEnabled(true);
-			mDrawerLayout.setDrawerListener(mDrawerToggle);
+			mDrawerLayout.addDrawerListener(mDrawerToggle);
 			mDrawerToggle.syncState();
 		}
 
@@ -127,7 +123,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 	}
 
 	private void createNavDrawerItems() {
-		mDrawerItemsListContainer = (ViewGroup) findViewById(R.id.navdrawer_items_list);
+		ViewGroup mDrawerItemsListContainer = (ViewGroup) findViewById(R.id.navdrawer_items_list);
 		if (mDrawerItemsListContainer == null) {
 			return;
 		}
@@ -172,12 +168,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 
 		formatNavDrawerItem(view, item, selected);
 
-		view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onNavDrawerItemClicked(item);
-			}
-		});
+		view.setOnClickListener(v -> onNavDrawerItemClicked(item));
 
 		return view;
 	}
@@ -235,12 +226,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 			goToNavDrawerItem(item);
 		} else {
 			// launch the target Activity after a short delay, to allow the close animation to play
-			mHandler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					goToNavDrawerItem(item);
-				}
-			}, NAVDRAWER_LAUNCH_DELAY);
+			mHandler.postDelayed(() -> goToNavDrawerItem(item), NAVDRAWER_LAUNCH_DELAY);
 
 			// change the active item on the list so the user can see the item changed
 			setSelectedNavDrawerItem(item);

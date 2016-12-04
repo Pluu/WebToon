@@ -33,6 +33,7 @@ public class NaverDetailApi extends AbstractDetailApi {
 		add("http://static.naver.com/m/comic/im/toon_app_pop.png");
 	}};
 	private final Pattern ID_PATTERN = Pattern.compile("(?<=no=)\\d+");
+	private final Pattern ID_PATTERN2 = Pattern.compile("(?<=')\\d+(?='\\);$)");
 
 	private String webToonId, episodeId;
 
@@ -93,11 +94,19 @@ public class NaverDetailApi extends AbstractDetailApi {
 		// 이전, 다음화
 		for (Element element : doc.select("div[class=sc2] a")) {
             if (!element.select("span[class=nx]").isEmpty()) {
-                ret.nextLink = getEpisodeId(element.attr("href"));
+                ret.nextLink = getNormalPrevNextIdx(element.attr("onclick"));
             } else if (!element.select("span[class=pv]").isEmpty()) {
-                ret.prevLink = getEpisodeId(element.attr("href"));
+                ret.prevLink = getNormalPrevNextIdx(element.attr("onclick"));
             }
         }
+	}
+
+	private String getNormalPrevNextIdx(String str) {
+		Matcher matcher = ID_PATTERN2.matcher(str);
+		if (matcher.find()) {
+			return matcher.group();
+		}
+		return null;
 	}
 
 	private void parseCutToon(Detail ret, Document doc) {

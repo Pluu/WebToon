@@ -2,7 +2,6 @@
 <resources>
 	<color name="color_3f51b5">#3F51B5</color>
 	<color name="color_1a237e">#1A237E</color>
-	<color name="color_f44336">#F44336</color>
 	<color name="color_de000000">#de000000</color>
 	<color name="color_888888">#888</color>
 	<color name="color_12000000">#12000000</color>
@@ -35,11 +34,8 @@
 	<color name="color_accent">#F44336</color>
 
 	<!-- navdrawer -->
-	<color name="navdrawer_background">@android:color/white</color>
 	<color name="navdrawer_text_color">@color/body_text_1</color>
-	<color name="navdrawer_text_color_selected">@color/theme_primary</color>
 	<color name="navdrawer_icon_tint">@color/color_888888</color>
-	<color name="navdrawer_icon_tint_selected">@color/theme_primary</color>
 	<color name="navdrawer_pressed">@color/color_12000000</color>
 
 </resources>
