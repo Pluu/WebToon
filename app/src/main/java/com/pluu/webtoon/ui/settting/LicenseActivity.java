@@ -18,9 +18,9 @@ import com.pluu.webtoon.event.RecyclerViewEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * License Activity
@@ -31,7 +31,7 @@ public class LicenseActivity extends AppCompatActivity {
     @BindView(R.id.listView)
     RecyclerView listView;
 
-    private CompositeSubscription mCompositeSubscription;
+    private CompositeDisposable mCompositeDisposable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +61,8 @@ public class LicenseActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        mCompositeSubscription = new CompositeSubscription();
-        mCompositeSubscription.add(
+        mCompositeDisposable = new CompositeDisposable();
+        mCompositeDisposable.add(
                 RxBusProvider.getInstance()
                         .toObservable()
                         .observeOn(AndroidSchedulers.mainThread())
@@ -73,11 +73,11 @@ public class LicenseActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        mCompositeSubscription.unsubscribe();
+        mCompositeDisposable.dispose();
     }
 
     @NonNull
-    private Action1<Object> getBusEvent() {
+    private Consumer<Object> getBusEvent() {
         return o -> {
             if (o instanceof RecyclerViewEvent) {
                 itemClick((RecyclerViewEvent) o);

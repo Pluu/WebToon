@@ -1,9 +1,6 @@
 package com.pluu.webtoon.db;
 
-import android.content.Context;
 import android.util.Log;
-
-import java.util.List;
 
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.db.item.EpisodeItem;
@@ -11,6 +8,9 @@ import com.pluu.webtoon.db.item.FavoriteItem;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.model.REpisode;
 import com.pluu.webtoon.model.RToon;
+
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -31,8 +31,8 @@ public class RealmHelper {
 		return mInstance;
 	}
 
-	public void convertToon(Context context, List<FavoriteItem> list) {
-		Realm realm = Realm.getInstance(context);
+	public void convertToon(List<FavoriteItem> list) {
+		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 
 		RealmList<RToon> toons = new RealmList<>();
@@ -45,8 +45,8 @@ public class RealmHelper {
 		realm.commitTransaction();
 	}
 
-	public void convertEpisode(Context context, List<EpisodeItem> list) {
-		Realm realm = Realm.getInstance(context);
+	public void convertEpisode(List<EpisodeItem> list) {
+		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 
 		RealmList<REpisode> episodes = new RealmList<>();
@@ -59,22 +59,22 @@ public class RealmHelper {
 		realm.commitTransaction();
 	}
 
-	public boolean getFavoriteToon(Context context, ServiceConst.NAV_ITEM item, String id) {
-		return Realm.getInstance(context).where(RToon.class)
+	public boolean getFavoriteToon(ServiceConst.NAV_ITEM item, String id) {
+		return Realm.getDefaultInstance().where(RToon.class)
 					.equalTo("service", item.name())
 					.equalTo("toonId", id)
 					.count() > 0;
 	}
 
-	public List<REpisode> getEpisode(Context context, ServiceConst.NAV_ITEM item, String id) {
-		return Realm.getInstance(context).where(REpisode.class)
+	public List<REpisode> getEpisode(ServiceConst.NAV_ITEM item, String id) {
+		return Realm.getDefaultInstance().where(REpisode.class)
 					.equalTo("service", item.name())
 					.equalTo("toonId", id)
 					.findAll();
 	}
 
-	public void addFavorite(Context context, ServiceConst.NAV_ITEM item, String id) {
-		Realm realm = Realm.getInstance(context);
+	public void addFavorite(ServiceConst.NAV_ITEM item, String id) {
+		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 		RToon toon = realm.createObject(RToon.class);
 		toon.setService(item.name());
@@ -82,19 +82,19 @@ public class RealmHelper {
 		realm.commitTransaction();
 	}
 
-	public void removeFavorite(Context context, ServiceConst.NAV_ITEM item, String id) {
-		Realm realm = Realm.getInstance(context);
+	public void removeFavorite(ServiceConst.NAV_ITEM item, String id) {
+		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 		RToon toon = realm.where(RToon.class)
 						  .equalTo("service", item.name())
 						  .equalTo("toonId", id)
 						  .findFirst();
-		toon.removeFromRealm();
+		toon.deleteFromRealm();
 		realm.commitTransaction();
 	}
 
-	public void readEpisode(Context context, ServiceConst.NAV_ITEM service, Detail item) {
-		Realm realm = Realm.getInstance(context);
+	public void readEpisode(ServiceConst.NAV_ITEM service, Detail item) {
+		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 		REpisode episode = realm.createObject(REpisode.class);
 		episode.setService(service.name());

@@ -8,7 +8,6 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -17,9 +16,9 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -63,10 +62,10 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 상세화면 Activity
@@ -190,8 +189,8 @@ public class DetailActivity extends AppCompatActivity
         bgColorAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                btnNext.setBackgroundDrawable(getStateListBgDrawable());
-                btnPrev.setBackgroundDrawable(getStateListBgDrawable());
+                ViewCompat.setBackground(btnNext, getStateListBgDrawable());
+                ViewCompat.setBackground(btnPrev, getStateListBgDrawable());
 
                 btnNext.setTextColor(getStateListTextDrawable());
                 btnPrev.setTextColor(getStateListTextDrawable());
@@ -260,57 +259,45 @@ public class DetailActivity extends AppCompatActivity
                 .create(subscriber -> {
                     Detail detail = serviceApi.parseDetail(item);
                     subscriber.onNext(detail);
-                    subscriber.onCompleted();
+                    subscriber.onComplete();
                 });
     }
 
     //	@RxLogSubscriber
     @NonNull
-    private Subscriber<Detail> getRequestSubscriber() {
-        return new Subscriber<Detail>() {
-            @Override
-            public void onCompleted() {
-            }
+    private Consumer<Detail> getRequestSubscriber() {
+        return item -> {
+            dlg.dismiss();
+            if (item == null
+                    || item.list == null || item.list.isEmpty()
+                    || item.errorType != null) {
 
-            @Override
-            public void onError(Throwable e) {
-                dlg.dismiss();
-            }
+                ERROR_TYPE type;
 
-            @Override
-            public void onNext(Detail item) {
-                dlg.dismiss();
-                if (item == null
-                        || item.list == null || item.list.isEmpty()
-                        || item.errorType != null) {
-
-                    ERROR_TYPE type;
-
-                    if (item != null) {
-                        type = item.errorType;
-                    } else {
-                        type = ERROR_TYPE.DEFAULT_ERROR;
-                    }
-
-                    new AlertDialog.Builder(DetailActivity.this)
-                            .setMessage(MessageUtils.getString(getBaseContext(), type))
-                            .setCancelable(false)
-                            .setPositiveButton(android.R.string.ok,
-                                    (dialogInterface, i) -> finish())
-                            .show();
-                    return;
+                if (item != null) {
+                    type = item.errorType;
+                } else {
+                    type = ERROR_TYPE.DEFAULT_ERROR;
                 }
 
-                readAsync(item);
-
-                currentItem = item;
-                tvTitle.setText(item.title);
-                btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
-                btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
-
-                fragmentInit(item.type);
-                fragmentAttach(item.list);
+                new AlertDialog.Builder(DetailActivity.this)
+                        .setMessage(MessageUtils.getString(getBaseContext(), type))
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.ok,
+                                (dialogInterface, i) -> finish())
+                        .show();
+                return;
             }
+
+            readAsync(item);
+
+            currentItem = item;
+            tvTitle.setText(item.title);
+            btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
+            btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
+
+            fragmentInit(item.type);
+            fragmentAttach(item.list);
         };
     }
 
@@ -350,7 +337,7 @@ public class DetailActivity extends AppCompatActivity
      */
     private void readAsync(Detail item) {
         RealmHelper helper = RealmHelper.getInstance();
-        helper.readEpisode(this, service, item);
+        helper.readEpisode(service, item);
     }
 
     @Override

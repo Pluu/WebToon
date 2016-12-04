@@ -32,9 +32,9 @@ import com.pluu.webtoon.utils.DisplayUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Main View Fragment
@@ -44,18 +44,15 @@ public class MainFragment extends Fragment {
 
 	private final String TAG = MainFragment.class.getSimpleName();
 
-	@BindView(R.id.slidingTabLayout)
-	SlidingTabLayout slidingTabLayout;
-	@BindView(R.id.viewPager)
-	ViewPager viewPager;
+	@BindView(R.id.slidingTabLayout) SlidingTabLayout slidingTabLayout;
+	@BindView(R.id.viewPager) ViewPager viewPager;
 
-	private CompositeSubscription mCompositeSubscription;
+	private CompositeDisposable mCompositeDisposable;
 
 	private AbstractWeekApi serviceApi;
 
 	private boolean isFirstDlg = true;
 	private ProgressDialog loadDlg;
-	private MainFragmentAdapter adapter;
 
 	public static MainFragment newInstance(NAV_ITEM item) {
 		MainFragment fragment = new MainFragment();
@@ -99,7 +96,7 @@ public class MainFragment extends Fragment {
 
 		getApi();
 
-		adapter = new MainFragmentAdapter(getFragmentManager(), serviceApi);
+		MainFragmentAdapter adapter = new MainFragmentAdapter(getFragmentManager(), serviceApi);
 		viewPager.setAdapter(adapter);
 		// 금일 기준으로 ViewPager 기본 표시
 		viewPager.setCurrentItem(serviceApi.getTodayTabPosition());
@@ -141,8 +138,8 @@ public class MainFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Glide.with(this).resumeRequests();
-		mCompositeSubscription = new CompositeSubscription();
-		mCompositeSubscription.add(
+		mCompositeDisposable = new CompositeDisposable();
+		mCompositeDisposable.add(
 				RxBusProvider.getInstance()
 				.toObservable()
 				.observeOn(AndroidSchedulers.mainThread())
@@ -153,7 +150,7 @@ public class MainFragment extends Fragment {
 	@Override
 	public void onPause() {
 		Glide.with(this).pauseRequests();
-		mCompositeSubscription.unsubscribe();
+		mCompositeDisposable.dispose();
 		super.onPause();
 	}
 
@@ -175,7 +172,7 @@ public class MainFragment extends Fragment {
 	}
 
 	@NonNull
-	private Action1<Object> getBusEvent() {
+	private Consumer<Object> getBusEvent() {
 		return o -> {
             if (o instanceof MainEpisodeStartEvent) {
                 eventStartEvent();

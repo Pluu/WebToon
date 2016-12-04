@@ -19,10 +19,9 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 인트로 화면 Activity
@@ -49,7 +48,14 @@ public class IntroActivity extends Activity {
 		Observable.concat(getSqlite2Realm(), getIntro())
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(getIntroSubscriber());
+			.subscribe(o -> {
+				Log.i(TAG, "Login Process Complete");
+				tvMsg.setText(R.string.msg_intro_complete);
+				progressBar.setVisibility(View.INVISIBLE);
+
+				startActivity(new Intent(IntroActivity.this, MainActivity.class));
+				finish();
+			});
 	}
 
 //	@RxLogObservable
@@ -72,29 +78,9 @@ public class IntroActivity extends Activity {
                 migrate.complete(context);
                 pref.edit().putBoolean(keyMigrate, true).apply();
             }
-            subscriber.onNext(null);
-            subscriber.onCompleted();
+			subscriber.onNext("");
+            subscriber.onComplete();
         });
-	}
-
-	private Subscriber<Object> getIntroSubscriber() {
-		return new Subscriber<Object>() {
-			@Override
-			public void onCompleted() {
-				Log.i(TAG, "Login Process Complete");
-				tvMsg.setText(R.string.msg_intro_complete);
-				progressBar.setVisibility(View.INVISIBLE);
-
-				startActivity(new Intent(IntroActivity.this, MainActivity.class));
-				finish();
-			}
-
-			@Override
-			public void onError(Throwable e) { }
-
-			@Override
-			public void onNext(Object o) { }
-		};
 	}
 
 }

@@ -36,13 +36,12 @@ import com.pluu.webtoon.utils.GlideUtils;
 
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Func0;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Main EpisodePage List Fragment
@@ -89,57 +88,38 @@ public class WebtoonListFragment extends Fragment {
 			.subscribeOn(Schedulers.newThread())
 			.observeOn(AndroidSchedulers.mainThread())
 			.map(getFavoriteProcessFunc())
-			.doOnSubscribe(getSubscribeAction())
-			.doOnUnsubscribe(getUnsubscribeAction())
+			.doOnSubscribe(disposable -> RxBusProvider.getInstance().send(new MainEpisodeStartEvent()))
+			.doOnDispose(() -> RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent()))
 			.subscribe(getRequestSubscriber());
-	}
-
-	@NonNull
-	private Action0 getSubscribeAction() {
-		return () -> RxBusProvider.getInstance().send(new MainEpisodeStartEvent());
-	}
-
-	@NonNull
-	private Action0 getUnsubscribeAction() {
-		return () -> RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent());
 	}
 
 	//	@RxLogSubscriber
 	@NonNull
-	private Subscriber<List<WebToonInfo>> getRequestSubscriber() {
-		return new Subscriber<List<WebToonInfo>>() {
-			@Override
-			public void onCompleted() { }
-
-			@Override
-			public void onError(Throwable e) { }
-
-			@Override
-			public void onNext(List<WebToonInfo> list) {
-				final FragmentActivity activity = getActivity();
-				if (activity == null || activity.isFinishing()) {
-					return;
-				}
-
-				recyclerView.setAdapter(new MainListAdapter(activity, list) {
-					@Override
-					public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-						ViewHolder vh = super.onCreateViewHolder(viewGroup, i);
-						setClickListener(vh);
-						return vh;
-					}
-				});
+	private Consumer<List<WebToonInfo>> getRequestSubscriber() {
+		return list -> {
+			final FragmentActivity activity = getActivity();
+			if (activity == null || activity.isFinishing()) {
+				return;
 			}
+
+			recyclerView.setAdapter(new MainListAdapter(activity, list) {
+				@Override
+				public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+					ViewHolder vh = super.onCreateViewHolder(viewGroup, i);
+					setClickListener(vh);
+					return vh;
+				}
+			});
 		};
 	}
 
 	@NonNull
-	private Func1<List<WebToonInfo>, List<WebToonInfo>> getFavoriteProcessFunc() {
+	private Function<List<WebToonInfo>, List<WebToonInfo>> getFavoriteProcessFunc() {
 		return list -> {
             RealmHelper helper = RealmHelper.getInstance();
             for (final WebToonInfo item : list) {
                 item.setIsFavorite(
-                    helper.getFavoriteToon(getContext(), serviceApi.getNaviItem(), item.getToonId())
+                    helper.getFavoriteToon(serviceApi.getNaviItem(), item.getToonId())
                 );
             }
             return list;

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -93,9 +92,7 @@ public class DefaultDetailFragment extends BaseDetailFragment {
         webview.getSettings().setUseWideViewPort(false);
         webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
+        webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         webview.setWebViewClient(new WebViewClient() {
             @Override

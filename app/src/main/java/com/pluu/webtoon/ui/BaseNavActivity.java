@@ -31,15 +31,11 @@ import java.util.List;
  */
 public abstract class BaseNavActivity extends AppCompatActivity {
 
-	private final String TAG = BaseNavActivity.class.getSimpleName();
-
 	// Primary toolbar and drawer toggle
 	private Toolbar mActionBarToolbar;
-	private ActionBarDrawerToggle mDrawerToggle;
 
 	// Navigation drawer:
 	private DrawerLayout mDrawerLayout;
-	private ViewGroup mDrawerItemsListContainer;
 	private Handler mHandler;
 
 	// delay to launch nav drawer item, to allow close animation to play
@@ -99,7 +95,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 			ContextCompat.getColor(this, R.color.theme_primary_dark));
 
 		if (mActionBarToolbar != null) {
-			mDrawerToggle = new ActionBarDrawerToggle(
+			ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
 				this,                    /* host Activity */
 				mDrawerLayout,                    /* DrawerLayout object */
 				mActionBarToolbar,            /* nav drawer image to replace 'Up' caret */
@@ -107,7 +103,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 				R.string.app_name /* "close drawer" description for accessibility */
 			);
 			mDrawerToggle.setDrawerIndicatorEnabled(true);
-			mDrawerLayout.setDrawerListener(mDrawerToggle);
+			mDrawerLayout.addDrawerListener(mDrawerToggle);
 			mDrawerToggle.syncState();
 		}
 
@@ -127,7 +123,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 	}
 
 	private void createNavDrawerItems() {
-		mDrawerItemsListContainer = (ViewGroup) findViewById(R.id.navdrawer_items_list);
+		ViewGroup mDrawerItemsListContainer = (ViewGroup) findViewById(R.id.navdrawer_items_list);
 		if (mDrawerItemsListContainer == null) {
 			return;
 		}

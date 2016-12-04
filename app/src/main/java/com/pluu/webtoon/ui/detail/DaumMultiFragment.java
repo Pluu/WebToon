@@ -66,7 +66,7 @@ public class DaumMultiFragment extends BaseDetailFragment {
         chattingList.setLayoutManager(new LinearLayoutManager(getContext()));
         final int profileSize = getResources().getDimensionPixelSize(R.dimen.chatting_profile_size);
 
-        adapter = new DetailMultiAdapter(getContext(), profileSize) {
+        adapter = new DetailMultiAdapter(getContext()) {
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 ViewHolder holder = super.onCreateViewHolder(parent, viewType);

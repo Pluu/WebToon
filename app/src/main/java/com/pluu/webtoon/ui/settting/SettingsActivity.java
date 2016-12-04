@@ -110,8 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
-            if (preference != null
-                    && TextUtils.equals(LicenseActivity.class.getCanonicalName(), preference.getFragment())) {
+            if (TextUtils.equals(LicenseActivity.class.getCanonicalName(), preference.getFragment())) {
                 startActivity(new Intent(getActivity(), LicenseActivity.class));
                 return true;
             }
