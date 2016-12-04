@@ -323,7 +323,7 @@ public class EpisodeFragment extends Fragment
 				}
 
 				@Override
-				public void onError(Throwable e) {}
+				public void onError(Throwable e) { }
 			});
 	}
 

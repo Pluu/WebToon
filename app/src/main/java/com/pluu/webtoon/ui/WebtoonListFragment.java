@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
+import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.MainListAdapter;
 import com.pluu.webtoon.common.Const;
@@ -36,6 +37,8 @@ import com.pluu.webtoon.utils.GlideUtils;
 
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -51,6 +54,8 @@ import io.reactivex.schedulers.Schedulers;
 public class WebtoonListFragment extends Fragment {
 	private final String TAG = WebtoonListFragment.class.getSimpleName();
 
+	@Inject	RealmHelper realmHelper;
+
 	private RecyclerView recyclerView;
 	private GridLayoutManager manager;
 	private int position;
@@ -64,6 +69,7 @@ public class WebtoonListFragment extends Fragment {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		((AppController) getContext().getApplicationContext()).getRealmHelperComponent().inject(this);
 
 		ServiceConst.NAV_ITEM service = ServiceConst.getApiType(getArguments());
 		serviceApi = AbstractWeekApi.getApi(getContext(), service);
@@ -128,10 +134,9 @@ public class WebtoonListFragment extends Fragment {
 	@NonNull
 	private Function<List<WebToonInfo>, List<WebToonInfo>> getFavoriteProcessFunc() {
 		return list -> {
-            RealmHelper helper = RealmHelper.getInstance();
             for (WebToonInfo item : list) {
                 item.setIsFavorite(
-                    helper.getFavoriteToon(serviceApi.getNaviItem(), item.getToonId())
+					realmHelper.getFavoriteToon(serviceApi.getNaviItem(), item.getToonId())
                 );
             }
             return list;

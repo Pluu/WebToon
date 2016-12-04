@@ -13,14 +13,14 @@ import java.util.List;
  */
 public class SqliteToRealm {
 
-	public void migrateToon(Context context) {
+	public void migrateToon(Context context, RealmHelper realmHelper) {
 		List<FavoriteItem> list = DbOpenHelper.getInstance(context).getFavoriteList();
-		RealmHelper.getInstance().convertToon(list);
+		realmHelper.convertToon(list);
 	}
 
-	public void migrateEpisode(Context context) {
+	public void migrateEpisode(Context context, RealmHelper realmHelper) {
 		List<EpisodeItem> list = DbOpenHelper.getInstance(context).getEpisodeListe();
-		RealmHelper.getInstance().convertEpisode(list);
+		realmHelper.convertEpisode(list);
 	}
 
 	public void complete(Context context) {

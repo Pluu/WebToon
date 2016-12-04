@@ -10,12 +10,16 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.common.PrefConfig;
+import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.db.SqliteToRealm;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,16 +34,16 @@ import io.reactivex.schedulers.Schedulers;
 public class IntroActivity extends Activity {
 	private final String TAG = IntroActivity.class.getSimpleName();
 
-	@BindView(R.id.tvMsg)
-	TextView tvMsg;
-	@BindView(R.id.progressBar)
-	ProgressBar progressBar;
+	@BindView(R.id.tvMsg) TextView tvMsg;
+	@BindView(R.id.progressBar) ProgressBar progressBar;
+	@Inject RealmHelper realmHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
 		ButterKnife.bind(this);
+		((AppController) getApplicationContext()).getRealmHelperComponent().inject(this);
 
 		initWork();
 	}
@@ -72,8 +76,8 @@ public class IntroActivity extends Activity {
             SharedPreferences pref = PrefConfig.getPreferences(context, Const.CONFIG_NAME);
             if (!pref.getBoolean(keyMigrate, false)) {
                 SqliteToRealm migrate = new SqliteToRealm();
-                migrate.migrateToon(context);
-                migrate.migrateEpisode(context);
+                migrate.migrateToon(context, realmHelper);
+                migrate.migrateEpisode(context, realmHelper);
                 migrate.complete(context);
                 pref.edit().putBoolean(keyMigrate, true).apply();
             }

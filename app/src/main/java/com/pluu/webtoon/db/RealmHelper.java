@@ -22,15 +22,6 @@ public class RealmHelper {
 
 	private final String TAG = RealmHelper.class.getSimpleName();
 
-	private static RealmHelper mInstance;
-
-	public static RealmHelper getInstance() {
-		if (mInstance == null) {
-			mInstance = new RealmHelper();
-		}
-		return mInstance;
-	}
-
 	public void convertToon(List<FavoriteItem> list) {
 		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();

@@ -1,6 +1,10 @@
 package com.pluu.webtoon.di;
 
+import com.pluu.webtoon.ui.DetailActivity;
 import com.pluu.webtoon.ui.EpisodeFragment;
+import com.pluu.webtoon.ui.EpisodesActivity;
+import com.pluu.webtoon.ui.IntroActivity;
+import com.pluu.webtoon.ui.WebtoonListFragment;
 
 import javax.inject.Singleton;
 
@@ -14,6 +18,10 @@ import dagger.Component;
 @Component(modules = {RealmHelperModule.class})
 public interface RealmHelperComponent {
 
-    void inject(EpisodeFragment api);
+    void inject(IntroActivity activity);
+    void inject(EpisodeFragment fragment);
+    void inject(WebtoonListFragment fragment);
+    void inject(EpisodesActivity activity);
+    void inject(DetailActivity activity);
 
 }

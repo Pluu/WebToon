@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.support.impl.ServiceConst;
+import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
@@ -59,6 +60,8 @@ import com.pluu.webtoon.utils.MessageUtils;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -76,18 +79,14 @@ public class DetailActivity extends AppCompatActivity
 
     private final String TAG = DetailActivity.class.getSimpleName();
 
-    @BindView(R.id.toolbar_actionbar)
-    Toolbar toolbar;
-    @BindView(R.id.btnPrev)
-    Button btnPrev;
-    @BindView(R.id.btnNext)
-    Button btnNext;
-    @BindView(R.id.tvTitle)
-    TextView tvTitle;
-    @BindView(R.id.tvSubTitle)
-    TextView tvSubTitle;
-    @BindView(R.id.bottomMenu)
-    LinearLayout bottomMenu;
+    @BindView(R.id.toolbar_actionbar) Toolbar toolbar;
+    @BindView(R.id.btnPrev) Button btnPrev;
+    @BindView(R.id.btnNext) Button btnNext;
+    @BindView(R.id.tvTitle) TextView tvTitle;
+    @BindView(R.id.tvSubTitle) TextView tvSubTitle;
+    @BindView(R.id.bottomMenu) LinearLayout bottomMenu;
+
+    @Inject RealmHelper realmHelper;
 
     private ProgressDialog dlg;
     private int titleColor, statusColor;
@@ -112,6 +111,7 @@ public class DetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ((AppController) getApplicationContext()).getRealmHelperComponent().inject(this);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -331,8 +331,7 @@ public class DetailActivity extends AppCompatActivity
      * @param item Item
      */
     private void readAsync(Detail item) {
-        RealmHelper helper = RealmHelper.getInstance();
-        helper.readEpisode(service, item);
+        realmHelper.readEpisode(service, item);
     }
 
     @Override

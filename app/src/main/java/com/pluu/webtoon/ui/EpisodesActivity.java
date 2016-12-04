@@ -17,12 +17,15 @@ import android.widget.Toast;
 
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.ServiceConst;
+import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.FirstItemSelectEvent;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.utils.DisplayUtils;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,14 +39,12 @@ public class EpisodesActivity extends AppCompatActivity {
 
 	private final String TAG = EpisodesActivity.class.getSimpleName();
 
-	@BindView(R.id.toolbar_actionbar)
-	Toolbar toolbar;
-	@BindView(R.id.btnFirst)
-	Button btnFirst;
-	@BindView(R.id.tvName)
-	TextView tvName;
-	@BindView(R.id.tvRate)
-	TextView tvRate;
+	@BindView(R.id.toolbar_actionbar) Toolbar toolbar;
+	@BindView(R.id.btnFirst) Button btnFirst;
+	@BindView(R.id.tvName) TextView tvName;
+	@BindView(R.id.tvRate) TextView tvRate;
+    @Inject RealmHelper realmHelper;
+
 	private View childTitle;
 
 	private WebToonInfo webToonInfo;
@@ -58,6 +59,7 @@ public class EpisodesActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_episode);
 		ButterKnife.bind(this);
+        ((AppController) getApplicationContext()).getRealmHelperComponent().inject(this);
 
 		setSupportActionBar(toolbar);
 
@@ -169,14 +171,12 @@ public class EpisodesActivity extends AppCompatActivity {
 		switch (item.getItemId()) {
 			case R.id.menu_item_favorite_add:
 				// 즐겨찾기 추가
-				RealmHelper.getInstance()
-						   .addFavorite(service, webToonInfo.getToonId());
+                realmHelper.addFavorite(service, webToonInfo.getToonId());
 				setFavorite(true);
 				break;
 			case R.id.menu_item_favorite_delete:
 				// 즐겨찾기 삭제
-				RealmHelper.getInstance()
-						   .removeFavorite(service, webToonInfo.getToonId());
+                realmHelper.removeFavorite(service, webToonInfo.getToonId());
 				setFavorite(false);
 				break;
 		}
