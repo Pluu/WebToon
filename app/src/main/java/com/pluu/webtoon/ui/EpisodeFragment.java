@@ -66,12 +66,12 @@ public class EpisodeFragment extends Fragment
 
 	private GridLayoutManager manager;
 	private EpisodeAdapter adapter;
-	private ProgressDialog loadDlg;
+	ProgressDialog loadDlg;
 
-	private WebToonInfo webToonInfo;
+	WebToonInfo webToonInfo;
 	private String nextLink;
 
-	private ServiceConst.NAV_ITEM service;
+	ServiceConst.NAV_ITEM service;
 	private AbstractEpisodeApi serviceApi;
 
 	private int[] color;
@@ -248,7 +248,7 @@ public class EpisodeFragment extends Fragment
 	}
 
 	@NonNull
-	private Observable<List<REpisode>> getReadAction() {
+	Observable<List<REpisode>> getReadAction() {
 		return Observable.defer(() -> Observable.just(realmHelper.getEpisode(service, webToonInfo.getToonId())));
 	}
 
