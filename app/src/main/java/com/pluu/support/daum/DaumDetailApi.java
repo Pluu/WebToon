@@ -6,6 +6,7 @@ import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.DETAIL_TYPE;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
+import com.pluu.webtoon.item.ERROR_TYPE;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
 import com.pluu.webtoon.item.VIEW_TYPE;
@@ -54,6 +55,11 @@ public class DaumDetailApi extends AbstractDetailApi {
 			}
 			if (prevId > 0) {
 				ret.prevLink = String.valueOf(prevId);
+			}
+			if (info.optInt("price", 0) > 0) {
+				// osLoader
+				ret.errorType = ERROR_TYPE.COINT_NEED;
+				return ret;
 			}
 
 			if (info.isNull("multiType")) {
@@ -104,6 +110,9 @@ public class DaumDetailApi extends AbstractDetailApi {
 	private List<DetailView> defaultDetailParse(JSONObject json) {
 		List<DetailView> list = new ArrayList<>();
 		JSONArray array = json.optJSONArray("webtoonImages");
+		if (array == null) {
+			return list;
+		}
 		for (int i = 0; i < array.length(); i++) {
             list.add(DetailView.createImage(array.optJSONObject(i).optString("url")));
         }
