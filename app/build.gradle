@@ -1,11 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.fernandocejas.frodo'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 
 ext {
-    supporyLibraryVersion = '25.0.1'
+    supporyLibraryVersion = '25.1.1'
 }
 
 frodo {
@@ -14,7 +13,7 @@ frodo {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.pluu.webtoon"
@@ -63,28 +62,28 @@ dependencies {
     compile "com.android.support:preference-v7:${supporyLibraryVersion}"
     compile "com.android.support:customtabs:${supporyLibraryVersion}"
     // DI
-    apt 'com.google.dagger:dagger-compiler:2.8'
-    compile 'com.google.dagger:dagger:2.8'
+    compile 'com.google.dagger:dagger:2.9'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
     provided 'javax.annotation:jsr250-api:1.0'
     // LeakCheck
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     // Jsoup
-    compile 'org.jsoup:jsoup:1.10.1'
+    compile 'org.jsoup:jsoup:1.10.2'
     // Butter Knife
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     // Glide (Image Loader)
     compile 'com.github.bumptech.glide:glide:3.7.0'
     // Rx
-    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     // OkHttp
-    compile 'com.squareup.okhttp3:okhttp:3.4.2'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.2'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     // Lightweight-Stream-API
-    compile 'com.annimon:stream:1.1.3'
+    compile 'com.annimon:stream:1.1.5'
 }
 
 retrolambda {

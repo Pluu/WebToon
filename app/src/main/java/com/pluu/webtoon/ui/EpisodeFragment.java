@@ -42,12 +42,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.Observable;
-import io.reactivex.SingleObserver;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -55,187 +55,188 @@ import io.reactivex.schedulers.Schedulers;
  * Created by nohhs on 2015-04-06.
  */
 public class EpisodeFragment extends Fragment
-	implements SwipeRefreshLayout.OnRefreshListener {
+    implements SwipeRefreshLayout.OnRefreshListener {
 
-	private final String TAG = EpisodeFragment.class.getSimpleName();
-	private final int REQUEST_DETAIL = 1000;
+    private final String TAG = EpisodeFragment.class.getSimpleName();
+    private final int REQUEST_DETAIL = 1000;
 
-	@BindView(R.id.swipe_refresh_widget) SwipeRefreshLayout swipeRefreshWidget;
-	@BindView(android.R.id.list) RecyclerView recyclerView;
-	@Inject	RealmHelper realmHelper;
+    @BindView(R.id.swipe_refresh_widget) SwipeRefreshLayout swipeRefreshWidget;
+    @BindView(android.R.id.list) RecyclerView recyclerView;
+    @Inject RealmHelper realmHelper;
 
-	private GridLayoutManager manager;
-	private EpisodeAdapter adapter;
-	ProgressDialog loadDlg;
+    private GridLayoutManager manager;
+    private EpisodeAdapter adapter;
+    ProgressDialog loadDlg;
 
-	WebToonInfo webToonInfo;
-	private String nextLink;
+    WebToonInfo webToonInfo;
+    private String nextLink;
 
-	ServiceConst.NAV_ITEM service;
-	private AbstractEpisodeApi serviceApi;
+    ServiceConst.NAV_ITEM service;
+    private AbstractEpisodeApi serviceApi;
 
-	private int[] color;
-	private CompositeDisposable mCompositeDisposable;
-	private Unbinder bind;
+    private int[] color;
+    private CompositeDisposable mCompositeDisposable;
+    private Unbinder bind;
 
-	public EpisodeFragment() { }
+    public EpisodeFragment() {
+    }
 
-	public static EpisodeFragment getInstance(ServiceConst.NAV_ITEM service,
-									   WebToonInfo info,
-									   int[] color) {
-		EpisodeFragment frag = new EpisodeFragment();
-		Bundle bundle = new Bundle();
-		bundle.putSerializable(Const.EXTRA_API, service);
-		bundle.putParcelable(Const.EXTRA_EPISODE, info);
-		bundle.putIntArray(Const.EXTRA_MAIN_COLOR, color);
-		frag.setArguments(bundle);
-		return frag;
-	}
+    public static EpisodeFragment getInstance(ServiceConst.NAV_ITEM service,
+                                              WebToonInfo info,
+                                              int[] color) {
+        EpisodeFragment frag = new EpisodeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Const.EXTRA_API, service);
+        bundle.putParcelable(Const.EXTRA_EPISODE, info);
+        bundle.putIntArray(Const.EXTRA_MAIN_COLOR, color);
+        frag.setArguments(bundle);
+        return frag;
+    }
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		((AppController) getContext().getApplicationContext()).getRealmHelperComponent().inject(this);
-	}
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((AppController) getContext().getApplicationContext()).getRealmHelperComponent().inject(this);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_episode, container, false);
-		bind = ButterKnife.bind(this, view);
-		return view;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_episode, container, false);
+        bind = ButterKnife.bind(this, view);
+        return view;
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-		Bundle args = getArguments();
-		service = (ServiceConst.NAV_ITEM) args.getSerializable(Const.EXTRA_API);
-		serviceApi = AbstractEpisodeApi.getApi(getContext(), service);
-		webToonInfo = args.getParcelable(Const.EXTRA_EPISODE);
-		color = args.getIntArray(Const.EXTRA_MAIN_COLOR);
+        Bundle args = getArguments();
+        service = (ServiceConst.NAV_ITEM) args.getSerializable(Const.EXTRA_API);
+        serviceApi = AbstractEpisodeApi.getApi(getContext(), service);
+        webToonInfo = args.getParcelable(Const.EXTRA_EPISODE);
+        color = args.getIntArray(Const.EXTRA_MAIN_COLOR);
 
-		initView();
-		loading();
-	}
+        initView();
+        loading();
+    }
 
-	private void initView() {
-		swipeRefreshWidget.setColorSchemeResources(
-			R.color.color1,
-			R.color.color2,
-			R.color.color3,
-			R.color.color4);
-		swipeRefreshWidget.setOnRefreshListener(this);
+    private void initView() {
+        swipeRefreshWidget.setColorSchemeResources(
+            R.color.color1,
+            R.color.color2,
+            R.color.color3,
+            R.color.color4);
+        swipeRefreshWidget.setOnRefreshListener(this);
 
-		loadDlg = new ProgressDialog(getContext());
-		loadDlg.setCancelable(false);
-		loadDlg.setMessage(getString(R.string.msg_loading));
+        loadDlg = new ProgressDialog(getContext());
+        loadDlg.setCancelable(false);
+        loadDlg.setMessage(getString(R.string.msg_loading));
 
-		adapter = new EpisodeAdapter(getContext()) {
-			@Override
-			public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
-												 int position) {
-				final ViewHolder vh = super.onCreateViewHolder(viewGroup, position);
-				vh.thumbnailView.setOnClickListener(v -> {
+        adapter = new EpisodeAdapter(getContext()) {
+            @Override
+            public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
+                                                 int position) {
+                final ViewHolder vh = super.onCreateViewHolder(viewGroup, position);
+                vh.thumbnailView.setOnClickListener(v -> {
                     Episode item = adapter.getItem(vh.getAdapterPosition());
                     if (item.isLock()) {
                         Toast.makeText(getContext(),
-                                       R.string.msg_not_support,
-                                       Toast.LENGTH_SHORT).show();
+                            R.string.msg_not_support,
+                            Toast.LENGTH_SHORT).show();
                     } else {
                         moveDetailPage(item);
                     }
                 });
-				return vh;
-			}
-		};
+                return vh;
+            }
+        };
 
-		int columnCount = getResources().getInteger(R.integer.episode_column_count);
-		manager = new GridLayoutManager(getContext(), columnCount);
-		recyclerView.setLayoutManager(manager);
-		recyclerView.setAdapter(adapter);
-		recyclerView.addOnScrollListener(scrollListener);
-	}
+        int columnCount = getResources().getInteger(R.integer.episode_column_count);
+        manager = new GridLayoutManager(getContext(), columnCount);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(scrollListener);
+    }
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
-		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
-			|| newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+            || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
 
-			int spanCount = getResources().getInteger(R.integer.episode_column_count);
-			manager.setSpanCount(spanCount);
-			adapter.notifyDataSetChanged();
-		}
-	}
+            int spanCount = getResources().getInteger(R.integer.episode_column_count);
+            manager.setSpanCount(spanCount);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		Glide.with(this).resumeRequests();
-		mCompositeDisposable = new CompositeDisposable();
-		mCompositeDisposable.add(
-				RxBusProvider.getInstance()
-						.toObservable()
-						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe(getBusEvent())
-		);
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        Glide.with(this).resumeRequests();
+        mCompositeDisposable = new CompositeDisposable();
+        mCompositeDisposable.add(
+            RxBusProvider.getInstance()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getBusEvent())
+        );
+    }
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		Glide.with(this).pauseRequests();
-		mCompositeDisposable.dispose();
-	}
+    @Override
+    public void onPause() {
+        super.onPause();
+        Glide.with(this).pauseRequests();
+        mCompositeDisposable.dispose();
+    }
 
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		bind.unbind();
-	}
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind.unbind();
+    }
 
-	@Override
-	public void onRefresh() {
-		adapter.clear();
-		serviceApi.init();
-		loading();
-	}
+    @Override
+    public void onRefresh() {
+        adapter.clear();
+        serviceApi.init();
+        loading();
+    }
 
-	private final MoreRefreshListener scrollListener = new MoreRefreshListener() {
-		@Override
-		public void onMoreRefresh() {
-			moreLoad();
-		}
-	};
+    private final MoreRefreshListener scrollListener = new MoreRefreshListener() {
+        @Override
+        public void onMoreRefresh() {
+            moreLoad();
+        }
+    };
 
-	private void moreLoad() {
-		if (!TextUtils.isEmpty(nextLink)) {
-			Log.i(TAG, "Next Page Link=" + nextLink);
-			loading();
-			nextLink = null;
-		}
-	}
+    private void moreLoad() {
+        if (!TextUtils.isEmpty(nextLink)) {
+            Log.i(TAG, "Next Page Link=" + nextLink);
+            loading();
+            nextLink = null;
+        }
+    }
 
-	private void loading() {
-		if (swipeRefreshWidget.isRefreshing()) {
-			swipeRefreshWidget.setRefreshing(false);
-		}
+    private void loading() {
+        if (swipeRefreshWidget.isRefreshing()) {
+            swipeRefreshWidget.setRefreshing(false);
+        }
 
-		Observable.zip(getRequestApi(), getReadAction(), getRequestReadAction())
-				.subscribeOn(Schedulers.newThread())
-				.observeOn(AndroidSchedulers.mainThread())
-				.doOnSubscribe(disposable -> loadDlg.show())
-				.doOnDispose(() -> loadDlg.dismiss())
-				.doOnError(throwable -> Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_SHORT).show())
-				.subscribe(getRequestSubscriber());
-	}
+        Single.zip(getRequestApi(), getReadAction(), getRequestReadAction())
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe(disposable -> loadDlg.show())
+            .doOnSuccess(episodes -> loadDlg.dismiss())
+            .doOnError(throwable -> Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_SHORT).show())
+            .subscribe(getRequestSubscriber());
+    }
 
-	//	@RxLogObservable
-	private Observable<List<Episode>> getRequestApi() {
-		return Observable.defer(() -> {
+    //	@RxLogObservable
+    private Single<List<Episode>> getRequestApi() {
+        return Single.defer(() -> {
             Log.i(TAG, "Load Episode=" + webToonInfo.getToonId());
             EpisodePage episodePage = serviceApi.parseEpisode(webToonInfo);
             List<Episode> list = episodePage.getEpisodes();
@@ -243,18 +244,18 @@ public class EpisodeFragment extends Fragment
             if (!TextUtils.isEmpty(nextLink)) {
                 scrollListener.setLoadingMorePause();
             }
-            return Observable.just(list);
+            return Single.just(list);
         });
-	}
+    }
 
-	@NonNull
-	Observable<List<REpisode>> getReadAction() {
-		return Observable.defer(() -> Observable.just(realmHelper.getEpisode(service, webToonInfo.getToonId())));
-	}
+    @NonNull
+    Single<List<REpisode>> getReadAction() {
+        return Single.defer(() -> Single.just(realmHelper.getEpisode(service, webToonInfo.getToonId())));
+    }
 
-	@NonNull
-	private BiFunction<List<Episode>, List<REpisode>, List<Episode>> getRequestReadAction() {
-		return (list, readList) -> {
+    @NonNull
+    private BiFunction<List<Episode>, List<REpisode>, List<Episode>> getRequestReadAction() {
+        return (list, readList) -> {
             for (REpisode readItem : readList) {
                 for (Episode episode : list) {
                     if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
@@ -265,90 +266,88 @@ public class EpisodeFragment extends Fragment
             }
             return list;
         };
-	}
+    }
 
-	@NonNull
-	private Consumer<List<Episode>> getRequestSubscriber() {
-		return episodes -> {
-			if (episodes == null || episodes.isEmpty()) {
-				if (episodes == null) {
-					Toast.makeText(getContext(), R.string.network_fail,
-							Toast.LENGTH_SHORT).show();
-					getActivity().finish();
-				}
-				return;
-			}
-			adapter.addItems(episodes);
-			adapter.notifyDataSetChanged();
-		};
-	}
+    @NonNull
+    private Consumer<List<Episode>> getRequestSubscriber() {
+        return episodes -> {
+            if (episodes == null || episodes.isEmpty()) {
+                if (episodes == null) {
+                    Toast.makeText(getContext(), R.string.network_fail,
+                        Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                }
+                return;
+            }
+            adapter.addItems(episodes);
+            adapter.notifyDataSetChanged();
+        };
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			return;
-		}
-		if (requestCode == REQUEST_DETAIL) {
-			readUpdate();
-		}
-	}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_DETAIL) {
+            readUpdate();
+        }
+    }
 
-	@NonNull
-	private Consumer<Object> getBusEvent() {
-		return o -> {
+    @NonNull
+    private Consumer<Object> getBusEvent() {
+        return o -> {
             if (o instanceof FirstItemSelectEvent) {
                 firstItemSelect();
             }
         };
-	}
+    }
 
-	private void readUpdate() {
-		getReadAction()
-			.flatMapIterable(list -> list)
-			.map(REpisode::getEpisodeId)
-			.toList()
-			.subscribeOn(Schedulers.newThread())
-			.observeOn(AndroidSchedulers.mainThread())
-			.doOnSubscribe(disposable -> loadDlg.show())
-			.doOnEvent((strings, throwable) -> loadDlg.dismiss())
-			.subscribe(new SingleObserver<List<String>>() {
-				@Override
-				public void onSubscribe(Disposable d) { }
+    private void readUpdate() {
+        getReadAction()
+            .flatMapObservable(episodes -> Observable.fromIterable(episodes).map(REpisode::getEpisodeId))
+            .toList()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe(disposable -> loadDlg.show())
+            .doOnSuccess(strings -> loadDlg.dismiss())
+            .subscribe(new DisposableSingleObserver<List<String>>() {
+                @Override
+                public void onSuccess(List<String> strings) {
+                    adapter.updateRead(strings);
+                    adapter.notifyDataSetChanged();
+                }
 
-				@Override
-				public void onSuccess(List<String> value) {
-					adapter.updateRead(value);
-					adapter.notifyDataSetChanged();
-				}
+                @Override
+                public void onError(Throwable e) {
 
-				@Override
-				public void onError(Throwable e) { }
-			});
-	}
+                }
+            });
+    }
 
-	private void firstItemSelect() {
-		Episode item = adapter.getItem(0);
-		if (item.isLock()) {
-			Toast.makeText(getContext(), R.string.msg_not_support, Toast.LENGTH_SHORT).show();
-			return;
-		}
+    private void firstItemSelect() {
+        Episode item = adapter.getItem(0);
+        if (item.isLock()) {
+            Toast.makeText(getContext(), R.string.msg_not_support, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-		Episode firstItem = serviceApi.getFirstEpisode(item);
-		if (firstItem == null) {
-			return;
-		}
-		firstItem.setTitle(this.webToonInfo.getTitle());
-		moveDetailPage(firstItem);
-	}
+        Episode firstItem = serviceApi.getFirstEpisode(item);
+        if (firstItem == null) {
+            return;
+        }
+        firstItem.setTitle(this.webToonInfo.getTitle());
+        moveDetailPage(firstItem);
+    }
 
-	private void moveDetailPage(Episode item) {
-		Intent intent = new Intent(getContext(), DetailActivity.class);
-		intent.putExtra(Const.EXTRA_API, service);
-		intent.putExtra(Const.EXTRA_EPISODE, item);
-		intent.putExtra(Const.EXTRA_MAIN_COLOR, color[0]);
-		intent.putExtra(Const.EXTRA_STATUS_COLOR, color[1]);
-		startActivityForResult(intent, REQUEST_DETAIL);
-	}
+    private void moveDetailPage(Episode item) {
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra(Const.EXTRA_API, service);
+        intent.putExtra(Const.EXTRA_EPISODE, item);
+        intent.putExtra(Const.EXTRA_MAIN_COLOR, color[0]);
+        intent.putExtra(Const.EXTRA_STATUS_COLOR, color[1]);
+        startActivityForResult(intent, REQUEST_DETAIL);
+    }
 
 }

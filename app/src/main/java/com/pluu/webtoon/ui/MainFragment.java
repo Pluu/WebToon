@@ -42,159 +42,157 @@ import io.reactivex.functions.Consumer;
  */
 public class MainFragment extends Fragment {
 
-	private final String TAG = MainFragment.class.getSimpleName();
+    private final String TAG = MainFragment.class.getSimpleName();
 
-	@BindView(R.id.slidingTabLayout) SlidingTabLayout slidingTabLayout;
-	@BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.slidingTabLayout) SlidingTabLayout slidingTabLayout;
+    @BindView(R.id.viewPager) ViewPager viewPager;
 
-	private CompositeDisposable mCompositeDisposable;
+    private CompositeDisposable mCompositeDisposable;
 
-	private AbstractWeekApi serviceApi;
+    private AbstractWeekApi serviceApi;
 
-	private boolean isFirstDlg = true;
-	private ProgressDialog loadDlg;
+    private boolean isFirstDlg = true;
+    private ProgressDialog loadDlg;
+    private MainFragmentAdapter adapter;
 
-	public static MainFragment newInstance(NAV_ITEM item) {
-		MainFragment fragment = new MainFragment();
-		Bundle args = new Bundle();
-		args.putSerializable(Const.EXTRA_API, item);
-		fragment.setArguments(args);
-		return fragment;
-	}
+    public static MainFragment newInstance(NAV_ITEM item) {
+        MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(Const.EXTRA_API, item);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-	public MainFragment() { }
+    public MainFragment() {
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		NAV_ITEM service = ServiceConst.getApiType(getArguments());
-		serviceApi = AbstractWeekApi.getApi(getContext(), service);
+        NAV_ITEM service = ServiceConst.getApiType(getArguments());
+        serviceApi = AbstractWeekApi.getApi(getContext(), service);
 
-		if (getActivity() instanceof MainActivity) {
-			MainActivity activity = (MainActivity) getActivity();
-			activity.setSelfDrawerItem(service);
-		}
-	}
+        if (getActivity() instanceof MainActivity) {
+            MainActivity activity = (MainActivity) getActivity();
+            activity.setSelfDrawerItem(service);
+        }
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_toon, container, false);
-		ButterKnife.bind(this, view);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_toon, container, false);
+        ButterKnife.bind(this, view);
 
-		loadDlg = new ProgressDialog(getActivity());
-		loadDlg.setCancelable(false);
-		loadDlg.setMessage(getString(R.string.msg_loading));
+        loadDlg = new ProgressDialog(getActivity());
+        loadDlg.setCancelable(false);
+        loadDlg.setMessage(getString(R.string.msg_loading));
 
-		return view;
-	}
+        return view;
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-		getApi();
+        getApi();
 
-		MainFragmentAdapter adapter = new MainFragmentAdapter(getFragmentManager(), serviceApi);
-		viewPager.setAdapter(adapter);
-		// 금일 기준으로 ViewPager 기본 표시
-		viewPager.setCurrentItem(serviceApi.getTodayTabPosition());
+        adapter = new MainFragmentAdapter(getFragmentManager(), serviceApi);
+        viewPager.setAdapter(adapter);
+        // 금일 기준으로 ViewPager 기본 표시
+        viewPager.setCurrentItem(serviceApi.getTodayTabPosition());
 
-		slidingTabLayout.setCustomTabView(R.layout.view_sliding_tab,
-				android.R.id.text1);
-		slidingTabLayout.setViewPager(viewPager);
-	}
+        slidingTabLayout.setCustomTabView(R.layout.view_sliding_tab,
+            android.R.id.text1);
+        slidingTabLayout.setViewPager(viewPager);
+    }
 
-	private void getApi() {
-		// 선택한 서비스에 맞는 컬러 테마 변경
-		setServiceTheme(serviceApi);
-	}
+    private void getApi() {
+        // 선택한 서비스에 맞는 컬러 테마 변경
+        setServiceTheme(serviceApi);
+    }
 
-	private void setServiceTheme(AbstractWeekApi serviceApi) {
-		int color = serviceApi.getTitleColor(getContext());
-		int colorDark = serviceApi.getTitleColorDark(getContext());
-		FragmentActivity activity = getActivity();
+    private void setServiceTheme(AbstractWeekApi serviceApi) {
+        int color = serviceApi.getTitleColor(getContext());
+        int colorDark = serviceApi.getTitleColorDark(getContext());
+        FragmentActivity activity = getActivity();
 
-		if (activity instanceof AppCompatActivity) {
-			ValueAnimator animator1
-				= DisplayUtils.animatorToolbarColor((AppCompatActivity) activity, color);
+        if (activity instanceof AppCompatActivity) {
+            ValueAnimator animator1
+                = DisplayUtils.animatorToolbarColor((AppCompatActivity) activity, color);
 
-			ValueAnimator animator2 = DisplayUtils
-				.animatorStatusBarColor(activity,
-										colorDark);
+            ValueAnimator animator2 = DisplayUtils
+                .animatorStatusBarColor(activity,
+                    colorDark);
 
-			AnimatorSet set = new AnimatorSet();
-			set.playTogether(animator1, animator2);
-			set.setDuration(250L);
-			set.start();
-		}
+            AnimatorSet set = new AnimatorSet();
+            set.playTogether(animator1, animator2);
+            set.setDuration(250L);
+            set.start();
+        }
 
-		RxBusProvider.getInstance().send(new ThemeEvent(color, colorDark));
-		slidingTabLayout.setSelectedIndicatorColors(color);
-	}
+        RxBusProvider.getInstance().send(new ThemeEvent(color, colorDark));
+        slidingTabLayout.setSelectedIndicatorColors(color);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		Glide.with(this).resumeRequests();
-		mCompositeDisposable = new CompositeDisposable();
-		mCompositeDisposable.add(
-				RxBusProvider.getInstance()
-				.toObservable()
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(getBusEvent())
-		);
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        Glide.with(this).resumeRequests();
+        mCompositeDisposable = new CompositeDisposable();
+        mCompositeDisposable.add(
+            RxBusProvider.getInstance()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getBusEvent())
+        );
+    }
 
-	@Override
-	public void onPause() {
-		Glide.with(this).pauseRequests();
-		mCompositeDisposable.dispose();
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        Glide.with(this).pauseRequests();
+        mCompositeDisposable.dispose();
+        super.onPause();
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			return;
-		}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
 
-		if (requestCode == WebtoonListFragment.REQUEST_DETAIL_REFERRER) {
-			// 포함되어있는 ViewPager 의 Fragment 갱신 처리
-			for (Fragment fragment : getFragmentManager().getFragments()) {
-				if (fragment instanceof WebtoonListFragment) {
-					fragment.onActivityResult(requestCode, resultCode, data);
-				}
-			}
-		}
-	}
+        if (requestCode == WebtoonListFragment.REQUEST_DETAIL_REFERRER) {
+            // 포함되어있는 ViewPager 의 Fragment 갱신 처리
+            adapter.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
-	@NonNull
-	private Consumer<Object> getBusEvent() {
-		return o -> {
+    @NonNull
+    private Consumer<Object> getBusEvent() {
+        return o -> {
             if (o instanceof MainEpisodeStartEvent) {
                 eventStartEvent();
             } else if (o instanceof MainEpisodeLoadedEvent) {
                 eventLoadedEvent();
             }
         };
-	}
+    }
 
-	private void eventStartEvent() {
-		if (isFirstDlg) {
-			Log.d(TAG, "eventStartEvent");
-			loadDlg.show();
-			isFirstDlg = false;
-		}
-	}
+    private void eventStartEvent() {
+        if (isFirstDlg) {
+            Log.d(TAG, "eventStartEvent");
+            loadDlg.show();
+            isFirstDlg = false;
+        }
+    }
 
-	private void eventLoadedEvent() {
-		if (!isFirstDlg) {
-			Log.d(TAG, "eventLoadedEvent");
-			loadDlg.dismiss();
-		}
-	}
+    private void eventLoadedEvent() {
+        if (!isFirstDlg) {
+            Log.d(TAG, "eventLoadedEvent");
+            loadDlg.dismiss();
+        }
+    }
 
 }

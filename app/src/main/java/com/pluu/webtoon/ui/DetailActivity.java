@@ -65,7 +65,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -208,7 +208,7 @@ public class DetailActivity extends AppCompatActivity
         TypedValue resValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimaryDark, resValue, true);
         statusBarAnimator = ObjectAnimator.ofInt(getWindow(), "statusBarColor", resValue.data,
-                titleColor);
+            titleColor);
         statusBarAnimator.setEvaluator(argbEvaluator);
         return statusBarAnimator;
     }
@@ -226,15 +226,15 @@ public class DetailActivity extends AppCompatActivity
 
     private ColorStateList getStateListTextDrawable() {
         int[][] state = {
-                new int[]{-android.R.attr.state_enabled},
-                new int[]{android.R.attr.state_pressed},
-                new int[]{android.R.attr.state_enabled},
+            new int[]{-android.R.attr.state_enabled},
+            new int[]{android.R.attr.state_pressed},
+            new int[]{android.R.attr.state_enabled},
         };
 
         int[] colors = {
-                Color.WHITE,
-                titleColor,
-                Color.WHITE
+            Color.WHITE,
+            titleColor,
+            Color.WHITE
         };
 
         return new ColorStateList(state, colors);
@@ -247,16 +247,16 @@ public class DetailActivity extends AppCompatActivity
         }
 
         getRequestApi(item)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> dlg.show())
-                .doOnDispose(() -> dlg.dismiss())
-                .subscribe(getRequestSubscriber());
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe(disposable -> dlg.show())
+            .doOnSuccess(detail -> dlg.dismiss())
+            .subscribe(getRequestSubscriber());
     }
 
     //	@RxLogObservable
-    private Observable<Detail> getRequestApi(final Episode item) {
-        return Observable.defer(() -> Observable.just(serviceApi.parseDetail(item)));
+    private Single<Detail> getRequestApi(final Episode item) {
+        return Single.defer(() -> Single.just(serviceApi.parseDetail(item)));
     }
 
     //	@RxLogSubscriber
@@ -264,8 +264,8 @@ public class DetailActivity extends AppCompatActivity
     private Consumer<Detail> getRequestSubscriber() {
         return item -> {
             if (item == null
-                    || item.list == null || item.list.isEmpty()
-                    || item.errorType != null) {
+                || item.list == null || item.list.isEmpty()
+                || item.errorType != null) {
 
                 ERROR_TYPE type;
 
@@ -276,11 +276,11 @@ public class DetailActivity extends AppCompatActivity
                 }
 
                 new AlertDialog.Builder(DetailActivity.this)
-                        .setMessage(MessageUtils.getString(getBaseContext(), type))
-                        .setCancelable(false)
-                        .setPositiveButton(android.R.string.ok,
-                                (dialogInterface, i) -> finish())
-                        .show();
+                    .setMessage(MessageUtils.getString(getBaseContext(), type))
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.ok,
+                        (dialogInterface, i) -> finish())
+                    .show();
                 return;
             }
 
@@ -313,9 +313,9 @@ public class DetailActivity extends AppCompatActivity
                 break;
         }
         getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
-                .commit();
+            .beginTransaction()
+            .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
+            .commit();
         isFragmentAttach = true;
     }
 
@@ -328,6 +328,7 @@ public class DetailActivity extends AppCompatActivity
 
     /**
      * Read Detail Item
+     *
      * @param item Item
      */
     private void readAsync(Detail item) {
@@ -399,8 +400,8 @@ public class DetailActivity extends AppCompatActivity
 
     private void moveToAxisY(View view, boolean isToTop) {
         view.animate()
-                .translationY(isToTop ? -view.getHeight() : view.getHeight())
-                .start();
+            .translationY(isToTop ? -view.getHeight() : view.getHeight())
+            .start();
     }
 
     private void moveRevert(View view) {
@@ -408,7 +409,7 @@ public class DetailActivity extends AppCompatActivity
     }
 
     private final GestureDetector.SimpleOnGestureListener listener
-            = new GestureDetector.SimpleOnGestureListener() {
+        = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
             toggleDelay(false);
@@ -418,11 +419,11 @@ public class DetailActivity extends AppCompatActivity
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 onMovePage(btnNext);
                 return true;
             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 onMovePage(btnPrev);
                 return true;
             }
