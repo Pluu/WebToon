@@ -53,8 +53,7 @@ public class EpisodeFragmentTest {
 
         TestObserver<List<String>> subscriber = TestObserver.create();
         episodeFragment.getReadAction()
-                .flatMap(Observable::fromIterable)
-                .map(REpisode::getEpisodeId)
+                .flatMapObservable(episodes -> Observable.fromIterable(episodes).map(REpisode::getEpisodeId))
                 .toList()
                 .doOnDispose(() -> dispose[0] = true)
                 .doOnEvent((strings, throwable) -> {
