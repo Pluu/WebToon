@@ -269,7 +269,7 @@ public class DetailActivity extends AppCompatActivity
 
                 ERROR_TYPE type;
 
-                if (item != null) {
+                if (item != null && item.errorType != null) {
                     type = item.errorType;
                 } else {
                     type = ERROR_TYPE.DEFAULT_ERROR;

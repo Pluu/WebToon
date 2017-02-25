@@ -25,92 +25,92 @@ import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseNavActivity {
 
-	private NAV_ITEM selfDrawerItem;
+    private NAV_ITEM selfDrawerItem;
 
-	@BindView(R.id.navTitle)
-	View navTitle;
+    @BindView(R.id.navTitle)
+    View navTitle;
 
-	private CompositeDisposable mCompositeDisposable;
+    private CompositeDisposable mCompositeDisposable;
 
-	@Override
-	protected NAV_ITEM getSelfNavDrawerItem() {
-		return selfDrawerItem;
-	}
+    @Override
+    protected NAV_ITEM getSelfNavDrawerItem() {
+        return selfDrawerItem;
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		ButterKnife.bind(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-		ActionBar actionBar = getSupportActionBar();
-		if (actionBar != null) {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setHomeButtonEnabled(true);
-		}
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
-		selfDrawerItem = PrefConfig.getDefaultWebToon(this);
-		themeChange(new ThemeEvent(ContextCompat.getColor(this, selfDrawerItem.color),
-				ContextCompat.getColor(this, selfDrawerItem.bgColor)));
+        selfDrawerItem = PrefConfig.getDefaultWebToon(this);
+        themeChange(new ThemeEvent(ContextCompat.getColor(this, selfDrawerItem.color),
+            ContextCompat.getColor(this, selfDrawerItem.bgColor)));
 
-		getSupportFragmentManager()
-			.beginTransaction()
-			.replace(R.id.container, MainFragment.newInstance(selfDrawerItem), Const.MAIN_FRAG_TAG)
-			.commit();
-	}
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.container, MainFragment.newInstance(selfDrawerItem), Const.MAIN_FRAG_TAG)
+            .commit();
+    }
 
-	void setSelfDrawerItem(NAV_ITEM selfDrawerItem) {
-		this.selfDrawerItem = selfDrawerItem;
-	}
+    void setSelfDrawerItem(NAV_ITEM selfDrawerItem) {
+        this.selfDrawerItem = selfDrawerItem;
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		mCompositeDisposable = new CompositeDisposable();
-		mCompositeDisposable.add(
-				RxBusProvider.getInstance()
-						.toObservable()
-						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe(getBusEvent())
-		);
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCompositeDisposable = new CompositeDisposable();
+        mCompositeDisposable.add(
+            RxBusProvider.getInstance()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getBusEvent())
+        );
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		mCompositeDisposable.dispose();
-	}
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mCompositeDisposable.dispose();
+    }
 
-	@NonNull
-	private Consumer<Object> getBusEvent() {
-		return o -> {
+    @NonNull
+    private Consumer<Object> getBusEvent() {
+        return o -> {
             if (o instanceof ThemeEvent) {
                 themeChange((ThemeEvent) o);
             }
         };
-	}
+    }
 
-	private void themeChange(ThemeEvent event) {
-		navTitle.setBackgroundColor(event.getDarlColor());
-	}
+    private void themeChange(ThemeEvent event) {
+        navTitle.setBackgroundColor(event.getDarlColor());
+    }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-		if (resultCode == RESULT_OK) {
-			Fragment fragment = getSupportFragmentManager().findFragmentByTag(Const.MAIN_FRAG_TAG);
-			if (fragment != null) {
-				fragment.onActivityResult(requestCode, resultCode, data);
-			}
-		}
-	}
+        if (resultCode == RESULT_OK) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(Const.MAIN_FRAG_TAG);
+            if (fragment != null) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
 
-	@OnClick(R.id.btnSetting)
-	void clickSetting() {
-		Intent intent = new Intent(this, SettingsActivity.class);
-		startActivity(intent);
-		closeNavDrawer();
-	}
+    @OnClick(R.id.btnSetting)
+    void clickSetting() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        closeNavDrawer();
+    }
 
 }

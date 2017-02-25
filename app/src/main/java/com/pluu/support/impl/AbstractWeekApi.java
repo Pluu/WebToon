@@ -23,54 +23,54 @@ import java.util.Locale;
  */
 public abstract class AbstractWeekApi extends NetworkSupportApi {
 
-	private final String[] CURRENT_TABS;
+    private final String[] CURRENT_TABS;
 
-	protected AbstractWeekApi(Context context, String[] tabs) {
-		super(context);
-		this.CURRENT_TABS = tabs;
-	}
+    protected AbstractWeekApi(Context context, String[] tabs) {
+        super(context);
+        this.CURRENT_TABS = tabs;
+    }
 
-	public abstract NAV_ITEM getNaviItem();
+    public abstract NAV_ITEM getNaviItem();
 
-	public int getTitleColor(Context context) {
-		return ContextCompat.getColor(context, getNaviItem().color);
-	}
+    public int getTitleColor(Context context) {
+        return ContextCompat.getColor(context, getNaviItem().color);
+    }
 
-	public int getTitleColorDark(Context context) {
-		return ContextCompat.getColor(context, getNaviItem().bgColor);
-	}
+    public int getTitleColorDark(Context context) {
+        return ContextCompat.getColor(context, getNaviItem().bgColor);
+    }
 
-	public int getWeeklyTabSize() {
-		return CURRENT_TABS.length;
-	}
+    public int getWeeklyTabSize() {
+        return CURRENT_TABS.length;
+    }
 
-	public String getWeeklyTabName(int position) {
-		return CURRENT_TABS[position];
-	}
+    public String getWeeklyTabName(int position) {
+        return CURRENT_TABS[position];
+    }
 
-	public int getTodayTabPosition() {
-		return (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7;
-	}
+    public int getTodayTabPosition() {
+        return (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7;
+    }
 
-	public abstract List<WebToonInfo> parseMain(int position);
+    public abstract List<WebToonInfo> parseMain(int position) throws Exception;
 
-	public static AbstractWeekApi getApi(Context context, NAV_ITEM item) {
-		switch (item) {
-			case NAVER:
-				return new NaverWeekApi(context);
-			case DAUM:
-				return new DaumWeekApi(context);
-			case OLLEH:
-				return new OllehWeekApi(context);
-			case KAKAOPAGE:
-				return new KakaoWeekApi(context);
-			case NATE:
-				return new NateWeekApi(context);
-			case T_STORE:
-				return new TStorerWeekApi(context);
-			default:
-				throw new Resources.NotFoundException("Not Found API");
-		}
-	}
+    public static AbstractWeekApi getApi(Context context, NAV_ITEM item) {
+        switch (item) {
+            case NAVER:
+                return new NaverWeekApi(context);
+            case DAUM:
+                return new DaumWeekApi(context);
+            case OLLEH:
+                return new OllehWeekApi(context);
+            case KAKAOPAGE:
+                return new KakaoWeekApi(context);
+            case NATE:
+                return new NateWeekApi(context);
+            case T_STORE:
+                return new TStorerWeekApi(context);
+            default:
+                throw new Resources.NotFoundException("Not Found API");
+        }
+    }
 
 }

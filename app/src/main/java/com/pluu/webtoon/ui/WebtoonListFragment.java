@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,8 @@ import io.reactivex.schedulers.Schedulers;
 public class WebtoonListFragment extends Fragment {
     private final String TAG = WebtoonListFragment.class.getSimpleName();
 
-    @Inject RealmHelper realmHelper;
+    @Inject
+    RealmHelper realmHelper;
 
     private RecyclerView recyclerView;
     private GridLayoutManager manager;
@@ -108,7 +108,10 @@ public class WebtoonListFragment extends Fragment {
             })
             .doOnSubscribe(disposable -> RxBusProvider.getInstance().send(new MainEpisodeStartEvent()))
             .doOnSuccess(items -> RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent()))
-            .subscribe(getRequestSubscriber());
+            .subscribe(getRequestSubscriber(), throwable -> {
+                RxBusProvider.getInstance().send(new MainEpisodeLoadedEvent());
+                Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            });
     }
 
     //	@RxLogSubscriber
@@ -145,10 +148,7 @@ public class WebtoonListFragment extends Fragment {
 
     //	@RxLogObservable
     private Single<List<WebToonInfo>> getApiRequest() {
-        return Single.defer(() -> {
-            Log.i(TAG, "Load pos=" + position);
-            return Single.just(serviceApi.parseMain(position));
-        });
+        return Single.fromCallable(() -> serviceApi.parseMain(position));
     }
 
     @Override

@@ -26,80 +26,80 @@ import java.util.regex.Pattern;
  */
 public class NaverWeekApi extends AbstractWeekApi {
 
-	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일", "완결"};
+    private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일", "완결"};
 
-	private static final String URL = "http://m.comic.naver.com/webtoon/weekday.nhn";
-	private final String[] URL_VALUE = {"mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin"};
+    private static final String URL = "http://m.comic.naver.com/webtoon/weekday.nhn";
+    private final String[] URL_VALUE = {"mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin"};
 
-	private int currentPos;
+    private int currentPos;
 
-	public NaverWeekApi(Context context) {
-		super(context, TITLE);
-	}
+    public NaverWeekApi(Context context) {
+        super(context, TITLE);
+    }
 
-	@Override
-	public ServiceConst.NAV_ITEM getNaviItem() {
-		return ServiceConst.NAV_ITEM.NAVER;
-	}
+    @Override
+    public ServiceConst.NAV_ITEM getNaviItem() {
+        return ServiceConst.NAV_ITEM.NAVER;
+    }
 
-	@Override
-	public List<WebToonInfo> parseMain(int position) {
-		currentPos = position;
+    @Override
+    public List<WebToonInfo> parseMain(int position) {
+        currentPos = position;
 
-		ArrayList<WebToonInfo> list = new ArrayList<>();
+        ArrayList<WebToonInfo> list = new ArrayList<>();
 
-		String response;
-		try {
-			response = requestApi();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return list;
-		}
+        String response;
+        try {
+            response = requestApi();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return list;
+        }
 
-		Document doc = Jsoup.parse(response);
-		Elements links = doc.select("#pageList a");
-		Pattern pattern = Pattern.compile("(?<=titleId=)\\d+");
-		for (Element a : links) {
-			Matcher matcher = pattern.matcher(a.attr("href"));
-			if (!matcher.find()) {
-				continue;
-			}
+        Document doc = Jsoup.parse(response);
+        Elements links = doc.select("#pageList a");
+        Pattern pattern = Pattern.compile("(?<=titleId=)\\d+");
+        for (Element a : links) {
+            Matcher matcher = pattern.matcher(a.attr("href"));
+            if (!matcher.find()) {
+                continue;
+            }
 
-			WebToonInfo item = new WebToonInfo(matcher.group());
-			item.setTitle(a.select(".toon_name").text());
-			item.setImage(a.select("img").first().attr("src"));
+            WebToonInfo item = new WebToonInfo(matcher.group());
+            item.setTitle(a.select(".toon_name").text());
+            item.setImage(a.select("img").first().attr("src"));
 
-			if (!a.select(".aside_info .ico_up").isEmpty()) {
-				// 최근 업데이트
-				item.setStatus(Status.UPDATE);
-			} else if (!a.select(".aside_info .ico_break").isEmpty()) {
-				// 휴재
-				item.setStatus(Status.BREAK);
-			}
-			item.setIsAdult(!a.select(".ico_adult2").isEmpty());
-			item.setWriter(a.select(".sub_info").text());
-			item.setRate(Const.getRateNameByRate(a.select("span[class=if1 st_r]").text()));
-			item.setUpdateDate(a.select("span[class=if1]").text());
-			list.add(item);
-		}
+            if (!a.select(".aside_info .ico_up").isEmpty()) {
+                // 최근 업데이트
+                item.setStatus(Status.UPDATE);
+            } else if (!a.select(".aside_info .ico_break").isEmpty()) {
+                // 휴재
+                item.setStatus(Status.BREAK);
+            }
+            item.setIsAdult(!a.select(".ico_adult2").isEmpty());
+            item.setWriter(a.select(".sub_info").text());
+			item.setRate(Const.getRateNameByRate(a.select(".txt_score").text()));
+            item.setUpdateDate(a.select("span[class=if1]").text());
+            list.add(item);
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public String getMethod() {
-		return GET;
-	}
+    @Override
+    public String getMethod() {
+        return GET;
+    }
 
-	@Override
-	public String getUrl() {
-		return URL;
-	}
+    @Override
+    public String getUrl() {
+        return URL;
+    }
 
-	@Override
-	public Map<String, String> getParams() {
-		Map<String, String> map = new HashMap<>();
-		map.put("week", URL_VALUE[currentPos]);
-		return map;
-	}
+    @Override
+    public Map<String, String> getParams() {
+        Map<String, String> map = new HashMap<>();
+        map.put("week", URL_VALUE[currentPos]);
+        return map;
+    }
 }

@@ -56,7 +56,7 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 
 	private List<Episode> parseList(WebToonInfo info, Document doc) {
 		List<Episode> list = new ArrayList<>();
-		Elements links = doc.select("#pageList a");
+		Elements links = doc.select(".lst a");
 		Pattern pattern = Pattern.compile("no=\\d+");
 		String href;
 		try {
@@ -95,9 +95,9 @@ public class NaverEpisodeApi extends AbstractEpisodeApi {
 	}
 
 	private String parsePage(Document doc) {
-		Elements nextPage = doc.select("#nextButton");
+		Elements nextPage = doc.select(".paging_type2 [data-type=next]");
 		if (nextPage != null && !nextPage.isEmpty()) {
-			return nextPage.first().attr("href");
+			return nextPage.attr("data-page");
 		}
 		return null;
 	}
