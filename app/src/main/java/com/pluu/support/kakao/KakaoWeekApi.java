@@ -64,7 +64,7 @@ public class KakaoWeekApi extends AbstractWeekApi {
             }
             WebToonInfo item = new WebToonInfo(matcher.group());
 			item.setTitle(a.select(".title").first().text());
-			item.setImage(a.select(".thumbnail img").first().attr("src"));
+			item.setImage(a.select(".thumbnail img").last().attr("src"));
 
 			if (!a.select(".badgeImg").isEmpty()) {
 				item.setStatus(Status.UPDATE);

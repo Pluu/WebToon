@@ -19,8 +19,8 @@ android {
         applicationId "com.pluu.webtoon"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 17
-        versionName "1.2.0"
+        versionCode 18
+        versionName "1.2.1"
         vectorDrawables.useSupportLibrary = true
     }
 
