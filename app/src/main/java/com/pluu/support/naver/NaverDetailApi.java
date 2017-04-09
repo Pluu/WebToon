@@ -111,7 +111,7 @@ public class NaverDetailApi extends AbstractDetailApi {
     }
 
     private List<DetailView> parseDetailCutToonType(Document doc) {
-        return Stream.of(doc.select(".swiper-slide img"))
+        return Stream.of(doc.select(".swiper-slide img.swiper-lazy"))
             .map(element -> DetailView.createImage(element.attr("data-src")))
             .toList();
     }
