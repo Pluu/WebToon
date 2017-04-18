@@ -155,29 +155,28 @@ class SlidingTabLayout @JvmOverloads constructor(context: Context, attrs: Attrib
      * [.setCustomTabView].
      */
     protected fun createDefaultTabView(context: Context): TextView {
-        val textView = TextView(context)
-        textView.gravity = Gravity.CENTER
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP.toFloat())
-        textView.typeface = Typeface.DEFAULT_BOLD
-        textView.layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        return TextView(context).apply {
+            gravity = Gravity.CENTER
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP.toFloat())
+            typeface = Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        val outValue = TypedValue()
-        getContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
-        textView.setBackgroundResource(outValue.resourceId)
-        textView.setAllCaps(true)
+            val outValue = TypedValue()
+            getContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+            setBackgroundResource(outValue.resourceId)
+            setAllCaps(true)
 
-        val padding = (TAB_VIEW_PADDING_DIPS * resources.displayMetrics.density).toInt()
-        textView.setPadding(padding, padding, padding, padding)
-
-        return textView
+            val padding = (TAB_VIEW_PADDING_DIPS * resources.displayMetrics.density).toInt()
+            setPadding(padding, padding, padding, padding)
+        }
     }
 
     private fun populateTabStrip() {
         val adapter = mViewPager!!.adapter
         val tabClickListener = TabClickListener()
 
-        for (i in 0..adapter.count - 1) {
+        for (i in 0 until adapter.count) {
             var tabView: View? = null
             var tabTitleView: TextView? = null
 

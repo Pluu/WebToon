@@ -55,7 +55,6 @@ import com.pluu.webtoon.ui.detail.DaumMultiFragment;
 import com.pluu.webtoon.ui.detail.DefaultDetailFragment;
 import com.pluu.webtoon.ui.detail.FirstBindListener;
 import com.pluu.webtoon.ui.detail.ToggleListener;
-import com.pluu.webtoon.utils.MessageUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -69,6 +68,8 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.pluu.webtoon.utils.MessageUtilsKt.getMessage;
 
 /**
  * 상세화면 Activity
@@ -276,7 +277,7 @@ public class DetailActivity extends AppCompatActivity
                 }
 
                 new AlertDialog.Builder(DetailActivity.this)
-                    .setMessage(MessageUtils.getString(getBaseContext(), type))
+                    .setMessage(getMessage(type, getBaseContext()))
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.ok,
                         (dialogInterface, i) -> finish())

@@ -15,21 +15,16 @@ import io.realm.Realm
  */
 class AppController : Application() {
 
-    var networkComponent: NetworkComponent? = null
-        private set
-    var realmHelperComponent: RealmHelperComponent? = null
-        private set
+    val networkComponent: NetworkComponent by lazy {
+        DaggerNetworkComponent.builder().build()
+    }
+    val realmHelperComponent: RealmHelperComponent by lazy {
+        DaggerRealmHelperComponent.builder().build()
+    }
 
     override fun onCreate() {
         super.onCreate()
-        initApplicationComponent()
         Realm.init(this)
-    }
-
-    private fun initApplicationComponent() {
-        this.networkComponent = DaggerNetworkComponent.builder().build()
-
-        this.realmHelperComponent = DaggerRealmHelperComponent.builder().build()
     }
 
 }

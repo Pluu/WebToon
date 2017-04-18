@@ -91,7 +91,7 @@ public class MainActivity extends BaseNavActivity {
     }
 
     private void themeChange(ThemeEvent event) {
-        navTitle.setBackgroundColor(event.getDarlColor());
+        navTitle.setBackgroundColor(event.getDarkColor());
     }
 
     @Override

@@ -24,7 +24,6 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.LinearLayout
-import com.pluu.kotlin.checkNullOrElse
 
 internal class SlidingTabStrip @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
@@ -54,12 +53,14 @@ internal class SlidingTabStrip @JvmOverloads constructor(context: Context, attrs
         mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor,
                 DEFAULT_BOTTOM_BORDER_COLOR_ALPHA)
 
-        mDefaultTabColorizer = SimpleTabColorizer()
-        mDefaultTabColorizer.setIndicatorColors(DEFAULT_SELECTED_INDICATOR_COLOR)
+        mDefaultTabColorizer = SimpleTabColorizer().apply {
+            setIndicatorColors(DEFAULT_SELECTED_INDICATOR_COLOR)
+        }
 
         mBottomBorderThickness = (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density).toInt()
-        mBottomBorderPaint = Paint()
-        mBottomBorderPaint.color = mDefaultBottomBorderColor
+        mBottomBorderPaint = Paint().apply {
+            color = mDefaultBottomBorderColor
+        }
 
         mSelectedIndicatorThickness = (SELECTED_INDICATOR_THICKNESS_DIPS * density).toInt()
         mSelectedIndicatorPaint = Paint()
@@ -86,7 +87,7 @@ internal class SlidingTabStrip @JvmOverloads constructor(context: Context, attrs
     override fun onDraw(canvas: Canvas) {
         val height = height
         val childCount = childCount
-        val tabColorizer = mCustomTabColorizer.checkNullOrElse(mDefaultTabColorizer)
+        val tabColorizer = mCustomTabColorizer ?: mDefaultTabColorizer
 
         // Thick colored underline below the current selection
         if (childCount > 0) {
