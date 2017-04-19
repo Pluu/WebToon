@@ -114,7 +114,7 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 		mNavDrawerItems.clear();
 
 		for (NAV_ITEM item : NAV_ITEM.values()) {
-			if (item.isSelect) {
+			if (item.isSelect()) {
 				mNavDrawerItems.add(item);
 			}
 		}
@@ -190,9 +190,9 @@ public abstract class BaseNavActivity extends AppCompatActivity {
 
 		// configure its appearance according to whether or not it's selected
 		titleView.setTextColor(ContextCompat.getColor(this,
-				selected ? item.color : R.color.navdrawer_text_color));
+				selected ? item.getColor() : R.color.navdrawer_text_color));
 		iconView.setColorFilter(ContextCompat.getColor(this,
-				selected ? item.bgColor : R.color.navdrawer_icon_tint));
+				selected ? item.getBgColor() : R.color.navdrawer_icon_tint));
 	}
 
 	private boolean isSpecialItem(NAV_ITEM item) {
