@@ -23,13 +23,15 @@ import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.FirstItemSelectEvent;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.pluu.webtoon.utils.DisplayUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.pluu.webtoon.utils.DisplayUtilsKt.animatorToolbarColor;
+import static com.pluu.webtoon.utils.DisplayUtilsKt.setStatusBarColor;
 
 /**
  * 에피소드 리스트 Activity
@@ -107,10 +109,10 @@ public class EpisodesActivity extends AppCompatActivity {
             tvName.setTextColor(value);
             tvRate.setTextColor(value);
 
-            DisplayUtils.setStatusBarColor(EpisodesActivity.this, value);
+            setStatusBarColor(EpisodesActivity.this, value);
         };
 
-		ValueAnimator animator = DisplayUtils.animatorToolbarColor(this, titleColor, listener);
+		ValueAnimator animator = animatorToolbarColor(this, titleColor, listener);
 		animator.setDuration(1000L);
 		animator.start();
 

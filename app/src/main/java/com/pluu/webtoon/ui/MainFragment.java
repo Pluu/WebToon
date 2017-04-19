@@ -28,13 +28,15 @@ import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.event.ThemeEvent;
-import com.pluu.webtoon.utils.DisplayUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+
+import static com.pluu.webtoon.utils.DisplayUtilsKt.animatorStatusBarColor;
+import static com.pluu.webtoon.utils.DisplayUtilsKt.animatorToolbarColor;
 
 /**
  * Main View Fragment
@@ -119,12 +121,8 @@ public class MainFragment extends Fragment {
         FragmentActivity activity = getActivity();
 
         if (activity instanceof AppCompatActivity) {
-            ValueAnimator animator1
-                = DisplayUtils.animatorToolbarColor((AppCompatActivity) activity, color);
-
-            ValueAnimator animator2 = DisplayUtils
-                .animatorStatusBarColor(activity,
-                    colorDark);
+            ValueAnimator animator1 = animatorToolbarColor((AppCompatActivity) activity, color);
+            ValueAnimator animator2 = animatorStatusBarColor(activity, colorDark);
 
             AnimatorSet set = new AnimatorSet();
             set.playTogether(animator1, animator2);

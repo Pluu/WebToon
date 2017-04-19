@@ -50,8 +50,8 @@ public class MainActivity extends BaseNavActivity {
         }
 
         selfDrawerItem = PrefConfig.getDefaultWebToon(this);
-        themeChange(new ThemeEvent(ContextCompat.getColor(this, selfDrawerItem.color),
-            ContextCompat.getColor(this, selfDrawerItem.bgColor)));
+        themeChange(new ThemeEvent(ContextCompat.getColor(this, selfDrawerItem.getColor()),
+            ContextCompat.getColor(this, selfDrawerItem.getBgColor())));
 
         getSupportFragmentManager()
             .beginTransaction()
@@ -91,7 +91,7 @@ public class MainActivity extends BaseNavActivity {
     }
 
     private void themeChange(ThemeEvent event) {
-        navTitle.setBackgroundColor(event.getDarlColor());
+        navTitle.setBackgroundColor(event.getDarkColor());
     }
 
     @Override
