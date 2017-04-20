@@ -3,7 +3,7 @@ package com.pluu.support.nate;
 import android.content.Context;
 
 import com.pluu.support.impl.AbstractWeekApi;
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.item.WebToonInfo;
 
 import org.jsoup.Jsoup;
@@ -30,8 +30,8 @@ public class NateWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public ServiceConst.NAV_ITEM getNaviItem() {
-		return ServiceConst.NAV_ITEM.NATE;
+	public NAV_ITEM getNaviItem() {
+		return NAV_ITEM.NATE;
 	}
 
 	@Override

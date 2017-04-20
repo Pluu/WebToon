@@ -21,7 +21,7 @@ import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
-import com.pluu.support.impl.ServiceConst.NAV_ITEM;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.MainFragmentAdapter;
 import com.pluu.webtoon.common.Const;

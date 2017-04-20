@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 
 /**
  * SharedPreferences
@@ -41,9 +41,9 @@ public class PrefConfig {
 		return getPreferences(context).edit();
 	}
 
-	public static ServiceConst.NAV_ITEM getDefaultWebToon(Context context) {
+	public static NAV_ITEM getDefaultWebToon(Context context) {
 		String name = getPreferences(context).getString(KEY_DEFAULT_WEBTOON,
-				ServiceConst.NAV_ITEM.getDefault().name());
-		return ServiceConst.NAV_ITEM.valueOf(name.toUpperCase());
+				NAV_ITEM.getDefault().name());
+		return NAV_ITEM.valueOf(name.toUpperCase());
 	}
 }

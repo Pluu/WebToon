@@ -3,7 +3,7 @@ package com.pluu.support.tstore;
 import android.content.Context;
 
 import com.pluu.support.impl.AbstractWeekApi;
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
 
@@ -35,8 +35,8 @@ public class TStorerWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public ServiceConst.NAV_ITEM getNaviItem() {
-		return ServiceConst.NAV_ITEM.T_STORE;
+	public NAV_ITEM getNaviItem() {
+		return NAV_ITEM.T_STORE;
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pluu.support.impl.ServiceConst;
-import com.pluu.support.impl.ServiceConst.NAV_ITEM;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 

@@ -2,7 +2,7 @@ package com.pluu.webtoon.db;
 
 import android.util.Log;
 
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.db.item.EpisodeItem;
 import com.pluu.webtoon.db.item.FavoriteItem;
 import com.pluu.webtoon.item.Detail;
@@ -50,21 +50,21 @@ public class RealmHelper {
 		realm.commitTransaction();
 	}
 
-	public boolean getFavoriteToon(ServiceConst.NAV_ITEM item, String id) {
+	public boolean getFavoriteToon(NAV_ITEM item, String id) {
 		return Realm.getDefaultInstance().where(RToon.class)
 					.equalTo("service", item.name())
 					.equalTo("toonId", id)
 					.count() > 0;
 	}
 
-	public List<REpisode> getEpisode(ServiceConst.NAV_ITEM item, String id) {
+	public List<REpisode> getEpisode(NAV_ITEM item, String id) {
 		return Realm.getDefaultInstance().where(REpisode.class)
 					.equalTo("service", item.name())
 					.equalTo("toonId", id)
 					.findAll();
 	}
 
-	public void addFavorite(ServiceConst.NAV_ITEM item, String id) {
+	public void addFavorite(NAV_ITEM item, String id) {
 		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 		RToon toon = realm.createObject(RToon.class);
@@ -73,7 +73,7 @@ public class RealmHelper {
 		realm.commitTransaction();
 	}
 
-	public void removeFavorite(ServiceConst.NAV_ITEM item, String id) {
+	public void removeFavorite(NAV_ITEM item, String id) {
 		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 		RToon toon = realm.where(RToon.class)
@@ -84,7 +84,7 @@ public class RealmHelper {
 		realm.commitTransaction();
 	}
 
-	public void readEpisode(ServiceConst.NAV_ITEM service, Detail item) {
+	public void readEpisode(NAV_ITEM service, Detail item) {
 		Realm realm = Realm.getDefaultInstance();
 		realm.beginTransaction();
 		REpisode episode = realm.createObject(REpisode.class);

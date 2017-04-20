@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractWeekApi;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
@@ -71,7 +72,7 @@ public class WebtoonListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ((AppController) getContext().getApplicationContext()).getRealmHelperComponent().inject(this);
 
-        ServiceConst.NAV_ITEM service = ServiceConst.getApiType(getArguments());
+        NAV_ITEM service = ServiceConst.getApiType(getArguments());
         serviceApi = AbstractWeekApi.getApi(getContext(), service);
         position = getArguments().getInt(Const.EXTRA_POS);
         columnCount = getResources().getInteger(R.integer.webtoon_column_count);

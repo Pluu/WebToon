@@ -11,23 +11,6 @@ import com.pluu.webtoon.common.Const
  * Created by PLUUSYSTEM-NEW on 2015-11-01.
  */
 object ServiceConst {
-
-    enum class NAV_ITEM (val isSelect: Boolean = false, @param:ColorRes val color: Int = 0, @param:ColorRes val bgColor: Int = 0) {
-        NAVER(true, R.color.naver_color, R.color.naver_color_dark),
-        DAUM(true, R.color.daum_color, R.color.daum_color_dark),
-        OLLEH(true, R.color.olleh_color, R.color.olleh_color_dark),
-        KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_dark),
-        NATE(true, R.color.nate_color, R.color.nate_color_dark),
-        T_STORE(true, R.color.t_store_color, R.color.t_store_color_dark),
-        SEPARATOR(), // Separator
-        INVALID();
-
-        companion object {
-            @JvmStatic
-            fun getDefault() = NAVER
-        }
-    }
-
     // titles for navdrawer items (indices must correspond to the above)
     @JvmField
     val NAVDRAWER_TITLE_RES_ID = intArrayOf(
@@ -53,5 +36,20 @@ object ServiceConst {
         bundle.getSerializable(Const.EXTRA_API) as NAV_ITEM
     else
         NAV_ITEM.getDefault()
+}
 
+enum class NAV_ITEM (val isSelect: Boolean = false, @param:ColorRes val color: Int = 0, @param:ColorRes val bgColor: Int = 0) {
+    NAVER(true, R.color.naver_color, R.color.naver_color_dark),
+    DAUM(true, R.color.daum_color, R.color.daum_color_dark),
+    OLLEH(true, R.color.olleh_color, R.color.olleh_color_dark),
+    KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_dark),
+    NATE(true, R.color.nate_color, R.color.nate_color_dark),
+    T_STORE(true, R.color.t_store_color, R.color.t_store_color_dark),
+    SEPARATOR(), // Separator
+    INVALID();
+
+    companion object {
+        @JvmStatic
+        fun getDefault() = NAVER
+    }
 }

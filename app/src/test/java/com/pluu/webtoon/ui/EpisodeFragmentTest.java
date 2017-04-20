@@ -3,7 +3,7 @@ package com.pluu.webtoon.ui;
 import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.model.REpisode;
@@ -35,7 +35,7 @@ public class EpisodeFragmentTest {
         episodeFragment.realmHelper = mockRealm;
         episodeFragment.loadDlg = mock(ProgressDialog.class);
         episodeFragment.webToonInfo = mock(WebToonInfo.class);
-        episodeFragment.service = ServiceConst.NAV_ITEM.DAUM;
+        episodeFragment.service = NAV_ITEM.DAUM;
     }
 
     @Test

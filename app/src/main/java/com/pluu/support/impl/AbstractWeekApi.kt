@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
 import com.pluu.support.daum.DaumWeekApi
-import com.pluu.support.impl.ServiceConst.NAV_ITEM
 import com.pluu.support.kakao.KakaoWeekApi
 import com.pluu.support.nate.NateWeekApi
 import com.pluu.support.naver.NaverWeekApi
@@ -48,12 +47,12 @@ abstract class AbstractWeekApi
         @JvmStatic
         fun getApi(context: Context, item: NAV_ITEM): AbstractWeekApi {
             when (item) {
-                ServiceConst.NAV_ITEM.NAVER -> return NaverWeekApi(context)
-                ServiceConst.NAV_ITEM.DAUM -> return DaumWeekApi(context)
-                ServiceConst.NAV_ITEM.OLLEH -> return OllehWeekApi(context)
-                ServiceConst.NAV_ITEM.KAKAOPAGE -> return KakaoWeekApi(context)
-                ServiceConst.NAV_ITEM.NATE -> return NateWeekApi(context)
-                ServiceConst.NAV_ITEM.T_STORE -> return TStorerWeekApi(context)
+                NAV_ITEM.NAVER -> return NaverWeekApi(context)
+                NAV_ITEM.DAUM -> return DaumWeekApi(context)
+                NAV_ITEM.OLLEH -> return OllehWeekApi(context)
+                NAV_ITEM.KAKAOPAGE -> return KakaoWeekApi(context)
+                NAV_ITEM.NATE -> return NateWeekApi(context)
+                NAV_ITEM.T_STORE -> return TStorerWeekApi(context)
                 else -> throw Resources.NotFoundException("Not Found API")
             }
         }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.pluu.support.impl.AbstractWeekApi;
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.item.WebToonType;
@@ -39,8 +39,8 @@ public class OllehWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public ServiceConst.NAV_ITEM getNaviItem() {
-		return ServiceConst.NAV_ITEM.OLLEH;
+	public NAV_ITEM getNaviItem() {
+		return NAV_ITEM.OLLEH;
 	}
 
 	@Override

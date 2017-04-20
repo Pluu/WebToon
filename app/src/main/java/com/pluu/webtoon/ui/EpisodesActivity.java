@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pluu.event.RxBusProvider;
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
@@ -54,7 +54,7 @@ public class EpisodesActivity extends AppCompatActivity {
 
 	private boolean isEdit = false;
 	private boolean isFavorite = false;
-	private ServiceConst.NAV_ITEM service;
+	private NAV_ITEM service;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class EpisodesActivity extends AppCompatActivity {
 
 	private void getApi() {
 		Intent intent = getIntent();
-		service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
+		service = (NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
 	}
 
 	private void initView() {

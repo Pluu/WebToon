@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.pluu.event.RxBusProvider;
 import com.pluu.support.impl.AbstractEpisodeApi;
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.adapter.EpisodeAdapter;
@@ -71,7 +71,7 @@ public class EpisodeFragment extends Fragment
     WebToonInfo webToonInfo;
     private String nextLink;
 
-    ServiceConst.NAV_ITEM service;
+    NAV_ITEM service;
     private AbstractEpisodeApi serviceApi;
 
     private int[] color;
@@ -81,7 +81,7 @@ public class EpisodeFragment extends Fragment
     public EpisodeFragment() {
     }
 
-    public static EpisodeFragment getInstance(ServiceConst.NAV_ITEM service,
+    public static EpisodeFragment getInstance(NAV_ITEM service,
                                               WebToonInfo info,
                                               int[] color) {
         EpisodeFragment frag = new EpisodeFragment();
@@ -112,7 +112,7 @@ public class EpisodeFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         Bundle args = getArguments();
-        service = (ServiceConst.NAV_ITEM) args.getSerializable(Const.EXTRA_API);
+        service = (NAV_ITEM) args.getSerializable(Const.EXTRA_API);
         serviceApi = AbstractEpisodeApi.getApi(getContext(), service);
         webToonInfo = args.getParcelable(Const.EXTRA_EPISODE);
         color = args.getIntArray(Const.EXTRA_MAIN_COLOR);

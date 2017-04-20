@@ -9,7 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.pluu.event.RxBusProvider;
-import com.pluu.support.impl.ServiceConst.NAV_ITEM;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.common.PrefConfig;

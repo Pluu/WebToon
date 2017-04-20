@@ -38,7 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pluu.support.impl.AbstractDetailApi;
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.common.Const;
@@ -97,7 +97,7 @@ public class DetailActivity extends AppCompatActivity
     private ObjectAnimator statusBarAnimator;
 
     private AbstractDetailApi serviceApi;
-    private ServiceConst.NAV_ITEM service;
+    private NAV_ITEM service;
     private Detail currentItem;
     private Episode episode;
 
@@ -151,7 +151,7 @@ public class DetailActivity extends AppCompatActivity
 
     private void getApi() {
         Intent intent = getIntent();
-        service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
+        service = (NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
         serviceApi = AbstractDetailApi.getApi(this, service);
     }
 

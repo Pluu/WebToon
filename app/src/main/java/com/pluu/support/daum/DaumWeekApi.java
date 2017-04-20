@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.pluu.support.impl.AbstractWeekApi;
-import com.pluu.support.impl.ServiceConst;
+import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.common.Const;
 import com.pluu.webtoon.item.BaseToonInfo;
 import com.pluu.webtoon.item.Status;
@@ -38,8 +38,8 @@ public class DaumWeekApi extends AbstractWeekApi {
 	}
 
 	@Override
-	public ServiceConst.NAV_ITEM getNaviItem() {
-		return ServiceConst.NAV_ITEM.DAUM;
+	public NAV_ITEM getNaviItem() {
+		return NAV_ITEM.DAUM;
 	}
 
 	@Override
