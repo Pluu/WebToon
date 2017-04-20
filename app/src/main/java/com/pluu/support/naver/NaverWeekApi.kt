@@ -27,9 +27,8 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
 
         val list = ArrayList<WebToonInfo>()
 
-        val response: String
-        try {
-            response = requestApi()
+        val response: String? = try {
+            requestApi()
         } catch (e: Exception) {
             e.printStackTrace()
             return list
@@ -39,14 +38,14 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
         val pattern = "(?<=titleId=)\\d+".toRegex()
         for (a in doc.select("#pageList a")) {
             pattern.find(a.attr("href"))?.apply {
-                val item = WebToonInfo(groupValues[0]).apply {
+                val item = WebToonInfo(value).apply {
                     title = a.select(".toon_name").text()
                     image = a.select("img").first().attr("src")
 
-                    if (!a.select(".aside_info .ico_up").isEmpty()) {
+                    if (a.select(".aside_info .ico_up").isNotEmpty()) {
                         // 최근 업데이트
                         status = Status.UPDATE
-                    } else if (!a.select(".aside_info .ico_break").isEmpty()) {
+                    } else if (a.select(".aside_info .ico_break").isNotEmpty()) {
                         // 휴재
                         status = Status.BREAK
                     }

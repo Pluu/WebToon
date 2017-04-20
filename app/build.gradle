@@ -84,8 +84,6 @@ dependencies {
     // OkHttp
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
-    // Lightweight-Stream-API
-    compile 'com.annimon:stream:1.1.7'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 

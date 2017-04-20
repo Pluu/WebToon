@@ -24,7 +24,7 @@ abstract class AbstractEpisodeApi(context: Context) : NetworkSupportApi(context)
 
     abstract fun moreParseEpisode(item: EpisodePage): String
 
-    abstract fun getFirstEpisode(item: Episode): Episode
+    abstract fun getFirstEpisode(item: Episode): Episode?
 
     companion object {
 
