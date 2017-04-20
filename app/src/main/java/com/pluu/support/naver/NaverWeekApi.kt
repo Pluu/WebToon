@@ -69,9 +69,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
 
     override val params: Map<String, String>
         get() {
-            return HashMap<String, String>().apply {
-                put("week", URL_VALUE[currentPos])
-            }
+            return hashMapOf("week" to URL_VALUE[currentPos])
         }
 
     companion object {
