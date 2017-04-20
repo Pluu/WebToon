@@ -15,12 +15,9 @@ import java.util.*
 class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
 
     private val SHARE_URL = "http://m.comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s"
-    private val SKIP_DETAIL = object : ArrayList<String>() {
-        init {
-            add("http://static.naver.com/m/comic/im/txt_ads.png")
-            add("http://static.naver.com/m/comic/im/toon_app_pop.png")
-        }
-    }
+    private val SKIP_DETAIL = arrayOf(
+            "http://static.naver.com/m/comic/im/txt_ads.png",
+            "http://static.naver.com/m/comic/im/toon_app_pop.png")
 
     private var webToonId: String? = null
     private var episodeId: String? = null
@@ -97,7 +94,7 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     private fun parseDetailNormalType(doc: Document): List<DetailView> {
-        val list = ArrayList<DetailView>()
+        val list = mutableListOf<DetailView>()
         var path: String
 
         for (item in doc.select("#toonLayer li img")) {
@@ -112,11 +109,9 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
         return list
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail): ShareItem {
-        return ShareItem().apply {
-            title = episode.title + " / " + detail.title
-            url = String.format(SHARE_URL, detail.webtoonId, detail.episodeId)
-        }
+    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem().apply {
+        title = episode.title + " / " + detail.title
+        url = String.format(SHARE_URL, detail.webtoonId, detail.episodeId)
     }
 
     override val method: String

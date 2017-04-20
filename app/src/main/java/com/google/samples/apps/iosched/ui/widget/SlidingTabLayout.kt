@@ -186,9 +186,7 @@ class SlidingTabLayout @JvmOverloads constructor(context: Context, attrs: Attrib
                 tabTitleView = tabView!!.findViewById(mTabViewTextViewId) as TextView
             }
 
-            if (tabView == null) {
-                tabView = createDefaultTabView(context)
-            }
+            tabView = tabView ?: createDefaultTabView(context)
 
             if (tabTitleView == null && TextView::class.java.isInstance(tabView)) {
                 tabTitleView = tabView as TextView?

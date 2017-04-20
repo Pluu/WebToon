@@ -1,7 +1,7 @@
 package com.pluu.support.daum
 
 import android.content.Context
-import android.text.TextUtils
+import com.pluu.kotlin.isNotEmpty
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
@@ -30,7 +30,7 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position
 
-        val list = ArrayList<WebToonInfo>()
+        val list = mutableListOf<WebToonInfo>()
 
         val array: JSONArray? = try {
             JSONObject(requestApi())
@@ -40,36 +40,31 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
             return list
         }
 
-        if (array == null || array.length() == 0) {
+        if (!(array?.isNotEmpty() ?: false)) {
             return list
         }
 
-        var lastObj: JSONObject
-        val emptyAverageScore = "0.0"
         val today = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
-        var date: String
 
-        // TODO : 진행중
-
-        array.iterator().forEach {
+        array?.iterator()?.forEach {
             obj ->
-            lastObj = obj.optJSONObject("latestWebtoonEpisode")
 
+            val lastObj = obj.optJSONObject("latestWebtoonEpisode")
             val baseInfo = BaseToonInfo(obj.optString("nickname")).apply {
                 title = obj.optString("title")
             }
-            val item = WebToonInfo(baseInfo).apply {
+            WebToonInfo(baseInfo).apply {
                 image = lastObj.optJSONObject("thumbnailImage").optString("url")
 
                 val info = obj.optJSONObject("cartoon").optJSONArray("artists").optJSONObject(0)
                 writer = info.optString("name")
                 rate = Const.getRateNameByRate(obj.optString("averageScore"))
-                if (TextUtils.equals(emptyAverageScore, rate)) {
+                if ("0.0" == rate) {
                     rate = null
                 }
 
-                date = lastObj.optString("dateCreated")
-                updateDate = date.substring(2, 4) + "." + date.substring(4, 6) + "." + date.substring(6, 8)
+                val date = lastObj.optString("dateCreated")
+                updateDate = "${date.substring(2, 4)}.${date.substring(4, 6)}.${date.substring(6, 8)}"
                 if (today == date.substring(0, 8)) {
                     // 최근 업데이트
                     status = Status.UPDATE
@@ -78,9 +73,9 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
                     status = Status.BREAK
                 }
 
-                setIsAdult(obj.optInt("ageGrade") == 19)
+                setIsAdult(obj.optInt("ageGrade") == 1)
+                list.add(this)
             }
-            list.add(item)
         }
         return list
     }
@@ -92,13 +87,10 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
         get() = URL
 
     override val params: Map<String, String>
-        get() {
-            return hashMapOf(
-                    "sort" to "update",
-                    "page_no" to "1",
-                    "week" to URL_VALUE[currentPos]
-            )
-        }
+        get() = hashMapOf(
+                "sort" to "update",
+                "page_no" to "1",
+                "week" to URL_VALUE[currentPos])
 
     companion object {
 

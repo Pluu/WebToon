@@ -8,7 +8,6 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
-import java.util.*
 
 /**
  * 네이버 웹툰 Week API
@@ -25,7 +24,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
     override fun parseMain(position: Int): List<WebToonInfo> {
         currentPos = position
 
-        val list = ArrayList<WebToonInfo>()
+        val list = mutableListOf<WebToonInfo>()
 
         val response: String? = try {
             requestApi()
@@ -38,7 +37,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
         val pattern = "(?<=titleId=)\\d+".toRegex()
         for (a in doc.select("#pageList a")) {
             pattern.find(a.attr("href"))?.apply {
-                val item = WebToonInfo(value).apply {
+                WebToonInfo(value).apply {
                     title = a.select(".toon_name").text()
                     image = a.select("img").first().attr("src")
 
@@ -53,8 +52,8 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
                     writer = a.select(".sub_info").text()
                     rate = Const.getRateNameByRate(a.select(".txt_score").text())
                     updateDate = a.select("span[class=if1]").text()
+                    list.add(this)
                 }
-                list.add(item)
             }
         }
 
@@ -68,14 +67,10 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
         get() = URL
 
     override val params: Map<String, String>
-        get() {
-            return hashMapOf("week" to URL_VALUE[currentPos])
-        }
+        get() = hashMapOf("week" to URL_VALUE[currentPos])
 
     companion object {
-
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일", "완결")
-
         private val URL = "http://m.comic.naver.com/webtoon/weekday.nhn"
     }
 }

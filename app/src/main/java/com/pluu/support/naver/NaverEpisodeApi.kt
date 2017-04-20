@@ -10,7 +10,6 @@ import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import java.util.*
 
 /**
  * 네이버 웹툰 Episode API
@@ -41,18 +40,18 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     }
 
     private fun parseList(info: WebToonInfo, doc: Document): List<Episode> {
-        val list = ArrayList<Episode>()
+        val list = mutableListOf<Episode>()
         val pattern = "(?<=no=)\\d+".toRegex()
 
         try {
             for (a in doc.select(".lst a")) {
                 pattern.find(a.attr("href"))?.apply {
-                    val episode = Episode(info, value).apply {
+                    Episode(info, value).apply {
                         episodeTitle = a.select(".toon_name").text()
                         image = a.select("img").first().attr("src")
                         parseToonInfo(a, this)
+                        list.add(this)
                     }
-                    list.add(episode)
                 }
             }
         } catch (e: Exception) {
@@ -77,27 +76,21 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     private fun parsePage(doc: Document): String? {
         val nextPage = doc.select(".paging_type2 [data-type=next]")
-        if (nextPage.isNotEmpty()) {
-            return nextPage.attr("data-page")
+        return when(nextPage.isNotEmpty()) {
+            true -> nextPage.attr("data-page")
+            else -> null
         }
-        return null
     }
 
-    override fun moreParseEpisode(item: EpisodePage): String {
-        return item.getNextLink()
-    }
+    override fun moreParseEpisode(item: EpisodePage): String = item.getNextLink()
 
     override fun getFirstEpisode(item: Episode): Episode? {
-        val ret: Episode
-        try {
-            ret = Episode(item)
-            ret.episodeId = "1"
+        return try {
+            Episode(item).apply { episodeId = "1" }
         } catch (e: Exception) {
             e.printStackTrace()
             return null
         }
-
-        return ret
     }
 
     override fun init() {
@@ -112,7 +105,6 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         get() = String.format(HOST_URL, webToonId, pageNo)
 
     companion object {
-
         private val HOST_URL = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=%d"
     }
 }

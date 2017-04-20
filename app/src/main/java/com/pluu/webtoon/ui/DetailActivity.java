@@ -69,7 +69,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.pluu.webtoon.utils.MessageUtilsKt.getMessage;
+import static com.pluu.webtoon.item.ERROR_TYPEKt.getMessage;
 
 /**
  * 상세화면 Activity
