@@ -258,7 +258,7 @@ public class EpisodeFragment extends Fragment
         return (list, readList) -> {
             for (REpisode readItem : readList) {
                 for (Episode episode : list) {
-                    if (readItem.getEpisodeId().equals(episode.getEpisodeId())) {
+                    if (TextUtils.equals(readItem.getEpisodeId(), episode.getEpisodeId())) {
                         episode.setReadFlag();
                         break;
                     }
