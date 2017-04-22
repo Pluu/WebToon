@@ -31,7 +31,9 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
             JSONObject(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            return episodePage
+            return episodePage.apply {
+                episodes = emptyList()
+            }
         }
 
         val data = json.optJSONObject("data").optJSONArray("webtoonEpisodes")

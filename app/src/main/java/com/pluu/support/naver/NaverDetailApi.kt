@@ -88,6 +88,7 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
 
     private fun parseDetailCutToonType(doc: Document): List<DetailView> {
         return doc.select(".swiper-slide img.swiper-lazy")
+                .filter { it -> it.hasAttr("data-categoryid") }
                 .map { it -> it.attr("data-src") }
                 .map { url -> DetailView.createImage(url) }
                 .toList()
