@@ -91,7 +91,7 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
     override fun getDetailShare(episode: Episode, detail: Detail): ShareItem {
         val item = ShareItem()
         item.title = "${episode.title} / ${detail.title}"
-        item.url = String.format(SHARE_URL, detail.webtoonId, detail.episodeId)
+        item.url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
         return item
     }
 

@@ -102,7 +102,7 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         get() = NetworkSupportApi.GET
 
     override val url: String
-        get() = String.format(HOST_URL, webToonId, pageNo)
+        get() = HOST_URL.format(webToonId, pageNo)
 
     companion object {
         private val HOST_URL = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=%d"

@@ -6,7 +6,6 @@ import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NetworkSupportApi
 import com.pluu.webtoon.item.*
 import org.json.JSONObject
-import java.util.*
 
 /**
  * 다음 웹툰 상세 API
@@ -66,7 +65,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     private fun multiDetailParse(json: JSONObject): List<DetailView> {
-        val list = ArrayList<DetailView>()
+        val list = mutableListOf<DetailView>()
 
         json.optJSONArray("webtoonEpisodePages").iterator().forEach { it ->
             it.optJSONArray("webtoonEpisodePageMultimedias")?.iterator()?.forEach { multimedia ->
@@ -86,7 +85,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     private fun defaultDetailParse(json: JSONObject): List<DetailView> {
-        val list = ArrayList<DetailView>()
+        val list = mutableListOf<DetailView>()
         json.optJSONArray("webtoonImages")?.iterator()?.forEach { it ->
             list.add(DetailView.createImage(it.optString("url")))
         }
@@ -101,7 +100,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     private fun chattingDetailParse(json: JSONObject): List<DetailView> {
-        val list = ArrayList<DetailView>()
+        val list = mutableListOf<DetailView>()
         json.optJSONArray("webtoonEpisodeChattings")?.iterator()?.forEach { it ->
             when(it.optString("messageType")) {
                 "notice" -> {

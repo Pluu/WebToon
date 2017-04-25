@@ -24,16 +24,14 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
     override fun parseMain(position: Int): List<WebToonInfo> {
         currentPos = position
 
-        val list = mutableListOf<WebToonInfo>()
-
-        val response: String? = try {
-            requestApi()
+        val doc = try {
+            Jsoup.parse(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            return list
+            return emptyList()
         }
 
-        val doc = Jsoup.parse(response)
+        val list = mutableListOf<WebToonInfo>()
         val pattern = "(?<=titleId=)\\d+".toRegex()
         for (a in doc.select("#pageList a")) {
             pattern.find(a.attr("href"))?.apply {

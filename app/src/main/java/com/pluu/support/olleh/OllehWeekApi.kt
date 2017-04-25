@@ -11,7 +11,6 @@ import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.item.WebToonType
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
 
 /**
  * 올레 웹툰 Week API
@@ -40,7 +39,7 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
 
         totalSize = savedArray.length()
 
-        val list = ArrayList<WebToonInfo>()
+        val list = mutableListOf<WebToonInfo>()
 
         var temp: String?
         val optY = "Y"

@@ -6,7 +6,6 @@ import com.pluu.support.impl.NetworkSupportApi
 import com.pluu.webtoon.item.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import java.util.*
 
 /**
  * 네이버 웹툰 상세 API
@@ -31,15 +30,14 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
             episodeId = episode.episodeId
         }
 
-        val response: String? = try {
-            requestApi()
+        val doc = try {
+            Jsoup.parse(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = ArrayList<DetailView>()
+            ret.list = emptyList<DetailView>()
             return ret
         }
 
-        val doc = Jsoup.parse(response)
         ret.title = doc.select("div[class=chh] span, h1[class=tit]").first().text()
 
         if (doc.select("div[class=viewer cuttoon]")?.isNotEmpty() ?: false) {
@@ -94,30 +92,27 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
                 .toList()
     }
 
-    private fun parseDetailNormalType(doc: Document): List<DetailView> {
-        val list = mutableListOf<DetailView>()
-        var path: String
-
-        for (item in doc.select("#toonLayer li img")) {
-            path = item.attr("data-original")
-            if (path.isEmpty()) {
-                path = item.attr("src")
-            }
-            if (path.isNotEmpty() && !SKIP_DETAIL.contains(path)) {
-                list.add(DetailView.createImage(path))
-            }
-        }
-        return list
-    }
+    private fun parseDetailNormalType(doc: Document) =
+        doc.select("#toonLayer li img")
+                .map {
+                    var path = it.attr("data-original")
+                    if (path.isEmpty()) {
+                        path = it.attr("src")
+                    }
+                    path
+                }
+                .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it)}
+                .map { DetailView.createImage(it) }
+                .toList()
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem().apply {
         title = episode.title + " / " + detail.title
-        url = String.format(SHARE_URL, detail.webtoonId, detail.episodeId)
+        url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
     }
 
     override val method: String
         get() = NetworkSupportApi.GET
 
     override val url: String
-        get() = String.format(SHARE_URL, webToonId, episodeId)
+        get() = SHARE_URL.format(webToonId, episodeId)
 }
