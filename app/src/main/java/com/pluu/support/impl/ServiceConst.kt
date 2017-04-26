@@ -29,7 +29,7 @@ object ServiceConst {
             0, // OLLEH
             0, // Kakao Page
             0, // Nate
-            0)// T Store
+            0) // ONE Store
 
     @JvmStatic
     fun getApiType(bundle: Bundle?): NAV_ITEM = if (bundle != null)

@@ -98,13 +98,7 @@ public class WebtoonListFragment extends Fragment {
             .map(getFavoriteProcessFunc())
             .map(unsortedList -> {
                 // 정렬
-                // 1. 즐겨찾기 여부
-                // 2. 이름
-                Collections.sort(unsortedList, (t1, t2) -> (
-                    t1.isFavorite() == t2.isFavorite()
-                        ? t1.getTitle().compareTo(t2.getTitle())
-                        : (t1.isFavorite() ? -1 : 1))
-                );
+                Collections.sort(unsortedList);
                 return unsortedList;
             })
             .doOnSubscribe(disposable -> RxBusProvider.getInstance().send(new MainEpisodeStartEvent()))

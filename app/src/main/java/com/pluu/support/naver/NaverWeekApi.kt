@@ -39,10 +39,10 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
                     title = a.select(".toon_name").text()
                     image = a.select("img").first().attr("src")
 
-                    if (a.select(".aside_info .ico_up").isNotEmpty()) {
+                    if (a.select("em[class=badge badge_up]").isNotEmpty()) {
                         // 최근 업데이트
                         status = Status.UPDATE
-                    } else if (a.select(".aside_info .ico_break").isNotEmpty()) {
+                    } else if (a.select("em[class=badge badge_break]").isNotEmpty()) {
                         // 휴재
                         status = Status.BREAK
                     }
