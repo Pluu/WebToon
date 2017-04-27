@@ -183,7 +183,7 @@ class SlidingTabLayout @JvmOverloads constructor(context: Context, attrs: Attrib
             if (mTabViewLayoutId != 0) {
                 // If there is a custom tab view layout id set, try and inflate it
                 tabView = LayoutInflater.from(context).inflate(mTabViewLayoutId, mTabStrip, false)
-                tabTitleView = tabView!!.findViewById(mTabViewTextViewId) as TextView
+                tabTitleView = tabView?.findViewById(mTabViewTextViewId) as TextView
             }
 
             tabView = tabView ?: createDefaultTabView(context)

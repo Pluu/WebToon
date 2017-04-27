@@ -2,9 +2,10 @@ package com.pluu.webtoon.item;
 
 import android.text.TextUtils;
 
-import java.util.List;
-
 import com.pluu.support.impl.AbstractEpisodeApi;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Episode Page Info Class
@@ -20,7 +21,10 @@ public class EpisodePage {
 	}
 
 	public List<Episode> getEpisodes() {
-        return episodes;
+		if (episodes != null) {
+			return episodes;
+		}
+        return Collections.emptyList();
     }
 
 	public String getNextLink() {

@@ -37,7 +37,7 @@ class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TIT
                     title = it.select(".title").first().text()
                     image = it.select(".thumbnail img").last().attr("src")
 
-                    if (!it.select(".badgeImg").isEmpty()) {
+                    if (it.select(".badgeImg").isNotEmpty()) {
                         status = Status.UPDATE
                     }
                     writer = it.select(".info ").text().split("•".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()[1]
