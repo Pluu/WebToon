@@ -30,25 +30,22 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position
 
-        val list = mutableListOf<WebToonInfo>()
-
         val array: JSONArray? = try {
             JSONObject(requestApi())
                     .optJSONObject("data")
                     .optJSONArray("webtoons")
         } catch (e: Exception) {
-            return list
+            return emptyList()
         }
 
         if (!(array?.isNotEmpty() ?: false)) {
-            return list
+            return emptyList()
         }
 
+        val list = mutableListOf<WebToonInfo>()
         val today = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
 
-        array?.iterator()?.forEach {
-            obj ->
-
+        array?.iterator()?.forEach { obj ->
             val lastObj = obj.optJSONObject("latestWebtoonEpisode")
             val baseInfo = BaseToonInfo(obj.optString("nickname")).apply {
                 title = obj.optString("title")

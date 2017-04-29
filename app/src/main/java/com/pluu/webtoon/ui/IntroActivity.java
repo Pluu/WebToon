@@ -1,9 +1,7 @@
 package com.pluu.webtoon.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +10,7 @@ import android.widget.TextView;
 
 import com.pluu.webtoon.AppController;
 import com.pluu.webtoon.R;
-import com.pluu.webtoon.common.Const;
-import com.pluu.webtoon.common.PrefConfig;
 import com.pluu.webtoon.db.RealmHelper;
-import com.pluu.webtoon.db.SqliteToRealm;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +18,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -49,10 +44,11 @@ public class IntroActivity extends Activity {
 	}
 
 	private void initWork() {
-		Observable.concat(getSqlite2Realm(), getIntro())
-			.subscribeOn(Schedulers.newThread())
-			.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(o -> {
+		Single.fromCallable(() -> "")
+                .delay(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> {
                     Log.i(TAG, "Login Process Complete");
                     tvMsg.setText(R.string.msg_intro_complete);
                     progressBar.setVisibility(View.INVISIBLE);
@@ -60,29 +56,6 @@ public class IntroActivity extends Activity {
                     startActivity(new Intent(IntroActivity.this, MainActivity.class));
                     finish();
                 });
-	}
-
-//	@RxLogObservable
-	private Observable<Object> getIntro() {
-		return Observable.empty().delay(1, TimeUnit.SECONDS);
-	}
-
-//	@RxLogObservable
-	private Observable<Object> getSqlite2Realm() {
-		return Observable.fromCallable(() -> {
-            final String keyMigrate = "MIGRATE";
-
-            Context context = getBaseContext();
-            SharedPreferences pref = PrefConfig.getPreferences(context, Const.CONFIG_NAME);
-            if (!pref.getBoolean(keyMigrate, false)) {
-                SqliteToRealm migrate = new SqliteToRealm();
-                migrate.migrateToon(context, realmHelper);
-                migrate.migrateEpisode(context, realmHelper);
-                migrate.complete(context);
-                pref.edit().putBoolean(keyMigrate, true).apply();
-            }
-            return Observable.empty();
-        });
-	}
+    }
 
 }

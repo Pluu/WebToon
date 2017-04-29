@@ -58,7 +58,7 @@ class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
                     episodeTitle = it.select(".title").text()
                     updateDate = it.select(".date").text()
                 }
-            }.toList()
+            }
 
     override fun moreParseEpisode(item: EpisodePage): String = item.nextLink
 

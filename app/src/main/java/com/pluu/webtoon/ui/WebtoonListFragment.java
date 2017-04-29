@@ -33,7 +33,7 @@ import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.item.WebToonInfo;
-import com.pluu.webtoon.utils.GlideUtils;
+import com.pluu.webtoon.utils.GlideUtilsKt;
 
 import java.util.Collections;
 import java.util.List;
@@ -189,7 +189,7 @@ public class WebtoonListFragment extends Fragment {
     }
 
     private void loadPalette(ImageView view, final WebToonInfo item) {
-        Bitmap bitmap = GlideUtils.loadGlideBitmap(view);
+        Bitmap bitmap = GlideUtilsKt.glideBitmap(view);
         if (bitmap != null) {
             asyncPalette(item, bitmap);
         }
