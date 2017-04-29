@@ -49,7 +49,9 @@ class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
             val episodeId = EPISODE_ID.find(a.attr("href"))?.value ?: return@forEach
 
             Episode(info, episodeId).apply {
-                image = IMG_PATTERN.find(a.select("span[class=list-thumbnail-pic ebook-lazy]").attr("style"))?.value
+                image = a.select("span[class=list-thumbnail-pic ebook-lazy]")?.let {
+                    IMG_PATTERN.find(it.attr("style"))?.value
+                }
                 episodeTitle = a.select(".list-item-text-title")?.text()
                 updateDate = a.select(".list-item-text-date-ty1")?.text()
                 list.add(this)
@@ -58,11 +60,10 @@ class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         return list
     }
 
-    private fun getFirstItem(info: WebToonInfo, doc: Document): Episode? {
-        val href = doc.select(".layout-detail-header-btn a").attr("href")
-        val episodeId = EPISODE_ID.find(href)?.value ?: return null
-        return Episode(info, episodeId)
-    }
+    private fun getFirstItem(info: WebToonInfo, doc: Document) =
+            Episode(info, doc.select(".layout-detail-header-btn a")?.attr("href")?.let {
+                EPISODE_ID.find(it)?.value
+            })
 
     override fun moreParseEpisode(item: EpisodePage): String = item.nextLink
 

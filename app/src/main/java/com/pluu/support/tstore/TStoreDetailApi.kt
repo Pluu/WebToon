@@ -1,12 +1,16 @@
 package com.pluu.support.tstore
 
 import android.content.Context
+import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NetworkSupportApi
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
+import okhttp3.FormBody
+import okhttp3.Request
+import org.json.JSONObject
 import org.jsoup.Jsoup
 
 /**
@@ -18,7 +22,6 @@ class TStoreDetailApi(context: Context) : AbstractDetailApi(context) {
     private lateinit var id: String
 
     override fun parseDetail(episode: Episode): Detail {
-        // TODO : 디테일 정보 파싱 수정
         this.id = episode.episodeId
 
         val ret = Detail().apply {
@@ -34,38 +37,40 @@ class TStoreDetailApi(context: Context) : AbstractDetailApi(context) {
             return ret
         }
 
-        ret.title = doc.select(".episode-num").text()
+        ret.title = doc.select(".layout-detail-view-header .layout-detail-view-ti")?.text()
 
-        ret.prevLink = EPISODE_ID.find(doc.select("a[class=btn-episode-link btn-episode-prev]")?.
-                attr("href") ?: "")?.value
-        ret.nextLink = EPISODE_ID.find(doc.select("a[class=btn-episode-link btn-episode-next]")?.
-                attr("href") ?: "")?.value
-
-        val list = mutableListOf<DetailView>()
-        val urlPattern = "(?<=FILE_POS = \\\").+(?=\\\";)".toRegex()
-        val endPattern = "(?<=bookPages = Number\\(\\\")\\d+(?=\\\"\\))".toRegex()
-
-        doc.select("script[type=text/javascript]").forEach { script ->
-            with(script.html()) {
-                if (!contains("bookPages")) {
-                    return@forEach
-                }
-                with(this.replace("\r\n", "")) {
-                    val urlMatcher = urlPattern.find(this)
-                    val endMatcher = endPattern.find(this)
-                    if (urlMatcher == null || endMatcher == null) {
-                        return@forEach
-                    }
-                    val imgUrl = urlMatcher.value
-                    (1..endMatcher.value.toInt())
-                            .mapTo(list) {
-                                DetailView.createImage("$MAIN_HOST_URL$imgUrl/$it.jpg")
-                            }
-                }
+        ret.prevLink = doc.select("a[class=btn-episode-link btn-episode-prev]")?.attr("href")?.let {
+            EPISODE_ID.find(it)?.value
+        }
+        ret.nextLink = doc.select("a[class=btn-episode-link btn-episode-next]")?.attr("href")?.let {
+            EPISODE_ID.find(it)?.value
+        }
+        doc.select("#ifrmResizing")?.attr("src")?.let {
+            CURRENT_ID.find(it)?.value?.apply {
+                ret.list = getList(this)
             }
         }
-        ret.list = list
         return ret
+    }
+
+    private fun getList(id: String): List<DetailView> {
+        val request = Request.Builder().apply {
+            url("https://www.myktoon.com/api/work/getTimesDetailImageList.kt")
+            // POST
+            val requestBody = FormBody.Builder().apply {
+                add("timesseq", id)
+            }.build()
+            addHeader("Referer", "https://www.myktoon.com/web/open/build/work_view.kt")
+            post(requestBody)
+        }
+
+        val list = mutableListOf<DetailView>()
+        JSONObject(requestApi(request.build())).optJSONArray("imageList")?.iterator()?.forEach {
+            list.add(DetailView.createImage(it.optString("imagepath")).apply {
+                height = it.optInt("height").toFloat()
+            })
+        }
+        return list
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem().apply {
@@ -73,14 +78,14 @@ class TStoreDetailApi(context: Context) : AbstractDetailApi(context) {
         url = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=${detail.episodeId}&PrePageNm=/detail/webtoon/mw"
     }
 
+    override val url: String
+        get() = "http://m.onestore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=$id&PrePageNm="
+
     override val method: String
         get() = NetworkSupportApi.GET
 
-    override val url: String
-        get() = "https://www.myktoon.com/api/work/getTimesDetailImageList.kt"
-
     companion object {
-        private val MAIN_HOST_URL = "http://m.tstore.co.kr"
-        private val EPISODE_ID = "(?<=sub_product_id\':\').+(?=\'\\})".toRegex()
+        private val EPISODE_ID = "(?<=ajaxWebtoonDetail\\(\\\\')[A-Za-z0-9]+".toRegex()
+        private val CURRENT_ID = "(?<=timesseq=)\\d+".toRegex()
     }
 }

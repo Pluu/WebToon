@@ -37,10 +37,13 @@ class TStorerWeekApi(context: Context) : AbstractWeekApi(context, TStorerWeekApi
             ID_PATTERN.find(it.attr("href"))?.apply {
                 WebToonInfo(value).apply {
                     title = it.select(".list-item-text-title").text()
-                    image = IMG_PATTERN.find(it.select("span[class=list-thumbnail-pic ebook-lazy]").attr("style"))?.value
+                    image = it.select("span[class=list-thumbnail-pic ebook-lazy]")?.let {
+                        IMG_PATTERN.find(it.attr("style"))?.value
+                    }
                     writer = it.select(".list-item-text-like-info").last()?.children()?.last()?.text()
-                    updateDate = DATE_PATTERN.find(it.select("span[class=list-item-text-date list-item-text-point]").text())?.value
-
+                    updateDate = it.select("span[class=list-item-text-date list-item-text-point]")?.let {
+                        DATE_PATTERN.find(it.text())?.value
+                    }
                     if (it.select("i[class=icon-type-ktoon icon-badge-update]").isNotEmpty()) {
                         // 최근 업데이트
                         status = Status.UPDATE
