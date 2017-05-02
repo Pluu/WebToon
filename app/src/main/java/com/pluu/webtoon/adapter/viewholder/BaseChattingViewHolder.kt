@@ -27,5 +27,5 @@ abstract class BaseChattingViewHolder(v: View) : RecyclerView.ViewHolder(v) {
                 .into(view)
     }
 
-    abstract fun bind(context: Context, item: ChatView)
+    abstract fun bind(context: Context, item: ChatView?)
 }

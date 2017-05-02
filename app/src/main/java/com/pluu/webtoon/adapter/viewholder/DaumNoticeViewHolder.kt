@@ -14,7 +14,8 @@ import kotlinx.android.synthetic.main.view_chatting_notice_layout.view.*
  */
 class DaumNoticeViewHolder(v: View) : BaseChattingViewHolder(v) {
 
-    override fun bind(context: Context, item: ChatView) {
+    override fun bind(context: Context, item: ChatView?) {
+        if (item == null) return
         itemView.text1.text = item.text
     }
 

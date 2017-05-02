@@ -1,6 +1,7 @@
 package com.pluu.support.daum
 
 import android.content.Context
+import com.pluu.kotlin.isNotEmpty
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.NetworkSupportApi
@@ -37,7 +38,7 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
         val data = json.optJSONObject("data").optJSONArray("webtoonEpisodes")
-        if (data != null && data.length() > 0) {
+        if (data?.isNotEmpty() ?: false) {
             episodePage.episodes = parseList(info, data)
         } else {
             episodePage.episodes = mutableListOf<Episode>()
@@ -45,7 +46,7 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         val page = json.optJSONObject("page")
 
         val nick = info.toonId
-        if (episodePage.episodes != null && !episodePage.episodes.isEmpty()) {
+        if (episodePage.episodes?.isNotEmpty() ?: false) {
             episodePage.nextLink = parsePage(page, nick)
         }
 
@@ -93,9 +94,9 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
     }
 
-    override fun moreParseEpisode(item: EpisodePage): String = item.nextLink
+    override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 
-    override fun getFirstEpisode(item: Episode): Episode? = try {
+    override fun getFirstEpisode(item: Episode) = try {
         Episode(item).apply {
             episodeId = firstEpisodeId.toString()
         }

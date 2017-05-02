@@ -21,8 +21,9 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
     override fun parseDetail(episode: Episode): Detail {
         this.id = episode.episodeId
 
-        val ret = Detail()
-        ret.webtoonId = episode.toonId
+        val ret = Detail().apply {
+            webtoonId = episode.toonId
+        }
 
         val doc = try {
             Jsoup.parse(requestApi())
@@ -52,12 +53,10 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
         return ret
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail): ShareItem {
-        val item = ShareItem()
-        item.title = "${episode.title} / ${detail.title}"
-        item.url = DETAIL_URL.format(episode.episodeId)
-        return item
-    }
+    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+        title = "${episode.title} / ${detail.title}",
+        url = DETAIL_URL.format(episode.episodeId)
+    )
 
     override val method: String
         get() = NetworkSupportApi.GET

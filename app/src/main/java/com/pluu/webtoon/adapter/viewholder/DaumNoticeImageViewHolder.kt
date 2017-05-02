@@ -19,7 +19,9 @@ import kotlinx.android.synthetic.main.view_chatting_notice_image_layout.view.*
  */
 class DaumNoticeImageViewHolder(v: View) : BaseChattingViewHolder(v) {
 
-    override fun bind(context: Context, item: ChatView) {
+    override fun bind(context: Context, item: ChatView?) {
+        if (item == null) return
+
         if (item.hRatio != 0f) {
             itemView.noticeImageView.sethRatio(item.hRatio)
             Glide.with(context)

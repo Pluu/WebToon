@@ -73,10 +73,10 @@ class TStoreDetailApi(context: Context) : AbstractDetailApi(context) {
         return list
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem().apply {
-        title = "${episode.title} / ${detail.title}"
+    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+        title = "${episode.title} / ${detail.title}",
         url = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=${detail.episodeId}&PrePageNm=/detail/webtoon/mw"
-    }
+    )
 
     override val url: String
         get() = "http://m.onestore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=$id&PrePageNm="

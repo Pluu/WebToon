@@ -36,7 +36,7 @@ class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         firstEpisode = getFirstItem(info, doc)
         episodePage.episodes = parseList(info, doc)
 
-        if (episodePage.episodes.isNotEmpty()) {
+        if (episodePage.episodes?.isNotEmpty() ?: false) {
             episodePage.nextLink = info.toonId
         }
 
@@ -65,9 +65,9 @@ class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
                 EPISODE_ID.find(it)?.value
             })
 
-    override fun moreParseEpisode(item: EpisodePage): String = item.nextLink
+    override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 
-    override fun getFirstEpisode(item: Episode): Episode? = firstEpisode
+    override fun getFirstEpisode(item: Episode) = firstEpisode
 
     override val method: String
         get() = NetworkSupportApi.GET

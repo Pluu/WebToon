@@ -22,7 +22,7 @@ abstract class AbstractEpisodeApi(context: Context) : NetworkSupportApi(context)
 
     abstract fun parseEpisode(info: WebToonInfo): EpisodePage
 
-    abstract fun moreParseEpisode(item: EpisodePage): String
+    abstract fun moreParseEpisode(item: EpisodePage): String?
 
     abstract fun getFirstEpisode(item: Episode): Episode?
 

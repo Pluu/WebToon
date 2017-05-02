@@ -30,8 +30,9 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
         this.wettonId = episode.toonId
         this.timesseq = episode.episodeId
 
-        val ret = Detail()
-        ret.webtoonId = wettonId
+        val ret = Detail().apply {
+            webtoonId = episode.toonId
+        }
 
         val root = try {
             JSONObject(requestApi())
@@ -88,12 +89,10 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
         return list
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail): ShareItem {
-        val item = ShareItem()
-        item.title = "${episode.title} / ${detail.title}"
-        item.url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
-        return item
-    }
+    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+        title = "${episode.title} / ${detail.title}",
+        url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
+    )
 
     override val method: String
         get() = NetworkSupportApi.POST

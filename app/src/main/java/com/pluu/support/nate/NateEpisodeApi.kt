@@ -27,10 +27,10 @@ class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     override fun parseEpisode(info: WebToonInfo): EpisodePage {
         val isMorePage = pageNo > 0
 
-        if (isMorePage) {
-            this.url = "http://m.comics.nate.com/main2/webtoon/WebtoonInfoMore.php?btno=${info.toonId}&page=$pageNo"
+        this.url = if (isMorePage) {
+            "http://m.comics.nate.com/main2/webtoon/WebtoonInfoMore.php?btno=${info.toonId}&page=$pageNo"
         } else {
-            this.url = "http://m.comics.nate.com/main/info?btno=${info.toonId}&order=up"
+            "http://m.comics.nate.com/main/info?btno=${info.toonId}&order=up"
         }
 
         val episodePage = EpisodePage(this)
@@ -56,7 +56,7 @@ class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
             parseList(info, doc)
         }
 
-        if (episodePage.episodes.isNotEmpty()) {
+        if (episodePage.episodes?.isNotEmpty() ?: false) {
             episodePage.nextLink = info.toonId
         }
 
@@ -93,9 +93,9 @@ class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         return list
     }
 
-    override fun moreParseEpisode(item: EpisodePage): String = item.nextLink
+    override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 
-    override fun getFirstEpisode(item: Episode): Episode? = firstEpisode
+    override fun getFirstEpisode(item: Episode) = firstEpisode
 
     override fun init() {
         super.init()

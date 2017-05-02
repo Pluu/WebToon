@@ -244,7 +244,8 @@ public class DetailActivity extends AppCompatActivity
     private void loading(Episode item) {
         Log.i(TAG, "Load Detail: " + item.getToonId() + ", " + item.getEpisodeId());
         if (currentItem != null) {
-            currentItem.prevLink = currentItem.nextLink = null;
+            currentItem.setPrevLink(null);
+            currentItem.setNextLink(null);
         }
 
         getRequestApi(item)
@@ -265,13 +266,13 @@ public class DetailActivity extends AppCompatActivity
     private Consumer<Detail> getRequestSubscriber() {
         return item -> {
             if (item == null
-                || item.list == null || item.list.isEmpty()
-                || item.errorType != null) {
+                || item.getList() == null || item.getList().isEmpty()
+                || item.getErrorType() != null) {
 
                 ERROR_TYPE type;
 
-                if (item != null && item.errorType != null) {
-                    type = item.errorType;
+                if (item != null && item.getErrorType() != null) {
+                    type = item.getErrorType();
                 } else {
                     type = ERROR_TYPE.DEFAULT_ERROR;
                 }
@@ -288,12 +289,12 @@ public class DetailActivity extends AppCompatActivity
             readAsync(item);
 
             currentItem = item;
-            tvTitle.setText(item.title);
-            btnPrev.setEnabled(!TextUtils.isEmpty(item.prevLink));
-            btnNext.setEnabled(!TextUtils.isEmpty(item.nextLink));
+            tvTitle.setText(item.getTitle());
+            btnPrev.setEnabled(!TextUtils.isEmpty(item.getPrevLink()));
+            btnNext.setEnabled(!TextUtils.isEmpty(item.getNextLink()));
 
-            fragmentInit(item.type);
-            fragmentAttach(item.list);
+            fragmentInit(item.getType());
+            fragmentAttach(item.getList());
         };
     }
 
@@ -348,14 +349,12 @@ public class DetailActivity extends AppCompatActivity
                 // 공유하기
                 if (currentItem != null && serviceApi != null) {
                     ShareItem sender = serviceApi.getDetailShare(episode, currentItem);
-                    if (sender != null) {
-                        Log.i(TAG, "Share=" + sender);
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_SUBJECT, sender.title);
-                        intent.putExtra(Intent.EXTRA_TEXT, sender.url);
-                        startActivity(Intent.createChooser(intent, "Share"));
-                    }
+                    Log.i(TAG, "Share=" + sender);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, sender.getTitle());
+                    intent.putExtra(Intent.EXTRA_TEXT, sender.getUrl());
+                    startActivity(Intent.createChooser(intent, "Share"));
                 }
                 break;
         }
@@ -366,7 +365,7 @@ public class DetailActivity extends AppCompatActivity
     @OnClick({R.id.btnPrev, R.id.btnNext})
     public void onMovePage(View view) {
         String link;
-        link = view.getId() == R.id.btnPrev ? currentItem.prevLink : currentItem.nextLink;
+        link = view.getId() == R.id.btnPrev ? currentItem.getPrevLink() : currentItem.getNextLink();
         if (TextUtils.isEmpty(link)) {
             return;
         }
@@ -463,7 +462,7 @@ public class DetailActivity extends AppCompatActivity
 
     @Override
     public void firstBind() {
-        fragmentAttach(currentItem.list);
+        fragmentAttach(currentItem.getList());
     }
 
 }

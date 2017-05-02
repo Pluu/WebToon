@@ -82,16 +82,14 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
     }
 
-    override fun moreParseEpisode(item: EpisodePage): String = item.getNextLink()
+    override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 
-    override fun getFirstEpisode(item: Episode): Episode? {
-        return try {
+    override fun getFirstEpisode(item: Episode) =  try {
             Episode(item).apply { episodeId = "1" }
         } catch (e: Exception) {
             e.printStackTrace()
-            return null
+            null
         }
-    }
 
     override fun init() {
         super.init()

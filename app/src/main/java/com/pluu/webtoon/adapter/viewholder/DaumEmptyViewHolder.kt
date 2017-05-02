@@ -14,7 +14,7 @@ import com.pluu.webtoon.item.ChatView
  */
 class DaumEmptyViewHolder(v: View) : BaseChattingViewHolder(v) {
 
-    override fun bind(context: Context, item: ChatView) {}
+    override fun bind(context: Context, item: ChatView?) {}
 
     companion object {
         fun newInstance(parent: ViewGroup) = DaumEmptyViewHolder(

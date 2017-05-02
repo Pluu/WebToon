@@ -14,8 +14,11 @@ import kotlinx.android.synthetic.main.view_chatting_left_layout.view.*
  */
 class DaumLeftViewHolder(v: View) : BaseChattingViewHolder(v) {
 
-    override fun bind(context: Context, item: ChatView) {
-        loadProfileImage(context, itemView.leftProfileImageView, item.imgUrl)
+    override fun bind(context: Context, item: ChatView?) {
+        if (item == null) return
+        item.imgUrl?.let {
+            loadProfileImage(context, itemView.leftProfileImageView, it)
+        }
         itemView.leftNameTextView.text = item.name
         itemView.leftMessageTextView.text = item.text
     }

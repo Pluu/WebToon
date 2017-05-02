@@ -90,13 +90,9 @@ class OllehEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         return null
     }
 
-    override fun moreParseEpisode(item: EpisodePage): String {
-        return item.nextLink
-    }
+    override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 
-    override fun getFirstEpisode(item: Episode): Episode? {
-        return firstEpisode
-    }
+    override fun getFirstEpisode(item: Episode) = firstEpisode
 
     override fun init() {
         super.init()
