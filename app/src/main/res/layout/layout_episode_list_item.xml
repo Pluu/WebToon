@@ -14,7 +14,7 @@
         >
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/thumbnailView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toon_weekly_min_height"
             />
@@ -29,7 +29,7 @@
             />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView"

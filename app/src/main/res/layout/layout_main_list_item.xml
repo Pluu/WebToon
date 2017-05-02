@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    xmlns:tools="http://schemas.android.com/tools"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    app:cardUseCompatPadding="true"
-                                    app:contentPadding="2dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        >
+        android:minHeight="?android:attr/listPreferredItemHeight">
 
         <ImageView
-            android:id="@+id/imageview1"
+            android:id="@+id/thumbnailView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toon_weekly_min_height"
-            />
+            android:layout_height="@dimen/toon_weekly_min_height" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -26,11 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:minHeight="@dimen/toon_weekly_min_height"
-            />
+            android:minHeight="@dimen/toon_weekly_min_height" />
 
         <TextView
-            android:id="@android:id/text1"
+            android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/status"
@@ -41,8 +37,7 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Title"
-            />
+            tools:text="Title" />
 
         <LinearLayout
             android:id="@+id/status"
@@ -54,8 +49,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginStart="6dp"
             android:gravity="end"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvNovel"
@@ -64,8 +58,7 @@
                 android:background="@drawable/border_gray"
                 android:text="@string/label_novel"
                 android:textColor="@android:color/white"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvUp"
@@ -75,8 +68,7 @@
                 android:text="@string/label_up"
                 android:textColor="@android:color/white"
                 android:visibility="gone"
-                tools:visibility="visible"
-                />
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv19"
@@ -87,8 +79,7 @@
                 android:text="@string/label_19"
                 android:textColor="@android:color/white"
                 android:visibility="gone"
-                tools:visibility="visible"
-                />
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvRest"
@@ -99,8 +90,7 @@
                 android:text="@string/label_sleep"
                 android:textColor="@android:color/white"
                 android:visibility="gone"
-                tools:visibility="visible"
-                />
+                tools:visibility="visible" />
         </LinearLayout>
 
         <TextView
@@ -113,8 +103,7 @@
             android:layout_marginTop="8dip"
             android:background="@drawable/border_gray"
             android:textColor="@android:color/white"
-            tools:text="16.04.03"
-            />
+            tools:text="16.04.03" />
 
         <ImageView
             android:id="@+id/favorite"
@@ -123,8 +112,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            app:srcCompat="@drawable/ic_favorite_black_36dp"
-            />
+            app:srcCompat="@drawable/ic_favorite_black_36dp" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -1,6 +1,5 @@
 package com.pluu.webtoon.model;
 
-import com.pluu.webtoon.db.item.EpisodeItem;
 import io.realm.RealmObject;
 
 /**
@@ -13,12 +12,6 @@ public class REpisode extends RealmObject {
 	private String episodeId;
 
 	public REpisode() { }
-
-	public REpisode(EpisodeItem item) {
-		this.service = item.service;
-		this.toonId = item.webtoon;
-		this.episodeId = item.episode;
-	}
 
 	public void setService(String service) {
 		this.service = service;

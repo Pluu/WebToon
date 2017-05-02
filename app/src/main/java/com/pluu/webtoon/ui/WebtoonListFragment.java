@@ -33,7 +33,10 @@ import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.ui.listener.WebToonSelectListener;
 import com.pluu.webtoon.utils.GlideUtilsKt;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,13 +49,11 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-
 /**
  * Main EpisodePage List Fragment
  * Created by PLUUSYSTEM-NEW on 2015-10-27.
  */
-public class WebtoonListFragment extends Fragment {
-    private final String TAG = WebtoonListFragment.class.getSimpleName();
+public class WebtoonListFragment extends Fragment implements WebToonSelectListener {
 
     @Inject
     RealmHelper realmHelper;
@@ -118,14 +119,7 @@ public class WebtoonListFragment extends Fragment {
                 return;
             }
 
-            recyclerView.setAdapter(new MainListAdapter(activity, list) {
-                @Override
-                public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                    ViewHolder vh = super.onCreateViewHolder(viewGroup, i);
-                    setClickListener(vh);
-                    return vh;
-                }
-            });
+            recyclerView.setAdapter(new MainListAdapter(activity, list, this));
         };
     }
 
@@ -174,20 +168,6 @@ public class WebtoonListFragment extends Fragment {
         }
     }
 
-    private void setClickListener(final MainListAdapter.ViewHolder vh) {
-        View v = vh.itemView;
-        v.setOnClickListener(v1 -> {
-            final WebToonInfo item = (WebToonInfo) vh.titleView.getTag();
-            if (item.isLock()) {
-                Toast.makeText(getContext(),
-                    R.string.msg_not_support,
-                    Toast.LENGTH_SHORT).show();
-            } else {
-                loadPalette(vh.thumbnailView, item);
-            }
-        });
-    }
-
     private void loadPalette(ImageView view, final WebToonInfo item) {
         Bitmap bitmap = GlideUtilsKt.glideBitmap(view);
         if (bitmap != null) {
@@ -229,5 +209,15 @@ public class WebtoonListFragment extends Fragment {
             || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             updateSpanCount();
         }
+    }
+
+    @Override
+    public void selectLockItem() {
+        Toast.makeText(getContext(), R.string.msg_not_support, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void selectSuccess(@NotNull ImageView view, @NotNull WebToonInfo item) {
+        loadPalette(view, item);
     }
 }

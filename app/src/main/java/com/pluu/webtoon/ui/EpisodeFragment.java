@@ -32,7 +32,10 @@ import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.model.REpisode;
+import com.pluu.webtoon.ui.listener.EpisodeSelectListener;
 import com.pluu.webtoon.utils.MoreRefreshListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -55,7 +58,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by nohhs on 2015-04-06.
  */
 public class EpisodeFragment extends Fragment
-    implements SwipeRefreshLayout.OnRefreshListener {
+    implements SwipeRefreshLayout.OnRefreshListener, EpisodeSelectListener {
 
     private final String TAG = EpisodeFragment.class.getSimpleName();
     private final int REQUEST_DETAIL = 1000;
@@ -133,24 +136,7 @@ public class EpisodeFragment extends Fragment
         loadDlg.setCancelable(false);
         loadDlg.setMessage(getString(R.string.msg_loading));
 
-        adapter = new EpisodeAdapter(getContext()) {
-            @Override
-            public ViewHolder onCreateViewHolder(ViewGroup viewGroup,
-                                                 int position) {
-                final ViewHolder vh = super.onCreateViewHolder(viewGroup, position);
-                vh.thumbnailView.setOnClickListener(v -> {
-                    Episode item = adapter.getItem(vh.getAdapterPosition());
-                    if (item.isLock()) {
-                        Toast.makeText(getContext(),
-                            R.string.msg_not_support,
-                            Toast.LENGTH_SHORT).show();
-                    } else {
-                        moveDetailPage(item);
-                    }
-                });
-                return vh;
-            }
-        };
+        adapter = new EpisodeAdapter(getContext(), this);
 
         int columnCount = getResources().getInteger(R.integer.episode_column_count);
         manager = new GridLayoutManager(getContext(), columnCount);
@@ -350,4 +336,13 @@ public class EpisodeFragment extends Fragment
         startActivityForResult(intent, REQUEST_DETAIL);
     }
 
+    @Override
+    public void selectLockItem() {
+        Toast.makeText(getContext(), R.string.msg_not_support, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void selectSuccess(@NotNull Episode item) {
+        moveDetailPage(item);
+    }
 }
