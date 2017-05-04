@@ -70,7 +70,7 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
                     status = Status.BREAK
                 }
 
-                setIsAdult(obj.optInt("ageGrade") == 1)
+                isAdult = obj.optInt("ageGrade") == 1
                 list.add(this)
             }
         }

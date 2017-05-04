@@ -189,7 +189,7 @@ public class EpisodesActivity extends AppCompatActivity {
 	private void setFavorite(boolean isFavorite) {
 		isEdit = true;
 		this.isFavorite = isFavorite;
-		webToonInfo.setIsFavorite(isFavorite);
+		webToonInfo.setFavorite(isFavorite);
 
 		Toast.makeText(this,
 					   isFavorite ? R.string.favorite_add : R.string.favorite_delete,

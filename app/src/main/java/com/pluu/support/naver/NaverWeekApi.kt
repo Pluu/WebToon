@@ -46,7 +46,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
                         // 휴재
                         status = Status.BREAK
                     }
-                    setIsAdult(!a.select(".ico_adult2").isEmpty())
+                    isAdult = !a.select(".ico_adult2").isEmpty()
                     writer = a.select(".sub_info").text()
                     rate = Const.getRateNameByRate(a.select(".txt_score").text())
                     updateDate = a.select("span[class=if1]").text()

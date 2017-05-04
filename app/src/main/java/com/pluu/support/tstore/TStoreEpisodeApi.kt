@@ -61,9 +61,14 @@ class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     }
 
     private fun getFirstItem(info: WebToonInfo, doc: Document) =
-            Episode(info, doc.select(".layout-detail-header-btn a")?.attr("href")?.let {
-                EPISODE_ID.find(it)?.value
-            })
+            doc.select(".layout-detail-header-btn a")?.attr("href")?.let {
+                val result = EPISODE_ID.find(it)
+                if (result != null) {
+                    return@let Episode(info, result.value)
+                } else {
+                    return@let null
+                }
+            }
 
     override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 

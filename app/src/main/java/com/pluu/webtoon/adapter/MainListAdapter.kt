@@ -54,7 +54,7 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
         while (i < size) {
             val item = list[i]
             if (TextUtils.equals(info.toonId, item.toonId)) {
-                item.setIsFavorite(info.isFavorite)
+                item.isFavorite = info.isFavorite
                 return i
             }
             i++

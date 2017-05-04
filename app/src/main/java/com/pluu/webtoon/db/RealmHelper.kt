@@ -6,12 +6,12 @@ import com.pluu.webtoon.model.REpisode
 import com.pluu.webtoon.model.RToon
 import io.realm.Realm
 
+/**
+ * Realm Helper
+ * Created by pluu on 2017-04-30.
+ */
 class RealmHelper {
 
-    /**
-     * Realm Helper
-     * Created by PLUUSYSTEM-NEW on 2015-11-12.
-     */
     fun getFavoriteToon(item: NAV_ITEM, id: String) =
             Realm.getDefaultInstance().where(RToon::class.java)
                     .equalTo("service", item.name)

@@ -81,9 +81,7 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
                     }
                 }
 
-                if (adult == obj.optString("agefg")) {
-                    setIsAdult(true)
-                }
+                isAdult = adult == obj.optString("agefg")
 
                 if (novel == obj.optString("toonfg")) {
                     type = WebToonType.NOVEL

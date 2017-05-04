@@ -127,7 +127,7 @@ public class WebtoonListFragment extends Fragment implements WebToonSelectListen
     private Function<List<WebToonInfo>, List<WebToonInfo>> getFavoriteProcessFunc() {
         return list -> {
             for (WebToonInfo item : list) {
-                item.setIsFavorite(
+                item.setFavorite(
                     realmHelper.getFavoriteToon(serviceApi.getNaviItem(), item.getToonId())
                 );
             }
