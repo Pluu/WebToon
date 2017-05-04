@@ -53,8 +53,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    testCompile 'org.assertj:assertj-core:3.5.2'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.assertj:assertj-core:3.6.2'
+    testCompile 'org.mockito:mockito-core:2.7.22'
 
     compile "com.android.support:support-annotations:${supporyLibraryVersion}"
     compile "com.android.support:support-v4:${supporyLibraryVersion}"
