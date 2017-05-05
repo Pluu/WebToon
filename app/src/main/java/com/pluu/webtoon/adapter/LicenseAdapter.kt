@@ -25,17 +25,16 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.text1.text = list[i]
+        viewHolder.itemView.setOnClickListener {
+            RxBusProvider.getInstance().send(RecyclerViewEvent(viewHolder.adapterPosition))
+        }
     }
 
     override fun getItemCount(): Int {
         return list?.size ?: 0
     }
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val text1: TextView = v.findViewById(android.R.id.text1) as TextView
-
-        override fun onClick(v: View) {
-            RxBusProvider.getInstance().send(RecyclerViewEvent(adapterPosition))
-        }
     }
 }
