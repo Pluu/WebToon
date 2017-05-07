@@ -74,9 +74,8 @@ class MainActivity : BaseNavActivity(), MainFragment.BindServiceListener {
         navTitle.setBackgroundColor(event.darkColor)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (resultCode == Activity.RESULT_OK) {
             supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.
                     onActivityResult(requestCode, resultCode, data)

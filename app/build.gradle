@@ -45,7 +45,7 @@ android {
 
     dexOptions {
         preDexLibraries false
-        maxProcessCount Math.max(1, ((int) (Runtime.getRuntime().availableProcessors() / 2)))
+        maxProcessCount 2
         javaMaxHeapSize "4g"
     }
 }
