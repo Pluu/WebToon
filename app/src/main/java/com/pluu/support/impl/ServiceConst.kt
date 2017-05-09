@@ -12,7 +12,6 @@ import com.pluu.webtoon.common.Const
  */
 object ServiceConst {
     // titles for navdrawer items (indices must correspond to the above)
-    @JvmField
     val NAVDRAWER_TITLE_RES_ID = intArrayOf(
             R.string.title_naver,
             R.string.title_daum,
@@ -22,7 +21,6 @@ object ServiceConst {
             R.string.title_t_store)
 
     // icons for navdrawer items (indices must correspond to above array)
-    @JvmField
     val NAVDRAWER_ICON_RES_ID = intArrayOf(
             0, // NAVER
             0, // DAUM
@@ -31,7 +29,6 @@ object ServiceConst {
             0, // Nate
             0) // ONE Store
 
-    @JvmStatic
     fun getApiType(bundle: Bundle?): NAV_ITEM = if (bundle != null)
         bundle.getSerializable(Const.EXTRA_API) as NAV_ITEM
     else
@@ -49,7 +46,6 @@ enum class NAV_ITEM (val isSelect: Boolean = false, @param:ColorRes val color: I
     INVALID();
 
     companion object {
-        @JvmStatic
         fun getDefault() = NAVER
     }
 }

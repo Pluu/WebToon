@@ -9,7 +9,6 @@ class RxBusProvider private constructor() {
     companion object {
         private val _instance = RxBus()
 
-        @JvmStatic
         fun getInstance() = _instance
 
     }

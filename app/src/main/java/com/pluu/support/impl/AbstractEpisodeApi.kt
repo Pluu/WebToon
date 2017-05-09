@@ -28,7 +28,6 @@ abstract class AbstractEpisodeApi(context: Context) : NetworkSupportApi(context)
 
     companion object {
 
-        @JvmStatic
         fun getApi(context: Context, item: NAV_ITEM): AbstractEpisodeApi {
             when (item) {
                 NAV_ITEM.NAVER -> return NaverEpisodeApi(context)

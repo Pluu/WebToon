@@ -42,9 +42,7 @@ abstract class NetworkSupportApi(context: Context) : IRequest {
 
     companion object {
 
-        @JvmField
         val POST = "POST"
-        @JvmField
         val GET = "GET"
 
     }

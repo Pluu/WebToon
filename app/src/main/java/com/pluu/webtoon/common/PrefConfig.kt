@@ -20,7 +20,6 @@ object PrefConfig {
      * @param name Name
      * @return SharedPreferences
      */
-    @JvmStatic
     fun getPreferences(context: Context, name: String): SharedPreferences {
         return context.getSharedPreferences(name, Context.MODE_PRIVATE)
     }
@@ -34,7 +33,6 @@ object PrefConfig {
      * @param context Context
      * @return SharedPreferences
      */
-    @JvmStatic
     fun getPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
@@ -43,7 +41,6 @@ object PrefConfig {
         return getPreferences(context).edit()
     }
 
-    @JvmStatic
     fun getDefaultWebToon(context: Context): NAV_ITEM {
         val name = getPreferences(context).getString(KEY_DEFAULT_WEBTOON,
                 NAV_ITEM.getDefault().name)

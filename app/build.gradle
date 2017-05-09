@@ -22,8 +22,8 @@ android {
         applicationId "com.pluu.webtoon"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 19
-        versionName "1.2.2"
+        versionCode 20
+        versionName "1.2.3"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -74,9 +74,6 @@ dependencies {
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
     // Jsoup
     compile 'org.jsoup:jsoup:1.10.2'
-    // Butter Knife
-    compile 'com.jakewharton:butterknife:8.5.1'
-    kapt 'com.jakewharton:butterknife-compiler:8.5.1'
     // Glide (Image Loader)
     compile 'com.github.bumptech.glide:glide:3.7.0'
     // Rx
@@ -85,6 +82,7 @@ dependencies {
     // OkHttp
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
+    // kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 

@@ -19,10 +19,9 @@ import kotlinx.android.synthetic.main.layout_episode_list_item.view.*
  * 에피소드 화면 Adapter
  * Created by pluu on 2017-05-02.
  */
-open class EpisodeAdapter(mContext: Context, listener: EpisodeSelectListener) : RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
+open class EpisodeAdapter(mContext: Context, val listener: EpisodeSelectListener) : RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
     private val list = mutableListOf<Episode>()
-    private val listener = listener
 
     fun addItems(list: List<Episode>) {
         this.list.addAll(list)

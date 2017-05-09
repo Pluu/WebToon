@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-    <include layout="@layout/toolbar_actionbar" />
+    <include layout="@layout/toolbar_actionbar"/>
 
     <FrameLayout
         android:id="@+id/container"
@@ -69,6 +70,7 @@
             android:drawableLeft="@drawable/ic_looks_one_white_36dp"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_looks_one_white_36dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/label_first"

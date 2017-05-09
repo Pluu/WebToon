@@ -44,7 +44,6 @@ abstract class AbstractWeekApi
 
     companion object {
 
-        @JvmStatic
         fun getApi(context: Context, item: NAV_ITEM): AbstractWeekApi {
             when (item) {
                 NAV_ITEM.NAVER -> return NaverWeekApi(context)

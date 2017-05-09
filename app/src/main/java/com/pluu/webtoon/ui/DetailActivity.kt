@@ -19,7 +19,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.animation.DecelerateInterpolator
-import butterknife.OnClick
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.AppController
@@ -125,6 +124,20 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             duration = 1000L
             interpolator = DecelerateInterpolator()
             start()
+        }
+
+        arrayOf(btnPrev, btnNext).forEach {
+            it.setOnClickListener(View.OnClickListener { v ->
+                val link = if (v.id == R.id.btnPrev) currentItem?.prevLink else currentItem?.nextLink
+
+                if (TextUtils.isEmpty(link)) {
+                    return@OnClickListener
+                }
+
+                episode.episodeId = link!!
+                loadingFlag = false
+                loading(episode)
+            })
         }
     }
 
@@ -277,19 +290,6 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         return super.onOptionsItemSelected(item)
     }
 
-    @OnClick(R.id.btnPrev, R.id.btnNext)
-    fun onMovePage(view: View) {
-        val link = if (view.id == R.id.btnPrev) currentItem?.prevLink else currentItem?.nextLink
-
-        if (TextUtils.isEmpty(link)) {
-            return
-        }
-
-        episode.episodeId = link!!
-        loadingFlag = false
-        loading(episode)
-    }
-
     private val mToggleHandler = Handler {
         toggleHideBar()
         true
@@ -332,10 +332,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             if (e1.x - e2.x > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                onMovePage(btnNext)
+                btnNext.performClick()
                 return true
             } else if (e2.x - e1.x > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                onMovePage(btnPrev)
+                btnPrev.performClick()
                 return true
             }
 

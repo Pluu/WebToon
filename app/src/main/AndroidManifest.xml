@@ -45,10 +45,6 @@
             android:label="@string/label_license"
             android:screenOrientation="portrait"
             android:theme="@style/BaeMaterialAppThemeToolBar"/>
-        <activity
-            android:name=".ui.WebViewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaeMaterialAppThemeToolBar"/>
     </application>
 
 </manifest>
