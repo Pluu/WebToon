@@ -28,7 +28,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
         }
 
         if (json.optJSONObject("webtoonEpisode")?.optInt("price", 0) ?: 0 > 0) {
-            ret.errorType = ERROR_TYPE.COINT_NEED
+            ret.errorType = ERROR_TYPE.COIN_NEED
             return ret
         }
 

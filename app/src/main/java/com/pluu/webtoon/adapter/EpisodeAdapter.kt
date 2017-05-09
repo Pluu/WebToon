@@ -54,7 +54,7 @@ open class EpisodeAdapter(mContext: Context, listener: EpisodeSelectListener) : 
         return list.size
     }
 
-    fun updateRead(readList: List<String>) {
+    fun updateRead(readList: MutableList<String?>) {
         for (id in readList) {
             for (item in list) {
                 if (TextUtils.equals(id, item.episodeId)) {
@@ -68,6 +68,7 @@ open class EpisodeAdapter(mContext: Context, listener: EpisodeSelectListener) : 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         fun bind(item: Episode) {
             itemView.titleView.text = item.episodeTitle
+
             Glide.with(itemView.context)
                     .load(item.image)
                     .centerCrop()
@@ -89,6 +90,7 @@ open class EpisodeAdapter(mContext: Context, listener: EpisodeSelectListener) : 
                         }
                     })
                     .into(itemView.thumbnailView)
+
             itemView.readView.visibility = if (item.isReadFlag) View.VISIBLE else View.GONE
 
             if (item.isLock) {

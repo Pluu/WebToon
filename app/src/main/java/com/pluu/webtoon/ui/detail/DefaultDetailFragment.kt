@@ -97,6 +97,7 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
             //			Log.i(TAG, "Load=" + item);
             builder.append("<li>")
 
+            @Suppress("NON_EXHAUSTIVE_WHEN")
             when (item.type) {
                 VIEW_TYPE.IMAGE -> builder.append("<img src=\"").append(item.value).append("\" />")
                 VIEW_TYPE.TEXT -> builder.append(item.value!!.replace("\n".toRegex(), "<br></br>"))

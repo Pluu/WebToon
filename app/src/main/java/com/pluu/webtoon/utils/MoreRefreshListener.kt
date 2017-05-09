@@ -57,7 +57,6 @@ abstract class MoreRefreshListener : RecyclerView.OnScrollListener() {
         is LinearLayoutManager -> LAYOUT_MANAGER_TYPE.LINEAR
         is GridLayoutManager -> LAYOUT_MANAGER_TYPE.GRID
         is StaggeredGridLayoutManager -> LAYOUT_MANAGER_TYPE.STAGGERED_GRID
-        is StaggeredGridLayoutManager -> LAYOUT_MANAGER_TYPE.STAGGERED_GRID
         else -> throw RuntimeException("Unsupported LayoutManager used")
     }
 

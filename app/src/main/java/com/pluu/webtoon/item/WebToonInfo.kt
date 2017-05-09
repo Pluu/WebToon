@@ -42,27 +42,27 @@ class WebToonInfo : BaseToonInfo, Parcelable, Comparable<WebToonInfo> {
         this.isFavorite = source.readByte().toInt() != 0
     }
 
-    override fun compareTo(aThat: WebToonInfo): Int {
+    override fun compareTo(other: WebToonInfo): Int {
         val BEFORE = -1
         val EQUAL = 0
         val AFTER = 1
 
-        if (this === aThat) return EQUAL
+        if (this === other) return EQUAL
 
         // 즐겨찾기
-        if (isFavorite && !aThat.isFavorite) return BEFORE
-        if (!isFavorite && aThat.isFavorite) return AFTER
+        if (isFavorite && !other.isFavorite) return BEFORE
+        if (!isFavorite && other.isFavorite) return AFTER
 
         // 업데이트 여부 (업데이트)
-        if (status === Status.UPDATE && aThat.status !== Status.UPDATE) return BEFORE
-        if (status !== Status.UPDATE && aThat.status === Status.UPDATE) return AFTER
+        if (status === Status.UPDATE && other.status !== Status.UPDATE) return BEFORE
+        if (status !== Status.UPDATE && other.status === Status.UPDATE) return AFTER
 
         // 업데이트 여부 (기본)
-        if (status === Status.NONE && aThat.status !== Status.NONE) return BEFORE
-        if (status !== Status.NONE && aThat.status === Status.NONE) return AFTER
+        if (status === Status.NONE && other.status !== Status.NONE) return BEFORE
+        if (status !== Status.NONE && other.status === Status.NONE) return AFTER
 
         // 이름
-        return title!!.compareTo(aThat.title!!)
+        return title!!.compareTo(other.title!!)
     }
 
     companion object {

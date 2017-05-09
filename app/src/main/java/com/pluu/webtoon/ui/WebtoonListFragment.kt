@@ -46,13 +46,14 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     @Inject
     lateinit var realmHelper: RealmHelper
 
-    private lateinit var manager: GridLayoutManager
-    private var position: Int = 0
+    private lateinit var serviceApi: AbstractWeekApi
 
+    private var position: Int = 0
     private val REQUEST_DETAIL = 1000
 
-    private lateinit var serviceApi: AbstractWeekApi
-    private var columnCount: Int = 0
+    private val manager: GridLayoutManager by lazy {
+        GridLayoutManager(activity, resources.getInteger(R.integer.webtoon_column_count))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
         serviceApi = AbstractWeekApi.getApi(context, ServiceConst.getApiType(arguments))
         position = arguments.getInt(Const.EXTRA_POS)
-        columnCount = resources.getInteger(R.integer.webtoon_column_count)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -71,7 +71,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.apply {
-            manager = GridLayoutManager(activity, columnCount)
             layoutManager = manager
         }
     }
