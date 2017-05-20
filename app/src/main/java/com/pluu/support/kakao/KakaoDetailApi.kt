@@ -45,8 +45,12 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
             }
 
             val list = mutableListOf<DetailView>()
-            doc.select(".targetImg").mapTo(list) { DetailView.createImage(it.attr("data-original")) }
-            doc.select(".viewWrp li input").mapTo(list) { DetailView.createImage(it.attr("value")) }
+            mapOf(".targetImg" to "data-original",
+                    ".viewWrp li input" to "value",
+                    ".clickViewerWrp li input[class=originSrc]" to "value")
+                    .forEach { target, attrs ->
+                        doc.select(target).mapTo(list) { DetailView.createImage(it.attr(attrs)) }
+                    }
 
             this.list = list
         }
@@ -54,8 +58,8 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = DETAIL_URL.format(episode.episodeId)
+            title = "${episode.title} / ${detail.title}",
+            url = DETAIL_URL.format(episode.episodeId)
     )
 
     override val method: String
