@@ -48,7 +48,7 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
             mapOf(".targetImg" to "data-original",
                     ".viewWrp li input" to "value",
                     ".clickViewerWrp li input[class=originSrc]" to "value")
-                    .forEach { target, attrs ->
+                    .forEach { (target, attrs) ->
                         doc.select(target).mapTo(list) { DetailView.createImage(it.attr(attrs)) }
                     }
 

@@ -40,7 +40,7 @@ public class EpisodeFragmentTest {
     public void getReadAction() throws Exception {
 
         List<REpisode> value = getEpisodes();
-        when(mockRealm.getEpisode(any(), anyString())).thenReturn(value);
+        when(mockRealm.getEpisode(any(NAV_ITEM.class), anyString())).thenReturn(value);
 
         final boolean[] dispose = {false};
         final boolean[] unsubscribe = {false};
