@@ -53,7 +53,7 @@ class EpisodesActivity : AppCompatActivity() {
         setSupportActionBar(toolbar_actionbar)
 
         webToonInfo = intent.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE).apply {
-            isFavorite = isFavorite
+            this@EpisodesActivity.isFavorite = isFavorite
         }
 
         initSupportActionBar()

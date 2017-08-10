@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.fernandocejas.frodo'
 apply plugin: 'realm-android'
 
@@ -22,8 +21,8 @@ android {
         applicationId "com.pluu.webtoon"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 23
-        versionName "1.2.5"
+        versionCode 24
+        versionName "1.2.6"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -96,10 +95,6 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     // kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-}
-
-retrolambda {
-    javaVersion JavaVersion.VERSION_1_7
 }
 
 kapt {
