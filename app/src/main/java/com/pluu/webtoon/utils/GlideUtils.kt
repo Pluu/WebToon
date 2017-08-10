@@ -1,10 +1,10 @@
 package com.pluu.webtoon.utils
 
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.widget.ImageView
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable
-import com.bumptech.glide.request.target.SquaringDrawable
+import com.bumptech.glide.load.resource.gif.GifDrawable
 
 /**
  * Glide Image Utils
@@ -18,9 +18,9 @@ import com.bumptech.glide.request.target.SquaringDrawable
 fun glideBitmap(imgView: ImageView): Bitmap? {
     val lblDrawable = imgView.drawable
     return when (lblDrawable) {
-        is GlideBitmapDrawable -> lblDrawable.bitmap
+        is BitmapDrawable -> lblDrawable.bitmap
         is TransitionDrawable -> convertTransitionDrawable(lblDrawable)
-        is SquaringDrawable -> (lblDrawable.current as GlideBitmapDrawable).bitmap
+        is GifDrawable -> lblDrawable.firstFrame
         else -> null
     }
 }
@@ -29,10 +29,8 @@ private fun convertTransitionDrawable(drawables: TransitionDrawable): Bitmap? {
     (0 until drawables.numberOfLayers - 1)
             .map { drawables.getDrawable(it) }
             .forEach {
-                if (it is GlideBitmapDrawable) {
+                if (it is BitmapDrawable) {
                     return it.bitmap
-                } else if (it is SquaringDrawable && it.getCurrent() is GlideBitmapDrawable) {
-                    return (it.getCurrent() as GlideBitmapDrawable).bitmap
                 }
             }
     return null

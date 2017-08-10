@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.ChatView
 import kotlinx.android.synthetic.main.view_chatting_notice_image_layout.view.*
@@ -22,22 +23,27 @@ class DaumNoticeImageViewHolder(v: View) : BaseChattingViewHolder(v) {
     override fun bind(context: Context, item: ChatView?) {
         if (item == null) return
 
+        val option = RequestOptions().apply {
+            diskCacheStrategy(DiskCacheStrategy.NONE)
+        }
+
         if (item.hRatio != 0f) {
             itemView.noticeImageView.sethRatio(item.hRatio)
             Glide.with(context)
                     .load(item.imgUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .apply(option)
                     .into(itemView.noticeImageView)
         } else {
             Glide.with(context)
-                    .load(item.imgUrl)
                     .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .load(item.imgUrl)
+                    .apply(option)
                     .into(object : SimpleTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                            val hRatio = resource.height.toFloat() / resource.width
-                            item.hRatio = hRatio
-                            itemView.noticeImageView.sethRatio(hRatio)
+                        override fun onResourceReady(resource: Bitmap?, transition: Transition<in Bitmap>?) {
+                            resource ?: return
+
+                            item.hRatio = resource.height.toFloat() / resource.width
+                            itemView.noticeImageView.sethRatio(item.hRatio)
                             itemView.noticeImageView.setImageBitmap(resource)
                         }
                     })

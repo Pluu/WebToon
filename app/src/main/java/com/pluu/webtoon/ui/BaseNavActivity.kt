@@ -25,15 +25,15 @@ import java.util.*
 abstract class BaseNavActivity : AppCompatActivity() {
 
     // Primary toolbar and drawer toggle
-    private val mActionBarToolbar: Toolbar? by lazy {
-        val toolbar = findViewById(R.id.toolbar_actionbar) as Toolbar
+    private val mActionBarToolbar by lazy {
+        val toolbar: Toolbar = findViewById(R.id.toolbar_actionbar)
         setSupportActionBar(toolbar)
         toolbar
     }
 
     // Navigation drawer:
-    private val mDrawerLayout: DrawerLayout? by lazy {
-        findViewById(R.id.drawer_layout) as DrawerLayout
+    private val mDrawerLayout by lazy<DrawerLayout> {
+        findViewById(R.id.drawer_layout)
     }
 
     private lateinit var mHandler: Handler
@@ -46,9 +46,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         mHandler = Handler()
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -65,22 +63,20 @@ abstract class BaseNavActivity : AppCompatActivity() {
     protected var selfNavDrawerItem = NAV_ITEM.INVALID
 
     private fun setupNavDrawer() {
-        mDrawerLayout?.setStatusBarBackgroundColor(
+        mDrawerLayout.setStatusBarBackgroundColor(
                 ContextCompat.getColor(this, R.color.theme_primary_dark))
 
-        mActionBarToolbar?.let {
-            val mDrawerToggle = ActionBarDrawerToggle(
-                    this, /* host Activity */
-                    mDrawerLayout, /* DrawerLayout object */
-                    mActionBarToolbar, /* nav drawer image to replace 'Up' caret */
-                    R.string.app_name, /* "open drawer" description for accessibility */
-                    R.string.app_name /* "close drawer" description for accessibility */
-            )
-            mDrawerToggle.isDrawerIndicatorEnabled = true
-            mDrawerLayout?.addDrawerListener(mDrawerToggle)
-            mDrawerToggle.syncState()
+        ActionBarDrawerToggle(
+                this, /* host Activity */
+                mDrawerLayout, /* DrawerLayout object */
+                mActionBarToolbar, /* nav drawer image to replace 'Up' caret */
+                R.string.app_name, /* "open drawer" description for accessibility */
+                R.string.app_name /* "close drawer" description for accessibility */
+        ).apply {
+            isDrawerIndicatorEnabled = true
+            mDrawerLayout.addDrawerListener(this)
+            syncState()
         }
-
         populateNavDrawer()
     }
 
@@ -91,7 +87,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
     }
 
     private fun createNavDrawerItems() {
-        val mDrawerItemsListContainer: ViewGroup? = findViewById(R.id.navdrawer_items_list) as ViewGroup
+        val mDrawerItemsListContainer: ViewGroup? = findViewById(R.id.navdrawer_items_list)
         mDrawerItemsListContainer?.let {
             mNavDrawerItemViews = mutableListOf<View>().apply {
                 mDrawerItemsListContainer.removeAllViews()
@@ -118,8 +114,8 @@ abstract class BaseNavActivity : AppCompatActivity() {
             return view
         }
 
-        val iconView = view.findViewById(R.id.icon) as ImageView
-        val titleView = view.findViewById(R.id.title) as TextView
+        val iconView: ImageView = view.findViewById(R.id.icon)
+        val titleView: TextView = view.findViewById(R.id.title)
         val idx = item.ordinal
         val iconId = ServiceConst.NAVDRAWER_ICON_RES_ID[idx]
         val titleId = ServiceConst.NAVDRAWER_TITLE_RES_ID[idx]
@@ -144,8 +140,8 @@ abstract class BaseNavActivity : AppCompatActivity() {
             return
         }
 
-        val iconView = view.findViewById(R.id.icon) as ImageView
-        val titleView = view.findViewById(R.id.title) as TextView
+        val iconView: ImageView = view.findViewById(R.id.icon)
+        val titleView: TextView = view.findViewById(R.id.title)
 
         if (selected) {
             view.setBackgroundResource(R.drawable.selected_navdrawer_item_background)
@@ -165,13 +161,13 @@ abstract class BaseNavActivity : AppCompatActivity() {
     }
 
     protected val isNavDrawerOpen: Boolean
-        get() = mDrawerLayout?.isDrawerOpen(GravityCompat.START) ?: false
+        get() = mDrawerLayout.isDrawerOpen(GravityCompat.START)
 
-    protected fun closeNavDrawer() = mDrawerLayout?.closeDrawer(GravityCompat.START)
+    protected fun closeNavDrawer() = mDrawerLayout.closeDrawer(GravityCompat.START)
 
     private fun onNavDrawerItemClicked(item: NAV_ITEM) {
         if (item === selfNavDrawerItem) {
-            mDrawerLayout?.closeDrawer(GravityCompat.START)
+            mDrawerLayout.closeDrawer(GravityCompat.START)
             return
         }
 
@@ -181,7 +177,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
         // change the active item on the list so the user can see the item changed
         setSelectedNavDrawerItem(item)
 
-        mDrawerLayout?.closeDrawer(GravityCompat.START)
+        mDrawerLayout.closeDrawer(GravityCompat.START)
     }
 
     private fun goToNavDrawerItem(item: NAV_ITEM?) {
@@ -220,7 +216,6 @@ abstract class BaseNavActivity : AppCompatActivity() {
     }
 
     companion object {
-
         // delay to launch nav drawer item, to allow close animation to play
         private val NAVDRAWER_LAUNCH_DELAY = 250
     }

@@ -35,6 +35,6 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val text1: TextView = v.findViewById(android.R.id.text1) as TextView
+        val text1: TextView = v.findViewById(android.R.id.text1)
     }
 }

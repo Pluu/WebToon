@@ -9,8 +9,9 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.VIEW_TYPE
@@ -46,6 +47,9 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         fun bind(item: DetailView) = with(itemView) {
+            val options = RequestOptions().apply {
+                diskCacheStrategy(DiskCacheStrategy.NONE)
+            }
             when (item.type) {
                 VIEW_TYPE.MULTI_IMAGE -> {
                     itemView.emptyView.visibility = View.GONE
@@ -53,19 +57,20 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
                         itemView.imageView.sethRatio(item.height)
                         Glide.with(context)
                                 .load(item.value)
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .apply(options)
                                 .into(itemView.imageView)
                     } else {
                         Glide.with(context)
-                                .load(item.value)
                                 .asBitmap()
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .load(item.value)
+                                .apply(options)
                                 .into(object : SimpleTarget<Bitmap>() {
-                                    override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                                        val hRatio = resource.height.toFloat() / resource.width
-                                        item.height = hRatio
-                                        itemView.imageView.sethRatio(hRatio)
-                                        itemView.imageView.setImageBitmap(resource)
+                                    override fun onResourceReady(resource: Bitmap?, transition: Transition<in Bitmap>?) {
+                                        resource?.let {
+                                            item.height = resource.height.toFloat() / resource.width
+                                            itemView.imageView.sethRatio(item.height)
+                                            itemView.imageView.setImageBitmap(resource)
+                                        }
                                     }
                                 })
                     }
@@ -76,19 +81,20 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
                         itemView.imageView.sethRatio(item.height)
                         Glide.with(context)
                                 .load(item.value)
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .apply(options)
                                 .into(itemView.imageView)
                     } else {
                         Glide.with(context)
-                                .load(item.value)
                                 .asGif()
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .load(item.value)
+                                .apply(options)
                                 .into(object : SimpleTarget<GifDrawable>() {
-                                    override fun onResourceReady(resource: GifDrawable, glideAnimation: GlideAnimation<in GifDrawable>) {
-                                        val hRatio = resource.intrinsicHeight.toFloat() / resource.intrinsicWidth
-                                        item.height = hRatio
-                                        itemView.imageView.sethRatio(hRatio)
-                                        itemView.imageView.setImageDrawable(resource)
+                                    override fun onResourceReady(resource: GifDrawable?, transition: Transition<in GifDrawable>?) {
+                                        resource?.let {
+                                            item.height = resource.intrinsicHeight.toFloat() / resource.intrinsicWidth
+                                            itemView.imageView.sethRatio(item.height)
+                                            itemView.imageView.setImageDrawable(resource)
+                                        }
                                     }
                                 })
                     }

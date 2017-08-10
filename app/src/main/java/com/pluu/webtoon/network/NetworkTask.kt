@@ -21,7 +21,7 @@ class NetworkTask(private val client: OkHttpClient) {
                 addHeader(key, value)
             }
 
-            when(request.method) {
+            when (request.method) {
                 NetworkSupportApi.POST -> {
                     val requestBody = FormBody.Builder().apply {
                         for ((key, value) in request.params) {
@@ -45,8 +45,7 @@ class NetworkTask(private val client: OkHttpClient) {
     }
 
     @Throws(Exception::class)
-    fun requestApi(request: Request): String {
-        return client.newCall(request).execute().body().string()
-    }
+    fun requestApi(request: Request): String =
+            client.newCall(request).execute().body()?.string() ?: ""
 
 }
