@@ -95,7 +95,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
                 })
     }
 
-    //	@RxLogSubscriber
     private val requestSubscriber = Consumer<List<WebToonInfo>> { list ->
         val activity = activity
         if (activity == null || activity.isFinishing) {
@@ -111,7 +110,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         list
     }
 
-    //	@RxLogObservable
     private val apiRequest: Single<List<WebToonInfo>>
         get() = Single.fromCallable { serviceApi.parseMain(position) }
 

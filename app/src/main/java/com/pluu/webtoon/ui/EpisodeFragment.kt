@@ -174,7 +174,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
                 .subscribe(requestSubscriber)
     }
 
-    //	@RxLogObservable
     private val requestApi: Single<List<Episode>>
         get() = Single.defer {
             Log.i(TAG, "Load Episode=" + info.toonId)

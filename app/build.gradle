@@ -1,26 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.fernandocejas.frodo'
 apply plugin: 'realm-android'
 
-ext {
-    supporyLibraryVersion = '26.0.1'
-    leakCanaryVersion = '1.5.1'
-}
-
-frodo {
-    enabled = false
-}
-
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
         applicationId "com.pluu.webtoon"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion versions.targetSdk
         versionCode 25
         versionName "1.2.6"
         vectorDrawables.useSupportLibrary = true
@@ -62,39 +52,39 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.assertj:assertj-core:3.8.0'
-    testCompile 'org.mockito:mockito-core:2.8.9'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.8.0'
+    testImplementation 'org.mockito:mockito-core:2.8.9'
 
-    compile "com.android.support:support-annotations:${supporyLibraryVersion}"
-    compile "com.android.support:support-v4:${supporyLibraryVersion}"
-    compile "com.android.support:appcompat-v7:${supporyLibraryVersion}"
-    compile "com.android.support:recyclerview-v7:${supporyLibraryVersion}"
-    compile "com.android.support:palette-v7:${supporyLibraryVersion}"
-    compile "com.android.support:cardview-v7:${supporyLibraryVersion}"
-    compile "com.android.support:preference-v7:${supporyLibraryVersion}"
-    compile "com.android.support:customtabs:${supporyLibraryVersion}"
+    implementation "com.android.support:support-annotations:${versions.supportLibrary}"
+    implementation "com.android.support:support-v4:${versions.supportLibrary}"
+    implementation "com.android.support:appcompat-v7:${versions.supportLibrary}"
+    implementation "com.android.support:recyclerview-v7:${versions.supportLibrary}"
+    implementation "com.android.support:palette-v7:${versions.supportLibrary}"
+    implementation "com.android.support:cardview-v7:${versions.supportLibrary}"
+    implementation "com.android.support:preference-v7:${versions.supportLibrary}"
+    implementation "com.android.support:customtabs:${versions.supportLibrary}"
     // DI
-    compile 'com.google.dagger:dagger:2.9'
-    kapt "com.google.dagger:dagger-compiler:2.9"
+    implementation "com.google.dagger:dagger:${versions.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     provided 'javax.annotation:jsr250-api:1.0'
     // LeakCheck
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${versions.leakCanary}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakCanary}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakCanary}"
     // Jsoup
-    compile 'org.jsoup:jsoup:1.10.3'
+    implementation 'org.jsoup:jsoup:1.10.3'
     // Glide (Image Loader)
-    compile 'com.github.bumptech.glide:glide:4.0.0'
+    implementation "com.github.bumptech.glide:glide:${versions.glide}"
     // Rx
-    compile 'io.reactivex.rxjava2:rxjava:2.1.2'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
     // OkHttp
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation "com.squareup.okhttp3:okhttp:${versions.okhttp}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
     // kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin_version}"
 }
 
 kapt {

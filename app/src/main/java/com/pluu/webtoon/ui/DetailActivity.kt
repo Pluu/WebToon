@@ -205,12 +205,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
                 .subscribe(requestSubscriber)
     }
 
-    //	@RxLogObservable
     private fun getRequestApi(item: Episode): Single<Detail> {
         return Single.defer { Single.just(serviceApi.parseDetail(item)) }
     }
 
-    //	@RxLogSubscriber
     private val requestSubscriber = Consumer<Detail> { item ->
         if (item?.list?.isNotEmpty() ?: false) {
             readAsync(item)
