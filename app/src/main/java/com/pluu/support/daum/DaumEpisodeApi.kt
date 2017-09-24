@@ -38,15 +38,15 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
         val data = json.optJSONObject("data").optJSONArray("webtoonEpisodes")
-        if (data?.isNotEmpty() ?: false) {
+        if (data?.isNotEmpty() == true) {
             episodePage.episodes = parseList(info, data)
         } else {
-            episodePage.episodes = mutableListOf<Episode>()
+            episodePage.episodes = mutableListOf()
         }
         val page = json.optJSONObject("page")
 
         val nick = info.toonId
-        if (episodePage.episodes?.isNotEmpty() ?: false) {
+        if (episodePage.episodes?.isNotEmpty() == true) {
             episodePage.nextLink = parsePage(page, nick)
         }
 
@@ -84,13 +84,13 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     private fun parsePage(obj: JSONObject, nickName: String): String? {
         val total = obj.optInt("size", 1)
         val current = obj.optInt("no", 1)
-        if (total >= current + 1) {
+        return if (total >= current + 1) {
             // 다음 페이지 존재
             pageNo = current + 1
-            return nickName
+            nickName
         } else {
             // 끝
-            return null
+            null
         }
     }
 

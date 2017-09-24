@@ -34,18 +34,18 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
             Jsoup.parse(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = emptyList<DetailView>()
+            ret.list = emptyList()
             return ret
         }
 
         ret.title = doc.select("div[class=chh] span, h1[class=tit]").first().text()
 
-        if (doc.select("div[class=viewer cuttoon]")?.isNotEmpty() ?: false) {
+        if (doc.select("div[class=viewer cuttoon]")?.isNotEmpty() == true) {
             // 컷툰
             parseCutToon(ret, doc)
             return ret
         }
-        if (doc.select(".oz-loader")?.isNotEmpty() ?: false) {
+        if (doc.select(".oz-loader")?.isNotEmpty() == true) {
             // osLoader
             ret.errorType = ERROR_TYPE.NOT_SUPPORT
             return ret

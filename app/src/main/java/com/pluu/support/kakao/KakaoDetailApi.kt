@@ -29,7 +29,7 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
             Jsoup.parse(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = emptyList<DetailView>()
+            ret.list = emptyList()
             return ret
         }
 

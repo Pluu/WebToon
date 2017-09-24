@@ -33,7 +33,7 @@ class NateDetailApi(context: Context) : AbstractDetailApi(context) {
             Jsoup.parse(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = ArrayList<DetailView>()
+            ret.list = ArrayList()
             return ret
         }
         ret.apply {

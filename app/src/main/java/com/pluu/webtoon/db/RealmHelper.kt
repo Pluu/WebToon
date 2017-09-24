@@ -42,7 +42,7 @@ class RealmHelper {
                         .equalTo("service", item.name)
                         .equalTo("toonId", id)
                         .findFirst()
-                        .run { deleteFromRealm() }
+                        ?.run { deleteFromRealm() }
                 commitTransaction()
             }
 

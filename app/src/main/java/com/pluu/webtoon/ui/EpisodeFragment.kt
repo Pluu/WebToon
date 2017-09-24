@@ -91,7 +91,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         arguments.apply {
             service = getSerializable(Const.EXTRA_API) as NAV_ITEM
             serviceApi = AbstractEpisodeApi.getApi(context, service)
-            info = getParcelable<WebToonInfo>(Const.EXTRA_EPISODE)
+            info = getParcelable(Const.EXTRA_EPISODE)
             color = getIntArray(Const.EXTRA_MAIN_COLOR)
         }
 

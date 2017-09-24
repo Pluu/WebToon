@@ -12,6 +12,7 @@ class WebToonInfo : BaseToonInfo, Parcelable, Comparable<WebToonInfo> {
     var type: WebToonType? = WebToonType.TOON
     var writer: String? = null
     var isFavorite = false
+    var link: String? = null
 
     constructor(id: String) : super(id)
 
@@ -24,6 +25,7 @@ class WebToonInfo : BaseToonInfo, Parcelable, Comparable<WebToonInfo> {
         type = item.type
         writer = item.writer
         isFavorite = item.isFavorite
+        link = item.link
     }
 
     override fun describeContents() = 0
@@ -33,6 +35,7 @@ class WebToonInfo : BaseToonInfo, Parcelable, Comparable<WebToonInfo> {
         dest.writeInt(type?.ordinal ?: -1)
         dest.writeString(this.writer)
         dest.writeByte(if (isFavorite) 1.toByte() else 0.toByte())
+        dest.writeString(this.link)
     }
 
     constructor(source: Parcel) : super(source) {
@@ -40,6 +43,7 @@ class WebToonInfo : BaseToonInfo, Parcelable, Comparable<WebToonInfo> {
         this.type = if (tmpType == -1) null else WebToonType.values()[tmpType]
         this.writer = source.readString()
         this.isFavorite = source.readByte().toInt() != 0
+        this.link = source.readString()
     }
 
     override fun compareTo(other: WebToonInfo): Int {

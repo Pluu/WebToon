@@ -1,111 +1,71 @@
 package com.pluu.support.olleh
 
 import android.content.Context
-import android.text.TextUtils
-import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.NetworkSupportApi
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
-import com.pluu.webtoon.item.WebToonType
-import org.json.JSONArray
-import org.json.JSONObject
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 
 /**
  * 올레 웹툰 Week API
  * Created by pluu on 2017-04-22.
  */
 class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TITLE) {
-    override val url = HOST + "/api/work/getWorkList.kt"
-    private val WEEKLY_VALUE = arrayOf("mondayyn", "tuesdayyn", "wednesdayyn", "thursdayyn", "fridayyn", "saturdayyn", "sundayyn", "endyn")
-
-    private lateinit var savedArray: JSONArray
-    private var totalSize: Int = 0
-
-    private val adult = "adult"
-    private val novel = "novel"
+    override val url = HOST + "/web/webtoon/works_list.kt"
 
     override val naviItem: NAV_ITEM
         get() = NAV_ITEM.OLLEH
 
     override fun parseMain(position: Int): List<WebToonInfo> {
-        savedArray = try {
-            JSONObject(requestApi()).optJSONArray("workList")
-        } catch (e : Exception) {
+        val weekly = try {
+            Jsoup.parse(requestApi()).select("div[class=list week_all] .inner")
+        } catch (e: Exception) {
             e.printStackTrace()
             return emptyList()
         }
 
-        totalSize = savedArray.length()
+        val dataPosition = weekly.select("h4").eachText()
+                .indexOfFirst { it == TITLE[position] }
 
-        val list = mutableListOf<WebToonInfo>()
+        if (dataPosition == -1) return emptyList()
 
-        var temp: String?
-        val optY = "Y"
-        val optN = "N"
-
-        val checkValue = WEEKLY_VALUE[position]
-
-        savedArray.iterator().forEach { obj ->
-            if (!TextUtils.equals(obj.optString(checkValue), optY)) {
-                return@forEach
-            }
-            val item = WebToonInfo(obj.optString("webtoonseq")).apply {
-                title = obj.optString("webtoonnm")
-                image = obj.optString("thumbpath")
-
-                writer = buildString {
-                    append(obj.optString("authornm1"))
-
-                    temp = obj.optString("authornm2")
-                    if (temp?.isNotEmpty() ?: false) {
-                        append(", ").append(temp)
-                    }
-                    temp = obj.optString("authornm3")
-                    if (temp?.isNotEmpty() ?: false) {
-                        append(", ").append(temp)
-                    }
-                }
-
-                rate = obj.optString("totalstickercnt")
-                updateDate = obj.optString("regdt")
-
-                if (optN == obj.optString("endyn", optN)) {
-                    if (optY == obj.optString("upyn", optN)) {
-                        // 최근 업데이트
-                        status = Status.UPDATE
-                    } else if (optY == obj.optString("restyn", optN)) {
-                        // 휴재
-                        status = Status.BREAK
-                    }
-                }
-
-                isAdult = adult == obj.optString("agefg")
-
-                if (novel == obj.optString("toonfg")) {
-                    type = WebToonType.NOVEL
-                }
-            }
-            list.add(item)
-        }
-        return list
+        return weekly[dataPosition].select("li")
+                .mapNotNull { transform(it) }
+                .toList()
     }
 
-    override val method: String
-        get() = NetworkSupportApi.POST
+    private fun transform(it: Element): WebToonInfo? {
+        val directLink = it.select(".link").attr("href")
+        val toonId = "(?<=worksseq=).+".toRegex().find(directLink) ?: return null
+        return WebToonInfo(toonId.value).apply {
+            val info = it.select(".info")
+            title = info.select("strong").text()
+            image = it.select(".thumb img").attr("src")
 
-    override val headers: Map<String, String>
-        get() = hashMapOf("Referer" to HOST)
+            if (info.select("ico_up").isNotEmpty()) {
+                // 최근 업데이트트
+                status = Status.UPDATE
+            } else if (info.select("ico_break").isNotEmpty()) {
+                // 휴재
+                status = Status.BREAK
+            }
 
-    override val params: Map<String, String>
-        get() = hashMapOf("mobileyn" to "N",
-                "toonfg" to "toon",
-                "toonType" to "toon",
-                "sort" to "subject")
+            isAdult = info.select("ico_adult").isNotEmpty()
+            link = directLink
+        }
+    }
+
+    override val method: String = NetworkSupportApi.GET
+
+    override val headers: Map<String, String> = emptyMap()
+
+    override val params: Map<String, String> = emptyMap()
 
     companion object {
-        val HOST = "http://m.myktoon.com"
-        private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일", "완결")
+        val HOST = "https://www.myktoon.com"
+        private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")
     }
 }
