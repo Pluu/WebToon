@@ -19,9 +19,7 @@ class MyGlideModule : AppGlideModule() {
                 .setMemoryCache(LruResourceCache(cacheSize))
     }
 
-    override fun isManifestParsingEnabled(): Boolean {
-        return false
-    }
+    override fun isManifestParsingEnabled(): Boolean = false
 
     companion object {
         private val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()

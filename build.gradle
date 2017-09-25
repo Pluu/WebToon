@@ -6,7 +6,7 @@ buildscript {
             'targetSdk'     : 26,
             'buildTools'    : '26.0.1',
             'supportLibrary': '26.1.0',
-            'okhttp'        : '3.8.1',
+            'okhttp'        : '3.9.0',
             'kotlin_version': '1.1.50',
             'dagger'        : '2.9',
             'glide'         : '4.1.1',

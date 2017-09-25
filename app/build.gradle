@@ -78,6 +78,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.10.3'
     // Glide (Image Loader)
     implementation "com.github.bumptech.glide:glide:${versions.glide}"
+    kapt "com.github.bumptech.glide:compiler:${versions.glide}"
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
     implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
@@ -85,7 +86,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:${versions.okhttp}"
     implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
     // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin_version}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin_version}"
 }
 
 kapt {
