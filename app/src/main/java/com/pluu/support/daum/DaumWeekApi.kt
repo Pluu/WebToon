@@ -44,7 +44,7 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
         val list = mutableListOf<WebToonInfo>()
         val today = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
 
-        array?.iterator()?.forEach { obj ->
+        array.iterator().forEach { obj ->
             val lastObj = obj.optJSONObject("latestWebtoonEpisode")
             val baseInfo = BaseToonInfo(obj.optString("nickname")).apply {
                 title = obj.optString("title")
