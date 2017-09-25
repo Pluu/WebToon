@@ -14,8 +14,6 @@ import org.jsoup.nodes.Element
  * Created by pluu on 2017-04-22.
  */
 class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TITLE) {
-    override val url = HOST + "/web/webtoon/works_list.kt"
-
     override val naviItem: NAV_ITEM = NAV_ITEM.OLLEH
 
     override fun parseMain(position: Int): List<WebToonInfo> {
@@ -57,6 +55,8 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
         }
     }
 
+    override val url = "https://www.myktoon.com/web/webtoon/works_list.kt"
+
     override val method: String = NetworkSupportApi.GET
 
     override val headers: Map<String, String> = emptyMap()
@@ -64,7 +64,6 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
     override val params: Map<String, String> = emptyMap()
 
     companion object {
-        val HOST = "https://www.myktoon.com"
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")
     }
 }

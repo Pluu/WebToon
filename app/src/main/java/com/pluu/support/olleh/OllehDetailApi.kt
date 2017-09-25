@@ -1,6 +1,7 @@
 package com.pluu.support.olleh
 
 import android.content.Context
+import android.net.Uri
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NetworkSupportApi
@@ -8,20 +9,16 @@ import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
-import okhttp3.FormBody
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
+import org.jsoup.Jsoup
 
 /**
  * 올레 웹툰 상세 API
  * Created by pluu on 2017-04-22.
  */
 class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
-
-    override val url = OllehWeekApi.HOST + "/api/work/getTimesListByWork.kt"
-    private val DETAIL_IMG_URL = OllehWeekApi.HOST + "/api/work/getTimesDetailImageList.kt"
-    private val SHARE_URL = OllehWeekApi.HOST + "/web/times_view.kt?webtoonseq=%s&timesseq=%s"
 
     private lateinit var wettonId: String
     private lateinit var timesseq: String
@@ -32,78 +29,53 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
 
         val ret = Detail().apply {
             webtoonId = episode.toonId
+            episodeId = episode.episodeId
+            title = episode.title
         }
 
-        val root = try {
-            JSONObject(requestApi())
-        } catch (e : Exception) {
+        val array: JSONArray = try {
+            JSONObject(requestApi()).optJSONArray("response")
+        } catch (e: Exception) {
             e.printStackTrace()
             ret.list = emptyList()
             return ret
         }
-
-        val array : JSONArray? = root.optJSONArray("timesList")
-        array?.apply {
-            val timeSeq = Integer.valueOf(timesseq)
-            for ((idx, obj) in iterator().withIndex()) {
-                if (timeSeq == obj.optInt("timesseq")) {
-                    ret.episodeId = obj.optString("timesseq")
-                    ret.title = obj.optString("timestitle")
-                    if (idx - 1 >= 0) {
-                        ret.nextLink = array.optJSONObject(idx - 1).optInt("timesseq").toString()
-                    }
-                    if (idx + 1 < array.length()) {
-                        ret.prevLink = array.optJSONObject(idx + 1).optInt("timesseq").toString()
-                    }
-                }
-            }
-        }
-
-        ret.list = parserToon(requestImg)
+        ret.list = parserToon(array)
+        val (prevLink, nextLink) = parsePrevNext()
+        ret.prevLink = prevLink
+        ret.nextLink = nextLink
         return ret
     }
 
-    private val requestImg: JSONObject
-        @Throws(Exception::class)
-        get() {
-            val builder = Request.Builder().url(DETAIL_IMG_URL).apply {
-                for ((key, value) in headers) {
-                    addHeader(key, value)
-                }
-                val formBuilder = FormBody.Builder().apply {
-                    for ((key, value) in params) {
-                        add(key, value)
-                    }
-                }
-                post(formBuilder.build())
-            }
-            val response = requestApi(builder.build())
-            return JSONObject(response)
-        }
-
-    private fun parserToon(path: JSONObject): List<DetailView> {
+    private fun parserToon(array: JSONArray): List<DetailView> {
         val list = mutableListOf<DetailView>()
-        path.optJSONArray("imageList")?.iterator()?.forEach { obj ->
+        array.iterator().forEach { obj ->
             list.add(DetailView.createImage(obj.optString("imagepath")))
         }
         return list
     }
 
+    private fun parsePrevNext(): Pair<String?, String?> {
+        val builder = Request.Builder().apply {
+            val url = Uri.Builder().encodedPath("https://www.myktoon.com/mw/works/viewer.kt").apply {
+                appendQueryParameter("timesseq", timesseq)
+            }.build()
+            url(url.toString())
+        }
+        val pagingWrap = Jsoup.parse(requestApi(builder.build())).select(".paging_wrap")
+        return Pair(pagingWrap.select("a[class=btn_prev moveViewerBtn]").attr("data-seq"),
+                pagingWrap.select("a[class=btn_next moveViewerBtn]").attr("data-seq"))
+    }
+
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
+            title = "${episode.title} / ${detail.title}",
+            url = "https://v2.myktoon.com/mw/works/viewer.kt?timesseq=${detail.episodeId}"
     )
 
-    override val method: String
-        get() = NetworkSupportApi.POST
+    override val url = "https://v2.myktoon.com/web/works/times_image_list_ajax.kt"
 
-    override val headers: Map<String, String>
-        get() = hashMapOf("Referer" to OllehWeekApi.HOST)
+    override val method: String = NetworkSupportApi.POST
 
     override val params: Map<String, String>
-        get() = hashMapOf(
-                "mobileyn" to "N",
-                "webtoonseq" to wettonId,
-                "timesseq" to timesseq
-        )
+        get() = hashMapOf("timesseq" to timesseq)
 }
