@@ -36,7 +36,7 @@ class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         firstEpisode = getFirstItem(info, doc)
         episodePage.episodes = parseList(info, doc)
 
-        if (episodePage.episodes?.isNotEmpty() ?: false) {
+        if (episodePage.episodes?.isNotEmpty() == true) {
             episodePage.nextLink = info.toonId
         }
 
@@ -74,8 +74,7 @@ class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     override fun getFirstEpisode(item: Episode) = firstEpisode
 
-    override val method: String
-        get() = NetworkSupportApi.GET
+    override val method: String = NetworkSupportApi.GET
 
     override val url: String
         get() = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonList.omp?prodId=$id"

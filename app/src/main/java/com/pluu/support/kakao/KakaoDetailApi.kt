@@ -62,9 +62,7 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
             url = DETAIL_URL.format(episode.episodeId)
     )
 
-    override val method: String
-        get() = NetworkSupportApi.GET
-
+    override val method: String = NetworkSupportApi.GET
     override val url: String
         get() = DETAIL_URL.format(id)
 }

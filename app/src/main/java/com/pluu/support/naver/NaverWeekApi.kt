@@ -18,8 +18,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
 
     private var currentPos: Int = 0
 
-    override val naviItem: NAV_ITEM
-        get() = NAV_ITEM.NAVER
+    override val naviItem: NAV_ITEM = NAV_ITEM.NAVER
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         currentPos = position
@@ -58,17 +57,14 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
         return list
     }
 
-    override val method: String
-        get() = NetworkSupportApi.GET
+    override val method: String = NetworkSupportApi.GET
 
-    override val url: String
-        get() = URL
+    override val url: String = "http://m.comic.naver.com/webtoon/weekday.nhn"
 
     override val params: Map<String, String>
         get() = hashMapOf("week" to URL_VALUE[currentPos])
 
     companion object {
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일", "완결")
-        private val URL = "http://m.comic.naver.com/webtoon/weekday.nhn"
     }
 }

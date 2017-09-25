@@ -16,8 +16,7 @@ class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TIT
     override val url = "http://page.kakao.com/main/ajaxCallWeeklyList"
     private var currentPos: Int = 0
 
-    override val naviItem: NAV_ITEM
-        get() = NAV_ITEM.KAKAOPAGE
+    override val naviItem: NAV_ITEM = NAV_ITEM.KAKAOPAGE
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position
@@ -48,8 +47,7 @@ class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TIT
         return list
     }
 
-    override val method: String
-        get() = NetworkSupportApi.GET
+    override val method: String = NetworkSupportApi.GET
 
     override val params: Map<String, String>
         get() = mapOf("navi" to "1",

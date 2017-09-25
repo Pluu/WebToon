@@ -56,7 +56,7 @@ class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
             parseList(info, doc)
         }
 
-        if (episodePage.episodes?.isNotEmpty() ?: false) {
+        if (episodePage.episodes?.isNotEmpty() == true) {
             episodePage.nextLink = info.toonId
         }
 
@@ -103,12 +103,10 @@ class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     }
 
     override val method: String
-        get() {
-            if (pageNo > 1) {
-                return NetworkSupportApi.POST
-            } else {
-                return NetworkSupportApi.GET
-            }
+        get() = if (pageNo > 1) {
+            NetworkSupportApi.POST
+        } else {
+            NetworkSupportApi.GET
         }
 
 }

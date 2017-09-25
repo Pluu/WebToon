@@ -74,15 +74,14 @@ class TStoreDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=${detail.episodeId}&PrePageNm=/detail/webtoon/mw"
+            title = "${episode.title} / ${detail.title}",
+            url = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=${detail.episodeId}&PrePageNm=/detail/webtoon/mw"
     )
 
     override val url: String
         get() = "http://m.onestore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=$id&PrePageNm="
 
-    override val method: String
-        get() = NetworkSupportApi.GET
+    override val method: String = NetworkSupportApi.GET
 
     companion object {
         private val EPISODE_ID = "(?<=ajaxWebtoonDetail\\(\\\\')[A-Za-z0-9]+".toRegex()

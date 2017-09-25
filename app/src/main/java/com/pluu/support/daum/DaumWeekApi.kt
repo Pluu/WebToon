@@ -24,8 +24,7 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
 
     private var currentPos: Int = 0
 
-    override val naviItem: NAV_ITEM
-        get() = NAV_ITEM.DAUM
+    override val naviItem: NAV_ITEM = NAV_ITEM.DAUM
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position
@@ -38,7 +37,7 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
             return emptyList()
         }
 
-        if (!(array?.isNotEmpty() ?: false)) {
+        if (array?.isNotEmpty() != true) {
             return emptyList()
         }
 
@@ -77,11 +76,9 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
         return list
     }
 
-    override val method: String
-        get() = NetworkSupportApi.POST
+    override val method: String = NetworkSupportApi.POST
 
-    override val url: String
-        get() = URL
+    override val url: String = "http://m.webtoon.daum.net/data/mobile/webtoon"
 
     override val params: Map<String, String>
         get() = hashMapOf(
@@ -90,9 +87,7 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
                 "week" to URL_VALUE[currentPos])
 
     companion object {
-
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")
-        private val URL = "http://m.webtoon.daum.net/data/mobile/webtoon"
     }
 
 }

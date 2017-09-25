@@ -36,7 +36,7 @@ class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
         episodePage.episodes = parseList(info, doc)
-        if (episodePage.episodes?.isNotEmpty() ?: false) {
+        if (episodePage.episodes?.isNotEmpty() == true) {
             offset++
             episodePage.nextLink = info.toonId
         }
@@ -69,7 +69,5 @@ class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         offset = 1
     }
 
-    override val method: String
-        get() = NetworkSupportApi.GET
-
+    override val method: String = NetworkSupportApi.GET
 }

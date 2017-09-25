@@ -19,8 +19,7 @@ class TStorerWeekApi(context: Context) : AbstractWeekApi(context, TStorerWeekApi
 
     private var currentPos: Int = 0
 
-    override val naviItem: NAV_ITEM
-        get() = NAV_ITEM.T_STORE
+    override val naviItem: NAV_ITEM = NAV_ITEM.T_STORE
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position
@@ -55,8 +54,7 @@ class TStorerWeekApi(context: Context) : AbstractWeekApi(context, TStorerWeekApi
         return list
     }
 
-    override val method: String
-        get() = NetworkSupportApi.POST
+    override val method: String = NetworkSupportApi.POST
 
     override val url: String
         get() = "http://m.tstore.co.kr/mobilepoc/webtoon/weekdayList.omp?weekday=${currentPos + 1}"

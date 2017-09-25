@@ -76,7 +76,7 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     private fun parsePage(doc: Document): String? {
         val nextPage = doc.select(".paging_type2 [data-type=next]")
-        return when(nextPage.isNotEmpty()) {
+        return when (nextPage.isNotEmpty()) {
             true -> nextPage.attr("data-page")
             else -> null
         }
@@ -84,20 +84,19 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 
-    override fun getFirstEpisode(item: Episode) =  try {
-            Episode(item).apply { episodeId = "1" }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    override fun getFirstEpisode(item: Episode) = try {
+        Episode(item).apply { episodeId = "1" }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
 
     override fun init() {
         super.init()
         pageNo = 1
     }
 
-    override val method: String
-        get() = NetworkSupportApi.GET
+    override val method: String = NetworkSupportApi.GET
 
     override val url: String
         get() = HOST_URL.format(webToonId, pageNo)

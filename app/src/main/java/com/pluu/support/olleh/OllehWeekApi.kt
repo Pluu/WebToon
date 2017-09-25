@@ -16,8 +16,7 @@ import org.jsoup.nodes.Element
 class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TITLE) {
     override val url = HOST + "/web/webtoon/works_list.kt"
 
-    override val naviItem: NAV_ITEM
-        get() = NAV_ITEM.OLLEH
+    override val naviItem: NAV_ITEM = NAV_ITEM.OLLEH
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         val weekly = try {

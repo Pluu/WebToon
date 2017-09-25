@@ -110,11 +110,9 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         pageNo = 0
     }
 
-    override val method: String
-        get() = NetworkSupportApi.POST
+    override val method: String = NetworkSupportApi.POST
 
-    override val url: String
-        get() = EPISODE_URL
+    override val url: String = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname"
 
     override val params: Map<String, String>
         get() = HashMap<String, String>().apply {
@@ -128,8 +126,6 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
     companion object {
-
-        private val EPISODE_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname"
         private val PREFIX_FIRST_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/view?nickname="
     }
 }

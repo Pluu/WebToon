@@ -14,8 +14,7 @@ import org.jsoup.Jsoup
 class NateWeekApi(context: Context) : AbstractWeekApi(context, NateWeekApi.TITLE) {
     override val url = "http://m.comics.nate.com/main/index"
 
-    override val naviItem: NAV_ITEM
-        get() = NAV_ITEM.NATE
+    override val naviItem: NAV_ITEM = NAV_ITEM.NATE
 
     override fun parseMain(position: Int): List<WebToonInfo> {
 
@@ -41,8 +40,7 @@ class NateWeekApi(context: Context) : AbstractWeekApi(context, NateWeekApi.TITLE
         return list
     }
 
-    override val method: String
-        get() = NetworkSupportApi.GET
+    override val method: String = NetworkSupportApi.GET
 
     companion object {
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")

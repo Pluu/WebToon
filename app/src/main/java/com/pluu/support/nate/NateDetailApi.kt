@@ -53,12 +53,11 @@ class NateDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = DETAIL_URL.format(episode.toonId, episode.episodeId)
+            title = "${episode.title} / ${detail.title}",
+            url = DETAIL_URL.format(episode.toonId, episode.episodeId)
     )
 
-    override val method: String
-        get() = NetworkSupportApi.GET
+    override val method: String = NetworkSupportApi.GET
 
     override val url: String
         get() = DETAIL_URL.format(webToonId, episodeId)

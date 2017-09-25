@@ -23,7 +23,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
 
         val json = try {
             JSONObject(requestApi()).optJSONObject("data")
-        } catch (e : Exception ) {
+        } catch (e: Exception) {
             return ret
         }
 
@@ -103,7 +103,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
     private fun chattingDetailParse(json: JSONObject): List<DetailView> {
         val list = mutableListOf<DetailView>()
         json.optJSONArray("webtoonEpisodeChattings")?.iterator()?.forEach { it ->
-            when(it.optString("messageType")) {
+            when (it.optString("messageType")) {
                 "notice" -> {
                     if (it.isNull("message")) {
                         list.add(DetailView.createChatNoticeImage(it.optJSONObject("image").optString("url")))
@@ -135,15 +135,13 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = "$SHARE_URL$detail.episodeId"
+            title = "${episode.title} / ${detail.title}",
+            url = "$SHARE_URL$detail.episodeId"
     )
 
-    override val method: String
-        get() = NetworkSupportApi.POST
+    override val method: String = NetworkSupportApi.POST
 
-    override val url: String
-        get() = DETAIL_URL
+    override val url: String = DETAIL_URL
 
     override val params: Map<String, String>
         get() = hashMapOf("id" to id)
