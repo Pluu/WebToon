@@ -10,8 +10,7 @@ buildscript {
             'kotlin_version': '1.1.50',
             'dagger'        : '2.11',
             'glide'         : '4.1.1',
-            'leakCanary'    : '1.5.3',
-            'rxjava'        : '2.1.2',
+            'rxjava'        : '2.1.4',
             'rxandroid'     : '2.0.1'
     ]
     repositories {

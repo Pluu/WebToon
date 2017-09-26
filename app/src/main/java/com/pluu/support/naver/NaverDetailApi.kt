@@ -38,7 +38,7 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
             return ret
         }
 
-        ret.title = doc.select("div[class=chh] span, h1[class=tit]").first().text()
+        ret.title = doc.select("div[class=chh] span, h1[class=tit]").first()?.text()
 
         if (doc.select("div[class=viewer cuttoon]")?.isNotEmpty() == true) {
             // 컷툰

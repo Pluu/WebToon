@@ -45,7 +45,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
                         // 휴재
                         status = Status.BREAK
                     }
-                    isAdult = !a.select(".ico_adult2").isEmpty()
+                    isAdult = !a.select("em[class=badge badge_adult]").isEmpty()
                     writer = a.select(".sub_info").first().text()
                     rate = Const.getRateNameByRate(a.select(".txt_score").text())
                     updateDate = a.select("span[class=if1]").text()
