@@ -78,7 +78,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        apiRequest
+        Single.create<List<WebToonInfo>> { it.onSuccess(serviceApi.parseMain(position)) }
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(favoriteProcessFunc)
@@ -109,9 +109,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         }
         list
     }
-
-    private val apiRequest: Single<List<WebToonInfo>>
-        get() = Single.fromCallable { serviceApi.parseMain(position) }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
