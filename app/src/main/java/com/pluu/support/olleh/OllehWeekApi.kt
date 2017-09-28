@@ -24,8 +24,8 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
             return emptyList()
         }
 
-        val dataPosition = weekly.select("h4").eachText()
-                .indexOfFirst { it == TITLE[position] }
+        val dataPosition = weekly.select("h4")
+                .indexOfFirst { it.text() == TITLE[position] }
 
         if (dataPosition == -1) return emptyList()
 

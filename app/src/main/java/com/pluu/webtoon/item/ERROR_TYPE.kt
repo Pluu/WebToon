@@ -15,12 +15,11 @@ enum class ERROR_TYPE {
     // 기본 에러
 }
 
-fun ERROR_TYPE.getMessage(context: Context) : String {
-    val resId: Int
-    when (this) {
-        ERROR_TYPE.ADULT_CERTIFY, ERROR_TYPE.COIN_NEED -> resId = R.string.msg_not_support
-        ERROR_TYPE.NOT_SUPPORT -> resId = R.string.not_support_type
-        else -> resId = R.string.network_fail
+fun ERROR_TYPE.getMessage(context: Context): String {
+    val resId: Int = when (this) {
+        ERROR_TYPE.ADULT_CERTIFY, ERROR_TYPE.COIN_NEED -> R.string.msg_not_support
+        ERROR_TYPE.NOT_SUPPORT -> R.string.not_support_type
+        else -> R.string.network_fail
     }
     return context.getString(resId)
 }

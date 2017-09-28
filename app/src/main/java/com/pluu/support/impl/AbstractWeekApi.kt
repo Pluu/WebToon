@@ -17,7 +17,7 @@ import java.util.*
  * Created by pluu on 2017-04-20.
  */
 abstract class AbstractWeekApi
-    protected constructor(context: Context, private val CURRENT_TABS: Array<String>) : NetworkSupportApi(context) {
+protected constructor(context: Context, private val CURRENT_TABS: Array<String>) : NetworkSupportApi(context) {
 
     abstract val naviItem: NAV_ITEM
 
@@ -44,16 +44,14 @@ abstract class AbstractWeekApi
 
     companion object {
 
-        fun getApi(context: Context, item: NAV_ITEM): AbstractWeekApi {
-            when (item) {
-                NAV_ITEM.NAVER -> return NaverWeekApi(context)
-                NAV_ITEM.DAUM -> return DaumWeekApi(context)
-                NAV_ITEM.OLLEH -> return OllehWeekApi(context)
-                NAV_ITEM.KAKAOPAGE -> return KakaoWeekApi(context)
-                NAV_ITEM.NATE -> return NateWeekApi(context)
-                NAV_ITEM.T_STORE -> return TStorerWeekApi(context)
-                else -> throw Resources.NotFoundException("Not Found API")
-            }
+        fun getApi(context: Context, item: NAV_ITEM): AbstractWeekApi = when (item) {
+            NAV_ITEM.NAVER -> NaverWeekApi(context)
+            NAV_ITEM.DAUM -> DaumWeekApi(context)
+            NAV_ITEM.OLLEH -> OllehWeekApi(context)
+            NAV_ITEM.KAKAOPAGE -> KakaoWeekApi(context)
+            NAV_ITEM.NATE -> NateWeekApi(context)
+            NAV_ITEM.T_STORE -> TStorerWeekApi(context)
+            else -> throw Resources.NotFoundException("Not Found API")
         }
     }
 

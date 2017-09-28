@@ -28,16 +28,14 @@ abstract class AbstractEpisodeApi(context: Context) : NetworkSupportApi(context)
 
     companion object {
 
-        fun getApi(context: Context, item: NAV_ITEM): AbstractEpisodeApi {
-            when (item) {
-                NAV_ITEM.NAVER -> return NaverEpisodeApi(context)
-                NAV_ITEM.DAUM -> return DaumEpisodeApi(context)
-                NAV_ITEM.OLLEH -> return OllehEpisodeApi(context)
-                NAV_ITEM.KAKAOPAGE -> return KakaoEpisodeApi(context)
-                NAV_ITEM.NATE -> return NateEpisodeApi(context)
-                NAV_ITEM.T_STORE -> return TStoreEpisodeApi(context)
-                else -> throw Resources.NotFoundException("Not Found API")
-            }
+        fun getApi(context: Context, item: NAV_ITEM): AbstractEpisodeApi = when (item) {
+            NAV_ITEM.NAVER -> NaverEpisodeApi(context)
+            NAV_ITEM.DAUM -> DaumEpisodeApi(context)
+            NAV_ITEM.OLLEH -> OllehEpisodeApi(context)
+            NAV_ITEM.KAKAOPAGE -> KakaoEpisodeApi(context)
+            NAV_ITEM.NATE -> NateEpisodeApi(context)
+            NAV_ITEM.T_STORE -> TStoreEpisodeApi(context)
+            else -> throw Resources.NotFoundException("Not Found API")
         }
     }
 

@@ -52,17 +52,11 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
     }
 
     fun modifyInfo(info: WebToonInfo): Int {
-        var i = 0
-        val size = list!!.size
-        while (i < size) {
-            val item = list[i]
-            if (TextUtils.equals(info.toonId, item.toonId)) {
-                item.isFavorite = info.isFavorite
-                return i
-            }
-            i++
+        val indexOfFirst = list?.indexOfFirst { item -> TextUtils.equals(info.toonId, item.toonId) } ?: -1
+        if (indexOfFirst != -1) {
+            list?.get(indexOfFirst)?.isFavorite = info.isFavorite
         }
-        return -1
+        return indexOfFirst
     }
 
     class ViewHolder(v: View, filterColor: Int) : RecyclerView.ViewHolder(v) {

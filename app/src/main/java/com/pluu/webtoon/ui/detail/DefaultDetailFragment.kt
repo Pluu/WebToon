@@ -61,13 +61,13 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
             settings.setRenderPriority(WebSettings.RenderPriority.HIGH)
             setLayerType(View.LAYER_TYPE_SOFTWARE, null)
 
-            setWebViewClient(object : WebViewClient() {
+            webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView, url: String) {
                     super.onPageFinished(view, url)
                     listener?.loadingHide()
                     listener?.childCallToggle(true)
                 }
-            })
+            }
 
             setOnTouchListener { _, event -> gd.onTouchEvent(event) }
             setOnLongClickListener { true }

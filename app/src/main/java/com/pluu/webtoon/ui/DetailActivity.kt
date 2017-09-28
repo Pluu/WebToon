@@ -210,7 +210,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     private val requestSubscriber = Consumer<Detail> { item ->
-        if (item?.list?.isNotEmpty() ?: false) {
+        if (item?.list?.isNotEmpty() == true) {
             readAsync(item)
 
             currentItem = item
@@ -366,8 +366,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     override fun firstBind() {
-        if (currentItem?.list?.isNotEmpty() ?: false) {
-            fragmentAttach(currentItem!!.list!!)
+        val currentItem = currentItem
+        if (currentItem?.list?.isNotEmpty() == true) {
+            fragmentAttach(currentItem.list!!)
         }
     }
 

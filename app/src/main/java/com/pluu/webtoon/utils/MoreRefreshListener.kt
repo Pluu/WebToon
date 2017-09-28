@@ -14,8 +14,7 @@ abstract class MoreRefreshListener : RecyclerView.OnScrollListener() {
     private var layoutManagerType: LAYOUT_MANAGER_TYPE? = null
     private var lastPositions: IntArray? = null
 
-    var isLoadingMore: Boolean = false
-        protected set
+    private var isLoadingMore: Boolean = false
 
     override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)

@@ -25,16 +25,14 @@ abstract class AbstractDetailApi(context: Context) : NetworkSupportApi(context) 
 
     companion object {
 
-        fun getApi(context: Context, item: NAV_ITEM): AbstractDetailApi {
-            when (item) {
-                NAV_ITEM.NAVER -> return NaverDetailApi(context)
-                NAV_ITEM.DAUM -> return DaumDetailApi(context)
-                NAV_ITEM.OLLEH -> return OllehDetailApi(context)
-                NAV_ITEM.KAKAOPAGE -> return KakaoDetailApi(context)
-                NAV_ITEM.NATE -> return NateDetailApi(context)
-                NAV_ITEM.T_STORE -> return TStoreDetailApi(context)
-                else -> throw Resources.NotFoundException("Not Found API")
-            }
+        fun getApi(context: Context, item: NAV_ITEM): AbstractDetailApi = when (item) {
+            NAV_ITEM.NAVER -> NaverDetailApi(context)
+            NAV_ITEM.DAUM -> DaumDetailApi(context)
+            NAV_ITEM.OLLEH -> OllehDetailApi(context)
+            NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(context)
+            NAV_ITEM.NATE -> NateDetailApi(context)
+            NAV_ITEM.T_STORE -> TStoreDetailApi(context)
+            else -> throw Resources.NotFoundException("Not Found API")
         }
     }
 

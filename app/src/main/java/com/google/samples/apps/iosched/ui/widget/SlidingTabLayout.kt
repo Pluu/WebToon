@@ -278,7 +278,7 @@ class SlidingTabLayout @JvmOverloads constructor(context: Context, attrs: Attrib
                 mTabStrip.onViewPagerPageChanged(position, 0f)
                 scrollToTab(position, 0)
             }
-            for (i in 0..mTabStrip.childCount - 1) {
+            for (i in 0 until mTabStrip.childCount) {
                 mTabStrip.getChildAt(i).isSelected = position == i
             }
             mViewPagerPageChangeListener?.apply {
@@ -289,7 +289,7 @@ class SlidingTabLayout @JvmOverloads constructor(context: Context, attrs: Attrib
 
     private inner class TabClickListener : View.OnClickListener {
         override fun onClick(v: View) {
-            for (i in 0..mTabStrip.childCount - 1) {
+            for (i in 0 until mTabStrip.childCount) {
                 if (v === mTabStrip.getChildAt(i)) {
                     mViewPager!!.currentItem = i
                     return

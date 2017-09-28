@@ -153,7 +153,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     }
 
     private fun moreLoad() {
-        if (nextLink?.isNotEmpty() ?: false) {
+        if (nextLink?.isNotEmpty() == true) {
             Log.i(TAG, "Next Page Link=" + nextLink)
             loading()
             nextLink = null
@@ -180,7 +180,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
             val episodePage = serviceApi.parseEpisode(info)
             val list = episodePage.episodes
             nextLink = episodePage.moreLink()
-            if (nextLink?.isNotEmpty() ?: false) {
+            if (nextLink?.isNotEmpty() == true) {
                 scrollListener.setLoadingMorePause()
             }
             Single.just(list)
