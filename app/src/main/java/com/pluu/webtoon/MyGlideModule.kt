@@ -14,16 +14,15 @@ import com.bumptech.glide.module.AppGlideModule
 @GlideModule
 class MyGlideModule : AppGlideModule() {
 
+    private val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
+    private val cacheSize = maxMemory / 8
+    private val DISK_CACHE_SIZE = 1024 * 1024 * 10
+
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        builder.setDiskCache(ExternalCacheDiskCacheFactory(context, "cache", DISK_CACHE_SIZE))
-                .setMemoryCache(LruResourceCache(cacheSize))
+        builder.setMemoryCache(LruResourceCache(cacheSize))
+                .setDiskCache(ExternalCacheDiskCacheFactory(context, "cache", DISK_CACHE_SIZE))
     }
 
     override fun isManifestParsingEnabled(): Boolean = false
 
-    companion object {
-        private val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
-        private val cacheSize = maxMemory / 8
-        private val DISK_CACHE_SIZE = 1024 * 1024 * 10
-    }
 }

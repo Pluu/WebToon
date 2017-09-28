@@ -24,7 +24,7 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
         val episodePage = EpisodePage(this)
 
-        val response: String? = try {
+        val response: String = try {
             requestApi()
         } catch (e: Exception) {
             e.printStackTrace()
