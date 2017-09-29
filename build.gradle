@@ -7,7 +7,7 @@ buildscript {
             'buildTools'    : '26.0.1',
             'supportLibrary': '26.1.0',
             'okhttp'        : '3.9.0',
-            'kotlin_version': '1.1.50',
+            'kotlin_version': '1.1.51',
             'dagger'        : '2.11',
             'glide'         : '4.1.1',
             'rxjava'        : '2.1.4',
