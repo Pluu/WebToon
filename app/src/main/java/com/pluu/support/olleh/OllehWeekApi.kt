@@ -42,10 +42,10 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
             title = info.select("strong").text()
             image = it.select(".thumb img").attr("src")
 
-            if (info.select("ico_up").isNotEmpty()) {
+            if (info.select(".ico_up").isNotEmpty()) {
                 // 최근 업데이트트
                 status = Status.UPDATE
-            } else if (info.select("ico_break").isNotEmpty()) {
+            } else if (info.select(".ico_break").isNotEmpty()) {
                 // 휴재
                 status = Status.BREAK
             }
