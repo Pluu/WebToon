@@ -10,7 +10,7 @@ buildscript {
             'kotlin_version': '1.1.51',
             'dagger'        : '2.12',
             'glide'         : '4.2.0',
-            'rxjava'        : '2.1.5',
+            'rxjava'        : '2.1.6',
             'rxandroid'     : '2.0.1'
     ]
     repositories {
@@ -18,7 +18,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-rc1'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath "io.realm:realm-gradle-plugin:3.7.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin_version}"
 
