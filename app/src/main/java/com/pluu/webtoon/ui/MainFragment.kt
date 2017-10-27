@@ -61,12 +61,12 @@ class MainFragment : Fragment() {
         serviceApi = AbstractWeekApi.getApi(context, service)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_toon, container, false)
+        return inflater.inflate(R.layout.fragment_toon, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         getApi()

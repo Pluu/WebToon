@@ -80,12 +80,12 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         (context.applicationContext as AppController).realmHelperComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_episode, container, false)
+        return inflater.inflate(R.layout.fragment_episode, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         arguments.apply {
@@ -205,7 +205,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         if (episodes == null || episodes.isEmpty()) {
             if (episodes == null) {
                 Toast.makeText(context, R.string.network_fail, Toast.LENGTH_SHORT).show()
-                activity.finish()
+                activity?.finish()
             }
             return@Consumer
         }

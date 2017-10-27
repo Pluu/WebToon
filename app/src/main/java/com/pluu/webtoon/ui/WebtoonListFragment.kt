@@ -63,12 +63,12 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         position = arguments.getInt(Const.EXTRA_POS)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_webtoon_list, container, false)
+        return inflater.inflate(R.layout.fragment_webtoon_list, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.apply {
             layoutManager = manager
@@ -118,8 +118,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
         if (requestCode == REQUEST_DETAIL) {
             // 즐겨찾기 변경 처리 > 다른 ViewPager의 Fragment도 수신받기위해 Referrer
-            fragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.
-                    onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
+            fragmentManager?.findFragmentByTag(Const.MAIN_FRAG_TAG)?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
         } else if (requestCode == REQUEST_DETAIL_REFERRER) {
             // ViewPager 로부터 전달받은 Referrer
             data?.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE)?.apply {
@@ -145,10 +144,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     private fun asyncPalette(item: WebToonInfo, bitmap: Bitmap) {
         val context = activity
         Palette.from(bitmap).generate { p ->
-            val bgColor = p.getDarkVibrantColor(
-                    Color.BLACK)
-            val statusColor = p.getDarkMutedColor(
-                    ContextCompat.getColor(context, R.color.theme_primary_dark))
+            val bgColor = p.getDarkVibrantColor(Color.BLACK)
+            val statusColor = p.getDarkMutedColor(ContextCompat.getColor(context, R.color.theme_primary_dark))
             moveEpisode(item, bgColor, statusColor)
         }
     }

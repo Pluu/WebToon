@@ -20,7 +20,7 @@ class MainFragmentAdapter(fm: FragmentManager, private val serviceApi: AbstractW
 
     private val views = SparseArray<WebtoonListFragment>()
 
-    override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any) {
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         super.destroyItem(container, position, `object`)
         views.remove(position)
     }

@@ -21,8 +21,8 @@ class DaumChattingFragment(private val gd: GestureDetector) : BaseDetailFragment
 
     private var adapter: DetailChatAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) =
-            inflater?.inflate(R.layout.fragment_daum_chatting, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_daum_chatting, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -31,6 +31,7 @@ class DaumChattingFragment(private val gd: GestureDetector) : BaseDetailFragment
     }
 
     private fun initChattingSetting() {
+        val context = context ?: return
         chattingList?.layoutManager = LinearLayoutManager(context)
 
         adapter = object : DetailChatAdapter(context) {
