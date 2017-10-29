@@ -55,14 +55,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         GridLayoutManager(activity, resources.getInteger(R.integer.webtoon_column_count))
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (context.applicationContext as AppController).realmHelperComponent.inject(this)
-
-        serviceApi = AbstractWeekApi.getApi(context, ServiceConst.getApiType(arguments))
-        position = arguments.getInt(Const.EXTRA_POS)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_webtoon_list, container, false)
@@ -70,6 +62,12 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (view.context.applicationContext as AppController).realmHelperComponent.inject(this)
+
+        serviceApi = AbstractWeekApi.getApi(view.context, ServiceConst.getApiType(arguments))
+        position = arguments?.getInt(Const.EXTRA_POS) ?: 0
+
         recyclerView.apply {
             layoutManager = manager
         }
@@ -142,7 +140,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     private fun asyncPalette(item: WebToonInfo, bitmap: Bitmap) {
-        val context = activity
+        val context = context ?: return
         Palette.from(bitmap).generate { p ->
             val bgColor = p.getDarkVibrantColor(Color.BLACK)
             val statusColor = p.getDarkMutedColor(ContextCompat.getColor(context, R.color.theme_primary_dark))

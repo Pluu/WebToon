@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
@@ -63,9 +64,11 @@ dependencies {
     implementation "com.android.support:preference-v7:${versions.supportLibrary}"
     implementation "com.android.support:customtabs:${versions.supportLibrary}"
     // DI
-    implementation "com.google.dagger:dagger:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
-    provided 'javax.annotation:jsr250-api:1.0'
+    kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
+    implementation "com.google.dagger:dagger:${versions.dagger}"
+    implementation "com.google.dagger:dagger-android:${versions.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
     // Jsoup
     implementation 'org.jsoup:jsoup:1.10.3'
     // Glide (Image Loader)
