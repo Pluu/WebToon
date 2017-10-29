@@ -1,6 +1,5 @@
 package com.pluu.webtoon.adapter
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -22,8 +21,7 @@ import kotlinx.android.synthetic.main.layout_episode_list_item.view.*
  * 에피소드 화면 Adapter
  * Created by pluu on 2017-05-02.
  */
-open class EpisodeAdapter(mContext: Context, val listener: EpisodeSelectListener) : RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
-    private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
+open class EpisodeAdapter(val listener: EpisodeSelectListener) : RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
     private val list = mutableListOf<Episode>()
 
     fun addItems(list: List<Episode>) {
@@ -38,8 +36,8 @@ open class EpisodeAdapter(mContext: Context, val listener: EpisodeSelectListener
         list.clear()
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int) =
-            ViewHolder(mInflater.inflate(R.layout.layout_episode_list_item, viewGroup, false))
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder =
+            ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.layout_episode_list_item, parent, false))
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.bind(list[i])

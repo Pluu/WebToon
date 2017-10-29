@@ -53,26 +53,18 @@ class MainFragment : Fragment() {
     private lateinit var serviceApi: AbstractWeekApi
     private var listener: BindServiceListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        service = ServiceConst.getApiType(arguments).apply {
-            listener?.bindNavItem(this)
-        }
-        serviceApi = AbstractWeekApi.getApi(context, service)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_toon, container, false)
+        return inflater.inflate(R.layout.fragment_toon, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getApi()
+        context?.let { getApi(it) }
 
         viewPager.apply {
-            adapter = MainFragmentAdapter(fragmentManager, serviceApi)
+            adapter = fragmentManager?.let { MainFragmentAdapter(it, serviceApi) }
             // 금일 기준으로 ViewPager 기본 표시
             currentItem = serviceApi.todayTabPosition
         }
@@ -87,12 +79,16 @@ class MainFragment : Fragment() {
         listener = context as BindServiceListener
     }
 
-    private fun getApi() {
+    private fun getApi(context: Context) {
         // 선택한 서비스에 맞는 컬러 테마 변경
-        setServiceTheme(serviceApi)
+        service = ServiceConst.getApiType(arguments).apply {
+            listener?.bindNavItem(this)
+        }
+        serviceApi = AbstractWeekApi.getApi(context, service)
+        setServiceTheme(context, serviceApi)
     }
 
-    private fun setServiceTheme(serviceApi: AbstractWeekApi) {
+    private fun setServiceTheme(context: Context, serviceApi: AbstractWeekApi) {
         val color = serviceApi.getTitleColor(context)
         val colorDark = serviceApi.getTitleColorDark(context)
         val activity = activity

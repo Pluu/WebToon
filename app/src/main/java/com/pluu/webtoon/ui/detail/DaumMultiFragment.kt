@@ -20,8 +20,8 @@ class DaumMultiFragment(private val gd: GestureDetector) : BaseDetailFragment() 
 
     private var adapter: DetailMultiAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) =
-            inflater?.inflate(R.layout.fragment_daum_multi, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_daum_multi, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -30,6 +30,7 @@ class DaumMultiFragment(private val gd: GestureDetector) : BaseDetailFragment() 
     }
 
     private fun initChattingSetting() {
+        val context = context ?: return
         chattingList?.layoutManager = LinearLayoutManager(context)
 
         adapter = object : DetailMultiAdapter(context) {

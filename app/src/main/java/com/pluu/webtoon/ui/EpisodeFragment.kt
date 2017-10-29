@@ -61,7 +61,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     }
 
     private val adapter: EpisodeAdapter by lazy {
-        EpisodeAdapter(context, this)
+        EpisodeAdapter(this)
     }
 
     private val loadDlg: ProgressDialog by lazy {
@@ -77,22 +77,22 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (context.applicationContext as AppController).realmHelperComponent.inject(this)
+        (context?.applicationContext as AppController).realmHelperComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_episode, container, false)
+        return inflater.inflate(R.layout.fragment_episode, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments.apply {
-            service = getSerializable(Const.EXTRA_API) as NAV_ITEM
-            serviceApi = AbstractEpisodeApi.getApi(context, service)
-            info = getParcelable(Const.EXTRA_EPISODE)
-            color = getIntArray(Const.EXTRA_MAIN_COLOR)
+        arguments.let {
+            service = it?.getSerializable(Const.EXTRA_API) as NAV_ITEM
+            serviceApi = AbstractEpisodeApi.getApi(view.context, service)
+            info = it.getParcelable(Const.EXTRA_EPISODE)
+            color = it.getIntArray(Const.EXTRA_MAIN_COLOR)
         }
 
         initView()
@@ -205,7 +205,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         if (episodes == null || episodes.isEmpty()) {
             if (episodes == null) {
                 Toast.makeText(context, R.string.network_fail, Toast.LENGTH_SHORT).show()
-                activity.finish()
+                activity?.finish()
             }
             return@Consumer
         }

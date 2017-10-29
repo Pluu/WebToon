@@ -25,8 +25,8 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
 
     private var actionBarHeight: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) =
-            inflater?.inflate(R.layout.fragment_default_detail, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_default_detail, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -42,7 +42,7 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
 
     private fun init() {
         val t = TypedValue()
-        activity.theme.resolveAttribute(android.R.attr.actionBarSize, t, true)
+        activity?.theme?.resolveAttribute(android.R.attr.actionBarSize, t, true)
         actionBarHeight = resources.getDimensionPixelSize(t.resourceId)
     }
 
