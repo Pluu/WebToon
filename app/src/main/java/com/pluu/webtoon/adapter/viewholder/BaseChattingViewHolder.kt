@@ -21,12 +21,12 @@ abstract class BaseChattingViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
         Glide.with(context)
                 .load(url)
-                .apply(RequestOptions().apply {
-                    diskCacheStrategy(DiskCacheStrategy.NONE)
-                    override(profileSize, profileSize)
-                    centerCrop()
-                    placeholder(R.drawable.transparent_background)
-                })
+                .apply(RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .override(profileSize, profileSize)
+                        .centerCrop()
+                        .placeholder(R.drawable.transparent_background)
+                )
                 .into(view)
     }
 

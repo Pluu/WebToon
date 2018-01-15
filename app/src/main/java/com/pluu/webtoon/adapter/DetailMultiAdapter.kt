@@ -47,9 +47,7 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         fun bind(item: DetailView) = with(itemView) {
-            val options = RequestOptions().apply {
-                diskCacheStrategy(DiskCacheStrategy.NONE)
-            }
+            val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)
             when (item.type) {
                 VIEW_TYPE.MULTI_IMAGE -> {
                     itemView.emptyView.visibility = View.GONE
@@ -65,12 +63,10 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
                                 .load(item.value)
                                 .apply(options)
                                 .into(object : SimpleTarget<Bitmap>() {
-                                    override fun onResourceReady(resource: Bitmap?, transition: Transition<in Bitmap>?) {
-                                        resource?.let {
-                                            item.height = resource.height.toFloat() / resource.width
-                                            itemView.imageView.sethRatio(item.height)
-                                            itemView.imageView.setImageBitmap(resource)
-                                        }
+                                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                        item.height = resource.height.toFloat() / resource.width
+                                        itemView.imageView.sethRatio(item.height)
+                                        itemView.imageView.setImageBitmap(resource)
                                     }
                                 })
                     }
@@ -89,12 +85,10 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
                                 .load(item.value)
                                 .apply(options)
                                 .into(object : SimpleTarget<GifDrawable>() {
-                                    override fun onResourceReady(resource: GifDrawable?, transition: Transition<in GifDrawable>?) {
-                                        resource?.let {
-                                            item.height = resource.intrinsicHeight.toFloat() / resource.intrinsicWidth
-                                            itemView.imageView.sethRatio(item.height)
-                                            itemView.imageView.setImageDrawable(resource)
-                                        }
+                                    override fun onResourceReady(resource: GifDrawable, transition: Transition<in GifDrawable>?) {
+                                        item.height = resource.intrinsicHeight.toFloat() / resource.intrinsicWidth
+                                        itemView.imageView.sethRatio(item.height)
+                                        itemView.imageView.setImageDrawable(resource)
                                     }
                                 })
                     }
@@ -104,6 +98,6 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
                     itemView.emptyView.visibility = View.VISIBLE
                 }
             }
-        }!!
+        }
     }
 }

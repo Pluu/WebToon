@@ -69,10 +69,10 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
             itemView.titleView.text = item.title
             Glide.with(itemView.context)
                     .load(item.image)
-                    .apply(RequestOptions().apply {
-                        centerCrop()
-                        error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                    })
+                    .apply(RequestOptions()
+                            .centerCrop()
+                            .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+                    )
                     .listener(object : RequestListener<Drawable> {
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                             itemView.progress.visibility = View.GONE

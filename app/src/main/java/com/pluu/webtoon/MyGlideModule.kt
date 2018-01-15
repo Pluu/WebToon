@@ -19,7 +19,7 @@ class MyGlideModule : AppGlideModule() {
     private val DISK_CACHE_SIZE = 1024 * 1024 * 10
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        builder.setMemoryCache(LruResourceCache(cacheSize))
+        builder.setMemoryCache(LruResourceCache(cacheSize.toLong()))
                 .setDiskCache(ExternalCacheDiskCacheFactory(context, "cache", DISK_CACHE_SIZE))
     }
 

@@ -8,7 +8,7 @@ buildscript {
             'supportLibrary': '27.0.2',
             'okhttp'        : '3.9.1',
             'kotlin_version': '1.2.10',
-            'dagger'        : '2.12',
+            'dagger'        : '2.13',
             'glide'         : '4.5.0',
             'rxjava'        : '2.1.8',
             'rxandroid'     : '2.0.1'
@@ -19,7 +19,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-alpha07'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "io.realm:realm-gradle-plugin:4.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin_version}"
 

@@ -23,10 +23,7 @@ class DaumNoticeImageViewHolder(v: View) : BaseChattingViewHolder(v) {
     override fun bind(context: Context, item: ChatView?) {
         if (item == null) return
 
-        val option = RequestOptions().apply {
-            diskCacheStrategy(DiskCacheStrategy.NONE)
-        }
-
+        val option = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)
         if (item.hRatio != 0f) {
             itemView.noticeImageView.sethRatio(item.hRatio)
             Glide.with(context)
@@ -39,9 +36,7 @@ class DaumNoticeImageViewHolder(v: View) : BaseChattingViewHolder(v) {
                     .load(item.imgUrl)
                     .apply(option)
                     .into(object : SimpleTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap?, transition: Transition<in Bitmap>?) {
-                            resource ?: return
-
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                             item.hRatio = resource.height.toFloat() / resource.width
                             itemView.noticeImageView.sethRatio(item.hRatio)
                             itemView.noticeImageView.setImageBitmap(resource)
