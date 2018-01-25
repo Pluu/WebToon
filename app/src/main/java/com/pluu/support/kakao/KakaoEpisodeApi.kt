@@ -20,7 +20,8 @@ class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     private var firstEpisode: Episode? = null
 
     override fun parseEpisode(info: WebToonInfo): EpisodePage {
-        this.url = "http://page.kakao.com/home/${info.toonId}?categoryUid=10&subCategoryUid=1000&page=$offset&orderby=desc"
+        this.url =
+                "http://page.kakao.com/home/${info.toonId}?categoryUid=10&subCategoryUid=1000&page=$offset&orderby=desc"
 
         val episodePage = EpisodePage(this)
 
@@ -45,20 +46,21 @@ class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     }
 
     private fun getFirstItem(info: WebToonInfo, doc: Document): Episode? {
-        doc.select(".homeTopContentWrp div[class=btnBox pointer clear] span[class=btn_view shortcut viewerLinkBtn]")?.attr("data-productid")?.apply {
+        doc.select(".homeTopContentWrp div[class=btnBox pointer clear] span[class=btn_view shortcut viewerLinkBtn]")
+            ?.attr("data-productid")?.apply {
             return Episode(info, this)
         }
         return null
     }
 
     private fun parseList(info: WebToonInfo, doc: Document) =
-            doc.select(".list").map {
-                Episode(info, it.attr("data-productid")).apply {
-                    image = it.select(".thumbnail img").attr("src")
-                    episodeTitle = it.select(".title").text()
-                    updateDate = it.select(".date").text()
-                }
+        doc.select(".list").map {
+            Episode(info, it.attr("data-productid")).apply {
+                image = it.select(".thumbnail img").attr("src")
+                episodeTitle = it.select(".title").text()
+                updateDate = it.select(".date").text()
             }
+        }
 
     override fun moreParseEpisode(item: EpisodePage) = item.nextLink
 

@@ -28,33 +28,33 @@ class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TIT
             return emptyList()
         }
 
-        val list = mutableListOf<WebToonInfo>()
         val pattern = "(?<=/home/)\\d+(?=\\?categoryUid)".toRegex()
-        doc.select(".list").forEach { it ->
-            pattern.find(it.select("a").attr("href"))?.apply {
-                WebToonInfo(value).apply {
-                    title = it.select(".title").first().text()
-                    image = it.select(".thumbnail img").last().attr("src")
+        return doc.select(".list")
+            .mapNotNull { element ->
+                pattern.find(element.select("a").attr("href"))?.let {
+                    WebToonInfo(it.value).apply {
+                        title = element.select(".title").first().text()
+                        image = element.select(".thumbnail img").last().attr("src")
 
-                    if (it.select(".badgeImg").isNotEmpty()) {
-                        status = Status.UPDATE
+                        if (element.select(".badgeImg").isNotEmpty()) {
+                            status = Status.UPDATE
+                        }
+                        writer = element.select(".info").text().split("•").last().trim()
                     }
-                    writer = it.select(".info").text().split("•").last().trim()
-                    list.add(this)
                 }
-            }
-        }
-        return list
+            }.toList()
     }
 
     override val method: String = NetworkSupportApi.GET
 
     override val params: Map<String, String>
-        get() = mapOf("navi" to "1",
-                "day" to (currentPos + 1).toString(),
-                "inkatalk" to "0",
-                "categoryUid" to "10",
-                "subCategoryUid" to "1000")
+        get() = mapOf(
+            "navi" to "1",
+            "day" to (currentPos + 1).toString(),
+            "inkatalk" to "0",
+            "categoryUid" to "10",
+            "subCategoryUid" to "1000"
+        )
 
     companion object {
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")

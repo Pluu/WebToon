@@ -15,7 +15,8 @@ import org.jsoup.Jsoup
  */
 class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
 
-    private val DETAIL_URL = "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0"
+    private val DETAIL_URL =
+        "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0"
     private lateinit var id: String
 
     override fun parseDetail(episode: Episode): Detail {
@@ -46,11 +47,11 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
 
             val list = mutableListOf<DetailView>()
             mapOf(".targetImg" to "data-original",
-                    ".viewWrp li input" to "value",
-                    ".clickViewerWrp li input[class=originSrc]" to "value")
-                    .forEach { (target, attrs) ->
-                        doc.select(target).mapTo(list) { DetailView.createImage(it.attr(attrs)) }
-                    }
+                ".viewWrp li input" to "value",
+                ".clickViewerWrp li input[class=originSrc]" to "value")
+                .forEach { (target, attrs) ->
+                    doc.select(target).mapTo(list) { DetailView.createImage(it.attr(attrs)) }
+                }
 
             this.list = list
         }
@@ -58,8 +59,8 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-            title = "${episode.title} / ${detail.title}",
-            url = DETAIL_URL.format(episode.episodeId)
+        title = "${episode.title} / ${detail.title}",
+        url = DETAIL_URL.format(episode.episodeId)
     )
 
     override val method: String = NetworkSupportApi.GET
