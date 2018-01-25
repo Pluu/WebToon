@@ -21,27 +21,20 @@ object ServiceConst {
             R.string.title_t_store)
 
     // icons for navdrawer items (indices must correspond to above array)
-    val NAVDRAWER_ICON_RES_ID = intArrayOf(
-            0, // NAVER
-            0, // DAUM
-            0, // OLLEH
-            0, // Kakao Page
-            0, // Nate
-            0) // ONE Store
+    val NAVDRAWER_ICON_RES_ID = IntArray(NAVDRAWER_TITLE_RES_ID.size, { 0 })
 
-    fun getApiType(bundle: Bundle?): NAV_ITEM = if (bundle != null)
-        bundle.getSerializable(Const.EXTRA_API) as NAV_ITEM
-    else
-        NAV_ITEM.getDefault()
+    fun getApiType(bundle: Bundle?): NAV_ITEM = bundle?.let {
+        it.getSerializable(Const.EXTRA_API) as NAV_ITEM
+    } ?: NAV_ITEM.getDefault()
 }
 
-enum class NAV_ITEM (val isSelect: Boolean = false, @param:ColorRes val color: Int = 0, @param:ColorRes val bgColor: Int = 0) {
+enum class NAV_ITEM(val isSelect: Boolean = false, @param:ColorRes val color: Int = 0, @param:ColorRes val bgColor: Int = 0) {
     NAVER(true, R.color.naver_color, R.color.naver_color_dark),
     DAUM(true, R.color.daum_color, R.color.daum_color_dark),
-    OLLEH(true, R.color.olleh_color, R.color.olleh_color_dark),
+    KTOON(true, R.color.olleh_color, R.color.olleh_color_dark),
     KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_dark),
     NATE(true, R.color.nate_color, R.color.nate_color_dark),
-    T_STORE(true, R.color.t_store_color, R.color.t_store_color_dark),
+    ONE_STORE(true, R.color.t_store_color, R.color.t_store_color_dark),
     SEPARATOR(), // Separator
     INVALID();
 

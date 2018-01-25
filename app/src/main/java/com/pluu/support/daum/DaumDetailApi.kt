@@ -47,19 +47,13 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
                 prevLink = prevId.toString()
             }
 
-            type = when (info.optString("multiType")) {
-                "chatting" -> {
-                    list = chattingDetailParse(json)
-                    DETAIL_TYPE.DAUM_CHATTING
-                }
-                "multi" -> {
-                    list = multiDetailParse(json)
-                    DETAIL_TYPE.DAUM_MULTI
-                }
-                else -> {
-                    list = defaultDetailParse(json)
-                    DETAIL_TYPE.DEFAULT
-                }
+            when (info.optString("multiType")) {
+                "chatting" -> chattingDetailParse(json) to DETAIL_TYPE.DAUM_CHATTING
+                "multi" -> multiDetailParse(json) to DETAIL_TYPE.DAUM_MULTI
+                else -> defaultDetailParse(json) to DETAIL_TYPE.DEFAULT
+            }.let {
+                list = it.first
+                type = it.second
             }
         }
         return ret
@@ -71,13 +65,20 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
         json.optJSONArray("webtoonEpisodePages").iterator().forEach { it ->
             it.optJSONArray("webtoonEpisodePageMultimedias")?.iterator()?.forEach { multimedia ->
                 when (multimedia.optString("multimediaType")) {
-                    "image" -> list.add(DetailView.generate(VIEW_TYPE.MULTI_IMAGE,
-                            multimedia.optJSONObject("image").optString("url")))
-                    "gif" -> list.add(DetailView.generate(VIEW_TYPE.MULTI_GIF,
-                            multimedia.optJSONObject("image").optString("url")))
+                    "image" -> VIEW_TYPE.MULTI_IMAGE
+                    "gif" -> VIEW_TYPE.MULTI_GIF
+                    else -> null
+                }?.let {
+                    list.add(
+                        DetailView.generate(
+                            it,
+                            multimedia.optJSONObject("image").optString("url")
+                        )
+                    )
                 }
             }
         }
+
         if (list.isNotEmpty()) {
             list.add(0, DetailView.createChatEmpty())
             list.add(DetailView.createChatEmpty())
@@ -91,11 +92,14 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
             list.add(DetailView.createImage(it.optString("url")))
         }
         json.optJSONArray("webtoonEpisodePages")?.iterator()?.forEach { it ->
-            list.add(DetailView.createImage(it
-                    .optJSONArray("webtoonEpisodePageMultimedias")
-                    .optJSONObject(0)
-                    .optJSONObject("image")
-                    .optString("url")))
+            list.add(
+                DetailView.createImage(
+                    it.optJSONArray("webtoonEpisodePageMultimedias")
+                        .optJSONObject(0)
+                        .optJSONObject("image")
+                        .optString("url")
+                )
+            )
         }
         return list
     }
@@ -106,25 +110,28 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
             when (it.optString("messageType")) {
                 "notice" -> {
                     if (it.isNull("message")) {
-                        list.add(DetailView.createChatNoticeImage(it.optJSONObject("image").optString("url")))
+                        DetailView.createChatNoticeImage(it.optJSONObject("image").optString("url"))
                     } else {
-                        list.add(DetailView.createChatNotice(it.optString("message")))
+                        DetailView.createChatNotice(it.optString("message"))
                     }
                 }
                 "another" -> {
-                    list.add(DetailView.createChatLeft(
-                            it.optJSONObject("profileImage").optString("url"),
-                            it.optString("profileName"),
-                            it.optString("message"))
+                    DetailView.createChatLeft(
+                        it.optJSONObject("profileImage").optString("url"),
+                        it.optString("profileName"),
+                        it.optString("message")
                     )
                 }
                 "own" -> {
-                    list.add(DetailView.createChatRight(
-                            it.optJSONObject("profileImage").optString("url"),
-                            it.optString("profileName"),
-                            it.optString("message"))
+                    DetailView.createChatRight(
+                        it.optJSONObject("profileImage").optString("url"),
+                        it.optString("profileName"),
+                        it.optString("message")
                     )
                 }
+                else -> null
+            }?.let {
+                list.add(it)
             }
         }
         if (list.isNotEmpty()) {
@@ -135,8 +142,8 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-            title = "${episode.title} / ${detail.title}",
-            url = "$SHARE_URL$detail.episodeId"
+        title = "${episode.title} / ${detail.title}",
+        url = "$SHARE_URL$detail.episodeId"
     )
 
     override val method: String = NetworkSupportApi.POST
@@ -147,7 +154,6 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
         get() = hashMapOf("id" to id)
 
     companion object {
-
         private val DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer"
         private val SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/"
     }

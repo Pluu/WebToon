@@ -1,4 +1,4 @@
-package com.pluu.support.tstore
+package com.pluu.support.onestore
 
 import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
@@ -12,14 +12,14 @@ import org.jsoup.Jsoup
  * TStore 웹툰 Week Api
  * Created by pluu on 2017-04-27.
  */
-class TStorerWeekApi(context: Context) : AbstractWeekApi(context, TStorerWeekApi.TITLE) {
+class OneStorerWeekApi(context: Context) : AbstractWeekApi(context, OneStorerWeekApi.TITLE) {
     private val ID_PATTERN = "(?<=prodId=).+(?=&)".toRegex()
     private val IMG_PATTERN = "(?<=url\\(').+(?='\\);)".toRegex()
     private val DATE_PATTERN = "\\d{4}.\\d{2}.\\d{2}".toRegex()
 
     private var currentPos: Int = 0
 
-    override val naviItem: NAV_ITEM = NAV_ITEM.T_STORE
+    override val naviItem: NAV_ITEM = NAV_ITEM.ONE_STORE
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position

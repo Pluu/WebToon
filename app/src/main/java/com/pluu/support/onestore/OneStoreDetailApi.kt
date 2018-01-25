@@ -1,4 +1,4 @@
-package com.pluu.support.tstore
+package com.pluu.support.onestore
 
 import android.content.Context
 import com.pluu.kotlin.iterator
@@ -17,7 +17,7 @@ import org.jsoup.Jsoup
  * TStore 웹툰 상세 API
  * Created by pluu on 2017-04-27.
  */
-class TStoreDetailApi(context: Context) : AbstractDetailApi(context) {
+class OneStoreDetailApi(context: Context) : AbstractDetailApi(context) {
 
     private lateinit var id: String
 

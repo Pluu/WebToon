@@ -1,8 +1,8 @@
 package com.pluu.support.daum
 
 import android.content.Context
+import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.isNotEmpty
-import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.NetworkSupportApi
 import com.pluu.webtoon.item.Episode
@@ -38,10 +38,10 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
         val data = json.optJSONObject("data").optJSONArray("webtoonEpisodes")
-        if (data?.isNotEmpty() == true) {
-            episodePage.episodes = parseList(info, data)
+        episodePage.episodes = if (data?.isNotEmpty() == true) {
+            parseList(info, data)
         } else {
-            episodePage.episodes = mutableListOf()
+            mutableListOf()
         }
         val page = json.optJSONObject("page")
 
@@ -52,7 +52,7 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
         if (firstEpisodeId == 0) {
             firstEpisodeId = getFirstEpisode(nick)
-                    .optJSONObject("data").optInt("firstEpisodeId")
+                .optJSONObject("data").optInt("firstEpisodeId")
         }
 
         return episodePage
@@ -60,26 +60,24 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     @Throws(Exception::class)
     private fun getFirstEpisode(nick: String): JSONObject {
-        val builder = Request.Builder().url(PREFIX_FIRST_URL + nick)
-        val response = requestApi(builder.build())
+        val response = Request.Builder().url(PREFIX_FIRST_URL + nick).build().let {
+            requestApi(it)
+        }
         return JSONObject(response)
     }
 
-    private fun parseList(info: WebToonInfo, data: JSONArray): List<Episode> {
-        val list = mutableListOf<Episode>()
-
-        data.iterator().forEach { obj ->
-            Episode(info, obj.optString("id")).apply {
-                episodeTitle = obj.optString("title")
-                image = obj.optJSONObject("thumbnailImage").optString("url")
-                rate = obj.optJSONObject("voteTarget").optString("voteTotalScore")
-                isLoginNeed = obj.optInt("price", 0) > 0
-                updateDate = obj.optString("dateCreated")
-                list.add(this)
+    private fun parseList(info: WebToonInfo, data: JSONArray): List<Episode> =
+        data.asSequence()
+            .map {
+                Episode(info, it.optString("id")).apply {
+                    episodeTitle = it.optString("title")
+                    image = it.optJSONObject("thumbnailImage").optString("url")
+                    rate = it.optJSONObject("voteTarget").optString("voteTotalScore")
+                    isLoginNeed = it.optInt("price", 0) > 0
+                    updateDate = it.optString("dateCreated")
+                }
             }
-        }
-        return list
-    }
+            .toList()
 
     private fun parsePage(obj: JSONObject, nickName: String): String? {
         val total = obj.optInt("size", 1)
@@ -112,7 +110,8 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     override val method: String = NetworkSupportApi.POST
 
-    override val url: String = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname"
+    override val url: String =
+        "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname"
 
     override val params: Map<String, String>
         get() = HashMap<String, String>().apply {
@@ -126,6 +125,7 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
     companion object {
-        private val PREFIX_FIRST_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/view?nickname="
+        private val PREFIX_FIRST_URL =
+            "http://m.webtoon.daum.net/data/mobile/webtoon/view?nickname="
     }
 }

@@ -1,4 +1,4 @@
-package com.pluu.support.tstore
+package com.pluu.support.onestore
 
 import android.content.Context
 import com.pluu.support.impl.AbstractEpisodeApi
@@ -13,7 +13,7 @@ import org.jsoup.nodes.Document
  * TStore 웹툰 에피소드 Api
  * Created by pluu on 2017-04-27.
  */
-class TStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
+class OneStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     private val EPISODE_ID = "(?<=prodId=)\\w+".toRegex()
     private val IMG_PATTERN = "(?<=url\\(').+(?='\\);)".toRegex()

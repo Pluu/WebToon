@@ -1,4 +1,4 @@
-package com.pluu.support.olleh
+package com.pluu.support.ktoon
 
 import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
@@ -14,7 +14,7 @@ import org.jsoup.nodes.Element
  * Created by pluu on 2017-04-22.
  */
 class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TITLE) {
-    override val naviItem: NAV_ITEM = NAV_ITEM.OLLEH
+    override val naviItem: NAV_ITEM = NAV_ITEM.KTOON
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         val weekly = try {
