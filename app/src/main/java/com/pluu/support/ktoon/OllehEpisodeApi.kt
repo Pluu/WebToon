@@ -46,26 +46,24 @@ class OllehEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         return episodePage
     }
 
-    private fun parseList(info: WebToonInfo, array: JSONArray): List<Episode> {
-        val list = mutableListOf<Episode>()
+    private fun parseList(info: WebToonInfo, array: JSONArray): List<Episode> =
         (0 until array.length())
-                .mapTo(list) { createEpisode(info, array.optJSONObject(it)) }
-        return list
-    }
+            .map { createEpisode(info, array.optJSONObject(it)) }
 
-    private fun createEpisode(info: WebToonInfo, obj: JSONObject): Episode {
-        return Episode(info, obj.optString("timesseq")).apply {
+    private fun createEpisode(info: WebToonInfo, obj: JSONObject): Episode =
+        Episode(info, obj.optString("timesseq")).apply {
             episodeTitle = obj.optString("timestitle")
             image = obj.optString("thumbpath")
         }
-    }
 
     private fun getFirstEpisode(info: WebToonInfo): Episode {
         val builder = Request.Builder().apply {
             val requestBody = FormBody.Builder().apply {
-                mapOf("worksseq" to id,
-                        "sorting" to "seq",
-                        "turmCnt" to 1.toString()).forEach {
+                mapOf(
+                    "worksseq" to id,
+                    "sorting" to "seq",
+                    "turmCnt" to 1.toString()
+                ).forEach {
                     add(it.key, it.value)
                 }
             }.build()
@@ -90,10 +88,12 @@ class OllehEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     override val url: String = EPISODE_URL
 
     override val params: Map<String, String>
-        get() = hashMapOf("worksseq" to id,
-                "sorting" to "up",
-                "startCnt" to (pageNo * PAGE_SIZE).toString(),
-                "turmCnt" to PAGE_SIZE.toString())
+        get() = hashMapOf(
+            "worksseq" to id,
+            "sorting" to "up",
+            "startCnt" to (pageNo * PAGE_SIZE).toString(),
+            "turmCnt" to PAGE_SIZE.toString()
+        )
 
     companion object {
         private val EPISODE_URL = "https://v2.myktoon.com/web/works/times_list_ajax.kt"

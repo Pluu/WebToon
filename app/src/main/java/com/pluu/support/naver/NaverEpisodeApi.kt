@@ -40,37 +40,27 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     }
 
     private fun parseList(info: WebToonInfo, doc: Document): List<Episode> {
-        val list = mutableListOf<Episode>()
         val pattern = "(?<=no=)\\d+".toRegex()
 
-        try {
-            for (a in doc.select(".lst a")) {
-                pattern.find(a.attr("href"))?.apply {
-                    Episode(info, value).apply {
-                        episodeTitle = a.select(".toon_name").text()
-                        image = a.select("img").first().attr("src")
-                        parseToonInfo(a, this)
-                        list.add(this)
+        return doc.select(".lst a")
+            .mapNotNull { element ->
+                pattern.find(element.attr("href"))?.let {
+                    Episode(info, it.value).apply {
+                        episodeTitle = element.select(".toon_name").text()
+                        image = element.select("img").first().attr("src")
+                        parseToonInfo(element, this)
                     }
                 }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return list
     }
 
     private fun parseToonInfo(doc: Element, episode: Episode) {
         val info = doc.select(".toon_info")
         episode.rate = info.select("span[class=if1 st_r]").text()
-
-        if (info.select(".aside_info .ico_up").isNotEmpty()) {
-            // 최근 업데이트
-            episode.status = Status.UPDATE
-        } else if (info.select(".aside_info .ico_break").isNotEmpty()) {
-            // 휴재
-            episode.status = Status.BREAK
+        episode.status = when {
+            info.select(".aside_info .ico_up").isNotEmpty() -> Status.UPDATE  // 최근 업데이트
+            info.select(".aside_info .ico_break").isNotEmpty() -> Status.BREAK  // 휴재
+            else -> Status.NONE
         }
     }
 

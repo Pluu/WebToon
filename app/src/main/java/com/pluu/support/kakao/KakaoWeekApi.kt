@@ -42,7 +42,7 @@ class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TIT
                         writer = element.select(".info").text().split("•").last().trim()
                     }
                 }
-            }.toList()
+            }
     }
 
     override val method: String = NetworkSupportApi.GET

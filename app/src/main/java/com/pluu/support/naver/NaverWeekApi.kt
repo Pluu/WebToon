@@ -30,31 +30,25 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
             return emptyList()
         }
 
-        val list = mutableListOf<WebToonInfo>()
         val pattern = "(?<=titleId=)\\d+".toRegex()
-        for (a in doc.select("#pageList a")) {
-            pattern.find(a.attr("href"))?.apply {
-                WebToonInfo(value).apply {
-                    title = a.select(".toon_name").text()
-                    image = a.select("img").first().attr("src")
-
-                    if (a.select("em[class=badge badge_up]").isNotEmpty()) {
-                        // 최근 업데이트
-                        status = Status.UPDATE
-                    } else if (a.select("em[class=badge badge_break]").isNotEmpty()) {
-                        // 휴재
-                        status = Status.BREAK
+        return doc.select("#pageList a")
+            .mapNotNull { element ->
+                pattern.find(element.attr("href"))?.let {
+                    WebToonInfo(it.value).apply {
+                        title = element.select(".toon_name").text()
+                        image = element.select("img").first().attr("src")
+                        status = when {
+                            element.select("em[class=badge badge_up]").isNotEmpty() -> Status.UPDATE  // 최근 업데이트
+                            element.select("em[class=badge badge_break]").isNotEmpty() -> Status.BREAK  // 휴재
+                            else -> Status.NONE
+                        }
+                        isAdult = !element.select("em[class=badge badge_adult]").isEmpty()
+                        writer = element.select(".sub_info").first().text()
+                        rate = Const.getRateNameByRate(element.select(".txt_score").text())
+                        updateDate = element.select("span[class=if1]").text()
                     }
-                    isAdult = !a.select("em[class=badge badge_adult]").isEmpty()
-                    writer = a.select(".sub_info").first().text()
-                    rate = Const.getRateNameByRate(a.select(".txt_score").text())
-                    updateDate = a.select("span[class=if1]").text()
-                    list.add(this)
                 }
             }
-        }
-
-        return list
     }
 
     override val method: String = NetworkSupportApi.GET

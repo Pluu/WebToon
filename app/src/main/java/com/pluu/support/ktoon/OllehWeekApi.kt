@@ -25,13 +25,12 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
         }
 
         val dataPosition = weekly.select("h4")
-                .indexOfFirst { it.text() == TITLE[position] }
+            .indexOfFirst { it.text() == TITLE[position] }
 
         if (dataPosition == -1) return emptyList()
 
         return weekly[dataPosition].select("li")
-                .mapNotNull { transform(it) }
-                .toList()
+            .mapNotNull { transform(it) }
     }
 
     private fun transform(it: Element): WebToonInfo? {
@@ -42,12 +41,10 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
             title = info.select("strong").text()
             image = it.select(".thumb img").attr("src")
 
-            if (info.select(".ico_up").isNotEmpty()) {
-                // 최근 업데이트트
-                status = Status.UPDATE
-            } else if (info.select(".ico_break").isNotEmpty()) {
-                // 휴재
-                status = Status.BREAK
+            status = when {
+                info.select(".ico_up").isNotEmpty() -> Status.UPDATE  // 최근 업데이트트
+                info.select(".ico_break").isNotEmpty() -> Status.BREAK // 휴재
+                else -> Status.NONE
             }
 
             isAdult = info.select("ico_adult").isNotEmpty()

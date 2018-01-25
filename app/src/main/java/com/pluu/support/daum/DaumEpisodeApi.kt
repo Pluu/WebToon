@@ -76,8 +76,7 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
                     isLoginNeed = it.optInt("price", 0) > 0
                     updateDate = it.optString("dateCreated")
                 }
-            }
-            .toList()
+            }.toList()
 
     private fun parsePage(obj: JSONObject, nickName: String): String? {
         val total = obj.optInt("size", 1)

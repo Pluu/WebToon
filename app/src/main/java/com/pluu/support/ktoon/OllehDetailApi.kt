@@ -2,7 +2,7 @@ package com.pluu.support.ktoon
 
 import android.content.Context
 import android.net.Uri
-import com.pluu.kotlin.iterator
+import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NetworkSupportApi
 import com.pluu.webtoon.item.Detail
@@ -41,35 +41,39 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
             return ret
         }
         ret.list = parserToon(array)
-        val (prevLink, nextLink) = parsePrevNext()
-        ret.prevLink = prevLink
-        ret.nextLink = nextLink
+        parsePrevNext().let {
+            ret.prevLink = it.first
+            ret.nextLink = it.second
+        }
         return ret
     }
 
     private fun parserToon(array: JSONArray): List<DetailView> {
-        val list = mutableListOf<DetailView>()
-        array.iterator().forEach { obj ->
-            list.add(DetailView.createImage(obj.optString("imagepath")))
-        }
-        return list
+        return array.asSequence()
+            .map {
+                DetailView.createImage(it.optString("imagepath"))
+            }
+            .toList()
     }
 
     private fun parsePrevNext(): Pair<String?, String?> {
         val builder = Request.Builder().apply {
-            val url = Uri.Builder().encodedPath("https://www.myktoon.com/mw/works/viewer.kt").apply {
-                appendQueryParameter("timesseq", timesseq)
-            }.build()
-            url(url.toString())
+            val url =
+                Uri.Builder().encodedPath("https://www.myktoon.com/mw/works/viewer.kt").apply {
+                    appendQueryParameter("timesseq", timesseq)
+                }.build().toString()
+            url(url)
         }
         val pagingWrap = Jsoup.parse(requestApi(builder.build())).select(".paging_wrap")
-        return Pair(pagingWrap.select("a[class=btn_prev moveViewerBtn]").attr("data-seq"),
-                pagingWrap.select("a[class=btn_next moveViewerBtn]").attr("data-seq"))
+        return Pair(
+            pagingWrap.select("a[class=btn_prev moveViewerBtn]").attr("data-seq"),
+            pagingWrap.select("a[class=btn_next moveViewerBtn]").attr("data-seq")
+        )
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-            title = "${episode.title} / ${detail.title}",
-            url = "https://v2.myktoon.com/mw/works/viewer.kt?timesseq=${detail.episodeId}"
+        title = "${episode.title} / ${detail.title}",
+        url = "https://v2.myktoon.com/mw/works/viewer.kt?timesseq=${detail.episodeId}"
     )
 
     override val url = "https://v2.myktoon.com/web/works/times_image_list_ajax.kt"

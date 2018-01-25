@@ -15,8 +15,9 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
 
     private val SHARE_URL = "http://m.comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s"
     private val SKIP_DETAIL = arrayOf(
-            "http://static.naver.com/m/comic/im/txt_ads.png",
-            "http://static.naver.com/m/comic/im/toon_app_pop.png")
+        "http://static.naver.com/m/comic/im/txt_ads.png",
+        "http://static.naver.com/m/comic/im/toon_app_pop.png"
+    )
 
     private var webToonId: String? = null
     private var episodeId: String? = null
@@ -86,26 +87,24 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
 
     private fun parseDetailCutToonType(doc: Document): List<DetailView> {
         return doc.select(".swiper-slide img.swiper-lazy")
-                .filter { it -> it.hasAttr("data-categoryid") }
-                .map { it -> it.attr("data-src") }
-                .map { url -> DetailView.createImage(url) }
+            .filter { it -> it.hasAttr("data-categoryid") }
+            .map { it -> it.attr("data-src") }
+            .map { url -> DetailView.createImage(url) }
     }
 
     private fun parseDetailNormalType(doc: Document) =
-            doc.select("#toonLayer li img")
-                    .map {
-                        var path = it.attr("data-original")
-                        if (path.isEmpty()) {
-                            path = it.attr("src")
-                        }
-                        path
-                    }
-                    .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
-                    .map { DetailView.createImage(it) }
+        doc.select("#toonLayer li img")
+            .map {
+                it.attr("data-original").takeIf {
+                    it.isNotEmpty()
+                } ?: it.attr("src")
+            }
+            .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
+            .map { DetailView.createImage(it) }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-            title = "${episode.title} / ${detail.title}",
-            url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
+        title = "${episode.title} / ${detail.title}",
+        url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
     )
 
     override val method: String = NetworkSupportApi.GET
