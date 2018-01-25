@@ -39,7 +39,7 @@ class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TIT
                     if (it.select(".badgeImg").isNotEmpty()) {
                         status = Status.UPDATE
                     }
-                    writer = it.select(".info ").text().split("•".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()[1]
+                    writer = it.select(".info").text().split("•").last().trim()
                     list.add(this)
                 }
             }
