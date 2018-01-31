@@ -2,7 +2,7 @@ package com.pluu.support.onestore
 
 import android.content.Context
 import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -74,7 +74,7 @@ class OneStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     override fun getFirstEpisode(item: Episode) = firstEpisode
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String
         get() = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonList.omp?prodId=$id"

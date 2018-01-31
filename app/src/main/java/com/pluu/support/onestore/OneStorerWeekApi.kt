@@ -3,7 +3,7 @@ package com.pluu.support.onestore
 import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
@@ -13,16 +13,15 @@ import org.jsoup.Jsoup
  * Created by pluu on 2017-04-27.
  */
 class OneStorerWeekApi(context: Context) : AbstractWeekApi(context, OneStorerWeekApi.TITLE) {
-    private val ID_PATTERN = "(?<=prodId=).+(?=&)".toRegex()
-    private val IMG_PATTERN = "(?<=url\\(').+(?='\\);)".toRegex()
-    private val DATE_PATTERN = "\\d{4}.\\d{2}.\\d{2}".toRegex()
+    private val ID_PATTERN =
+        arrayOf("(?<=prodId=).+(?=&)".toRegex(), "(?<=goAdultAuthPage\\(').+(?=')".toRegex())
 
     private var currentPos: Int = 0
 
     override val naviItem: NAV_ITEM = NAV_ITEM.ONE_STORE
 
     override fun parseMain(position: Int): List<WebToonInfo> {
-        this.currentPos = position
+        currentPos = position
 
         val doc = try {
             Jsoup.parse(requestApi())
@@ -31,33 +30,43 @@ class OneStorerWeekApi(context: Context) : AbstractWeekApi(context, OneStorerWee
             return emptyList()
         }
 
-        val list = mutableListOf<WebToonInfo>()
-        doc.select("#weekToon0" + (position + 1) + " ul li a").forEach {
-            ID_PATTERN.find(it.attr("href"))?.apply {
-                WebToonInfo(value).apply {
-                    title = it.select(".list-item-text-title").text()
-                    image = it.select("span[class=list-thumbnail-pic ebook-lazy]")?.let {
-                        IMG_PATTERN.find(it.attr("style"))?.value
+        return doc.select(".offering-card-item")
+            .mapNotNull { element ->
+                val href = element.attr("href")
+                ID_PATTERN
+                    .mapNotNull { it.find(href) }
+                    .firstOrNull()?.value?.let { id ->
+                    WebToonInfo(id).apply {
+                        title = element.select(".product-ti").text()
+                        image = element.select(".thumbnail").attr("data-thumbackground")
+                        writer = element.select(".product-writer").text()
+
+                        val related = element.select(".product-related")
+                        updateDate = related.last().text()
+                        status = when {
+                            element.select("em[class=.product-badge-icon product-badge-icon-01]").text() == "UP" -> Status.UPDATE
+                            related.first().text() == "휴재" -> Status.BREAK
+                            else -> Status.NONE
+                        }
                     }
-                    writer = it.select(".list-item-text-like-info").last()?.children()?.last()?.text()
-                    updateDate = it.select("span[class=list-item-text-date list-item-text-point]")?.let {
-                        DATE_PATTERN.find(it.text())?.value
-                    }
-                    if (it.select("i[class=icon-type-ktoon icon-badge-update]").isNotEmpty()) {
-                        // 최근 업데이트
-                        status = Status.UPDATE
-                    }
-                    list.add(this)
                 }
             }
-        }
-        return list
     }
 
-    override val method: String = NetworkSupportApi.POST
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
 
     override val url: String
-        get() = "http://m.tstore.co.kr/mobilepoc/webtoon/weekdayList.omp?weekday=${currentPos + 1}"
+        get() = "http://m.onestore.co.kr/mobilepoc/webtoon/weekdayList.omp"
+
+    override val headers: Map<String, String>
+        get() = hashMapOf(
+            "Referer" to "http://m.onestore.co.kr/mobilepoc/webtoon/weekdayList.omp"
+        )
+
+    override val params: Map<String, String>
+        get() = hashMapOf(
+            "weekday" to currentPos.toString()
+        )
 
     companion object {
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "T툰")

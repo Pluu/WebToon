@@ -18,7 +18,8 @@ object ServiceConst {
             R.string.title_olleh,
             R.string.title_kakao_page,
             R.string.title_nate,
-            R.string.title_t_store)
+            R.string.title_one_store
+    )
 
     // icons for navdrawer items (indices must correspond to above array)
     val NAVDRAWER_ICON_RES_ID = IntArray(NAVDRAWER_TITLE_RES_ID.size, { 0 })

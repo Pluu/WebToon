@@ -3,7 +3,7 @@ package com.pluu.support.nate
 import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
 
@@ -40,7 +40,7 @@ class NateWeekApi(context: Context) : AbstractWeekApi(context, NateWeekApi.TITLE
         return list
     }
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     companion object {
         private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")

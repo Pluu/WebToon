@@ -4,7 +4,7 @@ import android.content.Context
 import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.isNotEmpty
 import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -107,7 +107,7 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         pageNo = 0
     }
 
-    override val method: String = NetworkSupportApi.POST
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
 
     override val url: String =
         "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname"
@@ -124,7 +124,7 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
     companion object {
-        private val PREFIX_FIRST_URL =
+        private const val PREFIX_FIRST_URL =
             "http://m.webtoon.daum.net/data/mobile/webtoon/view?nickname="
     }
 }

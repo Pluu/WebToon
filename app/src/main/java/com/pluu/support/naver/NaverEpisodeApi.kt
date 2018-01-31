@@ -2,7 +2,7 @@ package com.pluu.support.naver
 
 import android.content.Context
 import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.Status
@@ -86,12 +86,12 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         pageNo = 1
     }
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String
         get() = HOST_URL.format(webToonId, pageNo)
 
     companion object {
-        private val HOST_URL = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=%d"
+        private const val HOST_URL = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=%d"
     }
 }

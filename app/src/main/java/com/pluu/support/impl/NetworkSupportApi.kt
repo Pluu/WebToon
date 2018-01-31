@@ -20,7 +20,7 @@ abstract class NetworkSupportApi(context: Context) : IRequest {
         (context.applicationContext as AppController).networkComponent.inject(this)
     }
 
-    abstract override val method: String
+    abstract override val method: REQUEST_METHOD
 
     abstract override val url: String
 
@@ -39,12 +39,8 @@ abstract class NetworkSupportApi(context: Context) : IRequest {
     protected fun requestApi(request: Request): String {
         return NetworkTask(client).requestApi(request)
     }
+}
 
-    companion object {
-
-        val POST = "POST"
-        val GET = "GET"
-
-    }
-
+enum class REQUEST_METHOD {
+    POST, GET
 }

@@ -3,7 +3,7 @@ package com.pluu.support.ktoon
 import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
@@ -54,7 +54,7 @@ class OllehWeekApi(context: Context) : AbstractWeekApi(context, OllehWeekApi.TIT
 
     override val url = "https://www.myktoon.com/web/webtoon/works_list.kt"
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val headers: Map<String, String> = emptyMap()
 

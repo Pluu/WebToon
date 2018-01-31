@@ -2,7 +2,7 @@ package com.pluu.support.nate
 
 import android.content.Context
 import com.pluu.support.impl.AbstractDetailApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -57,7 +57,7 @@ class NateDetailApi(context: Context) : AbstractDetailApi(context) {
             url = DETAIL_URL.format(episode.toonId, episode.episodeId)
     )
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String
         get() = DETAIL_URL.format(webToonId, episodeId)

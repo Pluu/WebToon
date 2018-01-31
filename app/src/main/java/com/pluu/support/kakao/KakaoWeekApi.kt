@@ -3,7 +3,7 @@ package com.pluu.support.kakao
 import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
@@ -45,7 +45,7 @@ class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TIT
             }
     }
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val params: Map<String, String>
         get() = mapOf(

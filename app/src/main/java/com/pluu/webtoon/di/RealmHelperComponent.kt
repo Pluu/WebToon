@@ -12,7 +12,7 @@ import javax.inject.Singleton
  * Created by pluu on 2017-04-30.
  */
 @Singleton
-@Component(modules = arrayOf(RealmHelperModule::class))
+@Component(modules = [(RealmHelperModule::class)])
 interface RealmHelperComponent {
 
     fun inject(fragment: WebtoonListFragment)

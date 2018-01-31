@@ -11,14 +11,14 @@
     <string name="title_olleh">KTOON</string>
     <string name="title_kakao_page">Kakao Page</string>
     <string name="title_nate">Nate</string>
-    <string name="title_t_store">ONE Store</string>
+    <string name="title_one_store">ONE Store</string>
 
     <string name="title_naver_key">NAVER</string>
     <string name="title_daum_key">DAUM</string>
     <string name="title_olleh_key">OLLEH</string>
     <string name="title_kakao_page_key">KAKAOPAGE</string>
     <string name="title_nate_key">NATE</string>
-    <string name="title_t_store_key">T_STORE</string>
+    <string name="title_one_store_key">ONE_STORE</string>
 
     <string name="msg_loading">Loading &#8230;</string>
 
@@ -52,7 +52,7 @@
         <item>@string/title_olleh</item>
         <item>@string/title_kakao_page</item>
         <item>@string/title_nate</item>
-        <item>@string/title_t_store</item>
+        <item>@string/title_one_store</item>
     </string-array>
 
     <string-array name="label_webtoon_value">
@@ -61,7 +61,7 @@
         <item>@string/title_olleh_key</item>
         <item>@string/title_kakao_page_key</item>
         <item>@string/title_nate_key</item>
-        <item>@string/title_t_store_key</item>
+        <item>@string/title_one_store_key</item>
     </string-array>
 
     <!-- License -->

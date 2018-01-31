@@ -64,14 +64,15 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     private fun setupNavDrawer() {
         mDrawerLayout.setStatusBarBackgroundColor(
-                ContextCompat.getColor(this, R.color.theme_primary_dark))
+            ContextCompat.getColor(this, R.color.theme_primary_dark)
+        )
 
         ActionBarDrawerToggle(
-                this, /* host Activity */
-                mDrawerLayout, /* DrawerLayout object */
-                mActionBarToolbar, /* nav drawer image to replace 'Up' caret */
-                R.string.app_name, /* "open drawer" description for accessibility */
-                R.string.app_name /* "close drawer" description for accessibility */
+            this, /* host Activity */
+            mDrawerLayout, /* DrawerLayout object */
+            mActionBarToolbar, /* nav drawer image to replace 'Up' caret */
+            R.string.app_name, /* "open drawer" description for accessibility */
+            R.string.app_name /* "close drawer" description for accessibility */
         ).apply {
             isDrawerIndicatorEnabled = true
             mDrawerLayout.addDrawerListener(this)
@@ -150,17 +151,25 @@ abstract class BaseNavActivity : AppCompatActivity() {
         }
 
         // configure its appearance according to whether or not it's selected
-        titleView.setTextColor(ContextCompat.getColor(this,
-                if (selected) item.color else R.color.navdrawer_text_color))
-        iconView.setColorFilter(ContextCompat.getColor(this,
-                if (selected) item.bgColor else R.color.navdrawer_icon_tint))
+        titleView.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (selected) item.color else R.color.navdrawer_text_color
+            )
+        )
+        iconView.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                if (selected) item.bgColor else R.color.navdrawer_icon_tint
+            )
+        )
     }
 
     private fun isSeparator(item: NAV_ITEM): Boolean {
         return item === NAV_ITEM.SEPARATOR
     }
 
-    protected val isNavDrawerOpen: Boolean
+    private val isNavDrawerOpen: Boolean
         get() = mDrawerLayout.isDrawerOpen(GravityCompat.START)
 
     protected fun closeNavDrawer() = mDrawerLayout.closeDrawer(GravityCompat.START)
@@ -186,8 +195,10 @@ abstract class BaseNavActivity : AppCompatActivity() {
             val transaction = manager.beginTransaction()
             val tag = manager.findFragmentByTag(Const.MAIN_FRAG_TAG)
             transaction.remove(tag)
-            transaction.replace(R.id.container,
-                    MainFragment.newInstance(item), Const.MAIN_FRAG_TAG)
+            transaction.replace(
+                R.id.container,
+                MainFragment.newInstance(item), Const.MAIN_FRAG_TAG
+            )
             transaction.commit()
         }
     }
@@ -217,7 +228,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     companion object {
         // delay to launch nav drawer item, to allow close animation to play
-        private val NAVDRAWER_LAUNCH_DELAY = 250
+        private const val NAVDRAWER_LAUNCH_DELAY = 250
     }
 
 }

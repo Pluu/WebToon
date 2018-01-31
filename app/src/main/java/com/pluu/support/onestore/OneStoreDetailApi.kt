@@ -3,7 +3,7 @@ package com.pluu.support.onestore
 import android.content.Context
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractDetailApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -81,7 +81,7 @@ class OneStoreDetailApi(context: Context) : AbstractDetailApi(context) {
     override val url: String
         get() = "http://m.onestore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=$id&PrePageNm="
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     companion object {
         private val EPISODE_ID = "(?<=ajaxWebtoonDetail\\(\\\\')[A-Za-z0-9]+".toRegex()

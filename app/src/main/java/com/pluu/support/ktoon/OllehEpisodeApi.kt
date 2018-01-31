@@ -2,7 +2,7 @@ package com.pluu.support.ktoon
 
 import android.content.Context
 import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -83,7 +83,7 @@ class OllehEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         pageNo = 0
     }
 
-    override val method: String = NetworkSupportApi.POST
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
 
     override val url: String = EPISODE_URL
 
@@ -96,6 +96,6 @@ class OllehEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         )
 
     companion object {
-        private val EPISODE_URL = "https://v2.myktoon.com/web/works/times_list_ajax.kt"
+        private const val EPISODE_URL = "https://v2.myktoon.com/web/works/times_list_ajax.kt"
     }
 }

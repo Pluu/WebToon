@@ -3,7 +3,7 @@ package com.pluu.support.daum
 import android.content.Context
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractDetailApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.*
 import org.json.JSONObject
 
@@ -146,7 +146,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
         url = "$SHARE_URL$detail.episodeId"
     )
 
-    override val method: String = NetworkSupportApi.POST
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
 
     override val url: String = DETAIL_URL
 
@@ -154,7 +154,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
         get() = hashMapOf("id" to id)
 
     companion object {
-        private val DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer"
-        private val SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/"
+        private const val DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer"
+        private const val SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/"
     }
 }

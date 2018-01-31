@@ -3,7 +3,7 @@ package com.pluu.support.naver
 import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
@@ -51,7 +51,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
             }
     }
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String = "http://m.comic.naver.com/webtoon/weekday.nhn"
 

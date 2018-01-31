@@ -2,7 +2,7 @@ package com.pluu.support.naver
 
 import android.content.Context
 import com.pluu.support.impl.AbstractDetailApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -107,7 +107,7 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
         url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
     )
 
-    override val method: String = NetworkSupportApi.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String
         get() = SHARE_URL.format(webToonId, episodeId)

@@ -55,8 +55,10 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         GridLayoutManager(activity, resources.getInteger(R.integer.webtoon_column_count))
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_webtoon_list, container, false)
     }
 
@@ -77,20 +79,20 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         super.onActivityCreated(savedInstanceState)
 
         Single.create<List<WebToonInfo>> { it.onSuccess(serviceApi.parseMain(position)) }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(favoriteProcessFunc)
-                .map { unsortedList ->
-                    // 정렬
-                    Collections.sort(unsortedList)
-                    unsortedList
-                }
-                .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
-                .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
-                .subscribe(requestSubscriber, Consumer { t ->
-                    RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
-                    Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-                })
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map(favoriteProcessFunc)
+            .map { unsortedList ->
+                // 정렬
+                Collections.sort(unsortedList)
+                unsortedList
+            }
+            .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
+            .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
+            .subscribe(requestSubscriber, Consumer { t ->
+                RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
+                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
+            })
     }
 
     private val requestSubscriber = Consumer<List<WebToonInfo>> { list ->
@@ -116,7 +118,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
         if (requestCode == REQUEST_DETAIL) {
             // 즐겨찾기 변경 처리 > 다른 ViewPager의 Fragment도 수신받기위해 Referrer
-            fragmentManager?.findFragmentByTag(Const.MAIN_FRAG_TAG)?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
+            fragmentManager?.findFragmentByTag(Const.MAIN_FRAG_TAG)
+                ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
         } else if (requestCode == REQUEST_DETAIL_REFERRER) {
             // ViewPager 로부터 전달받은 Referrer
             data?.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE)?.apply {
@@ -143,7 +146,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         val context = context ?: return
         Palette.from(bitmap).generate { p ->
             val bgColor = p.getDarkVibrantColor(Color.BLACK)
-            val statusColor = p.getDarkMutedColor(ContextCompat.getColor(context, R.color.theme_primary_dark))
+            val statusColor =
+                p.getDarkMutedColor(ContextCompat.getColor(context, R.color.theme_primary_dark))
             moveEpisode(item, bgColor, statusColor)
         }
     }
@@ -166,7 +170,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         super.onConfigurationChanged(newConfig)
 
         if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE
-                || newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            || newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT
+        ) {
             updateSpanCount()
         }
     }
@@ -180,6 +185,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     companion object {
-        val REQUEST_DETAIL_REFERRER = 1001
+        const val REQUEST_DETAIL_REFERRER = 1001
     }
 }

@@ -5,7 +5,7 @@ import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.isNotEmpty
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.item.BaseToonInfo
 import com.pluu.webtoon.item.Status
@@ -69,7 +69,7 @@ class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE
         }.toList()
     }
 
-    override val method: String = NetworkSupportApi.POST
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
 
     override val url: String = "http://m.webtoon.daum.net/data/mobile/webtoon"
 

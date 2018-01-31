@@ -12,15 +12,15 @@ import com.pluu.webtoon.item.DetailView
 abstract class BaseDetailFragment : Fragment() {
 
     protected var listener: ToggleListener? = null
-    protected var bindListener: FirstBindListener? = null
+    private var bindListener: FirstBindListener? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as? ToggleListener
-                ?: throw RuntimeException(context.toString() + " must implement ToggleListener")
+                ?: throw RuntimeException("${context.toString()} must implement ToggleListener")
 
         bindListener = context as? FirstBindListener
-            ?: throw RuntimeException(context.toString() + " must implement FirstBindListener")
+            ?: throw RuntimeException("$context must implement FirstBindListener")
     }
 
     override fun onDetach() {

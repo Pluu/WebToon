@@ -300,9 +300,9 @@ class SlidingTabLayout @JvmOverloads constructor(context: Context, attrs: Attrib
 
     companion object {
 
-        private val TITLE_OFFSET_DIPS = 24
-        private val TAB_VIEW_PADDING_DIPS = 16
-        private val TAB_VIEW_TEXT_SIZE_SP = 12
+        private const val TITLE_OFFSET_DIPS = 24
+        private const val TAB_VIEW_PADDING_DIPS = 16
+        private const val TAB_VIEW_TEXT_SIZE_SP = 12
     }
 
 }

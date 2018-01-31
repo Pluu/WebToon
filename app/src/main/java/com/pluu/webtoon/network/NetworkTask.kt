@@ -2,7 +2,7 @@ package com.pluu.webtoon.network
 
 import android.net.Uri
 import com.pluu.support.impl.IRequest
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -22,7 +22,7 @@ class NetworkTask(private val client: OkHttpClient) {
             }
 
             when (request.method) {
-                NetworkSupportApi.POST -> {
+                REQUEST_METHOD.POST -> {
                     val requestBody = FormBody.Builder().apply {
                         for ((key, value) in request.params) {
                             add(key, value)
@@ -31,7 +31,7 @@ class NetworkTask(private val client: OkHttpClient) {
                     post(requestBody)
                     url(request.url)
                 }
-                else -> {
+                REQUEST_METHOD.GET -> {
                     val url = Uri.Builder().encodedPath(request.url).apply {
                         for ((key, value) in request.params) {
                             appendQueryParameter(key, value)

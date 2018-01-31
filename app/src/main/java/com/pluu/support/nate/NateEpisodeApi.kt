@@ -3,7 +3,7 @@ package com.pluu.support.nate
 import android.content.Context
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -102,11 +102,11 @@ class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         pageNo = 1
     }
 
-    override val method: String
+    override val method: REQUEST_METHOD
         get() = if (pageNo > 1) {
-            NetworkSupportApi.POST
+            REQUEST_METHOD.POST
         } else {
-            NetworkSupportApi.GET
+            REQUEST_METHOD.GET
         }
 
 }

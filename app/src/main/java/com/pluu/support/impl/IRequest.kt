@@ -10,7 +10,7 @@ interface IRequest {
      * http 통신방법.
      * @return httpMethod. GET, POST, PUT, DELETE 등등.
      */
-    val method: String
+    val method: REQUEST_METHOD
 
     /**
      * 요청할 target url.

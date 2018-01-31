@@ -84,6 +84,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin_version}"
 }
 
+kapt {
+    useBuildCache = true
+}
+
 androidExtensions {
     experimental = true
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
-import com.pluu.support.impl.NetworkSupportApi
+import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -78,7 +78,7 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
 
     override val url = "https://v2.myktoon.com/web/works/times_image_list_ajax.kt"
 
-    override val method: String = NetworkSupportApi.POST
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
 
     override val params: Map<String, String>
         get() = hashMapOf("timesseq" to timesseq)
