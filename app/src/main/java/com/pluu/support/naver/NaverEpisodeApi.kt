@@ -65,9 +65,9 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     }
 
     private fun parsePage(doc: Document): String? {
-        val nextPage = doc.select(".paging_type2 [data-type=next]")
+        val nextPage = doc.select(".paging_type2 .btn_next")
         return when (nextPage.isNotEmpty()) {
-            true -> nextPage.attr("data-page")
+            true -> pageNo.toString()
             else -> null
         }
     }
@@ -89,9 +89,6 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String
-        get() = HOST_URL.format(webToonId, pageNo)
+        get() = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=$pageNo"
 
-    companion object {
-        private const val HOST_URL = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=%d"
-    }
 }
