@@ -18,8 +18,8 @@ import java.util.*
  */
 class OneStorerWeekApi(context: Context) : AbstractWeekApi(context, OneStorerWeekApi.TITLE) {
     private var currentPos = 0
-    private var page = 0
-    private var startKey: String? = null
+    private var page = 1
+    private var startKey: String? = "29/0"
 
     override val naviItem: NAV_ITEM = NAV_ITEM.ONE_STORE
 
@@ -28,19 +28,19 @@ class OneStorerWeekApi(context: Context) : AbstractWeekApi(context, OneStorerWee
 
         val array: JSONArray = try {
             JSONArray().apply {
-                var hasNext: Boolean
+                // TODO: 요일 페이지 추가 로드 작업 필요
+                var hasNext: Boolean = false
                 do {
                     val webtoonVO: JSONObject =
                         JSONObject(requestApi()).optJSONObject("webtoonVO") ?: return@apply
-                    hasNext = webtoonVO.optString("hasNext") == "Y"
+//                    hasNext = webtoonVO.optString("hasNext") == "Y"
                     startKey = webtoonVO.optString("startKey")
 
-                    webtoonVO.optJSONArray("webtoonList")
-                        ?.asSequence()
+                    webtoonVO.optJSONArray("webtoonList")?.asSequence()
                         ?.forEach {
                             put(it)
                         }
-                    page++
+//                    page++
                 } while (hasNext)
             }
         } catch (e: Exception) {
@@ -78,12 +78,12 @@ class OneStorerWeekApi(context: Context) : AbstractWeekApi(context, OneStorerWee
         get() = hashMapOf(
             "weekday" to currentPos.toString()
         ).apply {
-            startKey?.let {
+            startKey.takeIf { isNotEmpty() }?.let {
                 "startKey" to it
             }
         }
 
     companion object {
-        private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "T툰")
+        private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")
     }
 }

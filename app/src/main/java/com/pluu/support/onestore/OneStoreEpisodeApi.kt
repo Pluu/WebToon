@@ -16,7 +16,6 @@ import org.jsoup.nodes.Document
 class OneStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     private val EPISODE_ID = "(?<=prodId=)\\w+".toRegex()
-    private val IMG_PATTERN = "(?<=url\\(').+(?='\\);)".toRegex()
 
     private lateinit var id: String
     private var firstEpisode: Episode? = null
@@ -45,15 +44,13 @@ class OneStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     private fun parseList(info: WebToonInfo, doc: Document): List<Episode> {
         val list = mutableListOf<Episode>()
-        doc.select(".layout-list-co ul li a").forEach { a ->
-            val episodeId = EPISODE_ID.find(a.attr("href"))?.value ?: return@forEach
+        doc.select(".offering-card-link").forEach { item ->
+            val episodeId = EPISODE_ID.find(item.attr("href"))?.value ?: return@forEach
 
             Episode(info, episodeId).apply {
-                image = a.select("span[class=list-thumbnail-pic ebook-lazy]")?.let {
-                    IMG_PATTERN.find(it.attr("style"))?.value
-                }
-                episodeTitle = a.select(".list-item-text-title")?.text()
-                updateDate = a.select(".list-item-text-date-ty1")?.text()
+                image = item.select(".thumbnail").attr("data-thumbackground")
+                episodeTitle = item.select(".product-ti")?.text()
+                updateDate = item.select(".product-product-date")?.text()
                 list.add(this)
             }
         }

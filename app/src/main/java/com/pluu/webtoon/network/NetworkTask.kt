@@ -46,6 +46,6 @@ class NetworkTask(private val client: OkHttpClient) {
 
     @Throws(Exception::class)
     fun requestApi(request: Request): String =
-            client.newCall(request).execute().body()?.string() ?: ""
+        client.newCall(request).execute().body()?.string() ?: ""
 
 }
