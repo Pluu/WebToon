@@ -6,12 +6,12 @@ buildscript {
             'targetSdk'     : 27,
             'buildTools'    : '27.0.3',
             'supportLibrary': '27.0.2',
-            'okhttp'        : '3.9.1',
+            'okhttp'        : '3.10.0',
             'kotlin_version': '1.2.21',
             'dagger'        : '2.13',
-            'glide'         : '4.5.0',
-            'rxjava'        : '2.1.8',
-            'rxandroid'     : '2.0.1'
+            'glide'         : '4.6.1',
+            'rxjava'        : '2.1.10',
+            'rxandroid'     : '2.0.2'
     ]
     repositories {
         jcenter()
