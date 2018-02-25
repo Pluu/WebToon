@@ -89,6 +89,6 @@ class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
     override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String
-        get() = "http://m.comic.naver.com/webtoon/list.nhn?titleId=%s&page=$pageNo"
+        get() = "http://m.comic.naver.com/webtoon/list.nhn?titleId=$webToonId&page=$pageNo"
 
 }

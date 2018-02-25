@@ -13,14 +13,13 @@ import org.jsoup.nodes.Document
  */
 class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
 
-    private val SHARE_URL = "http://m.comic.naver.com/webtoon/detail.nhn?titleId=%s&no=%s"
     private val SKIP_DETAIL = arrayOf(
         "http://static.naver.com/m/comic/im/txt_ads.png",
         "http://static.naver.com/m/comic/im/toon_app_pop.png"
     )
 
-    private var webToonId: String? = null
-    private var episodeId: String? = null
+    private lateinit var webToonId: String
+    private lateinit var episodeId: String
 
     override fun parseDetail(episode: Episode): Detail {
         this.webToonId = episode.toonId
@@ -61,12 +60,12 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
         ret.list = parseDetailNormalType(doc)
 
         // 이전, 다음화
-        doc.select(".navi_area").apply {
-            select("[data-type=next]")?.attr("data-no")?.apply {
-                ret.nextLink = if (isNotEmpty()) this else null
+        doc.select(".paging_wrap").apply {
+            select("[data-type=next]").takeIf { it.isNotEmpty() }.let {
+                ret.nextLink = (episodeId.toInt() + 1).toString()
             }
-            select("[data-type=prev]")?.attr("data-no")?.apply {
-                ret.prevLink = if (isNotEmpty()) this else null
+            select("[data-type=prev]").takeIf { it.isNotEmpty() }.let {
+                ret.prevLink = (episodeId.toInt() - 1).toString()
             }
         }
     }
@@ -102,13 +101,16 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
             .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
             .map { DetailView.createImage(it) }
 
+    private fun getShareUrl(webtoonId: String, episodeId: String) =
+        "http://m.comic.naver.com/webtoon/detail.nhn?titleId=$webtoonId&no=$episodeId"
+
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
         title = "${episode.title} / ${detail.title}",
-        url = SHARE_URL.format(detail.webtoonId, detail.episodeId)
+        url = getShareUrl(detail.webtoonId.orEmpty(), detail.episodeId.orEmpty())
     )
 
     override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
     override val url: String
-        get() = SHARE_URL.format(webToonId, episodeId)
+        get() = getShareUrl(webToonId, episodeId)
 }
