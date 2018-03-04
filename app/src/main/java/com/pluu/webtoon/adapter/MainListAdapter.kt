@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
@@ -25,8 +26,11 @@ import kotlinx.android.synthetic.main.layout_main_list_item.view.*
  * Main Episode List Adapter
  * Created by pluu on 2017-05-02.
  */
-open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo>?, private val listener: WebToonSelectListener)
-    : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
+class MainListAdapter(
+    mContext: Context,
+    private val list: List<WebToonInfo>?,
+    private val listener: WebToonSelectListener
+) : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
     private val filterColor: Int = ContextCompat.getColor(mContext, R.color.color_accent)
@@ -52,7 +56,8 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
     }
 
     fun modifyInfo(info: WebToonInfo): Int {
-        val indexOfFirst = list?.indexOfFirst { item -> TextUtils.equals(info.toonId, item.toonId) } ?: -1
+        val indexOfFirst =
+            list?.indexOfFirst { item -> TextUtils.equals(info.toonId, item.toonId) } ?: -1
         if (indexOfFirst != -1) {
             list?.get(indexOfFirst)?.isFavorite = info.isFavorite
         }
@@ -68,43 +73,43 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
             itemView.titleView.tag = item
             itemView.titleView.text = item.title
             Glide.with(itemView.context)
-                    .load(item.image)
-                    .apply(RequestOptions()
-                            .centerCrop()
-                            .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                    )
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            itemView.progress.visibility = View.GONE
-                            return false
-                        }
+                .load(item.image)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+                )
+                .listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        itemView.progress.visibility = View.GONE
+                        return false
+                    }
 
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            itemView.progress.visibility = View.GONE
-                            return false
-                        }
-                    })
-                    .into(itemView.thumbnailView)
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        itemView.progress.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(itemView.thumbnailView)
 
             itemView.regDate.text = item.updateDate
-
-            itemView.regDate.visibility = if (!TextUtils.isEmpty(item.updateDate)) View.VISIBLE else View.GONE
-
-            itemView.tvUp.visibility = when (item.status) {
-                Status.UPDATE -> View.VISIBLE
-                Status.BREAK -> View.GONE
-                else -> View.GONE
-            }
-
-            itemView.tvRest.visibility = when (item.status) {
-                Status.UPDATE -> View.GONE
-                Status.BREAK -> View.VISIBLE
-                else -> View.GONE
-            }
-
-            itemView.tvNovel.visibility = if (item.type == WebToonType.NOVEL) View.VISIBLE else View.GONE
-            itemView.tv19.visibility = if (item.isAdult) View.VISIBLE else View.GONE
-            itemView.favorite.visibility = if (item.isFavorite) View.VISIBLE else View.GONE
+            itemView.regDate.visibility = item.updateDate.isNullOrBlank().toVisibleOrGone()
+            itemView.tvUp.visibility = (Status.UPDATE == item.status).toVisibleOrGone()
+            itemView.tvRest.visibility = (Status.BREAK == item.status).toVisibleOrGone()
+            itemView.tvNovel.visibility = (item.type == WebToonType.NOVEL).toVisibleOrGone()
+            itemView.tv19.visibility = item.isAdult.toVisibleOrGone()
+            itemView.favorite.visibility = item.isFavorite.toVisibleOrGone()
         }
     }
 }
