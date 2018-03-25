@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <com.pluu.webtoon.ui.view.AspectRatioImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        />
+        android:adjustViewBounds="true" />
 
     <View
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/chatting_margin"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -5,19 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardUseCompatPadding="true"
-    app:contentPadding="2dp"
-    >
+    app:contentPadding="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/thumbnailView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toon_weekly_min_height"
-            />
+            android:layout_height="@dimen/toon_weekly_min_height" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -25,8 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:minHeight="@dimen/toon_weekly_min_height"
-            />
+            android:minHeight="@dimen/toon_weekly_min_height" />
 
         <TextView
             android:id="@+id/titleView"
@@ -41,31 +37,27 @@
             android:text="New Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/lockStatusView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                tools:srcCompat="@drawable/lock_circle"
-                />
+                tools:srcCompat="@drawable/lock_circle" />
 
             <ImageView
                 android:id="@+id/readView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                app:srcCompat="@drawable/check_circle"
-                />
+                app:srcCompat="@drawable/check_circle" />
         </LinearLayout>
 
     </RelativeLayout>

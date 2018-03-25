@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_actionbar"/>
+    <include layout="@layout/toolbar_actionbar" />
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom"
-        android:layout_below="@+id/toolbar_actionbar"
-        />
+        android:layout_below="@+id/toolbar_actionbar" />
 
     <LinearLayout
         android:id="@+id/bottom"
@@ -22,8 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
-        android:padding="3dp"
-        >
+        android:padding="3dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,8 +28,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvName"
@@ -44,8 +39,7 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 tools:text="제작자 이름"
-                tools:textColor="@android:color/black"
-                />
+                tools:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/tvRate"
@@ -57,8 +51,7 @@
                 android:textColor="@android:color/white"
                 android:visibility="gone"
                 tools:text="평점 : "
-                tools:textColor="@android:color/black"
-                />
+                tools:textColor="@android:color/black" />
         </LinearLayout>
 
         <Button
@@ -74,8 +67,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/label_first"
-            android:textColor="@android:color/white"
-            />
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

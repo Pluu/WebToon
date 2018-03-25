@@ -21,7 +21,9 @@ import kotlinx.android.synthetic.main.view_multi_list_item.view.*
  * Detail, Multi Adapter
  * Created by pluu on 2017-05-02.
  */
-open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMultiAdapter.ViewHolder>() {
+open class DetailMultiAdapter(context: Context) :
+    RecyclerView.Adapter<DetailMultiAdapter.ViewHolder>() {
+
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val list = mutableListOf<DetailView>()
 
@@ -54,21 +56,24 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
                     if (item.height != 0f) {
                         itemView.imageView.sethRatio(item.height)
                         Glide.with(context)
-                                .load(item.value)
-                                .apply(options)
-                                .into(itemView.imageView)
+                            .load(item.value)
+                            .apply(options)
+                            .into(itemView.imageView)
                     } else {
                         Glide.with(context)
-                                .asBitmap()
-                                .load(item.value)
-                                .apply(options)
-                                .into(object : SimpleTarget<Bitmap>() {
-                                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                        item.height = resource.height.toFloat() / resource.width
-                                        itemView.imageView.sethRatio(item.height)
-                                        itemView.imageView.setImageBitmap(resource)
-                                    }
-                                })
+                            .asBitmap()
+                            .load(item.value)
+                            .apply(options)
+                            .into(object : SimpleTarget<Bitmap>() {
+                                override fun onResourceReady(
+                                    resource: Bitmap,
+                                    transition: Transition<in Bitmap>?
+                                ) {
+                                    item.height = resource.height.toFloat() / resource.width
+                                    itemView.imageView.sethRatio(item.height)
+                                    itemView.imageView.setImageBitmap(resource)
+                                }
+                            })
                     }
                 }
                 VIEW_TYPE.MULTI_GIF -> {
@@ -76,21 +81,25 @@ open class DetailMultiAdapter(context: Context) : RecyclerView.Adapter<DetailMul
                     if (item.height != 0f) {
                         itemView.imageView.sethRatio(item.height)
                         Glide.with(context)
-                                .load(item.value)
-                                .apply(options)
-                                .into(itemView.imageView)
+                            .load(item.value)
+                            .apply(options)
+                            .into(itemView.imageView)
                     } else {
                         Glide.with(context)
-                                .asGif()
-                                .load(item.value)
-                                .apply(options)
-                                .into(object : SimpleTarget<GifDrawable>() {
-                                    override fun onResourceReady(resource: GifDrawable, transition: Transition<in GifDrawable>?) {
-                                        item.height = resource.intrinsicHeight.toFloat() / resource.intrinsicWidth
-                                        itemView.imageView.sethRatio(item.height)
-                                        itemView.imageView.setImageDrawable(resource)
-                                    }
-                                })
+                            .asGif()
+                            .load(item.value)
+                            .apply(options)
+                            .into(object : SimpleTarget<GifDrawable>() {
+                                override fun onResourceReady(
+                                    resource: GifDrawable,
+                                    transition: Transition<in GifDrawable>?
+                                ) {
+                                    item.height = resource.intrinsicHeight.toFloat() /
+                                            resource.intrinsicWidth
+                                    itemView.imageView.sethRatio(item.height)
+                                    itemView.imageView.setImageDrawable(resource)
+                                }
+                            })
                     }
                 }
                 else -> {

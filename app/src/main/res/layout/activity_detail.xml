@@ -1,32 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.DetailActivity"
-    >
+    tools:context=".ui.DetailActivity">
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
-    <android.support.v7.widget.Toolbar
-        xmlns:iosched="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar xmlns:iosched="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar_actionbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         iosched:theme="@style/ActionBarThemeOverlay"
-        tools:background="@color/theme_primary"
-        >
+        tools:background="@color/theme_primary">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -35,8 +29,7 @@
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"
-                tools:text="Title Text"
-                />
+                tools:text="Title Text" />
 
             <TextView
                 android:id="@+id/tvSubTitle"
@@ -44,8 +37,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                tools:text="Sub Title"
-                />
+                tools:text="Sub Title" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -53,8 +45,7 @@
         android:id="@+id/bottomMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/btnPrev"
@@ -67,8 +58,7 @@
             android:drawableStart="@drawable/chevron_left_selector"
             android:text="@string/label_prev_view"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnNext"
@@ -81,7 +71,6 @@
             android:drawableRight="@drawable/chevron_right_selector"
             android:text="@string/label_next_view"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

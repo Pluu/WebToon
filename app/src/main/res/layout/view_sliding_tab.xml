@@ -9,5 +9,4 @@
     android:paddingRight="20dp"
     android:paddingTop="16dp"
     android:textAllCaps="true"
-    android:textStyle="bold"
-    />
+    android:textStyle="bold" />

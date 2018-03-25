@@ -21,7 +21,8 @@ import kotlinx.android.synthetic.main.layout_episode_list_item.view.*
  * 에피소드 화면 Adapter
  * Created by pluu on 2017-05-02.
  */
-open class EpisodeAdapter(val listener: EpisodeSelectListener) : RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
+open class EpisodeAdapter(val listener: EpisodeSelectListener) :
+    RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
     private val list = mutableListOf<Episode>()
 
     fun addItems(list: List<Episode>) {
@@ -36,8 +37,14 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) : RecyclerView.Ad
         list.clear()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.layout_episode_list_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.layout_episode_list_item,
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.bind(list[i])
@@ -70,23 +77,35 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) : RecyclerView.Ad
             itemView.titleView.text = item.episodeTitle
 
             Glide.with(itemView.context)
-                    .load(item.image)
-                    .apply(RequestOptions()
-                            .centerCrop()
-                            .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                    )
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            itemView.progress.visibility = View.GONE
-                            return false
-                        }
+                .load(item.image)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+                )
+                .listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        itemView.progress.visibility = View.GONE
+                        return false
+                    }
 
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            itemView.progress.visibility = View.GONE
-                            return false
-                        }
-                    })
-                    .into(itemView.thumbnailView)
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        itemView.progress.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(itemView.thumbnailView)
 
             itemView.readView.visibility = if (item.isReadFlag) View.VISIBLE else View.GONE
 

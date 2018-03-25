@@ -25,8 +25,11 @@ import kotlinx.android.synthetic.main.layout_main_list_item.view.*
  * Main Episode List Adapter
  * Created by pluu on 2017-05-02.
  */
-open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo>?, private val listener: WebToonSelectListener)
-    : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
+open class MainListAdapter(
+    mContext: Context,
+    private val list: List<WebToonInfo>?,
+    private val listener: WebToonSelectListener
+) : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
     private val filterColor: Int = ContextCompat.getColor(mContext, R.color.color_accent)
@@ -52,7 +55,8 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
     }
 
     fun modifyInfo(info: WebToonInfo): Int {
-        val indexOfFirst = list?.indexOfFirst { item -> TextUtils.equals(info.toonId, item.toonId) } ?: -1
+        val indexOfFirst =
+            list?.indexOfFirst { item -> TextUtils.equals(info.toonId, item.toonId) } ?: -1
         if (indexOfFirst != -1) {
             list?.get(indexOfFirst)?.isFavorite = info.isFavorite
         }
@@ -68,27 +72,40 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
             itemView.titleView.tag = item
             itemView.titleView.text = item.title
             Glide.with(itemView.context)
-                    .load(item.image)
-                    .apply(RequestOptions()
-                            .centerCrop()
-                            .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                    )
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            itemView.progress.visibility = View.GONE
-                            return false
-                        }
+                .load(item.image)
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+                )
+                .listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        itemView.progress.visibility = View.GONE
+                        return false
+                    }
 
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            itemView.progress.visibility = View.GONE
-                            return false
-                        }
-                    })
-                    .into(itemView.thumbnailView)
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        itemView.progress.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(itemView.thumbnailView)
 
             itemView.regDate.text = item.updateDate
 
-            itemView.regDate.visibility = if (!TextUtils.isEmpty(item.updateDate)) View.VISIBLE else View.GONE
+            itemView.regDate.visibility =
+                    if (!TextUtils.isEmpty(item.updateDate)) View.VISIBLE else View.GONE
 
             itemView.tvUp.visibility = when (item.status) {
                 Status.UPDATE -> View.VISIBLE
@@ -102,7 +119,8 @@ open class MainListAdapter(mContext: Context, private val list: List<WebToonInfo
                 else -> View.GONE
             }
 
-            itemView.tvNovel.visibility = if (item.type == WebToonType.NOVEL) View.VISIBLE else View.GONE
+            itemView.tvNovel.visibility =
+                    if (item.type == WebToonType.NOVEL) View.VISIBLE else View.GONE
             itemView.tv19.visibility = if (item.isAdult) View.VISIBLE else View.GONE
             itemView.favorite.visibility = if (item.isFavorite) View.VISIBLE else View.GONE
         }

@@ -43,7 +43,8 @@ class Episode : BaseToonInfo, Parcelable {
     }
 
     companion object {
-        @JvmField val CREATOR: Parcelable.Creator<Episode> = object : Parcelable.Creator<Episode> {
+        @JvmField
+        val CREATOR: Parcelable.Creator<Episode> = object : Parcelable.Creator<Episode> {
             override fun createFromParcel(source: Parcel) = Episode(source)
             override fun newArray(size: Int): Array<Episode?> = arrayOfNulls(size)
         }

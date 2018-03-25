@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".ui.IntroActivity"
-    >
+    tools:context=".ui.IntroActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,8 +16,7 @@
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textColor="@color/color_0091ea"
         android:textSize="50sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/bottom"
@@ -28,8 +26,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvMsg"
@@ -39,15 +36,13 @@
             android:text="@string/msg_intro_ready"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

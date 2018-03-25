@@ -11,7 +11,9 @@ import com.pluu.webtoon.item.VIEW_TYPE
  * Detail, Chatting Adapter
  * Created by pluu on 2017-05-02.
  */
-open class DetailChatAdapter(private val context: Context) : RecyclerView.Adapter<BaseChattingViewHolder>() {
+open class DetailChatAdapter(private val context: Context) :
+    RecyclerView.Adapter<BaseChattingViewHolder>() {
+
     private val list = mutableListOf<DetailView>()
 
     fun setList(list: List<DetailView>) {
