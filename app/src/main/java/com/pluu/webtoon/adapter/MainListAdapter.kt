@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.layout_main_list_item.view.*
  * Main Episode List Adapter
  * Created by pluu on 2017-05-02.
  */
-open class MainListAdapter(
+class MainListAdapter(
     mContext: Context,
     private val list: List<WebToonInfo>?,
     private val listener: WebToonSelectListener
@@ -103,26 +103,12 @@ open class MainListAdapter(
                 .into(itemView.thumbnailView)
 
             itemView.regDate.text = item.updateDate
-
-            itemView.regDate.visibility =
-                    if (!TextUtils.isEmpty(item.updateDate)) View.VISIBLE else View.GONE
-
-            itemView.tvUp.visibility = when (item.status) {
-                Status.UPDATE -> View.VISIBLE
-                Status.BREAK -> View.GONE
-                else -> View.GONE
-            }
-
-            itemView.tvRest.visibility = when (item.status) {
-                Status.UPDATE -> View.GONE
-                Status.BREAK -> View.VISIBLE
-                else -> View.GONE
-            }
-
-            itemView.tvNovel.visibility =
-                    if (item.type == WebToonType.NOVEL) View.VISIBLE else View.GONE
-            itemView.tv19.visibility = if (item.isAdult) View.VISIBLE else View.GONE
-            itemView.favorite.visibility = if (item.isFavorite) View.VISIBLE else View.GONE
+            itemView.regDate.visibility = item.updateDate.isNullOrBlank().toVisibleOrGone()
+            itemView.tvUp.visibility = (Status.UPDATE == item.status).toVisibleOrGone()
+            itemView.tvRest.visibility = (Status.BREAK == item.status).toVisibleOrGone()
+            itemView.tvNovel.visibility = (item.type == WebToonType.NOVEL).toVisibleOrGone()
+            itemView.tv19.visibility = item.isAdult.toVisibleOrGone()
+            itemView.favorite.visibility = item.isFavorite.toVisibleOrGone()
         }
     }
 }

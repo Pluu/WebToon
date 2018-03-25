@@ -63,6 +63,7 @@ dependencies {
     implementation "com.android.support:cardview-v7:${versions.supportLibrary}"
     implementation "com.android.support:preference-v7:${versions.supportLibrary}"
     implementation "com.android.support:customtabs:${versions.supportLibrary}"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     // DI
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"

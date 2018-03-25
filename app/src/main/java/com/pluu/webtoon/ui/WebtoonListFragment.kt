@@ -16,6 +16,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import com.pluu.event.RxBusProvider
+import com.pluu.kotlin.getCompatColor
+import com.pluu.kotlin.toVisibleOrGone
+import com.pluu.kotlin.toast
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.AppController
@@ -51,7 +54,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     private var position: Int = 0
     private val REQUEST_DETAIL = 1000
 
-    private val manager: GridLayoutManager by lazy {
+    private val toonLayoutManager: GridLayoutManager by lazy {
         GridLayoutManager(activity, resources.getInteger(R.integer.webtoon_column_count))
     }
 
@@ -70,15 +73,15 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         serviceApi = AbstractWeekApi.getApi(view.context, ServiceConst.getApiType(arguments))
         position = arguments?.getInt(Const.EXTRA_POS) ?: 0
 
-        recyclerView.apply {
-            layoutManager = manager
+        with(recyclerView) {
+            layoutManager = toonLayoutManager
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        Single.create<List<WebToonInfo>> { it.onSuccess(serviceApi.parseMain(position)) }
+        Single.fromCallable { serviceApi.parseMain(position) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .map(favoriteProcessFunc)
@@ -96,16 +99,14 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     private val requestSubscriber = Consumer<List<WebToonInfo>> { list ->
-        val activity = activity
-        if (activity == null || activity.isFinishing) {
-            return@Consumer
-        }
+        val activity = activity?.takeUnless { it.isFinishing } ?: return@Consumer
         recyclerView.adapter = MainListAdapter(activity, list, this)
+        emptyView.visibility = list.isEmpty().toVisibleOrGone()
     }
 
     private val favoriteProcessFunc = Function<List<WebToonInfo>, List<WebToonInfo>> { list ->
-        for (item in list) {
-            item.isFavorite = realmHelper.getFavoriteToon(serviceApi.naviItem, item.toonId)
+        list.forEach {
+            it.isFavorite = realmHelper.getFavoriteToon(serviceApi.naviItem, it.toonId)
         }
         list
     }
@@ -147,7 +148,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         Palette.from(bitmap).generate { p ->
             val bgColor = p.getDarkVibrantColor(Color.BLACK)
             val statusColor =
-                p.getDarkMutedColor(ContextCompat.getColor(context, R.color.theme_primary_dark))
+                p.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
             moveEpisode(item, bgColor, statusColor)
         }
     }
@@ -162,22 +163,23 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     private fun updateSpanCount() {
-        manager.spanCount = resources.getInteger(R.integer.webtoon_column_count)
+        toonLayoutManager.spanCount = resources.getInteger(R.integer.webtoon_column_count)
         recyclerView.adapter.notifyDataSetChanged()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
 
-        if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE
-            || newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT
-        ) {
-            updateSpanCount()
-        }
+        newConfig?.takeIf {
+            it.orientation == Configuration.ORIENTATION_LANDSCAPE
+                    || it.orientation == Configuration.ORIENTATION_PORTRAIT
+        }.run {
+                updateSpanCount()
+            }
     }
 
     override fun selectLockItem() {
-        Toast.makeText(context, R.string.msg_not_support, Toast.LENGTH_SHORT).show()
+        toast(R.string.msg_not_support)
     }
 
     override fun selectSuccess(view: ImageView, item: WebToonInfo) {
