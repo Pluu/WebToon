@@ -35,13 +35,21 @@ class MainActivity : BaseNavActivity(), MainFragment.BindServiceListener {
 
         selfNavDrawerItem = PrefConfig.getDefaultWebToon(this)
 
-        themeChange(ThemeEvent(ContextCompat.getColor(this, selfNavDrawerItem.color),
-                ContextCompat.getColor(this, selfNavDrawerItem.bgColor)))
+        themeChange(
+            ThemeEvent(
+                ContextCompat.getColor(this, selfNavDrawerItem.color),
+                ContextCompat.getColor(this, selfNavDrawerItem.bgColor)
+            )
+        )
 
         supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance(selfNavDrawerItem), Const.MAIN_FRAG_TAG)
-                .commit()
+            .beginTransaction()
+            .replace(
+                R.id.container,
+                MainFragment.newInstance(selfNavDrawerItem),
+                Const.MAIN_FRAG_TAG
+            )
+            .commit()
 
         btnSetting.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -52,10 +60,10 @@ class MainActivity : BaseNavActivity(), MainFragment.BindServiceListener {
     override fun onResume() {
         super.onResume()
         mCompositeDisposable.add(
-                RxBusProvider.getInstance()
-                        .toObservable()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(busEvent)
+            RxBusProvider.getInstance()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(busEvent)
         )
     }
 
@@ -77,8 +85,8 @@ class MainActivity : BaseNavActivity(), MainFragment.BindServiceListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.
-                    onActivityResult(requestCode, resultCode, data)
+            supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)
+                ?.onActivityResult(requestCode, resultCode, data)
         }
     }
 

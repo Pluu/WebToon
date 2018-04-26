@@ -1,6 +1,5 @@
 package com.pluu.webtoon.item
 
-import android.text.TextUtils
 import com.pluu.support.impl.AbstractEpisodeApi
 
 /**
@@ -18,9 +17,6 @@ class EpisodePage(private val api: AbstractEpisodeApi) {
         }
 
     fun moreLink(): String? {
-        if (TextUtils.isEmpty(nextLink)) {
-            return null
-        }
-        return api.moreParseEpisode(this)
+        return nextLink?.let { api.moreParseEpisode(this) }
     }
 }

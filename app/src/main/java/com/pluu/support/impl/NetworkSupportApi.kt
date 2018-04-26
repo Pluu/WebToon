@@ -17,6 +17,7 @@ abstract class NetworkSupportApi(context: Context) : IRequest {
     lateinit var client: OkHttpClient
 
     init {
+        @Suppress("LeakingThis")
         (context.applicationContext as AppController).networkComponent.inject(this)
     }
 

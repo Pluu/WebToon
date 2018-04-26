@@ -53,8 +53,10 @@ class MainFragment : Fragment() {
     private lateinit var serviceApi: AbstractWeekApi
     private var listener: BindServiceListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_toon, container, false)
     }
 
@@ -69,8 +71,10 @@ class MainFragment : Fragment() {
             currentItem = serviceApi.todayTabPosition
         }
 
-        slidingTabLayout.setCustomTabView(R.layout.view_sliding_tab,
-                android.R.id.text1)
+        slidingTabLayout.setCustomTabView(
+            R.layout.view_sliding_tab,
+            android.R.id.text1
+        )
         slidingTabLayout.setViewPager(viewPager)
     }
 
@@ -111,10 +115,10 @@ class MainFragment : Fragment() {
         super.onResume()
         Glide.with(this).resumeRequests()
         mCompositeDisposable.add(
-                RxBusProvider.getInstance()
-                        .toObservable()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(busEvent)
+            RxBusProvider.getInstance()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(busEvent)
         )
     }
 
@@ -132,7 +136,11 @@ class MainFragment : Fragment() {
 
         if (requestCode == WebtoonListFragment.REQUEST_DETAIL_REFERRER) {
             // 포함되어있는 ViewPager 의 Fragment 갱신 처리
-            (viewPager.adapter as MainFragmentAdapter).onActivityResult(requestCode, resultCode, data!!)
+            (viewPager.adapter as MainFragmentAdapter).onActivityResult(
+                requestCode,
+                resultCode,
+                data!!
+            )
         }
     }
 
@@ -161,11 +169,11 @@ class MainFragment : Fragment() {
     companion object {
 
         fun newInstance(item: NAV_ITEM) =
-                MainFragment().apply {
-                    arguments = Bundle().apply {
-                        putSerializable(Const.EXTRA_API, item)
-                    }
+            MainFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(Const.EXTRA_API, item)
                 }
+            }
     }
 
     interface BindServiceListener {

@@ -113,13 +113,15 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     private fun initFragment() {
-        val fragment = EpisodeFragment.newInstance(service, webToonInfo,
-                intArrayOf(customTitleColor, customStatusColor))
+        val fragment = EpisodeFragment.newInstance(
+            service, webToonInfo,
+            intArrayOf(customTitleColor, customStatusColor)
+        )
 
         supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)
-                .commit()
+            .beginTransaction()
+            .replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)
+            .commit()
     }
 
     override fun finish() {
@@ -170,9 +172,11 @@ class EpisodesActivity : AppCompatActivity() {
         this.isFavorite = isFavorite
         webToonInfo.isFavorite = isFavorite
 
-        Toast.makeText(this,
-                if (isFavorite) R.string.favorite_add else R.string.favorite_delete,
-                Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            if (isFavorite) R.string.favorite_add else R.string.favorite_delete,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 }

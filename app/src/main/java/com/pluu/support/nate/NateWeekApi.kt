@@ -27,7 +27,7 @@ class NateWeekApi(context: Context) : AbstractWeekApi(context, NateWeekApi.TITLE
 
         val list = mutableListOf<WebToonInfo>()
         val pattern = "(?<=btno=)\\d+".toRegex()
-        doc.select(".wkTypeAll_" + position).forEach {
+        doc.select(".wkTypeAll_$position").forEach {
             pattern.find(it.attr("href"))?.apply {
                 WebToonInfo(value).apply {
                     title = it.select(".wtl_title").text()

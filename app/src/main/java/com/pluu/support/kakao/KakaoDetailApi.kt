@@ -1,13 +1,14 @@
 package com.pluu.support.kakao
 
 import android.content.Context
+import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
-import org.jsoup.Jsoup
+import org.json.JSONObject
 
 /**
  * 카카오 페이지 웹툰 상세 API
@@ -26,8 +27,10 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
             webtoonId = episode.toonId
         }
 
-        val doc = try {
-            Jsoup.parse(requestApi())
+        val json: JSONObject = try {
+            JSONObject(requestApi()).also {
+                check(it.has("downloadData"))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             ret.list = emptyList()
@@ -35,25 +38,24 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
         }
 
         ret.apply {
-            title = doc.select("span[class=title ellipsis]").text()
+            title = episode.title
             episodeId = id
 
-            prevLink = doc.select(".prevSectionBtn").attr("data-productid").takeIf {
-                "0" != it
-            }
-            nextLink = doc.select(".nextSectionBtn").attr("data-productid").takeIf {
-                "0" != it
-            }
+            // TODO
+//            prevLink = doc.select(".prevSectionBtn").attr("data-productid").takeIf {
+//                "0" != it
+//            }
+            // TODO
+//            nextLink = doc.select(".nextSectionBtn").attr("data-productid").takeIf {
+//                "0" != it
+//            }
 
-            val list = mutableListOf<DetailView>()
-            mapOf(".targetImg" to "data-original",
-                ".viewWrp li input" to "value",
-                ".clickViewerWrp li input[class=originSrc]" to "value")
-                .forEach { (target, attrs) ->
-                    doc.select(target).mapTo(list) { DetailView.createImage(it.attr(attrs)) }
-                }
-
-            this.list = list
+            this.list = json.getJSONObject("downloadData")?.getJSONObject("members")?.let {
+                val host = it.optString("sAtsServerUrl")
+                it.getJSONArray("files")?.asSequence()?.map {
+                    DetailView.createImage("$host${it.optString("secureUrl")}")
+                }?.toList()
+            }
         }
         return ret
     }
@@ -63,8 +65,13 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
         url = DETAIL_URL.format(episode.episodeId)
     )
 
-    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
+
+    override val params: Map<String, String>
+        get() = mapOf(
+            "productId" to id
+        )
 
     override val url: String
-        get() = DETAIL_URL.format(id)
+        get() = "https://api2-page.kakao.com/api/v1/inven/get_download_data/web"
 }

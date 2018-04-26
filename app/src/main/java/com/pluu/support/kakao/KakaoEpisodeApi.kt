@@ -1,13 +1,14 @@
 package com.pluu.support.kakao
 
 import android.content.Context
+import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * 카카오 페이지 웹툰 Episode API
@@ -15,61 +16,62 @@ import org.jsoup.nodes.Document
  */
 class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
-    override lateinit var url: String
-    private var offset: Int = 1
     private var firstEpisode: Episode? = null
+    private lateinit var tooldId: String
+    private var page: Int = 0
+    private var isEnd: Boolean = false
 
     override fun parseEpisode(info: WebToonInfo): EpisodePage {
-        this.url =
-                "http://page.kakao.com/home/${info.toonId}?categoryUid=10&subCategoryUid=1000&page=$offset&orderby=desc"
-
+        tooldId = info.toonId
         val episodePage = EpisodePage(this)
 
-        val doc = try {
-            Jsoup.parse(requestApi())
+        val json: JSONObject = try {
+            JSONObject(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            return episodePage
+            return episodePage.apply {
+                episodes = emptyList()
+            }
         }
+        isEnd = json.optBoolean("is_end", true)
 
-        if (offset == 1) {
-            firstEpisode = getFirstItem(info, doc)
-        }
-
-        episodePage.episodes = parseList(info, doc)
-        if (episodePage.episodes?.isNotEmpty() == true) {
-            offset++
-            episodePage.nextLink = info.toonId
-        }
+        episodePage.episodes = parseList(info, json.getJSONArray("singles"))
+        episodePage.nextLink = isEnd.takeIf { !it }?.toString()
+        page++
 
         return episodePage
     }
 
-    private fun getFirstItem(info: WebToonInfo, doc: Document): Episode? {
-        doc.select(".homeTopContentWrp div[class=btnBox pointer clear] span[class=btn_view shortcut viewerLinkBtn]")
-            ?.attr("data-productid")?.apply {
-            return Episode(info, this)
-        }
-        return null
-    }
-
-    private fun parseList(info: WebToonInfo, doc: Document) =
-        doc.select(".list").map {
-            Episode(info, it.attr("data-productid")).apply {
-                image = it.select(".thumbnail img").attr("src")
-                episodeTitle = it.select(".title").text()
-                updateDate = it.select(".date").text()
+    private fun parseList(info: WebToonInfo, array: JSONArray): List<Episode> =
+        array.asSequence().map {
+            Episode(info, it.optString("id")).apply {
+                image = "https://dn-img-page.kakao.com/download/resource?kid=${it.optString("land_thumbnail_url")}&filename=th1"
+                episodeTitle = it.optString("title")
+                updateDate = it.optString("free_change_dt")
             }
-        }
+        }.toList()
 
-    override fun moreParseEpisode(item: EpisodePage) = item.nextLink
+    override fun moreParseEpisode(item: EpisodePage): String? = isEnd.takeIf { !it }?.toString()
 
     override fun getFirstEpisode(item: Episode) = firstEpisode
 
     override fun init() {
         super.init()
-        offset = 1
+        page = 1
     }
 
-    override val method: REQUEST_METHOD = REQUEST_METHOD.GET
+    override val url: String
+        get() = "https://api2-page.kakao.com/api/v5/store/singles"
+
+    override val method: REQUEST_METHOD = REQUEST_METHOD.POST
+
+    override val params: Map<String, String>
+        get() = mapOf(
+            "seriesid" to tooldId,
+            "page" to page.toString(),
+            "direction" to "desc",
+            "page_size" to "20",
+            "without_hidden" to "true"
+        )
+
 }
