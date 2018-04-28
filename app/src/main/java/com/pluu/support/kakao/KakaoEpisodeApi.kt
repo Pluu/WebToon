@@ -7,6 +7,11 @@ import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.utils.buildRequest
+import com.pluu.webtoon.utils.toFormBody
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -25,31 +30,58 @@ class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         tooldId = info.toonId
         val episodePage = EpisodePage(this)
 
-        val json: JSONObject = try {
-            JSONObject(requestApi())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return episodePage.apply {
-                episodes = emptyList()
+        return runBlocking {
+            val json: JSONObject? = async(CommonPool) {
+                JSONObject(requestApi())
+            }.await()
+
+            if (page == 0) {
+                firstEpisode = async(CommonPool) {
+                    parseFirstKey(tooldId)?.let {
+                        createFirstEpisode(info, it)
+                    }
+                }.await()
             }
+
+            json ?: return@runBlocking episodePage
+
+            isEnd = json.optBoolean("is_end", true)
+
+            episodePage.episodes = parseList(info, json.getJSONArray("singles"))
+            episodePage.nextLink = isEnd.takeIf { !it }?.toString()
+            page++
+
+            episodePage
         }
-        isEnd = json.optBoolean("is_end", true)
+    }
 
-        episodePage.episodes = parseList(info, json.getJSONArray("singles"))
-        episodePage.nextLink = isEnd.takeIf { !it }?.toString()
-        page++
-
-        return episodePage
+    private fun createFirstEpisode(info: WebToonInfo, episodeId: String): Episode {
+        return Episode(info, episodeId)
     }
 
     private fun parseList(info: WebToonInfo, array: JSONArray): List<Episode> =
         array.asSequence().map {
             Episode(info, it.optString("id")).apply {
-                image = "https://dn-img-page.kakao.com/download/resource?kid=${it.optString("land_thumbnail_url")}&filename=th1"
+                image =
+                        "https://dn-img-page.kakao.com/download/resource?kid=${it.optString("land_thumbnail_url")}&filename=th1"
                 episodeTitle = it.optString("title")
                 updateDate = it.optString("free_change_dt")
             }
         }.toList()
+
+    private fun parseFirstKey(toonId: String): String? {
+        val request = buildRequest {
+            post(
+                mapOf(
+                    "seriesid" to toonId
+                ).toFormBody()
+            )
+            url("https://api2-page.kakao.com/api/v5/store/home")
+        }
+        return JSONObject(requestApi(request))
+            .optString("first_single_id")
+            ?.takeIf { it.isNotEmpty() }
+    }
 
     override fun moreParseEpisode(item: EpisodePage): String? = isEnd.takeIf { !it }?.toString()
 

@@ -70,7 +70,8 @@ class WebToonInfo : BaseToonInfo, Parcelable, Comparable<WebToonInfo> {
     }
 
     companion object {
-        @JvmField val CREATOR: Parcelable.Creator<WebToonInfo> = object : Parcelable.Creator<WebToonInfo> {
+        @JvmField
+        val CREATOR: Parcelable.Creator<WebToonInfo> = object : Parcelable.Creator<WebToonInfo> {
             override fun createFromParcel(source: Parcel) = WebToonInfo(source)
             override fun newArray(size: Int): Array<WebToonInfo?> = arrayOfNulls(size)
         }

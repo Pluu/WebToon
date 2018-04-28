@@ -3,6 +3,7 @@ package com.pluu.support.impl
 import android.content.Context
 import com.pluu.webtoon.AppController
 import com.pluu.webtoon.network.NetworkTask
+import com.pluu.webtoon.network.buildRequestApi
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Inject
@@ -32,13 +33,9 @@ abstract class NetworkSupportApi(context: Context) : IRequest {
         get() = emptyMap()
 
     @Throws(Exception::class)
-    protected fun requestApi(): String {
-        return NetworkTask(client).requestApi(this)
-    }
-
-    @Throws(Exception::class)
-    protected fun requestApi(request: Request): String {
-        return NetworkTask(client).requestApi(request)
+    protected fun requestApi(request: Request? = null): String {
+        val rRequest = request ?: buildRequestApi(this)
+        return NetworkTask(client).requestApi(rRequest)
     }
 }
 

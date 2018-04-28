@@ -20,7 +20,7 @@ abstract class BaseDetailFragment : Fragment() {
                 ?: throw RuntimeException("${context.toString()} must implement ToggleListener")
 
         bindListener = context as? FirstBindListener
-            ?: throw RuntimeException("$context must implement FirstBindListener")
+                ?: throw RuntimeException("$context must implement FirstBindListener")
     }
 
     override fun onDetach() {

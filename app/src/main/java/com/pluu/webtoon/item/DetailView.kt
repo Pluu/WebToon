@@ -4,7 +4,11 @@ package com.pluu.webtoon.item
  * 상세데이터 타입
  * Created by pluu on 2017-05-02.
  */
-data class DetailView(val type: VIEW_TYPE, val value: String? = null, val chatValue: ChatView? = null) {
+data class DetailView(
+    val type: VIEW_TYPE,
+    val value: String? = null,
+    val chatValue: ChatView? = null
+) {
     var height: Float = 0.toFloat()
 
     companion object {

@@ -42,8 +42,10 @@ object PrefConfig {
     }
 
     fun getDefaultWebToon(context: Context): NAV_ITEM {
-        val name = getPreferences(context).getString(KEY_DEFAULT_WEBTOON,
-                NAV_ITEM.getDefault().name)
+        val name = getPreferences(context).getString(
+            KEY_DEFAULT_WEBTOON,
+            NAV_ITEM.getDefault().name
+        )
         return NAV_ITEM.valueOf(name!!.toUpperCase())
     }
 }

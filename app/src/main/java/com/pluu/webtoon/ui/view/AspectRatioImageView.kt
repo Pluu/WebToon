@@ -9,15 +9,13 @@ import android.view.View
  * Width Fix, Height Ratio ImageView
  * Created by pluu on 2017-05-26.
  */
-class AspectRatioImageView : AppCompatImageView {
+class AspectRatioImageView constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AppCompatImageView(context, attrs, defStyle) {
 
     private var hRatio = -1f
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         if (hRatio == -1f) {

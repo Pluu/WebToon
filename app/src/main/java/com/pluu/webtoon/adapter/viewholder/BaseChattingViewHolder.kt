@@ -20,14 +20,15 @@ abstract class BaseChattingViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val profileSize = context.resources.getDimensionPixelSize(R.dimen.chatting_profile_size)
 
         Glide.with(context)
-                .load(url)
-                .apply(RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .override(profileSize, profileSize)
-                        .centerCrop()
-                        .placeholder(R.drawable.transparent_background)
-                )
-                .into(view)
+            .load(url)
+            .apply(
+                RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .override(profileSize, profileSize)
+                    .centerCrop()
+                    .placeholder(R.drawable.transparent_background)
+            )
+            .into(view)
     }
 
     abstract fun bind(context: Context, item: ChatView?)

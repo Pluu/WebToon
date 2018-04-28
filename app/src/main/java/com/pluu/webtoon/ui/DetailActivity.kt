@@ -137,11 +137,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
                 val link =
                     if (v.id == R.id.btnPrev) currentItem?.prevLink else currentItem?.nextLink
 
-                if (TextUtils.isEmpty(link)) {
-                    return@OnClickListener
-                }
-
-                episode.episodeId = link!!
+                episode.episodeId = link ?: return@OnClickListener
                 loadingFlag = false
                 loading(episode)
             })
@@ -225,7 +221,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     private val requestSubscriber = Consumer<Detail> { item ->
-        if (item?.list?.isNotEmpty() == true) {
+        item?.list?.takeIf { it.isNotEmpty() }?.let {
             readAsync(item)
 
             currentItem = item
@@ -234,16 +230,17 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             btnNext.isEnabled = !TextUtils.isEmpty(item.nextLink)
 
             fragmentInit(item.type)
-            fragmentAttach(item.list!!)
-        } else {
+            fragmentAttach(it)
+        } ?: run {
             val msg = (item.errorType ?: ERROR_TYPE.DEFAULT_ERROR).getMessage(baseContext)
 
             AlertDialog.Builder(this@DetailActivity)
                 .setMessage(msg)
                 .setCancelable(false)
-                .setPositiveButton(android.R.string.ok) { _, _ -> finish() }
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    supportFragmentManager.findFragmentByTag(Const.DETAIL_FRAG_TAG) ?: finish()
+                }
                 .show()
-            return@Consumer
         }
     }
 

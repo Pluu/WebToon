@@ -20,7 +20,7 @@ class MyGlideModule : AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setMemoryCache(LruResourceCache(cacheSize))
-                .setDiskCache(ExternalPreferredCacheDiskCacheFactory(context, "cache", diskCacheSize))
+            .setDiskCache(ExternalPreferredCacheDiskCacheFactory(context, "cache", diskCacheSize))
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

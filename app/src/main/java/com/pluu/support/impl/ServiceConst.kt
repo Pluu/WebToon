@@ -13,12 +13,12 @@ import com.pluu.webtoon.common.Const
 object ServiceConst {
     // titles for navdrawer items (indices must correspond to the above)
     val NAVDRAWER_TITLE_RES_ID = intArrayOf(
-            R.string.title_naver,
-            R.string.title_daum,
-            R.string.title_olleh,
-            R.string.title_kakao_page,
-            R.string.title_nate,
-            R.string.title_one_store
+        R.string.title_naver,
+        R.string.title_daum,
+        R.string.title_olleh,
+        R.string.title_kakao_page,
+        R.string.title_nate,
+        R.string.title_one_store
     )
 
     // icons for navdrawer items (indices must correspond to above array)

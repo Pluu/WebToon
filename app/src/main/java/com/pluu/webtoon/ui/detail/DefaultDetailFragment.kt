@@ -21,12 +21,16 @@ import kotlinx.android.synthetic.main.fragment_default_detail.*
  * Created by pluu on 2017-05-06.
  */
 @SuppressLint("ValidFragment")
-class DefaultDetailFragment(private val gd: GestureDetector, private val bottomHeight: Int) : BaseDetailFragment() {
+class DefaultDetailFragment(private val gd: GestureDetector, private val bottomHeight: Int) :
+    BaseDetailFragment() {
 
     private var actionBarHeight: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_default_detail, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_default_detail, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -79,14 +83,15 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
 
         val builder = StringBuilder()
         builder.append("<!DOCTYPE html>")
-                .append("<html>")
-                .append("<head><meta charset=\"utf-8\"><style>")
-                .append("body{").append("padding-top:").append(actionBarHeight).append("px; padding-bottom:").append(bottomHeight).append("px; }")
-                .append("img{max-width: 100%; height: auto; display:block;}")
-                .append("ul{list-style: none; padding-left: 0px;}")
-                .append("ul li:before{padding:0px; position:absolute; top:0; left:0px; }")
-                .append("</style></head>")
-                .append("<body>")
+            .append("<html>")
+            .append("<head><meta charset=\"utf-8\"><style>")
+            .append("body{").append("padding-top:").append(actionBarHeight)
+            .append("px; padding-bottom:").append(bottomHeight).append("px; }")
+            .append("img{max-width: 100%; height: auto; display:block;}")
+            .append("ul{list-style: none; padding-left: 0px;}")
+            .append("ul li:before{padding:0px; position:absolute; top:0; left:0px; }")
+            .append("</style></head>")
+            .append("<body>")
 
         builder.append("<ul>")
 
