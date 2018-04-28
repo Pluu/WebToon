@@ -7,8 +7,8 @@ import org.json.JSONObject
  * Custom Extends
  * Created by pluu on 2017-04-17.
  */
-operator fun JSONArray.iterator(): Iterator<JSONObject>
-        = (0 until length()).asSequence().map { get(it) as JSONObject }.iterator()
+operator fun JSONArray.iterator(): Iterator<JSONObject> =
+    (0 until length()).asSequence().map { get(it) as JSONObject }.iterator()
 
 fun JSONArray.asSequence(): Sequence<JSONObject> {
     return object : Sequence<JSONObject> {

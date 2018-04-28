@@ -1,9 +1,9 @@
 package com.pluu.webtoon.adapter.viewholder
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.pluu.kotlin.inflate
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.ChatView
 import kotlinx.android.synthetic.main.view_chatting_right_layout.view.*
@@ -27,8 +27,8 @@ class DaumRIghtViewHolder(v: View) : BaseChattingViewHolder(v) {
     companion object {
 
         fun newInstance(parent: ViewGroup) = DaumRIghtViewHolder(
-                LayoutInflater.from(parent.context)
-                        .inflate(R.layout.view_chatting_right_layout, parent, false))
+            parent.inflate(R.layout.view_chatting_right_layout, false)
+        )
 
     }
 }

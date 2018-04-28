@@ -8,6 +8,11 @@ import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
+import com.pluu.webtoon.utils.buildRequest
+import com.pluu.webtoon.utils.toFormBody
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import org.json.JSONObject
 
 /**
@@ -23,41 +28,64 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
     override fun parseDetail(episode: Episode): Detail {
         this.id = episode.episodeId
 
-        val ret = Detail().apply {
-            webtoonId = episode.toonId
-        }
+        return runBlocking {
+            val json: JSONObject? = async(CommonPool) {
+                getData()
+            }.await()
 
-        val json: JSONObject = try {
-            JSONObject(requestApi()).also {
-                check(it.has("downloadData"))
+            val prev: String? = async(CommonPool) {
+                getMoreData(episode.toonId, id, isPrev = true)
+            }.await()
+
+            val next = async(CommonPool) {
+                getMoreData(episode.toonId, id, isPrev = false)
+            }.await()
+
+            Detail().apply {
+                webtoonId = episode.toonId
+                episodeId = id
+                title = episode.title
+                list = json?.let { getImages(it) }
+                prevLink = prev
+                nextLink = next
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ret.list = emptyList()
-            return ret
         }
+    }
 
-        ret.apply {
-            title = episode.title
-            episodeId = id
+    @Throws
+    private fun getData(): JSONObject? = requestApi().takeIf { it.isNotEmpty() }?.let {
+        JSONObject(it)
+    }
 
-            // TODO
-//            prevLink = doc.select(".prevSectionBtn").attr("data-productid").takeIf {
-//                "0" != it
-//            }
-            // TODO
-//            nextLink = doc.select(".nextSectionBtn").attr("data-productid").takeIf {
-//                "0" != it
-//            }
-
-            this.list = json.getJSONObject("downloadData")?.getJSONObject("members")?.let {
-                val host = it.optString("sAtsServerUrl")
-                it.getJSONArray("files")?.asSequence()?.map {
+    private fun getImages(json: JSONObject): List<DetailView>? {
+        val memberInfo: JSONObject? =
+            json.optJSONObject("downloadData")?.optJSONObject("members")
+        return memberInfo?.optString("sAtsServerUrl")?.takeIf { it.isNotEmpty() }?.let { host ->
+            memberInfo.optJSONArray("files")
+                ?.asSequence()
+                ?.map {
                     DetailView.createImage("$host${it.optString("secureUrl")}")
                 }?.toList()
-            }
         }
-        return ret
+    }
+
+    private fun getMoreData(toonId: String, episodeId: String, isPrev: Boolean): String? {
+        val request = buildRequest {
+            post(
+                mapOf(
+                    "seriesPid" to toonId,
+                    "singlePid" to episodeId
+                ).toFormBody()
+            )
+            url(
+                if (isPrev) "https://api2-page.kakao.com/api/v5/inven/get_prev_item"
+                else "https://api2-page.kakao.com/api/v5/inven/get_next_item"
+            )
+        }
+        return JSONObject(requestApi(request))
+            .optJSONObject("item")?.takeIf { it.optString("hidden") == "N" }
+            ?.optString("pid")
+            ?.replace("[^\\d]".toRegex(), "")
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(

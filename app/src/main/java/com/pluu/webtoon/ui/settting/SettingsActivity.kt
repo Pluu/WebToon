@@ -19,9 +19,9 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportFragmentManager
-                .beginTransaction()
-                .replace(android.R.id.content, GeneralPreferenceFragment())
-                .commit()
+            .beginTransaction()
+            .replace(android.R.id.content, GeneralPreferenceFragment())
+            .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -75,10 +75,12 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun bindPreferenceSummaryToValue(preference: Preference) {
             preference.onPreferenceChangeListener = changeListener
-            changeListener.onPreferenceChange(preference,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(preference.context)
-                            .getString(preference.key, ""))
+            changeListener.onPreferenceChange(
+                preference,
+                PreferenceManager
+                    .getDefaultSharedPreferences(preference.context)
+                    .getString(preference.key, "")
+            )
         }
     }
 }

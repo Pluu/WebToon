@@ -41,10 +41,10 @@ class LicenseActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
         mCompositeDisposable.add(
-                RxBusProvider.getInstance()
-                        .toObservable()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(busEvent)
+            RxBusProvider.getInstance()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(busEvent)
         )
     }
 
@@ -77,10 +77,10 @@ class LicenseActivity : AppCompatActivity() {
         // http://qiita.com/droibit/items/66704f96a602adec5a35
 
         CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary))
-                .build()
-                .launchUrl(this, Uri.parse(url))
+            .setShowTitle(true)
+            .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary))
+            .build()
+            .launchUrl(this, Uri.parse(url))
     }
 
 }

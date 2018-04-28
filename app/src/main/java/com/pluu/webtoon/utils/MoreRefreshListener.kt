@@ -38,19 +38,19 @@ abstract class MoreRefreshListener : RecyclerView.OnScrollListener() {
     }
 
     private fun getLastVisibleItemPosition(layoutManager: RecyclerView.LayoutManager) =
-            when (layoutManagerType) {
-                LAYOUT_MANAGER_TYPE.LINEAR ->
-                    (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                LAYOUT_MANAGER_TYPE.GRID ->
-                    (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
-                LAYOUT_MANAGER_TYPE.STAGGERED_GRID -> {
-                    val staggeredGridLayoutManager = layoutManager as StaggeredGridLayoutManager
-                    lastPositions = lastPositions ?: IntArray(staggeredGridLayoutManager.spanCount)
-                    staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions)
-                    findMax(lastPositions!!)
-                }
-                else -> -1
+        when (layoutManagerType) {
+            LAYOUT_MANAGER_TYPE.LINEAR ->
+                (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            LAYOUT_MANAGER_TYPE.GRID ->
+                (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+            LAYOUT_MANAGER_TYPE.STAGGERED_GRID -> {
+                val staggeredGridLayoutManager = layoutManager as StaggeredGridLayoutManager
+                lastPositions = lastPositions ?: IntArray(staggeredGridLayoutManager.spanCount)
+                staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions)
+                findMax(lastPositions!!)
             }
+            else -> -1
+        }
 
     private fun parseLayoutManager(manager: RecyclerView.LayoutManager) = when (manager) {
         is LinearLayoutManager -> LAYOUT_MANAGER_TYPE.LINEAR

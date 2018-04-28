@@ -15,13 +15,17 @@ import com.pluu.webtoon.R
  * Display Utils
  * Created by pluu on 2017-04-18.
  */
-fun AppCompatActivity.animatorToolbarColor(color: Int) = animatorToolbarColor(color, ValueAnimator.AnimatorUpdateListener {
-    supportActionBar?.apply {
-        setBackgroundDrawable(ColorDrawable(it.animatedValue as Int))
-    }
-})
+fun AppCompatActivity.animatorToolbarColor(color: Int) =
+    animatorToolbarColor(color, ValueAnimator.AnimatorUpdateListener {
+        supportActionBar?.apply {
+            setBackgroundDrawable(ColorDrawable(it.animatedValue as Int))
+        }
+    })
 
-fun AppCompatActivity.animatorToolbarColor(color: Int, listener: ValueAnimator.AnimatorUpdateListener?) : ValueAnimator {
+fun AppCompatActivity.animatorToolbarColor(
+    color: Int,
+    listener: ValueAnimator.AnimatorUpdateListener?
+): ValueAnimator {
     val value = TypedValue()
     theme.resolveAttribute(R.attr.colorPrimary, value, true)
 

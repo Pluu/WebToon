@@ -27,11 +27,11 @@ fun glideBitmap(imgView: ImageView): Bitmap? {
 
 private fun convertTransitionDrawable(drawables: TransitionDrawable): Bitmap? {
     (0 until drawables.numberOfLayers - 1)
-            .map { drawables.getDrawable(it) }
-            .forEach {
-                if (it is BitmapDrawable) {
-                    return it.bitmap
-                }
+        .map { drawables.getDrawable(it) }
+        .forEach {
+            if (it is BitmapDrawable) {
+                return it.bitmap
             }
+        }
     return null
 }

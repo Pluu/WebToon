@@ -21,8 +21,12 @@ class DaumChattingFragment(private val gd: GestureDetector) : BaseDetailFragment
 
     private var adapter: DetailChatAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_daum_chatting, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
+        inflater.inflate(R.layout.fragment_daum_chatting, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -35,7 +39,10 @@ class DaumChattingFragment(private val gd: GestureDetector) : BaseDetailFragment
         chattingList?.layoutManager = LinearLayoutManager(context)
 
         adapter = object : DetailChatAdapter(context) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseChattingViewHolder {
+            override fun onCreateViewHolder(
+                parent: ViewGroup,
+                viewType: Int
+            ): BaseChattingViewHolder {
                 val holder = super.onCreateViewHolder(parent, viewType)
                 holder.itemView.setOnClickListener { _ -> listener!!.childCallToggle(false) }
                 return holder
@@ -54,7 +61,12 @@ class DaumChattingFragment(private val gd: GestureDetector) : BaseDetailFragment
             override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
         })
         chattingList?.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State?
+            ) {
                 super.getItemOffsets(outRect, view, parent, state)
                 outRect.bottom = padding
             }

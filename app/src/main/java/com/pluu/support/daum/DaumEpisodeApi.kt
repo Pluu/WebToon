@@ -8,7 +8,7 @@ import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
-import okhttp3.Request
+import com.pluu.webtoon.utils.buildRequest
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -60,9 +60,9 @@ class DaumEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
 
     @Throws(Exception::class)
     private fun getFirstEpisode(nick: String): JSONObject {
-        val response = Request.Builder().url(PREFIX_FIRST_URL + nick).build().let {
-            requestApi(it)
-        }
+        val response = requestApi(buildRequest {
+            url(PREFIX_FIRST_URL + nick)
+        })
         return JSONObject(response)
     }
 

@@ -71,7 +71,8 @@ class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
             EPISODE_ID_PATTERN.find(it.select("a").first().attr("href"))?.apply {
                 Episode(info, value).apply {
                     image = it.select("img").first().attr("src")
-                    episodeTitle = it.select(".tel_episode").text() + " " + it.select(".tel_title").text()
+                    episodeTitle = it.select(".tel_episode").text() + " " +
+                            it.select(".tel_title").text()
                     updateDate = it.select(".tel_date").text()
                     list.add(this)
                 }

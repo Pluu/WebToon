@@ -9,7 +9,7 @@ import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
-import okhttp3.Request
+import com.pluu.webtoon.utils.buildRequest
 import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -57,14 +57,14 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     private fun parsePrevNext(): Pair<String?, String?> {
-        val builder = Request.Builder().apply {
+        val request = buildRequest {
             val url =
                 Uri.Builder().encodedPath("https://www.myktoon.com/mw/works/viewer.kt").apply {
                     appendQueryParameter("timesseq", timesseq)
                 }.build().toString()
             url(url)
         }
-        val pagingWrap = Jsoup.parse(requestApi(builder.build())).select(".paging_wrap")
+        val pagingWrap = Jsoup.parse(requestApi(request)).select(".paging_wrap")
         return Pair(
             pagingWrap.select("a[class=btn_prev moveViewerBtn]").attr("data-seq"),
             pagingWrap.select("a[class=btn_next moveViewerBtn]").attr("data-seq")

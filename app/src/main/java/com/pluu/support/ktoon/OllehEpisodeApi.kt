@@ -6,8 +6,8 @@ import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
-import okhttp3.FormBody
-import okhttp3.Request
+import com.pluu.webtoon.utils.buildRequest
+import com.pluu.webtoon.utils.toFormBody
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -57,20 +57,17 @@ class OllehEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         }
 
     private fun getFirstEpisode(info: WebToonInfo): Episode {
-        val builder = Request.Builder().apply {
-            val requestBody = FormBody.Builder().apply {
+        val request = buildRequest {
+            post(
                 mapOf(
                     "worksseq" to id,
                     "sorting" to "seq",
                     "turmCnt" to 1.toString()
-                ).forEach {
-                    add(it.key, it.value)
-                }
-            }.build()
-            post(requestBody)
+                ).toFormBody()
+            )
             url(EPISODE_URL)
         }
-        val response = requestApi(builder.build())
+        val response = requestApi(request)
         return createEpisode(info, JSONObject(response).optJSONArray("response").optJSONObject(0))
     }
 

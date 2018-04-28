@@ -9,12 +9,7 @@ import com.pluu.support.impl.AbstractEpisodeApi
 class EpisodePage(private val api: AbstractEpisodeApi) {
     var nextLink: String? = null
     var episodes: List<Episode>? = null
-        get() {
-            if (field != null) {
-                return field
-            }
-            return emptyList()
-        }
+        get() = field ?: emptyList()
 
     fun moreLink(): String? {
         return nextLink?.let { api.moreParseEpisode(this) }

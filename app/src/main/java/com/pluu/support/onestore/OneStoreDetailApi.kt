@@ -8,8 +8,8 @@ import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
-import okhttp3.FormBody
-import okhttp3.Request
+import com.pluu.webtoon.utils.buildRequest
+import com.pluu.webtoon.utils.toFormBody
 import org.json.JSONArray
 import org.jsoup.Jsoup
 
@@ -39,24 +39,19 @@ class OneStoreDetailApi(context: Context) : AbstractDetailApi(context) {
 
             ret.prevLink = doc.select("[class=btn-detail-episode-btn btn-detail-episode-prev]")
                 .attr("href")?.let {
-                EPISODE_ID.find(it)?.value
-            }
+                    EPISODE_ID.find(it)?.value
+                }
             ret.nextLink = doc.select("[class=btn-detail-episode-btn btn-detail-episode-next]")
                 .attr("href")?.let {
-                EPISODE_ID.find(it)?.value
-            }
+                    EPISODE_ID.find(it)?.value
+                }
 
             // Image List
-            val builder = Request.Builder().apply {
-                val requestBody = FormBody.Builder().apply {
-                    mapOf("timesseq" to timesseq).forEach {
-                        add(it.key, it.value)
-                    }
-                }.build()
-                post(requestBody)
+            val request = buildRequest {
+                post(mapOf("timesseq" to timesseq).toFormBody())
                 url("https://v2.myktoon.com/mw/open/onestore/getTimesDetailImageList.kt")
             }
-            JSONArray(requestApi(builder.build()))
+            JSONArray(requestApi(request))
         } catch (e: Exception) {
             e.printStackTrace()
             ret.list = emptyList()

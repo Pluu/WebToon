@@ -16,7 +16,8 @@ import java.util.*
  */
 class NateDetailApi(context: Context) : AbstractDetailApi(context) {
 
-    private val DETAIL_URL = "http://m.comics.nate.com/main2/webtoon/WebtoonView.php?btno=%s&bsno=%s"
+    private val DETAIL_URL =
+        "http://m.comics.nate.com/main2/webtoon/WebtoonView.php?btno=%s&bsno=%s"
     private lateinit var webToonId: String
     private lateinit var episodeId: String
 
@@ -53,8 +54,8 @@ class NateDetailApi(context: Context) : AbstractDetailApi(context) {
     }
 
     override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
-            title = "${episode.title} / ${detail.title}",
-            url = DETAIL_URL.format(episode.toonId, episode.episodeId)
+        title = "${episode.title} / ${detail.title}",
+        url = DETAIL_URL.format(episode.toonId, episode.episodeId)
     )
 
     override val method: REQUEST_METHOD = REQUEST_METHOD.GET
