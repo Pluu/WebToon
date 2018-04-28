@@ -67,11 +67,14 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
 
     override val method: REQUEST_METHOD = REQUEST_METHOD.POST
 
+    override val headers: Map<String, String> = mapOf(
+        "User-Agent" to "Mozilla/5.0"
+    )
+
     override val params: Map<String, String>
         get() = mapOf(
             "productId" to id
         )
 
-    override val url: String
-        get() = "https://api2-page.kakao.com/api/v1/inven/get_download_data/web"
+    override val url: String = "https://api2-page.kakao.com/api/v1/inven/get_download_data/web"
 }

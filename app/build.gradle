@@ -75,7 +75,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android:${versions.dagger}"
     implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
     // Jsoup
-    implementation 'org.jsoup:jsoup:1.11.2'
+    implementation 'org.jsoup:jsoup:1.11.3'
     // Glide (Image Loader)
     implementation "com.github.bumptech.glide:glide:${versions.glide}"
     kapt "com.github.bumptech.glide:compiler:${versions.glide}"
@@ -87,6 +87,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin_version}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5"
 }
 
 kapt {
@@ -95,4 +96,10 @@ kapt {
 
 androidExtensions {
     experimental = true
+}
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
 }
