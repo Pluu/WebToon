@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
@@ -33,11 +32,11 @@ import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.glideBitmap
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_webtoon_list.*
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -53,6 +52,10 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private var position: Int = 0
     private val REQUEST_DETAIL = 1000
+
+    private val disposables: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
 
     private val toonLayoutManager: GridLayoutManager by lazy {
         GridLayoutManager(activity, resources.getInteger(R.integer.webtoon_column_count))
@@ -87,15 +90,21 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
             .map(favoriteProcessFunc)
             .map { unsortedList ->
                 // 정렬
-                Collections.sort(unsortedList)
-                unsortedList
+                unsortedList.sorted()
             }
             .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
             .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
             .subscribe(requestSubscriber, Consumer { t ->
                 RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
                 Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-            })
+            }).let {
+                disposables.add(it)
+            }
+    }
+
+    override fun onDestroyView() {
+        disposables.clear()
+        super.onDestroyView()
     }
 
     private val requestSubscriber = Consumer<List<WebToonInfo>> { list ->
@@ -174,8 +183,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
             it.orientation == Configuration.ORIENTATION_LANDSCAPE
                     || it.orientation == Configuration.ORIENTATION_PORTRAIT
         }.run {
-                updateSpanCount()
-            }
+            updateSpanCount()
+        }
     }
 
     override fun selectLockItem() {

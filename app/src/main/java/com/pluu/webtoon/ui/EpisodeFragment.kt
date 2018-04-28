@@ -56,6 +56,10 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     lateinit var info: WebToonInfo
     private lateinit var color: IntArray
 
+    private val disposables: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
+
     private val manager: GridLayoutManager by lazy {
         GridLayoutManager(context, resources.getInteger(R.integer.episode_column_count))
     }
@@ -80,8 +84,10 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         (context?.applicationContext as AppController).realmHelperComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_episode, container, false)
     }
 
@@ -99,12 +105,18 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         loading()
     }
 
+    override fun onDestroyView() {
+        disposables.clear()
+        super.onDestroyView()
+    }
+
     private fun initView() {
         swipeRefreshWidget.setColorSchemeResources(
-                R.color.color1,
-                R.color.color2,
-                R.color.color3,
-                R.color.color4)
+            R.color.color1,
+            R.color.color2,
+            R.color.color3,
+            R.color.color4
+        )
         swipeRefreshWidget.setOnRefreshListener(this)
 
         recyclerView.apply {
@@ -118,7 +130,8 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         super.onConfigurationChanged(newConfig)
 
         if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE
-                || newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            || newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT
+        ) {
             adapter.notifyDataSetChanged()
         }
     }
@@ -127,10 +140,10 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         super.onResume()
         Glide.with(this).resumeRequests()
         mCompositeDisposable.add(
-                RxBusProvider.getInstance()
-                        .toObservable()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(busEvent)
+            RxBusProvider.getInstance()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(busEvent)
         )
     }
 
@@ -154,7 +167,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private fun moreLoad() {
         if (nextLink?.isNotEmpty() == true) {
-            Log.i(TAG, "Next Page Link=" + nextLink)
+            Log.i(TAG, "Next Page Link=$nextLink")
             loading()
             nextLink = null
         }
@@ -166,12 +179,19 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         }
 
         Single.zip(requestApi, readAction(), requestReadAction)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { loadDlg.show() }
-                .doOnSuccess { loadDlg.dismiss() }
-                .doOnError { throwable -> Toast.makeText(activity, throwable.message, Toast.LENGTH_SHORT).show() }
-                .subscribe(requestSubscriber)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { loadDlg.show() }
+            .doOnSuccess { loadDlg.dismiss() }
+            .doOnError { throwable ->
+                Toast.makeText(
+                    activity,
+                    throwable.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }.subscribe(requestSubscriber).let {
+                disposables.add(it)
+            }
     }
 
     private val requestApi: Single<List<Episode>>
@@ -187,19 +207,20 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         }
 
     fun readAction(): Single<List<REpisode>> =
-            Single.defer { Single.just(realmHelper.getEpisode(service, info.toonId)) }
+        Single.defer { Single.just(realmHelper.getEpisode(service, info.toonId)) }
 
-    private val requestReadAction = BiFunction<List<Episode>, List<REpisode>, List<Episode>> { list, readList ->
-        for (readItem in readList) {
-            for (episode in list) {
-                if (TextUtils.equals(readItem.episodeId, episode.episodeId)) {
-                    episode.setReadFlag()
-                    break
+    private val requestReadAction =
+        BiFunction<List<Episode>, List<REpisode>, List<Episode>> { list, readList ->
+            for (readItem in readList) {
+                for (episode in list) {
+                    if (TextUtils.equals(readItem.episodeId, episode.episodeId)) {
+                        episode.setReadFlag()
+                        break
+                    }
                 }
             }
+            list
         }
-        list
-    }
 
     private val requestSubscriber = Consumer<List<Episode>> { episodes ->
         if (episodes == null || episodes.isEmpty()) {
@@ -231,19 +252,21 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private fun readUpdate() {
         readAction()
-                .flatMapObservable { episodes ->
-                    Observable.fromIterable(episodes)
-                            .map { it.episodeId }
-                }
-                .toList()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { loadDlg.show() }
-                .doOnSuccess { loadDlg.dismiss() }
-                .subscribe({
-                    adapter.updateRead(it)
-                    adapter.notifyDataSetChanged()
-                }, { })
+            .flatMapObservable { episodes ->
+                Observable.fromIterable(episodes)
+                    .map { it.episodeId }
+            }
+            .toList()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { loadDlg.show() }
+            .doOnSuccess { loadDlg.dismiss() }
+            .subscribe({
+                adapter.updateRead(it)
+                adapter.notifyDataSetChanged()
+            }, { }).let {
+                disposables.add(it)
+            }
     }
 
     private fun firstItemSelect() {
@@ -277,9 +300,11 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     companion object {
 
-        fun newInstance(service: NAV_ITEM,
-                        info: WebToonInfo,
-                        color: IntArray): EpisodeFragment {
+        fun newInstance(
+            service: NAV_ITEM,
+            info: WebToonInfo,
+            color: IntArray
+        ): EpisodeFragment {
             return EpisodeFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(Const.EXTRA_API, service)

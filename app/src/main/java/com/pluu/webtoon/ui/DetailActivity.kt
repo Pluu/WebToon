@@ -29,6 +29,7 @@ import com.pluu.webtoon.item.*
 import com.pluu.webtoon.ui.detail.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -61,6 +62,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS)
     private var loadingFlag: Boolean = false
+
+    private val disposables: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
 
     private val dlg: ProgressDialog by lazy {
         ProgressDialog(this).apply {
@@ -101,6 +106,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     override fun onPause() {
         super.onPause()
         loadingFlag = true
+        disposables.clear()
     }
 
     private fun getApi() {
@@ -128,7 +134,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
         arrayOf(btnPrev, btnNext).forEach {
             it.setOnClickListener(View.OnClickListener { v ->
-                val link = if (v.id == R.id.btnPrev) currentItem?.prevLink else currentItem?.nextLink
+                val link =
+                    if (v.id == R.id.btnPrev) currentItem?.prevLink else currentItem?.nextLink
 
                 if (TextUtils.isEmpty(link)) {
                     return@OnClickListener
@@ -168,9 +175,11 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         statusBarAnimator?.cancel()
         val resValue = TypedValue()
         theme.resolveAttribute(R.attr.colorPrimaryDark, resValue, true)
-        statusBarAnimator = ObjectAnimator.ofInt(window, "statusBarColor", resValue.data, customTitleColor).apply {
-            setEvaluator(ArgbEvaluator())
-        }
+        statusBarAnimator =
+                ObjectAnimator.ofInt(window, "statusBarColor", resValue.data, customTitleColor)
+                    .apply {
+                        setEvaluator(ArgbEvaluator())
+                    }
         return statusBarAnimator!!
     }
 
@@ -185,7 +194,11 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val stateListTextDrawable: ColorStateList
         get() {
-            val state = arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_pressed), intArrayOf(android.R.attr.state_enabled))
+            val state = arrayOf(
+                intArrayOf(-android.R.attr.state_enabled),
+                intArrayOf(android.R.attr.state_pressed),
+                intArrayOf(android.R.attr.state_enabled)
+            )
             val colors = intArrayOf(Color.WHITE, customTitleColor, Color.WHITE)
             return ColorStateList(state, colors)
         }
@@ -198,11 +211,13 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
 
         getRequestApi(item)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { dlg.show() }
-                .doOnSuccess { dlg.dismiss() }
-                .subscribe(requestSubscriber)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { dlg.show() }
+            .doOnSuccess { dlg.dismiss() }
+            .subscribe(requestSubscriber).let {
+                disposables.add(it)
+            }
     }
 
     private fun getRequestApi(item: Episode): Single<Detail> {
@@ -224,10 +239,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             val msg = (item.errorType ?: ERROR_TYPE.DEFAULT_ERROR).getMessage(baseContext)
 
             AlertDialog.Builder(this@DetailActivity)
-                    .setMessage(msg)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok) { _, _ -> finish() }
-                    .show()
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok) { _, _ -> finish() }
+                .show()
             return@Consumer
         }
     }
@@ -244,9 +259,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
 
         supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
-                .commit()
+            .beginTransaction()
+            .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
+            .commit()
 
         isFragmentAttach = true
     }
@@ -277,7 +292,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
                 currentItem?.let {
                     startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                         val sender = serviceApi.getDetailShare(episode, it)
-                        Log.i(TAG, "Share=" + sender)
+                        Log.i(TAG, "Share=$sender")
                         type = "text/plain"
                         putExtra(Intent.EXTRA_SUBJECT, sender.title)
                         putExtra(Intent.EXTRA_TEXT, sender.url)
@@ -314,8 +329,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private fun moveToAxisY(view: View, isToTop: Boolean) {
         view.animate()
-                .translationY((if (isToTop) -view.height else view.height).toFloat())
-                .start()
+            .translationY((if (isToTop) -view.height else view.height).toFloat())
+            .start()
     }
 
     private fun moveRevert(view: View) {
@@ -328,7 +343,12 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             return true
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
             if (e1.x - e2.x > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 btnNext.performClick()
                 return true
