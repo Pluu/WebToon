@@ -47,7 +47,7 @@ class NateDetailApi(context: Context) : AbstractDetailApi(context) {
                 nextLink = if (isNotEmpty()) "/view/" + first().attr("href") else null
             }
             val list = mutableListOf<DetailView>()
-            doc.select(".toonView img").mapTo(list) { DetailView.createImage(it.attr("src")) }
+            doc.select(".toonView img").mapTo(list) { DetailView(it.attr("src")) }
             this.list = list
         }
         return ret

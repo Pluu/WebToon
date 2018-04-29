@@ -64,7 +64,7 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
             memberInfo.optJSONArray("files")
                 ?.asSequence()
                 ?.map {
-                    DetailView.createImage("$host${it.optString("secureUrl")}")
+                    DetailView("$host${it.optString("secureUrl")}")
                 }?.toList()
         }
     }

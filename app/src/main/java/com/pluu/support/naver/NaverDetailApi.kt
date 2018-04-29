@@ -88,7 +88,7 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
         return doc.select(".swiper-slide img.swiper-lazy")
             .filter { it -> it.hasAttr("data-categoryid") }
             .map { it -> it.attr("data-src") }
-            .map { url -> DetailView.createImage(url) }
+            .map { url -> DetailView(url) }
     }
 
     private fun parseDetailNormalType(doc: Document) =
@@ -99,7 +99,7 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
                 } ?: it.attr("src")
             }
             .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
-            .map { DetailView.createImage(it) }
+            .map { DetailView(it) }
 
     private fun getShareUrl(webtoonId: String, episodeId: String) =
         "http://m.comic.naver.com/webtoon/detail.nhn?titleId=$webtoonId&no=$episodeId"

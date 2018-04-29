@@ -51,7 +51,7 @@ class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
     private fun parserToon(array: JSONArray): List<DetailView> {
         return array.asSequence()
             .map {
-                DetailView.createImage(it.optString("imagepath"))
+                DetailView(it.optString("imagepath"))
             }
             .toList()
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.pluu.webtoon">
+    package="com.pluu.webtoon">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".AppController"
@@ -17,31 +17,31 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.EpisodesActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.DetailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settting.SettingsActivity"
             android:label="@string/label_setting"
             android:screenOrientation="portrait"
-            android:theme="@style/PreferenceToolBar"/>
+            android:theme="@style/PreferenceToolBar" />
         <activity
             android:name=".ui.settting.LicenseActivity"
             android:label="@string/label_license"
             android:screenOrientation="portrait"
-            android:theme="@style/BaeMaterialAppThemeToolBar"/>
+            android:theme="@style/BaeMaterialAppThemeToolBar" />
     </application>
 
 </manifest>
