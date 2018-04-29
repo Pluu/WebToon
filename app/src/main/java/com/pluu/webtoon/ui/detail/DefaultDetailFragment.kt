@@ -7,11 +7,9 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.pluu.webtoon.GlideApp
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.DetailView
 import kotlinx.android.synthetic.main.fragment_episode.*
-import kotlinx.android.synthetic.main.item_detail_viewholder.*
 
 /**
  * Default Detail Fragment
@@ -45,13 +43,10 @@ class DefaultDetailFragment(
     override fun loadView(list: List<DetailView>) {
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context).apply {
+                isItemPrefetchEnabled = true
                 initialPrefetchItemCount = 5
             }
             adapter = DetailAdapter(list, listener)
-            setRecyclerListener { holder ->
-                val viewHolder = holder as DetailViewHolder
-                GlideApp.with(this@DefaultDetailFragment).clear(viewHolder.ivView)
-            }
             addItemDecoration(DetailItemDecoration(actionBarHeight, bottomHeight))
         }
     }
