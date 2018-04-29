@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -26,7 +25,10 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
 import com.pluu.webtoon.item.*
-import com.pluu.webtoon.ui.detail.*
+import com.pluu.webtoon.ui.detail.BaseDetailFragment
+import com.pluu.webtoon.ui.detail.DefaultDetailFragment
+import com.pluu.webtoon.ui.detail.FirstBindListener
+import com.pluu.webtoon.ui.detail.ToggleListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -71,10 +73,6 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         ProgressDialog(this).apply {
             setMessage(getString(R.string.msg_loading))
         }
-    }
-
-    private val gd: GestureDetector by lazy {
-        GestureDetector(this, listener)
     }
 
     private var isFragmentAttach = false
@@ -229,7 +227,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             btnPrev.isEnabled = !TextUtils.isEmpty(item.prevLink)
             btnNext.isEnabled = !TextUtils.isEmpty(item.nextLink)
 
-            fragmentInit(item.type)
+            fragmentInit()
             fragmentAttach(it)
         } ?: run {
             val msg = (item.errorType ?: ERROR_TYPE.DEFAULT_ERROR).getMessage(baseContext)
@@ -244,17 +242,12 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
     }
 
-    private fun fragmentInit(type: DETAIL_TYPE) {
+    private fun fragmentInit() {
         if (isFragmentAttach) {
             return
         }
 
-        val f: Fragment = when (type) {
-            DETAIL_TYPE.DEFAULT -> DefaultDetailFragment(gd, bottomMenu.height)
-            DETAIL_TYPE.DAUM_CHATTING -> DaumChattingFragment(gd)
-            DETAIL_TYPE.DAUM_MULTI -> DaumMultiFragment(gd)
-        }
-
+        val f = DefaultDetailFragment(bottomMenu.height)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)

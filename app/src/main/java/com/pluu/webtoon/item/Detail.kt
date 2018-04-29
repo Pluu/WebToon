@@ -12,9 +12,6 @@ class Detail {
     var prevLink: String? = null
     var list: List<DetailView>? = null
 
-    // View Type
-    var type = DETAIL_TYPE.DEFAULT
-
     // ERROR_TYPE
     var errorType: ERROR_TYPE? = null
     var errorMsg: String? = null

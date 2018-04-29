@@ -33,7 +33,7 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
         }
 
         ret.apply {
-            val info = json.optJSONObject("webtoonEpisode").apply {
+            json.optJSONObject("webtoonEpisode").apply {
                 title = optString("title")
                 episodeId = optString("id")
             }
@@ -47,96 +47,25 @@ class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
                 prevLink = prevId.toString()
             }
 
-            when (info.optString("multiType")) {
-                "chatting" -> chattingDetailParse(json) to DETAIL_TYPE.DAUM_CHATTING
-                "multi" -> multiDetailParse(json) to DETAIL_TYPE.DAUM_MULTI
-                else -> defaultDetailParse(json) to DETAIL_TYPE.DEFAULT
-            }.let {
-                list = it.first
-                type = it.second
-            }
+            list = defaultDetailParse(json)
         }
         return ret
-    }
-
-    private fun multiDetailParse(json: JSONObject): List<DetailView> {
-        val list = mutableListOf<DetailView>()
-
-        json.optJSONArray("webtoonEpisodePages").iterator().forEach { it ->
-            it.optJSONArray("webtoonEpisodePageMultimedias")?.iterator()?.forEach { multimedia ->
-                when (multimedia.optString("multimediaType")) {
-                    "image" -> VIEW_TYPE.MULTI_IMAGE
-                    "gif" -> VIEW_TYPE.MULTI_GIF
-                    else -> null
-                }?.let {
-                    list.add(
-                        DetailView.generate(
-                            it,
-                            multimedia.optJSONObject("image").optString("url")
-                        )
-                    )
-                }
-            }
-        }
-
-        if (list.isNotEmpty()) {
-            list.add(0, DetailView.createChatEmpty())
-            list.add(DetailView.createChatEmpty())
-        }
-        return list
     }
 
     private fun defaultDetailParse(json: JSONObject): List<DetailView> {
         val list = mutableListOf<DetailView>()
         json.optJSONArray("webtoonImages")?.iterator()?.forEach { it ->
-            list.add(DetailView.createImage(it.optString("url")))
+            list.add(DetailView(it.optString("url")))
         }
         json.optJSONArray("webtoonEpisodePages")?.iterator()?.forEach { it ->
             list.add(
-                DetailView.createImage(
+                DetailView(
                     it.optJSONArray("webtoonEpisodePageMultimedias")
                         .optJSONObject(0)
                         .optJSONObject("image")
                         .optString("url")
                 )
             )
-        }
-        return list
-    }
-
-    private fun chattingDetailParse(json: JSONObject): List<DetailView> {
-        val list = mutableListOf<DetailView>()
-        json.optJSONArray("webtoonEpisodeChattings")?.iterator()?.forEach { it ->
-            when (it.optString("messageType")) {
-                "notice" -> {
-                    if (it.isNull("message")) {
-                        DetailView.createChatNoticeImage(it.optJSONObject("image").optString("url"))
-                    } else {
-                        DetailView.createChatNotice(it.optString("message"))
-                    }
-                }
-                "another" -> {
-                    DetailView.createChatLeft(
-                        it.optJSONObject("profileImage").optString("url"),
-                        it.optString("profileName"),
-                        it.optString("message")
-                    )
-                }
-                "own" -> {
-                    DetailView.createChatRight(
-                        it.optJSONObject("profileImage").optString("url"),
-                        it.optString("profileName"),
-                        it.optString("message")
-                    )
-                }
-                else -> null
-            }?.let {
-                list.add(it)
-            }
-        }
-        if (list.isNotEmpty()) {
-            list.add(0, DetailView.createChatEmpty())
-            list.add(DetailView.createChatEmpty())
         }
         return list
     }

@@ -60,9 +60,7 @@ class OneStoreDetailApi(context: Context) : AbstractDetailApi(context) {
 
         ret.list = array.asSequence()
             .map {
-                DetailView.createImage(it.optString("imagepath")).apply {
-                    height = it.optInt("height").toFloat()
-                }
+                DetailView(it.optString("imagepath"))
             }
             .toList()
         return ret

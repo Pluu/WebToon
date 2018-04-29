@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.DetailView
-import com.pluu.webtoon.item.VIEW_TYPE
 import kotlinx.android.synthetic.main.fragment_default_detail.*
 
 /**
@@ -21,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_default_detail.*
  * Created by pluu on 2017-05-06.
  */
 @SuppressLint("ValidFragment")
-class DefaultDetailFragment(private val gd: GestureDetector, private val bottomHeight: Int) :
+class DefaultDetailFragment(private val bottomHeight: Int) :
     BaseDetailFragment() {
 
     private var actionBarHeight: Int = 0
@@ -51,7 +49,7 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
     }
 
     private fun initWebViewSetting() {
-        webView.apply {
+        with(webView) {
             settings.layoutAlgorithm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
             } else {
@@ -73,7 +71,6 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
                 }
             }
 
-            setOnTouchListener { _, event -> gd.onTouchEvent(event) }
             setOnLongClickListener { true }
         }
     }
@@ -99,14 +96,8 @@ class DefaultDetailFragment(private val gd: GestureDetector, private val bottomH
         var item: DetailView
         while (iterator.hasNext()) {
             item = iterator.next()
-            //			Log.i(TAG, "Load=" + item);
             builder.append("<li>")
-
-            @Suppress("NON_EXHAUSTIVE_WHEN")
-            when (item.type) {
-                VIEW_TYPE.IMAGE -> builder.append("<img src=\"").append(item.value).append("\" />")
-                VIEW_TYPE.TEXT -> builder.append(item.value!!.replace("\n".toRegex(), "<br></br>"))
-            }
+            builder.append("<img src=\"").append(item.value).append("\" />")
             builder.append("</li>")
         }
 
