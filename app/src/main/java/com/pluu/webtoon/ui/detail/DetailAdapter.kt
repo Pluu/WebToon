@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.pluu.kotlin.inflate
 import com.pluu.kotlin.screenWidth
 import com.pluu.webtoon.R
@@ -47,7 +48,7 @@ class DetailViewHolder(override val containerView: View) : RecyclerView.ViewHold
             .apply(
                 RequestOptions()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .override(screenWidth, 0)
+                    .override(Target.SIZE_ORIGINAL)
             )
             .into(ivView)
     }
