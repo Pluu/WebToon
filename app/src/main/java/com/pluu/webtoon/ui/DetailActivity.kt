@@ -16,7 +16,9 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NAV_ITEM
@@ -325,30 +327,6 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private fun moveRevert(view: View) {
         view.animate().translationY(0f).start()
-    }
-
-    private val listener = object : GestureDetector.SimpleOnGestureListener() {
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-            toggleDelay(false)
-            return true
-        }
-
-        override fun onFling(
-            e1: MotionEvent,
-            e2: MotionEvent,
-            velocityX: Float,
-            velocityY: Float
-        ): Boolean {
-            if (e1.x - e2.x > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                btnNext.performClick()
-                return true
-            } else if (e2.x - e1.x > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                btnPrev.performClick()
-                return true
-            }
-
-            return super.onFling(e1, e2, velocityX, velocityY)
-        }
     }
 
     private fun toggleDelay(isDelay: Boolean) {
