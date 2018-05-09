@@ -14,12 +14,12 @@ buildscript {
             'rxandroid'     : '2.0.2'
     ]
     repositories {
-        jcenter()
-        mavenCentral()
         google()
+        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-alpha12'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha14'
         classpath "io.realm:realm-gradle-plugin:4.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin_version}"
 
@@ -30,9 +30,9 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
-        mavenCentral()
         google()
+        mavenCentral()
+        jcenter()
     }
 }
 

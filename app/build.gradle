@@ -94,6 +94,7 @@ dependencies {
 
 kapt {
     useBuildCache = true
+    mapDiagnosticLocations = true
 }
 
 androidExtensions {
