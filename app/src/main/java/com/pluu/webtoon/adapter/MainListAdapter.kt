@@ -2,12 +2,12 @@ package com.pluu.webtoon.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -42,7 +42,7 @@ class MainListAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.bind(list!![i])
-        viewHolder.itemView?.thumbnailView?.setOnClickListener {
+        viewHolder.itemView.thumbnailView?.setOnClickListener {
             if (list[i].isLock) {
                 listener.selectLockItem()
             } else {

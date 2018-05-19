@@ -6,12 +6,12 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.AbstractWeekApi
@@ -113,7 +113,7 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Glide.with(this).resumeRequests()
+        Glide.with(requireContext()).resumeRequests()
         mCompositeDisposable.add(
             RxBusProvider.getInstance()
                 .toObservable()
@@ -123,7 +123,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onPause() {
-        Glide.with(this).pauseRequests()
+        Glide.with(requireContext()).pauseRequests()
         mCompositeDisposable.clear()
         super.onPause()
     }

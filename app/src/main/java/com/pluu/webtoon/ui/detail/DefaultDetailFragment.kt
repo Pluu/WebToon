@@ -2,14 +2,14 @@ package com.pluu.webtoon.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.DetailView
-import kotlinx.android.synthetic.main.fragment_episode.*
+import kotlinx.android.synthetic.main.fragment_default_detail.*
 
 /**
  * Default Detail Fragment

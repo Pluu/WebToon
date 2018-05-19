@@ -1,8 +1,8 @@
 package com.pluu.webtoon.ui.detail
 
 import android.graphics.Rect
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 class DetailItemDecoration(
     private val top: Int,
@@ -10,18 +10,18 @@ class DetailItemDecoration(
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
-        outRect: Rect?,
-        view: View?,
-        parent: RecyclerView?,
-        state: RecyclerView.State?
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        val count: Int = parent?.adapter?.itemCount ?: return
+        val count: Int = parent.adapter?.itemCount ?: return
 
         when (parent.getChildAdapterPosition(view)) {
-            0 -> outRect?.set(0, top, 0, 0)
-            count - 1 -> outRect?.set(0, 0, 0, bottom)
+            0 -> outRect.set(0, top, 0, 0)
+            count - 1 -> outRect.set(0, 0, 0, bottom)
         }
     }
 }

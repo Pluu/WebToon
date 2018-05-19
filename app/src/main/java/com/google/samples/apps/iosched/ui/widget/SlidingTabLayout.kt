@@ -18,7 +18,6 @@ package com.google.samples.apps.iosched.ui.widget
 
 import android.content.Context
 import android.graphics.Typeface
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.util.SparseArray
 import android.util.TypedValue
@@ -30,6 +29,7 @@ import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.viewpager.widget.ViewPager
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout.TabColorizer
 
 /**

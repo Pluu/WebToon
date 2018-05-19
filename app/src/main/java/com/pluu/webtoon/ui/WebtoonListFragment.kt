@@ -6,14 +6,14 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.graphics.Palette
-import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.palette.graphics.Palette
+import androidx.recyclerview.widget.GridLayoutManager
 import com.pluu.event.RxBusProvider
 import com.pluu.kotlin.getCompatColor
 import com.pluu.kotlin.toVisibleOrGone
@@ -155,9 +155,10 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     private fun asyncPalette(item: WebToonInfo, bitmap: Bitmap) {
         val context = context ?: return
         Palette.from(bitmap).generate { p ->
-            val bgColor = p.getDarkVibrantColor(Color.BLACK)
+            val bgColor = p?.getDarkVibrantColor(Color.BLACK) ?: Color.BLACK
             val statusColor =
-                p.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
+                p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
+                        ?: context.getCompatColor(R.color.theme_primary_dark)
             moveEpisode(item, bgColor, statusColor)
         }
     }
@@ -173,7 +174,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private fun updateSpanCount() {
         toonLayoutManager.spanCount = resources.getInteger(R.integer.webtoon_column_count)
-        recyclerView.adapter.notifyDataSetChanged()
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

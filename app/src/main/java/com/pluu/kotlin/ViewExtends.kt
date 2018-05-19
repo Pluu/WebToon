@@ -1,11 +1,11 @@
 package com.pluu.kotlin
 
 import android.os.Build
-import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.annotation.LayoutRes
 
 fun Boolean.toVisibleOrGone() = if (this) View.VISIBLE else View.GONE
 
