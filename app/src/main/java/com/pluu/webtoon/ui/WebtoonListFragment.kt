@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,6 @@ import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
-import com.pluu.webtoon.utils.glideBitmap
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -147,7 +147,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     private fun loadPalette(view: ImageView, item: WebToonInfo) {
-        glideBitmap(view)?.let {
+        (view.drawable as? BitmapDrawable)?.bitmap?.let {
             asyncPalette(item, it)
         }
     }

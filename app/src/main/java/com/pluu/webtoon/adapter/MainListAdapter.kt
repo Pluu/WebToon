@@ -1,26 +1,22 @@
 package com.pluu.webtoon.adapter
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.text.TextUtils
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.item.WebToonType
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_main_list_item.view.*
+import java.lang.Exception
 
 /**
  * Main Episode List Adapter
@@ -57,7 +53,7 @@ class MainListAdapter(
 
     fun modifyInfo(info: WebToonInfo): Int {
         val indexOfFirst =
-            list?.indexOfFirst { item -> TextUtils.equals(info.toonId, item.toonId) } ?: -1
+            list?.indexOfFirst { item -> info.toonId == item.toonId } ?: -1
         if (indexOfFirst != -1) {
             list?.get(indexOfFirst)?.isFavorite = info.isFavorite
         }
@@ -72,36 +68,20 @@ class MainListAdapter(
         fun bind(item: WebToonInfo) {
             itemView.titleView.tag = item
             itemView.titleView.text = item.title
-            Glide.with(itemView.context)
+
+            Picasso.get()
                 .load(item.image)
-                .apply(
-                    RequestOptions()
-                        .centerCrop()
-                        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                )
-                .listener(object : RequestListener<Drawable> {
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
+                .config(Bitmap.Config.RGB_565)
+                .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+                .into(itemView.thumbnailView, object : Callback {
+                    override fun onSuccess() {
                         itemView.progress.visibility = View.GONE
-                        return false
                     }
 
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
+                    override fun onError(e: Exception?) {
                         itemView.progress.visibility = View.GONE
-                        return false
                     }
                 })
-                .into(itemView.thumbnailView)
 
             itemView.regDate.text = item.updateDate
             itemView.regDate.visibility = item.updateDate.isNullOrBlank().toVisibleOrGone()

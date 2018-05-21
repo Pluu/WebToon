@@ -9,13 +9,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight">
+        android:layout_height="@dimen/toon_weekly_min_height">
 
         <ImageView
             android:id="@+id/thumbnailView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toon_weekly_min_height" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -29,8 +29,8 @@
             android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/status"
             android:layout_toStartOf="@+id/status"
+            android:layout_toLeftOf="@+id/status"
             android:background="@drawable/border_gray"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceListItem"
@@ -43,11 +43,11 @@
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="6dp"
             android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
             android:gravity="end"
             android:orientation="vertical">
 
@@ -97,9 +97,9 @@
             android:id="@+id/regDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="8dip"
             android:background="@drawable/border_gray"
             android:textColor="@android:color/white"
@@ -109,9 +109,9 @@
             android:id="@+id/favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
             app:srcCompat="@drawable/ic_favorite_black_36dp" />
 
     </RelativeLayout>

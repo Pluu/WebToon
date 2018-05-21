@@ -14,7 +14,8 @@
         <ImageView
             android:id="@+id/thumbnailView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toon_weekly_min_height" />
+            android:layout_height="@dimen/toon_weekly_min_height"
+            android:scaleType="centerCrop" />
 
         <ProgressBar
             android:id="@+id/progress"

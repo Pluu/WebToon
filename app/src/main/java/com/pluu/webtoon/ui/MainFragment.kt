@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
@@ -113,7 +112,6 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Glide.with(requireContext()).resumeRequests()
         mCompositeDisposable.add(
             RxBusProvider.getInstance()
                 .toObservable()
@@ -123,7 +121,6 @@ class MainFragment : Fragment() {
     }
 
     override fun onPause() {
-        Glide.with(requireContext()).pauseRequests()
         mCompositeDisposable.clear()
         super.onPause()
     }

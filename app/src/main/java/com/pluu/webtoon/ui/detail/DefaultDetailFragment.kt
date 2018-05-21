@@ -44,7 +44,7 @@ class DefaultDetailFragment(
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context).apply {
                 isItemPrefetchEnabled = true
-                initialPrefetchItemCount = 5
+                initialPrefetchItemCount = 4
             }
             adapter = DetailAdapter(list, listener)
             addItemDecoration(DetailItemDecoration(actionBarHeight, bottomHeight))

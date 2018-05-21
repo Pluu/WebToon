@@ -10,16 +10,15 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.AppController
@@ -226,8 +225,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
             currentItem = item
             tvTitle.text = item.title
-            btnPrev.isEnabled = !TextUtils.isEmpty(item.prevLink)
-            btnNext.isEnabled = !TextUtils.isEmpty(item.nextLink)
+            btnPrev.isEnabled = item.prevLink?.isNotEmpty() == true
+            btnNext.isEnabled = item.nextLink?.isNotEmpty() == true
 
             fragmentInit()
             fragmentAttach(it)

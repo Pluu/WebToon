@@ -165,7 +165,7 @@ class SlidingTabLayout @JvmOverloads constructor(context: Context, attrs: Attrib
             val outValue = TypedValue()
             getContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
             setBackgroundResource(outValue.resourceId)
-            setAllCaps(true)
+            isAllCaps = true
 
             val padding = (TAB_VIEW_PADDING_DIPS * resources.displayMetrics.density).toInt()
             setPadding(padding, padding, padding, padding)

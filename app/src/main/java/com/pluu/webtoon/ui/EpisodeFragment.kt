@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.Glide
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.NAV_ITEM
@@ -119,7 +118,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         swipeRefreshWidget.setOnRefreshListener(this)
 
         recyclerView.apply {
-            layoutManager = manager
+            layoutManager = this@EpisodeFragment.manager
             adapter = this@EpisodeFragment.adapter
             addOnScrollListener(scrollListener)
         }
@@ -137,7 +136,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onResume() {
         super.onResume()
-        Glide.with(requireContext()).resumeRequests()
         mCompositeDisposable.add(
             RxBusProvider.getInstance()
                 .toObservable()
@@ -148,7 +146,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onPause() {
         super.onPause()
-        Glide.with(requireContext()).pauseRequests()
         mCompositeDisposable.clear()
     }
 

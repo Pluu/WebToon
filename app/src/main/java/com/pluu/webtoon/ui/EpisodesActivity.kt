@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -102,7 +101,7 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         tvName.text = webToonInfo.writer
-        if (!TextUtils.isEmpty(webToonInfo.rate)) {
+        if (webToonInfo.rate?.isNotEmpty() == true) {
             tvRate.text = webToonInfo.rate
             tvRate.visibility = View.VISIBLE
         }

@@ -31,6 +31,7 @@ open class BaseToonInfo(val toonId: String) : Parcelable {
     }
 
     companion object {
+        @Suppress("unused")
         @JvmField
         val CREATOR: Parcelable.Creator<BaseToonInfo> = object : Parcelable.Creator<BaseToonInfo> {
             override fun createFromParcel(source: Parcel): BaseToonInfo = BaseToonInfo(source)
