@@ -3,7 +3,7 @@ package com.pluu.webtoon.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.R

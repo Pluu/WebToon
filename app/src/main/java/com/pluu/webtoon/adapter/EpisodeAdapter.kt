@@ -1,11 +1,10 @@
 package com.pluu.webtoon.adapter
 
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -48,7 +47,7 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.bind(list[i])
-        viewHolder.itemView?.thumbnailView?.setOnClickListener {
+        viewHolder.itemView.thumbnailView?.setOnClickListener {
             if (list[viewHolder.adapterPosition].isLock) {
                 listener.selectLockItem()
             } else {
@@ -64,7 +63,7 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
     fun updateRead(readList: MutableList<String?>) {
         for (id in readList) {
             for (item in list) {
-                if (TextUtils.equals(id, item.episodeId)) {
+                if (id == item.episodeId) {
                     item.setReadFlag()
                     break
                 }

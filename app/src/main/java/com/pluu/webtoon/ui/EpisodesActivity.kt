@@ -5,13 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.AppController
@@ -102,7 +101,7 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         tvName.text = webToonInfo.writer
-        if (!TextUtils.isEmpty(webToonInfo.rate)) {
+        if (webToonInfo.rate?.isNotEmpty() == true) {
             tvRate.text = webToonInfo.rate
             tvRate.visibility = View.VISIBLE
         }

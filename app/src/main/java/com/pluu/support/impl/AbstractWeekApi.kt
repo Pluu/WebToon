@@ -2,7 +2,7 @@ package com.pluu.support.impl
 
 import android.content.Context
 import android.content.res.Resources
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.pluu.support.daum.DaumWeekApi
 import com.pluu.support.kakao.KakaoWeekApi
 import com.pluu.support.ktoon.OllehWeekApi

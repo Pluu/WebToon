@@ -1,7 +1,7 @@
 package com.pluu.support.impl
 
 import android.os.Bundle
-import android.support.annotation.ColorRes
+import androidx.annotation.ColorRes
 
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
@@ -29,7 +29,7 @@ object ServiceConst {
     } ?: NAV_ITEM.getDefault()
 }
 
-enum class NAV_ITEM(val isSelect: Boolean = false, @param:ColorRes val color: Int = 0, @param:ColorRes val bgColor: Int = 0) {
+enum class NAV_ITEM(val isSelect: Boolean = false, @ColorRes val color: Int = 0, @ColorRes val bgColor: Int = 0) {
     NAVER(true, R.color.naver_color, R.color.naver_color_dark),
     DAUM(true, R.color.daum_color, R.color.daum_color_dark),
     KTOON(true, R.color.olleh_color, R.color.olleh_color_dark),

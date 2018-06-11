@@ -2,16 +2,16 @@ package com.pluu.webtoon.ui
 
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
@@ -193,8 +193,9 @@ abstract class BaseNavActivity : AppCompatActivity() {
         if (item != null) {
             val manager = supportFragmentManager
             val transaction = manager.beginTransaction()
-            val tag = manager.findFragmentByTag(Const.MAIN_FRAG_TAG)
-            transaction.remove(tag)
+            manager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
+                transaction.remove(it)
+            }
             transaction.replace(
                 R.id.container,
                 MainFragment.newInstance(item), Const.MAIN_FRAG_TAG

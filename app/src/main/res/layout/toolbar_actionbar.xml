@@ -14,11 +14,11 @@
   limitations under the License.
   -->
 
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:iosched="http://schemas.android.com/apk/res-auto"
-    iosched:theme="@style/ActionBarThemeOverlay"
-    iosched:popupTheme="@style/Theme.AppCompat.NoActionBar"
     android:id="@+id/toolbar_actionbar"
-    iosched:titleTextAppearance="@style/ActionBar.TitleText"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize" />
+    android:layout_height="?actionBarSize"
+    iosched:popupTheme="@style/Theme.AppCompat.NoActionBar"
+    iosched:theme="@style/ActionBarThemeOverlay"
+    iosched:titleTextAppearance="@style/ActionBar.TitleText" />

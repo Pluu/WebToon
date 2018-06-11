@@ -2,12 +2,11 @@ package com.pluu.webtoon.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -42,7 +41,7 @@ class MainListAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.bind(list!![i])
-        viewHolder.itemView?.thumbnailView?.setOnClickListener {
+        viewHolder.itemView.thumbnailView?.setOnClickListener {
             if (list[i].isLock) {
                 listener.selectLockItem()
             } else {
@@ -57,7 +56,7 @@ class MainListAdapter(
 
     fun modifyInfo(info: WebToonInfo): Int {
         val indexOfFirst =
-            list?.indexOfFirst { item -> TextUtils.equals(info.toonId, item.toonId) } ?: -1
+            list?.indexOfFirst { item -> info.toonId == item.toonId } ?: -1
         if (indexOfFirst != -1) {
             list?.get(indexOfFirst)?.isFavorite = info.isFavorite
         }
@@ -72,6 +71,7 @@ class MainListAdapter(
         fun bind(item: WebToonInfo) {
             itemView.titleView.tag = item
             itemView.titleView.text = item.title
+
             Glide.with(itemView.context)
                 .load(item.image)
                 .apply(
@@ -83,7 +83,7 @@ class MainListAdapter(
                     override fun onResourceReady(
                         resource: Drawable?,
                         model: Any?,
-                        target: Target<Drawable>?,
+                        target: com.bumptech.glide.request.target.Target<Drawable>?,
                         dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
