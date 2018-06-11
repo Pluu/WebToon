@@ -5,16 +5,14 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.GridLayoutManager
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.bumptech.glide.Glide
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.NAV_ITEM
@@ -120,7 +118,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         swipeRefreshWidget.setOnRefreshListener(this)
 
         recyclerView.apply {
-            layoutManager = manager
+            layoutManager = this@EpisodeFragment.manager
             adapter = this@EpisodeFragment.adapter
             addOnScrollListener(scrollListener)
         }
@@ -138,7 +136,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onResume() {
         super.onResume()
-        Glide.with(this).resumeRequests()
         mCompositeDisposable.add(
             RxBusProvider.getInstance()
                 .toObservable()
@@ -149,7 +146,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onPause() {
         super.onPause()
-        Glide.with(this).pauseRequests()
         mCompositeDisposable.clear()
     }
 
@@ -213,7 +209,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         BiFunction<List<Episode>, List<REpisode>, List<Episode>> { list, readList ->
             for (readItem in readList) {
                 for (episode in list) {
-                    if (TextUtils.equals(readItem.episodeId, episode.episodeId)) {
+                    if (readItem.episodeId == episode.episodeId) {
                         episode.setReadFlag()
                         break
                     }

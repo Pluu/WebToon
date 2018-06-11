@@ -1,9 +1,9 @@
 package com.pluu.webtoon.utils
 
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 /**
  * RecyclerView 하단 More Load 기능 관련 Listener
@@ -16,14 +16,14 @@ abstract class MoreRefreshListener : RecyclerView.OnScrollListener() {
 
     private var isLoadingMore: Boolean = false
 
-    override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
 
         if (isLoadingMore) {
             return
         }
 
-        recyclerView?.layoutManager?.apply {
+        recyclerView.layoutManager?.apply {
             layoutManagerType = layoutManagerType ?: parseLayoutManager(this)
 
             val visibleItemCount = childCount

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,7 +14,8 @@
         <ImageView
             android:id="@+id/thumbnailView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toon_weekly_min_height" />
+            android:layout_height="@dimen/toon_weekly_min_height"
+            android:scaleType="centerCrop" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -61,4 +62,4 @@
         </LinearLayout>
 
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

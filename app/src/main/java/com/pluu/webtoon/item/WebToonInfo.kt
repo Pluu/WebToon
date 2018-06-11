@@ -70,6 +70,7 @@ class WebToonInfo : BaseToonInfo, Parcelable, Comparable<WebToonInfo> {
     }
 
     companion object {
+        @Suppress("unused")
         @JvmField
         val CREATOR: Parcelable.Creator<WebToonInfo> = object : Parcelable.Creator<WebToonInfo> {
             override fun createFromParcel(source: Parcel) = WebToonInfo(source)

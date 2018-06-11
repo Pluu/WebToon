@@ -5,10 +5,10 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
+import androidx.appcompat.app.AppCompatActivity
 import com.pluu.webtoon.R
 
 /**

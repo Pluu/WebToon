@@ -1,11 +1,15 @@
 package com.pluu.kotlin
 
 import android.content.Context
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import android.graphics.Point
+import android.os.Build
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
+import androidx.fragment.app.Fragment
 
 fun Context.getCompatColor(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
 
@@ -23,4 +27,20 @@ fun Fragment.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
 
 fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, message, duration).show()
+}
+
+fun Context.screenWidth() = screen().first
+
+fun Context.screenHeight() = screen().second
+
+fun Context.screen(): Pair<Int, Int> {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        val display = getSystemService<WindowManager>()!!.defaultDisplay
+        val size = Point()
+        display.getRealSize(size)
+        size.x to size.y
+    } else {
+        val displayMetrics = resources.displayMetrics
+        displayMetrics.widthPixels to displayMetrics.heightPixels
+    }
 }

@@ -4,13 +4,12 @@ import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.preference.ListPreference
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.preference.PreferenceManager
-import android.text.TextUtils
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.PrefConfig
 
@@ -26,8 +25,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (fragmentManager.backStackEntryCount > 0) {
-            fragmentManager.popBackStack()
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
@@ -51,7 +50,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-            if (TextUtils.equals(LicenseActivity::class.java.canonicalName, preference?.fragment)) {
+            if (LicenseActivity::class.java.canonicalName == preference?.fragment) {
                 startActivity(Intent(activity, LicenseActivity::class.java))
                 return true
             }
