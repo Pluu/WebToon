@@ -1,22 +1,25 @@
 package com.pluu.webtoon.adapter
 
 import android.content.Context
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.item.WebToonType
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_main_list_item.view.*
-import java.lang.Exception
 
 /**
  * Main Episode List Adapter
@@ -69,19 +72,36 @@ class MainListAdapter(
             itemView.titleView.tag = item
             itemView.titleView.text = item.title
 
-            Picasso.get()
+            Glide.with(itemView.context)
                 .load(item.image)
-                .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                .into(itemView.thumbnailView, object : Callback {
-                    override fun onSuccess() {
+                .apply(
+                    RequestOptions()
+                        .centerCrop()
+                        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+                )
+                .listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
                         itemView.progress.visibility = View.GONE
+                        return false
                     }
 
-                    override fun onError(e: Exception?) {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
                         itemView.progress.visibility = View.GONE
+                        return false
                     }
                 })
+                .into(itemView.thumbnailView)
 
             itemView.regDate.text = item.updateDate
             itemView.regDate.visibility = item.updateDate.isNullOrBlank().toVisibleOrGone()

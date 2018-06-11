@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.systemService
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 
 fun Context.getCompatColor(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
@@ -35,7 +35,7 @@ fun Context.screenHeight() = screen().second
 
 fun Context.screen(): Pair<Int, Int> {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        val display = systemService<WindowManager>().defaultDisplay
+        val display = getSystemService<WindowManager>()!!.defaultDisplay
         val size = Point()
         display.getRealSize(size)
         size.x to size.y
