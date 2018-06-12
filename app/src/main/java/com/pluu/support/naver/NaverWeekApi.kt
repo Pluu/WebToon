@@ -53,7 +53,7 @@ class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TIT
 
     override val method: REQUEST_METHOD = REQUEST_METHOD.GET
 
-    override val url: String = "http://m.comic.naver.com/webtoon/weekday.nhn"
+    override val url: String = "https://m.comic.naver.com/webtoon/weekday.nhn"
 
     override val params: Map<String, String>
         get() = hashMapOf("week" to URL_VALUE[currentPos])

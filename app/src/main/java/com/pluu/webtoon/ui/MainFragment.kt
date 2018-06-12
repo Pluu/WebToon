@@ -70,11 +70,11 @@ class MainFragment : Fragment() {
             currentItem = serviceApi.todayTabPosition
         }
 
-        slidingTabLayout.setCustomTabView(
-            R.layout.view_sliding_tab,
-            android.R.id.text1
-        )
-        slidingTabLayout.setViewPager(viewPager)
+//        slidingTabLayout.setCustomTabView(
+//            R.layout.view_sliding_tab,
+//            android.R.id.text1
+//        )
+        slidingTabLayout.setupWithViewPager(viewPager)
     }
 
     override fun onAttach(context: Context?) {
@@ -107,7 +107,7 @@ class MainFragment : Fragment() {
         }
 
         RxBusProvider.getInstance().send(ThemeEvent(color, colorDark))
-        slidingTabLayout?.setSelectedIndicatorColors(color)
+        slidingTabLayout?.setSelectedTabIndicatorColor(color)
     }
 
     override fun onResume() {

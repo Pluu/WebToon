@@ -17,7 +17,6 @@ import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
-import com.pluu.webtoon.item.WebToonType
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import kotlinx.android.synthetic.main.layout_main_list_item.view.*
 
@@ -107,7 +106,6 @@ class MainListAdapter(
             itemView.regDate.visibility = item.updateDate.isNullOrBlank().toVisibleOrGone()
             itemView.tvUp.visibility = (Status.UPDATE == item.status).toVisibleOrGone()
             itemView.tvRest.visibility = (Status.BREAK == item.status).toVisibleOrGone()
-            itemView.tvNovel.visibility = (item.type == WebToonType.NOVEL).toVisibleOrGone()
             itemView.tv19.visibility = item.isAdult.toVisibleOrGone()
             itemView.favorite.visibility = item.isFavorite.toVisibleOrGone()
         }
