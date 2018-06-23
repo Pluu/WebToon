@@ -1,25 +1,19 @@
 package com.pluu.webtoon.adapter
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
-import com.pluu.webtoon.item.WebToonType
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
-import kotlinx.android.synthetic.main.layout_main_list_item.view.*
+import com.pluu.webtoon.utils.loadUrl
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.layout_main_list_item.*
 
 /**
  * Main Episode List Adapter
@@ -29,23 +23,23 @@ class MainListAdapter(
     mContext: Context,
     private val list: List<WebToonInfo>?,
     private val listener: WebToonSelectListener
-) : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MainListViewHolder>() {
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
     private val filterColor: Int = ContextCompat.getColor(mContext, R.color.color_accent)
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MainListViewHolder {
         val v = mInflater.inflate(R.layout.layout_main_list_item, viewGroup, false)
-        return ViewHolder(v, filterColor)
+        return MainListViewHolder(v, filterColor)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
+    override fun onBindViewHolder(viewHolder: MainListViewHolder, i: Int) {
         viewHolder.bind(list!![i])
-        viewHolder.itemView.thumbnailView?.setOnClickListener {
+        viewHolder.thumbnailView.setOnClickListener {
             if (list[i].isLock) {
                 listener.selectLockItem()
             } else {
-                listener.selectSuccess(viewHolder.itemView.thumbnailView, list[i])
+                listener.selectSuccess(viewHolder.thumbnailView, list[i])
             }
         }
     }
@@ -62,54 +56,30 @@ class MainListAdapter(
         }
         return indexOfFirst
     }
+}
 
-    class ViewHolder(v: View, filterColor: Int) : RecyclerView.ViewHolder(v) {
-        init {
-            itemView.favorite.setColorFilter(filterColor)
-        }
+class MainListViewHolder(
+    override val containerView: View, filterColor: Int
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        fun bind(item: WebToonInfo) {
-            itemView.titleView.tag = item
-            itemView.titleView.text = item.title
+    init {
+        favorite.setColorFilter(filterColor)
+    }
 
-            Glide.with(itemView.context)
-                .load(item.image)
-                .apply(
-                    RequestOptions()
-                        .centerCrop()
-                        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                )
-                .listener(object : RequestListener<Drawable> {
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: com.bumptech.glide.request.target.Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        itemView.progress.visibility = View.GONE
-                        return false
-                    }
+    fun bind(item: WebToonInfo) {
+        titleView.tag = item
+        titleView.text = item.title
 
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        itemView.progress.visibility = View.GONE
-                        return false
-                    }
-                })
-                .into(itemView.thumbnailView)
+        thumbnailView.loadUrl(item.image,
+            ready = { progress.visibility = View.GONE },
+            fail = { progress.visibility = View.GONE }
+        )
 
-            itemView.regDate.text = item.updateDate
-            itemView.regDate.visibility = item.updateDate.isNullOrBlank().toVisibleOrGone()
-            itemView.tvUp.visibility = (Status.UPDATE == item.status).toVisibleOrGone()
-            itemView.tvRest.visibility = (Status.BREAK == item.status).toVisibleOrGone()
-            itemView.tvNovel.visibility = (item.type == WebToonType.NOVEL).toVisibleOrGone()
-            itemView.tv19.visibility = item.isAdult.toVisibleOrGone()
-            itemView.favorite.visibility = item.isFavorite.toVisibleOrGone()
-        }
+        regDate.text = item.updateDate
+        regDate.visibility = item.updateDate.isNullOrBlank().toVisibleOrGone()
+        tvUp.visibility = (Status.UPDATE == item.status).toVisibleOrGone()
+        tvRest.visibility = (Status.BREAK == item.status).toVisibleOrGone()
+        tv19.visibility = item.isAdult.toVisibleOrGone()
+        favorite.visibility = item.isFavorite.toVisibleOrGone()
     }
 }

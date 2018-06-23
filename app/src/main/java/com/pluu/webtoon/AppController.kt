@@ -1,12 +1,10 @@
 package com.pluu.webtoon
 
 import android.app.Application
-
 import com.pluu.webtoon.di.DaggerNetworkComponent
 import com.pluu.webtoon.di.DaggerRealmHelperComponent
 import com.pluu.webtoon.di.NetworkComponent
 import com.pluu.webtoon.di.RealmHelperComponent
-
 import io.realm.Realm
 
 /**
@@ -26,5 +24,4 @@ class AppController : Application() {
         super.onCreate()
         Realm.init(this)
     }
-
 }

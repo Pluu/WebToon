@@ -11,8 +11,8 @@ import com.pluu.webtoon.item.ShareItem
 import com.pluu.webtoon.utils.buildRequest
 import com.pluu.webtoon.utils.toFormBody
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.withContext
 import org.json.JSONObject
 
 /**
@@ -29,17 +29,15 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
         this.id = episode.episodeId
 
         return runBlocking {
-            val json: JSONObject? = async(CommonPool) {
+            val json: JSONObject? = withContext(CommonPool) {
                 getData()
-            }.await()
-
-            val prev: String? = async(CommonPool) {
+            }
+            val prev: String? = withContext(CommonPool) {
                 getMoreData(episode.toonId, id, isPrev = true)
-            }.await()
-
-            val next = async(CommonPool) {
+            }
+            val next = withContext(CommonPool) {
                 getMoreData(episode.toonId, id, isPrev = false)
-            }.await()
+            }
 
             Detail().apply {
                 webtoonId = episode.toonId
