@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<integer name="font_textStyle_medium">1</integer> <!-- bold -->
-	<string name="font_fontFamily_medium">sans-serif</string>
+    <string name="font_fontFamily_medium">sans-serif</string>
 </resources>

@@ -22,7 +22,7 @@ object ServiceConst {
     )
 
     // icons for navdrawer items (indices must correspond to above array)
-    val NAVDRAWER_ICON_RES_ID = IntArray(NAVDRAWER_TITLE_RES_ID.size, { 0 })
+    val NAVDRAWER_ICON_RES_ID = IntArray(NAVDRAWER_TITLE_RES_ID.size) { 0 }
 
     fun getApiType(bundle: Bundle?): NAV_ITEM = bundle?.let {
         it.getSerializable(Const.EXTRA_API) as NAV_ITEM

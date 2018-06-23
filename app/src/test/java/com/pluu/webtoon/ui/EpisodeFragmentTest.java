@@ -1,7 +1,5 @@
 package com.pluu.webtoon.ui;
 
-import android.support.annotation.NonNull;
-
 import com.pluu.support.impl.NAV_ITEM;
 import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.item.WebToonInfo;
@@ -13,6 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
@@ -50,22 +49,22 @@ public class EpisodeFragmentTest {
 
         TestObserver<List<String>> subscriber = TestObserver.create();
         episodeFragment.readAction()
-            .flatMapObservable(episodes -> Observable.fromIterable(episodes).map(REpisode::getEpisodeId))
-            .toList()
-            .doOnDispose(() -> dispose[0] = true)
-            .doOnEvent((strings, throwable) -> {
-                onEventCount[0]++;
-                if (strings != null) {
-                    onEventSuccess[0] = true;
-                }
+                .flatMapObservable(episodes -> Observable.fromIterable(episodes).map(REpisode::getEpisodeId))
+                .toList()
+                .doOnDispose(() -> dispose[0] = true)
+                .doOnEvent((strings, throwable) -> {
+                    onEventCount[0]++;
+                    if (strings != null) {
+                        onEventSuccess[0] = true;
+                    }
 
-                if (throwable != null) {
-                    throwable.printStackTrace();
-                    onEventError[0] = true;
-                }
-            })
-            .doOnSubscribe(disposable -> unsubscribe[0] = true)
-            .subscribe(subscriber);
+                    if (throwable != null) {
+                        throwable.printStackTrace();
+                        onEventError[0] = true;
+                    }
+                })
+                .doOnSubscribe(disposable -> unsubscribe[0] = true)
+                .subscribe(subscriber);
 
         subscriber.awaitTerminalEvent();
 

@@ -3,13 +3,11 @@ package com.pluu.webtoon.ui.detail
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
+
 import com.pluu.kotlin.inflate
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.DetailView
+import com.pluu.webtoon.utils.loadUrlOriginal
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_detail_viewholder.*
 
@@ -40,16 +38,8 @@ class DetailViewHolder(
     override val containerView: View
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-
     fun bind(item: DetailView) {
-        Glide.with(itemView.context)
-            .load(item.value)
-            .apply(
-                RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .override(Target.SIZE_ORIGINAL)
-            )
-            .into(ivView)
+        ivView.loadUrlOriginal(item.value)
     }
 
 }

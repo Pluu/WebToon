@@ -1,19 +1,15 @@
 package com.pluu.webtoon.adapter
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.pluu.webtoon.R
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
+import com.pluu.webtoon.utils.loadUrl
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.layout_episode_list_item.*
 import kotlinx.android.synthetic.main.layout_episode_list_item.view.*
 
 /**
@@ -21,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_episode_list_item.view.*
  * Created by pluu on 2017-05-02.
  */
 open class EpisodeAdapter(val listener: EpisodeSelectListener) :
-    RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
+    RecyclerView.Adapter<EpisodeViewHolder>() {
     private val list = mutableListOf<Episode>()
 
     fun addItems(list: List<Episode>) {
@@ -37,7 +33,7 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
+        EpisodeViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.layout_episode_list_item,
                 parent,
@@ -45,7 +41,7 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
             )
         )
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
+    override fun onBindViewHolder(viewHolder: EpisodeViewHolder, i: Int) {
         viewHolder.bind(list[i])
         viewHolder.itemView.thumbnailView?.setOnClickListener {
             if (list[viewHolder.adapterPosition].isLock) {
@@ -70,50 +66,27 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
             }
         }
     }
+}
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        fun bind(item: Episode) {
-            itemView.titleView.text = item.episodeTitle
+class EpisodeViewHolder(
+    override val containerView: View
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-            Glide.with(itemView.context)
-                .load(item.image)
-                .apply(
-                    RequestOptions()
-                        .centerCrop()
-                        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-                )
-                .listener(object : RequestListener<Drawable> {
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        itemView.progress.visibility = View.GONE
-                        return false
-                    }
+    fun bind(item: Episode) {
+        titleView.text = item.episodeTitle
 
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        itemView.progress.visibility = View.GONE
-                        return false
-                    }
-                })
-                .into(itemView.thumbnailView)
+        thumbnailView.loadUrl(item.image,
+            ready = { progress.visibility = View.GONE },
+            fail = { progress.visibility = View.GONE }
+        )
 
-            itemView.readView.visibility = if (item.isReadFlag) View.VISIBLE else View.GONE
+        readView.visibility = if (item.isReadFlag) View.VISIBLE else View.GONE
 
-            if (item.isLock) {
-                itemView.lockStatusView.setImageResource(R.drawable.lock_circle)
-                itemView.lockStatusView.visibility = View.VISIBLE
-            } else {
-                itemView.lockStatusView.visibility = View.GONE
-            }
+        if (item.isLock) {
+            lockStatusView.setImageResource(R.drawable.lock_circle)
+            lockStatusView.visibility = View.VISIBLE
+        } else {
+            lockStatusView.visibility = View.GONE
         }
     }
 }

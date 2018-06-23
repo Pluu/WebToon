@@ -10,8 +10,8 @@ import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.utils.buildRequest
 import com.pluu.webtoon.utils.toFormBody
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -31,16 +31,16 @@ class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
         val episodePage = EpisodePage(this)
 
         return runBlocking {
-            val json: JSONObject? = async(CommonPool) {
+            val json: JSONObject? = withContext(CommonPool) {
                 JSONObject(requestApi())
-            }.await()
+            }
 
             if (page == 0) {
-                firstEpisode = async(CommonPool) {
+                firstEpisode = withContext(CommonPool) {
                     parseFirstKey(tooldId)?.let {
                         createFirstEpisode(info, it)
                     }
-                }.await()
+                }
             }
 
             json ?: return@runBlocking episodePage
