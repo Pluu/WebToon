@@ -3,7 +3,7 @@
 buildscript {
     ext.versions = [
             'compileSdk'    : 28,
-            'buildTools'    : '28.0.0',
+            'buildTools'    : '28.0.1',
             'targetSdk'     : 28,
             'kotlin_version': '1.2.50'
     ]
@@ -12,7 +12,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-beta01'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
         classpath "io.realm:realm-gradle-plugin:4.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin_version}"
     }

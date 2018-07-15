@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.pluu.event.RxBusProvider
 import com.pluu.kotlin.getCompatColor
 import com.pluu.kotlin.toVisibleOrGone
@@ -62,8 +64,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_webtoon_list, container, false)
     }
@@ -85,21 +87,21 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         super.onActivityCreated(savedInstanceState)
 
         Single.fromCallable { serviceApi.parseMain(position) }
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map(favoriteProcessFunc)
-            .map { unsortedList ->
-                // 정렬
-                unsortedList.sorted()
-            }
-            .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
-            .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
-            .subscribe(requestSubscriber, Consumer { t ->
-                RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
-                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-            }).let {
-                disposables.add(it)
-            }
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(favoriteProcessFunc)
+                .map { unsortedList ->
+                    // 정렬
+                    unsortedList.sorted()
+                }
+                .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
+                .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
+                .subscribe(requestSubscriber, Consumer { t ->
+                    RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
+                    Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
+                }).let {
+                    disposables.add(it)
+                }
     }
 
     override fun onDestroyView() {
@@ -129,7 +131,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         if (requestCode == REQUEST_DETAIL) {
             // 즐겨찾기 변경 처리 > 다른 ViewPager의 Fragment도 수신받기위해 Referrer
             fragmentManager?.findFragmentByTag(Const.MAIN_FRAG_TAG)
-                ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
+                    ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
         } else if (requestCode == REQUEST_DETAIL_REFERRER) {
             // ViewPager 로부터 전달받은 Referrer
             data?.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE)?.apply {
@@ -147,7 +149,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     private fun loadPalette(view: ImageView, item: WebToonInfo) {
-        (view.drawable as? BitmapDrawable)?.bitmap?.let {
+        view.palletBitmap?.let {
             asyncPalette(item, it)
         }
     }
@@ -157,8 +159,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         Palette.from(bitmap).generate { p ->
             val bgColor = p?.getDarkVibrantColor(Color.BLACK) ?: Color.BLACK
             val statusColor =
-                p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
-                        ?: context.getCompatColor(R.color.theme_primary_dark)
+                    p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
+                            ?: context.getCompatColor(R.color.theme_primary_dark)
             moveEpisode(item, bgColor, statusColor)
         }
     }
@@ -200,3 +202,13 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         const val REQUEST_DETAIL_REFERRER = 1001
     }
 }
+
+private val ImageView.palletBitmap: Bitmap?
+    get() {
+        val innerDrawable: Drawable = drawable
+        return when (innerDrawable) {
+            is BitmapDrawable -> innerDrawable.bitmap
+            is GifDrawable -> innerDrawable.firstFrame
+            else -> null
+        }
+    }
