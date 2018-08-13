@@ -31,7 +31,7 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
     }
 
     override fun getItemCount(): Int {
-        return list?.size ?: 0
+        return list.size
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {

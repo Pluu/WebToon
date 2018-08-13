@@ -93,7 +93,7 @@ class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
 
     private fun parseDetailNormalType(doc: Document) =
         doc.select("#toonLayer li img")
-            .map {
+            .map { it ->
                 it.attr("data-original").takeIf {
                     it.isNotEmpty()
                 } ?: it.attr("src")

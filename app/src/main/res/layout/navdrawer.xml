@@ -50,6 +50,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/selector_nav_item"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="start|center_vertical"
             android:minHeight="48dp"
             android:orientation="horizontal"
