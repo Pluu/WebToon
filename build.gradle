@@ -5,14 +5,14 @@ buildscript {
             'compileSdk'    : 28,
             'buildTools'    : '28.0.2',
             'targetSdk'     : 28,
-            'kotlin_version': '1.2.60'
+            'kotlin_version': '1.2.61'
     ]
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha05'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha07'
         classpath "io.realm:realm-gradle-plugin:4.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin_version}"
     }

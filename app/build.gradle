@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId "com.pluu.webtoon"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion versions.targetSdk
-        versionCode 42
-        versionName "1.3.10"
+        versionCode 43
+        versionName "1.3.11"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -53,15 +53,15 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.annotation:annotation:1.0.0-rc01'
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc01'
-    implementation 'androidx.palette:palette:1.0.0-rc01'
-    implementation 'androidx.cardview:cardview:1.0.0-rc01'
-    implementation 'androidx.preference:preference:1.0.0-rc01'
-    implementation 'androidx.browser:browser:1.0.0-rc01'
+    implementation 'androidx.annotation:annotation:1.0.0-rc02'
+    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
+    implementation 'androidx.palette:palette:1.0.0-rc02'
+    implementation 'androidx.cardview:cardview:1.0.0-rc02'
+    implementation 'androidx.preference:preference:1.0.0-rc02'
+    implementation 'androidx.browser:browser:1.0.0-rc02'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'androidx.core:core-ktx:1.0.0-rc01'
+    implementation 'androidx.core:core-ktx:1.0.0-rc02'
     implementation 'com.google.android.material:material:1.0.0-rc01'
 
     // DI
@@ -74,8 +74,8 @@ dependencies {
     // Jsoup
     implementation 'org.jsoup:jsoup:1.11.3'
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    kapt 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:2.1.14"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
@@ -87,7 +87,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.1'
 
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.assertj:assertj-core:3.10.0'
+    testImplementation 'org.assertj:assertj-core:3.11.0'
     testImplementation 'org.mockito:mockito-core:2.13.0'
 }
 

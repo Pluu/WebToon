@@ -54,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/theme_primary"
-            android:drawableLeft="@drawable/chevron_left_selector"
             android:drawableStart="@drawable/chevron_left_selector"
             android:text="@string/label_prev_view"
             android:textColor="@android:color/white"
@@ -68,7 +67,6 @@
             android:layout_weight="1"
             android:background="@color/theme_primary"
             android:drawableEnd="@drawable/chevron_right_selector"
-            android:drawableRight="@drawable/chevron_right_selector"
             android:text="@string/label_next_view"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
