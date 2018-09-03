@@ -1,10 +1,10 @@
 package com.pluu.support.ktoon
 
-import android.content.Context
 import android.net.Uri
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -18,7 +18,9 @@ import org.jsoup.Jsoup
  * 올레 웹툰 상세 API
  * Created by pluu on 2017-04-22.
  */
-class OllehDetailApi(context: Context) : AbstractDetailApi(context) {
+class OllehDetailApi(
+    networkModule: NetworkModule
+) : AbstractDetailApi(networkModule) {
 
     private lateinit var wettonId: String
     private lateinit var timesseq: String

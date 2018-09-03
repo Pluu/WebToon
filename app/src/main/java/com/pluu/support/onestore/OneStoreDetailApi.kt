@@ -1,9 +1,9 @@
 package com.pluu.support.onestore
 
-import android.content.Context
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -17,7 +17,9 @@ import org.jsoup.Jsoup
  * TStore 웹툰 상세 API
  * Created by pluu on 2017-04-27.
  */
-class OneStoreDetailApi(context: Context) : AbstractDetailApi(context) {
+class OneStoreDetailApi(
+    networkModule: NetworkModule
+) : AbstractDetailApi(networkModule) {
 
     private lateinit var id: String
 

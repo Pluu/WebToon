@@ -21,10 +21,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.webtoon.AppController
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
+import com.pluu.webtoon.di.Properties
 import com.pluu.webtoon.item.*
 import com.pluu.webtoon.ui.detail.BaseDetailFragment
 import com.pluu.webtoon.ui.detail.DefaultDetailFragment
@@ -36,8 +36,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.android.setProperty
+import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 /**
  * 상세화면 Activity
@@ -47,11 +49,15 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val TAG = DetailActivity::class.java.simpleName
 
-    @Inject
-    lateinit var realmHelper: RealmHelper
+    private val realmHelper: RealmHelper by inject()
 
-    private lateinit var serviceApi: AbstractDetailApi
-    private lateinit var service: NAV_ITEM
+    private val service: NAV_ITEM by lazy(LazyThreadSafetyMode.NONE) {
+        intent.getSerializableExtra(Const.EXTRA_API) as NAV_ITEM
+    }
+    private val serviceApi: AbstractDetailApi by inject {
+        parametersOf(service)
+    }
+
     private lateinit var episode: Episode
 
     private var customTitleColor: Int = 0
@@ -81,12 +87,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        (applicationContext as AppController).realmHelperComponent.inject(this)
 
         setSupportActionBar(toolbar_actionbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        getApi()
         initView()
 
         resources.displayMetrics.apply {
@@ -106,11 +109,6 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         super.onPause()
         loadingFlag = true
         disposables.clear()
-    }
-
-    private fun getApi() {
-        service = intent.getSerializableExtra(Const.EXTRA_API) as NAV_ITEM
-        serviceApi = AbstractDetailApi.getApi(this, service)
     }
 
     private fun initView() {

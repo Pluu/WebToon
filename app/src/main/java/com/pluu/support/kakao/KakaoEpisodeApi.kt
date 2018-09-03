@@ -1,9 +1,9 @@
 package com.pluu.support.kakao
 
-import android.content.Context
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -19,7 +19,9 @@ import org.json.JSONObject
  * 카카오 페이지 웹툰 Episode API
  * Created by pluu on 2017-04-25.
  */
-class KakaoEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
+class KakaoEpisodeApi(
+    networkModule: NetworkModule
+) : AbstractEpisodeApi(networkModule) {
 
     private var firstEpisode: Episode? = null
     private lateinit var tooldId: String

@@ -1,11 +1,11 @@
 package com.pluu.support.onestore
 
-import android.content.Context
 import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.toFormatString
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.json.JSONArray
@@ -16,7 +16,9 @@ import java.util.*
  * TStore 웹툰 Week Api
  * Created by pluu on 2017-04-27.
  */
-class OneStorerWeekApi(context: Context) : AbstractWeekApi(context, OneStorerWeekApi.TITLE) {
+class OneStorerWeekApi(
+    networkModule: NetworkModule
+) : AbstractWeekApi(networkModule, OneStorerWeekApi.TITLE) {
     private var currentPos = 0
     private var page = 0
     private var startKey: String? = null

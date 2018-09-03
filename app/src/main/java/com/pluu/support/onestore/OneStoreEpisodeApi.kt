@@ -1,8 +1,8 @@
 package com.pluu.support.onestore
 
-import android.content.Context
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -13,7 +13,9 @@ import org.jsoup.nodes.Document
  * TStore 웹툰 에피소드 Api
  * Created by pluu on 2017-04-27.
  */
-class OneStoreEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
+class OneStoreEpisodeApi(
+    networkModule: NetworkModule
+) : AbstractEpisodeApi(networkModule) {
 
     private val EPISODE_ID = "(?<=prodId=)\\w+".toRegex()
 

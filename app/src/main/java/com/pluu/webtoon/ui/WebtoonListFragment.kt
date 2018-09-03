@@ -23,11 +23,11 @@ import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.kotlin.toast
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.ServiceConst
-import com.pluu.webtoon.AppController
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
+import com.pluu.webtoon.di.Properties
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.item.WebToonInfo
@@ -39,7 +39,8 @@ import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_webtoon_list.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.android.setProperty
 
 /**
  * Main EpisodePage List Fragment
@@ -47,10 +48,9 @@ import javax.inject.Inject
  */
 class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
-    @Inject
-    lateinit var realmHelper: RealmHelper
+    private val realmHelper: RealmHelper by inject()
 
-    private lateinit var serviceApi: AbstractWeekApi
+    private val serviceApi: AbstractWeekApi by inject(Properties.WEEK_KEY)
 
     private var position: Int = 0
     private val REQUEST_DETAIL = 1000
@@ -64,18 +64,15 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_webtoon_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (view.context.applicationContext as AppController).realmHelperComponent.inject(this)
-
-        serviceApi = AbstractWeekApi.getApi(view.context, ServiceConst.getApiType(arguments))
+        setProperty(Properties.API_TYPE_KEY, ServiceConst.getApiType(arguments))
         position = arguments?.getInt(Const.EXTRA_POS) ?: 0
 
         with(recyclerView) {
@@ -87,21 +84,21 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         super.onActivityCreated(savedInstanceState)
 
         Single.fromCallable { serviceApi.parseMain(position) }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(favoriteProcessFunc)
-                .map { unsortedList ->
-                    // 정렬
-                    unsortedList.sorted()
-                }
-                .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
-                .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
-                .subscribe(requestSubscriber, Consumer { t ->
-                    RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
-                    Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-                }).let {
-                    disposables.add(it)
-                }
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map(favoriteProcessFunc)
+            .map { unsortedList ->
+                // 정렬
+                unsortedList.sorted()
+            }
+            .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
+            .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
+            .subscribe(requestSubscriber, Consumer { t ->
+                RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
+                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
+            }).let {
+                disposables.add(it)
+            }
     }
 
     override fun onDestroyView() {
@@ -131,7 +128,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         if (requestCode == REQUEST_DETAIL) {
             // 즐겨찾기 변경 처리 > 다른 ViewPager의 Fragment도 수신받기위해 Referrer
             fragmentManager?.findFragmentByTag(Const.MAIN_FRAG_TAG)
-                    ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
+                ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
         } else if (requestCode == REQUEST_DETAIL_REFERRER) {
             // ViewPager 로부터 전달받은 Referrer
             data?.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE)?.apply {
@@ -159,8 +156,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         Palette.from(bitmap).generate { p ->
             val bgColor = p?.getDarkVibrantColor(Color.BLACK) ?: Color.BLACK
             val statusColor =
-                    p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
-                            ?: context.getCompatColor(R.color.theme_primary_dark)
+                p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
+                    ?: context.getCompatColor(R.color.theme_primary_dark)
             moveEpisode(item, bgColor, statusColor)
         }
     }

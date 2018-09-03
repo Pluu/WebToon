@@ -19,6 +19,7 @@ import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainFragmentAdapter
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.di.Properties
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
@@ -28,6 +29,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_toon.*
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.android.setProperty
+import org.koin.core.parameter.parametersOf
 
 /**
  * Main View Fragment
@@ -48,8 +52,14 @@ class MainFragment : Fragment() {
         }
     }
 
-    private lateinit var service: NAV_ITEM
-    private lateinit var serviceApi: AbstractWeekApi
+    private val service: NAV_ITEM by lazy(LazyThreadSafetyMode.NONE) {
+        ServiceConst.getApiType(arguments).apply {
+            listener?.bindNavItem(this)
+        }
+    }
+    private val serviceApi: AbstractWeekApi by inject {
+        parametersOf(service)
+    }
     private var listener: BindServiceListener? = null
 
     override fun onCreateView(
@@ -61,8 +71,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        context?.let { getApi(it) }
+        getApi(requireContext())
 
         viewPager.apply {
             adapter = fragmentManager?.let { MainFragmentAdapter(it, serviceApi) }
@@ -84,10 +93,6 @@ class MainFragment : Fragment() {
 
     private fun getApi(context: Context) {
         // 선택한 서비스에 맞는 컬러 테마 변경
-        service = ServiceConst.getApiType(arguments).apply {
-            listener?.bindNavItem(this)
-        }
-        serviceApi = AbstractWeekApi.getApi(context, service)
         setServiceTheme(context, serviceApi)
     }
 

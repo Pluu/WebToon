@@ -16,7 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.webtoon.AppController
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.EpisodeAdapter
 import com.pluu.webtoon.common.Const
@@ -35,7 +34,8 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_episode.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * 에피소드 리스트 Fragment
@@ -46,13 +46,21 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     private val TAG = EpisodeFragment::class.java.simpleName
     private val REQUEST_DETAIL = 1000
 
-    @Inject
-    lateinit var realmHelper: RealmHelper
+    private val realmHelper: RealmHelper by inject()
 
-    lateinit var service: NAV_ITEM
-    private lateinit var serviceApi: AbstractEpisodeApi
-    lateinit var info: WebToonInfo
-    private lateinit var color: IntArray
+    private val service: NAV_ITEM by lazy(LazyThreadSafetyMode.NONE) {
+        arguments?.getSerializable(Const.EXTRA_API) as NAV_ITEM
+    }
+    private val info: WebToonInfo by lazy(LazyThreadSafetyMode.NONE) {
+        arguments!!.getParcelable(Const.EXTRA_EPISODE) as WebToonInfo
+    }
+    private val color: IntArray by lazy(LazyThreadSafetyMode.NONE) {
+        arguments!!.getIntArray(Const.EXTRA_MAIN_COLOR)
+    }
+
+    private val serviceApi: AbstractEpisodeApi by inject {
+        parametersOf(service)
+    }
 
     private val disposables: CompositeDisposable by lazy {
         CompositeDisposable()
@@ -77,11 +85,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private var mCompositeDisposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (context?.applicationContext as AppController).realmHelperComponent.inject(this)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,14 +94,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        arguments.let {
-            service = it?.getSerializable(Const.EXTRA_API) as NAV_ITEM
-            serviceApi = AbstractEpisodeApi.getApi(view.context, service)
-            info = it.getParcelable(Const.EXTRA_EPISODE)
-            color = it.getIntArray(Const.EXTRA_MAIN_COLOR)
-        }
-
         initView()
         loading()
     }

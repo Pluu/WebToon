@@ -1,8 +1,8 @@
 package com.pluu.support.ktoon
 
-import android.content.Context
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -15,7 +15,9 @@ import org.json.JSONObject
  * 올레 웹툰 Episode API
  * Created by pluu on 2017-04-22.
  */
-class OllehEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
+class OllehEpisodeApi(
+    networkModule: NetworkModule
+) : AbstractEpisodeApi(networkModule) {
     private val PAGE_SIZE = 20
 
     private var firstEpisode: Episode? = null

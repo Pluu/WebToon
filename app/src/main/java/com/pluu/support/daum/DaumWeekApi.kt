@@ -1,12 +1,12 @@
 package com.pluu.support.daum
 
-import android.content.Context
 import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.isNotEmpty
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.BaseToonInfo
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
@@ -19,7 +19,9 @@ import java.util.*
  * 다음 웹툰 Week Api
  * Created by pluu on 2017-04-20.
  */
-class DaumWeekApi(context: Context) : AbstractWeekApi(context, DaumWeekApi.TITLE) {
+class DaumWeekApi(
+    networkModule: NetworkModule
+) : AbstractWeekApi(networkModule, DaumWeekApi.TITLE) {
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 
     private var currentPos: Int = 0
