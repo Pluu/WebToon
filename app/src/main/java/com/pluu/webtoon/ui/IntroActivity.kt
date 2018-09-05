@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.pluu.webtoon.R
+import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit
 class IntroActivity : Activity() {
     private val TAG = IntroActivity::class.java.simpleName
 
-    private val disposables: CompositeDisposable by lazy {
+    private val disposables: CompositeDisposable by lazyNone {
         CompositeDisposable()
     }
 

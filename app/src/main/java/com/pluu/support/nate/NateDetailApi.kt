@@ -1,8 +1,8 @@
 package com.pluu.support.nate
 
-import android.content.Context
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -14,7 +14,9 @@ import java.util.*
  * 네이트 웹툰 상세 API
  * Created by pluu on 2017-04-27.
  */
-class NateDetailApi(context: Context) : AbstractDetailApi(context) {
+class NateDetailApi(
+    networkModule: NetworkModule
+) : AbstractDetailApi(networkModule) {
 
     private val DETAIL_URL =
         "http://m.comics.nate.com/main2/webtoon/WebtoonView.php?btno=%s&bsno=%s"

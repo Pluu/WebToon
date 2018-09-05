@@ -16,7 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.webtoon.AppController
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.EpisodeAdapter
 import com.pluu.webtoon.common.Const
@@ -27,6 +26,7 @@ import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.model.REpisode
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.utils.MoreRefreshListener
+import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,7 +35,8 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_episode.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * 에피소드 리스트 Fragment
@@ -46,27 +47,35 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     private val TAG = EpisodeFragment::class.java.simpleName
     private val REQUEST_DETAIL = 1000
 
-    @Inject
-    lateinit var realmHelper: RealmHelper
+    private val realmHelper: RealmHelper by inject()
 
-    lateinit var service: NAV_ITEM
-    private lateinit var serviceApi: AbstractEpisodeApi
-    lateinit var info: WebToonInfo
-    private lateinit var color: IntArray
+    private val service: NAV_ITEM by lazyNone {
+        arguments?.getSerializable(Const.EXTRA_API) as NAV_ITEM
+    }
+    private val info: WebToonInfo by lazyNone {
+        arguments!!.getParcelable(Const.EXTRA_EPISODE) as WebToonInfo
+    }
+    private val color: IntArray by lazyNone {
+        arguments!!.getIntArray(Const.EXTRA_MAIN_COLOR)
+    }
 
-    private val disposables: CompositeDisposable by lazy {
+    private val serviceApi: AbstractEpisodeApi by inject {
+        parametersOf(service)
+    }
+
+    private val disposables: CompositeDisposable by lazyNone {
         CompositeDisposable()
     }
 
-    private val manager: GridLayoutManager by lazy {
+    private val manager: GridLayoutManager by lazyNone {
         GridLayoutManager(context, resources.getInteger(R.integer.episode_column_count))
     }
 
-    private val adapter: EpisodeAdapter by lazy {
+    private val adapter: EpisodeAdapter by lazyNone {
         EpisodeAdapter(this)
     }
 
-    private val loadDlg: ProgressDialog by lazy {
+    private val loadDlg: ProgressDialog by lazyNone {
         ProgressDialog(context).apply {
             setCancelable(false)
             setMessage(getString(R.string.msg_loading))
@@ -77,11 +86,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private var mCompositeDisposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (context?.applicationContext as AppController).realmHelperComponent.inject(this)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,14 +95,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        arguments.let {
-            service = it?.getSerializable(Const.EXTRA_API) as NAV_ITEM
-            serviceApi = AbstractEpisodeApi.getApi(view.context, service)
-            info = it.getParcelable(Const.EXTRA_EPISODE)
-            color = it.getIntArray(Const.EXTRA_MAIN_COLOR)
-        }
-
         initView()
         loading()
     }

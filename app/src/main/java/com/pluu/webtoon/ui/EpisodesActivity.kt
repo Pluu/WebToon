@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.webtoon.AppController
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
@@ -23,7 +22,7 @@ import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_episode.*
 import kotlinx.android.synthetic.main.toolbar_actionbar.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 /**
  * 에피소드 리스트 Activity
@@ -31,8 +30,7 @@ import javax.inject.Inject
  */
 class EpisodesActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var realmHelper: RealmHelper
+    private val realmHelper: RealmHelper by inject()
 
     private var childTitle: View? = null
 
@@ -47,8 +45,6 @@ class EpisodesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_episode)
-        (applicationContext as AppController).realmHelperComponent.inject(this)
-
         setSupportActionBar(toolbar_actionbar)
 
         webToonInfo = intent.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE).apply {

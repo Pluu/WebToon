@@ -24,10 +24,13 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
+import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_toon.*
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * Main View Fragment
@@ -41,15 +44,21 @@ class MainFragment : Fragment() {
 
     private var isFirstDlg = true
 
-    private val loadDlg: ProgressDialog by lazy {
+    private val loadDlg: ProgressDialog by lazyNone {
         ProgressDialog(activity).apply {
             setCancelable(false)
             setMessage(getString(R.string.msg_loading))
         }
     }
 
-    private lateinit var service: NAV_ITEM
-    private lateinit var serviceApi: AbstractWeekApi
+    private val service: NAV_ITEM by lazyNone {
+        ServiceConst.getApiType(arguments).apply {
+            listener?.bindNavItem(this)
+        }
+    }
+    private val serviceApi: AbstractWeekApi by inject {
+        parametersOf(service)
+    }
     private var listener: BindServiceListener? = null
 
     override fun onCreateView(
@@ -61,8 +70,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        context?.let { getApi(it) }
+        getApi(requireContext())
 
         viewPager.apply {
             adapter = fragmentManager?.let { MainFragmentAdapter(it, serviceApi) }
@@ -84,10 +92,6 @@ class MainFragment : Fragment() {
 
     private fun getApi(context: Context) {
         // 선택한 서비스에 맞는 컬러 테마 변경
-        service = ServiceConst.getApiType(arguments).apply {
-            listener?.bindNavItem(this)
-        }
-        serviceApi = AbstractWeekApi.getApi(context, service)
         setServiceTheme(context, serviceApi)
     }
 

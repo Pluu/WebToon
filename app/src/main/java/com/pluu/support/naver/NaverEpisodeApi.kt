@@ -1,8 +1,8 @@
 package com.pluu.support.naver
 
-import android.content.Context
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.Status
@@ -15,7 +15,9 @@ import org.jsoup.nodes.Element
  * 네이버 웹툰 Episode API
  * Created by pluu on 2017-04-20.
  */
-class NaverEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
+class NaverEpisodeApi(
+    networkModule: NetworkModule
+) : AbstractEpisodeApi(networkModule) {
     private var webToonId: String? = null
     private var pageNo = 1
 

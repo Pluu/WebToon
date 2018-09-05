@@ -1,9 +1,9 @@
 package com.pluu.support.nate
 
-import android.content.Context
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -15,7 +15,9 @@ import org.jsoup.nodes.Document
  * 네이트 웹툰 Episode API
  * Created by pluu on 2017-04-27.
  */
-class NateEpisodeApi(context: Context) : AbstractEpisodeApi(context) {
+class NateEpisodeApi(
+    networkModule: NetworkModule
+) : AbstractEpisodeApi(networkModule) {
 
     private val EPISODE_ID_PATTERN = "(?<=bsno=)\\d+".toRegex()
 

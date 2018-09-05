@@ -1,8 +1,8 @@
 package com.pluu.support.naver
 
-import android.content.Context
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -11,7 +11,9 @@ import org.jsoup.nodes.Document
  * 네이버 웹툰 상세 API
  * Created by pluu on 2017-04-20.
  */
-class NaverDetailApi(context: Context) : AbstractDetailApi(context) {
+class NaverDetailApi(
+    networkModule: NetworkModule
+) : AbstractDetailApi(networkModule) {
 
     private val SKIP_DETAIL = arrayOf(
         "http://static.naver.com/m/comic/im/txt_ads.png",

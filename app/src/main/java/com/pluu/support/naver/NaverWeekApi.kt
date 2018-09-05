@@ -1,10 +1,10 @@
 package com.pluu.support.naver
 
-import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
@@ -13,7 +13,9 @@ import org.jsoup.Jsoup
  * 네이버 웹툰 Week API
  * Created by pluu on 2017-04-20.
  */
-class NaverWeekApi(context: Context) : AbstractWeekApi(context, NaverWeekApi.TITLE) {
+class NaverWeekApi(
+    networkModule: NetworkModule
+) : AbstractWeekApi(networkModule, NaverWeekApi.TITLE) {
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin")
 
     private var currentPos: Int = 0
