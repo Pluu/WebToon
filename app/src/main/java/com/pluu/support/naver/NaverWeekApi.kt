@@ -7,7 +7,6 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
-import okhttp3.OkHttpClient
 import org.jsoup.Jsoup
 
 /**

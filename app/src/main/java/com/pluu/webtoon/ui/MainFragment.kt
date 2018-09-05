@@ -19,18 +19,17 @@ import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainFragmentAdapter
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.di.Properties
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
+import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_toon.*
 import org.koin.android.ext.android.inject
-import org.koin.android.ext.android.setProperty
 import org.koin.core.parameter.parametersOf
 
 /**
@@ -45,14 +44,14 @@ class MainFragment : Fragment() {
 
     private var isFirstDlg = true
 
-    private val loadDlg: ProgressDialog by lazy {
+    private val loadDlg: ProgressDialog by lazyNone {
         ProgressDialog(activity).apply {
             setCancelable(false)
             setMessage(getString(R.string.msg_loading))
         }
     }
 
-    private val service: NAV_ITEM by lazy(LazyThreadSafetyMode.NONE) {
+    private val service: NAV_ITEM by lazyNone {
         ServiceConst.getApiType(arguments).apply {
             listener?.bindNavItem(this)
         }

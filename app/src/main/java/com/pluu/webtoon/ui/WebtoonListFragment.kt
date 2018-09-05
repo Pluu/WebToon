@@ -27,11 +27,11 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
-import com.pluu.webtoon.di.Properties
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
+import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -40,7 +40,7 @@ import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_webtoon_list.*
 import org.koin.android.ext.android.inject
-import org.koin.android.ext.android.setProperty
+import org.koin.core.parameter.parametersOf
 
 /**
  * Main EpisodePage List Fragment
@@ -50,16 +50,18 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private val realmHelper: RealmHelper by inject()
 
-    private val serviceApi: AbstractWeekApi by inject(Properties.WEEK_KEY)
+    private val serviceApi: AbstractWeekApi by inject {
+        parametersOf(ServiceConst.getApiType(arguments))
+    }
 
     private var position: Int = 0
     private val REQUEST_DETAIL = 1000
 
-    private val disposables: CompositeDisposable by lazy {
+    private val disposables: CompositeDisposable by lazyNone {
         CompositeDisposable()
     }
 
-    private val toonLayoutManager: GridLayoutManager by lazy {
+    private val toonLayoutManager: GridLayoutManager by lazyNone {
         GridLayoutManager(activity, resources.getInteger(R.integer.webtoon_column_count))
     }
 
@@ -72,7 +74,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setProperty(Properties.API_TYPE_KEY, ServiceConst.getApiType(arguments))
         position = arguments?.getInt(Const.EXTRA_POS) ?: 0
 
         with(recyclerView) {

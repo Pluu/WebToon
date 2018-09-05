@@ -16,6 +16,7 @@ import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.utils.lazyNone
 import java.util.*
 
 /**
@@ -25,15 +26,15 @@ import java.util.*
 abstract class BaseNavActivity : AppCompatActivity() {
 
     // Primary toolbar and drawer toggle
-    private val mActionBarToolbar by lazy {
+    private val mActionBarToolbar: Toolbar by lazyNone {
         val toolbar: Toolbar = findViewById(R.id.toolbar_actionbar)
         setSupportActionBar(toolbar)
         toolbar
     }
 
     // Navigation drawer:
-    private val mDrawerLayout by lazy<DrawerLayout> {
-        findViewById(R.id.drawer_layout)
+    private val mDrawerLayout: DrawerLayout by lazyNone {
+        findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
     private lateinit var mHandler: Handler
@@ -175,7 +176,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
     protected fun closeNavDrawer() = mDrawerLayout.closeDrawer(GravityCompat.START)
 
     private fun onNavDrawerItemClicked(item: NAV_ITEM) {
-        if (item === selfNavDrawerItem) {
+        if (item == selfNavDrawerItem) {
             mDrawerLayout.closeDrawer(GravityCompat.START)
             return
         }

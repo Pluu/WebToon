@@ -1,6 +1,7 @@
 package com.pluu.webtoon.di
 
 import android.content.res.Resources
+import android.system.Os.bind
 import com.pluu.support.daum.DaumDetailApi
 import com.pluu.support.daum.DaumEpisodeApi
 import com.pluu.support.daum.DaumWeekApi
@@ -29,15 +30,14 @@ object Properties {
     const val WEEK_KEY = "WEEK_KEY"
     const val EPISODE_KEY = "EPISODE_KEY"
     const val DETAIL_KEY = "DETAIL_KEY"
-    const val API_TYPE_KEY = "API_TYPE_KEY"
 }
 
-val webToonModule = module(createOnStart = true) {
+val webToonModule = module {
     single { NetworkModule(get()) }
     single { createOkHttp() }
 
     module(Properties.WEEK_KEY) {
-        factory { (apiType: NAV_ITEM) -> apiType.asWeekApi(get()) }
+        factory { (apiType : NAV_ITEM) -> apiType.asWeekApi(get()) }
     }
     module(Properties.EPISODE_KEY) {
         factory { (apiType: NAV_ITEM) -> apiType.asEpisode(get()) }

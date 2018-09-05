@@ -26,6 +26,7 @@ import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.model.REpisode
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.utils.MoreRefreshListener
+import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,13 +49,13 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private val realmHelper: RealmHelper by inject()
 
-    private val service: NAV_ITEM by lazy(LazyThreadSafetyMode.NONE) {
+    private val service: NAV_ITEM by lazyNone {
         arguments?.getSerializable(Const.EXTRA_API) as NAV_ITEM
     }
-    private val info: WebToonInfo by lazy(LazyThreadSafetyMode.NONE) {
+    private val info: WebToonInfo by lazyNone {
         arguments!!.getParcelable(Const.EXTRA_EPISODE) as WebToonInfo
     }
-    private val color: IntArray by lazy(LazyThreadSafetyMode.NONE) {
+    private val color: IntArray by lazyNone {
         arguments!!.getIntArray(Const.EXTRA_MAIN_COLOR)
     }
 
@@ -62,19 +63,19 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         parametersOf(service)
     }
 
-    private val disposables: CompositeDisposable by lazy {
+    private val disposables: CompositeDisposable by lazyNone {
         CompositeDisposable()
     }
 
-    private val manager: GridLayoutManager by lazy {
+    private val manager: GridLayoutManager by lazyNone {
         GridLayoutManager(context, resources.getInteger(R.integer.episode_column_count))
     }
 
-    private val adapter: EpisodeAdapter by lazy {
+    private val adapter: EpisodeAdapter by lazyNone {
         EpisodeAdapter(this)
     }
 
-    private val loadDlg: ProgressDialog by lazy {
+    private val loadDlg: ProgressDialog by lazyNone {
         ProgressDialog(context).apply {
             setCancelable(false)
             setMessage(getString(R.string.msg_loading))

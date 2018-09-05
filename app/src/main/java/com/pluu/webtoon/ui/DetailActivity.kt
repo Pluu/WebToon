@@ -24,12 +24,12 @@ import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
-import com.pluu.webtoon.di.Properties
 import com.pluu.webtoon.item.*
 import com.pluu.webtoon.ui.detail.BaseDetailFragment
 import com.pluu.webtoon.ui.detail.DefaultDetailFragment
 import com.pluu.webtoon.ui.detail.FirstBindListener
 import com.pluu.webtoon.ui.detail.ToggleListener
+import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -37,7 +37,6 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.android.ext.android.inject
-import org.koin.android.ext.android.setProperty
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
@@ -51,7 +50,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val realmHelper: RealmHelper by inject()
 
-    private val service: NAV_ITEM by lazy(LazyThreadSafetyMode.NONE) {
+    private val service: NAV_ITEM by lazyNone {
         intent.getSerializableExtra(Const.EXTRA_API) as NAV_ITEM
     }
     private val serviceApi: AbstractDetailApi by inject {
@@ -72,11 +71,11 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     private val DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS)
     private var loadingFlag: Boolean = false
 
-    private val disposables: CompositeDisposable by lazy {
+    private val disposables: CompositeDisposable by lazyNone {
         CompositeDisposable()
     }
 
-    private val dlg: ProgressDialog by lazy {
+    private val dlg: ProgressDialog by lazyNone {
         ProgressDialog(this).apply {
             setMessage(getString(R.string.msg_loading))
         }
