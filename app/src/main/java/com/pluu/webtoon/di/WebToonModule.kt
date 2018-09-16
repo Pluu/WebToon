@@ -1,7 +1,6 @@
 package com.pluu.webtoon.di
 
 import android.content.res.Resources
-import android.system.Os.bind
 import com.pluu.support.daum.DaumDetailApi
 import com.pluu.support.daum.DaumEpisodeApi
 import com.pluu.support.daum.DaumWeekApi
