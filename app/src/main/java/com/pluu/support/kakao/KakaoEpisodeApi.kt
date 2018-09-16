@@ -9,7 +9,7 @@ import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.utils.buildRequest
 import com.pluu.webtoon.utils.toFormBody
-import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.runBlocking
 import kotlinx.coroutines.experimental.withContext
 import org.json.JSONArray
@@ -33,12 +33,12 @@ class KakaoEpisodeApi(
         val episodePage = EpisodePage(this)
 
         return runBlocking {
-            val json: JSONObject? = withContext(CommonPool) {
+            val json: JSONObject? = withContext(Dispatchers.Default) {
                 JSONObject(requestApi())
             }
 
             if (page == 0) {
-                firstEpisode = withContext(CommonPool) {
+                firstEpisode = withContext(Dispatchers.Default) {
                     parseFirstKey(tooldId)?.let {
                         createFirstEpisode(info, it)
                     }

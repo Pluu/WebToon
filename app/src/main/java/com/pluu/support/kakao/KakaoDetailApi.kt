@@ -10,7 +10,7 @@ import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
 import com.pluu.webtoon.utils.buildRequest
 import com.pluu.webtoon.utils.toFormBody
-import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.runBlocking
 import kotlinx.coroutines.experimental.withContext
 import org.json.JSONObject
@@ -31,13 +31,13 @@ class KakaoDetailApi(
         this.id = episode.episodeId
 
         return runBlocking {
-            val json: JSONObject? = withContext(CommonPool) {
+            val json: JSONObject? = withContext(Dispatchers.Default) {
                 getData()
             }
-            val prev: String? = withContext(CommonPool) {
+            val prev: String? = withContext(Dispatchers.Default) {
                 getMoreData(episode.toonId, id, isPrev = true)
             }
-            val next = withContext(CommonPool) {
+            val next = withContext(Dispatchers.Default) {
                 getMoreData(episode.toonId, id, isPrev = false)
             }
 
