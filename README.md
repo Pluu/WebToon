@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Pluu/WebToon.svg?style=svg)](https://circleci.com/gh/Pluu/WebToon)
+
 # Warning
 
 본 프로젝트가 접근하는 모든 이미지의 저작권은 실제 서비스를 담당하는 업체에 있으며,
