@@ -1,6 +1,9 @@
+import com.android.build.gradle.internal.test.report.ReportType
+import com.android.tools.build.bundletool.utils.Versions
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.application")
@@ -8,6 +11,7 @@ plugins {
     kotlin("kapt")
     id("kotlin-android-extensions")
     id("realm-android")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -108,4 +112,11 @@ androidExtensions {
 
 kotlin {
     experimental.coroutines = Coroutines.ENABLE
+}
+
+ktlint {
+    version = "5.1.0"
+    android = true
+    reporters = arrayOf(ReporterType.PLAIN, ReporterType.CHECKSTYLE)
+    ignoreFailures = true
 }
