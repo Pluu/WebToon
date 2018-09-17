@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Pluu/WebToon.svg?style=svg)](https://circleci.com/gh/Pluu/WebToon)
+
 국내 주요 웹툰 데이터를 가져오는 Android Application Open Source 입니다.
 
 지원 웹툰
