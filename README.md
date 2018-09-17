@@ -1,6 +1,11 @@
 [![CircleCI](https://circleci.com/gh/Pluu/WebToon.svg?style=svg)](https://circleci.com/gh/Pluu/WebToon)
 
-국내 주요 웹툰 데이터를 가져오는 Android Application Open Source 입니다.
+# Warning
+
+본 프로젝트가 접근하는 모든 이미지의 저작권은 실제 서비스를 담당하는 업체에 있으며,
+이를 유료/상업적인 목적으로 이용시 **저작권 및 법적책임**이 발생할 수 있다는 점을 명시합니다.
+
+## README
 
 지원 웹툰
 - 네이버
