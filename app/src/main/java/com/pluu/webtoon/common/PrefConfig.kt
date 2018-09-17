@@ -17,28 +17,10 @@ object PrefConfig {
     /**
      * SharedPreferences 취득
      * @param context Context
-     * @param name Name
      * @return SharedPreferences
      */
-    fun getPreferences(context: Context, name: String): SharedPreferences {
-        return context.getSharedPreferences(name, Context.MODE_PRIVATE)
-    }
-
-    fun getEditor(context: Context, name: String): SharedPreferences.Editor {
-        return context.getSharedPreferences(name, Context.MODE_PRIVATE).edit()
-    }
-
-    /**
-     * SharedPreferences 취득
-     * @param context Context
-     * @return SharedPreferences
-     */
-    fun getPreferences(context: Context): SharedPreferences {
+    private fun getPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
-    }
-
-    fun getEditor(context: Context): SharedPreferences.Editor {
-        return getPreferences(context).edit()
     }
 
     fun getDefaultWebToon(context: Context): NAV_ITEM {

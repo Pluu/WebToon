@@ -1,9 +1,9 @@
 package com.pluu.support.kakao
 
-import android.content.Context
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
@@ -12,7 +12,9 @@ import org.jsoup.Jsoup
  * 카카오 페이지 웹툰 Week API
  * Created by pluu on 2017-04-25.
  */
-class KakaoWeekApi(context: Context) : AbstractWeekApi(context, KakaoWeekApi.TITLE) {
+class KakaoWeekApi(
+    networkModule: NetworkModule
+) : AbstractWeekApi(networkModule, KakaoWeekApi.TITLE) {
     override val url = "http://page.kakao.com/main/ajaxCallWeeklyList"
     private var currentPos: Int = 0
 

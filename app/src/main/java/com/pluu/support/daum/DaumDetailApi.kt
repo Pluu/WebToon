@@ -1,9 +1,9 @@
 package com.pluu.support.daum
 
-import android.content.Context
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.*
 import org.json.JSONObject
 
@@ -11,7 +11,9 @@ import org.json.JSONObject
  * 다음 웹툰 상세 API
  * Created by pluu on 2017-04-22.
  */
-class DaumDetailApi(context: Context) : AbstractDetailApi(context) {
+class DaumDetailApi(
+    networkModule: NetworkModule
+) : AbstractDetailApi(networkModule) {
     private lateinit var id: String
 
     override fun parseDetail(episode: Episode): Detail {

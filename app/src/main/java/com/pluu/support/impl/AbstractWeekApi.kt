@@ -1,14 +1,8 @@
 package com.pluu.support.impl
 
 import android.content.Context
-import android.content.res.Resources
 import androidx.core.content.ContextCompat
-import com.pluu.support.daum.DaumWeekApi
-import com.pluu.support.kakao.KakaoWeekApi
-import com.pluu.support.ktoon.OllehWeekApi
-import com.pluu.support.nate.NateWeekApi
-import com.pluu.support.naver.NaverWeekApi
-import com.pluu.support.onestore.OneStorerWeekApi
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.WebToonInfo
 import java.util.*
 
@@ -16,9 +10,10 @@ import java.util.*
  * Week API
  * Created by pluu on 2017-04-20.
  */
-abstract class AbstractWeekApi
-protected constructor(context: Context, private val CURRENT_TABS: Array<String>) :
-    NetworkSupportApi(context) {
+abstract class AbstractWeekApi protected constructor(
+    networkModule: NetworkModule,
+    private val CURRENT_TABS: Array<String>
+) : NetworkSupportApi(networkModule) {
 
     abstract val naviItem: NAV_ITEM
 
@@ -39,18 +34,4 @@ protected constructor(context: Context, private val CURRENT_TABS: Array<String>)
 
     @Throws(Exception::class)
     abstract fun parseMain(position: Int): List<WebToonInfo>
-
-    companion object {
-
-        fun getApi(context: Context, item: NAV_ITEM): AbstractWeekApi = when (item) {
-            NAV_ITEM.NAVER -> NaverWeekApi(context)
-            NAV_ITEM.DAUM -> DaumWeekApi(context)
-            NAV_ITEM.KTOON -> OllehWeekApi(context)
-            NAV_ITEM.KAKAOPAGE -> KakaoWeekApi(context)
-            NAV_ITEM.NATE -> NateWeekApi(context)
-            NAV_ITEM.ONE_STORE -> OneStorerWeekApi(context)
-            else -> throw Resources.NotFoundException("Not Found API")
-        }
-    }
-
 }

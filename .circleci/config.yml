@@ -1,0 +1,55 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+    branches:
+      only:
+        - develop
+
+    working_directory: ~/repo
+
+    environment:
+      JAVA_OPTS: -Xmx1536m
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+      - restore_cache:
+          key: bundle-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: bundle-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+          paths:
+            - ~/.gradle
+      - run:
+          name: Build
+          command: |
+              if [ $CIRCLE_BRANCH = 'develop' -o $CIRCLE_BRANCH = 'release' ]; then
+                  ./gradlew --offline --stacktrace assembleRelease
+              else
+                  ./gradlew --offline --stacktrace assemble${APP_BUILD_TYPE^}
+              fi
+      - run:
+          name: Check
+          command: |
+              if [ ! $CIRCLE_BRANCH = 'develop' -a ! $CIRCLE_BRANCH = 'release' ]; then
+                  ./gradlew --stacktrace lint${APP_BUILD_TYPE^}
+                  ./gradlew --stacktrace ktlint${APP_BUILD_TYPE^}Check
+                  bundle exec danger
+              fi
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports

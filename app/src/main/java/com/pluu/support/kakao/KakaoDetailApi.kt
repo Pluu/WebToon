@@ -1,16 +1,16 @@
 package com.pluu.support.kakao
 
-import android.content.Context
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
+import com.pluu.webtoon.di.NetworkModule
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
 import com.pluu.webtoon.utils.buildRequest
 import com.pluu.webtoon.utils.toFormBody
-import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.runBlocking
 import kotlinx.coroutines.experimental.withContext
 import org.json.JSONObject
@@ -19,7 +19,9 @@ import org.json.JSONObject
  * 카카오 페이지 웹툰 상세 API
  * Created by pluu on 2017-04-25.
  */
-class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
+class KakaoDetailApi(
+    networkModule: NetworkModule
+) : AbstractDetailApi(networkModule) {
 
     private val DETAIL_URL =
         "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0"
@@ -29,13 +31,13 @@ class KakaoDetailApi(context: Context) : AbstractDetailApi(context) {
         this.id = episode.episodeId
 
         return runBlocking {
-            val json: JSONObject? = withContext(CommonPool) {
+            val json: JSONObject? = withContext(Dispatchers.Default) {
                 getData()
             }
-            val prev: String? = withContext(CommonPool) {
+            val prev: String? = withContext(Dispatchers.Default) {
                 getMoreData(episode.toonId, id, isPrev = true)
             }
-            val next = withContext(CommonPool) {
+            val next = withContext(Dispatchers.Default) {
                 getMoreData(episode.toonId, id, isPrev = false)
             }
 

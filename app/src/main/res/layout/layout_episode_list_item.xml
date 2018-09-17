@@ -13,9 +13,12 @@
 
         <ImageView
             android:id="@+id/thumbnailView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/toon_weekly_min_height"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progress"
@@ -29,7 +32,7 @@
 
         <TextView
             android:id="@+id/titleView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="#66000000"
             android:gravity="center"
@@ -40,7 +43,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/readView"

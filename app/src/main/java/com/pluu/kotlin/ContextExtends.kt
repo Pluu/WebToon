@@ -2,7 +2,6 @@ package com.pluu.kotlin
 
 import android.content.Context
 import android.graphics.Point
-import android.os.Build
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.ColorRes
@@ -34,13 +33,8 @@ fun Context.screenWidth() = screen().first
 fun Context.screenHeight() = screen().second
 
 fun Context.screen(): Pair<Int, Int> {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        val display = getSystemService<WindowManager>()!!.defaultDisplay
-        val size = Point()
-        display.getRealSize(size)
-        size.x to size.y
-    } else {
-        val displayMetrics = resources.displayMetrics
-        displayMetrics.widthPixels to displayMetrics.heightPixels
-    }
+    val display = getSystemService<WindowManager>()!!.defaultDisplay
+    val size = Point()
+    display.getRealSize(size)
+    return size.x to size.y
 }
