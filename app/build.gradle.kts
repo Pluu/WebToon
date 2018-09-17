@@ -115,7 +115,6 @@ kotlin {
 }
 
 ktlint {
-    version = "5.1.0"
     android = true
     reporters = arrayOf(ReporterType.PLAIN, ReporterType.CHECKSTYLE)
     ignoreFailures = true
