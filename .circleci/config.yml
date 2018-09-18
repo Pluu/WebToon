@@ -55,10 +55,10 @@ workflows:
   version: 2
   build-check:
     jobs:
-      - build
-      - check:
+      - check
+      - build:
           requires:
-            - build
+            - check
           filters:
             branches:
               ignore: master
