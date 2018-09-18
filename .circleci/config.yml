@@ -79,6 +79,6 @@ workflows:
   build-ktlint:
     jobs:
       - build
-      - ktlint
+      - ktlint:
           requires:
             - build
