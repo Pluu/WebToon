@@ -12,8 +12,8 @@ docker_config:
 branch_config:
   - &branch_config
       branches:
-        only:
-          - develop      
+        ignore:
+          - master      
 
 jobs:
   build:
@@ -68,4 +68,4 @@ workflows:
             - build
           filters:
             branches:
-              only: develop
+              ignore: master
