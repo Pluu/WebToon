@@ -3,11 +3,9 @@ docker_config:
   - &docker_config
       docker:
         - image: circleci/android:api-28-alpha
-      working_directory: ~/repo
-      environment:
-        JAVA_OPTS: -Xmx1536m
-        GRADLE_USER_HOME: /repo/.gradle
-        TERM: dumb 
+          environment:
+            JAVA_OPTS: -Xmx1536m
+          working_directory: ~/repo
 
 branch_config:
   - &branch_config
@@ -18,7 +16,7 @@ branch_config:
 jobs:
   build:
     <<: *docker_config
-#    <<: *branch_config
+    <<: *branch_config
 
     steps:
       - checkout
@@ -27,7 +25,7 @@ jobs:
       - restore_cache:
           key: bundle-{{ checksum "Gemfile.lock" }}
       - run:
-          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+          name: Chmod permissions 
           command: sudo chmod +x ./gradlew
       - run:
           name: Bundle install
@@ -35,16 +33,17 @@ jobs:
       - save_cache:
           paths:
             - vendor/bundle
+          key: bundle-{{ checksum "Gemfile.lock" }}
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
   ktlint:
     <<: *docker_config
-#    <<: *branch_config
+    <<: *branch_config
     steps:
       - checkout
       - run:
