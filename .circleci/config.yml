@@ -43,7 +43,7 @@ jobs:
           command: |
               echo "CIRCLE_BRANCH : ${CIRCLE_BRANCH}"
               echo "App Build Type : ${APP_BUILD_TYPE}"
-              if [ ! $CIRCLE_BRANCH = 'master']; then
+              if [ ! $CIRCLE_BRANCH = 'master' -a ! $CIRCLE_BRANCH = 'release' ]; then
                   ./gradlew --stacktrace lint${APP_BUILD_TYPE^}
                   ./gradlew --stacktrace ktlint${APP_BUILD_TYPE^}Check
                   bundle exec danger
@@ -56,9 +56,9 @@ workflows:
   build-check:
     jobs:
       - check
-      - build:
-          requires:
-            - check
-          filters:
-            branches:
-              ignore: master
+#      - build:
+#          requires:
+#            - check
+#          filters:
+#            branches:
+#              ignore: master
