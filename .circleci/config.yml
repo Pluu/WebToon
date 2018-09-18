@@ -1,4 +1,4 @@
-version: 2
+# Anchor
 docker_config:
   - &docker_config
       docker:
@@ -7,6 +7,13 @@ docker_config:
         JAVA_OPTS: -Xmx1536m
       working_directory: ~/repo
 
+gradle_sudo_command:
+  - &gradle_sudo_command
+      name: Chmod permissions 
+      command: sudo chmod +x ./gradlew
+
+# Circle Jobs
+version: 2
 jobs:
   build:
     <<: *docker_config
@@ -15,9 +22,7 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
-      - run:
-          name: Chmod permissions 
-          command: sudo chmod +x ./gradlew
+      - run: *gradle_sudo_command
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -34,6 +39,7 @@ jobs:
       - run:
           name: Bundle install
           command: bundle install --path vendor/bundle
+      - run: *gradle_sudo_command
       - run:
           name: Check
           command: |
@@ -51,6 +57,8 @@ jobs:
       - store_artifacts:
           path: app/build/reports
           destination: reports
+
+# Workflows
 workflows:
   version: 2
   build-check:
