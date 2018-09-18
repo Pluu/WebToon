@@ -34,13 +34,15 @@ jobs:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
           paths:
             - ~/.gradle
-  ktlint:
+  check:
     <<: *docker_config
     steps:
       - checkout
       - run:
           name: Check
           command: |
+              echo "CIRCLE_BRANCH : ${CIRCLE_BRANCH}"
+              echo "App Build Type : ${APP_BUILD_TYPE}"
               if [ ! $CIRCLE_BRANCH = 'master']; then
                   ./gradlew --stacktrace lint${APP_BUILD_TYPE^}
                   ./gradlew --stacktrace ktlint${APP_BUILD_TYPE^}Check
@@ -49,16 +51,12 @@ jobs:
       - store_artifacts:
           path: app/build/reports
           destination: reports
-#  danger:
-#    <<: *docker_config
-#    steps:
-#      - checkout
 workflows:
   version: 2
-  build-ktlint:
+  build-check:
     jobs:
       - build
-      - ktlint:
+      - check:
           requires:
             - build
           filters:
