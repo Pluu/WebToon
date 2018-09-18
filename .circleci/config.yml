@@ -69,3 +69,12 @@ jobs:
       - store_artifacts:
           path: app/build/reports
           destination: reports
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+          filters:
+            branches:
+              only: develop
