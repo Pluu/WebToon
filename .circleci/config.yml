@@ -3,9 +3,9 @@ docker_config:
   - &docker_config
       docker:
         - image: circleci/android:api-28-alpha
-          environment:
-            JAVA_OPTS: -Xmx1536m
-          working_directory: ~/repo
+      environment:
+        JAVA_OPTS: -Xmx1536m
+      working_directory: ~/repo
 
 jobs:
   build:
@@ -48,7 +48,11 @@ jobs:
               fi
       - store_artifacts:
           path: app/build/reports
-          destination: reports 
+          destination: reports
+#  danger:
+#    <<: *docker_config
+#    steps:
+#      - checkout
 workflows:
   version: 2
   build-ktlint:
