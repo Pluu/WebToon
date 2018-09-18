@@ -58,6 +58,11 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+  ktlint:
+    docker:
+      - image: circleci/android:api-28-alpha
+    steps:
+      - checkout
       - run:
           name: Check
           command: |
@@ -68,13 +73,12 @@ jobs:
               fi
       - store_artifacts:
           path: app/build/reports
-          destination: reports
-
+          destination: reports 
 workflows:
   version: 2
-  build-test:
+  build-ktlint:
     jobs:
-      - build:
-          filters:
-            branches:
-              only: develop
+      - build
+      - ktlint
+          requires:
+            - build
