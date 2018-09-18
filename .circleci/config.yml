@@ -1,20 +1,24 @@
 version: 2
+docker_config:
+  - &docker_config
+      docker:
+        - image: circleci/android:api-28-alpha
+      working_directory: ~/repo
+      environment:
+        JAVA_OPTS: -Xmx1536m
+#       GRADLE_USER_HOME: /repo/.gradle
+        TERM: dumb 
+
+branch_config:
+  - &branch_config
+      branches:
+        only:
+          - develop      
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/android:api-28-alpha
-
-    branches:
-      only:
-        - develop
-
-    working_directory: ~/repo
-
-    environment:
-      JAVA_OPTS: -Xmx1536m
-#      GRADLE_USER_HOME: /repo/.gradle
-      TERM: dumb
+    <<: *docker_config
+#    <<: *branch_config
 
     steps:
       - checkout
@@ -59,8 +63,8 @@ jobs:
           name: Download Dependencies
           command: ./gradlew androidDependencies
   ktlint:
-    docker:
-      - image: circleci/android:api-28-alpha
+    <<: *docker_config
+#    <<: *branch_config
     steps:
       - checkout
       - run:
@@ -82,3 +86,6 @@ workflows:
       - ktlint:
           requires:
             - build
+          filters:
+            branches:
+              only: develop
