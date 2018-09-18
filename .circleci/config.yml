@@ -6,7 +6,7 @@ docker_config:
       working_directory: ~/repo
       environment:
         JAVA_OPTS: -Xmx1536m
-#       GRADLE_USER_HOME: /repo/.gradle
+        GRADLE_USER_HOME: /repo/.gradle
         TERM: dumb 
 
 branch_config:
@@ -26,42 +26,22 @@ jobs:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
       - restore_cache:
           key: bundle-{{ checksum "Gemfile.lock" }}
-#      - restore_cache:
-#          keys:
-#            - gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - run:
           name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
           command: sudo chmod +x ./gradlew
-#      - restore_cache:
-#          keys:
-#            - gradle-cache-{{ checksum "build.gradle" }}
-#            - gradle-cache
-#      - restore_cache:
-#          keys:
-#            - gradle-build-caches-{{ .Revision }}
-#            - gradle-build-caches
-#      - run:
-#          name: Restoring Gradle Build Caches
-#          command: |
-#            [ -d ~/gradle-build-caches ] &&
-#              [ -n "$(ls -A ~/gradle-build-caches)" ] &&
-#              rm -rf ~/.gradle/caches/build-cache-* &&
-#              mv ~/gradle-build-caches/* ~/.gradle/caches/ || true
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
+      - save_cache:
+          paths:
+            - vendor/bundle
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
-#      - save_cache:
-#          paths:
-#            - ~/.gradle/wrapper/
-#          key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-#      - save_cache:
-#          paths:
-#            - ~/.gradle/caches/
-#          key: gradle-cache-{{ checksum "build.gradle" }}
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
   ktlint:
     <<: *docker_config
 #    <<: *branch_config
@@ -70,7 +50,7 @@ jobs:
       - run:
           name: Check
           command: |
-              if [ ! $CIRCLE_BRANCH = 'develop']; then
+              if [ ! $CIRCLE_BRANCH = 'master']; then
                   ./gradlew --stacktrace lint${APP_BUILD_TYPE^}
                   ./gradlew --stacktrace ktlint${APP_BUILD_TYPE^}Check
                   bundle exec danger
