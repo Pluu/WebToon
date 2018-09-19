@@ -7,6 +7,12 @@ docker_config:
         JAVA_OPTS: -Xmx1536m
       working_directory: ~/repo
 
+branch_command:
+  - &branch_command
+    branches:
+        ignore:
+          - master
+
 gradle_sudo_command:
   - &gradle_sudo_command
       name: Chmod permissions 
@@ -17,6 +23,7 @@ version: 2
 jobs:
   build:
     <<: *docker_config
+    <<: *branch_command
 
     steps:
       - checkout
@@ -32,6 +39,8 @@ jobs:
             - ~/.gradle
   check:
     <<: *docker_config
+    <<: *branch_command
+
     steps:
       - checkout
       - restore_cache:
