@@ -15,7 +15,8 @@ warn("A pull request must have some assignees") if github.pr_json["assignee"].ni
 # ktlint
 # --------------------
 checkstyle_format.base_path = Dir.pwd
-checkstyle_format.report "build/reports/ktlint/ktlint-#{ENV['APP_BUILD_TYPE'].downcase}.xml"
+#checkstyle_format.report "build/reports/ktlint/ktlint-#{ENV['APP_BUILD_TYPE'].downcase}.xml"
+checkstyle_format.report "build/reports/ktlint/ktlint-main.downcase}.xml"
 
 # --------------------
 # Android Lint
