@@ -10,7 +10,7 @@ docker_config:
 gradle_sudo_command:
   - &gradle_sudo_command
       name: Chmod permissions 
-      command: sudo chmod +x ./gradlew
+      command: sudo chmod +x gradlew
 
 # Circle Jobs
 version: 2
