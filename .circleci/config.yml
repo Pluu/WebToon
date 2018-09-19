@@ -72,7 +72,7 @@ workflows:
   version: 2
   build-check:
     jobs:
-      - build:
+      - build
       - check:
           requires:
             - build
