@@ -72,13 +72,7 @@ workflows:
   version: 2
   build-check:
     jobs:
+      - build:
       - check:
-          filters:
-            branches:
-              only: /.*/
-#      - build:
-#          requires:
-#            - check
-#          filters:
-#            branches:
-#              ignore: master
+          requires:
+            - build
