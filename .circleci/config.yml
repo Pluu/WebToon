@@ -75,7 +75,7 @@ workflows:
       - check:
           filters:
             branches:
-              ignore: develop
+              only: /.*/
 #      - build:
 #          requires:
 #            - check
