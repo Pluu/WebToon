@@ -23,7 +23,7 @@ version: 2
 jobs:
   build:
     <<: *docker_config
-    <<: *branch_command
+#    <<: *branch_command
 
     steps:
       - checkout
@@ -39,7 +39,7 @@ jobs:
             - ~/.gradle
   check:
     <<: *docker_config
-    <<: *branch_command
+#    <<: *branch_command
 
     steps:
       - checkout
@@ -72,7 +72,10 @@ workflows:
   version: 2
   build-check:
     jobs:
-      - check
+      - check:
+          filters:
+            branches:
+              ignore: develop
 #      - build:
 #          requires:
 #            - check
