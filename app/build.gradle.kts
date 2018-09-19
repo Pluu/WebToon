@@ -116,8 +116,8 @@ kotlin {
 
 ktlint {
     android = true
-    debug = true
+//    debug = true
     verbose = true
-    reporters = arrayOf(ReporterType.PLAIN, ReporterType.CHECKSTYLE)
+    reporters = arrayOf(ReporterType.CHECKSTYLE)
     ignoreFailures = true
 }
