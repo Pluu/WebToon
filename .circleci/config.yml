@@ -1,71 +1,78 @@
+# Anchor
+docker_config:
+  - &docker_config
+      docker:
+        - image: circleci/android:api-28-alpha
+      environment:
+        JAVA_OPTS: -Xmx1536m
+      working_directory: ~/repo
+
+branch_command:
+  - &branch_command
+    branches:
+        ignore:
+          - master
+
+gradle_sudo_command:
+  - &gradle_sudo_command
+      name: Chmod permissions 
+      command: sudo chmod +x ./gradlew
+
+# Circle Jobs
 version: 2
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/android:api-28-alpha
-
-#    branches:
-#      only:
-#        - develop
-
-    working_directory: ~/repo
-
-    environment:
-      JAVA_OPTS: -Xmx1536m
-#      GRADLE_USER_HOME: /repo/.gradle
-      TERM: dumb
+    <<: *docker_config
+#    <<: *branch_command
 
     steps:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
-      - restore_cache:
-          key: bundle-{{ checksum "Gemfile.lock" }}
-#      - restore_cache:
-#          keys:
-#            - gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-      - run:
-          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-          command: sudo chmod +x ./gradlew
-#      - restore_cache:
-#          keys:
-#            - gradle-cache-{{ checksum "build.gradle" }}
-#            - gradle-cache
-#      - restore_cache:
-#          keys:
-#            - gradle-build-caches-{{ .Revision }}
-#            - gradle-build-caches
-#      - run:
-#          name: Restoring Gradle Build Caches
-#          command: |
-#            [ -d ~/gradle-build-caches ] &&
-#              [ -n "$(ls -A ~/gradle-build-caches)" ] &&
-#              rm -rf ~/.gradle/caches/build-cache-* &&
-#              mv ~/gradle-build-caches/* ~/.gradle/caches/ || true
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
-#      - save_cache:
-#          paths:
-#            - ~/.gradle/wrapper/
-#          key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-#      - save_cache:
-#          paths:
-#            - ~/.gradle/caches/
-#          key: gradle-cache-{{ checksum "build.gradle" }}
+      - run: *gradle_sudo_command
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+      - save_cache:
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+          paths:
+            - ~/.gradle
+  check:
+    <<: *docker_config
+#    <<: *branch_command
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: bundle-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
+      - run: *gradle_sudo_command
       - run:
           name: Check
           command: |
-              if [ ! $CIRCLE_BRANCH = 'develop']; then
+              echo "CIRCLE_BRANCH : ${CIRCLE_BRANCH}"
+              echo "App Build Type : ${APP_BUILD_TYPE}"
+              if [ ! $CIRCLE_BRANCH = 'master' -a ! $CIRCLE_BRANCH = 'release' ]; then
                   ./gradlew --stacktrace lint${APP_BUILD_TYPE^}
                   ./gradlew --stacktrace ktlint${APP_BUILD_TYPE^}Check
                   bundle exec danger
               fi
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: bundle-{{ checksum "Gemfile.lock" }}
       - store_artifacts:
           path: app/build/reports
           destination: reports
+
+# Workflows
+workflows:
+  version: 2
+  build-check:
+    jobs:
+      - build
+      - check:
+          requires:
+            - build
