@@ -63,16 +63,16 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation("androidx.annotation:annotation:1.0.0-rc02")
-    implementation("androidx.appcompat:appcompat:1.0.0-rc02")
-    implementation("androidx.recyclerview:recyclerview:1.0.0-rc02")
-    implementation("androidx.palette:palette:1.0.0-rc02")
-    implementation("androidx.cardview:cardview:1.0.0-rc02")
-    implementation("androidx.preference:preference:1.0.0-rc02")
-    implementation("androidx.browser:browser:1.0.0-rc02")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
-    implementation("androidx.core:core-ktx:1.0.0-rc02")
-    implementation("com.google.android.material:material:1.0.0-rc02")
+    implementation("androidx.annotation:annotation:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.0.0")
+    implementation("androidx.palette:palette:1.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.preference:preference:1.0.0")
+    implementation("androidx.browser:browser:1.0.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha2")
+    implementation("androidx.core:core-ktx:1.0.0")
+    implementation("com.google.android.material:material:1.0.0")
 
     // DI
     implementation("org.koin:koin-core:1.0.0")
@@ -92,11 +92,11 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
     // kotlin
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1")
 
     testImplementation("junit:junit:4.12")
     testImplementation("org.assertj:assertj-core:3.11.1")
-    testImplementation("org.mockito:mockito-core:2.21.0")
+    testImplementation("org.mockito:mockito-core:2.22.0")
 }
 
 kapt {
