@@ -1,8 +1,5 @@
 package com.pluu.webtoon.common
 
-import kotlin.lazy
-
-
 /**
  * Application Const Set
  * Created by pluu on 2017-04-29.
@@ -17,11 +14,7 @@ object Const {
     private const val RATE_FORMAT = "평점 : %.2f"
 
     const val MAIN_FRAG_TAG = "main_frag_tag"
-
-
-
     const val DETAIL_FRAG_TAG = "detail_frag_tag"
-
 
     fun getRateNameByRate(data: String) = RATE_FORMAT.format(data.toDouble())
 }

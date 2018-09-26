@@ -173,5 +173,4 @@ class EpisodesActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
     }
-
 }

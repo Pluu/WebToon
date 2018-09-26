@@ -44,7 +44,7 @@ class OllehWeekApi(
             image = it.select(".thumb img").attr("src")
 
             status = when {
-                info.select(".ico_up").isNotEmpty() -> Status.UPDATE  // 최근 업데이트트
+                info.select(".ico_up").isNotEmpty() -> Status.UPDATE // 최근 업데이트트
                 info.select(".ico_break").isNotEmpty() -> Status.BREAK // 휴재
                 else -> Status.NONE
             }

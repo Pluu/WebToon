@@ -17,5 +17,4 @@ interface EpisodeSelectListener {
      * 접근 가능 아이템 선택
      */
     fun selectSuccess(item: Episode)
-
 }

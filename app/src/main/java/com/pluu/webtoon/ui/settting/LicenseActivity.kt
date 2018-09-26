@@ -82,5 +82,4 @@ class LicenseActivity : AppCompatActivity() {
             .build()
             .launchUrl(this, Uri.parse(url))
     }
-
 }

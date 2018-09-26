@@ -53,5 +53,4 @@ class IntroActivity : Activity() {
         super.onPause()
         disposables.clear()
     }
-
 }

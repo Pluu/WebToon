@@ -60,8 +60,8 @@ class NaverEpisodeApi(
         val info = doc.select(".toon_info")
         episode.rate = info.select("span[class=if1 st_r]").text()
         episode.status = when {
-            info.select(".aside_info .ico_up").isNotEmpty() -> Status.UPDATE  // 최근 업데이트
-            info.select(".aside_info .ico_break").isNotEmpty() -> Status.BREAK  // 휴재
+            info.select(".aside_info .ico_up").isNotEmpty() -> Status.UPDATE // 최근 업데이트
+            info.select(".aside_info .ico_break").isNotEmpty() -> Status.BREAK // 휴재
             else -> Status.NONE
         }
     }
@@ -92,5 +92,4 @@ class NaverEpisodeApi(
 
     override val url: String
         get() = "http://m.comic.naver.com/webtoon/list.nhn?titleId=$webToonId&page=$pageNo"
-
 }

@@ -49,5 +49,4 @@ class MainFragmentAdapter(fm: FragmentManager, private val serviceApi: AbstractW
             views.valueAt(i).onActivityResult(requestCode, resultCode, data)
         }
     }
-
 }

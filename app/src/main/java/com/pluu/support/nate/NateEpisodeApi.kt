@@ -111,5 +111,4 @@ class NateEpisodeApi(
         } else {
             REQUEST_METHOD.GET
         }
-
 }

@@ -87,7 +87,8 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     private var mCompositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_episode, container, false)
@@ -123,8 +124,8 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
 
-        if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE
-            || newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT
+        if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+            newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT
         ) {
             adapter.notifyDataSetChanged()
         }

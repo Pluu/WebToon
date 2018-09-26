@@ -17,7 +17,7 @@ abstract class BaseDetailFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as? ToggleListener
-                ?: throw RuntimeException("${context.toString()} must implement ToggleListener")
+                ?: throw RuntimeException("$context must implement ToggleListener")
 
         bindListener = context as? FirstBindListener
                 ?: throw RuntimeException("$context must implement FirstBindListener")
@@ -34,5 +34,4 @@ abstract class BaseDetailFragment : Fragment() {
     fun firstBind() {
         bindListener?.firstBind()
     }
-
 }

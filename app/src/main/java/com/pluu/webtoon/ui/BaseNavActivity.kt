@@ -232,5 +232,4 @@ abstract class BaseNavActivity : AppCompatActivity() {
         // delay to launch nav drawer item, to allow close animation to play
         private const val NAVDRAWER_LAUNCH_DELAY = 250
     }
-
 }

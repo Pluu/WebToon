@@ -40,8 +40,8 @@ class NaverWeekApi(
                         title = element.select(".toon_name").text()
                         image = element.select("img").first().attr("src")
                         status = when {
-                            element.select("em[class=badge badge_up]").isNotEmpty() -> Status.UPDATE  // 최근 업데이트
-                            element.select("em[class=badge badge_break]").isNotEmpty() -> Status.BREAK  // 휴재
+                            element.select("em[class=badge badge_up]").isNotEmpty() -> Status.UPDATE // 최근 업데이트
+                            element.select("em[class=badge badge_break]").isNotEmpty() -> Status.BREAK // 휴재
                             else -> Status.NONE
                         }
                         isAdult = !element.select("em[class=badge badge_adult]").isEmpty()

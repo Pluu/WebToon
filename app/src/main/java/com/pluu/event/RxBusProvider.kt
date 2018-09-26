@@ -10,6 +10,5 @@ class RxBusProvider private constructor() {
         private val _instance = RxBus()
 
         fun getInstance() = _instance
-
     }
 }

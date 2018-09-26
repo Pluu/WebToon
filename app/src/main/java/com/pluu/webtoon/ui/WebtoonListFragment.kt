@@ -66,7 +66,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_webtoon_list, container, false)
@@ -181,8 +182,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         super.onConfigurationChanged(newConfig)
 
         newConfig?.takeIf {
-            it.orientation == Configuration.ORIENTATION_LANDSCAPE
-                    || it.orientation == Configuration.ORIENTATION_PORTRAIT
+            it.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+                    it.orientation == Configuration.ORIENTATION_PORTRAIT
         }.run {
             updateSpanCount()
         }

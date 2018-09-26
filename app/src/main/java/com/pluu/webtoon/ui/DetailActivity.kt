@@ -355,5 +355,4 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             fragmentAttach(currentItem.list!!)
         }
     }
-
 }

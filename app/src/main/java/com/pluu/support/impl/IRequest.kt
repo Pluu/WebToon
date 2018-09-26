@@ -29,6 +29,4 @@ interface IRequest {
      * @return http 요청에 필요한 headers.
      */
     val headers: Map<String, String>
-
-
 }

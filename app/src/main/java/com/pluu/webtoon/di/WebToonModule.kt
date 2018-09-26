@@ -36,7 +36,7 @@ val webToonModule = module {
     single { createOkHttp() }
 
     module(Properties.WEEK_KEY) {
-        factory { (apiType : NAV_ITEM) -> apiType.asWeekApi(get()) }
+        factory { (apiType: NAV_ITEM) -> apiType.asWeekApi(get()) }
     }
     module(Properties.EPISODE_KEY) {
         factory { (apiType: NAV_ITEM) -> apiType.asEpisode(get()) }

@@ -77,5 +77,4 @@ class OneStoreEpisodeApi(
 
     override val url: String
         get() = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonList.omp?prodId=$id"
-
 }

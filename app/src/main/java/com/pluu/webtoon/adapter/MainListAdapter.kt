@@ -59,7 +59,8 @@ class MainListAdapter(
 }
 
 class MainListViewHolder(
-    override val containerView: View, filterColor: Int
+    override val containerView: View,
+    filterColor: Int
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
     init {

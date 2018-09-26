@@ -64,5 +64,4 @@ class NateDetailApi(
 
     override val url: String
         get() = DETAIL_URL.format(webToonId, episodeId)
-
 }
