@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.ui.WebtoonListFragment
+import com.pluu.webtoon.ui.weekly.WebtoonListFragment
 
 /**
  * Main ViewPager Fragment Adapter

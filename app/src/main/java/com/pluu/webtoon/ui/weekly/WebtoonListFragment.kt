@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.ui.weekly
 
 import android.app.Activity
 import android.content.Intent
@@ -30,6 +30,7 @@ import com.pluu.webtoon.db.RealmHelper
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Single

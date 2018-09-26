@@ -70,9 +70,13 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.preference:preference:1.0.0")
     implementation("androidx.browser:browser:1.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha2")
+    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
     implementation("androidx.core:core-ktx:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
+
+    val lifecycle_version = "2.0.0-beta01"
+    // ViewModel and LiveData
+    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycle_version")
 
     // DI
     implementation("org.koin:koin-core:1.0.0")
@@ -93,6 +97,7 @@ dependencies {
     // kotlin
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1")
 
     testImplementation("junit:junit:4.12")
     testImplementation("org.assertj:assertj-core:3.11.1")

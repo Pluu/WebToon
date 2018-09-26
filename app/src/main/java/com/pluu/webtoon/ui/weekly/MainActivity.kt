@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.ui.weekly
 
 import android.app.Activity
 import android.content.Intent
@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.navdrawer.*
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
-class MainActivity : BaseNavActivity(), MainFragment.BindServiceListener {
+class MainActivity : BaseNavActivity(),
+    MainFragment.BindServiceListener {
 
     private var mCompositeDisposable = CompositeDisposable()
 

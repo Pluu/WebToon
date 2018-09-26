@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.ui.episode
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -24,6 +24,7 @@ import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.model.REpisode
+import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.utils.MoreRefreshListener
 import com.pluu.webtoon.utils.lazyNone

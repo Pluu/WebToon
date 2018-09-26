@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.ui.episode
 
 import android.animation.ValueAnimator
 import android.app.Activity

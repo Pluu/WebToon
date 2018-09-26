@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.ui.detail
 
 import android.animation.*
 import android.app.Activity
@@ -25,10 +25,6 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
 import com.pluu.webtoon.item.*
-import com.pluu.webtoon.ui.detail.BaseDetailFragment
-import com.pluu.webtoon.ui.detail.DefaultDetailFragment
-import com.pluu.webtoon.ui.detail.FirstBindListener
-import com.pluu.webtoon.ui.detail.ToggleListener
 import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

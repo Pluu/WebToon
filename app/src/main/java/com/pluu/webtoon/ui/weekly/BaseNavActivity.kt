@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.ui.weekly
 
 import android.os.Bundle
 import android.os.Handler
