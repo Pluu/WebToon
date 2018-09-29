@@ -2,7 +2,7 @@ package com.pluu.support.naver
 
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -12,8 +12,8 @@ import org.jsoup.nodes.Document
  * Created by pluu on 2017-04-20.
  */
 class NaverDetailApi(
-    networkModule: NetworkModule
-) : AbstractDetailApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractDetailApi(networkUseCase) {
 
     private val SKIP_DETAIL = arrayOf(
         "http://static.naver.com/m/comic/im/txt_ads.png",

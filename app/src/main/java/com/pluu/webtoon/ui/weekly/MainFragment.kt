@@ -51,14 +51,12 @@ class MainFragment : Fragment() {
         }
     }
 
-    private val service: NAV_ITEM by lazyNone {
-        ServiceConst.getApiType(arguments).apply {
-            listener?.bindNavItem(this)
-        }
-    }
     private val serviceApi: AbstractWeekApi by inject {
+        val service: NAV_ITEM = ServiceConst.getApiType(arguments)
+        listener?.bindNavItem(service)
         parametersOf(service)
     }
+
     private var listener: BindServiceListener? = null
 
     override fun onCreateView(
@@ -71,7 +69,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getApi(requireContext())
+        setServiceTheme(requireContext(), serviceApi)
 
         viewPager.apply {
             adapter = fragmentManager?.let { MainFragmentAdapter(it, serviceApi) }
@@ -79,10 +77,6 @@ class MainFragment : Fragment() {
             currentItem = serviceApi.todayTabPosition
         }
 
-//        slidingTabLayout.setCustomTabView(
-//            R.layout.view_sliding_tab,
-//            android.R.id.text1
-//        )
         slidingTabLayout.setupWithViewPager(viewPager)
     }
 
@@ -91,11 +85,7 @@ class MainFragment : Fragment() {
         listener = context as BindServiceListener
     }
 
-    private fun getApi(context: Context) {
-        // 선택한 서비스에 맞는 컬러 테마 변경
-        setServiceTheme(context, serviceApi)
-    }
-
+    // 선택한 서비스에 맞는 컬러 테마 변경
     private fun setServiceTheme(context: Context, serviceApi: AbstractWeekApi) {
         val color = serviceApi.getTitleColor(context)
         val colorDark = serviceApi.getTitleColorDark(context)
@@ -105,20 +95,20 @@ class MainFragment : Fragment() {
             val animator1 = activity.animatorToolbarColor(color)
             val animator2 = activity.animatorStatusBarColor(colorDark)
 
-            val set = AnimatorSet()
-            set.playTogether(animator1, animator2)
-            set.duration = 250L
-            set.start()
+            AnimatorSet().apply {
+                duration = 250L
+                playTogether(animator1, animator2)
+            }.start()
         }
 
-        RxBusProvider.getInstance().send(ThemeEvent(color, colorDark))
+        RxBusProvider.instance.send(ThemeEvent(color, colorDark))
         slidingTabLayout?.setSelectedTabIndicatorColor(color)
     }
 
     override fun onResume() {
         super.onResume()
         mCompositeDisposable.add(
-            RxBusProvider.getInstance()
+            RxBusProvider.instance
                 .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(busEvent)
@@ -169,7 +159,6 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-
         fun newInstance(item: NAV_ITEM) =
             MainFragment().apply {
                 arguments = Bundle().apply {

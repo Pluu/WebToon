@@ -3,7 +3,7 @@ package com.pluu.support.ktoon
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
@@ -14,8 +14,8 @@ import org.jsoup.nodes.Element
  * Created by pluu on 2017-04-22.
  */
 class OllehWeekApi(
-    networkModule: NetworkModule
-) : AbstractWeekApi(networkModule, OllehWeekApi.TITLE) {
+    networkUseCase: NetworkUseCase
+) : AbstractWeekApi(networkUseCase, OllehWeekApi.TITLE) {
     override val naviItem: NAV_ITEM = NAV_ITEM.KTOON
 
     override fun parseMain(position: Int): List<WebToonInfo> {

@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,26 +20,19 @@ import com.pluu.event.RxBusProvider
 import com.pluu.kotlin.getCompatColor
 import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.kotlin.toast
-import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.db.RealmHelper
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.lazyNone
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
-import io.reactivex.functions.Function
-import io.reactivex.schedulers.Schedulers
+import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.android.synthetic.main.fragment_webtoon_list.*
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 /**
@@ -49,22 +41,18 @@ import org.koin.core.parameter.parametersOf
  */
 class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
-    private val realmHelper: RealmHelper by inject()
-
-    private val serviceApi: AbstractWeekApi by inject {
-        parametersOf(ServiceConst.getApiType(arguments))
-    }
-
-    private var position: Int = 0
-    private val REQUEST_DETAIL = 1000
-
-    private val disposables: CompositeDisposable by lazyNone {
-        CompositeDisposable()
+    private val viewModel: WeekyViewModel by viewModel {
+        parametersOf(
+            ServiceConst.getApiType(arguments),
+            arguments?.getInt(Const.EXTRA_POS) ?: 0
+        )
     }
 
     private val toonLayoutManager: GridLayoutManager by lazyNone {
-        GridLayoutManager(activity, resources.getInteger(R.integer.webtoon_column_count))
+        GridLayoutManager(context, resources.getInteger(R.integer.webtoon_column_count))
     }
+
+    private val REQUEST_DETAIL = 1000
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,8 +64,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        position = arguments?.getInt(Const.EXTRA_POS) ?: 0
-
         with(recyclerView) {
             layoutManager = toonLayoutManager
         }
@@ -85,41 +71,23 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        Single.fromCallable { serviceApi.parseMain(position) }
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map(favoriteProcessFunc)
-            .map { unsortedList ->
-                // 정렬
-                unsortedList.sorted()
-            }
-            .doOnSubscribe { RxBusProvider.getInstance().send(MainEpisodeStartEvent()) }
-            .doOnSuccess { RxBusProvider.getInstance().send(MainEpisodeLoadedEvent()) }
-            .subscribe(requestSubscriber, Consumer { t ->
-                RxBusProvider.getInstance().send(MainEpisodeLoadedEvent())
-                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-            }).let {
-                disposables.add(it)
-            }
-    }
-
-    override fun onDestroyView() {
-        disposables.clear()
-        super.onDestroyView()
-    }
-
-    private val requestSubscriber = Consumer<List<WebToonInfo>> { list ->
-        val activity = activity?.takeUnless { it.isFinishing } ?: return@Consumer
-        recyclerView.adapter = MainListAdapter(activity, list, this)
-        emptyView.visibility = list.isEmpty().toVisibleOrGone()
-    }
-
-    private val favoriteProcessFunc = Function<List<WebToonInfo>, List<WebToonInfo>> { list ->
-        list.forEach {
-            it.isFavorite = realmHelper.getFavoriteToon(serviceApi.naviItem, it.toonId)
+        viewModel.listEvent.observeNonNull(this) { list ->
+            recyclerView.adapter = MainListAdapter(requireContext(), list, this)
+            emptyView.visibility = list.isEmpty().toVisibleOrGone()
         }
-        list
+        viewModel.event.observeNonNull(this) { event ->
+            when (event) {
+                WeeklyEvent.START -> {
+                    RxBusProvider.instance.send(MainEpisodeStartEvent())
+                }
+                WeeklyEvent.LOADED -> {
+                    RxBusProvider.instance.send(MainEpisodeLoadedEvent())
+                }
+                is WeeklyEvent.ERROR -> {
+                    toast(event.message)
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -140,6 +108,41 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // WebToonSelectListener
+    ///////////////////////////////////////////////////////////////////////////
+
+    override fun selectLockItem() {
+        toast(R.string.msg_not_support)
+    }
+
+    override fun selectSuccess(view: ImageView, item: WebToonInfo) {
+        fun asyncPalette(bitmap: Bitmap, block: (Pair<Int, Int>) -> Unit) {
+            val context = context ?: return
+            Palette.from(bitmap).generate { p ->
+                val bgColor = p?.getDarkVibrantColor(Color.BLACK) ?: Color.BLACK
+                val statusColor =
+                    p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
+                        ?: context.getCompatColor(R.color.theme_primary_dark)
+                block(bgColor to statusColor)
+            }
+        }
+
+        fun loadPalette(view: ImageView, block: (Pair<Int, Int>) -> Unit) {
+            view.palletBitmap?.let {
+                asyncPalette(it, block)
+            }
+        }
+
+        loadPalette(view) { colors ->
+            moveEpisode(item, colors.first, colors.second)
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Private Function
+    ///////////////////////////////////////////////////////////////////////////
+
     private fun favoriteUpdate(info: WebToonInfo) {
         val adapter = recyclerView.adapter as MainListAdapter
         val position = adapter.modifyInfo(info)
@@ -148,26 +151,9 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         }
     }
 
-    private fun loadPalette(view: ImageView, item: WebToonInfo) {
-        view.palletBitmap?.let {
-            asyncPalette(item, it)
-        }
-    }
-
-    private fun asyncPalette(item: WebToonInfo, bitmap: Bitmap) {
-        val context = context ?: return
-        Palette.from(bitmap).generate { p ->
-            val bgColor = p?.getDarkVibrantColor(Color.BLACK) ?: Color.BLACK
-            val statusColor =
-                p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
-                    ?: context.getCompatColor(R.color.theme_primary_dark)
-            moveEpisode(item, bgColor, statusColor)
-        }
-    }
-
     private fun moveEpisode(item: WebToonInfo, bgColor: Int, statusColor: Int) {
         startActivityForResult(Intent(activity, EpisodesActivity::class.java).apply {
-            putExtra(Const.EXTRA_API, serviceApi.naviItem)
+            putExtra(Const.EXTRA_API, viewModel.naviItem)
             putExtra(Const.EXTRA_EPISODE, item)
             putExtra(Const.EXTRA_MAIN_COLOR, bgColor)
             putExtra(Const.EXTRA_STATUS_COLOR, statusColor)
@@ -188,14 +174,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         }.run {
             updateSpanCount()
         }
-    }
-
-    override fun selectLockItem() {
-        toast(R.string.msg_not_support)
-    }
-
-    override fun selectSuccess(view: ImageView, item: WebToonInfo) {
-        loadPalette(view, item)
     }
 
     companion object {

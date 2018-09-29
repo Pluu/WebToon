@@ -1,6 +1,6 @@
 package com.pluu.support.impl
 
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.network.buildRequestApi
 import okhttp3.Request
 
@@ -9,7 +9,7 @@ import okhttp3.Request
  * Created by pluu on 2017-04-19.
  */
 abstract class NetworkSupportApi(
-    private val networkModule: NetworkModule
+    private val networkUseCase: NetworkUseCase
 ) : IRequest {
     abstract override val method: REQUEST_METHOD
 
@@ -24,7 +24,7 @@ abstract class NetworkSupportApi(
     @Throws(Exception::class)
     protected fun requestApi(request: Request? = null): String {
         val rRequest = request ?: buildRequestApi(this)
-        return networkModule.createTask().requestApi(rRequest)
+        return networkUseCase.createTask().requestApi(rRequest)
     }
 }
 

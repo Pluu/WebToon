@@ -4,7 +4,7 @@ import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.isNotEmpty
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -18,8 +18,8 @@ import java.util.*
  * Created by pluu on 2017-04-21.
  */
 class DaumEpisodeApi(
-    networkModule: NetworkModule
-) : AbstractEpisodeApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractEpisodeApi(networkUseCase) {
 
     private var name: String? = null
 

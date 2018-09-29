@@ -2,7 +2,7 @@ package com.pluu.support.onestore
 
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -14,8 +14,8 @@ import org.jsoup.nodes.Document
  * Created by pluu on 2017-04-27.
  */
 class OneStoreEpisodeApi(
-    networkModule: NetworkModule
-) : AbstractEpisodeApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractEpisodeApi(networkUseCase) {
 
     private val EPISODE_ID = "(?<=prodId=)\\w+".toRegex()
 

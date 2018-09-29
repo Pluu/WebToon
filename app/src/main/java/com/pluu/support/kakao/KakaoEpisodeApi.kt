@@ -3,7 +3,7 @@ package com.pluu.support.kakao
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.WebToonInfo
@@ -20,8 +20,8 @@ import org.json.JSONObject
  * Created by pluu on 2017-04-25.
  */
 class KakaoEpisodeApi(
-    networkModule: NetworkModule
-) : AbstractEpisodeApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractEpisodeApi(networkUseCase) {
 
     private var firstEpisode: Episode? = null
     private lateinit var tooldId: String

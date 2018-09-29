@@ -41,7 +41,7 @@ class LicenseActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
         mCompositeDisposable.add(
-            RxBusProvider.getInstance()
+            RxBusProvider.instance
                 .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(busEvent)

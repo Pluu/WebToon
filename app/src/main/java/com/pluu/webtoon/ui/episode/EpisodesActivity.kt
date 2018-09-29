@@ -103,7 +103,7 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         btnFirst.setOnClickListener {
-            RxBusProvider.getInstance().send(FirstItemSelectEvent())
+            RxBusProvider.instance.send(FirstItemSelectEvent())
         }
     }
 

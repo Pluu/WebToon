@@ -2,7 +2,7 @@ package com.pluu.support.naver
 
 import com.pluu.support.impl.AbstractEpisodeApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.EpisodePage
 import com.pluu.webtoon.item.Status
@@ -16,8 +16,8 @@ import org.jsoup.nodes.Element
  * Created by pluu on 2017-04-20.
  */
 class NaverEpisodeApi(
-    networkModule: NetworkModule
-) : AbstractEpisodeApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractEpisodeApi(networkUseCase) {
     private var webToonId: String? = null
     private var pageNo = 1
 

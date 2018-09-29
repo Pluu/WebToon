@@ -4,7 +4,7 @@ import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
@@ -14,8 +14,8 @@ import org.jsoup.Jsoup
  * Created by pluu on 2017-04-20.
  */
 class NaverWeekApi(
-    networkModule: NetworkModule
-) : AbstractWeekApi(networkModule, NaverWeekApi.TITLE) {
+    networkUseCase: NetworkUseCase
+) : AbstractWeekApi(networkUseCase, NaverWeekApi.TITLE) {
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin")
 
     private var currentPos: Int = 0

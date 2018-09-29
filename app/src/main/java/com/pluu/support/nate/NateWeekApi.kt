@@ -3,7 +3,7 @@ package com.pluu.support.nate
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.WebToonInfo
 import org.jsoup.Jsoup
 
@@ -12,8 +12,8 @@ import org.jsoup.Jsoup
  * Created by pluu on 2017-04-26.
  */
 class NateWeekApi(
-    networkModule: NetworkModule
-) : AbstractWeekApi(networkModule, NateWeekApi.TITLE) {
+    networkUseCase: NetworkUseCase
+) : AbstractWeekApi(networkUseCase, NateWeekApi.TITLE) {
     override val url = "http://m.comics.nate.com/main/index"
 
     override val naviItem: NAV_ITEM = NAV_ITEM.NATE

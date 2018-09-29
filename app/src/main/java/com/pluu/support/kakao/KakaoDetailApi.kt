@@ -3,7 +3,7 @@ package com.pluu.support.kakao
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -20,8 +20,8 @@ import org.json.JSONObject
  * Created by pluu on 2017-04-25.
  */
 class KakaoDetailApi(
-    networkModule: NetworkModule
-) : AbstractDetailApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractDetailApi(networkUseCase) {
 
     private val DETAIL_URL =
         "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0"

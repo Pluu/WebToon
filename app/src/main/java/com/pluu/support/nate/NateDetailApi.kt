@@ -2,7 +2,7 @@ package com.pluu.support.nate
 
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -15,8 +15,8 @@ import java.util.*
  * Created by pluu on 2017-04-27.
  */
 class NateDetailApi(
-    networkModule: NetworkModule
-) : AbstractDetailApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractDetailApi(networkUseCase) {
 
     private val DETAIL_URL =
         "http://m.comics.nate.com/main2/webtoon/WebtoonView.php?btno=%s&bsno=%s"

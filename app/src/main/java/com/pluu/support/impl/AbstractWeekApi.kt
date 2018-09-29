@@ -2,7 +2,7 @@ package com.pluu.support.impl
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.WebToonInfo
 import java.util.*
 
@@ -11,9 +11,9 @@ import java.util.*
  * Created by pluu on 2017-04-20.
  */
 abstract class AbstractWeekApi protected constructor(
-    networkModule: NetworkModule,
+    networkUseCase: NetworkUseCase,
     private val CURRENT_TABS: Array<String>
-) : NetworkSupportApi(networkModule) {
+) : NetworkSupportApi(networkUseCase) {
 
     abstract val naviItem: NAV_ITEM
 

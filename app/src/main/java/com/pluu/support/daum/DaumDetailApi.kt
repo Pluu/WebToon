@@ -3,7 +3,7 @@ package com.pluu.support.daum
 import com.pluu.kotlin.iterator
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.*
 import org.json.JSONObject
 
@@ -12,8 +12,8 @@ import org.json.JSONObject
  * Created by pluu on 2017-04-22.
  */
 class DaumDetailApi(
-    networkModule: NetworkModule
-) : AbstractDetailApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractDetailApi(networkUseCase) {
     private lateinit var id: String
 
     override fun parseDetail(episode: Episode): Detail {

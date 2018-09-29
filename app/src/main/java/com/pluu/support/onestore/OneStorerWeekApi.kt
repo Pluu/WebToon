@@ -5,7 +5,7 @@ import com.pluu.kotlin.toFormatString
 import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.WebToonInfo
 import org.json.JSONArray
@@ -17,8 +17,8 @@ import java.util.*
  * Created by pluu on 2017-04-27.
  */
 class OneStorerWeekApi(
-    networkModule: NetworkModule
-) : AbstractWeekApi(networkModule, OneStorerWeekApi.TITLE) {
+    networkUseCase: NetworkUseCase
+) : AbstractWeekApi(networkUseCase, OneStorerWeekApi.TITLE) {
     private var currentPos = 0
     private var page = 0
     private var startKey: String? = null

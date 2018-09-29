@@ -1,6 +1,6 @@
 package com.pluu.support.impl
 
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.ShareItem
@@ -10,8 +10,8 @@ import com.pluu.webtoon.item.ShareItem
  * Created by pluu on 2017-04-20.
  */
 abstract class AbstractDetailApi(
-    networkModule: NetworkModule
-) : NetworkSupportApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : NetworkSupportApi(networkUseCase) {
 
     abstract fun parseDetail(episode: Episode): Detail
 

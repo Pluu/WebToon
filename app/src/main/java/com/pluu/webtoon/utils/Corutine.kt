@@ -1,8 +1,7 @@
 package com.pluu.webtoon.utils
 
-import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.withContext
 
 /**
  * Coroutine Main Dispatchers
@@ -12,4 +11,10 @@ suspend inline fun withMainDispatchers(crossinline block: () -> Unit) {
     withContext(Dispatchers.Main) {
         block()
     }
+}
+
+inline fun coroutineLaunchWithMain(
+    crossinline block: suspend CoroutineScope.() -> Unit
+) = GlobalScope.launch(Dispatchers.Main) {
+    block()
 }

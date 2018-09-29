@@ -3,8 +3,9 @@ package com.pluu.webtoon.ui.intro
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.pluu.webtoon.utils.withMainDispatchers
-import kotlinx.coroutines.experimental.*
+import com.pluu.webtoon.utils.coroutineLaunchWithMain
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.delay
 import java.util.concurrent.TimeUnit
 
 /**
@@ -18,11 +19,9 @@ class IntroViewModel : ViewModel() {
         get() = _observe
 
     init {
-        jobs += GlobalScope.launch {
-            delay(1, TimeUnit.SECONDS)
-            withMainDispatchers {
-                _observe.value = Unit
-            }
+        jobs += coroutineLaunchWithMain {
+            delay(TimeUnit.SECONDS.toMillis(1L))
+            _observe.value = Unit
         }
     }
 

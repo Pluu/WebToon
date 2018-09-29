@@ -4,7 +4,7 @@ import android.net.Uri
 import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
-import com.pluu.webtoon.di.NetworkModule
+import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Episode
@@ -19,8 +19,8 @@ import org.jsoup.Jsoup
  * Created by pluu on 2017-04-22.
  */
 class OllehDetailApi(
-    networkModule: NetworkModule
-) : AbstractDetailApi(networkModule) {
+    networkUseCase: NetworkUseCase
+) : AbstractDetailApi(networkUseCase) {
 
     private lateinit var wettonId: String
     private lateinit var timesseq: String

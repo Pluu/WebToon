@@ -26,7 +26,7 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.text1.text = list[i]
         viewHolder.itemView.setOnClickListener {
-            RxBusProvider.getInstance().send(RecyclerViewEvent(viewHolder.adapterPosition))
+            RxBusProvider.instance.send(RecyclerViewEvent(viewHolder.adapterPosition))
         }
     }
 
