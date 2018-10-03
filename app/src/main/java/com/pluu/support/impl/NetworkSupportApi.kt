@@ -11,6 +11,7 @@ import okhttp3.Request
 abstract class NetworkSupportApi(
     private val networkUseCase: NetworkUseCase
 ) : IRequest {
+
     abstract override val method: REQUEST_METHOD
 
     abstract override val url: String

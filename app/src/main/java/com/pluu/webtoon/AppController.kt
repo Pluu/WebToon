@@ -1,8 +1,8 @@
 package com.pluu.webtoon
 
 import android.app.Application
-import com.pluu.webtoon.di.dbModule
-import com.pluu.webtoon.di.networkModule
+import com.pluu.webtoon.di.appModule
+import com.pluu.webtoon.di.introModule
 import com.pluu.webtoon.di.webToonModule
 import io.realm.Realm
 import org.koin.android.ext.android.startKoin
@@ -17,8 +17,8 @@ class AppController : Application() {
         Realm.init(this)
         startKoin(
             this, listOf(
-                dbModule,
-                networkModule,
+                *appModule,
+                introModule,
                 webToonModule
             )
         )

@@ -24,6 +24,7 @@ import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
+import com.pluu.webtoon.di.Property
 import com.pluu.webtoon.item.*
 import com.pluu.webtoon.utils.lazyNone
 import io.reactivex.Single
@@ -33,6 +34,7 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.android.ext.android.inject
+import org.koin.android.ext.android.property
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
@@ -46,9 +48,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val realmHelper: RealmHelper by inject()
 
-    private val service: NAV_ITEM by lazyNone {
-        intent.getSerializableExtra(Const.EXTRA_API) as NAV_ITEM
-    }
+    private val service: NAV_ITEM by property(Property.NAV_ITEM_KEY)
     private val serviceApi: AbstractDetailApi by inject {
         parametersOf(service)
     }

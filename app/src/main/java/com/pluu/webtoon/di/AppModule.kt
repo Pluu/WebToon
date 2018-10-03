@@ -1,15 +1,17 @@
 package com.pluu.webtoon.di
 
+import com.pluu.support.impl.ColorProvider
+import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.db.RealmHelper
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.module
 
-val dbModule = module {
+private val dbModule = module {
     single { RealmHelper() }
 }
 
-val networkModule = module {
+private val networkModule = module {
     single {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -19,3 +21,13 @@ val networkModule = module {
     }
     single { NetworkUseCase(get()) }
 }
+
+private val resourceModule = module {
+    single { ColorProvider(get()) }
+
+    factory {
+        NaviColorProvider(get(), getProperty(Property.NAV_ITEM_KEY))
+    }
+}
+
+val appModule = arrayOf(dbModule, networkModule, resourceModule)

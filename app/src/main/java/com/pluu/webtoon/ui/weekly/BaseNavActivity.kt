@@ -16,7 +16,10 @@ import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.di.Property
 import com.pluu.webtoon.utils.lazyNone
+import org.koin.android.ext.android.property
+import org.koin.android.ext.android.setProperty
 import java.util.*
 
 /**
@@ -37,7 +40,10 @@ abstract class BaseNavActivity : AppCompatActivity() {
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
-    private lateinit var mHandler: Handler
+    private val first: NAV_ITEM by property(Property.NAV_ITEM_KEY)
+    private var selfNavDrawerItem: NAV_ITEM = first
+
+    private val mHandler: Handler by lazyNone { Handler() }
 
     // list of navdrawer items that were actually added to the navdrawer, in order
     private val mNavDrawerItems = ArrayList<NAV_ITEM>()
@@ -47,7 +53,6 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mHandler = Handler()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -60,8 +65,6 @@ abstract class BaseNavActivity : AppCompatActivity() {
         super.setContentView(layoutResID)
         mActionBarToolbar
     }
-
-    protected var selfNavDrawerItem = NAV_ITEM.INVALID
 
     private fun setupNavDrawer() {
         mDrawerLayout.setStatusBarBackgroundColor(
@@ -103,8 +106,8 @@ abstract class BaseNavActivity : AppCompatActivity() {
     }
 
     private fun makeNavDrawerItem(item: NAV_ITEM, container: ViewGroup): View {
-        val selected = selfNavDrawerItem === item
-        val layoutToInflate = if (item === NAV_ITEM.SEPARATOR) {
+        val selected = selfNavDrawerItem == item
+        val layoutToInflate = if (item == NAV_ITEM.SEPARATOR) {
             R.layout.navdrawer_separator
         } else {
             R.layout.navdrawer_item
@@ -167,7 +170,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
     }
 
     private fun isSeparator(item: NAV_ITEM): Boolean {
-        return item === NAV_ITEM.SEPARATOR
+        return item == NAV_ITEM.SEPARATOR
     }
 
     private val isNavDrawerOpen: Boolean
@@ -191,18 +194,21 @@ abstract class BaseNavActivity : AppCompatActivity() {
     }
 
     private fun goToNavDrawerItem(item: NAV_ITEM?) {
-        if (item != null) {
-            val manager = supportFragmentManager
-            val transaction = manager.beginTransaction()
-            manager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
-                transaction.remove(it)
-            }
-            transaction.replace(
-                R.id.container,
-                MainFragment.newInstance(item), Const.MAIN_FRAG_TAG
-            )
-            transaction.commit()
+        item ?: return
+
+        selfNavDrawerItem = item
+        setProperty(Property.NAV_ITEM_KEY, item)
+
+        val manager = supportFragmentManager
+        val transaction = manager.beginTransaction()
+        manager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
+            transaction.remove(it)
         }
+        transaction.replace(
+            R.id.container,
+            MainFragment.newInstance(), Const.MAIN_FRAG_TAG
+        )
+        transaction.commit()
     }
 
     /**
@@ -214,7 +220,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
         mNavDrawerItemViews?.apply {
             for ((index, value) in mNavDrawerItems.withIndex()) {
                 if (index < mNavDrawerItems.size) {
-                    formatNavDrawerItem(get(index), value, item === value)
+                    formatNavDrawerItem(get(index), value, item == value)
                 }
             }
         }

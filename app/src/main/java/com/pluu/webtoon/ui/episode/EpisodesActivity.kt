@@ -16,6 +16,7 @@ import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.db.RealmHelper
+import com.pluu.webtoon.di.Property
 import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.utils.animatorToolbarColor
@@ -23,6 +24,7 @@ import com.pluu.webtoon.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_episode.*
 import kotlinx.android.synthetic.main.toolbar_actionbar.*
 import org.koin.android.ext.android.inject
+import org.koin.android.ext.android.property
 
 /**
  * 에피소드 리스트 Activity
@@ -31,13 +33,13 @@ import org.koin.android.ext.android.inject
 class EpisodesActivity : AppCompatActivity() {
 
     private val realmHelper: RealmHelper by inject()
+    private val service: NAV_ITEM by property(Property.NAV_ITEM_KEY)
 
     private var childTitle: View? = null
 
     private lateinit var webToonInfo: WebToonInfo
     private var customTitleColor: Int = 0
     private var customStatusColor: Int = 0
-    private lateinit var service: NAV_ITEM
 
     private var isEdit = false
     private var isFavorite = false
@@ -52,7 +54,6 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         initSupportActionBar()
-        getApi()
         initView()
         initFragment()
     }
@@ -62,10 +63,6 @@ class EpisodesActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             title = webToonInfo.title
         }
-    }
-
-    private fun getApi() {
-        service = intent.getSerializableExtra(Const.EXTRA_API) as NAV_ITEM
     }
 
     private fun initView() {
@@ -109,7 +106,7 @@ class EpisodesActivity : AppCompatActivity() {
 
     private fun initFragment() {
         val fragment = EpisodeFragment.newInstance(
-            service, webToonInfo,
+            webToonInfo,
             intArrayOf(customTitleColor, customStatusColor)
         )
 

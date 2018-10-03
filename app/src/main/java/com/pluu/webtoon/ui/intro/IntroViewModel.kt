@@ -11,7 +11,9 @@ import java.util.concurrent.TimeUnit
 /**
  * Intro ViewModel
  */
-class IntroViewModel : ViewModel() {
+class IntroViewModel(
+    private val useCase: IntroUseCase
+) : ViewModel() {
     private val jobs = arrayListOf<Job>()
 
     private val _observe = MutableLiveData<Unit>()
@@ -21,6 +23,7 @@ class IntroViewModel : ViewModel() {
     init {
         jobs += coroutineLaunchWithMain {
             delay(TimeUnit.SECONDS.toMillis(1L))
+            useCase.init()
             _observe.value = Unit
         }
     }

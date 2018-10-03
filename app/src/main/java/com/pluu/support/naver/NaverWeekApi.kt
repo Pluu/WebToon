@@ -1,7 +1,6 @@
 package com.pluu.support.naver
 
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.di.NetworkUseCase
@@ -16,11 +15,10 @@ import org.jsoup.Jsoup
 class NaverWeekApi(
     networkUseCase: NetworkUseCase
 ) : AbstractWeekApi(networkUseCase, NaverWeekApi.TITLE) {
+
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin")
 
     private var currentPos: Int = 0
-
-    override val naviItem: NAV_ITEM = NAV_ITEM.NAVER
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         currentPos = position

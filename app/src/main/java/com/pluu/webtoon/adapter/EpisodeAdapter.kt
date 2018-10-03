@@ -56,7 +56,7 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
         return list.size
     }
 
-    fun updateRead(readList: MutableList<String?>) {
+    fun updateRead(readList: List<String>) {
         for (id in readList) {
             for (item in list) {
                 if (id == item.episodeId) {

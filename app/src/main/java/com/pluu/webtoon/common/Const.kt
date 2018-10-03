@@ -5,7 +5,6 @@ package com.pluu.webtoon.common
  * Created by pluu on 2017-04-29.
  */
 object Const {
-    const val EXTRA_API = "EXTRA_API"
     const val EXTRA_POS = "EXTRA_POS"
     const val EXTRA_EPISODE = "EXTRA_EPISODE"
     const val EXTRA_MAIN_COLOR = "EXTRA_MAIN_COLOR"

@@ -1,7 +1,6 @@
 package com.pluu.support.kakao
 
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Status
@@ -15,10 +14,10 @@ import org.jsoup.Jsoup
 class KakaoWeekApi(
     networkUseCase: NetworkUseCase
 ) : AbstractWeekApi(networkUseCase, KakaoWeekApi.TITLE) {
-    override val url = "http://page.kakao.com/main/ajaxCallWeeklyList"
-    private var currentPos: Int = 0
 
-    override val naviItem: NAV_ITEM = NAV_ITEM.KAKAOPAGE
+    override val url = "http://page.kakao.com/main/ajaxCallWeeklyList"
+
+    private var currentPos: Int = 0
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position

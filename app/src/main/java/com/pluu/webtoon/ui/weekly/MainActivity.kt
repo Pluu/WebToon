@@ -3,27 +3,27 @@ package com.pluu.webtoon.ui.weekly
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import com.pluu.event.RxBusProvider
-import com.pluu.support.impl.NAV_ITEM
+import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.common.PrefConfig
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.navdrawer.*
+import org.koin.android.ext.android.inject
 
 /**
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
-class MainActivity : BaseNavActivity(),
-    MainFragment.BindServiceListener {
+class MainActivity : BaseNavActivity() {
 
     private var mCompositeDisposable = CompositeDisposable()
+
+    private val defaultProvider: NaviColorProvider by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +34,10 @@ class MainActivity : BaseNavActivity(),
             setHomeButtonEnabled(true)
         }
 
-        selfNavDrawerItem = PrefConfig.getDefaultWebToon(this)
-
         themeChange(
             ThemeEvent(
-                ContextCompat.getColor(this, selfNavDrawerItem.color),
-                ContextCompat.getColor(this, selfNavDrawerItem.bgColor)
+                defaultProvider.getTitleColor(),
+                defaultProvider.getTitleColorDark()
             )
         )
 
@@ -47,7 +45,7 @@ class MainActivity : BaseNavActivity(),
             .beginTransaction()
             .replace(
                 R.id.container,
-                MainFragment.newInstance(selfNavDrawerItem),
+                MainFragment.newInstance(),
                 Const.MAIN_FRAG_TAG
             )
             .commit()
@@ -89,9 +87,5 @@ class MainActivity : BaseNavActivity(),
             supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)
                 ?.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    override fun bindNavItem(item: NAV_ITEM) {
-        selfNavDrawerItem = item
     }
 }

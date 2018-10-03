@@ -2,8 +2,8 @@ package com.pluu.webtoon.ui.weekly
 
 import android.animation.AnimatorSet
 import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,11 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.pluu.event.RxBusProvider
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.impl.ServiceConst
+import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainFragmentAdapter
-import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
@@ -30,7 +28,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_toon.*
 import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
 
 /**
  * Main View Fragment
@@ -44,20 +41,15 @@ class MainFragment : Fragment() {
 
     private var isFirstDlg = true
 
-    private val loadDlg: ProgressDialog by lazyNone {
+    private val loadDlg: Dialog by lazyNone {
         ProgressDialog(activity).apply {
             setCancelable(false)
             setMessage(getString(R.string.msg_loading))
         }
     }
 
-    private val serviceApi: AbstractWeekApi by inject {
-        val service: NAV_ITEM = ServiceConst.getApiType(arguments)
-        listener?.bindNavItem(service)
-        parametersOf(service)
-    }
-
-    private var listener: BindServiceListener? = null
+    private val serviceApi: AbstractWeekApi by inject()
+    private val colorProvider: NaviColorProvider by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,7 +61,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setServiceTheme(requireContext(), serviceApi)
+        setServiceTheme()
 
         viewPager.apply {
             adapter = fragmentManager?.let { MainFragmentAdapter(it, serviceApi) }
@@ -80,15 +72,10 @@ class MainFragment : Fragment() {
         slidingTabLayout.setupWithViewPager(viewPager)
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        listener = context as BindServiceListener
-    }
-
     // 선택한 서비스에 맞는 컬러 테마 변경
-    private fun setServiceTheme(context: Context, serviceApi: AbstractWeekApi) {
-        val color = serviceApi.getTitleColor(context)
-        val colorDark = serviceApi.getTitleColorDark(context)
+    private fun setServiceTheme() {
+        val color = colorProvider.getTitleColor()
+        val colorDark = colorProvider.getTitleColorDark()
         val activity = activity
 
         if (activity is AppCompatActivity) {
@@ -159,15 +146,6 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(item: NAV_ITEM) =
-            MainFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable(Const.EXTRA_API, item)
-                }
-            }
-    }
-
-    interface BindServiceListener {
-        fun bindNavItem(item: NAV_ITEM)
+        fun newInstance() = MainFragment()
     }
 }

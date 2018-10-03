@@ -3,7 +3,6 @@ package com.pluu.support.daum
 import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.isNotEmpty
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.di.NetworkUseCase
@@ -22,11 +21,10 @@ import java.util.*
 class DaumWeekApi(
     networkUseCase: NetworkUseCase
 ) : AbstractWeekApi(networkUseCase, DaumWeekApi.TITLE) {
+
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 
     private var currentPos: Int = 0
-
-    override val naviItem: NAV_ITEM = NAV_ITEM.DAUM
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         this.currentPos = position

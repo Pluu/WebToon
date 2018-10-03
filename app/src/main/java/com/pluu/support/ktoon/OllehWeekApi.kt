@@ -1,7 +1,6 @@
 package com.pluu.support.ktoon
 
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Status
@@ -16,7 +15,6 @@ import org.jsoup.nodes.Element
 class OllehWeekApi(
     networkUseCase: NetworkUseCase
 ) : AbstractWeekApi(networkUseCase, OllehWeekApi.TITLE) {
-    override val naviItem: NAV_ITEM = NAV_ITEM.KTOON
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         val weekly = try {

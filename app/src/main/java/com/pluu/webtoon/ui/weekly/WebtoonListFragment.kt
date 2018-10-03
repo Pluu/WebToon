@@ -20,7 +20,6 @@ import com.pluu.event.RxBusProvider
 import com.pluu.kotlin.getCompatColor
 import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.kotlin.toast
-import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
 import com.pluu.webtoon.common.Const
@@ -43,7 +42,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private val viewModel: WeekyViewModel by viewModel {
         parametersOf(
-            ServiceConst.getApiType(arguments),
             arguments?.getInt(Const.EXTRA_POS) ?: 0
         )
     }
@@ -153,7 +151,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private fun moveEpisode(item: WebToonInfo, bgColor: Int, statusColor: Int) {
         startActivityForResult(Intent(activity, EpisodesActivity::class.java).apply {
-            putExtra(Const.EXTRA_API, viewModel.naviItem)
             putExtra(Const.EXTRA_EPISODE, item)
             putExtra(Const.EXTRA_MAIN_COLOR, bgColor)
             putExtra(Const.EXTRA_STATUS_COLOR, statusColor)

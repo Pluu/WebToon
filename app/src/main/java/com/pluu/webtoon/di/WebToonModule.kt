@@ -23,26 +23,50 @@ import com.pluu.support.naver.NaverWeekApi
 import com.pluu.support.onestore.OneStoreDetailApi
 import com.pluu.support.onestore.OneStoreEpisodeApi
 import com.pluu.support.onestore.OneStorerWeekApi
+import com.pluu.webtoon.db.EpisodeUseCase
+import com.pluu.webtoon.db.WeeklyUseCase
+import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.ui.episode.EpisodeViewModel
+import com.pluu.webtoon.ui.intro.IntroUseCase
+import com.pluu.webtoon.ui.intro.IntroViewModel
 import com.pluu.webtoon.ui.weekly.WeekyViewModel
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
 
-val webToonModule = module {
-    factory { (apiType: NAV_ITEM) -> apiType.asWeekApi(get()) }
+val introModule = module {
+    viewModel {
+        IntroViewModel(IntroUseCase(get()))
+    }
+}
 
-    viewModel { (apiType: NAV_ITEM, weekPos: Int) ->
+val webToonModule = module {
+    factory { getProperty<NAV_ITEM>(Property.NAV_ITEM_KEY).asWeekApi(get()) }
+    viewModel { (weekPos: Int) ->
+        val apiType = getProperty<NAV_ITEM>(Property.NAV_ITEM_KEY)
         WeekyViewModel(
             serviceApi = get(parameters = { parametersOf(apiType) }),
             weekPos = weekPos,
-            realmHelper = get()
+            useCase = WeeklyUseCase(get(), apiType)
         )
     }
-    factory { (apiType: NAV_ITEM) -> apiType.asEpisode(get()) }
 
-    factory { (apiType: NAV_ITEM) -> apiType.asDetailApi(get()) }
+    factory { getProperty<NAV_ITEM>(Property.NAV_ITEM_KEY).asEpisode(get()) }
+    viewModel { (info: WebToonInfo) ->
+        val apiType = getProperty<NAV_ITEM>(Property.NAV_ITEM_KEY)
+        EpisodeViewModel(
+            serviceApi = get(parameters = { parametersOf(apiType) }),
+            info = info,
+            useCase = EpisodeUseCase(get(), apiType)
+        )
+    }
+
+    factory { getProperty<NAV_ITEM>(Property.NAV_ITEM_KEY).asDetailApi(get()) }
 }
 
+///////////////////////////////////////////////////////////////////////////
+// Custom Extension
+///////////////////////////////////////////////////////////////////////////
 
 private fun NAV_ITEM.asWeekApi(networkUseCase: NetworkUseCase): AbstractWeekApi {
     return when (this) {
@@ -78,4 +102,8 @@ private fun NAV_ITEM.asDetailApi(networkUseCase: NetworkUseCase): AbstractDetail
         NAV_ITEM.ONE_STORE -> OneStoreDetailApi(networkUseCase)
         else -> throw Resources.NotFoundException("Not Found API")
     }
+}
+
+object Property {
+    const val NAV_ITEM_KEY = "NAV_ITEM_KEY"
 }

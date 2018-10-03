@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.pluu.webtoon.R
 import com.pluu.webtoon.ui.weekly.MainActivity
 import com.pluu.webtoon.utils.observeNonNull
-import com.pluu.webtoon.utils.viewModelProvider
 import kotlinx.android.synthetic.main.activity_intro.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * 인트로 화면 Activity
@@ -18,13 +18,12 @@ import kotlinx.android.synthetic.main.activity_intro.*
 class IntroActivity : AppCompatActivity() {
     private val TAG = IntroActivity::class.java.simpleName
 
-    private lateinit var viewModel: IntroViewModel
+    private val viewModel: IntroViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        viewModel = viewModelProvider()
         viewModel.observe.observeNonNull(this, ::nextView)
     }
 

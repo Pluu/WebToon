@@ -3,7 +3,6 @@ package com.pluu.support.onestore
 import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.toFormatString
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.di.NetworkUseCase
 import com.pluu.webtoon.item.Status
@@ -19,11 +18,10 @@ import java.util.*
 class OneStorerWeekApi(
     networkUseCase: NetworkUseCase
 ) : AbstractWeekApi(networkUseCase, OneStorerWeekApi.TITLE) {
+
     private var currentPos = 0
     private var page = 0
     private var startKey: String? = null
-
-    override val naviItem: NAV_ITEM = NAV_ITEM.ONE_STORE
 
     override fun parseMain(position: Int): List<WebToonInfo> {
         currentPos = position + 1

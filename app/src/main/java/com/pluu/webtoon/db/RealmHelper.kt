@@ -12,7 +12,7 @@ import io.realm.Realm
  */
 class RealmHelper {
 
-    fun getFavoriteToon(item: NAV_ITEM, id: String) =
+    fun isFavorite(item: NAV_ITEM, id: String): Boolean =
         Realm.getDefaultInstance().where(RToon::class.java)
             .equalTo("service", item.name)
             .equalTo("toonId", id)
