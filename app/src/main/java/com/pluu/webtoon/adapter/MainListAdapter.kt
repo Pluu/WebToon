@@ -48,13 +48,15 @@ class MainListAdapter(
         return list?.size ?: 0
     }
 
-    fun modifyInfo(info: WebToonInfo): Int {
-        val indexOfFirst =
-            list?.indexOfFirst { item -> info.toonId == item.toonId } ?: -1
-        if (indexOfFirst != -1) {
-            list?.get(indexOfFirst)?.isFavorite = info.isFavorite
+    fun modifyInfo(id: String, isFavorite: Boolean) {
+        list?.indexOfFirst { item ->
+            id == item.toonId
+        }?.takeIf {
+            it > -1
+        }?.let { index ->
+            list[index].isFavorite = isFavorite
+            notifyItemChanged(index)
         }
-        return indexOfFirst
     }
 }
 

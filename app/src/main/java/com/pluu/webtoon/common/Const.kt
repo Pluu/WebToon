@@ -9,6 +9,7 @@ object Const {
     const val EXTRA_EPISODE = "EXTRA_EPISODE"
     const val EXTRA_MAIN_COLOR = "EXTRA_MAIN_COLOR"
     const val EXTRA_STATUS_COLOR = "EXTRA_STATUS_COLOR"
+    const val EXTRA_FAVORITE_EPISODE = "EXTRA_FAVORITE_EPISODE"
 
     private const val RATE_FORMAT = "평점 : %.2f"
 

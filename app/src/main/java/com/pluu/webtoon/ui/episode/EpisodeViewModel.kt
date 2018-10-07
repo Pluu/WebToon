@@ -112,7 +112,7 @@ class EpisodeViewModel(
         info.isFavorite = isFavorite
 
         _favorite.value = isFavorite
-        _event.value = EpisodeEvent.UPDATE_FAVORITE(info.isFavorite)
+        _event.value = EpisodeEvent.UPDATE_FAVORITE(info.toonId, info.isFavorite)
     }
 }
 
@@ -132,5 +132,5 @@ sealed class EpisodeEvent {
     object LOADED : EpisodeEvent()
     class FIRST(val firstEpisode: Episode) : EpisodeEvent()
     object ERROR : EpisodeEvent()
-    class UPDATE_FAVORITE(val isFavorite: Boolean) : EpisodeEvent()
+    class UPDATE_FAVORITE(val id: String, val isFavorite: Boolean) : EpisodeEvent()
 }

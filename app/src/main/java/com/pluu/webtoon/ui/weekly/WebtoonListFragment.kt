@@ -26,6 +26,7 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.lazyNone
@@ -100,7 +101,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
                 ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
         } else if (requestCode == REQUEST_DETAIL_REFERRER) {
             // ViewPager 로부터 전달받은 Referrer
-            data?.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE)?.apply {
+            data?.getParcelableExtra<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE)?.apply {
                 favoriteUpdate(this)
             }
         }
@@ -141,12 +142,9 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     // Private Function
     ///////////////////////////////////////////////////////////////////////////
 
-    private fun favoriteUpdate(info: WebToonInfo) {
-        val adapter = recyclerView.adapter as MainListAdapter
-        val position = adapter.modifyInfo(info)
-        if (position != -1) {
-            adapter.notifyItemChanged(position)
-        }
+    private fun favoriteUpdate(info: FavoriteResult) {
+        (recyclerView.adapter as? MainListAdapter)
+            ?.modifyInfo(info.id, info.isFavorite)
     }
 
     private fun moveEpisode(item: WebToonInfo, bgColor: Int, statusColor: Int) {
@@ -180,7 +178,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
 private val ImageView.palletBitmap: Bitmap?
     get() {
-        val innerDrawable: Drawable = drawable
+        val innerDrawable: Drawable = drawable ?: return null
         return when (innerDrawable) {
             is BitmapDrawable -> innerDrawable.bitmap
             is GifDrawable -> innerDrawable.firstFrame

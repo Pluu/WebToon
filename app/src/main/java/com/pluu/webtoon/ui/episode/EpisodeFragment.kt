@@ -18,6 +18,7 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.utils.MoreRefreshListener
@@ -122,6 +123,14 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
                     toast(
                         if (event.isFavorite) R.string.favorite_add else R.string.favorite_delete
                     )
+                    activity?.run {
+                        setResult(Activity.RESULT_OK, Intent().apply {
+                            putExtra(
+                                Const.EXTRA_FAVORITE_EPISODE,
+                                FavoriteResult(event.id, event.isFavorite)
+                            )
+                        })
+                    }
                 }
                 is EpisodeEvent.FIRST -> moveDetailPage(event.firstEpisode)
                 is EpisodeEvent.ERROR -> {
