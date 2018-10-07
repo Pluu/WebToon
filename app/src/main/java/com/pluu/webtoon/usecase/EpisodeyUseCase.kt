@@ -1,12 +1,13 @@
-package com.pluu.webtoon.db
+package com.pluu.webtoon.usecase
 
 import com.pluu.support.impl.NAV_ITEM
+import com.pluu.webtoon.db.RealmHelper
 import com.pluu.webtoon.model.REpisode
 
 /**
  * Episode Section Use Case
  */
-class EpisodeUseCase(
+class EpisodeListUseCase(
     private val realmHelper: RealmHelper,
     private val naviItem: NAV_ITEM
 ) {

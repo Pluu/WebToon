@@ -23,8 +23,9 @@ import com.pluu.support.naver.NaverWeekApi
 import com.pluu.support.onestore.OneStoreDetailApi
 import com.pluu.support.onestore.OneStoreEpisodeApi
 import com.pluu.support.onestore.OneStorerWeekApi
-import com.pluu.webtoon.db.EpisodeUseCase
-import com.pluu.webtoon.db.WeeklyUseCase
+import com.pluu.webtoon.usecase.EpisodeListUseCase
+import com.pluu.webtoon.usecase.FavoriteUseCase
+import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.ui.episode.EpisodeViewModel
 import com.pluu.webtoon.ui.intro.IntroUseCase
@@ -57,7 +58,8 @@ val webToonModule = module {
         EpisodeViewModel(
             serviceApi = get(parameters = { parametersOf(apiType) }),
             info = info,
-            useCase = EpisodeUseCase(get(), apiType)
+            listUseCase = EpisodeListUseCase(get(), apiType),
+            favoriteUseCase = FavoriteUseCase(get(), apiType)
         )
     }
 

@@ -1,6 +1,7 @@
-package com.pluu.webtoon.db
+package com.pluu.webtoon.usecase
 
 import com.pluu.support.impl.NAV_ITEM
+import com.pluu.webtoon.db.RealmHelper
 
 /**
  * 주간 UseCase

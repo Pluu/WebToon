@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.webtoon.db.EpisodeUseCase
+import com.pluu.webtoon.usecase.EpisodeListUseCase
+import com.pluu.webtoon.usecase.FavoriteUseCase
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.model.REpisode
@@ -20,7 +21,8 @@ import kotlinx.coroutines.experimental.launch
 class EpisodeViewModel(
     private val serviceApi: AbstractEpisodeApi,
     private val info: WebToonInfo,
-    private val useCase: EpisodeUseCase
+    private val listUseCase: EpisodeListUseCase,
+    private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
 
     private val jobs = arrayListOf<Job>()
@@ -34,6 +36,18 @@ class EpisodeViewModel(
     private val _event = MutableLiveData<EpisodeEvent>()
     val event: LiveData<EpisodeEvent>
         get() = _event
+
+    private val _updateListEvent = MutableLiveData<List<String>>()
+    val updateListEvent: LiveData<List<String>>
+        get() = _updateListEvent
+
+    private val _favorite = MutableLiveData<Boolean>()
+    val favorite: LiveData<Boolean>
+        get() = _favorite
+
+    init {
+        _favorite.value = info.isFavorite
+    }
 
     override fun onCleared() {
         jobs.forEach { it.cancel() }
@@ -69,16 +83,16 @@ class EpisodeViewModel(
         }
     }
 
-    private fun getReadList() = useCase.getEpisode(info.toonId)
+    private fun getReadList() = listUseCase.getEpisode(info.toonId)
 
     fun readUpdate() {
         _event.value = EpisodeEvent.START
         jobs += GlobalScope.launch {
-            val readedList = getReadList().asSequence()
+            val readList = getReadList().asSequence()
                 .mapNotNull { it.episodeId }
                 .toList()
             withMainDispatchers {
-                _event.value = EpisodeEvent.UPDATE(readedList)
+                _updateListEvent.value = readList
             }
         }
     }
@@ -87,6 +101,18 @@ class EpisodeViewModel(
         val firstItem = serviceApi.getFirstEpisode(item) ?: return
         firstItem.title = this.info.title
         _event.value = EpisodeEvent.FIRST(firstItem)
+    }
+
+    fun favorite(isFavorite: Boolean) {
+        if (isFavorite) {
+            favoriteUseCase.addFavorite(info.toonId)
+        } else {
+            favoriteUseCase.removeFavorite(info.toonId)
+        }
+        info.isFavorite = isFavorite
+
+        _favorite.value = isFavorite
+        _event.value = EpisodeEvent.UPDATE_FAVORITE(info.isFavorite)
     }
 }
 
@@ -106,5 +132,5 @@ sealed class EpisodeEvent {
     object LOADED : EpisodeEvent()
     class FIRST(val firstEpisode: Episode) : EpisodeEvent()
     object ERROR : EpisodeEvent()
-    class UPDATE(val list: List<String>) : EpisodeEvent()
+    class UPDATE_FAVORITE(val isFavorite: Boolean) : EpisodeEvent()
 }

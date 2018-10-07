@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.webtoon.db.WeeklyUseCase
+import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.utils.withMainDispatchers
 import kotlinx.coroutines.experimental.GlobalScope
@@ -38,7 +38,11 @@ class WeekyViewModel(
                         it.isFavorite = useCase.hasFavorite(it.toonId)
                         it
                     }
-                    .sortedWith(compareBy<WebToonInfo> { it.isFavorite }.thenBy { it.title })
+                    .sortedWith(compareBy<WebToonInfo> {
+                        !it.isFavorite
+                    }.thenBy {
+                        it.title
+                    })
                     .toList()
             } catch (e: Exception) {
                 error = WeeklyEvent.ERROR(e.localizedMessage)

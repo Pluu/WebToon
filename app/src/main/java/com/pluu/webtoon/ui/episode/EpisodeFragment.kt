@@ -5,16 +5,13 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.RxBusProvider
 import com.pluu.kotlin.toast
-import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.EpisodeAdapter
 import com.pluu.webtoon.common.Const
@@ -62,11 +59,14 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private var mCompositeDisposable = CompositeDisposable()
 
+    private var isFavorite: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_episode, container, false)
     }
 
@@ -101,6 +101,13 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
             adapter.addItems(list)
             adapter.notifyDataSetChanged()
         }
+        viewModel.updateListEvent.observeNonNull(this) { list ->
+            adapter.updateRead(list)
+            adapter.notifyDataSetChanged()
+        }
+        viewModel.favorite.observeNonNull(this) { isFavorite ->
+            this.isFavorite = isFavorite
+        }
         viewModel.event.observeNonNull(this) { event ->
             when (event) {
                 EpisodeEvent.START -> {
@@ -111,9 +118,10 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
                     loadDlg.dismiss()
                     closeRefreshing()
                 }
-                is EpisodeEvent.UPDATE -> {
-                    adapter.updateRead(event.list)
-                    adapter.notifyDataSetChanged()
+                is EpisodeEvent.UPDATE_FAVORITE -> {
+                    toast(
+                        if (event.isFavorite) R.string.favorite_add else R.string.favorite_delete
+                    )
                 }
                 is EpisodeEvent.FIRST -> moveDetailPage(event.firstEpisode)
                 is EpisodeEvent.ERROR -> {
@@ -124,6 +132,33 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_episode, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        menu ?: return
+        menu.findItem(R.id.menu_item_favorite_add).isVisible = !isFavorite
+        menu.findItem(R.id.menu_item_favorite_delete).isVisible = isFavorite
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            activity?.finish()
+            return true
+        }
+
+        when (item?.itemId) {
+            // 즐겨찾기 추가
+            R.id.menu_item_favorite_add -> viewModel.favorite(true)
+            // 즐겨찾기 삭제
+            R.id.menu_item_favorite_delete -> viewModel.favorite(false)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -194,7 +229,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     }
 
     private fun loading() {
-
         viewModel.load()
     }
 

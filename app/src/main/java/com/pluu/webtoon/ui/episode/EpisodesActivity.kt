@@ -1,57 +1,39 @@
 package com.pluu.webtoon.ui.episode
 
 import android.animation.ValueAnimator
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pluu.event.RxBusProvider
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.db.RealmHelper
-import com.pluu.webtoon.di.Property
 import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.utils.animatorToolbarColor
+import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_episode.*
 import kotlinx.android.synthetic.main.toolbar_actionbar.*
-import org.koin.android.ext.android.inject
-import org.koin.android.ext.android.property
 
 /**
  * 에피소드 리스트 Activity
  * Created by pluu on 2017-05-09.
  */
 class EpisodesActivity : AppCompatActivity() {
-
-    private val realmHelper: RealmHelper by inject()
-    private val service: NAV_ITEM by property(Property.NAV_ITEM_KEY)
-
     private var childTitle: View? = null
 
-    private lateinit var webToonInfo: WebToonInfo
+    private val webToonInfo: WebToonInfo by lazyNone {
+        intent.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE)
+    }
     private var customTitleColor: Int = 0
     private var customStatusColor: Int = 0
-
-    private var isEdit = false
-    private var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_episode)
         setSupportActionBar(toolbar_actionbar)
-
-        webToonInfo = intent.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE).apply {
-            this@EpisodesActivity.isFavorite = isFavorite
-        }
 
         initSupportActionBar()
         initView()
@@ -114,60 +96,5 @@ class EpisodesActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)
             .commit()
-    }
-
-    override fun finish() {
-        if (isEdit) {
-            setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(Const.EXTRA_EPISODE, webToonInfo)
-            })
-        }
-        super.finish()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_episode, menu)
-        return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val ret = super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.menu_item_favorite_add).isVisible = !isFavorite
-        menu.findItem(R.id.menu_item_favorite_delete).isVisible = isFavorite
-        return ret
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-
-        when (item.itemId) {
-            R.id.menu_item_favorite_add -> {
-                // 즐겨찾기 추가
-                realmHelper.addFavorite(service, webToonInfo.toonId)
-                setFavorite(true)
-            }
-            R.id.menu_item_favorite_delete -> {
-                // 즐겨찾기 삭제
-                realmHelper.removeFavorite(service, webToonInfo.toonId)
-                setFavorite(false)
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun setFavorite(isFavorite: Boolean) {
-        isEdit = true
-        this.isFavorite = isFavorite
-        webToonInfo.isFavorite = isFavorite
-
-        Toast.makeText(
-            this,
-            if (isFavorite) R.string.favorite_add else R.string.favorite_delete,
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }
