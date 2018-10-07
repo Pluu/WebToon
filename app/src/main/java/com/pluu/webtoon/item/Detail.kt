@@ -1,18 +1,26 @@
 package com.pluu.webtoon.item
 
-/**
- * 에피소드 상세 내용 Item Class
- * Created by pluu on 2017-05-02.
- */
-class Detail {
-    var title: String? = null
-    var webtoonId: String? = null
-    var episodeId: String? = null
-    var nextLink: String? = null
-    var prevLink: String? = null
-    var list: List<DetailView>? = null
+sealed class DetailResult {
 
-    // ERROR_TYPE
-    var errorType: ERROR_TYPE? = null
-    var errorMsg: String? = null
+    /**
+     * 에피소드 상세 내용 Item Class
+     * Created by pluu on 2018. 10. 07..
+     */
+    class Detail(
+        var webtoonId: String,
+        var episodeId: String
+    ) : DetailResult() {
+        var title: String? = null
+        var nextLink: String? = null
+        var prevLink: String? = null
+        var list: List<DetailView> = emptyList()
+    }
+
+    /**
+     * 에피소드 에러 Class
+     * Created by pluu on 2018. 10. 07..
+     */
+    class ErrorResult(
+        val errorType: ERROR_TYPE
+    ) : DetailResult()
 }

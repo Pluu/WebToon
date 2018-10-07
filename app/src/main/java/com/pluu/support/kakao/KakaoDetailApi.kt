@@ -4,10 +4,7 @@ import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.Detail
-import com.pluu.webtoon.item.DetailView
-import com.pluu.webtoon.item.Episode
-import com.pluu.webtoon.item.ShareItem
+import com.pluu.webtoon.item.*
 import com.pluu.webtoon.utils.buildRequest
 import com.pluu.webtoon.utils.toFormBody
 import kotlinx.coroutines.experimental.Dispatchers
@@ -27,7 +24,7 @@ class KakaoDetailApi(
         "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0"
     private lateinit var id: String
 
-    override fun parseDetail(episode: Episode): Detail {
+    override fun parseDetail(episode: IEpisode): DetailResult {
         this.id = episode.episodeId
 
         return runBlocking {
@@ -35,17 +32,18 @@ class KakaoDetailApi(
                 getData()
             }
             val prev: String? = withContext(Dispatchers.Default) {
-                getMoreData(episode.toonId, id, isPrev = true)
+                getMoreData(episode.webToonId, id, isPrev = true)
             }
             val next = withContext(Dispatchers.Default) {
-                getMoreData(episode.toonId, id, isPrev = false)
+                getMoreData(episode.webToonId, id, isPrev = false)
             }
 
-            Detail().apply {
-                webtoonId = episode.toonId
+            DetailResult.Detail(
+                webtoonId = episode.webToonId,
                 episodeId = id
-                title = episode.title
-                list = json?.let { getImages(it) }
+            ).apply {
+                title = episode.episodeTitle
+                list = json?.let { getImages(it) }.orEmpty()
                 prevLink = prev
                 nextLink = next
             }
@@ -88,7 +86,7 @@ class KakaoDetailApi(
             ?.replace("[^\\d]".toRegex(), "")
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+    override fun getDetailShare(episode: Episode, detail: DetailResult.Detail) = ShareItem(
         title = "${episode.title} / ${detail.title}",
         url = DETAIL_URL.format(episode.episodeId)
     )

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -100,11 +99,9 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         super.onActivityCreated(savedInstanceState)
         viewModel.listEvent.observeNonNull(this) { list ->
             adapter.addItems(list)
-            adapter.notifyDataSetChanged()
         }
         viewModel.updateListEvent.observeNonNull(this) { list ->
             adapter.updateRead(list)
-            adapter.notifyDataSetChanged()
         }
         viewModel.favorite.observeNonNull(this) { isFavorite ->
             this.isFavorite = isFavorite
@@ -216,7 +213,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     ///////////////////////////////////////////////////////////////////////////
 
     override fun selectLockItem() {
-        Toast.makeText(context, R.string.msg_not_support, Toast.LENGTH_SHORT).show()
+        toast(R.string.msg_not_support)
     }
 
     override fun selectSuccess(item: Episode) {
@@ -250,7 +247,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     private fun firstItemSelect() {
         val item = adapter.getItem(0)
         if (item.isLock) {
-            Toast.makeText(context, R.string.msg_not_support, Toast.LENGTH_SHORT).show()
+            toast(R.string.msg_not_support)
             return
         }
         viewModel.requestFirst(item)

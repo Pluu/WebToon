@@ -51,7 +51,7 @@ class OneStoreEpisodeApi(
 
             Episode(info, episodeId).apply {
                 image = item.select(".thumbnail").attr("data-thumbackground")
-                episodeTitle = item.select(".product-ti")?.text()
+                episodeTitle = item.select(".product-ti")?.text().orEmpty()
                 updateDate = item.select(".product-product-date")?.text()
                 list.add(this)
             }

@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.item.WebToonInfo
-import com.pluu.webtoon.utils.withMainDispatchers
+import com.pluu.webtoon.usecase.WeeklyUseCase
+import com.pluu.webtoon.utils.bgDispatchers
+import com.pluu.webtoon.utils.uiDispatchers
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 
 class WeekyViewModel(
@@ -28,10 +30,10 @@ class WeekyViewModel(
         get() = _event
 
     init {
-        _event.value = WeeklyEvent.START
-        jobs += GlobalScope.launch {
-            var error: WeeklyEvent? = null
-            val result = try {
+        jobs += GlobalScope.launch(uiDispatchers) {
+            _event.value = WeeklyEvent.START
+
+            val result = async(bgDispatchers) {
                 serviceApi.parseMain(weekPos)
                     .asSequence()
                     .map {
@@ -44,15 +46,10 @@ class WeekyViewModel(
                         it.title
                     })
                     .toList()
-            } catch (e: Exception) {
-                error = WeeklyEvent.ERROR(e.localizedMessage)
-                emptyList<WebToonInfo>()
-            }
+            }.await()
 
-            withMainDispatchers {
-                _event.value = error ?: WeeklyEvent.LOADED
-                _listEvent.value = result
-            }
+            _event.value = WeeklyEvent.LOADED
+            _listEvent.value = result
         }
     }
 

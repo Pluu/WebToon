@@ -7,7 +7,7 @@ import kotlinx.coroutines.experimental.android.Main
  * Coroutine Main Dispatchers
  * @param block run Block
  */
-suspend inline fun withMainDispatchers(
+suspend inline fun withUIDispatchers(
     crossinline block: () -> Unit
 ) {
     withContext(Dispatchers.Main) {
@@ -15,8 +15,14 @@ suspend inline fun withMainDispatchers(
     }
 }
 
-inline fun coroutineLaunchWithMain(
+inline fun launchWithUI(
     crossinline block: suspend CoroutineScope.() -> Unit
 ): Job = GlobalScope.launch(Dispatchers.Main) {
     block()
 }
+
+val uiDispatchers
+    get() = Dispatchers.Main
+
+val bgDispatchers
+    get() = Dispatchers.IO

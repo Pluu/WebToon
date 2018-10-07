@@ -5,10 +5,7 @@ import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.Detail
-import com.pluu.webtoon.item.DetailView
-import com.pluu.webtoon.item.Episode
-import com.pluu.webtoon.item.ShareItem
+import com.pluu.webtoon.item.*
 import com.pluu.webtoon.utils.buildRequest
 import org.json.JSONArray
 import org.json.JSONObject
@@ -25,21 +22,21 @@ class OllehDetailApi(
     private lateinit var wettonId: String
     private lateinit var timesseq: String
 
-    override fun parseDetail(episode: Episode): Detail {
-        this.wettonId = episode.toonId
+    override fun parseDetail(episode: IEpisode): DetailResult {
+        this.wettonId = episode.webToonId
         this.timesseq = episode.episodeId
 
-        val ret = Detail().apply {
-            webtoonId = episode.toonId
+        val ret = DetailResult.Detail(
+            webtoonId = episode.webToonId,
             episodeId = episode.episodeId
-            title = episode.title
+        ).apply {
+            title = episode.episodeTitle
         }
 
         val array: JSONArray = try {
             JSONObject(requestApi()).optJSONArray("response")
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = emptyList()
             return ret
         }
         ret.list = parserToon(array)
@@ -73,7 +70,7 @@ class OllehDetailApi(
         )
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+    override fun getDetailShare(episode: Episode, detail: DetailResult.Detail) = ShareItem(
         title = "${episode.title} / ${detail.title}",
         url = "https://v2.myktoon.com/mw/works/viewer.kt?timesseq=${detail.episodeId}"
     )

@@ -67,7 +67,7 @@ class NaverEpisodeApi(
     }
 
     private fun parsePage(doc: Document): String? {
-        val nextPage = doc.select(".paging_type2 .btn_next")
+        val nextPage = doc.select(".paging_type2 a[class=btn_next]")
         return when (nextPage.isNotEmpty()) {
             true -> pageNo.toString()
             else -> null

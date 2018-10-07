@@ -21,7 +21,9 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
     private val list = mutableListOf<Episode>()
 
     fun addItems(list: List<Episode>) {
+        val size = this.list.size
         this.list.addAll(list)
+        notifyItemRangeInserted(size, list.size)
     }
 
     fun getItem(position: Int): Episode {
@@ -58,10 +60,10 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
 
     fun updateRead(readList: List<String>) {
         for (id in readList) {
-            for (item in list) {
+            for ((index, item) in list.withIndex()) {
                 if (id == item.episodeId) {
                     item.setReadFlag()
-                    break
+                    notifyItemChanged(index)
                 }
             }
         }

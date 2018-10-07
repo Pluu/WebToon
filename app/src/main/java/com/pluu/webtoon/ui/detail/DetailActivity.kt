@@ -3,14 +3,12 @@ package com.pluu.webtoon.ui.detail
 import android.animation.*
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -19,22 +17,14 @@ import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-import com.pluu.support.impl.AbstractDetailApi
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.db.RealmHelper
-import com.pluu.webtoon.di.Property
-import com.pluu.webtoon.item.*
+import com.pluu.webtoon.item.Episode
+import com.pluu.webtoon.item.getMessage
 import com.pluu.webtoon.utils.lazyNone
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
+import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.android.synthetic.main.activity_detail.*
-import org.koin.android.ext.android.inject
-import org.koin.android.ext.android.property
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
@@ -46,38 +36,27 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val TAG = DetailActivity::class.java.simpleName
 
-    private val realmHelper: RealmHelper by inject()
-
-    private val service: NAV_ITEM by property(Property.NAV_ITEM_KEY)
-    private val serviceApi: AbstractDetailApi by inject {
-        parametersOf(service)
+    private val viewModel: DetailViewModel by viewModel {
+        parametersOf(
+            intent.getParcelableExtra<Episode>(Const.EXTRA_EPISODE)
+        )
     }
 
-    private lateinit var episode: Episode
-
-    private var customTitleColor: Int = 0
-    private var customStatusColor: Int = 0
+    private val customTitleColor: Int by lazyNone {
+        intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
+    }
 
     private var SWIPE_MIN_DISTANCE: Int = 0
     private var SWIPE_THRESHOLD_VELOCITY: Int = 0
     private var statusBarAnimator: ObjectAnimator? = null
 
-    private var currentItem: Detail? = null
-
     private val DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS)
-    private var loadingFlag: Boolean = false
-
-    private val disposables: CompositeDisposable by lazyNone {
-        CompositeDisposable()
-    }
 
     private val dlg: ProgressDialog by lazyNone {
         ProgressDialog(this).apply {
             setMessage(getString(R.string.msg_loading))
         }
     }
-
-    private var isFragmentAttach = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +65,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         setSupportActionBar(toolbar_actionbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
+        fragmentInit()
 
         resources.displayMetrics.apply {
             SWIPE_MIN_DISTANCE = widthPixels / 3
@@ -93,27 +73,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (!loadingFlag) {
-            loading(episode)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        loadingFlag = true
-        disposables.clear()
-    }
-
     private fun initView() {
-        episode = intent.getParcelableExtra<Episode>(Const.EXTRA_EPISODE).apply {
-            tvSubTitle.text = title
-        }
-
-        customTitleColor = intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
-        customStatusColor = intent.getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK)
-
+        tvSubTitle.text = ""
         btnPrev.isEnabled = false
         btnNext.isEnabled = false
 
@@ -124,15 +85,24 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             start()
         }
 
-        arrayOf(btnPrev, btnNext).forEach {
-            it.setOnClickListener(View.OnClickListener { v ->
-                val link =
-                    if (v.id == R.id.btnPrev) currentItem?.prevLink else currentItem?.nextLink
+        btnPrev.setOnClickListener { viewModel.movePrev() }
+        btnNext.setOnClickListener { viewModel.moveNext() }
 
-                episode.episodeId = link ?: return@OnClickListener
-                loadingFlag = false
-                loading(episode)
-            })
+        viewModel.event.observeNonNull(this) { event ->
+            when (event) {
+                DetailEvent.START -> dlg.show()
+                DetailEvent.LOADED -> dlg.dismiss()
+                is DetailEvent.ERROR -> {
+                    dlg.dismiss()
+                    showError(event)
+                }
+            }
+        }
+        viewModel.elementEvent.observeNonNull(this) { event ->
+            tvTitle.text = event.title
+            tvSubTitle.text = event.webToonTitle
+            btnPrev.isEnabled = event.isPrevEnable
+            btnNext.isEnabled = event.isNextEnable
         }
     }
 
@@ -191,77 +161,11 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             return ColorStateList(state, colors)
         }
 
-    private fun loading(item: Episode) {
-        Log.i(TAG, "Load Detail: " + item.toonId + ", " + item.episodeId)
-        currentItem?.apply {
-            prevLink = null
-            nextLink = null
-        }
-
-        getRequestApi(item)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { dlg.show() }
-            .doOnSuccess { dlg.dismiss() }
-            .subscribe(requestSubscriber).let {
-                disposables.add(it)
-            }
-    }
-
-    private fun getRequestApi(item: Episode): Single<Detail> {
-        return Single.defer { Single.just(serviceApi.parseDetail(item)) }
-    }
-
-    private val requestSubscriber = Consumer<Detail> { item ->
-        item?.list?.takeIf { it.isNotEmpty() }?.let {
-            readAsync(item)
-
-            currentItem = item
-            tvTitle.text = item.title
-            btnPrev.isEnabled = item.prevLink?.isNotEmpty() == true
-            btnNext.isEnabled = item.nextLink?.isNotEmpty() == true
-
-            fragmentInit()
-            fragmentAttach(it)
-        } ?: run {
-            val msg = (item.errorType ?: ERROR_TYPE.DEFAULT_ERROR).getMessage(baseContext)
-
-            AlertDialog.Builder(this@DetailActivity)
-                .setMessage(msg)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    supportFragmentManager.findFragmentByTag(Const.DETAIL_FRAG_TAG) ?: finish()
-                }
-                .show()
-        }
-    }
-
     private fun fragmentInit() {
-        if (isFragmentAttach) {
-            return
-        }
-
-        val f = DefaultDetailFragment(bottomMenu.height)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, f, Const.DETAIL_FRAG_TAG)
+            .replace(R.id.container, DetailFragment(bottomMenu.height))
             .commit()
-
-        isFragmentAttach = true
-    }
-
-    private fun fragmentAttach(list: List<DetailView>) {
-        supportFragmentManager.findFragmentByTag(Const.DETAIL_FRAG_TAG)?.let {
-            (it as BaseDetailFragment).loadView(list)
-        }
-    }
-
-    /**
-     * Read Detail Item
-     * @param item Item
-     */
-    private fun readAsync(item: Detail) {
-        realmHelper.readEpisode(service, item)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -271,17 +175,17 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
 
         when (item.itemId) {
-            R.id.menu_item_share ->
+//            R.id.menu_item_share ->
                 // 공유하기
-                currentItem?.let {
-                    startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
-                        val sender = serviceApi.getDetailShare(episode, it)
-                        Log.i(TAG, "Share=$sender")
-                        type = "text/plain"
-                        putExtra(Intent.EXTRA_SUBJECT, sender.title)
-                        putExtra(Intent.EXTRA_TEXT, sender.url)
-                    }, "Share"))
-                }
+//                currentItem?.let {
+//                    startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+//                        val sender = serviceApi.getDetailShare(episode, it)
+//                        Log.i(TAG, "Share=$sender")
+//                        type = "text/plain"
+//                        putExtra(Intent.EXTRA_SUBJECT, sender.title)
+//                        putExtra(Intent.EXTRA_TEXT, sender.url)
+//                    }, "Share"))
+//                }
         }
 
         return super.onOptionsItemSelected(item)
@@ -346,9 +250,23 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     override fun firstBind() {
-        val currentItem = currentItem
-        if (currentItem?.list?.isNotEmpty() == true) {
-            fragmentAttach(currentItem.list!!)
-        }
+//        val currentItem = currentItem
+//        if (currentItem?.list?.isNotEmpty() == true) {
+//            fragmentAttach(currentItem.list)
+//        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    ///////////////////////////////////////////////////////////////////////////
+
+    private fun showError(event: DetailEvent.ERROR) {
+        AlertDialog.Builder(this@DetailActivity)
+            .setMessage(event.errorType.getMessage(this))
+            .setCancelable(false)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                supportFragmentManager.findFragmentByTag(Const.DETAIL_FRAG_TAG) ?: finish()
+            }
+            .show()
     }
 }

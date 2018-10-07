@@ -3,12 +3,8 @@ package com.pluu.support.nate
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.Detail
-import com.pluu.webtoon.item.DetailView
-import com.pluu.webtoon.item.Episode
-import com.pluu.webtoon.item.ShareItem
+import com.pluu.webtoon.item.*
 import org.jsoup.Jsoup
-import java.util.*
 
 /**
  * 네이트 웹툰 상세 API
@@ -23,20 +19,19 @@ class NateDetailApi(
     private lateinit var webToonId: String
     private lateinit var episodeId: String
 
-    override fun parseDetail(episode: Episode): Detail {
-        this.webToonId = episode.toonId
+    override fun parseDetail(episode: IEpisode): DetailResult {
+        this.webToonId = episode.webToonId
         this.episodeId = episode.episodeId
 
-        val ret = Detail().apply {
-            webtoonId = episode.toonId
+        val ret = DetailResult.Detail(
+            webtoonId = episode.webToonId,
             episodeId = episode.episodeId
-        }
+        )
 
         val doc = try {
             Jsoup.parse(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = ArrayList()
             return ret
         }
         ret.apply {
@@ -55,7 +50,7 @@ class NateDetailApi(
         return ret
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+    override fun getDetailShare(episode: Episode, detail: DetailResult.Detail) = ShareItem(
         title = "${episode.title} / ${detail.title}",
         url = DETAIL_URL.format(episode.toonId, episode.episodeId)
     )

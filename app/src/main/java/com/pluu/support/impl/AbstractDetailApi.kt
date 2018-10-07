@@ -1,8 +1,9 @@
 package com.pluu.support.impl
 
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.Detail
+import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.Episode
+import com.pluu.webtoon.item.IEpisode
 import com.pluu.webtoon.item.ShareItem
 
 /**
@@ -13,7 +14,7 @@ abstract class AbstractDetailApi(
     networkUseCase: NetworkUseCase
 ) : NetworkSupportApi(networkUseCase) {
 
-    abstract fun parseDetail(episode: Episode): Detail
+    abstract fun parseDetail(episode: IEpisode): DetailResult
 
-    abstract fun getDetailShare(episode: Episode, detail: Detail): ShareItem
+    abstract fun getDetailShare(episode: Episode, detail: DetailResult.Detail): ShareItem
 }

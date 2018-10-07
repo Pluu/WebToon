@@ -3,13 +3,21 @@ package com.pluu.webtoon.item
 import android.os.Parcel
 import android.os.Parcelable
 
+interface IEpisode {
+    val webToonId: String
+    var episodeId: String
+    var episodeTitle: String
+}
+
 /**
  * 에피소드 Item Class
  * Created by pluu on 2017-05-04.
  */
-class Episode : BaseToonInfo, Parcelable {
-    var episodeId: String
-    var episodeTitle: String? = null
+class Episode : BaseToonInfo, IEpisode, Parcelable {
+    override val webToonId: String = this.toonId
+    override var episodeId: String
+    override var episodeTitle: String = ""
+
     var isReadFlag: Boolean = false
         private set
 

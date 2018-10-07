@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.webtoon.usecase.EpisodeListUseCase
-import com.pluu.webtoon.usecase.FavoriteUseCase
 import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.item.WebToonInfo
 import com.pluu.webtoon.model.REpisode
-import com.pluu.webtoon.utils.withMainDispatchers
+import com.pluu.webtoon.usecase.EpisodeListUseCase
+import com.pluu.webtoon.usecase.FavoriteUseCase
+import com.pluu.webtoon.utils.bgDispatchers
+import com.pluu.webtoon.utils.uiDispatchers
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.async
@@ -27,7 +28,7 @@ class EpisodeViewModel(
 
     private val jobs = arrayListOf<Job>()
 
-    private var nextLink: String? = null
+    private var isNext = true
 
     private val _listEvent = MutableLiveData<List<Episode>>()
     val listEvent: LiveData<List<Episode>>
@@ -59,26 +60,29 @@ class EpisodeViewModel(
     }
 
     fun load() {
-        _event.value = EpisodeEvent.START
-        jobs += GlobalScope.launch {
-            val list = try {
-                val episodePage = async { serviceApi.parseEpisode(info) }.await()
-                val readedList = async { getReadList() }.await()
-                nextLink = episodePage.moreLink()
-                episodePage.episodes?.apply {
-                    applyReaded(readedList)
-                }.orEmpty()
-            } catch (e: Exception) {
-                null
-            }
+        if (!isNext) return
 
-            withMainDispatchers {
-                if (list?.isNotEmpty() == true) {
-                    _listEvent.value = list
-                    _event.value = EpisodeEvent.LOADED
-                } else {
-                    _event.value = EpisodeEvent.ERROR
-                }
+        jobs += GlobalScope.launch(uiDispatchers) {
+            _event.value = EpisodeEvent.START
+
+            val episodePage = async(bgDispatchers) {
+                serviceApi.parseEpisode(info)
+            }.await()
+
+            val list = async(bgDispatchers) {
+                val readList = getReadList()
+                episodePage.episodes?.apply {
+                    applyReaded(readList)
+                }.orEmpty()
+            }.await()
+
+            isNext = !episodePage.moreLink().isNullOrBlank()
+
+            if (list.isNotEmpty()) {
+                _listEvent.value = list
+                _event.value = EpisodeEvent.LOADED
+            } else {
+                _event.value = EpisodeEvent.ERROR
             }
         }
     }
@@ -86,14 +90,18 @@ class EpisodeViewModel(
     private fun getReadList() = listUseCase.getEpisode(info.toonId)
 
     fun readUpdate() {
-        _event.value = EpisodeEvent.START
-        jobs += GlobalScope.launch {
-            val readList = getReadList().asSequence()
-                .mapNotNull { it.episodeId }
-                .toList()
-            withMainDispatchers {
-                _updateListEvent.value = readList
-            }
+        jobs += GlobalScope.launch(uiDispatchers) {
+            _event.value = EpisodeEvent.START
+
+            val readList = async {
+                getReadList().asSequence()
+                    .mapNotNull { it.episodeId }
+                    .distinct()
+                    .toList()
+            }.await()
+
+            _updateListEvent.value = readList
+            _event.value = EpisodeEvent.LOADED
         }
     }
 

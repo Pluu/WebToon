@@ -1,7 +1,6 @@
 package com.pluu.webtoon.db
 
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.webtoon.item.Detail
 import com.pluu.webtoon.model.REpisode
 import com.pluu.webtoon.model.RToon
 import io.realm.Realm
@@ -46,13 +45,13 @@ class RealmHelper {
             commitTransaction()
         }
 
-    fun readEpisode(service: NAV_ITEM, item: Detail) =
+    fun readEpisode(service: NAV_ITEM, id: String, episodeId: String) =
         with(Realm.getDefaultInstance()) {
             beginTransaction()
             createObject(REpisode::class.java).apply {
                 this.service = service.name
-                toonId = item.webtoonId
-                episodeId = item.episodeId
+                this.toonId = id
+                this.episodeId = episodeId
             }
             commitTransaction()
         }

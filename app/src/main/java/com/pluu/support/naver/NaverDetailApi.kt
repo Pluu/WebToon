@@ -23,20 +23,19 @@ class NaverDetailApi(
     private lateinit var webToonId: String
     private lateinit var episodeId: String
 
-    override fun parseDetail(episode: Episode): Detail {
-        this.webToonId = episode.toonId
+    override fun parseDetail(episode: IEpisode): DetailResult {
+        this.webToonId = episode.webToonId
         this.episodeId = episode.episodeId
 
-        val ret = Detail().apply {
-            webtoonId = episode.toonId
+        val ret = DetailResult.Detail(
+            webtoonId = episode.webToonId,
             episodeId = episode.episodeId
-        }
+        )
 
         val doc = try {
             Jsoup.parse(requestApi())
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = emptyList()
             return ret
         }
 
@@ -49,7 +48,7 @@ class NaverDetailApi(
             }
             doc.select(".oz-loader")?.isNotEmpty() == true -> {
                 // osLoader
-                ret.errorType = ERROR_TYPE.NOT_SUPPORT
+                return DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
             }
             // 일반 웹툰
             else -> parseNormal(ret, doc)
@@ -57,7 +56,7 @@ class NaverDetailApi(
         return ret
     }
 
-    private fun parseNormal(ret: Detail, doc: Document) {
+    private fun parseNormal(ret: DetailResult.Detail, doc: Document) {
         ret.list = parseDetailNormalType(doc)
 
         // 이전, 다음화
@@ -71,7 +70,7 @@ class NaverDetailApi(
         }
     }
 
-    private fun parseCutToon(ret: Detail, doc: Document) {
+    private fun parseCutToon(ret: DetailResult.Detail, doc: Document) {
         ret.list = parseDetailCutToonType(doc)
 
         // 이전, 다음화
@@ -104,9 +103,9 @@ class NaverDetailApi(
     private fun getShareUrl(webtoonId: String, episodeId: String) =
         "http://m.comic.naver.com/webtoon/detail.nhn?titleId=$webtoonId&no=$episodeId"
 
-    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+    override fun getDetailShare(episode: Episode, detail: DetailResult.Detail) = ShareItem(
         title = "${episode.title} / ${detail.title}",
-        url = getShareUrl(detail.webtoonId.orEmpty(), detail.episodeId.orEmpty())
+        url = getShareUrl(detail.webtoonId, detail.episodeId)
     )
 
     override val method: REQUEST_METHOD = REQUEST_METHOD.GET

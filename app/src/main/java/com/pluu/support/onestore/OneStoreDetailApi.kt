@@ -4,10 +4,7 @@ import com.pluu.kotlin.asSequence
 import com.pluu.support.impl.AbstractDetailApi
 import com.pluu.support.impl.REQUEST_METHOD
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.Detail
-import com.pluu.webtoon.item.DetailView
-import com.pluu.webtoon.item.Episode
-import com.pluu.webtoon.item.ShareItem
+import com.pluu.webtoon.item.*
 import com.pluu.webtoon.utils.buildRequest
 import com.pluu.webtoon.utils.toFormBody
 import org.json.JSONArray
@@ -23,13 +20,13 @@ class OneStoreDetailApi(
 
     private lateinit var id: String
 
-    override fun parseDetail(episode: Episode): Detail {
+    override fun parseDetail(episode: IEpisode): DetailResult {
         this.id = episode.episodeId
 
-        val ret = Detail().apply {
-            webtoonId = episode.toonId
-            episodeId = id
-        }
+        val ret = DetailResult.Detail(
+            webtoonId = episode.webToonId,
+            episodeId = episode.episodeId
+        )
 
         val array: JSONArray = try {
             val doc = Jsoup.parse(requestApi())
@@ -56,7 +53,6 @@ class OneStoreDetailApi(
             JSONArray(requestApi(request))
         } catch (e: Exception) {
             e.printStackTrace()
-            ret.list = emptyList()
             return ret
         }
 
@@ -68,7 +64,7 @@ class OneStoreDetailApi(
         return ret
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+    override fun getDetailShare(episode: Episode, detail: DetailResult.Detail) = ShareItem(
         title = "${episode.title} / ${detail.title}",
         url = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=${detail.episodeId}&PrePageNm=/detail/webtoon/mw"
     )

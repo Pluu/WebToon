@@ -23,14 +23,17 @@ import com.pluu.support.naver.NaverWeekApi
 import com.pluu.support.onestore.OneStoreDetailApi
 import com.pluu.support.onestore.OneStoreEpisodeApi
 import com.pluu.support.onestore.OneStorerWeekApi
+import com.pluu.webtoon.item.Episode
 import com.pluu.webtoon.usecase.EpisodeListUseCase
 import com.pluu.webtoon.usecase.FavoriteUseCase
 import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.ui.detail.DetailViewModel
 import com.pluu.webtoon.ui.episode.EpisodeViewModel
 import com.pluu.webtoon.ui.intro.IntroUseCase
 import com.pluu.webtoon.ui.intro.IntroViewModel
 import com.pluu.webtoon.ui.weekly.WeekyViewModel
+import com.pluu.webtoon.usecase.ReadUseCase
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
@@ -64,6 +67,14 @@ val webToonModule = module {
     }
 
     factory { getProperty<NAV_ITEM>(Property.NAV_ITEM_KEY).asDetailApi(get()) }
+    viewModel { (episode: Episode) ->
+        val apiType = getProperty<NAV_ITEM>(Property.NAV_ITEM_KEY)
+        DetailViewModel(
+            serviceApi = get(parameters = { parametersOf(episode) }),
+            episode = episode,
+            readUseCase = ReadUseCase(get(), apiType)
+        )
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////

@@ -16,41 +16,36 @@ class DaumDetailApi(
 ) : AbstractDetailApi(networkUseCase) {
     private lateinit var id: String
 
-    override fun parseDetail(episode: Episode): Detail {
+    override fun parseDetail(episode: IEpisode): DetailResult {
         this.id = episode.episodeId
-
-        val ret = Detail().apply {
-            webtoonId = episode.toonId
-        }
 
         val json = try {
             JSONObject(requestApi()).optJSONObject("data")
         } catch (e: Exception) {
-            return ret
+            return DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
         }
 
         if (json.optJSONObject("webtoonEpisode")?.optInt("price", 0) ?: 0 > 0) {
-            ret.errorType = ERROR_TYPE.COIN_NEED
-            return ret
+            return DetailResult.ErrorResult(ERROR_TYPE.COIN_NEED)
         }
 
-        ret.apply {
-            json.optJSONObject("webtoonEpisode").apply {
-                title = optString("title")
-                episodeId = optString("id")
-            }
+        val titleInfo = json.optJSONObject("webtoonEpisode")
 
-            val nextId = json.optInt("nextEpisodeId", 0)
-            val prevId = json.optInt("prevEpisodeId", 0)
-            if (nextId > 0) {
-                nextLink = nextId.toString()
-            }
-            if (prevId > 0) {
-                prevLink = prevId.toString()
-            }
+        val ret = DetailResult.Detail(
+            webtoonId = episode.webToonId,
+            episodeId = titleInfo.optString("id")
+        )
+        ret.title = titleInfo.optString("title")
 
-            list = defaultDetailParse(json)
-        }
+        ret.nextLink = json.optInt("nextEpisodeId", 0).takeIf {
+            it > 0
+        }?.toString()
+        ret.prevLink = json.optInt("prevEpisodeId", 0).takeIf {
+            it > 0
+        }?.toString()
+
+        ret.list = defaultDetailParse(json)
+
         return ret
     }
 
@@ -72,7 +67,7 @@ class DaumDetailApi(
         return list
     }
 
-    override fun getDetailShare(episode: Episode, detail: Detail) = ShareItem(
+    override fun getDetailShare(episode: Episode, detail: DetailResult.Detail) = ShareItem(
         title = "${episode.title} / ${detail.title}",
         url = "$SHARE_URL$detail.episodeId"
     )
