@@ -73,7 +73,7 @@ class DetailFragment(
         bindListener = null
     }
 
-    fun firstBind() {
+    private fun firstBind() {
         bindListener?.firstBind()
     }
 }

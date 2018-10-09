@@ -3,9 +3,10 @@ package com.pluu.webtoon.ui.weekly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.pluu.support.impl.AbstractWeekApi
-import com.pluu.webtoon.item.WebToonInfo
-import com.pluu.webtoon.usecase.WeeklyUseCase
+import com.pluu.webtoon.data.impl.AbstractWeekApi
+import com.pluu.webtoon.item.Result
+import com.pluu.webtoon.item.ToonInfo
+import com.pluu.webtoon.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.utils.bgDispatchers
 import com.pluu.webtoon.utils.uiDispatchers
 import kotlinx.coroutines.experimental.GlobalScope
@@ -16,13 +17,13 @@ import kotlinx.coroutines.experimental.launch
 class WeekyViewModel(
     private val serviceApi: AbstractWeekApi,
     private val weekPos: Int,
-    private val useCase: WeeklyUseCase
+    private val hasFavoriteUseCase: HasFavoriteUseCase
 ) : ViewModel() {
 
     private val jobs = arrayListOf<Job>()
 
-    private val _listEvent = MutableLiveData<List<WebToonInfo>>()
-    val listEvent: LiveData<List<WebToonInfo>>
+    private val _listEvent = MutableLiveData<List<ToonInfo>>()
+    val listEvent: LiveData<List<ToonInfo>>
         get() = _listEvent
 
     private val _event = MutableLiveData<WeeklyEvent>()
@@ -34,18 +35,22 @@ class WeekyViewModel(
             _event.value = WeeklyEvent.START
 
             val result = async(bgDispatchers) {
-                serviceApi.parseMain(weekPos)
-                    .asSequence()
-                    .map {
-                        it.isFavorite = useCase.hasFavorite(it.toonId)
-                        it
-                    }
-                    .sortedWith(compareBy<WebToonInfo> {
-                        !it.isFavorite
-                    }.thenBy {
-                        it.title
-                    })
-                    .toList()
+                val apiResult = serviceApi.parseMain(weekPos)
+                if (apiResult is Result.Success) {
+                    apiResult.data.asSequence()
+                        .map {
+                            it.isFavorite = hasFavoriteUseCase(it.id)
+                            it
+                        }
+                        .sortedWith(compareBy<ToonInfo> {
+                            !it.isFavorite
+                        }.thenBy {
+                            it.title
+                        })
+                        .toList()
+                } else {
+                    emptyList()
+                }
             }.await()
 
             _event.value = WeeklyEvent.LOADED

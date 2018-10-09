@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.item.Episode
+import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
@@ -34,11 +34,9 @@ import java.util.concurrent.TimeUnit
  */
 class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
-    private val TAG = DetailActivity::class.java.simpleName
-
     private val viewModel: DetailViewModel by viewModel {
         parametersOf(
-            intent.getParcelableExtra<Episode>(Const.EXTRA_EPISODE)
+            intent.getParcelableExtra<EpisodeInfo>(Const.EXTRA_EPISODE)
         )
     }
 

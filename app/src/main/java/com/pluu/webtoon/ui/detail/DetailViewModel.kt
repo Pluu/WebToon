@@ -3,11 +3,12 @@ package com.pluu.webtoon.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.pluu.support.impl.AbstractDetailApi
+import com.pluu.webtoon.data.DetailRequest
+import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
-import com.pluu.webtoon.item.Episode
+import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.usecase.ReadUseCase
 import com.pluu.webtoon.utils.withUIDispatchers
 import kotlinx.coroutines.experimental.GlobalScope
@@ -16,7 +17,7 @@ import kotlinx.coroutines.experimental.launch
 
 class DetailViewModel(
     private val serviceApi: AbstractDetailApi,
-    episode: Episode,
+    episode: EpisodeInfo,
     private val readUseCase: ReadUseCase
 ) : ViewModel() {
 
@@ -46,19 +47,25 @@ class DetailViewModel(
     }
 
     fun movePrev() {
-        // TODO: Prev Episode
+        // TODO: Prev EpisodeInfo
     }
 
     fun moveNext() {
-        // TODO: Next Episode
+        // TODO: Next EpisodeInfo
     }
 
-    private fun loadDetail(episode: Episode) {
+    private fun loadDetail(episode: EpisodeInfo) {
         _event.value = DetailEvent.START
         jobs += GlobalScope.launch {
             var error: DetailEvent? = null
             val result = try {
-                serviceApi.parseDetail(episode)
+                serviceApi.parseDetail(
+                    DetailRequest(
+                        toonId = episode.toonId,
+                        episodeId = episode.id,
+                        episodeTitle = episode.title
+                    )
+                )
             } catch (e: Exception) {
                 e.printStackTrace()
                 error = DetailEvent.ERROR(errorType = ERROR_TYPE.DEFAULT_ERROR)
@@ -76,7 +83,7 @@ class DetailViewModel(
                         _list.value = result.list
                         _elementEvent.value = ElementEvent(
                             title = result.title.orEmpty(),
-                            webToonTitle = episode.title.orEmpty(),
+                            webToonTitle = episode.title,
                             isPrevEnable = result.prevLink?.isNotEmpty() == true,
                             isNextEnable = result.nextLink?.isNotEmpty() == true
                         )
@@ -91,7 +98,7 @@ class DetailViewModel(
     }
 
     private fun readEpisode(item: DetailResult.Detail) {
-        readUseCase.readEpisode(item)
+        readUseCase(item)
     }
 }
 

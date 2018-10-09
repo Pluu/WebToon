@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-
-import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.data.impl.AbstractWeekApi
 import com.pluu.webtoon.ui.weekly.WebtoonListFragment
 
 /**

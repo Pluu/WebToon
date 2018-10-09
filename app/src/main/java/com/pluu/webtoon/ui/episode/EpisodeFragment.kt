@@ -15,8 +15,8 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.EpisodeAdapter
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.FirstItemSelectEvent
-import com.pluu.webtoon.item.Episode
-import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.item.EpisodeInfo
+import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
@@ -40,7 +40,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private val viewModel: EpisodeViewModel by viewModel {
         parametersOf(
-            arguments!!.getParcelable(Const.EXTRA_EPISODE) as WebToonInfo
+            arguments!!.getParcelable(Const.EXTRA_EPISODE) as ToonInfo
         )
     }
     private val color: IntArray by lazyNone {
@@ -216,7 +216,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         toast(R.string.msg_not_support)
     }
 
-    override fun selectSuccess(item: Episode) {
+    override fun selectSuccess(item: EpisodeInfo) {
         moveDetailPage(item)
     }
 
@@ -250,10 +250,10 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
             toast(R.string.msg_not_support)
             return
         }
-        viewModel.requestFirst(item)
+        viewModel.requestFirst()
     }
 
-    private fun moveDetailPage(item: Episode) {
+    private fun moveDetailPage(item: EpisodeInfo) {
         startActivityForResult(Intent(context, DetailActivity::class.java).apply {
             putExtra(Const.EXTRA_EPISODE, item)
             putExtra(Const.EXTRA_MAIN_COLOR, color[0])
@@ -263,7 +263,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     companion object {
         fun newInstance(
-            info: WebToonInfo,
+            info: ToonInfo,
             color: IntArray
         ): EpisodeFragment {
             return EpisodeFragment().apply {

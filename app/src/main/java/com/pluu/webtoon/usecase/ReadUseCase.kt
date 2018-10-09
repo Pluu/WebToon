@@ -8,7 +8,7 @@ class ReadUseCase(
     private val realmHelper: RealmHelper,
     private val naviItem: NAV_ITEM
 ) {
-    fun readEpisode(item: DetailResult.Detail) {
+    operator fun invoke(item: DetailResult.Detail) {
         realmHelper.readEpisode(naviItem, item.webtoonId, item.episodeId)
     }
 }

@@ -58,6 +58,8 @@ android {
     packagingOptions {
         exclude("META-INF/main.kotlin_module")
     }
+
+    useLibrary("android.test.mock")
 }
 
 dependencies {

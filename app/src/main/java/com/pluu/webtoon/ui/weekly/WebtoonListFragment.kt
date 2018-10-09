@@ -25,7 +25,7 @@ import com.pluu.webtoon.adapter.MainListAdapter
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
-import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
@@ -36,7 +36,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 /**
- * Main EpisodePage List Fragment
+ * Main EpisodeResult List Fragment
  * Created by pluu on 2017-05-07.
  */
 class WebtoonListFragment : Fragment(), WebToonSelectListener {
@@ -115,7 +115,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         toast(R.string.msg_not_support)
     }
 
-    override fun selectSuccess(view: ImageView, item: WebToonInfo) {
+    override fun selectSuccess(view: ImageView, item: ToonInfo) {
         fun asyncPalette(bitmap: Bitmap, block: (Pair<Int, Int>) -> Unit) {
             val context = context ?: return
             Palette.from(bitmap).generate { p ->
@@ -147,7 +147,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
             ?.modifyInfo(info.id, info.isFavorite)
     }
 
-    private fun moveEpisode(item: WebToonInfo, bgColor: Int, statusColor: Int) {
+    private fun moveEpisode(item: ToonInfo, bgColor: Int, statusColor: Int) {
         startActivityForResult(Intent(activity, EpisodesActivity::class.java).apply {
             putExtra(Const.EXTRA_EPISODE, item)
             putExtra(Const.EXTRA_MAIN_COLOR, bgColor)

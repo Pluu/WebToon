@@ -5,17 +5,17 @@ import com.pluu.webtoon.db.RealmHelper
 import com.pluu.webtoon.model.REpisode
 
 /**
- * Episode Section Use Case
+ * EpisodeInfo Section Use Case
  */
 class EpisodeListUseCase(
     private val realmHelper: RealmHelper,
     private val naviItem: NAV_ITEM
 ) {
     /**
-     * 이미 읽은 Episode 취득
-     * @param id Episode ID
+     * 이미 읽은 EpisodeInfo 취득
+     * @param id EpisodeInfo ID
      * @return Read List
      */
-    fun getEpisode(id: String): List<REpisode> =
+    operator fun invoke(id: String): List<REpisode> =
         realmHelper.getEpisode(naviItem, id)
 }

@@ -13,10 +13,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.pluu.event.RxBusProvider
-import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainFragmentAdapter
+import com.pluu.webtoon.data.impl.AbstractWeekApi
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent

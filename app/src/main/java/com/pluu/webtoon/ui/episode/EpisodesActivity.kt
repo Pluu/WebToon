@@ -10,7 +10,7 @@ import com.pluu.event.RxBusProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.FirstItemSelectEvent
-import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
@@ -24,8 +24,8 @@ import kotlinx.android.synthetic.main.toolbar_actionbar.*
 class EpisodesActivity : AppCompatActivity() {
     private var childTitle: View? = null
 
-    private val webToonInfo: WebToonInfo by lazyNone {
-        intent.getParcelableExtra<WebToonInfo>(Const.EXTRA_EPISODE)
+    private val webToonInfo: ToonInfo by lazyNone {
+        intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)
     }
     private var customTitleColor: Int = 0
     private var customStatusColor: Int = 0
@@ -76,13 +76,13 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         tvName.text = webToonInfo.writer
-        if (webToonInfo.rate?.isNotEmpty() == true) {
+        if (webToonInfo.rate.isNotEmpty()) {
             tvRate.text = webToonInfo.rate
             tvRate.visibility = View.VISIBLE
         }
 
         btnFirst.setOnClickListener {
-            RxBusProvider.instance.send(FirstItemSelectEvent())
+            RxBusProvider.instance.send(FirstItemSelectEvent)
         }
     }
 
