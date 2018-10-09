@@ -1,7 +1,7 @@
 package com.pluu.webtoon.ui.listener
 
 import android.widget.ImageView
-import com.pluu.webtoon.item.WebToonInfo
+import com.pluu.webtoon.item.ToonInfo
 
 /**
  * WebToon Item Select Listener
@@ -17,6 +17,5 @@ interface WebToonSelectListener {
     /**
      * 접근 가능 아이템 선택
      */
-    fun selectSuccess(view: ImageView, item: WebToonInfo)
-
+    fun selectSuccess(view: ImageView, item: ToonInfo)
 }

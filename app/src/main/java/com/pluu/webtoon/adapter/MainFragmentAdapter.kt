@@ -7,17 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-
-import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.ui.WebtoonListFragment
+import com.pluu.webtoon.data.impl.AbstractWeekApi
+import com.pluu.webtoon.ui.weekly.WebtoonListFragment
 
 /**
  * Main ViewPager Fragment Adapter
  * Created by pluu on 2017-05-02.
  */
-class MainFragmentAdapter(fm: FragmentManager, private val serviceApi: AbstractWeekApi) :
-    FragmentStatePagerAdapter(fm) {
+class MainFragmentAdapter(
+    fm: FragmentManager,
+    private val serviceApi: AbstractWeekApi
+) : FragmentStatePagerAdapter(fm) {
 
     private val views = SparseArray<WebtoonListFragment>()
 
@@ -30,7 +31,6 @@ class MainFragmentAdapter(fm: FragmentManager, private val serviceApi: AbstractW
         val fragment = WebtoonListFragment()
         fragment.arguments = Bundle().apply {
             putInt(Const.EXTRA_POS, position)
-            putSerializable(Const.EXTRA_API, serviceApi.naviItem)
         }
         views.put(position, fragment)
         return fragment
@@ -49,5 +49,4 @@ class MainFragmentAdapter(fm: FragmentManager, private val serviceApi: AbstractW
             views.valueAt(i).onActivityResult(requestCode, resultCode, data)
         }
     }
-
 }

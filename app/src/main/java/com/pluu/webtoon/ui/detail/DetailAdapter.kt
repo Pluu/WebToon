@@ -41,5 +41,4 @@ class DetailViewHolder(
     fun bind(item: DetailView) {
         ivView.loadUrlOriginal(item.value)
     }
-
 }

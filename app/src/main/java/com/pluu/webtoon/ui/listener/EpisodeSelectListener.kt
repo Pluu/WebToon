@@ -1,9 +1,9 @@
 package com.pluu.webtoon.ui.listener
 
-import com.pluu.webtoon.item.Episode
+import com.pluu.webtoon.item.EpisodeInfo
 
 /**
- * Episode Item Select Listener
+ * EpisodeInfo Item Select Listener
  * Created by pluu on 2017-05-02.
  */
 interface EpisodeSelectListener {
@@ -16,6 +16,5 @@ interface EpisodeSelectListener {
     /**
      * 접근 가능 아이템 선택
      */
-    fun selectSuccess(item: Episode)
-
+    fun selectSuccess(item: EpisodeInfo)
 }

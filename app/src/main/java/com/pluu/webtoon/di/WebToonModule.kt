@@ -1,83 +1,53 @@
 package com.pluu.webtoon.di
 
-import android.content.res.Resources
-import com.pluu.support.daum.DaumDetailApi
-import com.pluu.support.daum.DaumEpisodeApi
-import com.pluu.support.daum.DaumWeekApi
-import com.pluu.support.impl.AbstractDetailApi
-import com.pluu.support.impl.AbstractEpisodeApi
-import com.pluu.support.impl.AbstractWeekApi
 import com.pluu.support.impl.NAV_ITEM
-import com.pluu.support.kakao.KakaoDetailApi
-import com.pluu.support.kakao.KakaoEpisodeApi
-import com.pluu.support.kakao.KakaoWeekApi
-import com.pluu.support.ktoon.OllehDetailApi
-import com.pluu.support.ktoon.OllehEpisodeApi
-import com.pluu.support.ktoon.OllehWeekApi
-import com.pluu.support.nate.NateDetailApi
-import com.pluu.support.nate.NateEpisodeApi
-import com.pluu.support.nate.NateWeekApi
-import com.pluu.support.naver.NaverDetailApi
-import com.pluu.support.naver.NaverEpisodeApi
-import com.pluu.support.naver.NaverWeekApi
-import com.pluu.support.onestore.OneStoreDetailApi
-import com.pluu.support.onestore.OneStoreEpisodeApi
-import com.pluu.support.onestore.OneStorerWeekApi
+import com.pluu.webtoon.item.EpisodeInfo
+import com.pluu.webtoon.item.ToonInfo
+import com.pluu.webtoon.ui.detail.DetailViewModel
+import com.pluu.webtoon.ui.episode.EpisodeViewModel
+import com.pluu.webtoon.ui.intro.IntroUseCase
+import com.pluu.webtoon.ui.intro.IntroViewModel
+import com.pluu.webtoon.ui.weekly.WeekyViewModel
+import com.pluu.webtoon.usecase.*
+import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
-object Properties {
-    const val WEEK_KEY = "WEEK_KEY"
-    const val EPISODE_KEY = "EPISODE_KEY"
-    const val DETAIL_KEY = "DETAIL_KEY"
+val introModule = module {
+    viewModel { IntroViewModel(IntroUseCase(get())) }
 }
 
 val webToonModule = module {
-    single { NetworkModule(get()) }
-    single { createOkHttp() }
+    viewModel { (weekPos: Int) ->
+        val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
+        WeekyViewModel(
+            weekPos = weekPos,
+            weeklyUseCase = get(UseCaseProperties.WEEKLY_USECASE),
+            hasFavoriteUseCase = HasFavoriteUseCase(get(), apiType)
+        )
+    }
 
-    module(Properties.WEEK_KEY) {
-        factory { (apiType : NAV_ITEM) -> apiType.asWeekApi(get()) }
+    viewModel { (info: ToonInfo) ->
+        val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
+        EpisodeViewModel(
+            info = info,
+            episodeUseCase = get(UseCaseProperties.EPISODE_USECASE),
+            readEpisodeListUseCase = ReadEpisodeListUseCase(get(), apiType),
+            addFavoriteUseCase = AddFavoriteUseCase(get(), apiType),
+            delFavoriteUseCase = RemoveFavoriteUseCase(get(), apiType)
+        )
     }
-    module(Properties.EPISODE_KEY) {
-        factory { (apiType: NAV_ITEM) -> apiType.asEpisode(get()) }
-    }
-    module(Properties.DETAIL_KEY) {
-        factory { (apiType: NAV_ITEM) -> apiType.asDetailApi(get()) }
+
+    viewModel { (episode: EpisodeInfo) ->
+        val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
+        DetailViewModel(
+            episode = episode,
+            detailUseCase = get(UseCaseProperties.DETAIL_USECASE),
+            readUseCase = ReadUseCase(get(), apiType),
+            shareUseCase = get()
+        )
     }
 }
 
-private fun NAV_ITEM.asWeekApi(networkModule: NetworkModule): AbstractWeekApi {
-    return when (this) {
-        NAV_ITEM.NAVER -> NaverWeekApi(networkModule)
-        NAV_ITEM.DAUM -> DaumWeekApi(networkModule)
-        NAV_ITEM.KTOON -> OllehWeekApi(networkModule)
-        NAV_ITEM.KAKAOPAGE -> KakaoWeekApi(networkModule)
-        NAV_ITEM.NATE -> NateWeekApi(networkModule)
-        NAV_ITEM.ONE_STORE -> OneStorerWeekApi(networkModule)
-        else -> throw Resources.NotFoundException("Not Found API")
-    }
-}
-
-private fun NAV_ITEM.asEpisode(networkModule: NetworkModule): AbstractEpisodeApi {
-    return when (this) {
-        NAV_ITEM.NAVER -> NaverEpisodeApi(networkModule)
-        NAV_ITEM.DAUM -> DaumEpisodeApi(networkModule)
-        NAV_ITEM.KTOON -> OllehEpisodeApi(networkModule)
-        NAV_ITEM.KAKAOPAGE -> KakaoEpisodeApi(networkModule)
-        NAV_ITEM.NATE -> NateEpisodeApi(networkModule)
-        NAV_ITEM.ONE_STORE -> OneStoreEpisodeApi(networkModule)
-        else -> throw Resources.NotFoundException("Not Found API")
-    }
-}
-
-private fun NAV_ITEM.asDetailApi(networkModule: NetworkModule): AbstractDetailApi {
-    return when (this) {
-        NAV_ITEM.NAVER -> NaverDetailApi(networkModule)
-        NAV_ITEM.DAUM -> DaumDetailApi(networkModule)
-        NAV_ITEM.KTOON -> OllehDetailApi(networkModule)
-        NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(networkModule)
-        NAV_ITEM.NATE -> NateDetailApi(networkModule)
-        NAV_ITEM.ONE_STORE -> OneStoreDetailApi(networkModule)
-        else -> throw Resources.NotFoundException("Not Found API")
-    }
+object ServiceProperties {
+    const val NAV_ITEM = "NAV_ITEM"
 }

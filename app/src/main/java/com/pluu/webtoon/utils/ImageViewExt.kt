@@ -83,4 +83,3 @@ inline fun ImageView.loadUrl(
         })
         .into(this)
 }
-

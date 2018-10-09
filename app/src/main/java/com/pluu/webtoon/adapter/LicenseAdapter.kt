@@ -11,7 +11,7 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.event.RecyclerViewEvent
 
 /**
- * Main Episode List Adapter
+ * Main EpisodeInfo List Adapter
  * Created by pluu on 2017-05-02.
  */
 class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.ViewHolder>() {
@@ -26,7 +26,7 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.text1.text = list[i]
         viewHolder.itemView.setOnClickListener {
-            RxBusProvider.getInstance().send(RecyclerViewEvent(viewHolder.adapterPosition))
+            RxBusProvider.instance.send(RecyclerViewEvent(viewHolder.adapterPosition))
         }
     }
 

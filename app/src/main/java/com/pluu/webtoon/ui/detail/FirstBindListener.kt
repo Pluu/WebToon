@@ -8,5 +8,4 @@ interface FirstBindListener {
 
     /** 첫화보기 */
     fun firstBind()
-
 }
