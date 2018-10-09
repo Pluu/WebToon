@@ -16,7 +16,7 @@ class NetworkTask(private val client: OkHttpClient) {
         return if (response.isSuccessful) {
             NetworkResult.Success(response.body()?.string().orEmpty())
         } else {
-            NetworkResult.Fail()
+            NetworkResult.Fail
         }
     }
 }
