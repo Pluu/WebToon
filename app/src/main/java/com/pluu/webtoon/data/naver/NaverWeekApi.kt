@@ -4,7 +4,7 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.WeeklyRequest
 import com.pluu.webtoon.data.impl.AbstractWeekApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.ToonInfo
@@ -17,12 +17,14 @@ import org.jsoup.nodes.Element
  * Created by pluu on 2017-04-20.
  */
 class NaverWeekApi(
-    networkUseCase: NetworkUseCase
-) : AbstractWeekApi(networkUseCase, NaverWeekApi.TITLE) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractWeekApi, INetworkUseCase by networkUseCase {
+
+    override val CURRENT_TABS = NaverWeekApi.TITLE
 
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin")
 
-    override fun parseMain(param: WeeklyRequest): Result<List<ToonInfo>> {
+    override fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@ import com.pluu.webtoon.model.REpisode
 /**
  * EpisodeInfo Section Use Case
  */
-class EpisodeListUseCase(
+class ReadEpisodeListUseCase(
     private val realmHelper: RealmHelper,
     private val naviItem: NAV_ITEM
 ) {

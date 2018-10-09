@@ -2,6 +2,7 @@ package com.pluu.webtoon
 
 import android.app.Application
 import com.pluu.webtoon.di.appModule
+import com.pluu.webtoon.di.convertModule
 import com.pluu.webtoon.di.introModule
 import com.pluu.webtoon.di.webToonModule
 import io.realm.Realm
@@ -19,6 +20,7 @@ class AppController : Application() {
             this, listOf(
                 *appModule,
                 introModule,
+                convertModule,
                 webToonModule
             )
         )

@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.webtoon.data.EpisodeRequest
-import com.pluu.webtoon.data.impl.AbstractEpisodeApi
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.REpisode
 import com.pluu.webtoon.usecase.AddFavoriteUseCase
-import com.pluu.webtoon.usecase.EpisodeListUseCase
+import com.pluu.webtoon.usecase.EpisodeUseCase
+import com.pluu.webtoon.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.utils.bgDispatchers
 import com.pluu.webtoon.utils.uiDispatchers
@@ -23,9 +23,9 @@ import kotlinx.coroutines.experimental.launch
  * EpisodeInfo ViewModel
  */
 class EpisodeViewModel(
-    private val serviceApi: AbstractEpisodeApi,
     private val info: ToonInfo,
-    private val episodeListUseCase: EpisodeListUseCase,
+    private val episodeUseCase: EpisodeUseCase,
+    private val readEpisodeListUseCase: ReadEpisodeListUseCase,
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val delFavoriteUseCase: RemoveFavoriteUseCase
 ) : ViewModel() {
@@ -74,7 +74,7 @@ class EpisodeViewModel(
             _event.value = EpisodeEvent.START
 
             val episodePage = async(bgDispatchers) {
-                serviceApi.parseEpisode(EpisodeRequest(info.id, pageNo))
+                episodeUseCase(EpisodeRequest(info.id, pageNo))
             }.await()
             when (episodePage) {
                 is Result.Success -> {
@@ -104,7 +104,7 @@ class EpisodeViewModel(
         }
     }
 
-    private fun getReadList() = episodeListUseCase(info.id)
+    private fun getReadList() = readEpisodeListUseCase(info.id)
 
     fun readUpdate() {
         jobs += GlobalScope.launch(uiDispatchers) {

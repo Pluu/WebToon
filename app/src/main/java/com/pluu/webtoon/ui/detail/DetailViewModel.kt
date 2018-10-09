@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.webtoon.data.DetailRequest
-import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.item.*
+import com.pluu.webtoon.usecase.DetailUseCase
 import com.pluu.webtoon.usecase.ReadUseCase
 import com.pluu.webtoon.usecase.ShareUseCase
 import com.pluu.webtoon.utils.withUIDispatchers
@@ -14,8 +14,8 @@ import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 
 class DetailViewModel(
-    private val serviceApi: AbstractDetailApi,
     private val episode: EpisodeInfo,
+    private val detailUseCase: DetailUseCase,
     private val readUseCase: ReadUseCase,
     private val shareUseCase: ShareUseCase
 ) : ViewModel() {
@@ -58,7 +58,7 @@ class DetailViewModel(
         jobs += GlobalScope.launch {
             var error: DetailEvent? = null
             val result = try {
-                serviceApi.parseDetail(
+                detailUseCase(
                     DetailRequest(
                         toonId = episode.toonId,
                         episodeId = episode.id,

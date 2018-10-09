@@ -3,7 +3,7 @@ package com.pluu.webtoon.data.naver
 import com.pluu.webtoon.data.DetailRequest
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.impl.AbstractDetailApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
@@ -17,15 +17,15 @@ import org.jsoup.nodes.Document
  * Created by pluu on 2017-04-20.
  */
 class NaverDetailApi(
-    networkUseCase: NetworkUseCase
-) : AbstractDetailApi(networkUseCase) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractDetailApi, INetworkUseCase by networkUseCase {
 
     private val SKIP_DETAIL = arrayOf(
         "http://static.naver.com/m/comic/im/txt_ads.png",
         "http://static.naver.com/m/comic/im/toon_app_pop.png"
     )
 
-    override fun parseDetail(param: DetailRequest): DetailResult {
+    override fun invoke(param: DetailRequest): DetailResult {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

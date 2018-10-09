@@ -5,7 +5,7 @@ import com.pluu.webtoon.data.EpisodeRequest
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.impl.AbstractEpisodeApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
@@ -19,12 +19,12 @@ import org.jsoup.nodes.Document
  * Created by pluu on 2017-04-27.
  */
 class NateEpisodeApi(
-    networkUseCase: NetworkUseCase
-) : AbstractEpisodeApi(networkUseCase) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
 
     private val EPISODE_ID_PATTERN = "(?<=bsno=)\\d+".toRegex()
 
-    override fun parseEpisode(param: EpisodeRequest): Result<EpisodeResult> {
+    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
         val isMorePage = param.page > 0
 
         ///////////////////////////////////////////////////////////////////////////

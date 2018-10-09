@@ -7,7 +7,7 @@ import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.WeeklyRequest
 import com.pluu.webtoon.data.impl.AbstractWeekApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.ToonInfo
@@ -22,12 +22,13 @@ import java.util.*
  * Created by pluu on 2017-04-20.
  */
 class DaumWeekApi(
-    networkUseCase: NetworkUseCase
-) : AbstractWeekApi(networkUseCase, DaumWeekApi.TITLE) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractWeekApi, INetworkUseCase by networkUseCase {
 
+    override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 
-    override fun parseMain(param: WeeklyRequest): Result<List<ToonInfo>> {
+    override fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
@@ -90,8 +91,4 @@ class DaumWeekApi(
             "week" to URL_VALUE[currentPos]
         )
     )
-
-    companion object {
-        private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")
-    }
 }

@@ -6,7 +6,7 @@ import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.WeeklyRequest
 import com.pluu.webtoon.data.impl.AbstractWeekApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.ToonInfo
@@ -20,12 +20,13 @@ import java.util.*
  * Created by pluu on 2017-04-27.
  */
 class OneStorerWeekApi(
-    networkUseCase: NetworkUseCase
-) : AbstractWeekApi(networkUseCase, OneStorerWeekApi.TITLE) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractWeekApi, INetworkUseCase by networkUseCase {
 
+    override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
     private var startKey: String? = null
 
-    override fun parseMain(param: WeeklyRequest): Result<List<ToonInfo>> {
+    override fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
@@ -55,26 +56,6 @@ class OneStorerWeekApi(
                 startKey = vo.optString("startKey")
                 vo.optJSONArray("webtoonList")
             }
-
-//        val array: JSONArray = try {
-//            JSONArray().apply {
-//                var hasNext: Boolean
-//                do {
-//                    val webtoonVO: JSONObject =
-//                        responseData.optJSONObject("webtoonVO") ?: return@apply
-//                    hasNext = webtoonVO.optString("hasNext") == "Y"
-//                    startKey = webtoonVO.optString("startKey")
-//
-//                    webtoonVO.optJSONArray("webtoonList")?.asSequence()
-//                        ?.forEach {
-//                            put(it)
-//                        }
-//                } while (hasNext)
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            JSONArray()
-//        }
 
         val currentDate = Date().toFormatString("yyyyMMdd")
         val list = array?.asSequence()
@@ -118,8 +99,4 @@ class OneStorerWeekApi(
             }
         }
     )
-
-    companion object {
-        private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")
-    }
 }

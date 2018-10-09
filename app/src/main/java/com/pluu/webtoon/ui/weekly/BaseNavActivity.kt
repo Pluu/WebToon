@@ -16,7 +16,7 @@ import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.di.Property
+import com.pluu.webtoon.di.ServiceProperties
 import com.pluu.webtoon.utils.lazyNone
 import org.koin.android.ext.android.property
 import org.koin.android.ext.android.setProperty
@@ -40,7 +40,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
-    private val first: NAV_ITEM by property(Property.NAV_ITEM_KEY)
+    private val first: NAV_ITEM by property(ServiceProperties.NAV_ITEM)
     private var selfNavDrawerItem: NAV_ITEM = first
 
     private val mHandler: Handler by lazyNone { Handler() }
@@ -197,7 +197,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
         item ?: return
 
         selfNavDrawerItem = item
-        setProperty(Property.NAV_ITEM_KEY, item)
+        setProperty(ServiceProperties.NAV_ITEM, item)
 
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()

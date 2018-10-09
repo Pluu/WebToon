@@ -5,7 +5,7 @@ import com.pluu.webtoon.data.EpisodeRequest
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.impl.AbstractEpisodeApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
@@ -18,10 +18,10 @@ import org.json.JSONObject
  * Created by pluu on 2017-04-21.
  */
 class DaumEpisodeApi(
-    networkUseCase: NetworkUseCase
-) : AbstractEpisodeApi(networkUseCase) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
 
-    override fun parseEpisode(param: EpisodeRequest): Result<EpisodeResult> {
+    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
 
         ///////////////////////////////////////////////////////////////////////////
         // API

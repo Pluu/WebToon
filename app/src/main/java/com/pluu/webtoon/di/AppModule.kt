@@ -19,15 +19,18 @@ private val networkModule = module {
             })
             .build()
     }
-    single { NetworkUseCase(get()) }
+    single<INetworkUseCase>(AppProperties.NETWORK) {
+        NetworkUseCase(get())
+    }
 }
 
 private val resourceModule = module {
     single { ColorProvider(get()) }
-
-    factory {
-        NaviColorProvider(get(), getProperty(Property.NAV_ITEM_KEY))
-    }
+    factory { NaviColorProvider(get(), getProperty(ServiceProperties.NAV_ITEM)) }
 }
 
 val appModule = arrayOf(dbModule, networkModule, resourceModule)
+
+object AppProperties {
+    const val NETWORK = "NETWORK"
+}

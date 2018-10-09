@@ -3,7 +3,7 @@ package com.pluu.webtoon.data.nate
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.WeeklyRequest
 import com.pluu.webtoon.data.impl.AbstractWeekApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.utils.safeAPi
@@ -15,10 +15,12 @@ import org.jsoup.nodes.Element
  * Created by pluu on 2017-04-26.
  */
 class NateWeekApi(
-    networkUseCase: NetworkUseCase
-) : AbstractWeekApi(networkUseCase, NateWeekApi.TITLE) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractWeekApi, INetworkUseCase by networkUseCase {
 
-    override fun parseMain(param: WeeklyRequest): Result<List<ToonInfo>> {
+    override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
+
+    override fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
@@ -61,8 +63,4 @@ class NateWeekApi(
     private fun createApi(): IRequest = IRequest(
         url = "http://m.comics.nate.com/main/index"
     )
-
-    companion object {
-        private val TITLE = arrayOf("월", "화", "수", "목", "금", "토", "일")
-    }
 }

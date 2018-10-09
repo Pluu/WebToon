@@ -5,7 +5,7 @@ import com.pluu.webtoon.data.DetailRequest
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.impl.AbstractDetailApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
@@ -19,10 +19,10 @@ import org.jsoup.Jsoup
  * Created by pluu on 2017-04-27.
  */
 class OneStoreDetailApi(
-    networkUseCase: NetworkUseCase
-) : AbstractDetailApi(networkUseCase) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractDetailApi, INetworkUseCase by networkUseCase {
 
-    override fun parseDetail(param: DetailRequest): DetailResult {
+    override fun invoke(param: DetailRequest): DetailResult {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

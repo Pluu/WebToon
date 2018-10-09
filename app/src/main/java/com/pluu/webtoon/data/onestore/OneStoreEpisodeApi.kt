@@ -3,7 +3,7 @@ package com.pluu.webtoon.data.onestore
 import com.pluu.webtoon.data.EpisodeRequest
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.impl.AbstractEpisodeApi
-import com.pluu.webtoon.di.NetworkUseCase
+import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
@@ -17,12 +17,12 @@ import org.jsoup.nodes.Element
  * Created by pluu on 2017-04-27.
  */
 class OneStoreEpisodeApi(
-    networkUseCase: NetworkUseCase
-) : AbstractEpisodeApi(networkUseCase) {
+    private val networkUseCase: INetworkUseCase
+) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
 
     private val EPISODE_ID = "(?<=prodId=)\\w+".toRegex()
 
-    override fun parseEpisode(param: EpisodeRequest): Result<EpisodeResult> {
+    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
