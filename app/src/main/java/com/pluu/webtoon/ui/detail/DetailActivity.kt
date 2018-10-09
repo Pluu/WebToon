@@ -3,6 +3,7 @@ package com.pluu.webtoon.ui.detail
 import android.animation.*
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -20,6 +21,7 @@ import androidx.core.view.ViewCompat
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.item.EpisodeInfo
+import com.pluu.webtoon.item.ShareItem
 import com.pluu.webtoon.item.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
@@ -93,6 +95,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
                 is DetailEvent.ERROR -> {
                     dlg.dismiss()
                     showError(event)
+                }
+                is DetailEvent.SHARE -> {
+                    showShare(event.item)
                 }
             }
         }
@@ -173,17 +178,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
 
         when (item.itemId) {
-//            R.id.menu_item_share ->
+            R.id.menu_item_share -> {
                 // 공유하기
-//                currentItem?.let {
-//                    startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
-//                        val sender = serviceApi.getDetailShare(episode, it)
-//                        Log.i(TAG, "Share=$sender")
-//                        type = "text/plain"
-//                        putExtra(Intent.EXTRA_SUBJECT, sender.title)
-//                        putExtra(Intent.EXTRA_TEXT, sender.url)
-//                    }, "Share"))
-//                }
+                viewModel.requestShare()
+            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -266,5 +264,15 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
                 supportFragmentManager.findFragmentByTag(Const.DETAIL_FRAG_TAG) ?: finish()
             }
             .show()
+    }
+
+    private fun showShare(item: ShareItem) {
+        startActivity(
+            Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, item.title)
+                putExtra(Intent.EXTRA_TEXT, item.url)
+            }, "Share")
+        )
     }
 }

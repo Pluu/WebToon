@@ -6,7 +6,10 @@ import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.*
+import com.pluu.webtoon.item.DetailResult
+import com.pluu.webtoon.item.DetailView
+import com.pluu.webtoon.item.ERROR_TYPE
+import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.utils.safeAPi
 import org.json.JSONObject
 
@@ -82,19 +85,9 @@ class DaumDetailApi(
         return list
     }
 
-    override fun getDetailShare(episode: EpisodeInfo, detail: DetailResult.Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = "$SHARE_URL$detail.episodeId"
-    )
-
     private fun createApi(id: String): IRequest = IRequest(
         method = REQUEST_METHOD.POST,
-        url = DETAIL_URL,
+        url = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer",
         params = hashMapOf("id" to id)
     )
-
-    companion object {
-        private const val DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer"
-        private const val SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/"
-    }
 }

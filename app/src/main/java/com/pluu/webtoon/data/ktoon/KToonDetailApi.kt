@@ -7,7 +7,10 @@ import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.*
+import com.pluu.webtoon.item.DetailResult
+import com.pluu.webtoon.item.DetailView
+import com.pluu.webtoon.item.ERROR_TYPE
+import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.utils.safeAPi
 import org.json.JSONArray
 import org.json.JSONObject
@@ -96,11 +99,6 @@ class KToonDetailApi(
             pagingWrap.select("a[class=btn_next moveViewerBtn]").attr("data-seq")
         )
     }
-
-    override fun getDetailShare(episode: EpisodeInfo, detail: DetailResult.Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = "https://v2.myktoon.com/mw/works/viewer.kt?timesseq=${detail.episodeId}"
-    )
 
     private fun createApi(id: String): IRequest = IRequest(
         method = REQUEST_METHOD.POST,

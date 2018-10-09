@@ -6,7 +6,9 @@ import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.*
+import com.pluu.webtoon.item.DetailResult
+import com.pluu.webtoon.item.DetailView
+import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.utils.safeAPi
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.runBlocking
@@ -20,9 +22,6 @@ import org.json.JSONObject
 class KakaoDetailApi(
     networkUseCase: NetworkUseCase
 ) : AbstractDetailApi(networkUseCase) {
-
-    private val DETAIL_URL =
-        "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0"
 
     override fun parseDetail(param: DetailRequest): DetailResult {
         val id = param.episodeId
@@ -120,11 +119,6 @@ class KakaoDetailApi(
             null
         }
     }
-
-    override fun getDetailShare(episode: EpisodeInfo, detail: DetailResult.Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = DETAIL_URL.format(episode.id)
-    )
 
     private fun createApi(id: String): IRequest = IRequest(
         method = REQUEST_METHOD.POST,

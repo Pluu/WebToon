@@ -4,7 +4,10 @@ import com.pluu.webtoon.data.DetailRequest
 import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.*
+import com.pluu.webtoon.item.DetailResult
+import com.pluu.webtoon.item.DetailView
+import com.pluu.webtoon.item.ERROR_TYPE
+import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.utils.safeAPi
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -28,12 +31,7 @@ class NaverDetailApi(
         ///////////////////////////////////////////////////////////////////////////
 
         val apiResult = safeAPi(
-            requestApi(
-                createApi(
-                    id = param.toonId,
-                    episodeId = param.episodeId
-                )
-            )
+            requestApi(createApi(param.toonId, param.episodeId))
         ) { response ->
             Jsoup.parse(response)
         }
@@ -111,16 +109,17 @@ class NaverDetailApi(
             .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
             .map { DetailView(it) }
 
-    private fun getShareUrl(webtoonId: String, episodeId: String) =
-        "http://m.comic.naver.com/webtoon/detail.nhn?titleId=$webtoonId&no=$episodeId"
-
-    override fun getDetailShare(episode: EpisodeInfo, detail: DetailResult.Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = getShareUrl(detail.webtoonId, detail.episodeId)
+    private fun createApi(toonId: String, episodeId: String): IRequest = IRequest(
+        url = detailCreate(
+            toonId,
+            episodeId
+        )
     )
 
-    private fun createApi(id: String, episodeId: String): IRequest = IRequest(
-        url = getShareUrl(id, episodeId)
-    )
+    companion object {
+        val detailCreate = { toonId: String, episodeId: String ->
+            "http://m.comic.naver.com/webtoon/detail.nhn?titleId=$toonId&no=$episodeId"
+        }
+    }
 
 }

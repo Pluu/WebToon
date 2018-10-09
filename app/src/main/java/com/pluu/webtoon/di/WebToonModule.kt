@@ -3,24 +3,30 @@ package com.pluu.webtoon.di
 import android.content.res.Resources
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.webtoon.data.daum.DaumDetailApi
+import com.pluu.webtoon.data.daum.DaumDetailShare
 import com.pluu.webtoon.data.daum.DaumEpisodeApi
 import com.pluu.webtoon.data.daum.DaumWeekApi
 import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.data.impl.AbstractEpisodeApi
 import com.pluu.webtoon.data.impl.AbstractWeekApi
 import com.pluu.webtoon.data.kakao.KakaoDetailApi
+import com.pluu.webtoon.data.kakao.KakaoDetailShare
 import com.pluu.webtoon.data.kakao.KakaoEpisodeApi
 import com.pluu.webtoon.data.kakao.KakaoWeekApi
 import com.pluu.webtoon.data.ktoon.KToonDetailApi
+import com.pluu.webtoon.data.ktoon.KToonDetailShare
 import com.pluu.webtoon.data.ktoon.KToonEpisodeApi
 import com.pluu.webtoon.data.ktoon.KToonWeekApi
 import com.pluu.webtoon.data.nate.NateDetailApi
+import com.pluu.webtoon.data.nate.NateDetailShare
 import com.pluu.webtoon.data.nate.NateEpisodeApi
 import com.pluu.webtoon.data.nate.NateWeekApi
 import com.pluu.webtoon.data.naver.NaverDetailApi
+import com.pluu.webtoon.data.naver.NaverDetailShare
 import com.pluu.webtoon.data.naver.NaverEpisodeApi
 import com.pluu.webtoon.data.naver.NaverWeekApi
 import com.pluu.webtoon.data.onestore.OneStoreDetailApi
+import com.pluu.webtoon.data.onestore.OneStoreDetailShare
 import com.pluu.webtoon.data.onestore.OneStoreEpisodeApi
 import com.pluu.webtoon.data.onestore.OneStorerWeekApi
 import com.pluu.webtoon.item.EpisodeInfo
@@ -68,8 +74,20 @@ val webToonModule = module {
         DetailViewModel(
             serviceApi = get(parameters = { parametersOf(episode) }),
             episode = episode,
-            readUseCase = ReadUseCase(get(), apiType)
+            readUseCase = ReadUseCase(get(), apiType),
+            shareUseCase = get(parameters = { parametersOf(apiType) })
         )
+    }
+    factory { (type: NAV_ITEM) ->
+        when (type) {
+            NAV_ITEM.NAVER -> NaverDetailShare()
+            NAV_ITEM.DAUM -> DaumDetailShare()
+            NAV_ITEM.KTOON -> KToonDetailShare()
+            NAV_ITEM.KAKAOPAGE -> KakaoDetailShare()
+            NAV_ITEM.NATE -> NateDetailShare()
+            NAV_ITEM.ONE_STORE -> OneStoreDetailShare()
+            else -> throw Resources.NotFoundException("Not Found API")
+        }
     }
 }
 

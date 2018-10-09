@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.webtoon.data.DetailRequest
 import com.pluu.webtoon.data.impl.AbstractDetailApi
-import com.pluu.webtoon.item.DetailResult
-import com.pluu.webtoon.item.DetailView
-import com.pluu.webtoon.item.ERROR_TYPE
-import com.pluu.webtoon.item.EpisodeInfo
+import com.pluu.webtoon.item.*
 import com.pluu.webtoon.usecase.ReadUseCase
+import com.pluu.webtoon.usecase.ShareUseCase
 import com.pluu.webtoon.utils.withUIDispatchers
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.Job
@@ -17,8 +15,9 @@ import kotlinx.coroutines.experimental.launch
 
 class DetailViewModel(
     private val serviceApi: AbstractDetailApi,
-    episode: EpisodeInfo,
-    private val readUseCase: ReadUseCase
+    private val episode: EpisodeInfo,
+    private val readUseCase: ReadUseCase,
+    private val shareUseCase: ShareUseCase
 ) : ViewModel() {
 
     private val jobs = arrayListOf<Job>()
@@ -100,6 +99,16 @@ class DetailViewModel(
     private fun readEpisode(item: DetailResult.Detail) {
         readUseCase(item)
     }
+
+    fun requestShare() {
+        val item = currentItem ?: return
+        _event.value = DetailEvent.SHARE(
+            shareUseCase(
+                episode = episode,
+                detail = item
+            )
+        )
+    }
 }
 
 sealed class DetailEvent {
@@ -108,6 +117,8 @@ sealed class DetailEvent {
     class ERROR(
         val errorType: ERROR_TYPE
     ) : DetailEvent()
+
+    class SHARE(val item: ShareItem) : DetailEvent()
 }
 
 class ElementEvent(

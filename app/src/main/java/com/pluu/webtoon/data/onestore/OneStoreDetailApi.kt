@@ -6,7 +6,10 @@ import com.pluu.webtoon.data.IRequest
 import com.pluu.webtoon.data.REQUEST_METHOD
 import com.pluu.webtoon.data.impl.AbstractDetailApi
 import com.pluu.webtoon.di.NetworkUseCase
-import com.pluu.webtoon.item.*
+import com.pluu.webtoon.item.DetailResult
+import com.pluu.webtoon.item.DetailView
+import com.pluu.webtoon.item.ERROR_TYPE
+import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.utils.safeAPi
 import org.json.JSONArray
 import org.jsoup.Jsoup
@@ -24,7 +27,9 @@ class OneStoreDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val mainRequest = safeAPi(requestApi(createApi(param.episodeId))) { response ->
+        val mainRequest = safeAPi(
+            requestApi(createApi(param.episodeId))
+        ) { response ->
             Jsoup.parse(response)
         }
 
@@ -85,13 +90,8 @@ class OneStoreDetailApi(
         return ret
     }
 
-    override fun getDetailShare(episode: EpisodeInfo, detail: DetailResult.Detail) = ShareItem(
-        title = "${episode.title} / ${detail.title}",
-        url = "http://m.tstore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=${detail.episodeId}&PrePageNm=/detail/webtoon/mw"
-    )
-
-    private fun createApi(id: String): IRequest = IRequest(
-        url = "http://m.onestore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=$id&PrePageNm="
+    private fun createApi(episodeId: String): IRequest = IRequest(
+        url = "http://m.onestore.co.kr/mobilepoc/webtoon/webtoonDetail.omp?prodId=$episodeId&PrePageNm="
     )
 
     companion object {
