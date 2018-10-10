@@ -89,15 +89,12 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.8.0")
     kapt("com.github.bumptech.glide:compiler:4.8.0")
-    // Rx
-    implementation("io.reactivex.rxjava2:rxjava:2.2.2")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
     // OkHttp
     implementation("com.squareup.okhttp3:okhttp:3.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
     // kotlin
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2")
 
     testImplementation("junit:junit:4.12")
     testImplementation("org.assertj:assertj-core:3.11.1")

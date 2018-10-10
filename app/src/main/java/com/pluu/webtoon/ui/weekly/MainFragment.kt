@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.pluu.event.RxBusProvider
+import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainFragmentAdapter
@@ -23,11 +23,11 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
+import com.pluu.webtoon.utils.launchWithUI
 import com.pluu.webtoon.utils.lazyNone
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_toon.*
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.channels.consumeEach
 import org.koin.android.ext.android.inject
 
 /**
@@ -37,8 +37,6 @@ import org.koin.android.ext.android.inject
 class MainFragment : Fragment() {
 
     private val TAG = MainFragment::class.java.simpleName
-
-    private var mCompositeDisposable = CompositeDisposable()
 
     private var isFirstDlg = true
 
@@ -51,6 +49,7 @@ class MainFragment : Fragment() {
 
     private val serviceApi: AbstractWeekApi by inject(UseCaseProperties.WEEKLY_USECASE)
     private val colorProvider: NaviColorProvider by inject()
+    private val jobs = arrayListOf<Job>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,22 +88,29 @@ class MainFragment : Fragment() {
             }.start()
         }
 
-        RxBusProvider.instance.send(ThemeEvent(color, colorDark))
+        EventBus.send(ThemeEvent(color, colorDark))
         slidingTabLayout?.setSelectedTabIndicatorColor(color)
     }
 
     override fun onResume() {
         super.onResume()
-        mCompositeDisposable.add(
-            RxBusProvider.instance
-                .toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(busEvent)
-        )
+
+        jobs += launchWithUI {
+            EventBus.subscribeToEvent<MainEpisodeStartEvent>()
+                .consumeEach {
+                    eventStartEvent()
+                }
+        }
+        jobs += launchWithUI {
+            EventBus.subscribeToEvent<MainEpisodeLoadedEvent>()
+                .consumeEach {
+                    eventLoadedEvent()
+                }
+        }
     }
 
     override fun onPause() {
-        mCompositeDisposable.clear()
+        jobs.forEach { it.cancel() }
         super.onPause()
     }
 
@@ -121,13 +127,6 @@ class MainFragment : Fragment() {
                 resultCode,
                 data!!
             )
-        }
-    }
-
-    private val busEvent = Consumer<Any> {
-        when (it) {
-            is MainEpisodeStartEvent -> eventStartEvent()
-            is MainEpisodeLoadedEvent -> eventLoadedEvent()
         }
     }
 

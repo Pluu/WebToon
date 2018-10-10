@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.event.RxBusProvider
+import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.event.RecyclerViewEvent
 
@@ -26,7 +26,7 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.text1.text = list[i]
         viewHolder.itemView.setOnClickListener {
-            RxBusProvider.instance.send(RecyclerViewEvent(viewHolder.adapterPosition))
+            EventBus.send(RecyclerViewEvent(viewHolder.adapterPosition))
         }
     }
 

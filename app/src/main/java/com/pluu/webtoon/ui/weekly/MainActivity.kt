@@ -3,16 +3,16 @@ package com.pluu.webtoon.ui.weekly
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.pluu.event.RxBusProvider
+import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
+import com.pluu.webtoon.utils.launchWithUI
 import kotlinx.android.synthetic.main.navdrawer.*
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.channels.consumeEach
 import org.koin.android.ext.android.inject
 
 /**
@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
  */
 class MainActivity : BaseNavActivity() {
 
-    private var mCompositeDisposable = CompositeDisposable()
+    private val jobs = arrayListOf<Job>()
 
     private val defaultProvider: NaviColorProvider by inject()
 
@@ -58,23 +58,15 @@ class MainActivity : BaseNavActivity() {
 
     override fun onResume() {
         super.onResume()
-        mCompositeDisposable.add(
-            RxBusProvider.instance
-                .toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(busEvent)
-        )
+        jobs += launchWithUI {
+            EventBus.subscribeToEvent<ThemeEvent>()
+                .consumeEach { themeChange(it) }
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        mCompositeDisposable.clear()
-    }
-
-    private val busEvent = Consumer<Any> {
-        when (it) {
-            is ThemeEvent -> themeChange(it)
-        }
+        jobs.forEach { it.cancel() }
     }
 
     private fun themeChange(event: ThemeEvent) {

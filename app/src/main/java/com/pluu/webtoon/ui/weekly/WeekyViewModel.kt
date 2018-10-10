@@ -53,8 +53,8 @@ class WeekyViewModel(
                 }
             }.await()
 
-            _event.value = WeeklyEvent.LOADED
             _listEvent.value = result
+            _event.value = WeeklyEvent.LOADED
         }
     }
 

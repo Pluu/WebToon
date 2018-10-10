@@ -9,7 +9,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.pluu.event.RxBusProvider
+import com.pluu.event.EventBus
 import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.EpisodeAdapter
@@ -21,12 +21,12 @@ import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.utils.MoreRefreshListener
+import com.pluu.webtoon.utils.launchWithUI
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_episode.*
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.channels.consumeEach
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -57,7 +57,7 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
         }
     }
 
-    private var mCompositeDisposable = CompositeDisposable()
+    private val jobs = arrayListOf<Job>()
 
     private var isFavorite: Boolean = false
 
@@ -179,17 +179,17 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onResume() {
         super.onResume()
-        mCompositeDisposable.add(
-            RxBusProvider.instance
-                .toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(busEvent)
-        )
+        jobs += launchWithUI {
+            EventBus.subscribeToEvent<FirstItemSelectEvent>()
+                .consumeEach {
+                    firstItemSelect()
+                }
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        mCompositeDisposable.clear()
+        jobs.forEach { it.cancel() }
     }
 
     override fun onRefresh() {
@@ -236,12 +236,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     private fun loading() {
         viewModel.load()
-    }
-
-    private val busEvent = Consumer<Any> {
-        when (it) {
-            is FirstItemSelectEvent -> firstItemSelect()
-        }
     }
 
     private fun firstItemSelect() {

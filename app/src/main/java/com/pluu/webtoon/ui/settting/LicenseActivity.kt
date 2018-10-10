@@ -7,14 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pluu.event.RxBusProvider
+import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.LicenseAdapter
 import com.pluu.webtoon.event.RecyclerViewEvent
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
+import com.pluu.webtoon.utils.launchWithUI
 import kotlinx.android.synthetic.main.activity_license.*
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.channels.consumeEach
 
 /**
  * License Activity
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_license.*
  */
 class LicenseActivity : AppCompatActivity() {
 
-    private var mCompositeDisposable = CompositeDisposable()
+    private val jobs = arrayListOf<Job>()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,23 +40,17 @@ class LicenseActivity : AppCompatActivity() {
 
     public override fun onResume() {
         super.onResume()
-        mCompositeDisposable.add(
-            RxBusProvider.instance
-                .toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(busEvent)
-        )
-    }
-
-    public override fun onPause() {
-        super.onPause()
-        mCompositeDisposable.clear()
-    }
-
-    private val busEvent = Consumer<Any> {
-        when (it) {
-            is RecyclerViewEvent -> itemClick(it)
+        jobs += launchWithUI {
+            EventBus.subscribeToEvent<RecyclerViewEvent>()
+                .consumeEach {
+                    itemClick(it)
+                }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        jobs.forEach { it.cancel() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

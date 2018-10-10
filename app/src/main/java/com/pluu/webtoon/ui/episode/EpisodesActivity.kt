@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.pluu.event.RxBusProvider
+import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.FirstItemSelectEvent
@@ -82,7 +82,7 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         btnFirst.setOnClickListener {
-            RxBusProvider.instance.send(FirstItemSelectEvent)
+            EventBus.send(FirstItemSelectEvent)
         }
     }
 

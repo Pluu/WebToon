@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.pluu.event.RxBusProvider
+import com.pluu.event.EventBus
 import com.pluu.kotlin.getCompatColor
 import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.kotlin.toast
@@ -77,10 +77,10 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         viewModel.event.observeNonNull(this) { event ->
             when (event) {
                 WeeklyEvent.START -> {
-                    RxBusProvider.instance.send(MainEpisodeStartEvent())
+                    EventBus.send(MainEpisodeStartEvent())
                 }
                 WeeklyEvent.LOADED -> {
-                    RxBusProvider.instance.send(MainEpisodeLoadedEvent())
+                    EventBus.send(MainEpisodeLoadedEvent())
                 }
                 is WeeklyEvent.ERROR -> {
                     toast(event.message)
