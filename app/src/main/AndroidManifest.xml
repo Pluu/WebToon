@@ -10,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/BaseMaterialAppTheme">
+        android:theme="@style/BaseMaterialAppTheme"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".ui.intro.IntroActivity"

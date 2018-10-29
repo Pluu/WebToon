@@ -25,16 +25,26 @@ import com.pluu.webtoon.utils.launchWithUI
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.android.synthetic.main.fragment_episode.*
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.channels.consumeEach
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.coroutines.CoroutineContext
 
 /**
  * 에피소드 리스트 Fragment
  * Created by pluu on 2017-05-09.
  */
-class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, EpisodeSelectListener {
+class EpisodeFragment :
+    Fragment(),
+    SwipeRefreshLayout.OnRefreshListener,
+    EpisodeSelectListener,
+    CoroutineScope {
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
+    private val job by lazyNone { Job() }
 
     private val REQUEST_DETAIL = 1000
 
@@ -56,8 +66,6 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
             setMessage(getString(R.string.msg_loading))
         }
     }
-
-    private val jobs = arrayListOf<Job>()
 
     private var isFavorite: Boolean = false
 
@@ -179,17 +187,14 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
 
     override fun onResume() {
         super.onResume()
-        jobs += launchWithUI {
-            EventBus.subscribeToEvent<FirstItemSelectEvent>()
-                .consumeEach {
-                    firstItemSelect()
-                }
+        launchWithUI {
+            registerFirstSelectEvent()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        jobs.forEach { it.cancel() }
+        job.cancel()
     }
 
     override fun onRefresh() {
@@ -209,12 +214,13 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // EpisodeSelectListener
-    ///////////////////////////////////////////////////////////////////////////
 
     override fun selectLockItem() {
         toast(R.string.msg_not_support)
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // EpisodeSelectListener
 
     override fun selectSuccess(item: EpisodeInfo) {
         moveDetailPage(item)
@@ -223,6 +229,15 @@ class EpisodeFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Episod
     ///////////////////////////////////////////////////////////////////////////
     // View Function
     ///////////////////////////////////////////////////////////////////////////
+
+    @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
+    private suspend fun registerFirstSelectEvent() {
+        EventBus.subscribeToEvent<FirstItemSelectEvent>()
+            .consumeEach {
+                firstItemSelect()
+            }
+    }
 
     private fun closeRefreshing() {
         swipeRefreshWidget.isRefreshing = false

@@ -10,18 +10,25 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
 import com.pluu.webtoon.utils.launchWithUI
+import com.pluu.webtoon.utils.lazyNone
 import kotlinx.android.synthetic.main.navdrawer.*
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.channels.consumeEach
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
+import kotlin.coroutines.CoroutineContext
 
 /**
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
-class MainActivity : BaseNavActivity() {
+class MainActivity : BaseNavActivity(), CoroutineScope {
 
-    private val jobs = arrayListOf<Job>()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
+    private val job by lazyNone { Job() }
 
     private val defaultProvider: NaviColorProvider by inject()
 
@@ -58,15 +65,19 @@ class MainActivity : BaseNavActivity() {
 
     override fun onResume() {
         super.onResume()
-        jobs += launchWithUI {
-            EventBus.subscribeToEvent<ThemeEvent>()
-                .consumeEach { themeChange(it) }
+        launchWithUI {
+            registerThemeChangeEvent()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        jobs.forEach { it.cancel() }
+        job.cancel()
+    }
+
+    private suspend fun registerThemeChangeEvent() {
+        EventBus.subscribeToEvent<ThemeEvent>()
+            .consumeEach { themeChange(it) }
     }
 
     private fun themeChange(event: ThemeEvent) {

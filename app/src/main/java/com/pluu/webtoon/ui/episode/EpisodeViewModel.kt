@@ -13,11 +13,10 @@ import com.pluu.webtoon.usecase.EpisodeUseCase
 import com.pluu.webtoon.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.utils.bgDispatchers
+import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.uiDispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 /**
  * EpisodeInfo ViewModel
@@ -28,9 +27,12 @@ class EpisodeViewModel(
     private val readEpisodeListUseCase: ReadEpisodeListUseCase,
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val delFavoriteUseCase: RemoveFavoriteUseCase
-) : ViewModel() {
+) : ViewModel(), CoroutineScope {
 
-    private val jobs = arrayListOf<Job>()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Default
+
+    private val job by lazyNone { Job() }
 
     private var isNext = true
 
@@ -59,7 +61,7 @@ class EpisodeViewModel(
     }
 
     override fun onCleared() {
-        jobs.forEach { it.cancel() }
+        job.cancel()
         super.onCleared()
     }
 
@@ -70,7 +72,7 @@ class EpisodeViewModel(
     fun load() {
         if (!isNext) return
 
-        jobs += GlobalScope.launch(uiDispatchers) {
+        GlobalScope.launch(uiDispatchers) {
             _event.value = EpisodeEvent.START
 
             val episodePage = async(bgDispatchers) {
@@ -107,7 +109,7 @@ class EpisodeViewModel(
     private fun getReadList() = readEpisodeListUseCase(info.id)
 
     fun readUpdate() {
-        jobs += GlobalScope.launch(uiDispatchers) {
+        GlobalScope.launch(uiDispatchers) {
             _event.value = EpisodeEvent.START
 
             val readList = async {

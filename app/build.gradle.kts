@@ -76,7 +76,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
 
-    val lifecycle_version = "2.0.0-beta01"
+    val lifecycle_version = "2.0.0"
     // ViewModel and LiveData
     implementation("androidx.lifecycle:lifecycle-extensions:$lifecycle_version")
 
@@ -94,7 +94,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
     // kotlin
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0")
 
     testImplementation("junit:junit:4.12")
     testImplementation("org.assertj:assertj-core:3.11.1")
@@ -110,10 +111,6 @@ androidExtensions {
     configure(delegateClosureOf<AndroidExtensionsExtension> {
         isExperimental = true
     })
-}
-
-kotlin {
-    experimental.coroutines = Coroutines.ENABLE
 }
 
 ktlint {

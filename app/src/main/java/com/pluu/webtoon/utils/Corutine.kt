@@ -1,7 +1,6 @@
 package com.pluu.webtoon.utils
 
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.*
 
 /**
  * Coroutine Main Dispatchers

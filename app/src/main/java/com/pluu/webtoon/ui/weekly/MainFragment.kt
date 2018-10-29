@@ -26,15 +26,22 @@ import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.launchWithUI
 import com.pluu.webtoon.utils.lazyNone
 import kotlinx.android.synthetic.main.fragment_toon.*
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.channels.consumeEach
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Main View Fragment
  * Created by pluu on 2017-05-07.
  */
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), CoroutineScope {
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     private val TAG = MainFragment::class.java.simpleName
 
@@ -49,7 +56,6 @@ class MainFragment : Fragment() {
 
     private val serviceApi: AbstractWeekApi by inject(UseCaseProperties.WEEKLY_USECASE)
     private val colorProvider: NaviColorProvider by inject()
-    private val jobs = arrayListOf<Job>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,22 +101,16 @@ class MainFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        jobs += launchWithUI {
-            EventBus.subscribeToEvent<MainEpisodeStartEvent>()
-                .consumeEach {
-                    eventStartEvent()
-                }
+        launchWithUI {
+            registerStartEvent()
         }
-        jobs += launchWithUI {
-            EventBus.subscribeToEvent<MainEpisodeLoadedEvent>()
-                .consumeEach {
-                    eventLoadedEvent()
-                }
+        launchWithUI {
+            registerLoadEvent()
         }
     }
 
     override fun onPause() {
-        jobs.forEach { it.cancel() }
+        job.cancel()
         super.onPause()
     }
 
@@ -128,6 +128,20 @@ class MainFragment : Fragment() {
                 data!!
             )
         }
+    }
+
+    private suspend fun registerLoadEvent() {
+        EventBus.subscribeToEvent<MainEpisodeLoadedEvent>()
+            .consumeEach {
+                eventLoadedEvent()
+            }
+    }
+
+    private suspend fun registerStartEvent() {
+        EventBus.subscribeToEvent<MainEpisodeStartEvent>()
+            .consumeEach {
+                eventStartEvent()
+            }
     }
 
     private fun eventStartEvent() {

@@ -8,19 +8,21 @@ import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.utils.bgDispatchers
+import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.uiDispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class WeekyViewModel(
     private val weekPos: Int,
     private val weeklyUseCase: WeeklyUseCase,
     private val hasFavoriteUseCase: HasFavoriteUseCase
-) : ViewModel() {
+) : ViewModel(), CoroutineScope {
 
-    private val jobs = arrayListOf<Job>()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Default
+
+    private val job by lazyNone { Job() }
 
     private val _listEvent = MutableLiveData<List<ToonInfo>>()
     val listEvent: LiveData<List<ToonInfo>>
@@ -31,7 +33,7 @@ class WeekyViewModel(
         get() = _event
 
     init {
-        jobs += GlobalScope.launch(uiDispatchers) {
+        GlobalScope.launch(uiDispatchers) {
             _event.value = WeeklyEvent.START
 
             val result = async(bgDispatchers) {
@@ -59,7 +61,7 @@ class WeekyViewModel(
     }
 
     override fun onCleared() {
-        jobs.forEach { it.cancel() }
+        job.cancel()
         super.onCleared()
     }
 }

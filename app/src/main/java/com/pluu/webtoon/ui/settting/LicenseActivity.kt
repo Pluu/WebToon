@@ -12,17 +12,24 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.LicenseAdapter
 import com.pluu.webtoon.event.RecyclerViewEvent
 import com.pluu.webtoon.utils.launchWithUI
+import com.pluu.webtoon.utils.lazyNone
 import kotlinx.android.synthetic.main.activity_license.*
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.channels.consumeEach
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.consumeEach
+import kotlin.coroutines.CoroutineContext
 
 /**
  * License Activity
  * Created by pluu on 2017-05-05.
  */
-class LicenseActivity : AppCompatActivity() {
+class LicenseActivity : AppCompatActivity(), CoroutineScope {
 
-    private val jobs = arrayListOf<Job>()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
+    private val job by lazyNone { Job() }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +47,14 @@ class LicenseActivity : AppCompatActivity() {
 
     public override fun onResume() {
         super.onResume()
-        jobs += launchWithUI {
-            EventBus.subscribeToEvent<RecyclerViewEvent>()
-                .consumeEach {
-                    itemClick(it)
-                }
+        launchWithUI {
+            registerViewEvent()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        jobs.forEach { it.cancel() }
+        job.cancel()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -59,6 +63,13 @@ class LicenseActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private suspend fun registerViewEvent() {
+        EventBus.subscribeToEvent<RecyclerViewEvent>()
+            .consumeEach {
+                itemClick(it)
+            }
     }
 
     /**

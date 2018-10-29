@@ -8,19 +8,25 @@ import com.pluu.webtoon.item.*
 import com.pluu.webtoon.usecase.DetailUseCase
 import com.pluu.webtoon.usecase.ReadUseCase
 import com.pluu.webtoon.usecase.ShareUseCase
+import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.withUIDispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 class DetailViewModel(
     private val episode: EpisodeInfo,
     private val detailUseCase: DetailUseCase,
     private val readUseCase: ReadUseCase,
     private val shareUseCase: ShareUseCase
-) : ViewModel() {
+) : ViewModel(), CoroutineScope {
 
-    private val jobs = arrayListOf<Job>()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Default
+
+    private val job by lazyNone { Job() }
 
     private val _event = MutableLiveData<DetailEvent>()
     val event: LiveData<DetailEvent>
@@ -41,7 +47,7 @@ class DetailViewModel(
     }
 
     override fun onCleared() {
-        jobs.forEach { it.cancel() }
+        job.cancel()
         super.onCleared()
     }
 
@@ -55,7 +61,8 @@ class DetailViewModel(
 
     private fun loadDetail(episode: EpisodeInfo) {
         _event.value = DetailEvent.START
-        jobs += GlobalScope.launch {
+
+        launch {
             var error: DetailEvent? = null
             val result = try {
                 detailUseCase(
