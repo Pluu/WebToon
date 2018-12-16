@@ -23,7 +23,7 @@ class KakaoDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : AbstractDetailApi, INetworkUseCase by networkUseCase {
 
-    override fun invoke(param: DetailRequest): DetailResult {
+    override suspend fun invoke(param: DetailRequest): DetailResult {
         val id = param.episodeId
 
         return runBlocking {
@@ -50,7 +50,7 @@ class KakaoDetailApi(
     }
 
     @Throws
-    private fun getData(id: String): JSONObject? {
+    private suspend fun getData(id: String): JSONObject? {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ class KakaoDetailApi(
         }
     }
 
-    private fun getMoreData(toonId: String, episodeId: String, isPrev: Boolean): String? {
+    private suspend fun getMoreData(toonId: String, episodeId: String, isPrev: Boolean): String? {
         val request = IRequest(
             method = REQUEST_METHOD.POST,
             url = if (isPrev) {

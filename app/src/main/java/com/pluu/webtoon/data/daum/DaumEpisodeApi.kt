@@ -21,7 +21,7 @@ class DaumEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
 
-    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
+    override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
 
         ///////////////////////////////////////////////////////////////////////////
         // API
@@ -64,7 +64,7 @@ class DaumEpisodeApi(
         return Result.Success(result)
     }
 
-    private fun getFirstEpisode(nick: String): JSONObject? {
+    private suspend fun getFirstEpisode(nick: String): JSONObject? {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

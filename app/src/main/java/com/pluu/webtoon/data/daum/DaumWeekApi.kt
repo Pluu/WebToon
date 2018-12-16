@@ -28,7 +28,7 @@ class DaumWeekApi(
     override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 
-    override fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
+    override suspend fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

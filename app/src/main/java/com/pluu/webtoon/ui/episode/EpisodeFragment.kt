@@ -20,31 +20,24 @@ import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
-import com.pluu.webtoon.utils.MoreRefreshListener
-import com.pluu.webtoon.utils.launchWithUI
-import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.*
 import kotlinx.android.synthetic.main.fragment_episode.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import kotlin.coroutines.CoroutineContext
 
 /**
  * 에피소드 리스트 Fragment
  * Created by pluu on 2017-05-09.
  */
-class EpisodeFragment :
-    Fragment(),
+class EpisodeFragment : Fragment(),
     SwipeRefreshLayout.OnRefreshListener,
-    EpisodeSelectListener,
-    CoroutineScope {
+    EpisodeSelectListener {
 
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
-    private val job by lazyNone { Job() }
+    private val dispatchers: AppCoroutineDispatchers by inject()
 
     private val REQUEST_DETAIL = 1000
 
@@ -187,14 +180,9 @@ class EpisodeFragment :
 
     override fun onResume() {
         super.onResume()
-        launchWithUI {
+        dispatchers.main.launch {
             registerFirstSelectEvent()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        job.cancel()
     }
 
     override fun onRefresh() {

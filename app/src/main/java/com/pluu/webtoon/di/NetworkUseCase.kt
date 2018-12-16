@@ -12,12 +12,12 @@ class NetworkUseCase(
 ) : INetworkUseCase {
 
     @Throws(Exception::class)
-    override fun requestApi(request: IRequest): NetworkResult {
+    override suspend fun requestApi(request: IRequest): NetworkResult {
         return requestApi(request.buildRequestApi())
     }
 
     @Throws(Exception::class)
-    override fun requestApi(request: Request): NetworkResult {
+    override suspend fun requestApi(request: Request): NetworkResult {
         return createTask().requestApi(request)
     }
 
@@ -25,6 +25,6 @@ class NetworkUseCase(
 }
 
 interface INetworkUseCase {
-    fun requestApi(request: IRequest): NetworkResult
-    fun requestApi(request: Request): NetworkResult
+    suspend fun requestApi(request: IRequest): NetworkResult
+    suspend fun requestApi(request: Request): NetworkResult
 }

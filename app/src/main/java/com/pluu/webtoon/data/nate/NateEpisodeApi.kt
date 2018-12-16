@@ -24,7 +24,7 @@ class NateEpisodeApi(
 
     private val EPISODE_ID_PATTERN = "(?<=bsno=)\\d+".toRegex()
 
-    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
+    override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
         val isMorePage = param.page > 0
 
         ///////////////////////////////////////////////////////////////////////////

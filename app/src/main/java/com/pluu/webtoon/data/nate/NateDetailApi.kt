@@ -22,7 +22,7 @@ class NateDetailApi(
     private lateinit var webToonId: String
     private lateinit var episodeId: String
 
-    override fun invoke(param: DetailRequest): DetailResult {
+    override suspend fun invoke(param: DetailRequest): DetailResult {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

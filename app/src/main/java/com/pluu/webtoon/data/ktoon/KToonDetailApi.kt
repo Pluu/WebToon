@@ -24,7 +24,7 @@ class KToonDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : AbstractDetailApi, INetworkUseCase by networkUseCase {
 
-    override fun invoke(param: DetailRequest): DetailResult {
+    override suspend fun invoke(param: DetailRequest): DetailResult {
         val id = param.episodeId
 
         ///////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ class KToonDetailApi(
             .toList()
     }
 
-    private fun parsePrevNext(id: String): Pair<String?, String?> {
+    private suspend fun parsePrevNext(id: String): Pair<String?, String?> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

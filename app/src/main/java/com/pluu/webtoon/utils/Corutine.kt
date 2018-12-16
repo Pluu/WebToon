@@ -1,27 +1,10 @@
 package com.pluu.webtoon.utils
 
 import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-/**
- * Coroutine Main Dispatchers
- * @param block run Block
- */
-suspend inline fun withUIDispatchers(
-    crossinline block: () -> Unit
-) {
-    withContext(Dispatchers.Main) {
-        block()
-    }
-}
-
-inline fun launchWithUI(
-    crossinline block: suspend CoroutineScope.() -> Unit
-): Job = GlobalScope.launch(Dispatchers.Main) {
+fun CoroutineContext.launch(
+    block: suspend CoroutineScope.() -> Unit
+): Job = GlobalScope.launch(this) {
     block()
 }
-
-val uiDispatchers
-    get() = Dispatchers.Main
-
-val bgDispatchers
-    get() = Dispatchers.IO

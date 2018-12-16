@@ -24,7 +24,7 @@ class NaverWeekApi(
 
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin")
 
-    override fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
+    override suspend fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

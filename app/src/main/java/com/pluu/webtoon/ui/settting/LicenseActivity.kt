@@ -11,25 +11,19 @@ import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.LicenseAdapter
 import com.pluu.webtoon.event.RecyclerViewEvent
-import com.pluu.webtoon.utils.launchWithUI
-import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.utils.launch
 import kotlinx.android.synthetic.main.activity_license.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.consumeEach
-import kotlin.coroutines.CoroutineContext
+import org.koin.android.ext.android.inject
 
 /**
  * License Activity
  * Created by pluu on 2017-05-05.
  */
-class LicenseActivity : AppCompatActivity(), CoroutineScope {
+class LicenseActivity : AppCompatActivity() {
 
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
-    private val job by lazyNone { Job() }
+    private val dispatchers: AppCoroutineDispatchers by inject()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +41,9 @@ class LicenseActivity : AppCompatActivity(), CoroutineScope {
 
     public override fun onResume() {
         super.onResume()
-        launchWithUI {
+        dispatchers.main.launch {
             registerViewEvent()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        job.cancel()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

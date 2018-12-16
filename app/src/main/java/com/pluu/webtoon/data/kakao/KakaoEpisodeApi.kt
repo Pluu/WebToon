@@ -21,7 +21,7 @@ class KakaoEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
 
-    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
+    override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ class KakaoEpisodeApi(
                 )
             }.toList()
 
-    private fun parseFirstKey(toonId: String): String? {
+    private suspend fun parseFirstKey(toonId: String): String? {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

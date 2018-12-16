@@ -22,7 +22,7 @@ class OneStoreEpisodeApi(
 
     private val EPISODE_ID = "(?<=prodId=)\\w+".toRegex()
 
-    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
+    override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

@@ -23,5 +23,5 @@ interface AbstractWeekApi {
         get() = (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7
 
     @Throws(Exception::class)
-    operator fun invoke(param: WeeklyRequest): Result<List<ToonInfo>>
+    suspend operator fun invoke(param: WeeklyRequest): Result<List<ToonInfo>>
 }

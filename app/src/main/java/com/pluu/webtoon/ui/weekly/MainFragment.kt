@@ -21,27 +21,18 @@ import com.pluu.webtoon.di.UseCaseProperties
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
-import com.pluu.webtoon.utils.animatorStatusBarColor
-import com.pluu.webtoon.utils.animatorToolbarColor
-import com.pluu.webtoon.utils.launchWithUI
-import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.utils.*
 import kotlinx.android.synthetic.main.fragment_toon.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Main View Fragment
  * Created by pluu on 2017-05-07.
  */
-class MainFragment : Fragment(), CoroutineScope {
+class MainFragment : Fragment() {
 
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
+    private val dispatchers: AppCoroutineDispatchers by inject()
 
     private val TAG = MainFragment::class.java.simpleName
 
@@ -101,17 +92,12 @@ class MainFragment : Fragment(), CoroutineScope {
     override fun onResume() {
         super.onResume()
 
-        launchWithUI {
+        dispatchers.main.launch {
             registerStartEvent()
         }
-        launchWithUI {
+        dispatchers.main.launch {
             registerLoadEvent()
         }
-    }
-
-    override fun onPause() {
-        job.cancel()
-        super.onPause()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

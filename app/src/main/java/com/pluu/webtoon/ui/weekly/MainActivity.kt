@@ -9,26 +9,19 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
-import com.pluu.webtoon.utils.launchWithUI
-import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.utils.launch
 import kotlinx.android.synthetic.main.navdrawer.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
-import kotlin.coroutines.CoroutineContext
 
 /**
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
-class MainActivity : BaseNavActivity(), CoroutineScope {
+class MainActivity : BaseNavActivity() {
 
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
-    private val job by lazyNone { Job() }
+    private val dispatchers: AppCoroutineDispatchers by inject()
 
     private val defaultProvider: NaviColorProvider by inject()
 
@@ -65,14 +58,9 @@ class MainActivity : BaseNavActivity(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        launchWithUI {
+        dispatchers.main.launch {
             registerThemeChangeEvent()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        job.cancel()
     }
 
     private suspend fun registerThemeChangeEvent() {

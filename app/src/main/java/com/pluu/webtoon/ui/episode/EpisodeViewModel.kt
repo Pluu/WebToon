@@ -12,27 +12,23 @@ import com.pluu.webtoon.usecase.AddFavoriteUseCase
 import com.pluu.webtoon.usecase.EpisodeUseCase
 import com.pluu.webtoon.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.usecase.RemoveFavoriteUseCase
-import com.pluu.webtoon.utils.bgDispatchers
-import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.uiDispatchers
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import com.pluu.webtoon.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.utils.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * EpisodeInfo ViewModel
  */
 class EpisodeViewModel(
+    private val dispatchers: AppCoroutineDispatchers,
     private val info: ToonInfo,
     private val episodeUseCase: EpisodeUseCase,
     private val readEpisodeListUseCase: ReadEpisodeListUseCase,
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val delFavoriteUseCase: RemoveFavoriteUseCase
-) : ViewModel(), CoroutineScope {
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Default
-
-    private val job by lazyNone { Job() }
+) : ViewModel() {
 
     private var isNext = true
 
@@ -60,11 +56,6 @@ class EpisodeViewModel(
         _favorite.value = info.isFavorite
     }
 
-    override fun onCleared() {
-        job.cancel()
-        super.onCleared()
-    }
-
     fun initalize() {
         pageNo = INIT_PAGE
     }
@@ -72,16 +63,16 @@ class EpisodeViewModel(
     fun load() {
         if (!isNext) return
 
-        GlobalScope.launch(uiDispatchers) {
+        dispatchers.main.launch {
             _event.value = EpisodeEvent.START
 
-            val episodePage = async(bgDispatchers) {
+            val episodePage = async(dispatchers.computation) {
                 episodeUseCase(EpisodeRequest(info.id, pageNo))
             }.await()
             when (episodePage) {
                 is Result.Success -> {
                     val data = episodePage.data
-                    val list = async(bgDispatchers) {
+                    val list = async(dispatchers.computation) {
                         val result = data.episodes
                         val readList = getReadList()
                         result.applyReaded(readList)
@@ -109,7 +100,7 @@ class EpisodeViewModel(
     private fun getReadList() = readEpisodeListUseCase(info.id)
 
     fun readUpdate() {
-        GlobalScope.launch(uiDispatchers) {
+        GlobalScope.launch(dispatchers.main) {
             _event.value = EpisodeEvent.START
 
             val readList = async {

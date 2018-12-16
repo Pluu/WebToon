@@ -23,7 +23,7 @@ class KToonEpisodeApi(
 
     private val PAGE_SIZE = 20
 
-    override fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
+    override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ class KToonEpisodeApi(
         )
     }
 
-    private fun getFirstEpisode(toonId: String): EpisodeInfo? {
+    private suspend fun getFirstEpisode(toonId: String): EpisodeInfo? {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

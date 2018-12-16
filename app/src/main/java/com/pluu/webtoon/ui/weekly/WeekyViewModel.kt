@@ -7,22 +7,18 @@ import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.usecase.WeeklyUseCase
-import com.pluu.webtoon.utils.bgDispatchers
-import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.uiDispatchers
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import com.pluu.webtoon.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.utils.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 class WeekyViewModel(
+    private val dispatchers: AppCoroutineDispatchers,
     private val weekPos: Int,
     private val weeklyUseCase: WeeklyUseCase,
     private val hasFavoriteUseCase: HasFavoriteUseCase
-) : ViewModel(), CoroutineScope {
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Default
-
-    private val job by lazyNone { Job() }
+) : ViewModel() {
 
     private val _listEvent = MutableLiveData<List<ToonInfo>>()
     val listEvent: LiveData<List<ToonInfo>>
@@ -33,10 +29,10 @@ class WeekyViewModel(
         get() = _event
 
     init {
-        GlobalScope.launch(uiDispatchers) {
+        dispatchers.main.launch {
             _event.value = WeeklyEvent.START
 
-            val result = async(bgDispatchers) {
+            val result = async(dispatchers.computation) {
                 val apiResult = weeklyUseCase(weekPos)
                 if (apiResult is Result.Success) {
                     apiResult.data.asSequence()
@@ -53,16 +49,11 @@ class WeekyViewModel(
                 } else {
                     emptyList()
                 }
-            }.await()
+            }
 
-            _listEvent.value = result
+            _listEvent.value = result.await()
             _event.value = WeeklyEvent.LOADED
         }
-    }
-
-    override fun onCleared() {
-        job.cancel()
-        super.onCleared()
     }
 }
 

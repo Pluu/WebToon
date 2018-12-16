@@ -9,5 +9,5 @@ import com.pluu.webtoon.item.Result
  * Created by pluu on 2017-04-20.
  */
 interface AbstractEpisodeApi {
-    operator fun invoke(param: EpisodeRequest): Result<EpisodeResult>
+    suspend operator fun invoke(param: EpisodeRequest): Result<EpisodeResult>
 }

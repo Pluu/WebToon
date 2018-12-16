@@ -22,7 +22,7 @@ class OneStoreDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : AbstractDetailApi, INetworkUseCase by networkUseCase {
 
-    override fun invoke(param: DetailRequest): DetailResult {
+    override suspend fun invoke(param: DetailRequest): DetailResult {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

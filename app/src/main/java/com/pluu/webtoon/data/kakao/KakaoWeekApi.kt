@@ -20,7 +20,7 @@ class KakaoWeekApi(
 
     override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
 
-    override fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
+    override suspend fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

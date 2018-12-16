@@ -25,7 +25,7 @@ class NaverDetailApi(
         "http://static.naver.com/m/comic/im/toon_app_pop.png"
     )
 
-    override fun invoke(param: DetailRequest): DetailResult {
+    override suspend fun invoke(param: DetailRequest): DetailResult {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////

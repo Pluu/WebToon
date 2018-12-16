@@ -13,13 +13,19 @@ import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
 val introModule = module {
-    viewModel { IntroViewModel(IntroUseCase(get())) }
+    viewModel {
+        IntroViewModel(
+            dispatchers = get(),
+            useCase = IntroUseCase(get())
+        )
+    }
 }
 
 val webToonModule = module {
     viewModel { (weekPos: Int) ->
         val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
         WeekyViewModel(
+            dispatchers = get(),
             weekPos = weekPos,
             weeklyUseCase = get(UseCaseProperties.WEEKLY_USECASE),
             hasFavoriteUseCase = HasFavoriteUseCase(get(), apiType)
@@ -29,6 +35,7 @@ val webToonModule = module {
     viewModel { (info: ToonInfo) ->
         val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
         EpisodeViewModel(
+            dispatchers = get(),
             info = info,
             episodeUseCase = get(UseCaseProperties.EPISODE_USECASE),
             readEpisodeListUseCase = ReadEpisodeListUseCase(get(), apiType),
@@ -40,6 +47,7 @@ val webToonModule = module {
     viewModel { (episode: EpisodeInfo) ->
         val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
         DetailViewModel(
+            dispatchers = get(),
             episode = episode,
             detailUseCase = get(UseCaseProperties.DETAIL_USECASE),
             readUseCase = ReadUseCase(get(), apiType),

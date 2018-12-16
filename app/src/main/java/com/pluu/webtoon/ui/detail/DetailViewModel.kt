@@ -8,25 +8,19 @@ import com.pluu.webtoon.item.*
 import com.pluu.webtoon.usecase.DetailUseCase
 import com.pluu.webtoon.usecase.ReadUseCase
 import com.pluu.webtoon.usecase.ShareUseCase
-import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.withUIDispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.pluu.webtoon.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.utils.launch
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.withContext
 
 class DetailViewModel(
+    private val dispatchers: AppCoroutineDispatchers,
     private val episode: EpisodeInfo,
     private val detailUseCase: DetailUseCase,
     private val readUseCase: ReadUseCase,
     private val shareUseCase: ShareUseCase
-) : ViewModel(), CoroutineScope {
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Default
-
-    private val job by lazyNone { Job() }
+) : ViewModel() {
 
     private val _event = MutableLiveData<DetailEvent>()
     val event: LiveData<DetailEvent>
@@ -46,11 +40,6 @@ class DetailViewModel(
         loadDetail(episode)
     }
 
-    override fun onCleared() {
-        job.cancel()
-        super.onCleared()
-    }
-
     fun movePrev() {
         // TODO: Prev EpisodeInfo
     }
@@ -62,7 +51,7 @@ class DetailViewModel(
     private fun loadDetail(episode: EpisodeInfo) {
         _event.value = DetailEvent.START
 
-        launch {
+        dispatchers.computation.launch {
             var error: DetailEvent? = null
             val result = try {
                 detailUseCase(
@@ -82,7 +71,7 @@ class DetailViewModel(
                 readEpisode(result)
             }
 
-            withUIDispatchers {
+            withContext(dispatchers.main) {
                 when (result) {
                     is DetailResult.Detail -> {
                         currentItem = result

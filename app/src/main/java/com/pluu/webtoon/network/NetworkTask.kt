@@ -2,17 +2,20 @@ package com.pluu.webtoon.network
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import ru.gildor.coroutines.retrofit.await
 
 /**
  * Network Request Task
- * <br></br> 실제 Request 하는 로직
+ * - 실제 Request 하는 로직
  * Created by pluu on 2017-05-02.
  */
-class NetworkTask(private val client: OkHttpClient) {
+class NetworkTask(
+    private val client: OkHttpClient
+) {
 
     @Throws(Exception::class)
-    fun requestApi(request: Request): NetworkResult {
-        val response = client.newCall(request).execute()
+    suspend fun requestApi(request: Request): NetworkResult {
+        val response = client.newCall(request).await()
         return if (response.isSuccessful) {
             NetworkResult.Success(response.body()?.string().orEmpty())
         } else {
