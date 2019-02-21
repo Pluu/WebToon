@@ -1,6 +1,8 @@
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
+import com.android.build.gradle.AppExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -12,7 +14,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-configure<com.android.build.gradle.AppExtension> {
+configure<AppExtension> {
     compileSdkVersion(28)
 
     defaultConfig {
@@ -44,7 +46,7 @@ configure<com.android.build.gradle.AppExtension> {
         }
     }
 
-    java {
+    configure<JavaPluginConvention> {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -92,15 +94,15 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
     // kotlin
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1")
 
     testImplementation("junit:junit:4.12")
     testImplementation("org.assertj:assertj-core:3.11.1")
     testImplementation("org.mockito:mockito-core:2.23.0")
 }
 
-configure<org.jetbrains.kotlin.gradle.plugin.KaptExtension> {
+configure<KaptExtension> {
     useBuildCache = true
 }
 
@@ -111,10 +113,10 @@ androidExtensions {
     })
 }
 
-ktlint {
-    android = true
-    debug = true
-    verbose = true
-    reporters = arrayOf(ReporterType.CHECKSTYLE)
-    ignoreFailures = true
+configure<KtlintExtension> {
+    android.set(true)
+    debug.set(true)
+    verbose.set(true)
+    reporters.set(listOf(ReporterType.CHECKSTYLE))
+    ignoreFailures.set(true)
 }

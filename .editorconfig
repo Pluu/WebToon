@@ -1,2 +1,2 @@
-[*.kt]
+[*.{kt, kts}]
 insert_final_newline = true
