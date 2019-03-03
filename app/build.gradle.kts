@@ -65,7 +65,7 @@ configure<AppExtension> {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation("androidx.annotation:annotation:1.0.1")
+    implementation("androidx.annotation:annotation:1.0.2")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
     implementation("androidx.palette:palette:1.0.0")

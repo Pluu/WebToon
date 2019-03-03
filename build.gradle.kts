@@ -9,7 +9,7 @@ buildscript {
         maven("https://plugins.gradle.org/m2/")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0-alpha04")
+        classpath("com.android.tools.build:gradle:3.5.0-alpha06")
         classpath(kotlin("gradle-plugin", version = "${extra[KEY_KOTLIN]}"))
         classpath("io.realm:realm-gradle-plugin:4.1.1")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:7.1.0")
