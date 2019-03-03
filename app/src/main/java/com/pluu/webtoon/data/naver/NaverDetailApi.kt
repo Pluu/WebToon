@@ -95,13 +95,13 @@ class NaverDetailApi(
 
     private fun parseDetailCutToonType(doc: Document): List<DetailView> {
         return doc.select("#ct ul li img")
-            .map { it -> it.attr("data-src") }
+            .map { it.attr("data-src") }
             .map { url -> DetailView(url) }
     }
 
     private fun parseDetailNormalType(doc: Document) =
         doc.select("#toonLayer li img")
-            .map { it ->
+            .map {
                 it.attr("data-original").takeIf {
                     it.isNotEmpty()
                 } ?: it.attr("src")

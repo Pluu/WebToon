@@ -10,8 +10,6 @@ import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.utils.launch
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
 class WeekyViewModel(
     private val dispatchers: AppCoroutineDispatchers,

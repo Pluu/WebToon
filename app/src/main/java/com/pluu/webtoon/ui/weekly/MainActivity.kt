@@ -12,6 +12,8 @@ import com.pluu.webtoon.ui.settting.SettingsActivity
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.utils.launch
 import kotlinx.android.synthetic.main.navdrawer.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
 
@@ -19,6 +21,8 @@ import org.koin.android.ext.android.inject
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class MainActivity : BaseNavActivity() {
 
     private val dispatchers: AppCoroutineDispatchers by inject()

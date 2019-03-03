@@ -33,6 +33,8 @@ import org.koin.core.parameter.parametersOf
  * 에피소드 리스트 Fragment
  * Created by pluu on 2017-05-09.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class EpisodeFragment : Fragment(),
     SwipeRefreshLayout.OnRefreshListener,
     EpisodeSelectListener {
@@ -218,8 +220,6 @@ class EpisodeFragment : Fragment(),
     // View Function
     ///////////////////////////////////////////////////////////////////////////
 
-    @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
     private suspend fun registerFirstSelectEvent() {
         EventBus.subscribeToEvent<FirstItemSelectEvent>()
             .consumeEach {

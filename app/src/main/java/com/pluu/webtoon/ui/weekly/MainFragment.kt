@@ -23,6 +23,8 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.*
 import kotlinx.android.synthetic.main.fragment_toon.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
 
@@ -30,6 +32,8 @@ import org.koin.android.ext.android.inject
  * Main View Fragment
  * Created by pluu on 2017-05-07.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class MainFragment : Fragment() {
 
     private val dispatchers: AppCoroutineDispatchers by inject()

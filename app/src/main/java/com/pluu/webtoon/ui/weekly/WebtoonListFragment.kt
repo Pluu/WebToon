@@ -32,6 +32,8 @@ import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.android.synthetic.main.fragment_webtoon_list.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -39,6 +41,8 @@ import org.koin.core.parameter.parametersOf
  * Main EpisodeResult List Fragment
  * Created by pluu on 2017-05-07.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private val viewModel: WeekyViewModel by viewModel {

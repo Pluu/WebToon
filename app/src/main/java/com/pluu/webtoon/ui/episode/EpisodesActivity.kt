@@ -16,11 +16,15 @@ import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_episode.*
 import kotlinx.android.synthetic.main.toolbar_actionbar.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 /**
  * 에피소드 리스트 Activity
  * Created by pluu on 2017-05-09.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class EpisodesActivity : AppCompatActivity() {
     private var childTitle: View? = null
 

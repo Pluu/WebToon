@@ -15,8 +15,8 @@ import com.pluu.webtoon.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.utils.launch
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * EpisodeInfo ViewModel
@@ -66,18 +66,18 @@ class EpisodeViewModel(
         dispatchers.main.launch {
             _event.value = EpisodeEvent.START
 
-            val episodePage = async(dispatchers.computation) {
+            val episodePage = withContext(dispatchers.computation) {
                 episodeUseCase(EpisodeRequest(info.id, pageNo))
-            }.await()
+            }
             when (episodePage) {
                 is Result.Success -> {
                     val data = episodePage.data
-                    val list = async(dispatchers.computation) {
+                    val list = withContext(dispatchers.computation) {
                         val result = data.episodes
                         val readList = getReadList()
                         result.applyReaded(readList)
                         result
-                    }.await()
+                    }
 
                     isNext = !data.nextLink.isNullOrBlank()
 
@@ -103,12 +103,12 @@ class EpisodeViewModel(
         GlobalScope.launch(dispatchers.main) {
             _event.value = EpisodeEvent.START
 
-            val readList = async {
+            val readList = withContext(dispatchers.computation) {
                 getReadList().asSequence()
                     .mapNotNull { it.episodeId }
                     .distinct()
                     .toList()
-            }.await()
+            }
 
             _updateListEvent.value = readList
             _event.value = EpisodeEvent.LOADED

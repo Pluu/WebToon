@@ -10,8 +10,6 @@ import com.pluu.webtoon.usecase.ReadUseCase
 import com.pluu.webtoon.usecase.ShareUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.utils.launch
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DetailViewModel(

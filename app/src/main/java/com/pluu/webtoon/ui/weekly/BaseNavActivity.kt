@@ -134,7 +134,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
         formatNavDrawerItem(view, item, selected)
 
-        view.setOnClickListener { _ -> onNavDrawerItemClicked(item) }
+        view.setOnClickListener { onNavDrawerItemClicked(item) }
 
         return view
     }

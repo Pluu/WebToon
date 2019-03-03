@@ -40,8 +40,8 @@ class DaumDetailApi(
         // Parse Data
         ///////////////////////////////////////////////////////////////////////////
 
-        val data =
-            responseData.optJSONObject("data") ?: return DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
+        val data = responseData.optJSONObject("data")
+            ?: return DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
 
         if (data.optJSONObject("webtoonEpisode")?.optInt("price", 0) ?: 0 > 0) {
             return DetailResult.ErrorResult(ERROR_TYPE.COIN_NEED)
@@ -69,19 +69,23 @@ class DaumDetailApi(
 
     private fun defaultDetailParse(json: JSONObject): List<DetailView> {
         val list = mutableListOf<DetailView>()
-        json.optJSONArray("webtoonImages")?.iterator()?.forEach { it ->
-            list.add(DetailView(it.optString("url")))
-        }
-        json.optJSONArray("webtoonEpisodePages")?.iterator()?.forEach { it ->
-            list.add(
-                DetailView(
-                    it.optJSONArray("webtoonEpisodePageMultimedias")
-                        .optJSONObject(0)
-                        .optJSONObject("image")
-                        .optString("url")
+        json.optJSONArray("webtoonImages")
+            ?.iterator()
+            ?.forEach {
+                list.add(DetailView(it.optString("url")))
+            }
+        json.optJSONArray("webtoonEpisodePages")
+            ?.iterator()
+            ?.forEach {
+                list.add(
+                    DetailView(
+                        it.optJSONArray("webtoonEpisodePageMultimedias")
+                            .optJSONObject(0)
+                            .optJSONObject("image")
+                            .optString("url")
+                    )
                 )
-            )
-        }
+            }
         return list
     }
 

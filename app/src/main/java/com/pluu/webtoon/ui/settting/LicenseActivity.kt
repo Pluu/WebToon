@@ -14,6 +14,8 @@ import com.pluu.webtoon.event.RecyclerViewEvent
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.utils.launch
 import kotlinx.android.synthetic.main.activity_license.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
 
@@ -21,6 +23,8 @@ import org.koin.android.ext.android.inject
  * License Activity
  * Created by pluu on 2017-05-05.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class LicenseActivity : AppCompatActivity() {
 
     private val dispatchers: AppCoroutineDispatchers by inject()
