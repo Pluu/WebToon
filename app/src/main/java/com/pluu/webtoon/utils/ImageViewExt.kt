@@ -11,7 +11,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.pluu.webtoon.R
 
@@ -31,11 +30,8 @@ inline fun ImageView.loadUrlOriginal(
 
     Glide.with(context)
         .load(glideUrl)
-        .apply(
-            RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .override(Target.SIZE_ORIGINAL)
-        )
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .override(Target.SIZE_ORIGINAL)
         .into(this)
 }
 
@@ -54,11 +50,8 @@ inline fun ImageView.loadUrl(
 
     Glide.with(context)
         .load(glideUrl)
-        .apply(
-            RequestOptions()
-                .centerCrop()
-                .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-        )
+        .centerCrop()
+        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
         .listener(object : RequestListener<Drawable> {
             override fun onResourceReady(
                 resource: Drawable?,

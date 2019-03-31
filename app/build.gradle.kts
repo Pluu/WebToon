@@ -87,11 +87,11 @@ dependencies {
     // Jsoup
     implementation("org.jsoup:jsoup:1.11.3")
     // Glide
-    implementation("com.github.bumptech.glide:glide:4.8.0")
-    kapt("com.github.bumptech.glide:compiler:4.8.0")
+    implementation("com.github.bumptech.glide:glide:4.9.0")
+    kapt("com.github.bumptech.glide:compiler:4.9.0")
     // OkHttp
-    implementation("com.squareup.okhttp3:okhttp:3.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
+    implementation("com.squareup.okhttp3:okhttp:3.14.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.14.0")
     // kotlin
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1")
