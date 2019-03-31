@@ -22,10 +22,6 @@ import com.pluu.webtoon.data.naver.NaverDetailApi
 import com.pluu.webtoon.data.naver.NaverDetailShare
 import com.pluu.webtoon.data.naver.NaverEpisodeApi
 import com.pluu.webtoon.data.naver.NaverWeekApi
-import com.pluu.webtoon.data.onestore.OneStoreDetailApi
-import com.pluu.webtoon.data.onestore.OneStoreDetailShare
-import com.pluu.webtoon.data.onestore.OneStoreEpisodeApi
-import com.pluu.webtoon.data.onestore.OneStorerWeekApi
 import com.pluu.webtoon.usecase.DetailUseCase
 import com.pluu.webtoon.usecase.EpisodeUseCase
 import com.pluu.webtoon.usecase.WeeklyUseCase
@@ -41,7 +37,6 @@ val convertModule = module {
             NAV_ITEM.KTOON -> KToonWeekApi(get(AppProperties.NETWORK))
             NAV_ITEM.KAKAOPAGE -> KakaoWeekApi(get(AppProperties.NETWORK))
             NAV_ITEM.NATE -> NateWeekApi(get(AppProperties.NETWORK))
-            NAV_ITEM.ONE_STORE -> OneStorerWeekApi(get(AppProperties.NETWORK))
             else -> throw Resources.NotFoundException("Not Found API")
         }
     }
@@ -54,7 +49,6 @@ val convertModule = module {
             NAV_ITEM.KTOON -> KToonEpisodeApi(get(AppProperties.NETWORK))
             NAV_ITEM.KAKAOPAGE -> KakaoEpisodeApi(get(AppProperties.NETWORK))
             NAV_ITEM.NATE -> NateEpisodeApi(get(AppProperties.NETWORK))
-            NAV_ITEM.ONE_STORE -> OneStoreEpisodeApi(get(AppProperties.NETWORK))
             else -> throw Resources.NotFoundException("Not Found API")
         }
     }
@@ -67,7 +61,6 @@ val convertModule = module {
             NAV_ITEM.KTOON -> KToonDetailApi(get(AppProperties.NETWORK))
             NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(get(AppProperties.NETWORK))
             NAV_ITEM.NATE -> NateDetailApi(get(AppProperties.NETWORK))
-            NAV_ITEM.ONE_STORE -> OneStoreDetailApi(get(AppProperties.NETWORK))
             else -> throw Resources.NotFoundException("Not Found API")
         }
     }
@@ -80,7 +73,6 @@ val convertModule = module {
             NAV_ITEM.KTOON -> KToonDetailShare()
             NAV_ITEM.KAKAOPAGE -> KakaoDetailShare()
             NAV_ITEM.NATE -> NateDetailShare()
-            NAV_ITEM.ONE_STORE -> OneStoreDetailShare()
             else -> throw Resources.NotFoundException("Not Found API")
         }
     }

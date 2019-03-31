@@ -21,8 +21,8 @@ configure<AppExtension> {
         applicationId = "com.pluu.webtoon"
         minSdkVersion(21)
         targetSdkVersion(28)
-        versionCode = 44
-        versionName = "1.4.0"
+        versionCode = 45
+        versionName = "1.5.0"
         vectorDrawables.useSupportLibrary = true
     }
 
