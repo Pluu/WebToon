@@ -10,11 +10,15 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.data.impl.AbstractWeekApi
 import com.pluu.webtoon.ui.weekly.WebtoonListFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 /**
  * Main ViewPager Fragment Adapter
  * Created by pluu on 2017-05-02.
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class MainFragmentAdapter(
     fm: FragmentManager,
     private val serviceApi: AbstractWeekApi
