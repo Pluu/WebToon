@@ -1,6 +1,5 @@
 import com.android.build.gradle.AppExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
@@ -107,10 +106,7 @@ configure<KaptExtension> {
 }
 
 androidExtensions {
-    // isExperimental Bug
-    configure(delegateClosureOf<AndroidExtensionsExtension> {
-        isExperimental = true
-    })
+    isExperimental = true
 }
 
 configure<KtlintExtension> {
