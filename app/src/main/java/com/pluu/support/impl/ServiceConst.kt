@@ -14,8 +14,7 @@ object ServiceConst {
         R.string.title_daum,
         R.string.title_olleh,
         R.string.title_kakao_page,
-        R.string.title_nate,
-        R.string.title_one_store
+        R.string.title_nate
     )
 
     // icons for navdrawer items (indices must correspond to above array)
@@ -32,7 +31,6 @@ enum class NAV_ITEM(
     KTOON(true, R.color.olleh_color, R.color.olleh_color_dark),
     KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_dark),
     NATE(true, R.color.nate_color, R.color.nate_color_dark),
-    ONE_STORE(true, R.color.t_store_color, R.color.t_store_color_dark),
     SEPARATOR(), // Separator
     INVALID();
 

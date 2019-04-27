@@ -22,8 +22,6 @@
     <color name="kakao_color_dark">#32262A</color>
     <color name="nate_color">#EB1B00</color>
     <color name="nate_color_dark">#BC1500</color>
-    <color name="t_store_color">#EA002C</color>
-    <color name="t_store_color_dark">#BB0023</color>
 
     <!-- 상단에 정의된 내용만 하단에 사용 -->
     <!-- Base -->
