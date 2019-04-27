@@ -164,10 +164,10 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
-        newConfig?.takeIf {
+        newConfig.takeIf {
             it.orientation == Configuration.ORIENTATION_LANDSCAPE ||
                     it.orientation == Configuration.ORIENTATION_PORTRAIT
         }.run {

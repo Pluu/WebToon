@@ -143,25 +143,24 @@ class EpisodeFragment : Fragment(),
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.menu_episode, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu ?: return
         menu.findItem(R.id.menu_item_favorite_add).isVisible = !isFavorite
         menu.findItem(R.id.menu_item_favorite_delete).isVisible = isFavorite
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             activity?.finish()
             return true
         }
 
-        when (item?.itemId) {
+        when (item.itemId) {
             // 즐겨찾기 추가
             R.id.menu_item_favorite_add -> viewModel.favorite(true)
             // 즐겨찾기 삭제
@@ -170,11 +169,11 @@ class EpisodeFragment : Fragment(),
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
-        if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE ||
-            newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+            newConfig.orientation == Configuration.ORIENTATION_PORTRAIT
         ) {
             adapter.notifyDataSetChanged()
         }

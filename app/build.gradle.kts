@@ -64,20 +64,19 @@ configure<AppExtension> {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation("androidx.annotation:annotation:1.0.2")
-    implementation("androidx.appcompat:appcompat:1.0.2")
-    implementation("androidx.recyclerview:recyclerview:1.0.0")
+    implementation("androidx.annotation:annotation:1.1.0-beta01")
+    implementation("androidx.appcompat:appcompat:1.1.0-alpha04")
+    implementation("androidx.core:core-ktx:1.1.0-alpha05")
+
+    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha04")
     implementation("androidx.palette:palette:1.0.0")
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.preference:preference:1.0.0")
+    implementation("androidx.preference:preference:1.1.0-alpha04")
     implementation("androidx.browser:browser:1.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
-    implementation("androidx.core:core-ktx:1.0.1")
-    implementation("com.google.android.material:material:1.0.0")
-
-    val lifecycle_version = "2.0.0"
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha5")
+    implementation("com.google.android.material:material:1.1.0-alpha05")
     // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04")
 
     // DI
     implementation("org.koin:koin-android:1.0.2")

@@ -41,7 +41,7 @@ class SettingsActivity : AppCompatActivity() {
             bindPreferenceSummaryToValue(findPreference(PrefConfig.KEY_DEFAULT_WEBTOON))
         }
 
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
             if (item?.itemId == android.R.id.home) {
                 activity?.finish()
                 return true
@@ -72,7 +72,8 @@ class SettingsActivity : AppCompatActivity() {
             true
         }
 
-        private fun bindPreferenceSummaryToValue(preference: Preference) {
+        private fun bindPreferenceSummaryToValue(preference: Preference?) {
+            preference ?: return
             preference.onPreferenceChangeListener = changeListener
             changeListener.onPreferenceChange(
                 preference,

@@ -58,7 +58,7 @@ class DetailFragment(
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as? ToggleListener
                 ?: throw RuntimeException("$context must implement ToggleListener")
