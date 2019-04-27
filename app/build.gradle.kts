@@ -55,7 +55,7 @@ configure<AppExtension> {
     }
 
     packagingOptions {
-        exclude("META-INF/main.kotlin_module")
+        exclude("META-INF/atomicfu.kotlin_module")
     }
 
     useLibrary("android.test.mock")
@@ -89,12 +89,12 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.9.0")
     kapt("com.github.bumptech.glide:compiler:4.9.0")
     // OkHttp
-    implementation("com.squareup.okhttp3:okhttp:3.14.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.14.0")
+    implementation("com.squareup.okhttp3:okhttp:3.14.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.14.1")
     // kotlin
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1")
 
     testImplementation("junit:junit:4.12")
     testImplementation("org.assertj:assertj-core:3.11.1")
