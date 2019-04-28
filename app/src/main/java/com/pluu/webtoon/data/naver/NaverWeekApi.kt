@@ -20,7 +20,7 @@ class NaverWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : AbstractWeekApi, INetworkUseCase by networkUseCase {
 
-    override val CURRENT_TABS = NaverWeekApi.TITLE
+    override val CURRENT_TABS = TITLE
 
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin")
 

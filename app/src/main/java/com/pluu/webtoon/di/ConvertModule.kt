@@ -30,8 +30,7 @@ import org.koin.dsl.module.module
 @Suppress("IMPLICIT_CAST_TO_ANY")
 val convertModule = module {
     factory<WeeklyUseCase>(UseCaseProperties.WEEKLY_USECASE) {
-        val type = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
-        when (type) {
+        when (getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)) {
             NAV_ITEM.NAVER -> NaverWeekApi(get(AppProperties.NETWORK))
             NAV_ITEM.DAUM -> DaumWeekApi(get(AppProperties.NETWORK))
             NAV_ITEM.KTOON -> KToonWeekApi(get(AppProperties.NETWORK))
@@ -42,8 +41,7 @@ val convertModule = module {
     }
 
     factory<EpisodeUseCase>(UseCaseProperties.EPISODE_USECASE) {
-        val type = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
-        when (type) {
+        when (getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)) {
             NAV_ITEM.NAVER -> NaverEpisodeApi(get(AppProperties.NETWORK))
             NAV_ITEM.DAUM -> DaumEpisodeApi(get(AppProperties.NETWORK))
             NAV_ITEM.KTOON -> KToonEpisodeApi(get(AppProperties.NETWORK))
@@ -54,8 +52,7 @@ val convertModule = module {
     }
 
     factory<DetailUseCase>(UseCaseProperties.DETAIL_USECASE) {
-        val type = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
-        when (type) {
+        when (getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)) {
             NAV_ITEM.NAVER -> NaverDetailApi(get(AppProperties.NETWORK))
             NAV_ITEM.DAUM -> DaumDetailApi(get(AppProperties.NETWORK))
             NAV_ITEM.KTOON -> KToonDetailApi(get(AppProperties.NETWORK))
@@ -66,8 +63,7 @@ val convertModule = module {
     }
 
     factory {
-        val type = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
-        when (type) {
+        when (getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)) {
             NAV_ITEM.NAVER -> NaverDetailShare()
             NAV_ITEM.DAUM -> DaumDetailShare()
             NAV_ITEM.KTOON -> KToonDetailShare()

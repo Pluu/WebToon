@@ -102,8 +102,8 @@ class NaverDetailApi(
     private fun parseDetailNormalType(doc: Document) =
         doc.select("#toonLayer li img")
             .map {
-                it.attr("data-original").takeIf {
-                    it.isNotEmpty()
+                it.attr("data-original").takeIf { url ->
+                    url.isNotEmpty()
                 } ?: it.attr("src")
             }
             .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }

@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -182,8 +181,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
 private val ImageView.palletBitmap: Bitmap?
     get() {
-        val innerDrawable: Drawable = drawable ?: return null
-        return when (innerDrawable) {
+        return when (val innerDrawable = drawable) {
             is BitmapDrawable -> innerDrawable.bitmap
             is GifDrawable -> innerDrawable.firstFrame
             else -> null

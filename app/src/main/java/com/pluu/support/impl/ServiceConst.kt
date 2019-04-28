@@ -31,8 +31,8 @@ enum class NAV_ITEM(
     KTOON(true, R.color.olleh_color, R.color.olleh_color_dark),
     KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_dark),
     NATE(true, R.color.nate_color, R.color.nate_color_dark),
-    SEPARATOR(), // Separator
-    INVALID();
+    SEPARATOR, // Separator
+    INVALID;
 
     companion object {
         fun getDefault() = NAVER

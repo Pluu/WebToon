@@ -145,7 +145,7 @@ class EpisodeFragment : Fragment(),
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_episode, menu)
+        inflater.inflate(R.menu.menu_episode, menu)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
