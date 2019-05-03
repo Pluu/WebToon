@@ -3,6 +3,7 @@ package com.pluu.webtoon.ui.weekly
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.commit
 import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
@@ -45,15 +46,11 @@ class MainActivity : BaseNavActivity() {
             )
         )
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(
-                R.id.container,
-                MainFragment.newInstance(),
-                Const.MAIN_FRAG_TAG
+        supportFragmentManager.commit {
+            replace(
+                R.id.container, MainFragment.newInstance(), Const.MAIN_FRAG_TAG
             )
-            .commit()
-
+        }
         btnSetting.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
             closeNavDrawer()

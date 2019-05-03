@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -17,10 +18,9 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(android.R.id.content, GeneralPreferenceFragment())
-            .commit()
+        supportFragmentManager.commit {
+            replace(android.R.id.content, GeneralPreferenceFragment())
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 

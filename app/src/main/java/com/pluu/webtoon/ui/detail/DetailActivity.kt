@@ -18,6 +18,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.commit
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.item.EpisodeInfo
@@ -165,10 +166,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
 
     private fun fragmentInit() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, DetailFragment(bottomMenu.height))
-            .commit()
+        supportFragmentManager.commit {
+            replace(R.id.container, DetailFragment(bottomMenu.height))
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

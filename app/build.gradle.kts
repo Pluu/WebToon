@@ -1,7 +1,4 @@
-import com.android.build.gradle.AppExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
-import org.jetbrains.kotlin.gradle.plugin.KaptExtension
-import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -13,7 +10,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-configure<AppExtension> {
+android {
     compileSdkVersion(28)
 
     defaultConfig {
@@ -65,6 +62,10 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation("androidx.annotation:annotation:1.1.0-beta01")
+    implementation("androidx.activity:activity:1.0.0-alpha07")
+    implementation("androidx.activity:activity-ktx:1.0.0-alpha07")
+    implementation("androidx.fragment:fragment:1.1.0-alpha07")
+    implementation("androidx.fragment:fragment-ktx:1.1.0-alpha07")
     implementation("androidx.appcompat:appcompat:1.1.0-alpha04")
     implementation("androidx.core:core-ktx:1.1.0-alpha05")
 
@@ -100,7 +101,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:2.23.0")
 }
 
-configure<KaptExtension> {
+kapt {
     useBuildCache = true
 }
 
@@ -108,7 +109,7 @@ androidExtensions {
     isExperimental = true
 }
 
-configure<KtlintExtension> {
+ktlint {
     android.set(true)
     debug.set(true)
     verbose.set(true)

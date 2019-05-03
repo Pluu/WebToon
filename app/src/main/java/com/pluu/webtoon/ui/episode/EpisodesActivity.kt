@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
@@ -96,9 +97,8 @@ class EpisodesActivity : AppCompatActivity() {
             intArrayOf(customTitleColor, customStatusColor)
         )
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)
-            .commit()
+        supportFragmentManager.commit {
+            replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)
+        }
     }
 }
