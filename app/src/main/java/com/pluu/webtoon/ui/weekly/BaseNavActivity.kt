@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.commit
 import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
@@ -199,16 +200,12 @@ abstract class BaseNavActivity : AppCompatActivity() {
         selfNavDrawerItem = item
         setProperty(ServiceProperties.NAV_ITEM, item)
 
-        val manager = supportFragmentManager
-        val transaction = manager.beginTransaction()
-        manager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
-            transaction.remove(it)
+        supportFragmentManager.commit {
+            supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
+                remove(it)
+            }
+            replace(R.id.container, MainFragment.newInstance(), Const.MAIN_FRAG_TAG)
         }
-        transaction.replace(
-            R.id.container,
-            MainFragment.newInstance(), Const.MAIN_FRAG_TAG
-        )
-        transaction.commit()
     }
 
     /**
