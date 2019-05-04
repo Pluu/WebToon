@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -61,44 +60,44 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation("androidx.annotation:annotation:1.1.0-beta01")
-    implementation("androidx.activity:activity:1.0.0-alpha07")
-    implementation("androidx.activity:activity-ktx:1.0.0-alpha07")
-    implementation("androidx.fragment:fragment:1.1.0-alpha07")
-    implementation("androidx.fragment:fragment-ktx:1.1.0-alpha07")
-    implementation("androidx.appcompat:appcompat:1.1.0-alpha04")
-    implementation("androidx.core:core-ktx:1.1.0-alpha05")
+    implementation(Dep.AndroidX.annotation)
+    implementation(Dep.AndroidX.activity)
+    implementation(Dep.AndroidX.activityKtx)
+    implementation(Dep.AndroidX.fragment)
+    implementation(Dep.AndroidX.fragmentKtx)
+    implementation(Dep.AndroidX.appcompat)
+    implementation(Dep.AndroidX.coreKtx)
+    implementation(Dep.AndroidX.lifecycleExtensions)
 
-    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha04")
-    implementation("androidx.palette:palette:1.0.0")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.preference:preference:1.1.0-alpha04")
-    implementation("androidx.browser:browser:1.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha5")
-    implementation("com.google.android.material:material:1.1.0-alpha05")
-    // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04")
+    // Android UI
+    implementation(Dep.AndroidX.UI.recyclerview)
+    implementation(Dep.AndroidX.UI.palette)
+    implementation(Dep.AndroidX.UI.cardview)
+    implementation(Dep.AndroidX.UI.preference)
+    implementation(Dep.AndroidX.UI.browser)
+    implementation(Dep.AndroidX.UI.constraintLayout)
+    implementation(Dep.AndroidX.UI.material)
 
     // DI
-    implementation("org.koin:koin-android:1.0.2")
-    implementation("org.koin:koin-android-viewmodel:1.0.2")
+    implementation(Dep.Koin.android)
+    implementation(Dep.Koin.androidViewModel)
 
     // Jsoup
-    implementation("org.jsoup:jsoup:1.11.3")
+    implementation(Dep.jsoup)
     // Glide
-    implementation("com.github.bumptech.glide:glide:4.9.0")
-    kapt("com.github.bumptech.glide:compiler:4.9.0")
+    implementation(Dep.Glide.core)
+    kapt(Dep.Glide.compiler)
     // OkHttp
-    implementation("com.squareup.okhttp3:okhttp:3.14.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.14.1")
+    implementation(Dep.OkHttp.core)
+    implementation(Dep.OkHttp.loggingInterceptor)
     // kotlin
-    implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1")
+    implementation(Dep.Kotlin.stdlibJvm)
+    implementation(Dep.Kotlin.coroutinesCore)
+    implementation(Dep.Kotlin.coroutinesAndroid)
 
-    testImplementation("junit:junit:4.12")
-    testImplementation("org.assertj:assertj-core:3.11.1")
-    testImplementation("org.mockito:mockito-core:2.23.0")
+    testImplementation(Dep.Test.junit)
+    testImplementation(Dep.Test.assertJ)
+    testImplementation(Dep.Test.mockito)
 }
 
 kapt {
