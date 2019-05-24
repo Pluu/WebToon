@@ -8,8 +8,7 @@ import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.Status
-import com.pluu.webtoon.utils.safeApi
-import org.jsoup.Jsoup
+import com.pluu.webtoon.utils.mapDocument
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 
@@ -27,18 +26,14 @@ class NaverEpisodeApi(
         ///////////////////////////////////////////////////////////////////////////
 
         val responseData = requestApi(
-            createApi(
-                id = param.toonId,
-                pageNo = param.page + 1
-            )
-        ).safeApi { response ->
-            Jsoup.parse(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return Result.Error(result.exception)
+            createApi(id = param.toonId, pageNo = param.page + 1)
+        ).mapDocument()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return Result.Error(result.exception)
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data

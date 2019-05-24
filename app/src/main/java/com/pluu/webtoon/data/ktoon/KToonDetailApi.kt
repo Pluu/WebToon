@@ -11,10 +11,9 @@ import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeApi
+import com.pluu.webtoon.utils.mapDocument
+import com.pluu.webtoon.utils.mapJson
 import org.json.JSONArray
-import org.json.JSONObject
-import org.jsoup.Jsoup
 
 /**
  * 올레 웹툰 상세 API
@@ -31,14 +30,14 @@ class KToonDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val responseData = requestApi(createApi(id)).safeApi { response ->
-            JSONObject(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+        val responseData = requestApi(createApi(id))
+            .mapJson()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data
@@ -80,14 +79,14 @@ class KToonDetailApi(
                 .build().toString()
         )
 
-        val responseData = requestApi(request).safeApi { response ->
-            Jsoup.parse(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return null to null
+        val responseData = requestApi(request)
+            .mapDocument()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return null to null
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data

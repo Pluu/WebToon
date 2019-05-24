@@ -20,19 +20,7 @@ const val userAgent =
 inline fun ImageView.loadUrlOriginal(
     url: String?
 ) {
-    val glideUrl = GlideUrl(
-        url, LazyHeaders.Builder()
-            .addHeader(
-                "User-Agent", userAgent
-            )
-            .build()
-    )
-
-    Glide.with(context)
-        .load(glideUrl)
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .override(Target.SIZE_ORIGINAL)
-        .into(this)
+    this.loadUrl(url)
 }
 
 inline fun ImageView.loadUrl(
@@ -40,39 +28,47 @@ inline fun ImageView.loadUrl(
     crossinline ready: () -> Unit = {},
     crossinline fail: () -> Unit = {}
 ) {
-    val glideUrl = GlideUrl(
-        url, LazyHeaders.Builder()
-            .addHeader(
-                "User-Agent", userAgent
-            )
-            .build()
-    )
+    if (url?.isNotEmpty() == true) {
+        Glide.with(context)
+            .load(url.toGlideUrl())
+            .centerCrop()
+            .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+            .listener(object : RequestListener<Drawable> {
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    ready.invoke()
+                    return false
+                }
 
-    Glide.with(context)
-        .load(glideUrl)
-        .centerCrop()
-        .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
-        .listener(object : RequestListener<Drawable> {
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                ready.invoke()
-                return false
-            }
-
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                fail.invoke()
-                return false
-            }
-        })
-        .into(this)
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    fail.invoke()
+                    return false
+                }
+            })
+            .into(this)
+    } else {
+        Glide.with(context)
+            .load(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .override(Target.SIZE_ORIGINAL)
+            .into(this)
+    }
 }
+
+fun String.toGlideUrl(): GlideUrl = GlideUrl(
+    this, LazyHeaders.Builder()
+        .addHeader(
+            "User-Agent", userAgent
+        )
+        .build()
+)

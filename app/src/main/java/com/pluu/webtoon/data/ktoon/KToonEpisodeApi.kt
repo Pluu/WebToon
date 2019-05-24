@@ -9,7 +9,7 @@ import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeApi
+import com.pluu.webtoon.utils.mapJson
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -29,18 +29,14 @@ class KToonEpisodeApi(
         ///////////////////////////////////////////////////////////////////////////
 
         val responseData = requestApi(
-            createApi(
-                id = param.toonId,
-                pageNo = param.page
-            )
-        ).safeApi { response ->
-            JSONObject(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return Result.Error(result.exception)
+            createApi(id = param.toonId, pageNo = param.page)
+        ).mapJson()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return Result.Error(result.exception)
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data
@@ -84,14 +80,14 @@ class KToonEpisodeApi(
             )
         )
 
-        val responseData = requestApi(request).safeApi { response ->
-            JSONObject(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return null
+        val responseData = requestApi(request)
+            .mapJson()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return null
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data

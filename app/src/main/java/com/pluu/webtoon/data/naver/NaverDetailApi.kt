@@ -8,8 +8,7 @@ import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeApi
-import org.jsoup.Jsoup
+import com.pluu.webtoon.utils.mapDocument
 import org.jsoup.nodes.Document
 
 /**
@@ -30,10 +29,9 @@ class NaverDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val responseData =
-            requestApi(createApi(param.toonId, param.episodeId)).safeApi { response ->
-                Jsoup.parse(response)
-            }.let { result ->
+        val responseData = requestApi(createApi(param.toonId, param.episodeId))
+            .mapDocument()
+            .let { result ->
                 when (result) {
                     is Result.Success -> result.data
                     is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)

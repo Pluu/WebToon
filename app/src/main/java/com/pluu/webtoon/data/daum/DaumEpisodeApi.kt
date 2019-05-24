@@ -9,8 +9,8 @@ import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
+import com.pluu.webtoon.utils.mapJson
 import com.pluu.webtoon.utils.safeAPi
-import com.pluu.webtoon.utils.safeApi
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -28,14 +28,14 @@ class DaumEpisodeApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val responseData = requestApi(createApi(param)).safeApi { response ->
-            JSONObject(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return Result.Error(result.exception)
+        val responseData = requestApi(createApi(param))
+            .mapJson()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return Result.Error(result.exception)
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data

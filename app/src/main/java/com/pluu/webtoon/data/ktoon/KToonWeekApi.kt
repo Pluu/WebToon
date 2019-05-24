@@ -7,8 +7,7 @@ import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.ToonInfo
-import com.pluu.webtoon.utils.safeApi
-import org.jsoup.Jsoup
+import com.pluu.webtoon.utils.mapDocument
 import org.jsoup.nodes.Element
 
 /**
@@ -26,14 +25,14 @@ class KToonWeekApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val responseData = requestApi(createApi()).safeApi { response ->
-            Jsoup.parse(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return Result.Error(result.exception)
+        val responseData = requestApi(createApi())
+            .mapDocument()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return Result.Error(result.exception)
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data

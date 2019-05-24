@@ -9,7 +9,7 @@ import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeApi
+import com.pluu.webtoon.utils.mapJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -55,14 +55,14 @@ class KakaoDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        return requestApi(createApi(id)).safeApi { response ->
-            JSONObject(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> null
+        return requestApi(createApi(id))
+            .mapJson()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> null
+                }
             }
-        }
     }
 
     private fun getImages(json: JSONObject): List<DetailView>? {
@@ -95,14 +95,14 @@ class KakaoDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val responseData = requestApi(request).safeApi { response ->
-            JSONObject(response)
-        }.let { result ->
-            when (result) {
-                is Result.Success -> result.data
-                is Result.Error -> return null
+        val responseData = requestApi(request)
+            .mapJson()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return null
+                }
             }
-        }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data
