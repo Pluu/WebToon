@@ -73,7 +73,9 @@ class DetailViewModel(
                 when (result) {
                     is DetailResult.Detail -> {
                         currentItem = result
-                        _list.value = result.list
+                        _list.value = result.list.filter {
+                            it.value.isNotEmpty()
+                        }
                         _elementEvent.value = ElementEvent(
                             title = result.title.orEmpty(),
                             webToonTitle = episode.title,
