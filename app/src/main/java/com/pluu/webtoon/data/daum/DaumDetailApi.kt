@@ -10,7 +10,7 @@ import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeAPi
+import com.pluu.webtoon.utils.safeApi
 import org.json.JSONObject
 
 /**
@@ -27,13 +27,14 @@ class DaumDetailApi(
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
-        val apiResult = safeAPi(requestApi(createApi(id))) { response ->
-            JSONObject(response)
-        }
 
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+        val responseData = requestApi(createApi(id)).safeApi { response ->
+            JSONObject(response)
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////

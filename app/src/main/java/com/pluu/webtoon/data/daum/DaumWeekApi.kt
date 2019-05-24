@@ -11,7 +11,7 @@ import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.ToonInfo
-import com.pluu.webtoon.utils.safeAPi
+import com.pluu.webtoon.utils.safeApi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -33,13 +33,13 @@ class DaumWeekApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val apiResult = safeAPi(requestApi(createApi(param))) { response ->
+        val responseData = requestApi(createApi(param)).safeApi { response ->
             JSONObject(response)
-        }
-
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return Result.Error(apiResult.exception)
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> return Result.Error(result.exception)
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////

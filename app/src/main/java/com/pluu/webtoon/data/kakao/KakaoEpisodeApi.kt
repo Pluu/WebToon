@@ -10,6 +10,7 @@ import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.utils.safeAPi
+import com.pluu.webtoon.utils.safeApi
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -26,20 +27,18 @@ class KakaoEpisodeApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val apiResult = safeAPi(
-            requestApi(
-                createApi(
-                    id = param.toonId,
-                    page = param.page
-                )
+        val responseData = requestApi(
+            createApi(
+                id = param.toonId,
+                page = param.page
             )
-        ) { response ->
+        ).safeApi { response ->
             JSONObject(response)
-        }
-
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return Result.Error(apiResult.exception)
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> return Result.Error(result.exception)
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////
@@ -89,21 +88,15 @@ class KakaoEpisodeApi(
             )
         )
 
-        val apiResult = safeAPi(requestApi(request)) { response ->
+        return requestApi(request).safeApi { response ->
             JSONObject(response)
-        }
-
-        ///////////////////////////////////////////////////////////////////////////
-        // Parse Data
-        ///////////////////////////////////////////////////////////////////////////
-
-        return when (apiResult) {
-            is Result.Success -> {
-                apiResult.data
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
                     .optString("first_single_id")
                     ?.takeIf { it.isNotEmpty() }
+                is Result.Error -> null
             }
-            is Result.Error -> null
         }
     }
 

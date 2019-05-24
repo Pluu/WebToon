@@ -11,7 +11,7 @@ import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeAPi
+import com.pluu.webtoon.utils.safeApi
 import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -31,13 +31,13 @@ class KToonDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val apiResult = safeAPi(requestApi(createApi(id))) { response ->
+        val responseData = requestApi(createApi(id)).safeApi { response ->
             JSONObject(response)
-        }
-
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////
@@ -80,13 +80,13 @@ class KToonDetailApi(
                 .build().toString()
         )
 
-        val apiResult = safeAPi(requestApi(request)) { response ->
+        val responseData = requestApi(request).safeApi { response ->
             Jsoup.parse(response)
-        }
-
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return null to null
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> return null to null
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////

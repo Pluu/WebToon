@@ -9,7 +9,7 @@ import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeAPi
+import com.pluu.webtoon.utils.safeApi
 import org.json.JSONArray
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -31,25 +31,23 @@ class NateEpisodeApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val apiResult = safeAPi(
-            requestApi(
-                createApi(
-                    id = param.toonId,
-                    pageNo = param.page
-                )
+        val responseData = requestApi(
+            createApi(
+                id = param.toonId,
+                pageNo = param.page
             )
-        ) { response ->
+        ).safeApi { response ->
             @Suppress("IMPLICIT_CAST_TO_ANY")
             if (isMorePage) {
                 Jsoup.parse(response)
             } else {
                 JSONArray(response)
             }
-        }
-
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return Result.Error(apiResult.exception)
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> return Result.Error(result.exception)
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////

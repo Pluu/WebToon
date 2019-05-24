@@ -20,3 +20,5 @@ fun <T : Any> safeAPi(result: NetworkResult, convert: (String) -> T): Result<T> 
         else -> Result.Error(networkFailedException)
     }
 }
+
+fun <T : Any> NetworkResult.safeApi(convert: (String) -> T): Result<T> = safeAPi(this, convert)

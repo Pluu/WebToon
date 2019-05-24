@@ -9,7 +9,7 @@ import com.pluu.webtoon.di.INetworkUseCase
 import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeAPi
+import com.pluu.webtoon.utils.safeApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -55,13 +55,13 @@ class KakaoDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val apiResult = safeAPi(requestApi(createApi(id))) { response ->
+        return requestApi(createApi(id)).safeApi { response ->
             JSONObject(response)
-        }
-
-        return when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> null
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> null
+            }
         }
     }
 
@@ -95,13 +95,13 @@ class KakaoDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val apiResult = safeAPi(requestApi(request)) { response ->
+        val responseData = requestApi(request).safeApi { response ->
             JSONObject(response)
-        }
-
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return null
+        }.let { result ->
+            when (result) {
+                is Result.Success -> result.data
+                is Result.Error -> return null
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////////

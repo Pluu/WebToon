@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.webtoon.data.EpisodeRequest
 import com.pluu.webtoon.item.EpisodeInfo
+import com.pluu.webtoon.item.EpisodeResult
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.REpisode
@@ -66,34 +67,37 @@ class EpisodeViewModel(
         dispatchers.main.launch {
             _event.value = EpisodeEvent.START
 
-            val episodePage = withContext(dispatchers.computation) {
+            when (val episodePage = withContext(dispatchers.computation) {
                 episodeUseCase(EpisodeRequest(info.id, pageNo))
-            }
-            when (episodePage) {
+            }) {
                 is Result.Success -> {
-                    val data = episodePage.data
-                    val list = withContext(dispatchers.computation) {
-                        val result = data.episodes
-                        val readList = getReadList()
-                        result.applyReaded(readList)
-                        result
-                    }
-
-                    isNext = !data.nextLink.isNullOrBlank()
-
-                    if (pageNo == INIT_PAGE) {
-                        firstEpisode = data.first
-                    }
-
-                    if (list.isNotEmpty()) {
-                        _listEvent.value = list
-                    }
+                    successProcess(episodePage)
                     _event.value = EpisodeEvent.LOADED
                 }
                 is Result.Error -> {
                     _event.value = EpisodeEvent.ERROR
                 }
             }
+        }
+    }
+
+    private suspend fun successProcess(episodePage: Result.Success<EpisodeResult>) {
+        val data = episodePage.data
+        val list = withContext(dispatchers.computation) {
+            val result = data.episodes
+            val readList = getReadList()
+            result.applyReaded(readList)
+            result
+        }
+
+        isNext = !data.nextLink.isNullOrBlank()
+
+        if (pageNo == INIT_PAGE) {
+            firstEpisode = data.first
+        }
+
+        if (list.isNotEmpty()) {
+            _listEvent.value = list
         }
     }
 

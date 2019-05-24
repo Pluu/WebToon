@@ -8,7 +8,7 @@ import com.pluu.webtoon.item.DetailResult
 import com.pluu.webtoon.item.DetailView
 import com.pluu.webtoon.item.ERROR_TYPE
 import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.utils.safeAPi
+import com.pluu.webtoon.utils.safeApi
 import org.jsoup.Jsoup
 
 /**
@@ -27,16 +27,15 @@ class NateDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val apiResult = safeAPi(
-            requestApi(createApi(param.toonId, param.episodeId))
-        ) { response ->
-            Jsoup.parse(response)
-        }
-
-        val responseData = when (apiResult) {
-            is Result.Success -> apiResult.data
-            is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
-        }
+        val responseData =
+            requestApi(createApi(param.toonId, param.episodeId)).safeApi { response ->
+                Jsoup.parse(response)
+            }.let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+                }
+            }
 
         ///////////////////////////////////////////////////////////////////////////
         // Parse Data
