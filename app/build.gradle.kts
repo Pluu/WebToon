@@ -67,6 +67,8 @@ dependencies {
     implementation(Dep.AndroidX.fragmentKtx)
     implementation(Dep.AndroidX.viewModel)
     implementation(Dep.AndroidX.viewModelKtx)
+    implementation(Dep.AndroidX.liveData)
+    implementation(Dep.AndroidX.liveDataKtx)
 
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)

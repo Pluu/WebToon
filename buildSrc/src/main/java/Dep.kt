@@ -25,6 +25,10 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha01"
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01"
 
+        private const val liveDataVersion = "2.2.0-alpha01"
+        const val liveData = "androidx.lifecycle:lifecycle-livedata:$liveDataVersion"
+        const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataVersion"
+
         object UI {
             const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-alpha05"
             const val palette = "androidx.palette:palette:1.0.0"
