@@ -41,7 +41,9 @@ class DaumEpisodeApi(
         // Parse Data
         ///////////////////////////////////////////////////////////////////////////
 
-        val data: JSONArray? = responseData.optJSONObject("data").optJSONArray("webtoonEpisodes")
+        val data: JSONArray? = responseData
+            .optJSONObject("data")
+            .optJSONArray("webtoonEpisodes")
         val episodes = if (data != null) {
             parseList(param.toonId, data)
         } else {
@@ -109,11 +111,9 @@ class DaumEpisodeApi(
         method = REQUEST_METHOD.POST,
         url = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname",
         params = mutableMapOf<String, String>().apply {
-            put("page_size", "10")
+            put("page_size", "20")
             put("nickname", param.toonId)
-            if (param.page > 0) {
-                put("page_no", param.page.toString())
-            }
+            put("page_no", (param.page + 1).toString())
         }
     )
 

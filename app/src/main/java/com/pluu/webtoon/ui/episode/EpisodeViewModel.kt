@@ -3,6 +3,7 @@ package com.pluu.webtoon.ui.episode
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pluu.webtoon.data.EpisodeRequest
 import com.pluu.webtoon.item.EpisodeInfo
 import com.pluu.webtoon.item.EpisodeResult
@@ -14,8 +15,6 @@ import com.pluu.webtoon.usecase.EpisodeUseCase
 import com.pluu.webtoon.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.utils.launch
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -59,12 +58,14 @@ class EpisodeViewModel(
 
     fun initalize() {
         pageNo = INIT_PAGE
+        isNext = true
     }
 
     fun load() {
         if (!isNext) return
+        isNext = !isNext
 
-        dispatchers.main.launch {
+        viewModelScope.launch {
             _event.value = EpisodeEvent.START
 
             when (val episodePage = withContext(dispatchers.computation) {
@@ -95,6 +96,9 @@ class EpisodeViewModel(
         if (pageNo == INIT_PAGE) {
             firstEpisode = data.first
         }
+        if (isNext) {
+            pageNo += 1
+        }
 
         if (list.isNotEmpty()) {
             _listEvent.value = list
@@ -104,7 +108,7 @@ class EpisodeViewModel(
     private fun getReadList() = readEpisodeListUseCase(info.id)
 
     fun readUpdate() {
-        GlobalScope.launch(dispatchers.main) {
+        viewModelScope.launch(dispatchers.main) {
             _event.value = EpisodeEvent.START
 
             val readList = withContext(dispatchers.computation) {
