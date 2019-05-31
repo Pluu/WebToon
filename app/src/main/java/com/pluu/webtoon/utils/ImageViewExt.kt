@@ -20,7 +20,7 @@ const val userAgent =
 inline fun ImageView.loadUrlOriginal(
     url: String?
 ) {
-    this.loadUrl(url)
+    loadUrl(url = url, isOriginal = true)
 }
 
 inline fun ImageView.loadUrl(
@@ -28,10 +28,23 @@ inline fun ImageView.loadUrl(
     crossinline ready: () -> Unit = {},
     crossinline fail: () -> Unit = {}
 ) {
+    loadUrl(url = url, isOriginal = false, ready = ready, fail = fail)
+}
+
+inline fun ImageView.loadUrl(
+    url: String?,
+    isOriginal: Boolean,
+    crossinline ready: () -> Unit = {},
+    crossinline fail: () -> Unit = {}
+) {
     if (url?.isNotEmpty() == true) {
         Glide.with(context)
             .load(url.toGlideUrl())
-            .centerCrop()
+            .apply {
+                if (!isOriginal) {
+                    centerCrop()
+                }
+            }
             .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
             .listener(object : RequestListener<Drawable> {
                 override fun onResourceReady(
@@ -59,6 +72,11 @@ inline fun ImageView.loadUrl(
     } else {
         Glide.with(context)
             .load(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+            .apply {
+                if (!isOriginal) {
+                    centerCrop()
+                }
+            }
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .override(Target.SIZE_ORIGINAL)
             .into(this)
@@ -67,8 +85,6 @@ inline fun ImageView.loadUrl(
 
 fun String.toGlideUrl(): GlideUrl = GlideUrl(
     this, LazyHeaders.Builder()
-        .addHeader(
-            "User-Agent", userAgent
-        )
+        .addHeader("User-Agent", userAgent)
         .build()
 )
