@@ -65,6 +65,9 @@ dependencies {
     implementation(Dep.AndroidX.activityKtx)
     implementation(Dep.AndroidX.fragment)
     implementation(Dep.AndroidX.fragmentKtx)
+    implementation(Dep.AndroidX.viewModel)
+    implementation(Dep.AndroidX.viewModelKtx)
+
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.lifecycleExtensions)

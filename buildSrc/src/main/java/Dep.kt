@@ -1,6 +1,6 @@
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.6.0-alpha01"
+        const val android = "com.android.tools.build:gradle:3.6.0-alpha02"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val realm = "io.realm:realm-gradle-plugin:4.1.1"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
@@ -8,10 +8,19 @@ object Dep {
 
     object AndroidX {
         const val annotation = "androidx.annotation:annotation:1.1.0-rc01"
-        const val activity = "androidx.activity:activity:1.0.0-alpha08"
-        const val activityKtx = "androidx.activity:activity-ktx:1.0.0-alpha08"
-        const val fragment = "androidx.fragment:fragment:1.1.0-alpha09"
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.1.0-alpha09"
+
+        private const val activityVersion = "1.0.0-alpha08"
+        const val activity = "androidx.activity:activity:$activityVersion"
+        const val activityKtx = "androidx.activity:activity-ktx:$activityVersion"
+
+        private const val fragmentVersion = "1.1.0-alpha09"
+        const val fragment = "androidx.fragment:fragment:$fragmentVersion"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
+
+        private const val viewModelVersion = "2.2.0-alpha01"
+        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$viewModelVersion"
+        const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
+
         const val appcompat = "androidx.appcompat:appcompat:1.1.0-alpha05"
         const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha01"
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01"
@@ -32,7 +41,8 @@ object Dep {
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         private const val coroutinesVersion = "1.2.1"
-        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+        const val coroutinesCore =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
         const val coroutinesAndroid =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     }
