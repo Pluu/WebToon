@@ -45,11 +45,11 @@ class EpisodeFragment : Fragment(),
 
     private val viewModel: EpisodeViewModel by viewModel {
         parametersOf(
-            arguments!!.getParcelable(Const.EXTRA_EPISODE) as ToonInfo
+            arguments!!.getParcelable<ToonInfo>(Const.EXTRA_EPISODE)
         )
     }
     private val color: IntArray by lazyNone {
-        arguments!!.getIntArray(Const.EXTRA_MAIN_COLOR)
+        arguments?.getIntArray(Const.EXTRA_MAIN_COLOR) ?: intArrayOf()
     }
     private val adapter: EpisodeAdapter by lazyNone {
         EpisodeAdapter(this)

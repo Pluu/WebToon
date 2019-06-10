@@ -10,14 +10,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
 
     defaultConfig {
         applicationId = "com.pluu.webtoon"
         minSdkVersion(21)
-        targetSdkVersion(28)
-        versionCode = 47
-        versionName = "1.5.2"
+        targetSdkVersion(29)
+        versionCode = 48
+        versionName = "1.5.3"
         vectorDrawables.useSupportLibrary = true
     }
 

@@ -1,6 +1,6 @@
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.6.0-alpha02"
+        const val android = "com.android.tools.build:gradle:3.6.0-alpha03"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val realm = "io.realm:realm-gradle-plugin:4.1.1"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
@@ -9,11 +9,11 @@ object Dep {
     object AndroidX {
         const val annotation = "androidx.annotation:annotation:1.1.0-rc01"
 
-        private const val activityVersion = "1.0.0-alpha08"
+        private const val activityVersion = "1.0.0-beta01"
         const val activity = "androidx.activity:activity:$activityVersion"
         const val activityKtx = "androidx.activity:activity-ktx:$activityVersion"
 
-        private const val fragmentVersion = "1.1.0-alpha09"
+        private const val fragmentVersion = "1.1.0-beta01"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
@@ -21,22 +21,22 @@ object Dep {
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$viewModelVersion"
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
 
-        const val appcompat = "androidx.appcompat:appcompat:1.1.0-alpha05"
+        const val appcompat = "androidx.appcompat:appcompat:1.1.0-beta01"
         const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha01"
-        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01"
 
         private const val liveDataVersion = "2.2.0-alpha01"
         const val liveData = "androidx.lifecycle:lifecycle-livedata:$liveDataVersion"
         const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataVersion"
+        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$liveDataVersion"
 
         object UI {
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-alpha05"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-alpha06"
             const val palette = "androidx.palette:palette:1.0.0"
             const val cardview = "androidx.cardview:cardview:1.0.0"
-            const val preference = "androidx.preference:preference:1.1.0-alpha05"
+            const val preference = "androidx.preference:preference:1.1.0-beta01"
             const val browser = "androidx.browser:browser:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta1"
-            const val material = "com.google.android.material:material:1.1.0-alpha06"
+            const val material = "com.google.android.material:material:1.1.0-alpha07"
         }
     }
 
