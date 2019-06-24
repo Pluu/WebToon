@@ -48,6 +48,7 @@ android {
 
     lintOptions {
         check("Interoperability")
+        disable("ContentDescription")
     }
 
     packagingOptions {
