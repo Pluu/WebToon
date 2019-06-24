@@ -29,7 +29,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 class EpisodesActivity : AppCompatActivity() {
     private var childTitle: View? = null
 
-    private val webToonInfo: ToonInfo by lazyNone {
+    private val webToonInfo by lazyNone {
         intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)
     }
     private var customTitleColor: Int = 0

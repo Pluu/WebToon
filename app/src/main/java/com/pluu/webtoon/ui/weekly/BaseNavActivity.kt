@@ -37,7 +37,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
     }
 
     // Navigation drawer:
-    private val mDrawerLayout: DrawerLayout by lazyNone {
+    private val mDrawerLayout by lazyNone {
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
