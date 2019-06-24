@@ -16,5 +16,5 @@ object Const {
     const val MAIN_FRAG_TAG = "main_frag_tag"
     const val DETAIL_FRAG_TAG = "detail_frag_tag"
 
-    fun getRateNameByRate(data: String) = RATE_FORMAT.format(data.toDouble())
+    fun getRateNameByRate(data: Double) = RATE_FORMAT.format(data)
 }

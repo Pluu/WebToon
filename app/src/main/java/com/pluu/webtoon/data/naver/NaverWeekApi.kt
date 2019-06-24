@@ -42,11 +42,13 @@ class NaverWeekApi(
         ///////////////////////////////////////////////////////////////////////////
 
         val pattern = "(?<=titleId=)\\d+".toRegex()
-        val list = responseData.select("#pageList a")
+        val list = responseData.select(".list_toon .item a")
             .mapNotNull { element ->
-                pattern.find(element.attr("href"))?.let { matchResult ->
-                    createToon(matchResult.value, element)
-                }
+                pattern.find(element.attr("href"))
+                    ?.takeIf { it.value.isNotEmpty() }
+                    ?.let { matchResult ->
+                        createToon(matchResult.value, element)
+                    }
             }
         return Result.Success(list)
     }
@@ -55,18 +57,21 @@ class NaverWeekApi(
         id: String,
         element: Element
     ): ToonInfo {
+        val info = element.select(".info")
         return ToonInfo(
             id = id,
-            title = element.select(".toon_name").text(),
+            title = info.select(".title").text(),
             image = element.select("img").first().attr("src"),
             status = when {
-                element.select("em[class=badge badge_up]").isNotEmpty() -> Status.UPDATE // 최근 업데이트
-                element.select("em[class=badge badge_break]").isNotEmpty() -> Status.BREAK // 휴재
+                info.select("span[class=bullet up]").isNotEmpty() -> Status.UPDATE // 최근 업데이트
+                info.select("span[class=bullet break]").isNotEmpty() -> Status.BREAK // 휴재
                 else -> Status.NONE
             },
             isAdult = !element.select("em[class=badge badge_adult]").isEmpty(),
-            writer = element.select(".sub_info").first().text(),
-            rate = Const.getRateNameByRate(element.select(".txt_score").text()),
+            writer = info.select(".author")?.first()?.text().orEmpty(),
+            rate = element.select(".txt_score").text().toDoubleOrNull()?.let { rate ->
+                Const.getRateNameByRate(rate)
+            }.orEmpty(),
             updateDate = element.select("span[class=if1]").text()
         )
     }

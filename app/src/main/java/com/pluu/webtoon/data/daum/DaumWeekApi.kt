@@ -13,6 +13,7 @@ import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.utils.mapJson
 import org.json.JSONArray
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,7 +48,7 @@ class DaumWeekApi(
 
         val array: JSONArray? = responseData
             .optJSONObject("data")
-            .optJSONArray("webtoons")
+            ?.optJSONArray("webtoons")
 
         if (array?.isNotEmpty() != true) {
             return Result.Success(emptyList())
@@ -57,28 +58,37 @@ class DaumWeekApi(
 
         val list = array.asSequence().map { obj ->
             val lastObj = obj.optJSONObject("latestWebtoonEpisode")
-            val date = lastObj.optString("dateCreated")
-
-            ToonInfo(
-                id = obj.optString("nickname"),
-                title = obj.optString("title"),
-                image = lastObj.optJSONObject("thumbnailImage").optString("url"),
-                writer = obj.optJSONObject("cartoon")
-                    .optJSONArray("artists")
-                    .optJSONObject(0)
-                    .optString("name"),
-                rate = Const.getRateNameByRate(obj.optString("averageScore")).takeIf { it != "0.0" }.orEmpty(),
-                updateDate =
-                "${date.substring(2, 4)}.${date.substring(4, 6)}.${date.substring(6, 8)}",
-                status = when {
-                    today == date.substring(0, 8) -> Status.UPDATE // 최근 업데이트
-                    "Y" == obj.optString("restYn") -> Status.BREAK // 휴재
-                    else -> Status.NONE
-                },
-                isAdult = obj.optInt("ageGrade") == 1
-            )
+            val date = lastObj?.optString("dateCreated").orEmpty()
+            createToon(obj, lastObj, date, today)
         }.toList()
         return Result.Success(list)
+    }
+
+    private fun createToon(
+        obj: JSONObject,
+        lastObj: JSONObject?,
+        date: String,
+        today: String
+    ): ToonInfo {
+        return ToonInfo(
+            id = obj.optString("nickname"),
+            title = obj.optString("title"),
+            image = lastObj?.optJSONObject("thumbnailImage")?.optString("url").orEmpty(),
+            writer = obj.optJSONObject("cartoon")
+                ?.optJSONArray("artists")
+                ?.optJSONObject(0)
+                ?.optString("name").orEmpty(),
+            rate = (obj.optString("averageScore").toDoubleOrNull() ?: 0.0).let {
+                Const.getRateNameByRate(it)
+            }.takeIf { it != "0.0" }.orEmpty(),
+            updateDate = "${date.substring(2, 4)}.${date.substring(4, 6)}.${date.substring(6, 8)}",
+            status = when {
+                today == date.substring(0, 8) -> Status.UPDATE // 최근 업데이트
+                "Y" == obj.optString("restYn") -> Status.BREAK // 휴재
+                else -> Status.NONE
+            },
+            isAdult = obj.optInt("ageGrade") == 1
+        )
     }
 
     private fun createApi(currentPos: Int): IRequest = IRequest(
