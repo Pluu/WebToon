@@ -47,7 +47,7 @@ class NaverEpisodeApi(
 
     private fun parseList(toonId: String, doc: Document): List<EpisodeInfo> {
         val pattern = "(?<=no=)\\d+".toRegex()
-        return doc.select(".lst a")
+        return doc.select("li[data-title-id=$toonId] a")
             .mapNotNull { element ->
                 pattern.find(element.attr("href"))?.let { matchResult ->
                     createEpisode(matchResult.value, element, toonId)
@@ -60,16 +60,16 @@ class NaverEpisodeApi(
         element: Element,
         toonId: String
     ): EpisodeInfo {
-        val info = element.select(".toon_info")
+        val info = element.select(".info")
         return EpisodeInfo(
             id = episodeId,
             toonId = toonId,
-            title = element.select(".toon_name").text(),
+            title = element.select(".name").text(),
             image = element.select("img").first().attr("src"),
-            rate = info.select("span[class=if1 st_r]").text(),
+            rate = info.select("detail score").text(),
             status = when {
-                info.select(".aside_info .ico_up").isNotEmpty() -> Status.UPDATE // 최근 업데이트
-                info.select(".aside_info .ico_break").isNotEmpty() -> Status.BREAK // 휴재
+                info.select("span[class=bullet up]").isNotEmpty() -> Status.UPDATE // 최근 업데이트
+                info.select("span[class=bullet break]").isNotEmpty() -> Status.BREAK // 휴재
                 else -> Status.NONE
             }
         )
@@ -84,6 +84,6 @@ class NaverEpisodeApi(
     }
 
     private fun createApi(id: String, pageNo: Int): IRequest = IRequest(
-        url = "http://m.comic.naver.com/webtoon/list.nhn?titleId=$id&page=$pageNo"
+        url = "https://m.comic.naver.com/webtoon/list.nhn?titleId=$id&page=$pageNo"
     )
 }
