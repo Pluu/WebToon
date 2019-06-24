@@ -74,7 +74,7 @@ class DetailViewModel(
                     is DetailResult.Detail -> {
                         currentItem = result
                         _list.value = result.list.filter {
-                            it.value.isNotEmpty()
+                            it.url.isNotEmpty()
                         }
                         _elementEvent.value = ElementEvent(
                             title = result.title.orEmpty(),

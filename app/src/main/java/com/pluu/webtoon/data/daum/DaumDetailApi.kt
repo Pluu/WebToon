@@ -1,5 +1,6 @@
 package com.pluu.webtoon.data.daum
 
+import com.pluu.kotlin.asSequence
 import com.pluu.kotlin.iterator
 import com.pluu.webtoon.data.DetailRequest
 import com.pluu.webtoon.data.IRequest
@@ -44,11 +45,10 @@ class DaumDetailApi(
         val data = responseData.optJSONObject("data")
             ?: return DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
 
-        if (data.optJSONObject("webtoonEpisode")?.optInt("price", 0) ?: 0 > 0) {
-            return DetailResult.ErrorResult(ERROR_TYPE.COIN_NEED)
-        }
-
         val titleInfo = data.optJSONObject("webtoonEpisode")
+            ?.takeIf {
+                it.optInt("price", 0) > 0
+            } ?: return DetailResult.ErrorResult(ERROR_TYPE.COIN_NEED)
 
         val ret = DetailResult.Detail(
             webtoonId = param.toonId,
@@ -76,16 +76,15 @@ class DaumDetailApi(
                 list.add(DetailView(it.optString("url")))
             }
         json.optJSONArray("webtoonEpisodePages")
-            ?.iterator()
-            ?.forEach {
-                list.add(
-                    DetailView(
-                        it.optJSONArray("webtoonEpisodePageMultimedias")
-                            .optJSONObject(0)
-                            .optJSONObject("image")
-                            .optString("url")
-                    )
-                )
+            ?.asSequence()
+            ?.mapNotNull {
+                it.optJSONArray("webtoonEpisodePageMultimedias")
+                    ?.optJSONObject(0)
+                    ?.optJSONObject("image")
+                    ?.optString("url")
+            }
+            ?.forEach { url ->
+                list.add(DetailView(url))
             }
         return list
     }

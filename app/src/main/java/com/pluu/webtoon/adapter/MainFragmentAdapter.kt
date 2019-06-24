@@ -22,7 +22,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 class MainFragmentAdapter(
     fm: FragmentManager,
     private val serviceApi: AbstractWeekApi
-) : FragmentStatePagerAdapter(fm) {
+) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val views = SparseArray<WebtoonListFragment>()
 

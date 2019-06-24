@@ -13,6 +13,8 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.PrefConfig
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -49,6 +51,8 @@ class SettingsActivity : AppCompatActivity() {
             return super.onOptionsItemSelected(item)
         }
 
+        @ExperimentalCoroutinesApi
+        @ObsoleteCoroutinesApi
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
             if (LicenseActivity::class.java.canonicalName == preference?.fragment) {
                 startActivity(Intent(activity, LicenseActivity::class.java))
@@ -60,11 +64,11 @@ class SettingsActivity : AppCompatActivity() {
         private val changeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
             when (preference) {
                 is ListPreference -> {
-                    // For list preferences, look up the correct display value in
+                    // For list preferences, look up the correct display url in
                     // the preference's 'entries' list.
                     val index = preference.findIndexOfValue(newValue.toString())
 
-                    // Set the summary to reflect the new value.
+                    // Set the summary to reflect the new url.
                     preference.summary = if (index >= 0) preference.entries[index] else null
                 }
                 else -> preference.summary = newValue.toString()

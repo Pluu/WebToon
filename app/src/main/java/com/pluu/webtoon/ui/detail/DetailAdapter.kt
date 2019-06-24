@@ -39,6 +39,6 @@ class DetailViewHolder(
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
     fun bind(item: DetailView) {
-        ivView.loadUrlOriginal(item.value)
+        ivView.loadUrlOriginal(item.url)
     }
 }

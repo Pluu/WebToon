@@ -40,10 +40,9 @@ class KakaoEpisodeApi(
         ///////////////////////////////////////////////////////////////////////////
 
         val list = responseData
-            .getJSONArray("singles")
-            ?.let {
+            .getJSONArray("singles").let {
                 parseList(param.toonId, it)
-            }.orEmpty()
+            }
 
         val episodePage = EpisodeResult(list)
         episodePage.nextLink = responseData.optBoolean("is_end", true).toString()
@@ -88,7 +87,7 @@ class KakaoEpisodeApi(
                 when (result) {
                     is Result.Success -> result.data
                         .optString("first_single_id")
-                        ?.takeIf { it.isNotEmpty() }
+                        .takeIf { it.isNotEmpty() }
                     is Result.Error -> null
                 }
             }

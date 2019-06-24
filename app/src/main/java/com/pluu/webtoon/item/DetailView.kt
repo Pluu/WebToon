@@ -5,5 +5,5 @@ package com.pluu.webtoon.item
  * Created by pluu on 2017-05-02.
  */
 data class DetailView(
-    val value: String
+    val url: String
 )

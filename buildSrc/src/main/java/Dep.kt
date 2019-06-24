@@ -22,7 +22,7 @@ object Dep {
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
 
         const val appcompat = "androidx.appcompat:appcompat:1.1.0-beta01"
-        const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha01"
+        const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha02"
 
         private const val liveDataVersion = "2.2.0-alpha01"
         const val liveData = "androidx.lifecycle:lifecycle-livedata:$liveDataVersion"
@@ -35,13 +35,13 @@ object Dep {
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0-beta01"
             const val browser = "androidx.browser:browser:1.0.0"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta1"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
             const val material = "com.google.android.material:material:1.1.0-alpha07"
         }
     }
 
     object Kotlin {
-        const val version = "1.3.31"
+        const val version = "1.3.40"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         private const val coroutinesVersion = "1.2.1"
