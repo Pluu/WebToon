@@ -43,7 +43,7 @@ class DaumEpisodeApi(
 
         val data: JSONArray? = responseData
             .optJSONObject("data")
-            .optJSONArray("webtoonEpisodes")
+            ?.optJSONArray("webtoonEpisodes")
         val episodes = if (data != null) {
             parseList(param.toonId, data)
         } else {

@@ -46,9 +46,7 @@ class DaumDetailApi(
             ?: return DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
 
         val titleInfo = data.optJSONObject("webtoonEpisode")
-            ?.takeIf {
-                it.optInt("price", 0) > 0
-            } ?: return DetailResult.ErrorResult(ERROR_TYPE.COIN_NEED)
+            ?: return DetailResult.ErrorResult(ERROR_TYPE.COIN_NEED)
 
         val ret = DetailResult.Detail(
             webtoonId = param.toonId,
