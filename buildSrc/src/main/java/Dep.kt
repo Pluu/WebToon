@@ -52,7 +52,7 @@ object Dep {
     }
 
     object Koin {
-        private const val version = "1.0.2"
+        private const val version = "2.0.1"
         const val android = "org.koin:koin-android:$version"
         const val androidViewModel = "org.koin:koin-android-viewmodel:$version"
     }

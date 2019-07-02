@@ -17,10 +17,11 @@ import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.ServiceConst
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.common.PrefConfig
 import com.pluu.webtoon.di.ServiceProperties
 import com.pluu.webtoon.utils.lazyNone
-import org.koin.android.ext.android.property
-import org.koin.android.ext.android.setProperty
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.getKoin
 import java.util.*
 
 /**
@@ -41,7 +42,10 @@ abstract class BaseNavActivity : AppCompatActivity() {
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
-    private val first: NAV_ITEM by property(ServiceProperties.NAV_ITEM)
+    private val first: NAV_ITEM by lazyNone {
+        val pref: PrefConfig = get()
+        getKoin().getProperty(ServiceProperties.NAV_ITEM, pref.getDefaultWebToon())
+    }
     private var selfNavDrawerItem: NAV_ITEM = first
 
     private val mHandler: Handler by lazyNone { Handler() }
@@ -198,7 +202,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
         item ?: return
 
         selfNavDrawerItem = item
-        setProperty(ServiceProperties.NAV_ITEM, item)
+        getKoin().setProperty(ServiceProperties.NAV_ITEM, item)
 
         supportFragmentManager.commit {
             supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {

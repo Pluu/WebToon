@@ -1,16 +1,14 @@
 package com.pluu.webtoon.ui.intro
 
-import android.content.Context
 import com.pluu.webtoon.common.PrefConfig
 import com.pluu.webtoon.di.ServiceProperties
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.setProperty
+import org.koin.core.KoinComponent
 
 class IntroUseCase(
-    private val context: Context
+    private val pref: PrefConfig
 ) : KoinComponent {
 
     fun init() {
-        setProperty(ServiceProperties.NAV_ITEM, PrefConfig.getDefaultWebToon(context))
+        getKoin().setProperty(ServiceProperties.NAV_ITEM, pref.getDefaultWebToon())
     }
 }

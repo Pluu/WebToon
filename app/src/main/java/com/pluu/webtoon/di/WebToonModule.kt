@@ -9,8 +9,9 @@ import com.pluu.webtoon.ui.intro.IntroUseCase
 import com.pluu.webtoon.ui.intro.IntroViewModel
 import com.pluu.webtoon.ui.weekly.WeekyViewModel
 import com.pluu.webtoon.usecase.*
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
 val introModule = module {
     viewModel {
@@ -27,7 +28,7 @@ val webToonModule = module {
         WeekyViewModel(
             dispatchers = get(),
             weekPos = weekPos,
-            weeklyUseCase = get(UseCaseProperties.WEEKLY_USECASE),
+            weeklyUseCase = get(named(UseCaseProperties.WEEKLY_USECASE)),
             hasFavoriteUseCase = HasFavoriteUseCase(get(), apiType)
         )
     }
@@ -37,7 +38,7 @@ val webToonModule = module {
         EpisodeViewModel(
             dispatchers = get(),
             info = info,
-            episodeUseCase = get(UseCaseProperties.EPISODE_USECASE),
+            episodeUseCase = get(named(UseCaseProperties.EPISODE_USECASE)),
             readEpisodeListUseCase = ReadEpisodeListUseCase(get(), apiType),
             addFavoriteUseCase = AddFavoriteUseCase(get(), apiType),
             delFavoriteUseCase = RemoveFavoriteUseCase(get(), apiType)
@@ -49,7 +50,7 @@ val webToonModule = module {
         DetailViewModel(
             dispatchers = get(),
             episode = episode,
-            detailUseCase = get(UseCaseProperties.DETAIL_USECASE),
+            detailUseCase = get(named(UseCaseProperties.DETAIL_USECASE)),
             readUseCase = ReadUseCase(get(), apiType),
             shareUseCase = get()
         )

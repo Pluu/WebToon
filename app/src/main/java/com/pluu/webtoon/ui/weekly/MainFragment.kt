@@ -27,6 +27,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 
 /**
  * Main View Fragment
@@ -49,7 +50,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    private val serviceApi: AbstractWeekApi by inject(UseCaseProperties.WEEKLY_USECASE)
+    private val serviceApi: AbstractWeekApi by inject(named(UseCaseProperties.WEEKLY_USECASE))
     private val colorProvider: NaviColorProvider by inject()
 
     override fun onCreateView(

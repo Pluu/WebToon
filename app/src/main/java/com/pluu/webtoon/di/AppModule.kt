@@ -2,12 +2,15 @@ package com.pluu.webtoon.di
 
 import com.pluu.support.impl.ColorProvider
 import com.pluu.support.impl.NaviColorProvider
+import com.pluu.webtoon.common.PrefConfig
 import com.pluu.webtoon.db.RealmHelper
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.dsl.module.module
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
 private val dbModule = module {
     single { RealmHelper() }
@@ -21,6 +24,7 @@ private val appModule = module {
             main = Dispatchers.Main
         )
     }
+    single { PrefConfig(androidContext()) }
 }
 
 private val networkModule = module {
@@ -31,7 +35,7 @@ private val networkModule = module {
             })
             .build()
     }
-    single<INetworkUseCase>(AppProperties.NETWORK) {
+    single<INetworkUseCase>(named(AppProperties.NETWORK)) {
         NetworkUseCase(get())
     }
 }
