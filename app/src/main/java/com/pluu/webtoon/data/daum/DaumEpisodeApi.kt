@@ -54,7 +54,7 @@ class DaumEpisodeApi(
 
         if (episodes.isNotEmpty()) {
             val nick = param.toonId
-            val page = responseData.optJSONObject("page")
+            val page = responseData.optJSONObject("page") ?: JSONObject()
 
             result.nextLink = nick.takeIf { parsePage(page) }
             result.first = getFirstEpisode(nick)
@@ -94,9 +94,9 @@ class DaumEpisodeApi(
                     id = it.optString("id"),
                     toonId = toonId,
                     title = it.optString("title"),
-                    image = it.optJSONObject("thumbnailImage").optString("url"),
+                    image = it.optJSONObject("thumbnailImage")?.optString("url").orEmpty(),
                     updateDate = it.optString("dateCreated"),
-                    rate = it.optJSONObject("voteTarget").optString("voteTotalScore"),
+                    rate = it.optJSONObject("voteTarget")?.optString("voteTotalScore").orEmpty(),
                     isLoginNeed = it.optInt("price", 0) > 0
                 )
             }.toList()

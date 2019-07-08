@@ -42,7 +42,7 @@ class KToonEpisodeApi(
         // Parse Data
         ///////////////////////////////////////////////////////////////////////////
 
-        val array: JSONArray = responseData.optJSONArray("response")
+        val array: JSONArray = responseData.optJSONArray("response") ?: JSONArray()
         val episodePage = EpisodeResult(parseList(param.toonId, array))
         episodePage.nextLink = EPISODE_URL.takeIf { array.length() >= PAGE_SIZE }
         if (param.page == 0) {

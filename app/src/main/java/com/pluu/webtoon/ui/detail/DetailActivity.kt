@@ -222,9 +222,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     private fun toggleDelay(isDelay: Boolean) {
-        val TOGGLE_ID = 0
-        mToggleHandler.removeMessages(TOGGLE_ID)
-        mToggleHandler.sendEmptyMessageDelayed(TOGGLE_ID, if (isDelay) DELAY_TIME else 0)
+        val toggleId = 0
+        mToggleHandler.removeMessages(toggleId)
+        mToggleHandler.sendEmptyMessageDelayed(toggleId, if (isDelay) DELAY_TIME else 0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

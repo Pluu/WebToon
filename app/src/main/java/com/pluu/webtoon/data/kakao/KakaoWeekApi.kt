@@ -45,9 +45,9 @@ class KakaoWeekApi(
     private fun parse(data: JSONObject): List<ToonInfo> {
         return data.optJSONArray("section_containers")?.asSequence()
             ?.flatMap {
-                it.optJSONArray("section_series").asSequence()
+                it.optJSONArray("section_series")?.asSequence().orEmpty()
             }?.flatMap {
-                it.optJSONArray("list").asSequence()
+                it.optJSONArray("list")?.asSequence().orEmpty()
             }?.map {
                 ToonInfo(
                     id = it.optString("series_id"),
