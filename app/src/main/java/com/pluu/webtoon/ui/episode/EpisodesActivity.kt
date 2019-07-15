@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_episode.*
 import kotlinx.android.synthetic.main.toolbar_actionbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.w3c.dom.TypeInfo
 
 /**
  * 에피소드 리스트 Activity
@@ -30,7 +31,7 @@ class EpisodesActivity : AppCompatActivity() {
     private var childTitle: View? = null
 
     private val webToonInfo by lazyNone {
-        intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)
+        intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)!!
     }
     private var customTitleColor: Int = 0
     private var customStatusColor: Int = 0

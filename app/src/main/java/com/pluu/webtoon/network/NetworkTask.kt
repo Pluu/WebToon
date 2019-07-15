@@ -12,12 +12,11 @@ import ru.gildor.coroutines.retrofit.await
 class NetworkTask(
     private val client: OkHttpClient
 ) {
-
     @Throws(Exception::class)
     suspend fun requestApi(request: Request): NetworkResult {
         val response = client.newCall(request).await()
         return if (response.isSuccessful) {
-            NetworkResult.Success(response.body()?.string().orEmpty())
+            NetworkResult.Success(response.body?.string().orEmpty())
         } else {
             NetworkResult.Fail
         }

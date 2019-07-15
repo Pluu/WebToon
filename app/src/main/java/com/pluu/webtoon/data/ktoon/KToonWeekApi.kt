@@ -52,7 +52,7 @@ class KToonWeekApi(
 
     private fun transform(item: Element): ToonInfo? {
         val directLink = item.select(".link").attr("href")
-        val toonId = "(?<=worksseq=).+".toRegex().find(directLink) ?: return null
+        val toonId = "(?<=worksseq=)\\w+".toRegex().find(directLink) ?: return null
         val info = item.select(".info")
 
         return ToonInfo(
