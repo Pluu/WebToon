@@ -1,8 +1,8 @@
 package com.pluu.webtoon.adapter.viewholder
 
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.webtoon.item.Status
 import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.utils.loadUrl
@@ -28,10 +28,10 @@ class MainListViewHolder(
         )
 
         regDate.text = item.updateDate
-        regDate.visibility = item.updateDate.isBlank().toVisibleOrGone()
-        tvUp.visibility = (Status.UPDATE == item.status).toVisibleOrGone()
-        tvRest.visibility = (Status.BREAK == item.status).toVisibleOrGone()
-        tv19.visibility = item.isAdult.toVisibleOrGone()
-        favorite.visibility = item.isFavorite.toVisibleOrGone()
+        regDate.isVisible = item.updateDate.isNotBlank()
+        tvUp.isVisible = (Status.UPDATE == item.status)
+        tvRest.isVisible = (Status.BREAK == item.status)
+        tv19.isVisible = item.isAdult
+        favorite.isVisible = item.isFavorite
     }
 }

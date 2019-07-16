@@ -11,13 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.pluu.event.EventBus
 import com.pluu.kotlin.getCompatColor
-import com.pluu.kotlin.toVisibleOrGone
 import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
@@ -73,7 +73,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         super.onActivityCreated(savedInstanceState)
         viewModel.listEvent.observeNonNull(this) { list ->
             recyclerView.adapter = MainListAdapter(requireContext(), list, this)
-            emptyView.visibility = list.isEmpty().toVisibleOrGone()
+            emptyView.isVisible = list.isEmpty()
         }
         viewModel.event.observeNonNull(this) { event ->
             when (event) {

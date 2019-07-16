@@ -68,11 +68,16 @@ class EpisodeViewModel(
         viewModelScope.launch {
             _event.value = EpisodeEvent.START
 
-            when (val episodePage = withContext(dispatchers.computation) {
-                episodeUseCase(EpisodeRequest(info.id, pageNo))
-            }) {
+            when (val episodePage = getEpisodeUseCase(info.id, pageNo)) {
                 is Result.Success -> {
-                    successProcess(episodePage)
+                    val data = episodePage.data
+
+                    actionSuccessUi(data)
+
+                    val resultList = successProcess(data)
+                    if (resultList.isNotEmpty()) {
+                        _listEvent.value = resultList
+                    }
                     _event.value = EpisodeEvent.LOADED
                 }
                 is Result.Error -> {
@@ -82,15 +87,16 @@ class EpisodeViewModel(
         }
     }
 
-    private suspend fun successProcess(episodePage: Result.Success<EpisodeResult>) {
-        val data = episodePage.data
-        val list = withContext(dispatchers.computation) {
-            val result = data.episodes
-            val readList = getReadList()
-            result.applyReaded(readList)
-            result
-        }
+    private suspend fun getEpisodeUseCase(
+        id: String,
+        page: Int
+    ): Result<EpisodeResult> = withContext(dispatchers.computation) {
+        episodeUseCase(EpisodeRequest(id, page))
+    }
 
+    private fun actionSuccessUi(
+        data: EpisodeResult
+    ) {
         isNext = !data.nextLink.isNullOrBlank()
 
         if (pageNo == INIT_PAGE) {
@@ -99,26 +105,36 @@ class EpisodeViewModel(
         if (isNext) {
             pageNo += 1
         }
-
-        if (list.isNotEmpty()) {
-            _listEvent.value = list
-        }
     }
 
-    private fun getReadList() = readEpisodeListUseCase(info.id)
+    private suspend fun successProcess(
+        episodePage: EpisodeResult
+    ): List<EpisodeInfo> = withContext(dispatchers.computation) {
+        runCatching {
+            val result = episodePage.episodes
+            val readList = getReadList()
+            result.applyReaded(readList)
+            result
+        }.getOrDefault(emptyList())
+    }
+
+    private fun getReadList(): List<REpisode> = readEpisodeListUseCase(info.id)
 
     fun readUpdate() {
         viewModelScope.launch {
             _event.value = EpisodeEvent.START
+            _updateListEvent.value = readableEpisodeList()
+            _event.value = EpisodeEvent.LOADED
+        }
+    }
 
-            val readList = getReadList().asSequence()
+    private suspend fun readableEpisodeList() = withContext(dispatchers.computation) {
+        runCatching {
+            getReadList().asSequence()
                 .mapNotNull { it.episodeId }
                 .distinct()
                 .toList()
-
-            _updateListEvent.value = readList
-            _event.value = EpisodeEvent.LOADED
-        }
+        }.getOrDefault(emptyList())
     }
 
     fun requestFirst() {

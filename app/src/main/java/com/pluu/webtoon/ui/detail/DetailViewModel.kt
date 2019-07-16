@@ -10,8 +10,8 @@ import com.pluu.webtoon.usecase.DetailUseCase
 import com.pluu.webtoon.usecase.ReadUseCase
 import com.pluu.webtoon.usecase.ShareUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailViewModel(
     private val dispatchers: AppCoroutineDispatchers,
@@ -50,50 +50,51 @@ class DetailViewModel(
     private fun loadDetail(episode: EpisodeInfo) {
         _event.value = DetailEvent.START
 
-        viewModelScope.launch(dispatchers.computation) {
+        viewModelScope.launch {
             var error: DetailEvent? = null
-            val result = try {
-                detailUseCase(
-                    DetailRequest(
-                        toonId = episode.toonId,
-                        episodeId = episode.id,
-                        episodeTitle = episode.title
+
+            when (val result: DetailResult = readDetail(episode)) {
+                is DetailResult.Detail -> {
+                    updateEpisodeState(result)
+
+                    currentItem = result
+                    _list.value = result.list.filter {
+                        it.url.isNotEmpty()
+                    }
+                    _elementEvent.value = ElementEvent(
+                        title = result.title.orEmpty(),
+                        webToonTitle = episode.title,
+                        isPrevEnable = result.prevLink?.isNotEmpty() == true,
+                        isNextEnable = result.nextLink?.isNotEmpty() == true
                     )
-                )
-            } catch (e: Exception) {
-                e.printStackTrace()
-                error = DetailEvent.ERROR(errorType = ERROR_TYPE.DEFAULT_ERROR)
-                null
-            }
-
-            if (result is DetailResult.Detail) {
-                readEpisode(result)
-            }
-
-            viewModelScope.launch {
-                when (result) {
-                    is DetailResult.Detail -> {
-                        currentItem = result
-                        _list.value = result.list.filter {
-                            it.url.isNotEmpty()
-                        }
-                        _elementEvent.value = ElementEvent(
-                            title = result.title.orEmpty(),
-                            webToonTitle = episode.title,
-                            isPrevEnable = result.prevLink?.isNotEmpty() == true,
-                            isNextEnable = result.nextLink?.isNotEmpty() == true
-                        )
-                    }
-                    is DetailResult.ErrorResult -> {
-                        error = DetailEvent.ERROR(result.errorType)
-                    }
                 }
-                _event.value = error ?: DetailEvent.LOADED
+                is DetailResult.ErrorResult -> {
+                    error = DetailEvent.ERROR(result.errorType)
+                }
             }
+            _event.value = error ?: DetailEvent.LOADED
         }
     }
 
-    private fun readEpisode(item: DetailResult.Detail) {
+    private suspend fun readDetail(
+        episode: EpisodeInfo
+    ): DetailResult = withContext(dispatchers.computation) {
+        runCatching {
+            detailUseCase(
+                DetailRequest(
+                    toonId = episode.toonId,
+                    episodeId = episode.id,
+                    episodeTitle = episode.title
+                )
+            )
+        }.getOrElse {
+            DetailResult.ErrorResult(errorType = ERROR_TYPE.DEFAULT_ERROR)
+        }
+    }
+
+    private suspend fun updateEpisodeState(
+        item: DetailResult.Detail
+    ) = withContext(dispatchers.computation) {
         readUseCase(item)
     }
 

@@ -9,7 +9,6 @@ import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -31,30 +30,27 @@ class WeekyViewModel(
     init {
         viewModelScope.launch {
             _event.value = WeeklyEvent.START
-            val result = withContext(dispatchers.computation) {
-                runCatching {
-                    getWeekLoad()
-                }
-            }
-            _listEvent.value = result.getOrDefault(emptyList())
+            _listEvent.value = getWeekLoad()
             _event.value = WeeklyEvent.LOADED
         }
     }
 
-    private suspend fun getWeekLoad(): List<ToonInfo> = coroutineScope {
+    private suspend fun getWeekLoad(): List<ToonInfo> = withContext(dispatchers.computation) {
         val apiResult = weeklyUseCase(weekPos)
         if (apiResult is Result.Success) {
-            apiResult.data.asSequence()
-                .map {
-                    it.isFavorite = hasFavoriteUseCase(it.id)
-                    it
-                }
-                .sortedWith(compareBy<ToonInfo> {
-                    !it.isFavorite
-                }.thenBy {
-                    it.title
-                })
-                .toList()
+            runCatching {
+                apiResult.data.asSequence()
+                    .map {
+                        it.isFavorite = hasFavoriteUseCase(it.id)
+                        it
+                    }
+                    .sortedWith(compareBy<ToonInfo> {
+                        !it.isFavorite
+                    }.thenBy {
+                        it.title
+                    })
+                    .toList()
+            }.getOrDefault(emptyList())
         } else {
             emptyList()
         }
