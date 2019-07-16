@@ -9,8 +9,9 @@ import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class WeekyViewModel(
     private val dispatchers: AppCoroutineDispatchers,
@@ -30,28 +31,32 @@ class WeekyViewModel(
     init {
         viewModelScope.launch {
             _event.value = WeeklyEvent.START
-
-            val result = viewModelScope.async(dispatchers.computation) {
-                val apiResult = weeklyUseCase(weekPos)
-                if (apiResult is Result.Success) {
-                    apiResult.data.asSequence()
-                        .map {
-                            it.isFavorite = hasFavoriteUseCase(it.id)
-                            it
-                        }
-                        .sortedWith(compareBy<ToonInfo> {
-                            !it.isFavorite
-                        }.thenBy {
-                            it.title
-                        })
-                        .toList()
-                } else {
-                    emptyList()
+            val result = withContext(dispatchers.computation) {
+                runCatching {
+                    getWeekLoad()
                 }
             }
-
-            _listEvent.value = result.await()
+            _listEvent.value = result.getOrDefault(emptyList())
             _event.value = WeeklyEvent.LOADED
+        }
+    }
+
+    private suspend fun getWeekLoad(): List<ToonInfo> = coroutineScope {
+        val apiResult = weeklyUseCase(weekPos)
+        if (apiResult is Result.Success) {
+            apiResult.data.asSequence()
+                .map {
+                    it.isFavorite = hasFavoriteUseCase(it.id)
+                    it
+                }
+                .sortedWith(compareBy<ToonInfo> {
+                    !it.isFavorite
+                }.thenBy {
+                    it.title
+                })
+                .toList()
+        } else {
+            emptyList()
         }
     }
 }
