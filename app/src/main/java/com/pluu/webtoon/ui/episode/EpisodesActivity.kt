@@ -18,15 +18,11 @@ import com.pluu.webtoon.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_episode.*
 import kotlinx.android.synthetic.main.toolbar_actionbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.w3c.dom.TypeInfo
 
 /**
  * 에피소드 리스트 Activity
  * Created by pluu on 2017-05-09.
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class EpisodesActivity : AppCompatActivity() {
     private var childTitle: View? = null
 
@@ -36,6 +32,7 @@ class EpisodesActivity : AppCompatActivity() {
     private var customTitleColor: Int = 0
     private var customStatusColor: Int = 0
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_episode)
@@ -53,6 +50,7 @@ class EpisodesActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun initView() {
         customTitleColor = intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
         customStatusColor = intent.getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK)

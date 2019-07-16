@@ -108,15 +108,13 @@ class EpisodeViewModel(
     private fun getReadList() = readEpisodeListUseCase(info.id)
 
     fun readUpdate() {
-        viewModelScope.launch(dispatchers.main) {
+        viewModelScope.launch {
             _event.value = EpisodeEvent.START
 
-            val readList = withContext(dispatchers.computation) {
-                getReadList().asSequence()
-                    .mapNotNull { it.episodeId }
-                    .distinct()
-                    .toList()
-            }
+            val readList = getReadList().asSequence()
+                .mapNotNull { it.episodeId }
+                .distinct()
+                .toList()
 
             _updateListEvent.value = readList
             _event.value = EpisodeEvent.LOADED

@@ -6,28 +6,23 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.LicenseAdapter
 import com.pluu.webtoon.event.RecyclerViewEvent
-import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.utils.launch
 import kotlinx.android.synthetic.main.activity_license.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
-import org.koin.android.ext.android.inject
+import kotlinx.coroutines.launch
 
 /**
  * License Activity
  * Created by pluu on 2017-05-05.
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class LicenseActivity : AppCompatActivity() {
-
-    private val dispatchers: AppCoroutineDispatchers by inject()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +38,11 @@ class LicenseActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     public override fun onResume() {
         super.onResume()
-        dispatchers.main.launch {
+       lifecycleScope.launch {
             registerViewEvent()
         }
     }
@@ -58,6 +55,8 @@ class LicenseActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     private suspend fun registerViewEvent() {
         EventBus.subscribeToEvent<RecyclerViewEvent>()
             .consumeEach {

@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.EventBus
@@ -20,12 +21,13 @@ import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
-import com.pluu.webtoon.utils.*
+import com.pluu.webtoon.utils.MoreRefreshListener
+import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.android.synthetic.main.fragment_episode.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -33,13 +35,9 @@ import org.koin.core.parameter.parametersOf
  * 에피소드 리스트 Fragment
  * Created by pluu on 2017-05-09.
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class EpisodeFragment : Fragment(),
     SwipeRefreshLayout.OnRefreshListener,
     EpisodeSelectListener {
-
-    private val dispatchers: AppCoroutineDispatchers by inject()
 
     private val REQUEST_DETAIL = 1000
 
@@ -179,9 +177,11 @@ class EpisodeFragment : Fragment(),
         }
     }
 
+    @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     override fun onResume() {
         super.onResume()
-        dispatchers.main.launch {
+        lifecycleScope.launchWhenResumed {
             registerFirstSelectEvent()
         }
     }
@@ -219,6 +219,8 @@ class EpisodeFragment : Fragment(),
     // View Function
     ///////////////////////////////////////////////////////////////////////////
 
+    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     private suspend fun registerFirstSelectEvent() {
         EventBus.subscribeToEvent<FirstItemSelectEvent>()
             .consumeEach {

@@ -4,29 +4,25 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
-import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.utils.launch
 import kotlinx.android.synthetic.main.navdrawer.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 /**
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MainActivity : BaseNavActivity() {
-
-    private val dispatchers: AppCoroutineDispatchers by inject()
 
     private val defaultProvider: NaviColorProvider by inject()
 
@@ -57,13 +53,17 @@ class MainActivity : BaseNavActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     override fun onResume() {
         super.onResume()
-        dispatchers.main.launch {
+        lifecycleScope.launch {
             registerThemeChangeEvent()
         }
     }
 
+    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     private suspend fun registerThemeChangeEvent() {
         EventBus.subscribeToEvent<ThemeEvent>()
             .consumeEach { themeChange(it) }

@@ -3,16 +3,15 @@ package com.pluu.webtoon.ui.intro
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.utils.launch
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 /**
  * Intro ViewModel
  */
 class IntroViewModel(
-    dispatchers: AppCoroutineDispatchers,
     private val useCase: IntroUseCase
 ) : ViewModel() {
 
@@ -21,7 +20,7 @@ class IntroViewModel(
         get() = _observe
 
     init {
-        dispatchers.main.launch {
+        viewModelScope.launch {
             initAction()
         }
     }

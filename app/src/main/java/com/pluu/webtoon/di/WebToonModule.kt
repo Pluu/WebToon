@@ -16,7 +16,6 @@ import org.koin.dsl.module
 val introModule = module {
     viewModel {
         IntroViewModel(
-            dispatchers = get(),
             useCase = IntroUseCase(get())
         )
     }

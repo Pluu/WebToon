@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
@@ -21,11 +22,14 @@ import com.pluu.webtoon.di.UseCaseProperties
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
-import com.pluu.webtoon.utils.*
+import com.pluu.webtoon.utils.animatorStatusBarColor
+import com.pluu.webtoon.utils.animatorToolbarColor
+import com.pluu.webtoon.utils.lazyNone
 import kotlinx.android.synthetic.main.fragment_toon.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
@@ -33,11 +37,7 @@ import org.koin.core.qualifier.named
  * Main View Fragment
  * Created by pluu on 2017-05-07.
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MainFragment : Fragment() {
-
-    private val dispatchers: AppCoroutineDispatchers by inject()
 
     private val TAG = MainFragment::class.java.simpleName
 
@@ -61,6 +61,7 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_toon, container, false)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setServiceTheme()
@@ -75,6 +76,7 @@ class MainFragment : Fragment() {
     }
 
     // 선택한 서비스에 맞는 컬러 테마 변경
+    @ExperimentalCoroutinesApi
     private fun setServiceTheme() {
         val color = colorProvider.getTitleColor()
         val colorDark = colorProvider.getTitleColorDark()
@@ -94,13 +96,15 @@ class MainFragment : Fragment() {
         slidingTabLayout?.setSelectedTabIndicatorColor(color)
     }
 
+    @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     override fun onResume() {
         super.onResume()
 
-        dispatchers.main.launch {
+        lifecycleScope.launch {
             registerStartEvent()
         }
-        dispatchers.main.launch {
+        lifecycleScope.launch {
             registerLoadEvent()
         }
     }
@@ -121,6 +125,8 @@ class MainFragment : Fragment() {
         }
     }
 
+    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     private suspend fun registerLoadEvent() {
         EventBus.subscribeToEvent<MainEpisodeLoadedEvent>()
             .consumeEach {
@@ -128,6 +134,8 @@ class MainFragment : Fragment() {
             }
     }
 
+    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     private suspend fun registerStartEvent() {
         EventBus.subscribeToEvent<MainEpisodeStartEvent>()
             .consumeEach {

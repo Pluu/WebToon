@@ -3,14 +3,15 @@ package com.pluu.webtoon.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pluu.webtoon.data.DetailRequest
 import com.pluu.webtoon.item.*
 import com.pluu.webtoon.usecase.DetailUseCase
 import com.pluu.webtoon.usecase.ReadUseCase
 import com.pluu.webtoon.usecase.ShareUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.utils.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val dispatchers: AppCoroutineDispatchers,
@@ -49,7 +50,7 @@ class DetailViewModel(
     private fun loadDetail(episode: EpisodeInfo) {
         _event.value = DetailEvent.START
 
-        dispatchers.computation.launch {
+        viewModelScope.launch(dispatchers.computation) {
             var error: DetailEvent? = null
             val result = try {
                 detailUseCase(
@@ -69,7 +70,7 @@ class DetailViewModel(
                 readEpisode(result)
             }
 
-            withContext(dispatchers.main) {
+            viewModelScope.launch {
                 when (result) {
                     is DetailResult.Detail -> {
                         currentItem = result

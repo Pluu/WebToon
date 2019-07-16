@@ -10,14 +10,11 @@ import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.event.RecyclerViewEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 /**
  * Main EpisodeInfo List Adapter
  * Created by pluu on 2017-05-02.
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.ViewHolder>() {
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     private val list = context.resources.getStringArray(R.array.license_title)
@@ -27,6 +24,7 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
         return ViewHolder(v)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.text1.text = list[i]
         viewHolder.itemView.setOnClickListener {

@@ -1,6 +1,6 @@
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.5.0-beta04"
+        const val android = "com.android.tools.build:gradle:3.5.0-beta05"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val realm = "io.realm:realm-gradle-plugin:5.12.0"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"

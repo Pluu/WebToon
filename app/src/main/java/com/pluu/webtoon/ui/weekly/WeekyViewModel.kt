@@ -3,13 +3,14 @@ package com.pluu.webtoon.ui.weekly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pluu.webtoon.item.Result
 import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.usecase.WeeklyUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.utils.launch
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class WeekyViewModel(
     private val dispatchers: AppCoroutineDispatchers,
@@ -27,10 +28,10 @@ class WeekyViewModel(
         get() = _event
 
     init {
-        dispatchers.main.launch {
+        viewModelScope.launch {
             _event.value = WeeklyEvent.START
 
-            val result = async(dispatchers.computation) {
+            val result = viewModelScope.async(dispatchers.computation) {
                 val apiResult = weeklyUseCase(weekPos)
                 if (apiResult is Result.Success) {
                     apiResult.data.asSequence()

@@ -1,3 +1,4 @@
+import Dep.GradlePlugin.ktlint
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -16,8 +17,8 @@ android {
         applicationId = "com.pluu.webtoon"
         minSdkVersion(21)
         targetSdkVersion(29)
-        versionCode = 49
-        versionName = "1.5.4"
+        versionCode = 50
+        versionName = "1.5.5"
         vectorDrawables.useSupportLibrary = true
     }
 
