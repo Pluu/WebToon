@@ -1,4 +1,3 @@
-import Dep.GradlePlugin.ktlint
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -61,6 +60,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":domain"))
 
     implementation(Dep.AndroidX.annotation)
     implementation(Dep.AndroidX.activity)
@@ -89,13 +89,10 @@ dependencies {
     implementation(Dep.Koin.android)
     implementation(Dep.Koin.androidViewModel)
 
-    // Jsoup
-    implementation(Dep.jsoup)
     // Glide
     implementation(Dep.Glide.core)
     kapt(Dep.Glide.compiler)
     // OkHttp
-    implementation(Dep.OkHttp.core)
     implementation(Dep.OkHttp.loggingInterceptor)
     // kotlin
     implementation(Dep.Kotlin.stdlibJvm)

@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.FirstItemSelectEvent
-import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
@@ -80,10 +81,8 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         tvName.text = webToonInfo.writer
-        if (webToonInfo.rate.isNotEmpty()) {
-            tvRate.text = webToonInfo.rate
-            tvRate.visibility = View.VISIBLE
-        }
+        tvRate.text = Const.getRateNameByRate(webToonInfo.rate)
+        tvRate.isVisible = webToonInfo.rate != 0.0
 
         btnFirst.setOnClickListener {
             EventBus.send(FirstItemSelectEvent)

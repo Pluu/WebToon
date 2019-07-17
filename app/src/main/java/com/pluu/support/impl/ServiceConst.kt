@@ -1,6 +1,7 @@
 package com.pluu.support.impl
 
 import androidx.annotation.ColorRes
+import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.R
 
 /**
@@ -21,7 +22,7 @@ object ServiceConst {
     val NAVDRAWER_ICON_RES_ID = IntArray(NAVDRAWER_TITLE_RES_ID.size) { 0 }
 }
 
-enum class NAV_ITEM(
+enum class UI_NAV_ITEM(
     val isSelect: Boolean = false,
     @ColorRes val color: Int = 0,
     @ColorRes val bgColor: Int = 0
@@ -34,7 +35,19 @@ enum class NAV_ITEM(
     SEPARATOR, // Separator
     INVALID;
 
-    companion object {
-        fun getDefault() = NAVER
+    fun getCoreType(): NAV_ITEM = when (this) {
+        DAUM -> NAV_ITEM.DAUM
+        KTOON -> NAV_ITEM.KTOON
+        KAKAOPAGE -> NAV_ITEM.KAKAOPAGE
+        NATE -> NAV_ITEM.NATE
+        else -> NAV_ITEM.NAVER
     }
+}
+
+fun NAV_ITEM.toUiType(): UI_NAV_ITEM = when (this) {
+    NAV_ITEM.NAVER -> UI_NAV_ITEM.NAVER
+    NAV_ITEM.DAUM -> UI_NAV_ITEM.DAUM
+    NAV_ITEM.KTOON -> UI_NAV_ITEM.KTOON
+    NAV_ITEM.KAKAOPAGE -> UI_NAV_ITEM.KAKAOPAGE
+    NAV_ITEM.NATE -> UI_NAV_ITEM.NATE
 }

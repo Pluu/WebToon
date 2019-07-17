@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.pluu.kotlin.inflate
 import com.pluu.webtoon.R
-import com.pluu.webtoon.item.DetailView
+import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.utils.loadUrlOriginal
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_detail_viewholder.*

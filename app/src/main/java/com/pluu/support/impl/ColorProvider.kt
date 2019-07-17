@@ -16,7 +16,7 @@ class ColorProvider(
 /** Navigation Color Provider */
 class NaviColorProvider(
     private val provider: ColorProvider,
-    private val naviItem: NAV_ITEM
+    private val naviItem: UI_NAV_ITEM
 ) {
     fun getTitleColor(): Int = provider.getColor(naviItem.color)
     fun getTitleColorDark(): Int = provider.getColor(naviItem.bgColor)

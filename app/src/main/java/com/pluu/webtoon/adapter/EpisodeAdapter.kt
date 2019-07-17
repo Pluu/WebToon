@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.viewholder.EpisodeViewHolder
-import com.pluu.webtoon.item.EpisodeInfo
+import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import kotlinx.android.synthetic.main.layout_episode_list_item.view.*
 

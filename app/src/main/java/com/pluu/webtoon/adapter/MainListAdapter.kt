@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.viewholder.MainListViewHolder
-import com.pluu.webtoon.item.ToonInfo
+import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import kotlinx.android.synthetic.main.layout_main_list_item.*
 
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_main_list_item.*
  */
 class MainListAdapter(
     mContext: Context,
-    private val list: List<ToonInfo>?,
+    private val list: List<ToonInfo>,
     private val listener: WebToonSelectListener
 ) : RecyclerView.Adapter<MainListViewHolder>() {
 
@@ -30,7 +30,7 @@ class MainListAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: MainListViewHolder, i: Int) {
-        viewHolder.bind(list!![i])
+        viewHolder.bind(list[i])
         viewHolder.thumbnailView.setOnClickListener {
             if (list[i].isLock) {
                 listener.selectLockItem()
@@ -41,13 +41,13 @@ class MainListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return list?.size ?: 0
+        return list.size
     }
 
     fun modifyInfo(id: String, isFavorite: Boolean) {
-        list?.indexOfFirst { item ->
+        list.indexOfFirst { item ->
             id == item.id
-        }?.takeIf {
+        }.takeIf {
             it > -1
         }?.let { index ->
             list[index].isFavorite = isFavorite

@@ -3,7 +3,7 @@ package com.pluu.webtoon.adapter.viewholder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.R
-import com.pluu.webtoon.item.EpisodeInfo
+import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.utils.loadUrl
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.layout_episode_list_item.*

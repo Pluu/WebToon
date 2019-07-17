@@ -2,7 +2,7 @@ package com.pluu.webtoon.common
 
 import android.content.Context
 import androidx.preference.PreferenceManager
-import com.pluu.support.impl.NAV_ITEM
+import com.pluu.webtoon.NAV_ITEM
 
 /**
  * SharedPreferences

@@ -22,9 +22,9 @@ import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
-import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener

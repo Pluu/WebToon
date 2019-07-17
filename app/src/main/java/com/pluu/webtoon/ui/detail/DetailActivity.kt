@@ -21,9 +21,9 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.commit
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.item.EpisodeInfo
-import com.pluu.webtoon.item.ShareItem
-import com.pluu.webtoon.item.getMessage
+import com.pluu.webtoon.domain.moel.EpisodeInfo
+import com.pluu.webtoon.domain.moel.ShareItem
+import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.android.synthetic.main.activity_detail.*

@@ -2,8 +2,13 @@ package com.pluu.webtoon.di
 
 import com.pluu.support.impl.ColorProvider
 import com.pluu.support.impl.NaviColorProvider
+import com.pluu.support.impl.toUiType
+import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.common.PrefConfig
-import com.pluu.webtoon.db.RealmHelper
+import com.pluu.webtoon.data.db.IDBHelper
+import com.pluu.webtoon.data.db.RealmHelper
+import com.pluu.webtoon.data.network.INetworkUseCase
+import com.pluu.webtoon.data.network.NetworkUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
@@ -13,7 +18,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 private val dbModule = module {
-    single { RealmHelper() }
+    single<IDBHelper> { RealmHelper() }
 }
 
 private val appModule = module {
@@ -42,7 +47,12 @@ private val networkModule = module {
 
 private val resourceModule = module {
     single { ColorProvider(get()) }
-    factory { NaviColorProvider(get(), getProperty(ServiceProperties.NAV_ITEM)) }
+    factory {
+        NaviColorProvider(
+            get(),
+            getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM).toUiType()
+        )
+    }
 }
 
 val modules = arrayOf(appModule, dbModule, networkModule, resourceModule)

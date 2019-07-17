@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.item.ToonInfo
-import com.pluu.webtoon.usecase.HasFavoriteUseCase
-import com.pluu.webtoon.usecase.WeeklyUseCase
+import com.pluu.core.Result
+import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
+import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

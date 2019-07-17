@@ -13,8 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
-import com.pluu.support.impl.NAV_ITEM
 import com.pluu.support.impl.ServiceConst
+import com.pluu.support.impl.UI_NAV_ITEM
+import com.pluu.support.impl.toUiType
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.common.PrefConfig
@@ -42,16 +43,16 @@ abstract class BaseNavActivity : AppCompatActivity() {
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
-    private val first: NAV_ITEM by lazyNone {
+    private val first: UI_NAV_ITEM by lazyNone {
         val pref: PrefConfig = get()
-        getKoin().getProperty(ServiceProperties.NAV_ITEM, pref.getDefaultWebToon())
+        getKoin().getProperty(ServiceProperties.NAV_ITEM, pref.getDefaultWebToon()).toUiType()
     }
-    private var selfNavDrawerItem: NAV_ITEM = first
+    private var selfNavDrawerItem: UI_NAV_ITEM = first
 
     private val mHandler: Handler by lazyNone { Handler() }
 
     // list of navdrawer items that were actually added to the navdrawer, in order
-    private val mNavDrawerItems = ArrayList<NAV_ITEM>()
+    private val mNavDrawerItems = ArrayList<UI_NAV_ITEM>()
 
     // views that correspond to each navdrawer item, null if not yet created
     private var mNavDrawerItemViews: MutableList<View>? = null
@@ -92,7 +93,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     private fun populateNavDrawer() {
         mNavDrawerItems.clear()
-        NAV_ITEM.values().filterTo(mNavDrawerItems) { it.isSelect }
+        UI_NAV_ITEM.values().filterTo(mNavDrawerItems) { it.isSelect }
         createNavDrawerItems()
     }
 
@@ -110,9 +111,9 @@ abstract class BaseNavActivity : AppCompatActivity() {
         }
     }
 
-    private fun makeNavDrawerItem(item: NAV_ITEM, container: ViewGroup): View {
+    private fun makeNavDrawerItem(item: UI_NAV_ITEM, container: ViewGroup): View {
         val selected = selfNavDrawerItem == item
-        val layoutToInflate = if (item == NAV_ITEM.SEPARATOR) {
+        val layoutToInflate = if (item == UI_NAV_ITEM.SEPARATOR) {
             R.layout.navdrawer_separator
         } else {
             R.layout.navdrawer_item
@@ -144,7 +145,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
         return view
     }
 
-    private fun formatNavDrawerItem(view: View, item: NAV_ITEM, selected: Boolean) {
+    private fun formatNavDrawerItem(view: View, item: UI_NAV_ITEM, selected: Boolean) {
         if (isSeparator(item)) {
             // not applicable
             return
@@ -174,8 +175,8 @@ abstract class BaseNavActivity : AppCompatActivity() {
         )
     }
 
-    private fun isSeparator(item: NAV_ITEM): Boolean {
-        return item == NAV_ITEM.SEPARATOR
+    private fun isSeparator(item: UI_NAV_ITEM): Boolean {
+        return item == UI_NAV_ITEM.SEPARATOR
     }
 
     private val isNavDrawerOpen: Boolean
@@ -183,7 +184,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     protected fun closeNavDrawer() = mDrawerLayout.closeDrawer(GravityCompat.START)
 
-    private fun onNavDrawerItemClicked(item: NAV_ITEM) {
+    private fun onNavDrawerItemClicked(item: UI_NAV_ITEM) {
         if (item == selfNavDrawerItem) {
             mDrawerLayout.closeDrawer(GravityCompat.START)
             return
@@ -198,11 +199,11 @@ abstract class BaseNavActivity : AppCompatActivity() {
         mDrawerLayout.closeDrawer(GravityCompat.START)
     }
 
-    private fun goToNavDrawerItem(item: NAV_ITEM?) {
+    private fun goToNavDrawerItem(item: UI_NAV_ITEM?) {
         item ?: return
 
         selfNavDrawerItem = item
-        getKoin().setProperty(ServiceProperties.NAV_ITEM, item)
+        getKoin().setProperty(ServiceProperties.NAV_ITEM, item.getCoreType())
 
         supportFragmentManager.commit {
             supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
@@ -217,7 +218,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
      * also be accomplished (perhaps more cleanly) with state-based layouts.
      * @param item Select Navi Item
      */
-    private fun setSelectedNavDrawerItem(item: NAV_ITEM) {
+    private fun setSelectedNavDrawerItem(item: UI_NAV_ITEM) {
         mNavDrawerItemViews?.apply {
             for ((index, value) in mNavDrawerItems.withIndex()) {
                 if (index < mNavDrawerItems.size) {

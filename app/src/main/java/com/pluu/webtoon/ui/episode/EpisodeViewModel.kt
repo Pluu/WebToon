@@ -4,16 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.data.EpisodeRequest
-import com.pluu.webtoon.item.EpisodeInfo
-import com.pluu.webtoon.item.EpisodeResult
-import com.pluu.webtoon.item.Result
-import com.pluu.webtoon.item.ToonInfo
-import com.pluu.webtoon.model.REpisode
-import com.pluu.webtoon.usecase.AddFavoriteUseCase
-import com.pluu.webtoon.usecase.EpisodeUseCase
-import com.pluu.webtoon.usecase.ReadEpisodeListUseCase
-import com.pluu.webtoon.usecase.RemoveFavoriteUseCase
+import com.pluu.core.Result
+import com.pluu.webtoon.data.network.EpisodeRequest
+import com.pluu.webtoon.domain.moel.Episode
+import com.pluu.webtoon.domain.moel.EpisodeInfo
+import com.pluu.webtoon.domain.moel.EpisodeResult
+import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.usecase.AddFavoriteUseCase
+import com.pluu.webtoon.domain.usecase.EpisodeUseCase
+import com.pluu.webtoon.domain.usecase.ReadEpisodeListUseCase
+import com.pluu.webtoon.domain.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -118,7 +118,7 @@ class EpisodeViewModel(
         }.getOrDefault(emptyList())
     }
 
-    private fun getReadList(): List<REpisode> = readEpisodeListUseCase(info.id)
+    private fun getReadList(): List<Episode> = readEpisodeListUseCase(info.id)
 
     fun readUpdate() {
         viewModelScope.launch {
@@ -156,7 +156,7 @@ class EpisodeViewModel(
     }
 }
 
-private fun List<EpisodeInfo>.applyReaded(readList: List<REpisode>) {
+private fun List<EpisodeInfo>.applyReaded(readList: List<Episode>) {
     for (readItem in readList) {
         for (episode in this) {
             if (readItem.episodeId == episode.id) {

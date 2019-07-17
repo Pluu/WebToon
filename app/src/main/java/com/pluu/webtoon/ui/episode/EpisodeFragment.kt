@@ -15,9 +15,9 @@ import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.EpisodeAdapter
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.domain.moel.EpisodeInfo
+import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.FirstItemSelectEvent
-import com.pluu.webtoon.item.EpisodeInfo
-import com.pluu.webtoon.item.ToonInfo
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
