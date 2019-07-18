@@ -1,6 +1,6 @@
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.5.0-beta05"
+        const val android = "com.android.tools.build:gradle:3.5.0-rc01"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val realm = "io.realm:realm-gradle-plugin:5.12.0"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
@@ -36,6 +36,7 @@ object Dep {
             const val preference = "androidx.preference:preference:1.1.0-rc01"
             const val browser = "androidx.browser:browser:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
+            const val viewPager = "androidx.viewpager:viewpager:1.0.0"
             const val material = "com.google.android.material:material:1.1.0-alpha08"
         }
     }

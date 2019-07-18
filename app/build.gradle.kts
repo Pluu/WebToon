@@ -83,6 +83,7 @@ dependencies {
     implementation(Dep.AndroidX.UI.preference)
     implementation(Dep.AndroidX.UI.browser)
     implementation(Dep.AndroidX.UI.constraintLayout)
+    implementation(Dep.AndroidX.UI.viewPager)
     implementation(Dep.AndroidX.UI.material)
 
     // DI
