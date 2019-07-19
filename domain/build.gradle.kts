@@ -22,15 +22,9 @@ android {
 }
 
 dependencies {
-    api(project(":core"))
+    implementation(project(":core"))
     implementation(project(":data"))
     implementation(Dep.Kotlin.stdlibJvm)
-    implementation(Dep.Kotlin.coroutinesCore)
-
-    implementation(Dep.OkHttp.core)
-    // Jsoup
-    implementation(Dep.jsoup)
-
     testImplementation(Dep.Test.junit)
 }
 

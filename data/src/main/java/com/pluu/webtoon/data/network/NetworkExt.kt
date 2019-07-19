@@ -2,7 +2,7 @@
 
 package com.pluu.webtoon.data.network
 
-import com.pluu.core.Result
+import com.pluu.webtoon.data.model.Result
 import org.json.JSONObject
 
 val networkFailedException: Exception

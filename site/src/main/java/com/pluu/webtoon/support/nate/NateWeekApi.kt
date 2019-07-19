@@ -1,12 +1,12 @@
 package com.pluu.webtoon.support.nate
 
-import com.pluu.core.Result
 import com.pluu.webtoon.data.model.IRequest
+import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
-import com.pluu.webtoon.data.network.mapDocument
 import com.pluu.webtoon.domain.base.AbstractWeekApi
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
+import com.pluu.webtoon.network.mapDocument
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 

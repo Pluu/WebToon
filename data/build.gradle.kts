@@ -23,13 +23,10 @@ android {
 }
 
 dependencies {
-    api(project(":core"))
+    implementation(project(":core"))
     implementation(Dep.Kotlin.stdlibJvm)
-    implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.Kotlin.coroutinesCore)
     // OkHttp
     implementation(Dep.OkHttp.core)
-    // Jsoup
-    implementation(Dep.jsoup)
     testImplementation(Dep.Test.junit)
 }

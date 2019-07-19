@@ -1,8 +1,8 @@
 package com.pluu.webtoon.domain.base
 
-import com.pluu.core.Result
-import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
+import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
 import java.util.*
 
 /**

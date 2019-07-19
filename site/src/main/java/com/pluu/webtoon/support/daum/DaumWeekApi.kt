@@ -1,16 +1,16 @@
 package com.pluu.webtoon.support.daum
 
-import com.pluu.core.Result
 import com.pluu.core.asSequence
 import com.pluu.core.isNotEmpty
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
+import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
-import com.pluu.webtoon.data.network.WeeklyRequest
 import com.pluu.webtoon.data.network.mapJson
+import com.pluu.webtoon.domain.base.AbstractWeekApi
 import com.pluu.webtoon.domain.moel.Status
 import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.support.impl.AbstractWeekApi
+import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat

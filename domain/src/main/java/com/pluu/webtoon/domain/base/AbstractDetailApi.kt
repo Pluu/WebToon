@@ -1,7 +1,7 @@
 package com.pluu.webtoon.domain.base
 
-import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.domain.moel.DetailResult
+import com.pluu.webtoon.domain.usecase.param.DetailRequest
 
 /**
  * Detail Parse API

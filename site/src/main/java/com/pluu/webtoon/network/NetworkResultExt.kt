@@ -1,8 +1,10 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.pluu.webtoon.data.network
+package com.pluu.webtoon.network
 
-import com.pluu.core.Result
+import com.pluu.webtoon.data.model.Result
+import com.pluu.webtoon.data.network.NetworkResult
+import com.pluu.webtoon.data.network.safeAPi
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
