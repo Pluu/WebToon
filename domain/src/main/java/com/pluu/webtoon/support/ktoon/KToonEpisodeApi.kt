@@ -2,6 +2,7 @@ package com.pluu.webtoon.support.ktoon
 
 import com.pluu.core.Result
 import com.pluu.core.asSequence
+import com.pluu.core.orEmpty
 import com.pluu.webtoon.data.network.EpisodeRequest
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
@@ -42,7 +43,7 @@ class KToonEpisodeApi(
         // Parse Data
         ///////////////////////////////////////////////////////////////////////////
 
-        val array: JSONArray = responseData.optJSONArray("response") ?: JSONArray()
+        val array: JSONArray = responseData.optJSONArray("response").orEmpty()
         val episodePage = EpisodeResult(parseList(param.toonId, array))
         episodePage.nextLink = EPISODE_URL.takeIf { array.length() >= PAGE_SIZE }
         if (param.page == 0) {

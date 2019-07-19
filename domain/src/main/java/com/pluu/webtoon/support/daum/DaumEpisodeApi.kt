@@ -2,14 +2,15 @@ package com.pluu.webtoon.support.daum
 
 import com.pluu.core.Result
 import com.pluu.core.asSequence
-import com.pluu.webtoon.data.network.EpisodeRequest
+import com.pluu.core.orEmpty
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
-import com.pluu.webtoon.domain.moel.EpisodeInfo
-import com.pluu.webtoon.domain.moel.EpisodeResult
+import com.pluu.webtoon.data.network.EpisodeRequest
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.data.network.safeAPi
+import com.pluu.webtoon.domain.moel.EpisodeInfo
+import com.pluu.webtoon.domain.moel.EpisodeResult
 import com.pluu.webtoon.support.impl.AbstractEpisodeApi
 import org.json.JSONArray
 import org.json.JSONObject
@@ -54,7 +55,7 @@ class DaumEpisodeApi(
 
         if (episodes.isNotEmpty()) {
             val nick = param.toonId
-            val page = responseData.optJSONObject("page") ?: JSONObject()
+            val page = responseData.optJSONObject("page").orEmpty()
 
             result.nextLink = nick.takeIf { parsePage(page) }
             result.first = getFirstEpisode(nick)

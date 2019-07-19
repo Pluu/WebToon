@@ -14,9 +14,8 @@ import com.pluu.webtoon.adapter.LicenseAdapter
 import com.pluu.webtoon.event.RecyclerViewEvent
 import kotlinx.android.synthetic.main.activity_license.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 
 /**
  * License Activity
@@ -24,6 +23,8 @@ import kotlinx.coroutines.launch
  */
 class LicenseActivity : AppCompatActivity() {
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_license)
@@ -31,18 +32,15 @@ class LicenseActivity : AppCompatActivity() {
         initView()
     }
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     private fun initView() {
         listView?.apply {
             layoutManager = LinearLayoutManager(this@LicenseActivity)
             adapter = LicenseAdapter(this@LicenseActivity)
         }
-    }
 
-    @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
-    public override fun onResume() {
-        super.onResume()
-       lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed {
             registerViewEvent()
         }
     }
@@ -55,11 +53,11 @@ class LicenseActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    @ObsoleteCoroutinesApi
+    @FlowPreview
     @ExperimentalCoroutinesApi
     private suspend fun registerViewEvent() {
         EventBus.subscribeToEvent<RecyclerViewEvent>()
-            .consumeEach {
+            .collect {
                 itemClick(it)
             }
     }

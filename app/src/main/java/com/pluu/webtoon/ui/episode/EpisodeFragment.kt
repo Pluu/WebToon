@@ -26,8 +26,8 @@ import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.android.synthetic.main.fragment_episode.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -96,6 +96,8 @@ class EpisodeFragment : Fragment(),
         }
     }
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.listEvent.observeNonNull(this) { list ->
@@ -139,6 +141,9 @@ class EpisodeFragment : Fragment(),
                 }
             }
         }
+        lifecycleScope.launchWhenResumed {
+            registerFirstSelectEvent()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -177,15 +182,6 @@ class EpisodeFragment : Fragment(),
         }
     }
 
-    @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launchWhenResumed {
-            registerFirstSelectEvent()
-        }
-    }
-
     override fun onRefresh() {
         adapter.clear()
         viewModel.initalize()
@@ -219,11 +215,11 @@ class EpisodeFragment : Fragment(),
     // View Function
     ///////////////////////////////////////////////////////////////////////////
 
-    @ObsoleteCoroutinesApi
+    @FlowPreview
     @ExperimentalCoroutinesApi
     private suspend fun registerFirstSelectEvent() {
         EventBus.subscribeToEvent<FirstItemSelectEvent>()
-            .consumeEach {
+            .collect {
                 firstItemSelect()
             }
     }

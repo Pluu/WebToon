@@ -27,9 +27,8 @@ import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
 import kotlinx.android.synthetic.main.fragment_toon.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
@@ -96,15 +95,14 @@ class MainFragment : Fragment() {
         slidingTabLayout?.setSelectedTabIndicatorColor(color)
     }
 
+    @FlowPreview
     @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
-    override fun onResume() {
-        super.onResume()
-
-        lifecycleScope.launch {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        lifecycleScope.launchWhenStarted {
             registerStartEvent()
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             registerLoadEvent()
         }
     }
@@ -125,22 +123,18 @@ class MainFragment : Fragment() {
         }
     }
 
-    @ObsoleteCoroutinesApi
+    @FlowPreview
     @ExperimentalCoroutinesApi
     private suspend fun registerLoadEvent() {
         EventBus.subscribeToEvent<MainEpisodeLoadedEvent>()
-            .consumeEach {
-                eventLoadedEvent()
-            }
+            .collect { eventLoadedEvent() }
     }
 
-    @ObsoleteCoroutinesApi
+    @FlowPreview
     @ExperimentalCoroutinesApi
     private suspend fun registerStartEvent() {
         EventBus.subscribeToEvent<MainEpisodeStartEvent>()
-            .consumeEach {
-                eventStartEvent()
-            }
+            .collect { eventStartEvent() }
     }
 
     private fun eventStartEvent() {

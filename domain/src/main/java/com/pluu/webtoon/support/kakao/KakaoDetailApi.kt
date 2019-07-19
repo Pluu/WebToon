@@ -2,15 +2,17 @@ package com.pluu.webtoon.support.kakao
 
 import com.pluu.core.Result
 import com.pluu.core.asSequence
-import com.pluu.webtoon.data.network.DetailRequest
+import com.pluu.core.orEmpty
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
-import com.pluu.webtoon.domain.moel.DetailResult
-import com.pluu.webtoon.domain.moel.DetailView
+import com.pluu.webtoon.data.network.DetailRequest
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
+import com.pluu.webtoon.domain.moel.DetailResult
+import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.support.impl.AbstractDetailApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -27,24 +29,26 @@ class KakaoDetailApi(
         val id = param.episodeId
 
         return runBlocking {
-            val json: JSONObject? = withContext(Dispatchers.Default) {
-                getData(param.episodeId)
-            }
-            val prev: String? = withContext(Dispatchers.Default) {
-                getMoreData(param.toonId, id, isPrev = true)
-            }
-            val next = withContext(Dispatchers.Default) {
-                getMoreData(param.toonId, id, isPrev = false)
-            }
+            withContext(Dispatchers.Default) {
+                val jsonDeferred = async {
+                    getData(param.episodeId).orEmpty()
+                }
+                val prevDeferred = async {
+                    getMoreData(param.toonId, id, isPrev = true).orEmpty()
+                }
+                val nextDeferred = async {
+                    getMoreData(param.toonId, id, isPrev = false).orEmpty()
+                }
 
-            DetailResult.Detail(
-                webtoonId = param.toonId,
-                episodeId = id
-            ).apply {
-                title = param.episodeTitle
-                list = json?.let { getImages(it) }.orEmpty()
-                prevLink = prev
-                nextLink = next
+                DetailResult.Detail(
+                    webtoonId = param.toonId,
+                    episodeId = id
+                ).apply {
+                    title = param.episodeTitle
+                    list = getImages(jsonDeferred.await())
+                    prevLink = prevDeferred.await()
+                    nextLink = nextDeferred.await()
+                }
             }
         }
     }
@@ -65,16 +69,15 @@ class KakaoDetailApi(
             }
     }
 
-    private fun getImages(json: JSONObject): List<DetailView>? {
+    private fun getImages(json: JSONObject): List<DetailView> {
         val memberInfo: JSONObject? =
             json.optJSONObject("downloadData")?.optJSONObject("members")
         return memberInfo?.optString("sAtsServerUrl")?.takeIf { it.isNotEmpty() }?.let { host ->
             memberInfo.optJSONArray("files")
                 ?.asSequence()
-                ?.map {
-                    DetailView("$host${it.optString("secureUrl")}")
-                }?.toList()
-        }
+                ?.map { DetailView("$host${it.optString("secureUrl")}") }
+                ?.toList()
+        }.orEmpty()
     }
 
     private suspend fun getMoreData(toonId: String, episodeId: String, isPrev: Boolean): String? {

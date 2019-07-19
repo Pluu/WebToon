@@ -13,9 +13,8 @@ import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
 import kotlinx.android.synthetic.main.navdrawer.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
 /**
@@ -26,6 +25,8 @@ class MainActivity : BaseNavActivity() {
 
     private val defaultProvider: NaviColorProvider by inject()
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,22 +52,17 @@ class MainActivity : BaseNavActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
             closeNavDrawer()
         }
-    }
 
-    @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             registerThemeChangeEvent()
         }
     }
 
-    @ObsoleteCoroutinesApi
+    @FlowPreview
     @ExperimentalCoroutinesApi
     private suspend fun registerThemeChangeEvent() {
         EventBus.subscribeToEvent<ThemeEvent>()
-            .consumeEach { themeChange(it) }
+            .collect { themeChange(it) }
     }
 
     private fun themeChange(event: ThemeEvent) {
