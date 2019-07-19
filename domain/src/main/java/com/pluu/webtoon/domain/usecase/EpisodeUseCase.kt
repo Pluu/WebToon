@@ -1,5 +1,5 @@
 package com.pluu.webtoon.domain.usecase
 
-import com.pluu.webtoon.support.impl.AbstractEpisodeApi
+import com.pluu.webtoon.domain.base.AbstractEpisodeApi
 
 typealias EpisodeUseCase = AbstractEpisodeApi

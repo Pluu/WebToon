@@ -1,8 +1,6 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
-    id("realm-android")
 }
 
 android {
@@ -23,13 +21,10 @@ android {
 }
 
 dependencies {
-    api(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
     implementation(Dep.Kotlin.stdlibJvm)
-    implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.Kotlin.coroutinesCore)
-    // OkHttp
-    implementation(Dep.OkHttp.core)
-    // Jsoup
     implementation(Dep.jsoup)
     testImplementation(Dep.Test.junit)
 }

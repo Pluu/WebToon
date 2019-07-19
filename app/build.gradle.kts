@@ -60,7 +60,9 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":site"))
 
     implementation(Dep.AndroidX.annotation)
     implementation(Dep.AndroidX.activity)
