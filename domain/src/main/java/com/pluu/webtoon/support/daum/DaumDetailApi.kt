@@ -5,12 +5,12 @@ import com.pluu.core.asSequence
 import com.pluu.core.iterator
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
+import com.pluu.webtoon.data.network.DetailRequest
 import com.pluu.webtoon.data.network.INetworkUseCase
+import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.domain.moel.DetailResult
 import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE
-import com.pluu.webtoon.data.network.DetailRequest
-import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.support.impl.AbstractDetailApi
 import org.json.JSONObject
 

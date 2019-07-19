@@ -1,7 +1,7 @@
 package com.pluu.webtoon.support.impl
 
-import com.pluu.webtoon.data.network.EpisodeRequest
 import com.pluu.core.Result
+import com.pluu.webtoon.data.network.EpisodeRequest
 import com.pluu.webtoon.domain.moel.EpisodeResult
 
 /**

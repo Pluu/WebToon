@@ -3,11 +3,11 @@ package com.pluu.webtoon.support.kakao
 import com.pluu.core.Result
 import com.pluu.core.asSequence
 import com.pluu.webtoon.data.model.IRequest
+import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.WeeklyRequest
+import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.domain.moel.Status
 import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.data.network.INetworkUseCase
-import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.support.impl.AbstractWeekApi
 import org.json.JSONObject
 

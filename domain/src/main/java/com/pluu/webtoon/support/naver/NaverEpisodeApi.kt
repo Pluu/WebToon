@@ -1,13 +1,13 @@
 package com.pluu.webtoon.support.naver
 
 import com.pluu.core.Result
-import com.pluu.webtoon.data.network.EpisodeRequest
 import com.pluu.webtoon.data.model.IRequest
+import com.pluu.webtoon.data.network.EpisodeRequest
+import com.pluu.webtoon.data.network.INetworkUseCase
+import com.pluu.webtoon.data.network.mapDocument
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.EpisodeResult
 import com.pluu.webtoon.domain.moel.Status
-import com.pluu.webtoon.data.network.INetworkUseCase
-import com.pluu.webtoon.data.network.mapDocument
 import com.pluu.webtoon.support.impl.AbstractEpisodeApi
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
