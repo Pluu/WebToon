@@ -1,6 +1,6 @@
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.5.0-rc01"
+        const val android = "com.android.tools.build:gradle:3.5.0-rc02"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val realm = "io.realm:realm-gradle-plugin:5.12.0"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
@@ -37,7 +37,7 @@ object Dep {
             const val browser = "androidx.browser:browser:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
             const val viewPager = "androidx.viewpager:viewpager:1.0.0"
-            const val material = "com.google.android.material:material:1.1.0-alpha08"
+            const val material = "com.google.android.material:material:1.1.0-alpha09"
         }
     }
 
@@ -45,7 +45,7 @@ object Dep {
         const val version = "1.3.41"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
-        private const val coroutinesVersion = "1.3.0-M2"
+        private const val coroutinesVersion = "1.3.0-RC"
         const val coroutinesCore =
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
         const val coroutinesAndroid =
