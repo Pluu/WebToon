@@ -4,7 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.domain.moel.*
+import com.pluu.webtoon.domain.moel.DetailResult
+import com.pluu.webtoon.domain.moel.DetailView
+import com.pluu.webtoon.domain.moel.ERROR_TYPE
+import com.pluu.webtoon.domain.moel.EpisodeInfo
+import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.ReadUseCase
 import com.pluu.webtoon.domain.usecase.ShareUseCase

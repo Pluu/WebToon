@@ -3,7 +3,11 @@ package com.pluu.webtoon.di
 import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.domain.usecase.*
+import com.pluu.webtoon.domain.usecase.AddFavoriteUseCase
+import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
+import com.pluu.webtoon.domain.usecase.ReadEpisodeListUseCase
+import com.pluu.webtoon.domain.usecase.ReadUseCase
+import com.pluu.webtoon.domain.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.ui.detail.DetailViewModel
 import com.pluu.webtoon.ui.episode.EpisodeViewModel
 import com.pluu.webtoon.ui.intro.IntroUseCase

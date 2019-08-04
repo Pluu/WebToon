@@ -1,6 +1,11 @@
 package com.pluu.webtoon.ui.detail
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent

@@ -23,7 +23,6 @@ import com.pluu.webtoon.di.ServiceProperties
 import com.pluu.webtoon.utils.lazyNone
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
-import java.util.*
 
 /**
  * Base ActionBar Activity

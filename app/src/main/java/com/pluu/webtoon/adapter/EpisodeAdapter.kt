@@ -67,4 +67,3 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
         }
     }
 }
-
