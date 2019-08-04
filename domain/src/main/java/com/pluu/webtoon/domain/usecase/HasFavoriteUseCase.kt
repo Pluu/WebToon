@@ -15,6 +15,6 @@ class HasFavoriteUseCase(
      * @param id 웹툰 ID
      * @return true/false
      */
-    operator fun invoke(id: String): Boolean =
+    suspend operator fun invoke(id: String): Boolean =
         realmHelper.isFavorite(naviItem, id)
 }

@@ -11,20 +11,20 @@ import io.realm.Realm
  */
 class RealmHelper : IDBHelper {
 
-    override fun isFavorite(item: NAV_ITEM, id: String): Boolean =
+    override suspend fun isFavorite(item: NAV_ITEM, id: String): Boolean =
         Realm.getDefaultInstance().where(RToon::class.java)
             .equalTo("service", item.name)
             .equalTo("toonId", id)
             .count() > 0
 
-    override fun getEpisode(item: NAV_ITEM, id: String): List<REpisode> =
+    override suspend fun getEpisode(item: NAV_ITEM, id: String): List<REpisode> =
         Realm.getDefaultInstance().where(REpisode::class.java)
             .equalTo("service", item.name)
             .equalTo("toonId", id)
             .isNotNull("episodeId")
             .findAll()
 
-    override fun addFavorite(item: NAV_ITEM, id: String) =
+    override suspend fun addFavorite(item: NAV_ITEM, id: String) =
         with(Realm.getDefaultInstance()) {
             beginTransaction()
             createObject(RToon::class.java).apply {
@@ -34,7 +34,7 @@ class RealmHelper : IDBHelper {
             commitTransaction()
         }
 
-    override fun removeFavorite(item: NAV_ITEM, id: String) =
+    override suspend fun removeFavorite(item: NAV_ITEM, id: String) =
         with(Realm.getDefaultInstance()) {
             beginTransaction()
             where(RToon::class.java)
@@ -45,7 +45,7 @@ class RealmHelper : IDBHelper {
             commitTransaction()
         }
 
-    override fun readEpisode(service: NAV_ITEM, id: String, episodeId: String) =
+    override suspend fun readEpisode(service: NAV_ITEM, id: String, episodeId: String) =
         with(Realm.getDefaultInstance()) {
             beginTransaction()
             createObject(REpisode::class.java).apply {

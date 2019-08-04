@@ -118,7 +118,9 @@ class EpisodeViewModel(
         }.getOrDefault(emptyList())
     }
 
-    private fun getReadList(): List<Episode> = readEpisodeListUseCase(info.id)
+    private suspend fun getReadList(): List<Episode> = withContext(dispatchers.computation) {
+        readEpisodeListUseCase(info.id)
+    }
 
     fun readUpdate() {
         viewModelScope.launch {
@@ -144,10 +146,12 @@ class EpisodeViewModel(
     }
 
     fun favorite(isFavorite: Boolean) {
-        if (isFavorite) {
-            addFavoriteUseCase(info.id)
-        } else {
-            delFavoriteUseCase(info.id)
+        viewModelScope.launch(dispatchers.computation) {
+            if (isFavorite) {
+                addFavoriteUseCase(info.id)
+            } else {
+                delFavoriteUseCase(info.id)
+            }
         }
         info.isFavorite = isFavorite
 

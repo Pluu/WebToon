@@ -16,7 +16,7 @@ class ReadEpisodeListUseCase(
      * @param id EpisodeInfo ID
      * @return Read List
      */
-    operator fun invoke(id: String): List<Episode> =
+    suspend operator fun invoke(id: String): List<Episode> =
         realmHelper.getEpisode(naviItem, id)
             .map {
                 Episode(

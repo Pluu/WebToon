@@ -10,7 +10,7 @@ class AddFavoriteUseCase(
     private val realmHelper: IDBHelper,
     private val naviItem: NAV_ITEM
 ) {
-    operator fun invoke(id: String) {
+    suspend operator fun invoke(id: String) {
         realmHelper.addFavorite(naviItem, id)
     }
 }

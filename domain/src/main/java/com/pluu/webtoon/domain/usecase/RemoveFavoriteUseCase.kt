@@ -10,7 +10,7 @@ class RemoveFavoriteUseCase(
     private val realmHelper: IDBHelper,
     private val naviItem: NAV_ITEM
 ) {
-    operator fun invoke(id: String) {
+    suspend operator fun invoke(id: String) {
         realmHelper.removeFavorite(naviItem, id)
     }
 }

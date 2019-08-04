@@ -9,6 +9,7 @@ import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.utils.coroutines.mapOnSuspend
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -36,21 +37,19 @@ class WeekyViewModel(
     }
 
     private suspend fun getWeekLoad(): List<ToonInfo> = withContext(dispatchers.computation) {
-        val apiResult = weeklyUseCase(weekPos)
+        val apiResult: Result<List<ToonInfo>> = weeklyUseCase(weekPos)
         if (apiResult is Result.Success) {
-            runCatching {
-                apiResult.data.asSequence()
-                    .map {
-                        it.isFavorite = hasFavoriteUseCase(it.id)
-                        it
-                    }
-                    .sortedWith(compareBy<ToonInfo> {
-                        !it.isFavorite
-                    }.thenBy {
-                        it.title
-                    })
-                    .toList()
-            }.getOrDefault(emptyList())
+            apiResult.data
+                .mapOnSuspend {
+                    it.isFavorite = hasFavoriteUseCase(it.id)
+                    it
+                }
+                .sortedWith(compareBy<ToonInfo> {
+                    !it.isFavorite
+                }.thenBy {
+                    it.title
+                })
+                .toList()
         } else {
             emptyList()
         }
