@@ -5,7 +5,6 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
-    id("realm-android")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -78,6 +77,9 @@ dependencies {
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.lifecycleExtensions)
+    implementation(Dep.AndroidX.room.runtime)
+    kapt(Dep.AndroidX.room.compiler)
+    implementation(Dep.AndroidX.room.ktx)
 
     // Android UI
     implementation(Dep.AndroidX.UI.recyclerview)

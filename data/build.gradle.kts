@@ -2,7 +2,6 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
-    id("realm-android")
 }
 
 android {
@@ -11,6 +10,16 @@ android {
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(29)
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf(
+                    "room.schemaLocation" to "$projectDir/build/schemas",
+                    "room.incremental" to "true"
+                )
+            }
+        }
+
     }
 
     buildTypes {
@@ -26,6 +35,9 @@ dependencies {
     implementation(project(":core"))
     implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.coroutinesCore)
+    implementation(Dep.AndroidX.room.runtime)
+    kapt(Dep.AndroidX.room.compiler)
+    implementation(Dep.AndroidX.room.ktx)
     // OkHttp
     implementation(Dep.OkHttp.core)
     testImplementation(Dep.Test.junit)

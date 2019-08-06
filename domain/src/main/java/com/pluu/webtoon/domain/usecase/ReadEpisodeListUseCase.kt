@@ -8,7 +8,7 @@ import com.pluu.webtoon.domain.moel.Episode
  * EpisodeInfo Section Use Case
  */
 class ReadEpisodeListUseCase(
-    private val realmHelper: IDBHelper,
+    private val dbHelper: IDBHelper,
     private val naviItem: NAV_ITEM
 ) {
     /**
@@ -17,7 +17,7 @@ class ReadEpisodeListUseCase(
      * @return Read List
      */
     suspend operator fun invoke(id: String): List<Episode> =
-        realmHelper.getEpisode(naviItem, id)
+        dbHelper.getEpisode(naviItem.name, id)
             .map {
                 Episode(
                     service = it.service!!,

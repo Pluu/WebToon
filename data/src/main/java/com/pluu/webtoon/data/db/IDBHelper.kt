@@ -1,16 +1,16 @@
 package com.pluu.webtoon.data.db
 
-import com.pluu.webtoon.NAV_ITEM
-import com.pluu.webtoon.data.model.REpisode
+import com.pluu.webtoon.data.model.DBToon
+import com.pluu.webtoon.utils.com.pluu.webtoon.data.model.DBEpisode
 
 interface IDBHelper {
-    suspend fun isFavorite(item: NAV_ITEM, id: String): Boolean
+    suspend fun isFavorite(serviceName: String, id: String): Boolean
 
-    suspend fun getEpisode(item: NAV_ITEM, id: String): List<REpisode>
+    suspend fun getEpisode(serviceName: String, id: String): List<DBEpisode>
 
-    suspend fun addFavorite(item: NAV_ITEM, id: String)
+    suspend fun addFavorite(item: DBToon)
 
-    suspend fun removeFavorite(item: NAV_ITEM, id: String)
+    suspend fun removeFavorite(item: DBToon)
 
-    suspend fun readEpisode(service: NAV_ITEM, id: String, episodeId: String)
+    suspend fun readEpisode(item: DBEpisode)
 }

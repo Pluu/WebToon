@@ -64,7 +64,6 @@
         <item>Glide</item>
         <item>JakeWharton ButterKnife</item>
         <item>Jsoup</item>
-        <item>Realm-Java</item>
         <item>RxJava</item>
         <item>RxAndroid</item>
         <item>Square LeakCanary</item>
@@ -75,7 +74,6 @@
         <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
         <item>https://github.com/JakeWharton/butterknife/blob/master/LICENSE.txt</item>
         <item>https://github.com/jhy/jsoup/blob/master/LICENSE</item>
-        <item>https://github.com/realm/realm-java/blob/master/LICENSE</item>
         <item>https://github.com/ReactiveX/RxJava/blob/1.x/LICENSE</item>
         <item>https://github.com/ReactiveX/RxAndroid/blob/master/LICENSE</item>
         <item>https://github.com/square/leakcanary/blob/master/LICENSE.txt</item>

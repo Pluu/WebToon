@@ -7,7 +7,7 @@ import com.pluu.webtoon.data.db.IDBHelper
  * 즐겨찾기 여부 UseCase
  */
 class HasFavoriteUseCase(
-    private val realmHelper: IDBHelper,
+    private val dbHelper: IDBHelper,
     private val naviItem: NAV_ITEM
 ) {
     /**
@@ -16,5 +16,5 @@ class HasFavoriteUseCase(
      * @return true/false
      */
     suspend operator fun invoke(id: String): Boolean =
-        realmHelper.isFavorite(naviItem, id)
+        dbHelper.isFavorite(naviItem.name, id)
 }

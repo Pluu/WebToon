@@ -7,7 +7,6 @@ buildscript {
     dependencies {
         classpath(Dep.GradlePlugin.android)
         classpath(Dep.GradlePlugin.kotlin)
-        classpath(Dep.GradlePlugin.realm)
         classpath(Dep.GradlePlugin.ktlint)
     }
 }

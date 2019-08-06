@@ -2,7 +2,6 @@ object Dep {
     object GradlePlugin {
         const val android = "com.android.tools.build:gradle:3.5.0-rc02"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
-        const val realm = "io.realm:realm-gradle-plugin:5.12.0"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
     }
 
@@ -25,6 +24,13 @@ object Dep {
         const val liveData = "androidx.lifecycle:lifecycle-livedata:$liveDataVersion"
         const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataVersion"
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$liveDataVersion"
+
+        object room {
+            private const val roomVersion = "2.2.0-alpha01"
+            const val runtime = "androidx.room:room-runtime:$roomVersion"
+            const val compiler = "androidx.room:room-compiler:$roomVersion"
+            const val ktx = "androidx.room:room-ktx:$roomVersion"
+        }
 
         const val appcompat = "androidx.appcompat:appcompat:1.1.0-rc01"
         const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha02"

@@ -6,7 +6,7 @@ import com.pluu.support.impl.toUiType
 import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.common.PrefConfig
 import com.pluu.webtoon.data.db.IDBHelper
-import com.pluu.webtoon.data.db.RealmHelper
+import com.pluu.webtoon.data.model.AppDatabase
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.NetworkUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
@@ -18,7 +18,9 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 private val dbModule = module {
-    single<IDBHelper> { RealmHelper() }
+    single<IDBHelper> {
+        AppDatabase.getInstance(androidContext()).roomDao()
+    }
 }
 
 private val appModule = module {
