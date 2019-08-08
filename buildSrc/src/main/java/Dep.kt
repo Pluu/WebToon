@@ -8,15 +8,15 @@ object Dep {
     object AndroidX {
         const val annotation = "androidx.annotation:annotation:1.1.0"
 
-        private const val activityVersion = "1.1.0-alpha01"
+        private const val activityVersion = "1.1.0-alpha02"
         const val activity = "androidx.activity:activity:$activityVersion"
         const val activityKtx = "androidx.activity:activity-ktx:$activityVersion"
 
-        private const val fragmentVersion = "1.2.0-alpha01"
+        private const val fragmentVersion = "1.2.0-alpha02"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
-        private const val viewModelVersion = "2.2.0-alpha02"
+        private const val viewModelVersion = "2.2.0-alpha03"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$viewModelVersion"
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
 
@@ -26,24 +26,25 @@ object Dep {
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$liveDataVersion"
 
         object room {
-            private const val roomVersion = "2.2.0-alpha01"
+            private const val roomVersion = "2.2.0-alpha02"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.1.0-rc01"
-        const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha02"
+        const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha03"
 
         object UI {
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta01"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta02"
             const val palette = "androidx.palette:palette:1.0.0"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0-rc01"
-            const val browser = "androidx.browser:browser:1.0.0"
+            const val browser = "androidx.browser:browser:1.2.0-alpha07"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
             const val viewPager = "androidx.viewpager:viewpager:1.0.0"
             const val material = "com.google.android.material:material:1.1.0-alpha09"
+            const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02"
         }
     }
 

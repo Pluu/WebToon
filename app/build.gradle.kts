@@ -40,9 +40,8 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
     lintOptions {
@@ -90,6 +89,7 @@ dependencies {
     implementation(Dep.AndroidX.UI.constraintLayout)
     implementation(Dep.AndroidX.UI.viewPager)
     implementation(Dep.AndroidX.UI.material)
+    implementation(Dep.AndroidX.UI.swiperefreshlayout)
 
     // DI
     implementation(Dep.Koin.android)
