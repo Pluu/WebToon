@@ -1,21 +1,10 @@
 buildscript {
-    repositories {
-        google()
-        jcenter()
-        maven("https://plugins.gradle.org/m2/")
-    }
-    dependencies {
-        classpath(Dep.GradlePlugin.android)
-        classpath(Dep.GradlePlugin.kotlin)
-        classpath(Dep.GradlePlugin.ktlint)
-    }
+    addScriptRepository()
+    addScriptDependencies()
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+    addScriptRepository()
 }
 
 task("clean", Delete::class) {

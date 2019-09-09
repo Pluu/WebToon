@@ -1,6 +1,13 @@
+import org.gradle.api.Project
+import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.initialization.dsl.ScriptHandler
+import org.gradle.kotlin.dsl.ScriptHandlerScope
+import org.gradle.kotlin.dsl.maven
+import org.gradle.kotlin.dsl.repositories
+
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.5.0-rc02"
+        const val android = "com.android.tools.build:gradle:3.5.0"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
     }
@@ -8,15 +15,21 @@ object Dep {
     object AndroidX {
         const val annotation = "androidx.annotation:annotation:1.1.0"
 
-        private const val activityVersion = "1.1.0-alpha02"
+        private const val activityVersion = "1.1.0-alpha03"
         const val activity = "androidx.activity:activity:$activityVersion"
         const val activityKtx = "androidx.activity:activity-ktx:$activityVersion"
 
-        private const val fragmentVersion = "1.2.0-alpha02"
+        object arch {
+            private const val version = "2.1.0"
+            const val common = "androidx.arch.core:core-common:$version"
+            const val runtime = "androidx.arch.core:core-runtime:$version"
+        }
+
+        private const val fragmentVersion = "1.2.0-alpha03"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
-        private const val viewModelVersion = "2.2.0-alpha03"
+        private const val viewModelVersion = "2.2.0-alpha04"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$viewModelVersion"
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
 
@@ -26,33 +39,34 @@ object Dep {
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$liveDataVersion"
 
         object room {
-            private const val roomVersion = "2.2.0-alpha02"
+            private const val roomVersion = "2.2.0-rc01"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.1.0-rc01"
-        const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha03"
+        const val appcompat = "androidx.appcompat:appcompat:1.1.0"
+        const val coreKtx = "androidx.core:core-ktx:1.2.0-alpha04"
 
         object UI {
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta02"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta04"
             const val palette = "androidx.palette:palette:1.0.0"
             const val cardview = "androidx.cardview:cardview:1.0.0"
-            const val preference = "androidx.preference:preference:1.1.0-rc01"
+            const val preference = "androidx.preference:preference:1.1.0"
             const val browser = "androidx.browser:browser:1.2.0-alpha07"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
             const val viewPager = "androidx.viewpager:viewpager:1.0.0"
             const val material = "com.google.android.material:material:1.1.0-alpha09"
-            const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02"
+            const val swiperefreshlayout =
+                "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02"
         }
     }
 
     object Kotlin {
-        const val version = "1.3.41"
+        const val version = "1.3.50"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
-        private const val coroutinesVersion = "1.3.0-RC"
+        private const val coroutinesVersion = "1.3.1"
         const val coroutinesCore =
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
         const val coroutinesAndroid =
@@ -74,7 +88,7 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.0.1"
+        private const val version = "4.1.1"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
@@ -83,5 +97,31 @@ object Dep {
         const val junit = "junit:junit:4.12"
         const val assertJ = "org.assertj:assertj-core:3.12.2"
         const val mockito = "org.mockito:mockito-core:3.0.0"
+    }
+}
+
+fun ScriptHandler.addScriptRepository() {
+    repositories {
+        addScriptDependencies()
+    }
+}
+
+fun Project.addScriptRepository() {
+    repositories {
+        addScriptDependencies()
+    }
+}
+
+private fun RepositoryHandler.addScriptDependencies() {
+    google()
+    jcenter()
+    maven("https://plugins.gradle.org/m2/")
+}
+
+fun ScriptHandlerScope.addScriptDependencies() {
+    dependencies {
+        classpath(Dep.GradlePlugin.android)
+        classpath(Dep.GradlePlugin.kotlin)
+        classpath(Dep.GradlePlugin.ktlint)
     }
 }
