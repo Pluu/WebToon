@@ -1,3 +1,5 @@
+@file:Suppress("ClassName")
+
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.initialization.dsl.ScriptHandler
@@ -25,11 +27,11 @@ object Dep {
             const val runtime = "androidx.arch.core:core-runtime:$version"
         }
 
-        private const val fragmentVersion = "1.2.0-alpha03"
+        private const val fragmentVersion = "1.2.0-alpha04"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
-        private const val viewModelVersion = "2.2.0-alpha04"
+        private const val viewModelVersion = "2.2.0-alpha05"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$viewModelVersion"
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
 
@@ -53,7 +55,7 @@ object Dep {
             const val palette = "androidx.palette:palette:1.0.0"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0"
-            const val browser = "androidx.browser:browser:1.2.0-alpha07"
+            const val browser = "androidx.browser:browser:1.2.0-alpha08"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
             const val viewPager = "androidx.viewpager:viewpager:1.0.0"
             const val material = "com.google.android.material:material:1.1.0-alpha09"
@@ -66,7 +68,7 @@ object Dep {
         const val version = "1.3.50"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
-        private const val coroutinesVersion = "1.3.1"
+        private const val coroutinesVersion = "1.3.2"
         const val coroutinesCore =
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
         const val coroutinesAndroid =
@@ -82,13 +84,13 @@ object Dep {
     const val jsoup = "org.jsoup:jsoup:1.12.1"
 
     object Glide {
-        private const val version = "4.9.0"
+        private const val version = "4.10.0"
         const val core = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }
 
     object OkHttp {
-        private const val version = "4.1.1"
+        private const val version = "4.2.0"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
