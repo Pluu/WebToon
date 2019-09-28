@@ -2,10 +2,12 @@ package com.pluu.webtoon.ui.episode
 
 import android.animation.ValueAnimator
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import com.pluu.event.EventBus
@@ -13,6 +15,7 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.FirstItemSelectEvent
+import com.pluu.webtoon.utils.RippleDrawableFactory
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
@@ -77,6 +80,10 @@ class EpisodesActivity : AppCompatActivity() {
 
         animatorToolbarColor(customTitleColor, listener).let {
             it.duration = 1000L
+            it.doOnEnd {
+                btnFirst.background =
+                    RippleDrawableFactory.createFromColor(Color.WHITE, ColorDrawable(customTitleColor))
+            }
             it.start()
         }
 

@@ -58,14 +58,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/black"
             android:drawableStart="@drawable/ic_looks_one_white_36dp"
             android:drawablePadding="10dp"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/label_first"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            tools:background="@android:color/black" />
 
     </LinearLayout>
 
