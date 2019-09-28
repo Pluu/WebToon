@@ -48,6 +48,10 @@ class NaverDetailApi(
         ret.title = responseData.select("div[class=chh] span, h1[class=tit]").first()?.text()
 
         when {
+            responseData.select("#ct > .toon_view_lst")?.isNotEmpty() == true -> {
+                // Fixed
+                parseFixed(ret, responseData)
+            }
             responseData.select("#ct")?.isNotEmpty() == true -> {
                 // 컷툰
                 parseCutToon(ret, responseData)
@@ -76,22 +80,23 @@ class NaverDetailApi(
         }
     }
 
+    private fun parseFixed(ret: DetailResult.Detail, doc: Document) {
+        ret.list = parseDetailFixedType(doc)
+    }
+
+    private fun parseDetailFixedType(doc: Document): List<DetailView> {
+        return doc.select("#ct ul li img")
+            .map { it.attr("data-src") }
+            .map { url -> DetailView(url) }
+    }
+
+
     private fun parseCutToon(ret: DetailResult.Detail, doc: Document) {
         ret.list = parseDetailCutToonType(doc)
-
-        // 이전, 다음화
-//        doc.select(".paging_wrap")?.apply {
-//            select("[data-type=next]")?.attr("data-no")?.apply {
-//                ret.nextLink = if (isNotEmpty()) this else null
-//            }
-//            select("[data-type=prev]")?.attr("data-no")?.apply {
-//                ret.prevLink = if (isNotEmpty()) this else null
-//            }
-//        }
     }
 
     private fun parseDetailCutToonType(doc: Document): List<DetailView> {
-        return doc.select("#ct ul li img")
+        return doc.select("#ct .swiper-slide > img")
             .map { it.attr("data-src") }
             .map { url -> DetailView(url) }
     }
