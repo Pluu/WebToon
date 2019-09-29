@@ -110,8 +110,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         viewModel.elementEvent.observeNonNull(this) { event ->
             tvTitle.text = event.title
             tvSubTitle.text = event.webToonTitle
-            btnPrev.isEnabled = event.isPrevEnable
-            btnNext.isEnabled = event.isNextEnable
+            btnPrev.isEnabled = event.prevEpisodeId.isNullOrEmpty().not()
+            btnNext.isEnabled = event.nextEpisodeId.isNullOrEmpty().not()
         }
     }
 

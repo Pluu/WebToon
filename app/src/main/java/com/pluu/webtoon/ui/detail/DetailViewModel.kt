@@ -44,11 +44,15 @@ class DetailViewModel(
     }
 
     fun movePrev() {
-        // TODO: Prev EpisodeInfo
+        _elementEvent.value?.prevEpisodeId?.let {
+            loadDetail(episode.copy(id = it))
+        }
     }
 
     fun moveNext() {
-        // TODO: Next EpisodeInfo
+        _elementEvent.value?.nextEpisodeId?.let {
+            loadDetail(episode.copy(id = it))
+        }
     }
 
     private fun loadDetail(episode: EpisodeInfo) {
@@ -68,8 +72,8 @@ class DetailViewModel(
                     _elementEvent.value = ElementEvent(
                         title = result.title.orEmpty(),
                         webToonTitle = episode.title,
-                        isPrevEnable = result.prevLink?.isNotEmpty() == true,
-                        isNextEnable = result.nextLink?.isNotEmpty() == true
+                        prevEpisodeId = result.prevLink,
+                        nextEpisodeId = result.nextLink
                     )
                 }
                 is DetailResult.ErrorResult -> {
@@ -126,6 +130,6 @@ sealed class DetailEvent {
 class ElementEvent(
     val title: String,
     val webToonTitle: String,
-    val isPrevEnable: Boolean,
-    val isNextEnable: Boolean
+    val prevEpisodeId: String?,
+    val nextEpisodeId: String?
 )

@@ -82,6 +82,15 @@ class NaverDetailApi(
 
     private fun parseFixed(ret: DetailResult.Detail, doc: Document) {
         ret.list = parseDetailFixedType(doc)
+
+        doc.select("script")
+            .find { it.outerHtml().contains("prevArticle") }
+            ?.let {
+                val html = it.outerHtml().replace("(\\s+\\n+\\t+)".toRegex(), "")
+                val match = "(?<=no: ')\\d*(?=')".toRegex().find(html)
+                ret.prevLink = match?.value
+                ret.nextLink = match?.next()?.value
+            }
     }
 
     private fun parseDetailFixedType(doc: Document): List<DetailView> {
@@ -90,9 +99,17 @@ class NaverDetailApi(
             .map { url -> DetailView(url) }
     }
 
-
     private fun parseCutToon(ret: DetailResult.Detail, doc: Document) {
         ret.list = parseDetailCutToonType(doc)
+
+        doc.select("script")
+            .find { it.outerHtml().contains("prevArticle") }
+            ?.let {
+                val html = it.outerHtml().replace("(\\s+\\n+\\t+)".toRegex(), "")
+                val match = "(?<=no: ')\\d*(?=')".toRegex().find(html)
+                ret.prevLink = match?.value
+                ret.nextLink = match?.next()?.value
+            }
     }
 
     private fun parseDetailCutToonType(doc: Document): List<DetailView> {
