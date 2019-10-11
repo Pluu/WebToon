@@ -98,7 +98,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
         if (requestCode == REQUEST_DETAIL) {
             // 즐겨찾기 변경 처리 > 다른 ViewPager의 Fragment도 수신받기위해 Referrer
-            fragmentManager?.findFragmentByTag(Const.MAIN_FRAG_TAG)
+            parentFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)
                 ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
         } else if (requestCode == REQUEST_DETAIL_REFERRER) {
             // ViewPager 로부터 전달받은 Referrer

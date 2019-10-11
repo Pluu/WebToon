@@ -66,7 +66,7 @@ class MainFragment : Fragment() {
         setServiceTheme()
 
         viewPager.apply {
-            adapter = fragmentManager?.let { MainFragmentAdapter(it, serviceApi) }
+            adapter = MainFragmentAdapter(parentFragmentManager, serviceApi)
             // 금일 기준으로 ViewPager 기본 표시
             currentItem = serviceApi.todayTabPosition
         }
