@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.repositories
 
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.6.0-beta01"
+        const val android = "com.android.tools.build:gradle:3.6.0-beta03"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
     }
@@ -17,7 +17,7 @@ object Dep {
     object AndroidX {
         const val annotation = "androidx.annotation:annotation:1.1.0"
 
-        private const val activityVersion = "1.1.0-beta01"
+        private const val activityVersion = "1.1.0-rc02"
         const val activity = "androidx.activity:activity:$activityVersion"
         const val activityKtx = "androidx.activity:activity-ktx:$activityVersion"
 
@@ -27,36 +27,34 @@ object Dep {
             const val runtime = "androidx.arch.core:core-runtime:$version"
         }
 
-        private const val fragmentVersion = "1.2.0-beta01"
+        private const val fragmentVersion = "1.2.0-rc02"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
-        private const val viewModelVersion = "2.2.0-beta01"
-        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$viewModelVersion"
-        const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
-
-        private const val liveDataVersion = viewModelVersion
-        const val liveData = "androidx.lifecycle:lifecycle-livedata:$liveDataVersion"
-        const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataVersion"
-        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$liveDataVersion"
+        private const val lifecycleVersion = "2.2.0-rc02"
+        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
+        const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+        const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
+        const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
         object room {
-            private const val roomVersion = "2.2.0"
+            private const val roomVersion = "2.2.1"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.1.0"
-        const val coreKtx = "androidx.core:core-ktx:1.2.0-beta01"
+        const val coreKtx = "androidx.core:core-ktx:1.2.0-beta02"
 
         object UI {
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta05"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-rc01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0"
-            const val browser = "androidx.browser:browser:1.2.0-alpha08"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
+            const val browser = "androidx.browser:browser:1.2.0-alpha09"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta3"
             const val viewPager = "androidx.viewpager:viewpager:1.0.0"
             const val material = "com.google.android.material:material:1.1.0-beta01"
             const val swiperefreshlayout =
