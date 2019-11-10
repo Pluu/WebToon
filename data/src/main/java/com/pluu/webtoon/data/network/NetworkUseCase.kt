@@ -9,14 +9,16 @@ class NetworkUseCase(
     private val okHttpClient: OkHttpClient
 ) : INetworkUseCase {
 
-    @Throws(Exception::class)
     override suspend fun requestApi(request: IRequest): NetworkResult {
         return requestApi(request.buildRequestApi())
     }
 
-    @Throws(Exception::class)
     override suspend fun requestApi(request: Request): NetworkResult {
-        return createTask().requestApi(request)
+        return runCatching {
+            createTask().requestApi(request)
+        }.getOrElse { e ->
+            NetworkResult.Fail(e)
+        }
     }
 
     private fun createTask(): NetworkTask =

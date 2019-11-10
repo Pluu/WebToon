@@ -5,5 +5,5 @@ package com.pluu.webtoon.data.network
  */
 sealed class NetworkResult {
     class Success(val response: String) : NetworkResult()
-    object Fail : NetworkResult()
+    class Fail(val throwable: Throwable) : NetworkResult()
 }
