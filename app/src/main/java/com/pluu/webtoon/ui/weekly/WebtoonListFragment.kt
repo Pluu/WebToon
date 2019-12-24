@@ -22,6 +22,7 @@ import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.databinding.FragmentWebtoonListBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
@@ -30,7 +31,6 @@ import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
-import kotlinx.android.synthetic.main.fragment_webtoon_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -47,6 +47,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         )
     }
 
+    private lateinit var binding: FragmentWebtoonListBinding
+
     private val toonLayoutManager: GridLayoutManager by lazyNone {
         GridLayoutManager(context, resources.getInteger(R.integer.webtoon_column_count))
     }
@@ -58,12 +60,13 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_webtoon_list, container, false)
+        binding = FragmentWebtoonListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(recyclerView) {
+        with(binding.recyclerView) {
             layoutManager = toonLayoutManager
         }
     }
@@ -72,8 +75,8 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.listEvent.observeNonNull(this) { list ->
-            recyclerView.adapter = MainListAdapter(requireContext(), list, this)
-            emptyView.isVisible = list.isEmpty()
+            binding.recyclerView.adapter = MainListAdapter(requireContext(), list, this)
+            binding.emptyView.isVisible = list.isEmpty()
         }
         viewModel.event.observeNonNull(this) { event ->
             when (event) {
@@ -144,7 +147,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     ///////////////////////////////////////////////////////////////////////////
 
     private fun favoriteUpdate(info: FavoriteResult) {
-        (recyclerView.adapter as? MainListAdapter)
+        (binding.recyclerView.adapter as? MainListAdapter)
             ?.modifyInfo(info.id, info.isFavorite)
     }
 
@@ -158,7 +161,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private fun updateSpanCount() {
         toonLayoutManager.spanCount = resources.getInteger(R.integer.webtoon_column_count)
-        recyclerView.adapter?.notifyDataSetChanged()
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

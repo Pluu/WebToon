@@ -7,9 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.viewholder.MainListViewHolder
+import com.pluu.webtoon.databinding.LayoutMainListItemBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
-import kotlinx.android.synthetic.main.layout_main_list_item.*
 
 /**
  * Main EpisodeInfo List Adapter
@@ -20,22 +20,21 @@ class MainListAdapter(
     private val list: List<ToonInfo>,
     private val listener: WebToonSelectListener
 ) : RecyclerView.Adapter<MainListViewHolder>() {
-
-    private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
     private val filterColor: Int = ContextCompat.getColor(mContext, R.color.color_accent)
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MainListViewHolder {
-        val v = mInflater.inflate(R.layout.layout_main_list_item, viewGroup, false)
-        return MainListViewHolder(v, filterColor)
+        val layoutInflater = LayoutInflater.from(viewGroup.context)
+        val binding = LayoutMainListItemBinding.inflate(layoutInflater, viewGroup, false)
+        return MainListViewHolder(binding = binding, filterColor = filterColor)
     }
 
     override fun onBindViewHolder(viewHolder: MainListViewHolder, i: Int) {
         viewHolder.bind(list[i])
-        viewHolder.thumbnailView.setOnClickListener {
+        viewHolder.clickThumbnail {
             if (list[i].isLock) {
                 listener.selectLockItem()
             } else {
-                listener.selectSuccess(viewHolder.thumbnailView, list[i])
+                listener.selectSuccess(it, list[i])
             }
         }
     }

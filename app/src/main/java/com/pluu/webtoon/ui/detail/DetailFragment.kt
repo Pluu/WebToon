@@ -9,9 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pluu.webtoon.R
+import com.pluu.webtoon.databinding.FragmentDefaultDetailBinding
 import com.pluu.webtoon.utils.observeNonNull
-import kotlinx.android.synthetic.main.fragment_default_detail.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -25,6 +24,8 @@ class DetailFragment(
 
     private val viewModel: DetailViewModel by sharedViewModel()
 
+    private lateinit var binding: FragmentDefaultDetailBinding
+
     private var listener: ToggleListener? = null
     private var bindListener: FirstBindListener? = null
     private var actionBarHeight: Int = 0
@@ -33,7 +34,10 @@ class DetailFragment(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_default_detail, container, false)
+    ): View? {
+        binding = FragmentDefaultDetailBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -47,7 +51,7 @@ class DetailFragment(
         actionBarHeight = resources.getDimensionPixelSize(t.resourceId)
 
         viewModel.list.observeNonNull(this) { list ->
-            with(recyclerView) {
+            with(binding.recyclerView) {
                 layoutManager = LinearLayoutManager(context).apply {
                     isItemPrefetchEnabled = true
                     initialPrefetchItemCount = 4
@@ -61,10 +65,10 @@ class DetailFragment(
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as? ToggleListener
-                ?: throw RuntimeException("$context must implement ToggleListener")
+            ?: throw RuntimeException("$context must implement ToggleListener")
 
         bindListener = context as? FirstBindListener
-                ?: throw RuntimeException("$context must implement FirstBindListener")
+            ?: throw RuntimeException("$context must implement FirstBindListener")
     }
 
     override fun onDetach() {

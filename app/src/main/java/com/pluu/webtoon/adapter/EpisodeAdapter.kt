@@ -3,11 +3,10 @@ package com.pluu.webtoon.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.viewholder.EpisodeViewHolder
+import com.pluu.webtoon.databinding.LayoutEpisodeListItemBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
-import kotlinx.android.synthetic.main.layout_episode_list_item.view.*
 
 /**
  * 에피소드 화면 Adapter
@@ -31,18 +30,15 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
         list.clear()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        EpisodeViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_episode_list_item,
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = LayoutEpisodeListItemBinding.inflate(layoutInflater, parent, false)
+        return EpisodeViewHolder(binding)
+    }
 
     override fun onBindViewHolder(viewHolder: EpisodeViewHolder, i: Int) {
         viewHolder.bind(list[i])
-        viewHolder.itemView.thumbnailView?.setOnClickListener {
+        viewHolder.clickThumbnail {
             if (list[viewHolder.adapterPosition].isLock) {
                 listener.selectLockItem()
             } else {

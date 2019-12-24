@@ -3,30 +3,37 @@ package com.pluu.webtoon.adapter.viewholder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.R
+import com.pluu.webtoon.databinding.LayoutEpisodeListItemBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.utils.loadUrl
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.layout_episode_list_item.*
 
 class EpisodeViewHolder(
-    override val containerView: View
+    private val binding: LayoutEpisodeListItemBinding,
+    override val containerView: View = binding.root
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
     fun bind(item: EpisodeInfo) {
-        titleView.text = item.title
+        binding.titleView.text = item.title
 
-        thumbnailView.loadUrl(item.image,
-            ready = { progress.visibility = View.GONE },
-            fail = { progress.visibility = View.GONE }
+        binding.thumbnailView.loadUrl(item.image,
+            ready = { binding.progress.visibility = View.GONE },
+            fail = { binding.progress.visibility = View.GONE }
         )
 
-        readView.visibility = if (item.isRead) View.VISIBLE else View.GONE
+        binding.readView.visibility = if (item.isRead) View.VISIBLE else View.GONE
 
         if (item.isLock) {
-            lockStatusView.setImageResource(R.drawable.lock_circle)
-            lockStatusView.visibility = View.VISIBLE
+            binding.lockStatusView.setImageResource(R.drawable.lock_circle)
+            binding.lockStatusView.visibility = View.VISIBLE
         } else {
-            lockStatusView.visibility = View.GONE
+            binding.lockStatusView.visibility = View.GONE
+        }
+    }
+
+    fun clickThumbnail(action: () -> Unit) {
+        binding.thumbnailView.setOnClickListener {
+            action.invoke()
         }
     }
 }

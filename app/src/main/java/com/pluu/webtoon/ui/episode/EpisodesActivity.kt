@@ -13,14 +13,13 @@ import androidx.fragment.app.commit
 import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.databinding.ActivityEpisodeBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.utils.RippleDrawableFactory
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
-import kotlinx.android.synthetic.main.activity_episode.*
-import kotlinx.android.synthetic.main.toolbar_actionbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
@@ -29,6 +28,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
  */
 class EpisodesActivity : AppCompatActivity() {
     private var childTitle: View? = null
+
+    private lateinit var binding: ActivityEpisodeBinding
 
     private val webToonInfo by lazyNone {
         intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)!!
@@ -39,8 +40,9 @@ class EpisodesActivity : AppCompatActivity() {
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_episode)
-        setSupportActionBar(toolbar_actionbar)
+        binding = ActivityEpisodeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.actionBar.toolbarActionbar)
 
         initSupportActionBar()
         initView()
@@ -60,20 +62,20 @@ class EpisodesActivity : AppCompatActivity() {
         customStatusColor = intent.getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK)
 
         // Title TextView
-        for (i in 0 until toolbar_actionbar.childCount) {
-            if (toolbar_actionbar.getChildAt(i) is TextView) {
-                childTitle = toolbar_actionbar.getChildAt(i)
+        for (i in 0 until binding.actionBar.toolbarActionbar.childCount) {
+            if (binding.actionBar.toolbarActionbar.getChildAt(i) is TextView) {
+                childTitle = binding.actionBar.toolbarActionbar.getChildAt(i)
                 break
             }
         }
 
         val listener = ValueAnimator.AnimatorUpdateListener { animation ->
             val value = animation.animatedValue as Int
-            toolbar_actionbar.setBackgroundColor(value)
-            btnFirst.setBackgroundColor(value)
+            binding.actionBar.toolbarActionbar.setBackgroundColor(value)
+            binding.btnFirst.setBackgroundColor(value)
             childTitle?.setBackgroundColor(value)
-            tvName.setTextColor(value)
-            tvRate.setTextColor(value)
+            binding.tvName.setTextColor(value)
+            binding.tvRate.setTextColor(value)
 
             this@EpisodesActivity.setStatusBarColor(value)
         }
@@ -81,17 +83,20 @@ class EpisodesActivity : AppCompatActivity() {
         animatorToolbarColor(customTitleColor, listener).let {
             it.duration = 1000L
             it.doOnEnd {
-                btnFirst.background =
-                    RippleDrawableFactory.createFromColor(Color.WHITE, ColorDrawable(customTitleColor))
+                binding.btnFirst.background =
+                    RippleDrawableFactory.createFromColor(
+                        Color.WHITE,
+                        ColorDrawable(customTitleColor)
+                    )
             }
             it.start()
         }
 
-        tvName.text = webToonInfo.writer
-        tvRate.text = Const.getRateNameByRate(webToonInfo.rate)
-        tvRate.isVisible = webToonInfo.rate != 0.0
+        binding.tvName.text = webToonInfo.writer
+        binding.tvRate.text = Const.getRateNameByRate(webToonInfo.rate)
+        binding.tvRate.isVisible = webToonInfo.rate != 0.0
 
-        btnFirst.setOnClickListener {
+        binding.btnFirst.setOnClickListener {
             EventBus.send(FirstItemSelectEvent)
         }
     }

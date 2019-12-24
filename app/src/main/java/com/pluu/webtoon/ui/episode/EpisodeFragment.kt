@@ -20,6 +20,7 @@ import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.EpisodeAdapter
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.FirstItemSelectEvent
@@ -29,7 +30,6 @@ import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.utils.MoreRefreshListener
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
-import kotlinx.android.synthetic.main.fragment_episode.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -51,6 +51,8 @@ class EpisodeFragment : Fragment(),
             arguments!!.getParcelable<ToonInfo>(Const.EXTRA_EPISODE)
         )
     }
+    private lateinit var binding: FragmentEpisodeBinding
+
     private val color: IntArray by lazyNone {
         arguments?.getIntArray(Const.EXTRA_MAIN_COLOR) ?: intArrayOf()
     }
@@ -73,7 +75,8 @@ class EpisodeFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_episode, container, false)
+        binding = FragmentEpisodeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,15 +86,15 @@ class EpisodeFragment : Fragment(),
     }
 
     private fun initView() {
-        swipeRefreshWidget.setColorSchemeResources(
+        binding.swipeRefreshWidget.setColorSchemeResources(
             R.color.color1,
             R.color.color2,
             R.color.color3,
             R.color.color4
         )
-        swipeRefreshWidget.setOnRefreshListener(this)
+        binding.swipeRefreshWidget.setOnRefreshListener(this)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             layoutManager = GridLayoutManager(
                 context,
                 resources.getInteger(R.integer.episode_column_count)
@@ -230,7 +233,7 @@ class EpisodeFragment : Fragment(),
     }
 
     private fun closeRefreshing() {
-        swipeRefreshWidget.isRefreshing = false
+        binding.swipeRefreshWidget.isRefreshing = false
     }
 
     private val scrollListener = object : MoreRefreshListener() {

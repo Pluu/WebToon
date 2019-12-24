@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.LicenseAdapter
+import com.pluu.webtoon.databinding.ActivityLicenseBinding
 import com.pluu.webtoon.event.RecyclerViewEvent
-import kotlinx.android.synthetic.main.activity_license.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -23,11 +23,14 @@ import kotlinx.coroutines.flow.collect
  */
 class LicenseActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityLicenseBinding
+
     @FlowPreview
     @ExperimentalCoroutinesApi
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_license)
+        binding = ActivityLicenseBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
     }
@@ -35,7 +38,7 @@ class LicenseActivity : AppCompatActivity() {
     @FlowPreview
     @ExperimentalCoroutinesApi
     private fun initView() {
-        listView?.apply {
+        binding.listView.apply {
             layoutManager = LinearLayoutManager(this@LicenseActivity)
             adapter = LicenseAdapter(this@LicenseActivity)
         }

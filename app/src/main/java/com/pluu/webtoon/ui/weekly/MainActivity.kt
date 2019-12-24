@@ -9,9 +9,9 @@ import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
-import kotlinx.android.synthetic.main.navdrawer.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -23,13 +23,16 @@ import org.koin.android.ext.android.inject
  */
 class MainActivity : BaseNavActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private val defaultProvider: NaviColorProvider by inject()
 
     @FlowPreview
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.actionBar.toolbarActionbar)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -48,7 +51,7 @@ class MainActivity : BaseNavActivity() {
                 R.id.container, MainFragment.newInstance(), Const.MAIN_FRAG_TAG
             )
         }
-        btnSetting.setOnClickListener {
+        binding.navDrawer.btnSetting.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
             closeNavDrawer()
         }
@@ -66,7 +69,7 @@ class MainActivity : BaseNavActivity() {
     }
 
     private fun themeChange(event: ThemeEvent) {
-        navTitle.setBackgroundColor(event.darkColor)
+        binding.navDrawer.navTitle.setBackgroundColor(event.darkColor)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -3,10 +3,10 @@ package com.pluu.webtoon.adapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.SparseArray
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.domain.base.AbstractWeekApi
 import com.pluu.webtoon.ui.weekly.WebtoonListFragment
@@ -17,17 +17,13 @@ import com.pluu.webtoon.ui.weekly.WebtoonListFragment
  */
 class MainFragmentAdapter(
     fm: FragmentManager,
+    lifecycle: Lifecycle,
     private val serviceApi: AbstractWeekApi
-) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+) : FragmentStateAdapter(fm, lifecycle) {
 
     private val views = SparseArray<WebtoonListFragment>()
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        super.destroyItem(container, position, `object`)
-        views.remove(position)
-    }
-
-    override fun getItem(position: Int): Fragment {
+    override fun createFragment(position: Int): Fragment {
         val fragment = WebtoonListFragment()
         fragment.arguments = Bundle().apply {
             putInt(Const.EXTRA_POS, position)
@@ -36,13 +32,7 @@ class MainFragmentAdapter(
         return fragment
     }
 
-    override fun getCount(): Int {
-        return serviceApi.weeklyTabSize
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        return serviceApi.getWeeklyTabName(position)
-    }
+    override fun getItemCount(): Int = serviceApi.weeklyTabSize
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         for (i in 0 until views.size()) {

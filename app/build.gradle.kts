@@ -1,4 +1,5 @@
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 
 plugins {
     id("com.android.application")
@@ -40,6 +41,10 @@ android {
         }
     }
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -62,7 +67,6 @@ android {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":domain"))
@@ -123,6 +127,7 @@ kapt {
 
 androidExtensions {
     isExperimental = true
+    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
 }
 
 ktlint {

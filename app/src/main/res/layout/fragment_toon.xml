@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.weekly.MainActivity">
+    tools:context=".ui.weekly.MainFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/slidingTabLayout"
@@ -15,10 +15,11 @@
         app:tabMinWidth="55dp"
         app:tabMode="scrollable" />
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/slidingTabLayout"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" />
 </RelativeLayout>

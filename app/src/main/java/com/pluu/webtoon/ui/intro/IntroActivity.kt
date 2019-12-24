@@ -6,9 +6,9 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.pluu.webtoon.R
+import com.pluu.webtoon.databinding.ActivityIntroBinding
 import com.pluu.webtoon.ui.weekly.MainActivity
 import com.pluu.webtoon.utils.observeNonNull
-import kotlinx.android.synthetic.main.activity_intro.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
@@ -19,18 +19,20 @@ class IntroActivity : AppCompatActivity() {
     private val TAG = IntroActivity::class.java.simpleName
 
     private val viewModel: IntroViewModel by viewModel()
+    private lateinit var binding: ActivityIntroBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intro)
+        binding = ActivityIntroBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel.observe.observeNonNull(this, ::nextView)
     }
 
     private fun nextView() {
         Log.i(TAG, "Login Process Complete")
-        tvMsg.setText(R.string.msg_intro_complete)
-        progressBar.visibility = View.INVISIBLE
+        binding.tvMsg.setText(R.string.msg_intro_complete)
+        binding.progressBar.visibility = View.INVISIBLE
 
         startActivity(Intent(this@IntroActivity, MainActivity::class.java))
         finish()

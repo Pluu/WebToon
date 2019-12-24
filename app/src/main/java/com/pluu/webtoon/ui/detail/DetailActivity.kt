@@ -26,12 +26,12 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.commit
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.databinding.ActivityDetailBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
-import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
@@ -47,6 +47,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             intent.getParcelableExtra<EpisodeInfo>(Const.EXTRA_EPISODE)
         )
     }
+
+    private lateinit var binding: ActivityDetailBinding
 
     private val customTitleColor: Int by lazyNone {
         intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
@@ -66,9 +68,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar_actionbar)
+        setSupportActionBar(binding.toolbarActionbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
         fragmentInit()
@@ -80,9 +83,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     private fun initView() {
-        tvSubTitle.text = ""
-        btnPrev.isEnabled = false
-        btnNext.isEnabled = false
+        binding.tvSubTitle.text = ""
+        binding.btnPrev.isEnabled = false
+        binding.btnNext.isEnabled = false
 
         AnimatorSet().apply {
             playTogether(bgColorAnimator(), getStatusBarAnimator())
@@ -91,8 +94,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             start()
         }
 
-        btnPrev.setOnClickListener { viewModel.movePrev() }
-        btnNext.setOnClickListener { viewModel.moveNext() }
+        binding.btnPrev.setOnClickListener { viewModel.movePrev() }
+        binding.btnNext.setOnClickListener { viewModel.moveNext() }
 
         viewModel.event.observeNonNull(this) { event ->
             when (event) {
@@ -108,10 +111,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
             }
         }
         viewModel.elementEvent.observeNonNull(this) { event ->
-            tvTitle.text = event.title
-            tvSubTitle.text = event.webToonTitle
-            btnPrev.isEnabled = event.prevEpisodeId.isNullOrEmpty().not()
-            btnNext.isEnabled = event.nextEpisodeId.isNullOrEmpty().not()
+            binding.tvTitle.text = event.title
+            binding.tvSubTitle.text = event.webToonTitle
+            binding.btnPrev.isEnabled = event.prevEpisodeId.isNullOrEmpty().not()
+            binding.btnNext.isEnabled = event.nextEpisodeId.isNullOrEmpty().not()
         }
     }
 
@@ -122,17 +125,17 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         return ValueAnimator.ofObject(ArgbEvaluator(), value.data, customTitleColor).apply {
             addUpdateListener { animation ->
                 val value1 = animation.animatedValue as Int
-                toolbar_actionbar.setBackgroundColor(value1)
-                btnPrev.setBackgroundColor(value1)
-                btnNext.setBackgroundColor(value1)
+                binding.toolbarActionbar.setBackgroundColor(value1)
+                binding.btnPrev.setBackgroundColor(value1)
+                binding.btnNext.setBackgroundColor(value1)
             }
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    ViewCompat.setBackground(btnNext, stateListBgDrawable)
-                    ViewCompat.setBackground(btnPrev, stateListBgDrawable)
+                    ViewCompat.setBackground(binding.btnNext, stateListBgDrawable)
+                    ViewCompat.setBackground(binding.btnPrev, stateListBgDrawable)
 
-                    btnNext.setTextColor(stateListTextDrawable)
-                    btnPrev.setTextColor(stateListTextDrawable)
+                    binding.btnNext.setTextColor(stateListTextDrawable)
+                    binding.btnPrev.setTextColor(stateListTextDrawable)
                 }
             })
         }
@@ -143,10 +146,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         val resValue = TypedValue()
         theme.resolveAttribute(R.attr.colorPrimaryDark, resValue, true)
         statusBarAnimator =
-                ObjectAnimator.ofInt(window, "statusBarColor", resValue.data, customTitleColor)
-                    .apply {
-                        setEvaluator(ArgbEvaluator())
-                    }
+            ObjectAnimator.ofInt(window, "statusBarColor", resValue.data, customTitleColor)
+                .apply {
+                    setEvaluator(ArgbEvaluator())
+                }
         return statusBarAnimator!!
     }
 
@@ -172,7 +175,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private fun fragmentInit() {
         supportFragmentManager.commit {
-            replace(R.id.container, DetailFragment(bottomMenu.height))
+            replace(R.id.container, DetailFragment(binding.bottomMenu.height))
         }
     }
 
@@ -204,11 +207,11 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         val uiOptions = window.decorView.systemUiVisibility
 
         if (uiOptions and View.SYSTEM_UI_FLAG_LOW_PROFILE == 0) {
-            moveToAxisY(toolbar_actionbar, true)
-            moveToAxisY(bottomMenu, false)
+            moveToAxisY(binding.toolbarActionbar, true)
+            moveToAxisY(binding.bottomMenu, false)
         } else {
-            moveRevert(toolbar_actionbar)
-            moveRevert(bottomMenu)
+            moveRevert(binding.toolbarActionbar)
+            moveRevert(binding.bottomMenu)
         }
 
         var newUiOptions = uiOptions

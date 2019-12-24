@@ -13,10 +13,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayoutMediator
 import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainFragmentAdapter
+import com.pluu.webtoon.databinding.FragmentToonBinding
 import com.pluu.webtoon.di.UseCaseProperties
 import com.pluu.webtoon.domain.base.AbstractWeekApi
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
@@ -25,7 +27,6 @@ import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
-import kotlinx.android.synthetic.main.fragment_toon.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -52,12 +53,15 @@ class MainFragment : Fragment() {
     private val serviceApi: AbstractWeekApi by inject(named(UseCaseProperties.WEEKLY_USECASE))
     private val colorProvider: NaviColorProvider by inject()
 
+    private lateinit var binding: FragmentToonBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_toon, container, false)
+        binding = FragmentToonBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     @ExperimentalCoroutinesApi
@@ -65,13 +69,20 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setServiceTheme()
 
-        viewPager.apply {
-            adapter = MainFragmentAdapter(parentFragmentManager, serviceApi)
+        binding.viewPager.apply {
+            adapter = MainFragmentAdapter(
+                fm = parentFragmentManager,
+                serviceApi = serviceApi,
+                lifecycle = lifecycle
+            )
             // 금일 기준으로 ViewPager 기본 표시
             currentItem = serviceApi.todayTabPosition
         }
 
-        slidingTabLayout.setupWithViewPager(viewPager)
+        val mediator = TabLayoutMediator(binding.slidingTabLayout, binding.viewPager) { tab, position ->
+            tab.text = serviceApi.getWeeklyTabName(position)
+        }
+        mediator.attach()
     }
 
     // 선택한 서비스에 맞는 컬러 테마 변경
@@ -92,7 +103,7 @@ class MainFragment : Fragment() {
         }
 
         EventBus.send(ThemeEvent(color, colorDark))
-        slidingTabLayout?.setSelectedTabIndicatorColor(color)
+        binding.slidingTabLayout.setSelectedTabIndicatorColor(color)
     }
 
     @FlowPreview
@@ -115,7 +126,7 @@ class MainFragment : Fragment() {
 
         if (requestCode == WebtoonListFragment.REQUEST_DETAIL_REFERRER) {
             // 포함되어있는 ViewPager 의 Fragment 갱신 처리
-            (viewPager.adapter as MainFragmentAdapter).onActivityResult(
+            (binding.viewPager.adapter as MainFragmentAdapter).onActivityResult(
                 requestCode,
                 resultCode,
                 data!!

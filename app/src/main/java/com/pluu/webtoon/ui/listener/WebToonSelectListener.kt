@@ -9,13 +9,9 @@ import com.pluu.webtoon.domain.moel.ToonInfo
  */
 interface WebToonSelectListener {
 
-    /**
-     * 접근 불가능 아이템 선택
-     */
+    /** 접근 불가능 아이템 선택 */
     fun selectLockItem()
 
-    /**
-     * 접근 가능 아이템 선택
-     */
+    /** 접근 가능 아이템 선택 */
     fun selectSuccess(view: ImageView, item: ToonInfo)
 }
