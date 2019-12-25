@@ -32,9 +32,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     // Primary toolbar and drawer toggle
     private val mActionBarToolbar: Toolbar by lazyNone {
-        val toolbar: Toolbar = findViewById(R.id.toolbar_actionbar)
-        setSupportActionBar(toolbar)
-        toolbar
+        findViewById<Toolbar>(R.id.actionBar)
     }
 
     // Navigation drawer:
@@ -56,19 +54,9 @@ abstract class BaseNavActivity : AppCompatActivity() {
     // views that correspond to each navdrawer item, null if not yet created
     private var mNavDrawerItemViews: MutableList<View>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setupNavDrawer()
-    }
-
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
-        mActionBarToolbar
     }
 
     private fun setupNavDrawer() {
