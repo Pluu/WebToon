@@ -44,13 +44,13 @@ class MainListAdapter(
     }
 
     fun modifyInfo(id: String, isFavorite: Boolean) {
-        list.indexOfFirst { item ->
+        val index = list.indexOfFirst { item ->
             id == item.id
         }.takeIf {
             it > -1
-        }?.let { index ->
-            list[index].isFavorite = isFavorite
-            notifyItemChanged(index)
-        }
+        } ?: return
+
+        list[index].isFavorite = isFavorite
+        notifyItemChanged(index)
     }
 }

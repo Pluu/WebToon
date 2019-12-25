@@ -13,5 +13,4 @@ class ToonViewModel : ViewModel() {
     fun updateFavorite(favorite: FavoriteResult) {
         _updateEvent.value = favorite
     }
-
 }

@@ -44,17 +44,13 @@ class EpisodeViewModel(
     val updateListEvent: LiveData<List<String>>
         get() = _updateListEvent
 
-    private val _favorite = MutableLiveData<Boolean>()
+    private val _favorite = MutableLiveData<Boolean>(info.isFavorite)
     val favorite: LiveData<Boolean>
         get() = _favorite
 
     private val INIT_PAGE = 0
     private var pageNo = INIT_PAGE
     private var firstEpisode: EpisodeInfo? = null
-
-    init {
-        _favorite.value = info.isFavorite
-    }
 
     fun initalize() {
         pageNo = INIT_PAGE

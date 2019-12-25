@@ -42,7 +42,7 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private val viewModel: WeekyViewModel by viewModel {
         parametersOf(
-            arguments?.getInt(Const.EXTRA_POS) ?: 0
+            arguments?.getInt(EXTRA_POS) ?: 0
         )
     }
 
@@ -154,10 +154,12 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     companion object {
+        private const val EXTRA_POS = "EXTRA_POS"
+
         fun newInstance(position: Int): WebtoonListFragment {
             val fragment = WebtoonListFragment()
             fragment.arguments = Bundle().apply {
-                putInt(Const.EXTRA_POS, position)
+                putInt(EXTRA_POS, position)
             }
             return fragment
         }

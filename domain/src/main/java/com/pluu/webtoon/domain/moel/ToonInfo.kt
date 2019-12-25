@@ -13,10 +13,9 @@ class ToonInfo(
     val rate: Double = 0.0,
     val updateDate: String = "",
     val status: Status = Status.NONE,
-    val isAdult: Boolean = false
-) : Parcelable {
-    @IgnoredOnParcel
+    val isAdult: Boolean = false,
     var isFavorite: Boolean = false
+) : Parcelable {
     @IgnoredOnParcel
     var isLock: Boolean = false
 }
