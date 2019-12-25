@@ -50,7 +50,7 @@ class DetailFragment(
         activity?.theme?.resolveAttribute(android.R.attr.actionBarSize, t, true)
         actionBarHeight = resources.getDimensionPixelSize(t.resourceId)
 
-        viewModel.list.observeNonNull(this) { list ->
+        viewModel.list.observeNonNull(viewLifecycleOwner) { list ->
             with(binding.recyclerView) {
                 layoutManager = LinearLayoutManager(context).apply {
                     isItemPrefetchEnabled = true

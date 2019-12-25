@@ -2,7 +2,6 @@ package com.pluu.webtoon.ui.weekly
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -29,9 +28,9 @@ import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
-import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -47,11 +46,9 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         )
     }
 
-    private lateinit var binding: FragmentWebtoonListBinding
+    private val toonViewModel: ToonViewModel by sharedViewModel()
 
-    private val toonLayoutManager: GridLayoutManager by lazyNone {
-        GridLayoutManager(context, resources.getInteger(R.integer.webtoon_column_count))
-    }
+    private lateinit var binding: FragmentWebtoonListBinding
 
     private val REQUEST_DETAIL = 1000
 
@@ -66,19 +63,18 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding.recyclerView) {
-            layoutManager = toonLayoutManager
-        }
+        binding.recyclerView.layoutManager =
+            GridLayoutManager(context, resources.getInteger(R.integer.webtoon_column_count))
     }
 
     @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.listEvent.observeNonNull(this) { list ->
+        viewModel.listEvent.observeNonNull(viewLifecycleOwner) { list ->
             binding.recyclerView.adapter = MainListAdapter(requireContext(), list, this)
             binding.emptyView.isVisible = list.isEmpty()
         }
-        viewModel.event.observeNonNull(this) { event ->
+        viewModel.event.observeNonNull(viewLifecycleOwner) { event ->
             when (event) {
                 WeeklyEvent.START -> {
                     EventBus.send(MainEpisodeStartEvent())
@@ -91,6 +87,9 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
                 }
             }
         }
+        toonViewModel.updateEvent.observeNonNull(viewLifecycleOwner) {
+            favoriteUpdate(it)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -100,14 +99,9 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         }
 
         if (requestCode == REQUEST_DETAIL) {
-            // 즐겨찾기 변경 처리 > 다른 ViewPager의 Fragment도 수신받기위해 Referrer
-            parentFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)
-                ?.onActivityResult(REQUEST_DETAIL_REFERRER, resultCode, data)
-        } else if (requestCode == REQUEST_DETAIL_REFERRER) {
-            // ViewPager 로부터 전달받은 Referrer
-            data?.getParcelableExtra<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE)?.apply {
-                favoriteUpdate(this)
-            }
+            val favorite =
+                data?.getParcelableExtra<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE) ?: return
+            toonViewModel.updateFavorite(favorite)
         }
     }
 
@@ -159,24 +153,14 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         }, REQUEST_DETAIL)
     }
 
-    private fun updateSpanCount() {
-        toonLayoutManager.spanCount = resources.getInteger(R.integer.webtoon_column_count)
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        newConfig.takeIf {
-            it.orientation == Configuration.ORIENTATION_LANDSCAPE ||
-                    it.orientation == Configuration.ORIENTATION_PORTRAIT
-        }.run {
-            updateSpanCount()
-        }
-    }
-
     companion object {
-        const val REQUEST_DETAIL_REFERRER = 1001
+        fun newInstance(position: Int): WebtoonListFragment {
+            val fragment = WebtoonListFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(Const.EXTRA_POS, position)
+            }
+            return fragment
+        }
     }
 }
 

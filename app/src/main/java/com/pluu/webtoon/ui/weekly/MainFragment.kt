@@ -1,10 +1,8 @@
 package com.pluu.webtoon.ui.weekly
 
 import android.animation.AnimatorSet
-import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -73,16 +71,15 @@ class MainFragment : Fragment() {
             adapter = MainFragmentAdapter(
                 fm = parentFragmentManager,
                 serviceApi = serviceApi,
-                lifecycle = lifecycle
+                lifecycle = viewLifecycleOwner.lifecycle
             )
             // 금일 기준으로 ViewPager 기본 표시
             currentItem = serviceApi.todayTabPosition
         }
 
-        val mediator = TabLayoutMediator(binding.slidingTabLayout, binding.viewPager) { tab, position ->
+        TabLayoutMediator(binding.slidingTabLayout, binding.viewPager) { tab, position ->
             tab.text = serviceApi.getWeeklyTabName(position)
-        }
-        mediator.attach()
+        }.attach()
     }
 
     // 선택한 서비스에 맞는 컬러 테마 변경
@@ -115,22 +112,6 @@ class MainFragment : Fragment() {
         }
         lifecycleScope.launchWhenStarted {
             registerLoadEvent()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-
-        if (requestCode == WebtoonListFragment.REQUEST_DETAIL_REFERRER) {
-            // 포함되어있는 ViewPager 의 Fragment 갱신 처리
-            (binding.viewPager.adapter as MainFragmentAdapter).onActivityResult(
-                requestCode,
-                resultCode,
-                data!!
-            )
         }
     }
 

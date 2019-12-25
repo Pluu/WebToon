@@ -12,6 +12,7 @@ import com.pluu.webtoon.ui.detail.DetailViewModel
 import com.pluu.webtoon.ui.episode.EpisodeViewModel
 import com.pluu.webtoon.ui.intro.IntroUseCase
 import com.pluu.webtoon.ui.intro.IntroViewModel
+import com.pluu.webtoon.ui.weekly.ToonViewModel
 import com.pluu.webtoon.ui.weekly.WeekyViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -34,6 +35,10 @@ val webToonModule = module {
             weeklyUseCase = get(named(UseCaseProperties.WEEKLY_USECASE)),
             hasFavoriteUseCase = HasFavoriteUseCase(get(), apiType)
         )
+    }
+
+    viewModel {
+        ToonViewModel()
     }
 
     viewModel { (info: ToonInfo) ->

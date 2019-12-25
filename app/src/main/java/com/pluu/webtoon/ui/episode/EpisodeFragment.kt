@@ -108,16 +108,16 @@ class EpisodeFragment : Fragment(),
     @FlowPreview
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.listEvent.observeNonNull(this) { list ->
+        viewModel.listEvent.observeNonNull(viewLifecycleOwner) { list ->
             adapter.addItems(list)
         }
-        viewModel.updateListEvent.observeNonNull(this) { list ->
+        viewModel.updateListEvent.observeNonNull(viewLifecycleOwner) { list ->
             adapter.updateRead(list)
         }
-        viewModel.favorite.observeNonNull(this) { isFavorite ->
+        viewModel.favorite.observeNonNull(viewLifecycleOwner) { isFavorite ->
             this.isFavorite = isFavorite
         }
-        viewModel.event.observeNonNull(this) { event ->
+        viewModel.event.observeNonNull(viewLifecycleOwner) { event ->
             when (event) {
                 EpisodeEvent.START -> {
                     scrollListener.setLoadingMorePause()
