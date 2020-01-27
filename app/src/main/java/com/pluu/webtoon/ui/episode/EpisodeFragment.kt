@@ -51,7 +51,9 @@ class EpisodeFragment : Fragment(),
             arguments!!.getParcelable<ToonInfo>(Const.EXTRA_EPISODE)
         )
     }
-    private lateinit var binding: FragmentEpisodeBinding
+
+    private var _binding: FragmentEpisodeBinding? = null
+    private val binding get() = _binding!!
 
     private val color: IntArray by lazyNone {
         arguments?.getIntArray(Const.EXTRA_MAIN_COLOR) ?: intArrayOf()
@@ -75,7 +77,7 @@ class EpisodeFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        binding = FragmentEpisodeBinding.inflate(inflater, container, false)
+        _binding = FragmentEpisodeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -192,7 +194,7 @@ class EpisodeFragment : Fragment(),
 
     override fun onRefresh() {
         adapter.clear()
-        viewModel.initalize()
+        viewModel.initialize()
         loading()
     }
 
@@ -204,6 +206,11 @@ class EpisodeFragment : Fragment(),
         if (requestCode == REQUEST_DETAIL) {
             viewModel.readUpdate()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     ///////////////////////////////////////////////////////////////////////////

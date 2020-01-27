@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.repositories
 
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:4.0.0-alpha07"
+        const val android = "com.android.tools.build:gradle:4.0.0-alpha09"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
     }
@@ -17,7 +17,7 @@ object Dep {
     object AndroidX {
         const val annotation = "androidx.annotation:annotation:1.1.0"
 
-        private const val activityVersion = "1.1.0-rc03"
+        private const val activityVersion = "1.1.0"
         const val activity = "androidx.activity:activity:$activityVersion"
         const val activityKtx = "androidx.activity:activity-ktx:$activityVersion"
 
@@ -27,11 +27,11 @@ object Dep {
             const val runtime = "androidx.arch.core:core-runtime:$version"
         }
 
-        private const val fragmentVersion = "1.2.0-rc03"
+        private const val fragmentVersion = "1.2.0"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
-        private const val lifecycleVersion = "2.2.0-rc03"
+        private const val lifecycleVersion = "2.2.0"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
         const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
@@ -39,7 +39,7 @@ object Dep {
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
         object room {
-            private const val roomVersion = "2.2.2"
+            private const val roomVersion = "2.2.3"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -49,14 +49,14 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.2.0-rc01"
 
         object UI {
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0"
-            const val browser = "androidx.browser:browser:1.2.0-rc01"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta3"
+            const val browser = "androidx.browser:browser:1.3.0-alpha01"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
             const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
-            const val material = "com.google.android.material:material:1.2.0-alpha03"
+            const val material = "com.google.android.material:material:1.2.0-alpha04"
             const val swiperefreshlayout =
                 "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha03"
         }
@@ -82,13 +82,13 @@ object Dep {
     const val jsoup = "org.jsoup:jsoup:1.12.1"
 
     object Glide {
-        private const val version = "4.10.0"
+        private const val version = "4.11.0"
         const val core = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }
 
     object OkHttp {
-        private const val version = "4.2.2"
+        private const val version = "4.3.1"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
@@ -96,7 +96,7 @@ object Dep {
     object Test {
         const val junit = "junit:junit:4.12"
         const val assertJ = "org.assertj:assertj-core:3.14.0"
-        const val mockito = "org.mockito:mockito-core:3.2.0"
+        const val mockito = "org.mockito:mockito-core:3.2.4"
     }
 }
 

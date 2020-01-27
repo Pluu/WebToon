@@ -41,8 +41,11 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding = true
+//    buildFeatures {
+//        viewBinding = true
+//    }
+    viewBinding {
+        isEnabled = true
     }
 
     kotlinOptions {

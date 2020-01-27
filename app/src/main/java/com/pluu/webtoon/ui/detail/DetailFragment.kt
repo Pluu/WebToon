@@ -24,7 +24,8 @@ class DetailFragment(
 
     private val viewModel: DetailViewModel by sharedViewModel()
 
-    private lateinit var binding: FragmentDefaultDetailBinding
+    private var _binding: FragmentDefaultDetailBinding? = null
+    private val binding get() = _binding!!
 
     private var listener: ToggleListener? = null
     private var bindListener: FirstBindListener? = null
@@ -35,7 +36,7 @@ class DetailFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentDefaultDetailBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentDefaultDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -75,6 +76,11 @@ class DetailFragment(
         super.onDetach()
         listener = null
         bindListener = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun firstBind() {

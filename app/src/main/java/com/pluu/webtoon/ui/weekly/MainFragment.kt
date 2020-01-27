@@ -16,6 +16,7 @@ import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainFragmentAdapter
+import com.pluu.webtoon.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.databinding.FragmentToonBinding
 import com.pluu.webtoon.di.UseCaseProperties
 import com.pluu.webtoon.domain.base.AbstractWeekApi
@@ -51,14 +52,15 @@ class MainFragment : Fragment() {
     private val serviceApi: AbstractWeekApi by inject(named(UseCaseProperties.WEEKLY_USECASE))
     private val colorProvider: NaviColorProvider by inject()
 
-    private lateinit var binding: FragmentToonBinding
+    private var _binding: FragmentToonBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentToonBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentToonBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -113,6 +115,11 @@ class MainFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             registerLoadEvent()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     @FlowPreview
