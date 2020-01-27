@@ -70,6 +70,7 @@ abstract class MoreRefreshListener : RecyclerView.OnScrollListener() {
 
     abstract fun onMoreRefresh()
 
+    @Suppress("ClassName")
     enum class LAYOUT_MANAGER_TYPE {
         LINEAR,
         GRID,

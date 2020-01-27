@@ -1,5 +1,6 @@
 package com.pluu.webtoon
 
+@Suppress("ClassName")
 enum class NAV_ITEM {
     NAVER,
     DAUM,

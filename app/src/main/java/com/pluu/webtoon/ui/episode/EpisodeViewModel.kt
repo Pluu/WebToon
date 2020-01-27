@@ -52,7 +52,7 @@ class EpisodeViewModel(
     private var pageNo = INIT_PAGE
     private var firstEpisode: EpisodeInfo? = null
 
-    fun initalize() {
+    fun initialize() {
         pageNo = INIT_PAGE
         isNext = true
     }
@@ -156,6 +156,7 @@ class EpisodeViewModel(
     }
 }
 
+@Suppress("SpellCheckingInspection")
 private fun List<EpisodeInfo>.applyReaded(readList: List<Episode>) {
     for (readItem in readList) {
         for (episode in this) {
@@ -167,6 +168,7 @@ private fun List<EpisodeInfo>.applyReaded(readList: List<Episode>) {
     }
 }
 
+@Suppress("ClassName")
 sealed class EpisodeEvent {
     object START : EpisodeEvent()
     object LOADED : EpisodeEvent()

@@ -22,6 +22,7 @@ object ServiceConst {
     val NAVDRAWER_ICON_RES_ID = IntArray(NAVDRAWER_TITLE_RES_ID.size) { 0 }
 }
 
+@Suppress("ClassName")
 enum class UI_NAV_ITEM(
     val isSelect: Boolean = false,
     @ColorRes val color: Int = 0,
