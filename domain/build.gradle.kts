@@ -4,22 +4,7 @@ plugins {
     kotlin("android.extensions")
 }
 
-android {
-    compileSdkVersion(29)
-
-    defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(29)
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
-            proguardFiles(file("proguard-rules.pro"))
-        }
-    }
-}
+apply(from = Scripts.androidGradlePath)
 
 dependencies {
     implementation(project(":core"))

@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.repositories
 
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:4.0.0-alpha09"
+        const val android = "com.android.tools.build:gradle:3.6.0-rc02"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
     }
@@ -27,7 +27,7 @@ object Dep {
             const val runtime = "androidx.arch.core:core-runtime:$version"
         }
 
-        private const val fragmentVersion = "1.2.0"
+        private const val fragmentVersion = "1.2.1"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
@@ -45,8 +45,8 @@ object Dep {
             const val ktx = "androidx.room:room-ktx:$roomVersion"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.2.0-alpha01"
-        const val coreKtx = "androidx.core:core-ktx:1.2.0-rc01"
+        const val appcompat = "androidx.appcompat:appcompat:1.2.0-alpha02"
+        const val coreKtx = "androidx.core:core-ktx:1.3.0-alpha01"
 
         object UI {
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha01"

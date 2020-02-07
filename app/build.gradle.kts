@@ -9,13 +9,11 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-android {
-    compileSdkVersion(29)
+apply(from = Scripts.androidGradlePath)
 
+android {
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        minSdkVersion(21)
-        targetSdkVersion(29)
         versionCode = 54
         versionName = "1.5.8"
         vectorDrawables.useSupportLibrary = true
@@ -34,11 +32,6 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
         }
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
-            proguardFiles(file("proguard-rules.pro"))
-        }
     }
 
 //    buildFeatures {
@@ -46,15 +39,6 @@ android {
 //    }
     viewBinding {
         isEnabled = true
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     lintOptions {
