@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.weekly.MainFragment">
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/slidingTabLayout"
-        style="@style/Widget.Design.TabLayout"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        app:tabMinWidth="55dp"
-        app:tabMode="scrollable" />
+        android:layout_height="match_parent"
+        tools:context=".ui.weekly.MainFragment">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/slidingTabLayout"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" />
-</RelativeLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/slidingTabLayout"
+            style="@style/Widget.Design.TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            app:tabMinWidth="55dp"
+            app:tabMode="scrollable" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/slidingTabLayout"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" />
+    </RelativeLayout>
+</layout>

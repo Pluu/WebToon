@@ -42,7 +42,7 @@ class EpisodesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEpisodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.actionBar.toolbarActionbar)
+        setSupportActionBar(binding.actionBar.toolbar)
 
         initSupportActionBar()
         initView()
@@ -61,17 +61,18 @@ class EpisodesActivity : AppCompatActivity() {
         customTitleColor = intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
         customStatusColor = intent.getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK)
 
+        val toolbar = binding.actionBar.toolbar
         // Title TextView
-        for (i in 0 until binding.actionBar.toolbarActionbar.childCount) {
-            if (binding.actionBar.toolbarActionbar.getChildAt(i) is TextView) {
-                childTitle = binding.actionBar.toolbarActionbar.getChildAt(i)
+        for (i in 0 until toolbar.childCount) {
+            if (toolbar.getChildAt(i) is TextView) {
+                childTitle = toolbar.getChildAt(i)
                 break
             }
         }
 
         val listener = ValueAnimator.AnimatorUpdateListener { animation ->
             val value = animation.animatedValue as Int
-            binding.actionBar.toolbarActionbar.setBackgroundColor(value)
+            toolbar.setBackgroundColor(value)
             binding.btnFirst.setBackgroundColor(value)
             childTitle?.setBackgroundColor(value)
             binding.tvName.setTextColor(value)

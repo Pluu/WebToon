@@ -32,7 +32,7 @@ class MainActivity : BaseNavActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.actionBar.toolbarActionbar)
+        setSupportActionBar(binding.actionBar.toolbar)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    tools:context=".ui.episode.EpisodesActivity">
 
-    <include
-        android:id="@+id/actionBar"
-        layout="@layout/toolbar_actionbar" />
-
-    <FrameLayout
-        android:id="@+id/container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom"
-        android:layout_below="@id/actionBar" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:padding="3dp">
+        <include
+            android:id="@+id/actionBar"
+            layout="@layout/toolbar_actionbar" />
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom"
+            android:layout_below="@id/actionBar" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:padding="3dp">
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                tools:text="제작자 이름"
-                tools:textColor="@android:color/black" />
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvRate"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    tools:text="제작자 이름"
+                    tools:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/tvRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:singleLine="true"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"
+                    tools:text="평점 : "
+                    tools:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnFirst"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:singleLine="true"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_looks_one_white_36dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/label_first"
                 android:textColor="@android:color/white"
-                android:visibility="gone"
-                tools:text="평점 : "
-                tools:textColor="@android:color/black" />
+                tools:background="@android:color/black" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnFirst"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/ic_looks_one_white_36dp"
-            android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/label_first"
-            android:textColor="@android:color/white"
-            tools:background="@android:color/black" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>
 
 
