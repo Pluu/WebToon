@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.repositories
 
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.6.0-rc02"
+        const val android = "com.android.tools.build:gradle:3.6.0"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
     }
@@ -27,7 +27,7 @@ object Dep {
             const val runtime = "androidx.arch.core:core-runtime:$version"
         }
 
-        private const val fragmentVersion = "1.2.1"
+        private const val fragmentVersion = "1.2.2"
         const val fragment = "androidx.fragment:fragment:$fragmentVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
@@ -39,7 +39,7 @@ object Dep {
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
         object room {
-            private const val roomVersion = "2.2.3"
+            private const val roomVersion = "2.2.4"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -56,7 +56,7 @@ object Dep {
             const val browser = "androidx.browser:browser:1.3.0-alpha01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
             const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
-            const val material = "com.google.android.material:material:1.2.0-alpha04"
+            const val material = "com.google.android.material:material:1.2.0-alpha05"
             const val swiperefreshlayout =
                 "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha03"
         }
@@ -79,7 +79,7 @@ object Dep {
         const val androidViewModel = "org.koin:koin-android-viewmodel:$version"
     }
 
-    const val jsoup = "org.jsoup:jsoup:1.12.1"
+    const val jsoup = "org.jsoup:jsoup:1.12.2"
 
     object Glide {
         private const val version = "4.11.0"
@@ -88,7 +88,7 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.3.1"
+        private const val version = "4.4.0"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
