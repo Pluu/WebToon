@@ -46,7 +46,7 @@ object Dep {
             const val palette = "androidx.palette:palette:1.0.0"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0"
-            const val browser = "androidx.browser:browser:1.3.0-alpha01"
+            const val browser = "androidx.browser:browser:1.2.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
             const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
             const val material = "com.google.android.material:material:1.2.0-alpha05"

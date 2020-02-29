@@ -30,3 +30,10 @@ fun BaseExtension.useDefaultBuildTypes() = buildTypes {
         )
     }
 }
+
+fun BaseExtension.useJava_1_8() {
+    compileOptions {
+        sourceCompatibility = ProjectConfigurations.javaVer
+        targetCompatibility = ProjectConfigurations.javaVer
+    }
+}

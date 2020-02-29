@@ -26,6 +26,13 @@ android {
         }
     }
 
+    useJava_1_8()
+    compileOptions {
+        kotlinOptions {
+            jvmTarget = ProjectConfigurations.kotlinJvmTarget
+        }
+    }
+
 //    buildFeatures {
 //        viewBinding = true
 //    }

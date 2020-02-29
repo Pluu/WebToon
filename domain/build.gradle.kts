@@ -7,6 +7,13 @@ plugins {
 android {
     setDefaultConfig()
     useDefaultBuildTypes()
+
+    useJava_1_8()
+    compileOptions {
+        kotlinOptions {
+            jvmTarget = ProjectConfigurations.kotlinJvmTarget
+        }
+    }
 }
 
 dependencies {
