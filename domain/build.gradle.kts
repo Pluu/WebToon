@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("android.extensions")
+    androidLibrary()
+    kotlinAndroid()
+    kotlinAndroidExtensions()
 }
 
 apply(from = Scripts.androidGradlePath)

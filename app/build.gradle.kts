@@ -2,11 +2,11 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
-    id("org.jlleitschuh.gradle.ktlint")
+    androidApp()
+    kotlinAndroid()
+    kotlinAndroidExtensions()
+    kotlinKapt()
+    ktlint()
 }
 
 apply(from = Scripts.androidGradlePath)
