@@ -1,15 +1,8 @@
 @file:Suppress("ClassName")
 
-import org.gradle.api.Project
-import org.gradle.api.artifacts.dsl.RepositoryHandler
-import org.gradle.api.initialization.dsl.ScriptHandler
-import org.gradle.kotlin.dsl.ScriptHandlerScope
-import org.gradle.kotlin.dsl.maven
-import org.gradle.kotlin.dsl.repositories
-
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:3.6.0"
+        const val android = "com.android.tools.build:gradle:4.0.0-beta01"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:7.4.0"
     }
@@ -97,32 +90,5 @@ object Dep {
         const val junit = "junit:junit:4.12"
         const val assertJ = "org.assertj:assertj-core:3.14.0"
         const val mockito = "org.mockito:mockito-core:3.2.4"
-    }
-}
-
-fun ScriptHandler.addScriptRepository() {
-    repositories {
-        addScriptDependencies()
-    }
-}
-
-fun Project.addScriptRepository() {
-    repositories {
-        addScriptDependencies()
-    }
-}
-
-private fun RepositoryHandler.addScriptDependencies() {
-    google()
-    jcenter()
-    maven("https://plugins.gradle.org/m2/")
-    maven("https://dl.bintray.com/kotlin/kotlin-eap")
-}
-
-fun ScriptHandlerScope.addScriptDependencies() {
-    dependencies {
-        classpath(Dep.GradlePlugin.android)
-        classpath(Dep.GradlePlugin.kotlin)
-        classpath(Dep.GradlePlugin.ktlint)
     }
 }

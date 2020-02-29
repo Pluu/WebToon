@@ -4,7 +4,10 @@ plugins {
     kotlinAndroidExtensions()
 }
 
-apply(from = Scripts.androidGradlePath)
+android {
+    setDefaultConfig()
+    useDefaultBuildTypes()
+}
 
 dependencies {
     implementation(project(":core"))

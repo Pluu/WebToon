@@ -9,23 +9,15 @@ plugins {
     ktlint()
 }
 
-apply(from = Scripts.androidGradlePath)
-
 android {
+    setAppConfig()
+    setDefaultSigningConfigs(project)
+
     defaultConfig {
         applicationId = "com.pluu.webtoon"
         versionCode = 54
         versionName = "1.5.8"
         vectorDrawables.useSupportLibrary = true
-    }
-
-    signingConfigs {
-        getByName("debug") {
-            storeFile = rootProject.file("debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
     }
 
     buildTypes {

@@ -5,12 +5,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
+    setDefaultConfig()
+    useDefaultBuildTypes()
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(29)
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = mapOf(
@@ -18,15 +16,6 @@ android {
                     "room.incremental" to "true"
                 )
             }
-        }
-
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
-            proguardFiles(file("proguard-rules.pro"))
         }
     }
 }
