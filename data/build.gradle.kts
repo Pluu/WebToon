@@ -1,13 +1,9 @@
 plugins {
-    androidLibrary()
-    kotlinAndroid()
+    id("plugins.android-library")
     kotlinKapt()
 }
 
 android {
-    setDefaultConfig()
-    useDefaultBuildTypes()
-
     defaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
@@ -18,18 +14,10 @@ android {
             }
         }
     }
-
-    useJava_1_8()
-    compileOptions {
-        kotlinOptions {
-            jvmTarget = ProjectConfigurations.kotlinJvmTarget
-        }
-    }
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.coroutinesAndroid)
     implementation(Dep.AndroidX.arch.common)
     implementation(Dep.AndroidX.arch.runtime)
@@ -38,5 +26,4 @@ dependencies {
     implementation(Dep.AndroidX.room.ktx)
     // OkHttp
     implementation(Dep.OkHttp.core)
-    testImplementation(Dep.Test.junit)
 }

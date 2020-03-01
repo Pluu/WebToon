@@ -20,20 +20,3 @@ fun BaseExtension.setDefaultConfig() {
         targetSdkVersion(ProjectConfigurations.targetSdk)
     }
 }
-
-fun BaseExtension.useDefaultBuildTypes() = buildTypes {
-    getByName("release") {
-        isMinifyEnabled = true
-        proguardFiles(
-            getDefaultProguardFile("proguard-android.txt"),
-            "proguard-rules.pro"
-        )
-    }
-}
-
-fun BaseExtension.useJava_1_8() {
-    compileOptions {
-        sourceCompatibility = ProjectConfigurations.javaVer
-        targetCompatibility = ProjectConfigurations.javaVer
-    }
-}

@@ -1,18 +1,13 @@
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 
 plugins {
-    androidApp()
-    kotlinAndroid()
-    kotlinAndroidExtensions()
+    id("plugins.android-app")
+    id("plugins.kotlin-android-extensions")
     kotlinKapt()
     ktlint()
 }
 
 android {
-    setAppConfig()
-    setDefaultSigningConfigs(project)
-
     defaultConfig {
         applicationId = "com.pluu.webtoon"
         versionCode = 54
@@ -20,16 +15,18 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    buildTypes {
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
+    signingConfigs {
+        getByName(BuildType.DEBUG) {
+            storeFile = project.rootProject.file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
         }
     }
 
-    useJava_1_8()
-    compileOptions {
-        kotlinOptions {
-            jvmTarget = ProjectConfigurations.kotlinJvmTarget
+    buildTypes {
+        getByName(BuildType.DEBUG) {
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -101,22 +98,15 @@ dependencies {
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)
     // kotlin
-    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.coroutinesCore)
     implementation(Dep.Kotlin.coroutinesAndroid)
 
-    testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.assertJ)
     testImplementation(Dep.Test.mockito)
 }
 
 kapt {
     useBuildCache = true
-}
-
-androidExtensions {
-    isExperimental = true
-    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
 }
 
 ktlint {
