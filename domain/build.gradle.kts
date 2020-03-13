@@ -7,3 +7,5 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":data"))
 }
+
+apply(from = "../publish_local.gradle")

@@ -1,54 +1,28 @@
 apply plugin: 'maven-publish'
 
-project.afterEvaluate {
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method.
+afterEvaluate {
     publishing {
         publications {
-            library(MavenPublication) {
-                setGroupId project.groupId
-                setArtifactId project.artifactId
-                version project.versionName
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
 
-                artifact bundleReleaseAar
+                // You can then customize attributes of the publication as shown below.
+                groupId = POM_GROUP_ID
+                artifactId = POM_ARTIFACT_ID
+                version = POM_VERSION
+            }
+            // Creates a Maven publication called “debug”.
+            debug(MavenPublication) {
+                // Applies the component for the debug build variant.
+                from components.debug
 
-                println "publishing: " + groupId
-                println "publishing: " + artifactId
-                println "publishing: " + bundleReleaseAar
-
-                pom.withXml {
-                    final dependenciesNode = asNode().appendNode('dependencies')
-
-                    ext.addDependency = { Dependency dep, String scope ->
-                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
-                            return // ignore invalid dependencies
-
-                        final dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', dep.group)
-                        dependencyNode.appendNode('artifactId', dep.name)
-                        dependencyNode.appendNode('version', dep.version)
-                        dependencyNode.appendNode('scope', scope)
-
-                        if (!dep.transitive) {
-                            // If this dependency is transitive, we should force exclude all its dependencies them from the POM
-                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                            exclusionNode.appendNode('groupId', '*')
-                            exclusionNode.appendNode('artifactId', '*')
-                        } else if (!dep.properties.excludeRules.empty) {
-                            // Otherwise add specified exclude rules
-                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                            dep.properties.excludeRules.each { ExcludeRule rule ->
-                                exclusionNode.appendNode('groupId', rule.group ?: '*')
-                                exclusionNode.appendNode('artifactId', rule.module ?: '*')
-                            }
-                        }
-                    }
-
-                    // List all "compile" dependencies (for old Gradle)
-                    configurations.compile.getDependencies().each { dep -> addDependency(dep, "compile") }
-                    // List all "api" dependencies (for new Gradle) as "compile" dependencies
-                    configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
-                    // List all "implementation" dependencies (for new Gradle) as "runtime" dependencies
-                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
-                }
+                groupId = POM_GROUP_ID
+                artifactId = POM_ARTIFACT_ID + "-debug"
+                version = POM_VERSION
             }
         }
     }

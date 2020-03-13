@@ -27,3 +27,5 @@ dependencies {
     // OkHttp
     implementation(Dep.OkHttp.core)
 }
+
+apply(from = "../publish_local.gradle")

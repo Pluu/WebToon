@@ -10,3 +10,5 @@ dependencies {
     // Jsoup
     implementation(Dep.jsoup)
 }
+
+apply(from = "../publish_local.gradle")
