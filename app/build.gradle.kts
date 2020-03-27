@@ -30,23 +30,16 @@ android {
         }
     }
 
-//    buildFeatures {
-//        viewBinding = true
-//    }
+    buildFeatures {
+        viewBinding = true
+    }
 //    viewBinding {
 //        isEnabled = true
 //    }
-    dataBinding {
-        isEnabled = true
-    }
 
     lintOptions {
         check("Interoperability")
         disable("ContentDescription")
-    }
-
-    packagingOptions {
-        exclude("META-INF/atomicfu.kotlin_module")
     }
 
     useLibrary("android.test.mock")

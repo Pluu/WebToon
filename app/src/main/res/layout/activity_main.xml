@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".ui.weekly.MainActivity">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <include
+            android:id="@+id/actionBar"
+            layout="@layout/toolbar_actionbar" />
+
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_below="@id/actionBar" />
+    </RelativeLayout>
 
-            <include
-                android:id="@+id/actionBar"
-                layout="@layout/toolbar_actionbar" />
+    <!-- Nav drawer -->
+    <include
+        android:id="@+id/navDrawer"
+        layout="@layout/navdrawer" />
 
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/actionBar" />
-        </RelativeLayout>
-
-        <!-- Nav drawer -->
-        <include
-            android:id="@+id/navDrawer"
-            layout="@layout/navdrawer" />
-
-    </androidx.drawerlayout.widget.DrawerLayout>
-</layout>
+</androidx.drawerlayout.widget.DrawerLayout>
