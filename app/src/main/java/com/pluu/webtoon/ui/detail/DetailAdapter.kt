@@ -1,13 +1,11 @@
 package com.pluu.webtoon.ui.detail
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.databinding.ItemDetailViewholderBinding
 import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.utils.loadUrlOriginal
-import kotlinx.android.extensions.LayoutContainer
 
 class DetailAdapter(
     private val list: List<DetailView>,
@@ -30,9 +28,8 @@ class DetailAdapter(
 }
 
 class DetailViewHolder(
-    private val binding: ItemDetailViewholderBinding,
-    override val containerView: View = binding.root
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    private val binding: ItemDetailViewholderBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: DetailView) {
         binding.ivView.loadUrlOriginal(item.url)

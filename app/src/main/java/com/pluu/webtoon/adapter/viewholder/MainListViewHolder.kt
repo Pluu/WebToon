@@ -8,13 +8,11 @@ import com.pluu.webtoon.databinding.LayoutMainListItemBinding
 import com.pluu.webtoon.domain.moel.Status
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.utils.loadUrl
-import kotlinx.android.extensions.LayoutContainer
 
 class MainListViewHolder(
     private val binding: LayoutMainListItemBinding,
-    override val containerView: View = binding.root,
     filterColor: Int
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.favorite.setColorFilter(filterColor)

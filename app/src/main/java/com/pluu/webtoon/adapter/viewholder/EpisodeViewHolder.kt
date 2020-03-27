@@ -6,12 +6,10 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.LayoutEpisodeListItemBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.utils.loadUrl
-import kotlinx.android.extensions.LayoutContainer
 
 class EpisodeViewHolder(
-    private val binding: LayoutEpisodeListItemBinding,
-    override val containerView: View = binding.root
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    private val binding: LayoutEpisodeListItemBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: EpisodeInfo) {
         binding.titleView.text = item.title
