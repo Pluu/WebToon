@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.palette.graphics.Palette
@@ -147,9 +148,13 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private fun moveEpisode(item: ToonInfo, bgColor: Int, statusColor: Int) {
         startActivityForResult(Intent(activity, EpisodesActivity::class.java).apply {
-            putExtra(Const.EXTRA_EPISODE, item)
-            putExtra(Const.EXTRA_MAIN_COLOR, bgColor)
-            putExtra(Const.EXTRA_STATUS_COLOR, statusColor)
+            putExtras(
+                bundleOf(
+                    Const.EXTRA_EPISODE to item,
+                    Const.EXTRA_MAIN_COLOR to bgColor,
+                    Const.EXTRA_STATUS_COLOR to statusColor
+                )
+            )
         }, REQUEST_DETAIL)
     }
 

@@ -11,6 +11,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -264,9 +265,13 @@ class EpisodeFragment : Fragment(),
 
     private fun moveDetailPage(item: EpisodeInfo) {
         startActivityForResult(Intent(context, DetailActivity::class.java).apply {
-            putExtra(Const.EXTRA_EPISODE, item)
-            putExtra(Const.EXTRA_MAIN_COLOR, color[0])
-            putExtra(Const.EXTRA_STATUS_COLOR, color[1])
+            putExtras(
+                bundleOf(
+                    Const.EXTRA_EPISODE to item,
+                    Const.EXTRA_MAIN_COLOR to color[0],
+                    Const.EXTRA_STATUS_COLOR to color[1]
+                )
+            )
         }, REQUEST_DETAIL)
     }
 
@@ -276,10 +281,10 @@ class EpisodeFragment : Fragment(),
             color: IntArray
         ): EpisodeFragment {
             return EpisodeFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(Const.EXTRA_EPISODE, info)
-                    putIntArray(Const.EXTRA_MAIN_COLOR, color)
-                }
+                arguments = bundleOf(
+                    Const.EXTRA_EPISODE to info,
+                    Const.EXTRA_MAIN_COLOR to color
+                )
             }
         }
     }
