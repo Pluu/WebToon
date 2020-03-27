@@ -65,7 +65,6 @@ dependencies {
 
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.lifecycleExtensions)
     implementation(Dep.AndroidX.room.runtime)
     kapt(Dep.AndroidX.room.compiler)
     implementation(Dep.AndroidX.room.ktx)
