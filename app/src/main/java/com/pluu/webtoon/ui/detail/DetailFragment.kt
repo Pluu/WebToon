@@ -3,7 +3,6 @@ package com.pluu.webtoon.ui.detail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.webtoon.databinding.FragmentDefaultDetailBinding
 import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.resolveAttribute
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -47,8 +47,7 @@ class DetailFragment(
     }
 
     private fun init() {
-        val t = TypedValue()
-        activity?.theme?.resolveAttribute(android.R.attr.actionBarSize, t, true)
+        val t = resolveAttribute(android.R.attr.actionBarSize)
         actionBarHeight = resources.getDimensionPixelSize(t.resourceId)
 
         viewModel.list.observeNonNull(viewLifecycleOwner) { list ->

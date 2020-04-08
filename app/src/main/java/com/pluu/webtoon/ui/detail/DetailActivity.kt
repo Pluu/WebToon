@@ -15,7 +15,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -32,9 +31,10 @@ import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.resolveAttribute
+import java.util.concurrent.TimeUnit
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.util.concurrent.TimeUnit
 
 /**
  * 상세화면 Activity
@@ -119,8 +119,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     private fun bgColorAnimator(): Animator {
-        val value = TypedValue()
-        theme.resolveAttribute(R.attr.colorPrimary, value, true)
+        val value = resolveAttribute(R.attr.colorPrimary)
 
         return ValueAnimator.ofObject(ArgbEvaluator(), value.data, customTitleColor).apply {
             addUpdateListener { animation ->
@@ -143,8 +142,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private fun getStatusBarAnimator(): Animator {
         statusBarAnimator?.cancel()
-        val resValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorPrimaryDark, resValue, true)
+        val resValue = resolveAttribute(R.attr.colorPrimaryDark)
         statusBarAnimator =
             ObjectAnimator.ofInt(window, "statusBarColor", resValue.data, customTitleColor)
                 .apply {

@@ -21,6 +21,7 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.common.PrefConfig
 import com.pluu.webtoon.di.ServiceProperties
 import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.utils.resolveAttribute
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 
