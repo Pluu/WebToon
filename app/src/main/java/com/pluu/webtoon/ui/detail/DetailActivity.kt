@@ -1,7 +1,6 @@
 package com.pluu.webtoon.ui.detail
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
@@ -11,8 +10,6 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -28,7 +25,6 @@ import com.pluu.webtoon.databinding.ActivityDetailBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.weekly.PalletColor
-import com.pluu.webtoon.utils.RippleDrawableFactory
 import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
@@ -127,24 +123,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
                 addUpdateListener { animation ->
                     val value1 = animation.animatedValue as Int
                     binding.toolbarActionbar.setBackgroundColor(value1)
-                    val state = ColorStateList.valueOf(value1)
-                    binding.btnPrev.backgroundTintList = state
-                    binding.btnNext.backgroundTintList = state
+                    binding.btnPrev.backgroundTintList = stateListBgDrawable(value1)
+                    binding.btnNext.backgroundTintList = stateListBgDrawable(value1)
                 }
-                addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        binding.btnPrev.backgroundTintList = null
-                        binding.btnPrev.background = RippleDrawableFactory.createFromColor(
-                            Color.WHITE,
-                            stateListBgDrawable
-                        )
-                        binding.btnNext.backgroundTintList = null
-                        binding.btnNext.background = RippleDrawableFactory.createFromColor(
-                            Color.WHITE,
-                            stateListBgDrawable
-                        )
-                    }
-                })
             }
     }
 
@@ -163,16 +144,16 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         return statusBarAnimator!!
     }
 
-    private val stateListBgDrawable: StateListDrawable
-        get() {
-            return StateListDrawable().apply {
-                addState(intArrayOf(-android.R.attr.state_enabled), ColorDrawable(Color.GRAY))
-                addState(
-                    intArrayOf(android.R.attr.state_enabled),
-                    ColorDrawable(palletColor.darkVibrantColor)
-                )
-            }
-        }
+    private fun stateListBgDrawable(color: Int): ColorStateList = ColorStateList(
+        arrayOf(
+            intArrayOf(-android.R.attr.state_enabled),
+            intArrayOf(android.R.attr.state_enabled)
+        ),
+        intArrayOf(
+            Color.GRAY,
+            color
+        )
+    )
 
     private fun fragmentInit() {
         supportFragmentManager.commit {
