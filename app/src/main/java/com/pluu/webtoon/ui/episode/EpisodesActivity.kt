@@ -34,8 +34,12 @@ class EpisodesActivity : AppCompatActivity() {
     private val webToonInfo by lazyNone {
         intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)!!
     }
-    private var customTitleColor: Int = 0
-    private var customStatusColor: Int = 0
+    private val customTitleColor by lazyNone {
+        intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
+    }
+    private val customStatusColor by lazyNone {
+        intent.getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK)
+    }
 
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +62,6 @@ class EpisodesActivity : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     private fun initView() {
-        customTitleColor = intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
-        customStatusColor = intent.getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK)
-
         val toolbar = binding.actionBar.toolbar
         // Title TextView
         for (i in 0 until toolbar.childCount) {
@@ -81,17 +82,16 @@ class EpisodesActivity : AppCompatActivity() {
             this@EpisodesActivity.setStatusBarColor(value)
         }
 
-        animatorToolbarColor(customTitleColor, listener).let {
-            it.duration = 1000L
-            it.doOnEnd {
+        animatorToolbarColor(customTitleColor, listener).apply {
+            duration = 1000L
+            doOnEnd {
                 binding.btnFirst.background =
                     RippleDrawableFactory.createFromColor(
-                        Color.WHITE,
-                        ColorDrawable(customTitleColor)
+                        pressedColor = Color.WHITE,
+                        backgroundDrawable = ColorDrawable(customTitleColor)
                     )
             }
-            it.start()
-        }
+        }.start()
 
         binding.tvName.text = webToonInfo.writer
         binding.tvRate.text = Const.getRateNameByRate(webToonInfo.rate)
