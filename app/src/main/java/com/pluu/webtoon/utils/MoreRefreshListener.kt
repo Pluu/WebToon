@@ -30,7 +30,8 @@ abstract class MoreRefreshListener : RecyclerView.OnScrollListener() {
             val totalItemCount = itemCount
             val lastVisibleItemPosition = getLastVisibleItemPosition(this)
 
-            if (totalItemCount - lastVisibleItemPosition == 1 && totalItemCount >= visibleItemCount) {
+            if (totalItemCount - lastVisibleItemPosition == 1 &&
+                totalItemCount >= visibleItemCount) {
                 isLoadingMore = true
                 onMoreRefresh()
             }
