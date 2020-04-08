@@ -102,9 +102,17 @@ kapt {
 }
 
 ktlint {
-    android.set(true)
     debug.set(true)
     verbose.set(true)
-    reporters.set(listOf(ReporterType.CHECKSTYLE))
+    android.set(true)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
     ignoreFailures.set(true)
+    reporters {
+        reporter(ReporterType.CHECKSTYLE)
+    }
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
+    }
 }
