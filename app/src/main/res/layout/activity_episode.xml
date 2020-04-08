@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,11 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
+        android:minHeight="48dp"
         android:padding="3dp">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
@@ -35,7 +37,8 @@
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
                 android:textColor="@android:color/white"
@@ -46,7 +49,7 @@
             <TextView
                 android:id="@+id/tvRate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:singleLine="true"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
@@ -56,18 +59,19 @@
                 tools:textColor="@android:color/black" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFirst"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableStart="@drawable/ic_looks_one_white_36dp"
-            android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:text="@string/label_first"
             android:textColor="@android:color/white"
-            tools:background="@android:color/black" />
+            app:icon="@drawable/ic_looks_one_white_36dp"
+            app:iconTint="@android:color/white"
+            app:rippleColor="@android:color/white"
+            tools:background="@color/theme_primary" />
 
     </LinearLayout>
 </RelativeLayout>

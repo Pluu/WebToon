@@ -142,18 +142,13 @@ abstract class BaseNavActivity : AppCompatActivity() {
         val iconView: ImageView = view.findViewById(R.id.icon)
         val titleView: TextView = view.findViewById(R.id.title)
 
-        if (selected) {
-            view.setBackgroundResource(R.drawable.selected_navdrawer_item_background)
-        } else {
-            view.setBackgroundResource(R.drawable.selector_nav_item)
-        }
-
         // configure its appearance according to whether or not it's selected
         titleView.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (selected) item.color else R.color.navdrawer_text_color
-            )
+            if (selected) {
+                ContextCompat.getColor(this, item.color)
+            } else {
+                resolveAttribute(R.attr.colorOnSurface).data
+            }
         )
         iconView.setColorFilter(
             ContextCompat.getColor(

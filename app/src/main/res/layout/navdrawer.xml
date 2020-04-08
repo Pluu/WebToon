@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/navTitle"
-        android:background="@android:color/white">
+        android:background="?attr/colorSurface">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/selector_nav_item"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:gravity="start|center_vertical"
@@ -62,7 +62,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="32dp"
-                app:srcCompat="@drawable/ic_settings_black_24dp" />
+                app:srcCompat="@drawable/ic_settings_black_24dp"
+                app:tint="?colorControlNormal" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"

@@ -115,25 +115,28 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
     }
 
     override fun selectSuccess(view: ImageView, item: ToonInfo) {
-        fun asyncPalette(bitmap: Bitmap, block: (Pair<Int, Int>) -> Unit) {
+        fun asyncPalette(bitmap: Bitmap, block: (PalletColor) -> Unit) {
             val context = context ?: return
             Palette.from(bitmap).generate { p ->
-                val bgColor = p?.getDarkVibrantColor(Color.BLACK) ?: Color.BLACK
-                val statusColor =
-                    p?.getDarkMutedColor(context.getCompatColor(R.color.theme_primary_dark))
-                        ?: context.getCompatColor(R.color.theme_primary_dark)
-                block(bgColor to statusColor)
+                val colors = p?.let {
+                    PalletColor(
+                        p.getDarkVibrantColor(Color.BLACK),
+                        p.getDarkMutedColor(Color.BLACK),
+                        Color.WHITE
+                    )
+                } ?: PalletColor(Color.BLACK, Color.BLACK, Color.WHITE)
+                block(colors)
             }
         }
 
-        fun loadPalette(view: ImageView, block: (Pair<Int, Int>) -> Unit) {
+        fun loadPalette(view: ImageView, block: (PalletColor) -> Unit) {
             view.palletBitmap?.let {
                 asyncPalette(it, block)
             }
         }
 
         loadPalette(view) { colors ->
-            moveEpisode(item, colors.first, colors.second)
+            moveEpisode(item, colors)
         }
     }
 
@@ -146,13 +149,12 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
             ?.modifyInfo(info.id, info.isFavorite)
     }
 
-    private fun moveEpisode(item: ToonInfo, bgColor: Int, statusColor: Int) {
+    private fun moveEpisode(item: ToonInfo, palletColor: PalletColor) {
         startActivityForResult(Intent(activity, EpisodesActivity::class.java).apply {
             putExtras(
                 bundleOf(
                     Const.EXTRA_EPISODE to item,
-                    Const.EXTRA_MAIN_COLOR to bgColor,
-                    Const.EXTRA_STATUS_COLOR to statusColor
+                    Const.EXTRA_PALLET to palletColor
                 )
             )
         }, REQUEST_DETAIL)

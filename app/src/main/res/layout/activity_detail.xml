@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,11 +54,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/theme_primary"
-            android:drawableStart="@drawable/chevron_left_selector"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:text="@string/label_prev_view"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/chevron_left_selector"
+            app:iconTint="@android:color/white"
+            app:rippleColor="@android:color/white"
+            tools:background="@color/theme_primary" />
 
         <Button
             android:id="@+id/btnNext"
@@ -65,10 +71,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/theme_primary"
-            android:drawableEnd="@drawable/chevron_right_selector"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:text="@string/label_next_view"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/chevron_right_selector"
+            app:iconGravity="end"
+            app:iconTint="@android:color/white"
+            app:rippleColor="@android:color/white"
+            tools:background="@color/theme_primary" />
     </LinearLayout>
 </RelativeLayout>

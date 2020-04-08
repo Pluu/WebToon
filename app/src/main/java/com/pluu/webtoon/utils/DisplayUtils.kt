@@ -3,6 +3,7 @@ package com.pluu.webtoon.utils
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.WindowManager
@@ -14,20 +15,22 @@ import com.pluu.webtoon.R
  * Display Utils
  * Created by pluu on 2017-04-18.
  */
-fun AppCompatActivity.animatorToolbarColor(color: Int) =
-    animatorToolbarColor(color, ValueAnimator.AnimatorUpdateListener {
-        supportActionBar?.apply {
-            setBackgroundDrawable(ColorDrawable(it.animatedValue as Int))
-        }
-    })
+fun AppCompatActivity.animatorToolbarColor(endColor: Int) =
+    animatorColor(
+        startColor = resolveAttribute(R.attr.colorPrimary).data,
+        endColor = endColor,
+        listener = ValueAnimator.AnimatorUpdateListener {
+            supportActionBar?.apply {
+                setBackgroundDrawable(ColorDrawable(it.animatedValue as Int))
+            }
+        })
 
-fun AppCompatActivity.animatorToolbarColor(
-    color: Int,
+fun Context.animatorColor(
+    startColor: Int,
+    endColor: Int,
     listener: ValueAnimator.AnimatorUpdateListener?
 ): ValueAnimator {
-    val value = resolveAttribute(R.attr.colorPrimary)
-
-    val animator = ValueAnimator.ofObject(ArgbEvaluator(), value.data, color)
+    val animator = ValueAnimator.ofObject(ArgbEvaluator(), startColor, endColor)
     if (listener != null) {
         animator.addUpdateListener(listener)
     }

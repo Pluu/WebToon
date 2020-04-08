@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 기본 컬러에 White +10% -->
+    <color name="naver_color">#429019</color>
+    <color name="daum_color">#6f99fc</color>
+    <color name="olleh_color">#e24232</color>
+    <color name="kakao_color">#524449</color>
+    <color name="nate_color">#ed3119</color>
+</resources>

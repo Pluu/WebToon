@@ -1,13 +1,11 @@
 package com.pluu.webtoon.ui.episode
 
 import android.animation.ValueAnimator
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import com.pluu.event.EventBus
@@ -16,9 +14,11 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityEpisodeBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.FirstItemSelectEvent
-import com.pluu.webtoon.utils.RippleDrawableFactory
-import com.pluu.webtoon.utils.animatorToolbarColor
+import com.pluu.webtoon.ui.weekly.PalletColor
+import com.pluu.webtoon.utils.ThemeHelper
+import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.utils.resolveAttribute
 import com.pluu.webtoon.utils.setStatusBarColor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -34,11 +34,8 @@ class EpisodesActivity : AppCompatActivity() {
     private val webToonInfo by lazyNone {
         intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)!!
     }
-    private val customTitleColor by lazyNone {
-        intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
-    }
-    private val customStatusColor by lazyNone {
-        intent.getIntExtra(Const.EXTRA_STATUS_COLOR, Color.BLACK)
+    private val palletColor by lazyNone {
+        intent.getParcelableExtra<PalletColor>(Const.EXTRA_PALLET)!!
     }
 
     @ExperimentalCoroutinesApi
@@ -71,26 +68,33 @@ class EpisodesActivity : AppCompatActivity() {
             }
         }
 
-        val listener = ValueAnimator.AnimatorUpdateListener { animation ->
+        val darkListener = ValueAnimator.AnimatorUpdateListener { animation ->
             val value = animation.animatedValue as Int
             toolbar.setBackgroundColor(value)
-            binding.btnFirst.setBackgroundColor(value)
+            binding.btnFirst.backgroundTintList = ColorStateList.valueOf(value)
             childTitle?.setBackgroundColor(value)
-            binding.tvName.setTextColor(value)
             binding.tvRate.setTextColor(value)
 
             this@EpisodesActivity.setStatusBarColor(value)
         }
-
-        animatorToolbarColor(customTitleColor, listener).apply {
+        animatorColor(
+            startColor = resolveAttribute(R.attr.colorPrimary).data,
+            endColor = palletColor.darkVibrantColor,
+            listener = darkListener
+        ).apply {
             duration = 1000L
-            doOnEnd {
-                binding.btnFirst.background =
-                    RippleDrawableFactory.createFromColor(
-                        pressedColor = Color.WHITE,
-                        backgroundDrawable = ColorDrawable(customTitleColor)
-                    )
-            }
+        }.start()
+
+        val writerListener = ValueAnimator.AnimatorUpdateListener { animation ->
+            val value = animation.animatedValue as Int
+            binding.tvName.setTextColor(value)
+        }
+        animatorColor(
+            startColor = resolveAttribute(android.R.attr.textColorPrimary).data,
+            endColor = if (ThemeHelper.isLightTheme(this)) palletColor.darkMutedColor else palletColor.lightMutedColor,
+            listener = writerListener
+        ).apply {
+            duration = 1000L
         }.start()
 
         binding.tvName.text = webToonInfo.writer
@@ -103,10 +107,7 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     private fun initFragment() {
-        val fragment = EpisodeFragment.newInstance(
-            webToonInfo,
-            intArrayOf(customTitleColor, customStatusColor)
-        )
+        val fragment = EpisodeFragment.newInstance(webToonInfo, palletColor)
 
         supportFragmentManager.commit {
             replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)

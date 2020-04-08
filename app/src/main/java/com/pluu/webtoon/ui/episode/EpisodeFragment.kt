@@ -28,6 +28,7 @@ import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
+import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.MoreRefreshListener
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
@@ -49,21 +50,21 @@ class EpisodeFragment : Fragment(),
 
     private val viewModel: EpisodeViewModel by viewModel {
         parametersOf(
-            arguments!!.getParcelable<ToonInfo>(Const.EXTRA_EPISODE)
+            requireArguments().getParcelable<ToonInfo>(Const.EXTRA_EPISODE)
         )
     }
 
     private var _binding: FragmentEpisodeBinding? = null
     private val binding get() = _binding!!
 
-    private val color: IntArray by lazyNone {
-        arguments?.getIntArray(Const.EXTRA_MAIN_COLOR) ?: intArrayOf()
+    private val palletColor by lazyNone {
+        requireArguments().getParcelable<PalletColor>(Const.EXTRA_PALLET)!!
     }
-    private val adapter: EpisodeAdapter by lazyNone {
+    private val adapter by lazyNone {
         EpisodeAdapter(this)
     }
 
-    private val loadDlg: ProgressDialog by lazyNone {
+    private val loadDlg by lazyNone {
         ProgressDialog(context).apply {
             setCancelable(false)
             setMessage(getString(R.string.msg_loading))
@@ -85,6 +86,7 @@ class EpisodeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        initEvent()
         loading()
     }
 
@@ -107,10 +109,7 @@ class EpisodeFragment : Fragment(),
         }
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun initEvent() {
         viewModel.listEvent.observeNonNull(viewLifecycleOwner) { list ->
             adapter.addItems(list)
         }
@@ -268,8 +267,7 @@ class EpisodeFragment : Fragment(),
             putExtras(
                 bundleOf(
                     Const.EXTRA_EPISODE to item,
-                    Const.EXTRA_MAIN_COLOR to color[0],
-                    Const.EXTRA_STATUS_COLOR to color[1]
+                    Const.EXTRA_PALLET to palletColor
                 )
             )
         }, REQUEST_DETAIL)
@@ -278,12 +276,12 @@ class EpisodeFragment : Fragment(),
     companion object {
         fun newInstance(
             info: ToonInfo,
-            color: IntArray
+            color: PalletColor
         ): EpisodeFragment {
             return EpisodeFragment().apply {
                 arguments = bundleOf(
                     Const.EXTRA_EPISODE to info,
-                    Const.EXTRA_MAIN_COLOR to color
+                    Const.EXTRA_PALLET to color
                 )
             }
         }

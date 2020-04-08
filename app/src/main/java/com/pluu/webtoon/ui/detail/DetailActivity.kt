@@ -21,20 +21,21 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.commit
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityDetailBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ShareItem
+import com.pluu.webtoon.ui.weekly.PalletColor
+import com.pluu.webtoon.utils.RippleDrawableFactory
 import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.resolveAttribute
-import java.util.concurrent.TimeUnit
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.util.concurrent.TimeUnit
 
 /**
  * 상세화면 Activity
@@ -50,8 +51,8 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private lateinit var binding: ActivityDetailBinding
 
-    private val customTitleColor: Int by lazyNone {
-        intent.getIntExtra(Const.EXTRA_MAIN_COLOR, Color.BLACK)
+    private val palletColor by lazyNone {
+        intent.getParcelableExtra<PalletColor>(Const.EXTRA_PALLET)!!
     }
 
     private var SWIPE_MIN_DISTANCE: Int = 0
@@ -60,7 +61,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS)
 
-    private val dlg: ProgressDialog by lazyNone {
+    private val dlg by lazyNone {
         ProgressDialog(this).apply {
             setMessage(getString(R.string.msg_loading))
         }
@@ -121,33 +122,44 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     private fun bgColorAnimator(): Animator {
         val value = resolveAttribute(R.attr.colorPrimary)
 
-        return ValueAnimator.ofObject(ArgbEvaluator(), value.data, customTitleColor).apply {
-            addUpdateListener { animation ->
-                val value1 = animation.animatedValue as Int
-                binding.toolbarActionbar.setBackgroundColor(value1)
-                binding.btnPrev.setBackgroundColor(value1)
-                binding.btnNext.setBackgroundColor(value1)
-            }
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    ViewCompat.setBackground(binding.btnNext, stateListBgDrawable)
-                    ViewCompat.setBackground(binding.btnPrev, stateListBgDrawable)
-
-                    binding.btnNext.setTextColor(stateListTextDrawable)
-                    binding.btnPrev.setTextColor(stateListTextDrawable)
+        return ValueAnimator.ofObject(ArgbEvaluator(), value.data, palletColor.darkVibrantColor)
+            .apply {
+                addUpdateListener { animation ->
+                    val value1 = animation.animatedValue as Int
+                    binding.toolbarActionbar.setBackgroundColor(value1)
+                    val state = ColorStateList.valueOf(value1)
+                    binding.btnPrev.backgroundTintList = state
+                    binding.btnNext.backgroundTintList = state
                 }
-            })
-        }
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        binding.btnPrev.backgroundTintList = null
+                        binding.btnPrev.background = RippleDrawableFactory.createFromColor(
+                            Color.WHITE,
+                            stateListBgDrawable
+                        )
+                        binding.btnNext.backgroundTintList = null
+                        binding.btnNext.background = RippleDrawableFactory.createFromColor(
+                            Color.WHITE,
+                            stateListBgDrawable
+                        )
+                    }
+                })
+            }
     }
 
     private fun getStatusBarAnimator(): Animator {
         statusBarAnimator?.cancel()
         val resValue = resolveAttribute(R.attr.colorPrimaryDark)
         statusBarAnimator =
-            ObjectAnimator.ofInt(window, "statusBarColor", resValue.data, customTitleColor)
-                .apply {
-                    setEvaluator(ArgbEvaluator())
-                }
+            ObjectAnimator.ofInt(
+                window,
+                "statusBarColor",
+                resValue.data,
+                palletColor.darkVibrantColor
+            ).apply {
+                setEvaluator(ArgbEvaluator())
+            }
         return statusBarAnimator!!
     }
 
@@ -155,20 +167,11 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         get() {
             return StateListDrawable().apply {
                 addState(intArrayOf(-android.R.attr.state_enabled), ColorDrawable(Color.GRAY))
-                addState(intArrayOf(android.R.attr.state_pressed), ColorDrawable(Color.WHITE))
-                addState(intArrayOf(android.R.attr.state_enabled), ColorDrawable(customTitleColor))
+                addState(
+                    intArrayOf(android.R.attr.state_enabled),
+                    ColorDrawable(palletColor.darkVibrantColor)
+                )
             }
-        }
-
-    private val stateListTextDrawable: ColorStateList
-        get() {
-            val state = arrayOf(
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(android.R.attr.state_pressed),
-                intArrayOf(android.R.attr.state_enabled)
-            )
-            val colors = intArrayOf(Color.WHITE, customTitleColor, Color.WHITE)
-            return ColorStateList(state, colors)
         }
 
     private fun fragmentInit() {
