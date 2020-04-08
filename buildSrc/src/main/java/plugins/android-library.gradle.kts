@@ -35,6 +35,10 @@ android {
     kotlinOptions {
         jvmTarget = ProjectConfigurations.javaVer.toString()
     }
+
+    lintOptions {
+        isAbortOnError = false
+    }
 }
 
 dependencies {
