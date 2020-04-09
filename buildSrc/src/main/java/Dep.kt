@@ -67,8 +67,7 @@ object Dep {
 
     object Koin {
         private const val version = "2.1.5"
-        const val android = "org.koin:koin-android:$version"
-        const val androidViewModel = "org.koin:koin-android-viewmodel:$version"
+        const val android = "org.koin:koin-android-viewmodel:$version"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.13.1"

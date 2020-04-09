@@ -82,7 +82,6 @@ dependencies {
 
     // DI
     implementation(Dep.Koin.android)
-    implementation(Dep.Koin.androidViewModel)
 
     // Glide
     implementation(Dep.Glide.core)
