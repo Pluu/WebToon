@@ -17,7 +17,6 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.pluu.event.EventBus
-import com.pluu.kotlin.getCompatColor
 import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.MainListAdapter
@@ -62,15 +61,12 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
         return binding.root
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.layoutManager =
             GridLayoutManager(context, resources.getInteger(R.integer.webtoon_column_count))
-    }
 
-    @ExperimentalCoroutinesApi
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         viewModel.listEvent.observeNonNull(viewLifecycleOwner) { list ->
             binding.recyclerView.adapter = MainListAdapter(requireContext(), list, this)
             binding.emptyView.isVisible = list.isEmpty()

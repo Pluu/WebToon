@@ -64,6 +64,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @Suppress("EXPERIMENTAL_API_USAGE")
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,6 +83,13 @@ class MainFragment : Fragment() {
         TabLayoutMediator(binding.slidingTabLayout, binding.viewPager) { tab, position ->
             tab.text = serviceApi.getWeeklyTabName(position)
         }.attach()
+
+        lifecycleScope.launchWhenStarted {
+            registerStartEvent()
+        }
+        lifecycleScope.launchWhenStarted {
+            registerLoadEvent()
+        }
     }
 
     // 선택한 서비스에 맞는 컬러 테마 변경
@@ -103,18 +111,6 @@ class MainFragment : Fragment() {
 
         EventBus.send(ThemeEvent(color, colorDark))
         binding.slidingTabLayout.setSelectedTabIndicatorColor(color)
-    }
-
-    @FlowPreview
-    @ExperimentalCoroutinesApi
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        lifecycleScope.launchWhenStarted {
-            registerStartEvent()
-        }
-        lifecycleScope.launchWhenStarted {
-            registerLoadEvent()
-        }
     }
 
     override fun onDestroyView() {
