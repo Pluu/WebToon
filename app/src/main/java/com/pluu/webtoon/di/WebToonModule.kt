@@ -10,7 +10,6 @@ import com.pluu.webtoon.domain.usecase.ReadUseCase
 import com.pluu.webtoon.domain.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.ui.detail.DetailViewModel
 import com.pluu.webtoon.ui.episode.EpisodeViewModel
-import com.pluu.webtoon.ui.intro.IntroUseCase
 import com.pluu.webtoon.ui.intro.IntroViewModel
 import com.pluu.webtoon.ui.weekly.ToonViewModel
 import com.pluu.webtoon.ui.weekly.WeekyViewModel
@@ -20,9 +19,7 @@ import org.koin.dsl.module
 
 val introModule = module {
     viewModel {
-        IntroViewModel(
-            useCase = IntroUseCase(get())
-        )
+        IntroViewModel()
     }
 }
 

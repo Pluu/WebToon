@@ -5,8 +5,10 @@ import com.pluu.webtoon.di.convertModule
 import com.pluu.webtoon.di.introModule
 import com.pluu.webtoon.di.modules
 import com.pluu.webtoon.di.webToonModule
+import com.pluu.webtoon.di.init.InitUseCase
 import com.pluu.webtoon.utils.ThemeHelper
 import com.pluu.webtoon.utils.ThemeType
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -17,7 +19,6 @@ import org.koin.core.context.startKoin
 class AppController : Application() {
     override fun onCreate() {
         super.onCreate()
-        ThemeHelper.applyTheme(ThemeType.DEFAULT)
         startKoin {
             androidContext(this@AppController)
             modules(
@@ -29,5 +30,12 @@ class AppController : Application() {
                 )
             )
         }
+
+        // Init Theme
+        ThemeHelper.applyTheme(ThemeType.DEFAULT)
+
+        // Run Init UseCase
+        val initCase: InitUseCase = getKoin().get()
+        initCase.init()
     }
 }

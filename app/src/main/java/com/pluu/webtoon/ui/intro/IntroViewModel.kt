@@ -11,9 +11,7 @@ import kotlinx.coroutines.launch
 /**
  * Intro ViewModel
  */
-class IntroViewModel(
-    private val useCase: IntroUseCase
-) : ViewModel() {
+class IntroViewModel : ViewModel() {
 
     private val _observe = MutableLiveData<Unit>()
     val observe: LiveData<Unit>
@@ -27,7 +25,6 @@ class IntroViewModel(
 
     private suspend fun initAction() {
         delay(TimeUnit.SECONDS.toMillis(1L))
-        useCase.init()
         _observe.value = Unit
     }
 }

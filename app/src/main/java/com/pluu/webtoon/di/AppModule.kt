@@ -9,6 +9,7 @@ import com.pluu.webtoon.data.db.IDBHelper
 import com.pluu.webtoon.data.model.AppDatabase
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.NetworkUseCase
+import com.pluu.webtoon.di.init.InitUseCase
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
@@ -32,6 +33,10 @@ private val appModule = module {
         )
     }
     single { PrefConfig(androidContext()) }
+
+    factory {
+        InitUseCase(get())
+    }
 }
 
 private val networkModule = module {
