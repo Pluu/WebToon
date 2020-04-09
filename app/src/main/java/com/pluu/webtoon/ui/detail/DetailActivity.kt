@@ -1,10 +1,6 @@
 package com.pluu.webtoon.ui.detail
 
 import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
@@ -25,10 +21,12 @@ import com.pluu.webtoon.databinding.ActivityDetailBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.weekly.PalletColor
+import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.resolveAttribute
+import com.pluu.webtoon.utils.setStatusBarColor
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
@@ -51,11 +49,17 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         intent.getParcelableExtra<PalletColor>(Const.EXTRA_PALLET)!!
     }
 
-    private var SWIPE_MIN_DISTANCE: Int = 0
-    private var SWIPE_THRESHOLD_VELOCITY: Int = 0
-    private var statusBarAnimator: ObjectAnimator? = null
+    private val swipeMinDistance by lazyNone {
+        resources.displayMetrics.widthPixels / 3
+    }
+    private val swipeThresholdVelocity by lazyNone {
+        resources.displayMetrics.widthPixels / 2
+    }
 
-    private val DELAY_TIME = TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS)
+    private val toggleDelayTime = TimeUnit.MILLISECONDS.toMillis(150)
+    private val toggleAnimTime = 200L
+
+    private val toggleId = 0
 
     private val dlg by lazyNone {
         ProgressDialog(this).apply {
@@ -72,24 +76,14 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
         fragmentInit()
-
-        resources.displayMetrics.apply {
-            SWIPE_MIN_DISTANCE = widthPixels / 3
-            SWIPE_THRESHOLD_VELOCITY = widthPixels / 2
-        }
     }
 
     private fun initView() {
+        darkAnimator().start()
+
         binding.tvSubTitle.text = ""
         binding.btnPrev.isEnabled = false
         binding.btnNext.isEnabled = false
-
-        AnimatorSet().apply {
-            playTogether(bgColorAnimator(), getStatusBarAnimator())
-            duration = 1000L
-            interpolator = DecelerateInterpolator()
-            start()
-        }
 
         binding.btnPrev.setOnClickListener { viewModel.movePrev() }
         binding.btnNext.setOnClickListener { viewModel.moveNext() }
@@ -115,33 +109,22 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
     }
 
-    private fun bgColorAnimator(): Animator {
-        val value = resolveAttribute(R.attr.colorPrimary)
+    private fun darkAnimator(): Animator = animatorColor(
+        startColor = resolveAttribute(R.attr.colorPrimary).data,
+        endColor = palletColor.darkVibrantColor
+    ).apply {
+        val toolbar = binding.toolbarActionbar
 
-        return ValueAnimator.ofObject(ArgbEvaluator(), value.data, palletColor.darkVibrantColor)
-            .apply {
-                addUpdateListener { animation ->
-                    val value1 = animation.animatedValue as Int
-                    binding.toolbarActionbar.setBackgroundColor(value1)
-                    binding.btnPrev.backgroundTintList = stateListBgDrawable(value1)
-                    binding.btnNext.backgroundTintList = stateListBgDrawable(value1)
-                }
-            }
-    }
+        duration = 1000L
+        interpolator = DecelerateInterpolator()
+        addUpdateListener { animation ->
+            val value = animation.animatedValue as Int
+            binding.toolbarActionbar.setBackgroundColor(value)
+            binding.btnPrev.backgroundTintList = stateListBgDrawable(value)
+            binding.btnNext.backgroundTintList = stateListBgDrawable(value)
 
-    private fun getStatusBarAnimator(): Animator {
-        statusBarAnimator?.cancel()
-        val resValue = resolveAttribute(R.attr.colorPrimaryDark)
-        statusBarAnimator =
-            ObjectAnimator.ofInt(
-                window,
-                "statusBarColor",
-                resValue.data,
-                palletColor.darkVibrantColor
-            ).apply {
-                setEvaluator(ArgbEvaluator())
-            }
-        return statusBarAnimator!!
+            this@DetailActivity.setStatusBarColor(value)
+        }
     }
 
     private fun stateListBgDrawable(color: Int): ColorStateList = ColorStateList(
@@ -203,18 +186,21 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private fun moveToAxisY(view: View, isToTop: Boolean) {
         view.animate()
+            .setDuration(toggleAnimTime)
             .translationY((if (isToTop) -view.height else view.height).toFloat())
             .start()
     }
 
     private fun moveRevert(view: View) {
-        view.animate().translationY(0f).start()
+        view.animate()
+            .setDuration(toggleAnimTime)
+            .translationY(0f)
+            .start()
     }
 
     private fun toggleDelay(isDelay: Boolean) {
-        val toggleId = 0
         mToggleHandler.removeMessages(toggleId)
-        mToggleHandler.sendEmptyMessageDelayed(toggleId, if (isDelay) DELAY_TIME else 0)
+        mToggleHandler.sendEmptyMessageDelayed(toggleId, if (isDelay) toggleDelayTime else 0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
