@@ -45,14 +45,14 @@
     <LinearLayout
         android:id="@+id/bottomMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/detail_bottom_size"
         android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/btnPrev"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:insetTop="0dp"
             android:insetBottom="0dp"
@@ -69,7 +69,7 @@
             android:id="@+id/btnNext"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:insetTop="0dp"
             android:insetBottom="0dp"

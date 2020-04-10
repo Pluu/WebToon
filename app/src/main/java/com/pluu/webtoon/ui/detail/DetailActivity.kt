@@ -136,7 +136,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private fun fragmentInit() {
         supportFragmentManager.commit {
-            replace(R.id.container, DetailFragment(binding.bottomMenu.height))
+            replace(R.id.container, DetailFragment())
         }
     }
 

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.FragmentDefaultDetailBinding
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.resolveAttribute
@@ -18,9 +19,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
  * Created by pluu on 2017-05-06.
  */
 @SuppressLint("ValidFragment")
-class DetailFragment(
-    private val bottomHeight: Int
-) : Fragment() {
+class DetailFragment : Fragment() {
 
     private val viewModel: DetailViewModel by sharedViewModel()
 
@@ -57,7 +56,14 @@ class DetailFragment(
                     initialPrefetchItemCount = 4
                 }
                 adapter = DetailAdapter(list, listener)
-                addItemDecoration(DetailItemDecoration(actionBarHeight, bottomHeight))
+                addItemDecoration(
+                    DetailItemDecoration(
+                        actionBarHeight,
+                        context.resources.getDimensionPixelOffset(
+                            R.dimen.detail_bottom_size
+                        )
+                    )
+                )
             }
         }
     }
