@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
@@ -15,6 +16,7 @@ import kotlinx.coroutines.withContext
 
 class WeekyViewModel(
     private val dispatchers: AppCoroutineDispatchers,
+    private val type: NAV_ITEM,
     private val weekPos: Int,
     private val weeklyUseCase: WeeklyUseCase,
     private val hasFavoriteUseCase: HasFavoriteUseCase
@@ -41,7 +43,7 @@ class WeekyViewModel(
         if (apiResult is Result.Success) {
             apiResult.data
                 .mapOnSuspend {
-                    it.isFavorite = hasFavoriteUseCase(it.id)
+                    it.isFavorite = hasFavoriteUseCase(type, it.id)
                     it
                 }
                 .sortedWith(compareBy<ToonInfo> {

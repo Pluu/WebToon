@@ -8,16 +8,17 @@ import com.pluu.webtoon.domain.moel.Episode
  * EpisodeInfo Section Use Case
  */
 class ReadEpisodeListUseCase(
-    private val dbHelper: IDBHelper,
-    private val naviItem: NAV_ITEM
+    private val dbHelper: IDBHelper
 ) {
     /**
      * 이미 읽은 EpisodeInfo 취득
+     *
+     * @param type Type
      * @param id EpisodeInfo ID
      * @return Read List
      */
-    suspend operator fun invoke(id: String): List<Episode> =
-        dbHelper.getEpisode(naviItem.name, id)
+    suspend operator fun invoke(type: NAV_ITEM, id: String): List<Episode> =
+        dbHelper.getEpisode(type.name, id)
             .map {
                 Episode(
                     service = it.service!!,

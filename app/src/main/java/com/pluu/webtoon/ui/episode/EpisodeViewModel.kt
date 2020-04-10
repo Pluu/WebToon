@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.domain.moel.Episode
 import com.pluu.webtoon.domain.moel.EpisodeInfo
@@ -23,6 +24,7 @@ import kotlinx.coroutines.withContext
  */
 class EpisodeViewModel(
     private val dispatchers: AppCoroutineDispatchers,
+    private val type: NAV_ITEM,
     private val info: ToonInfo,
     private val episodeUseCase: EpisodeUseCase,
     private val readEpisodeListUseCase: ReadEpisodeListUseCase,
@@ -115,7 +117,7 @@ class EpisodeViewModel(
     }
 
     private suspend fun getReadList(): List<Episode> = withContext(dispatchers.computation) {
-        readEpisodeListUseCase(info.id)
+        readEpisodeListUseCase(type, info.id)
     }
 
     fun readUpdate() {
@@ -144,9 +146,9 @@ class EpisodeViewModel(
     fun favorite(isFavorite: Boolean) {
         viewModelScope.launch(dispatchers.computation) {
             if (isFavorite) {
-                addFavoriteUseCase(info.id)
+                addFavoriteUseCase(type, info.id)
             } else {
-                delFavoriteUseCase(info.id)
+                delFavoriteUseCase(type, info.id)
             }
         }
         info.isFavorite = isFavorite

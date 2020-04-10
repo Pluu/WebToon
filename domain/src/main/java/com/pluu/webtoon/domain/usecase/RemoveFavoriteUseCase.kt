@@ -8,14 +8,13 @@ import com.pluu.webtoon.data.model.DBToon
  * Delete Favorite Use Case
  */
 class RemoveFavoriteUseCase(
-    private val dbHelper: IDBHelper,
-    private val naviItem: NAV_ITEM
+    private val dbHelper: IDBHelper
 ) {
-    suspend operator fun invoke(id: String) {
+    suspend operator fun invoke(type: NAV_ITEM, id: String) {
         dbHelper.removeFavorite(
             DBToon(
                 id = 0,
-                service = naviItem.name,
+                service = type.name,
                 toonId = id
             )
         )

@@ -15,6 +15,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.SavedStateHandle
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityDetailBinding
@@ -39,7 +40,9 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val viewModel: DetailViewModel by viewModel {
         parametersOf(
-            intent.getParcelableExtra<EpisodeInfo>(Const.EXTRA_EPISODE)
+            SavedStateHandle(
+                mapOf(Const.EXTRA_EPISODE to intent.getParcelableExtra<EpisodeInfo>(Const.EXTRA_EPISODE))
+            )
         )
     }
 
@@ -47,13 +50,6 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     private val palletColor by lazyNone {
         intent.getParcelableExtra<PalletColor>(Const.EXTRA_PALLET)!!
-    }
-
-    private val swipeMinDistance by lazyNone {
-        resources.displayMetrics.widthPixels / 3
-    }
-    private val swipeThresholdVelocity by lazyNone {
-        resources.displayMetrics.widthPixels / 2
     }
 
     private val toggleDelayTime = TimeUnit.MILLISECONDS.toMillis(150)

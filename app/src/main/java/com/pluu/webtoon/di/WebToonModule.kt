@@ -1,7 +1,7 @@
 package com.pluu.webtoon.di
 
+import androidx.lifecycle.SavedStateHandle
 import com.pluu.webtoon.NAV_ITEM
-import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.AddFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
@@ -28,9 +28,10 @@ val webToonModule = module {
         val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
         WeekyViewModel(
             dispatchers = get(),
+            type = apiType,
             weekPos = weekPos,
             weeklyUseCase = get(named(UseCaseProperties.WEEKLY_USECASE)),
-            hasFavoriteUseCase = HasFavoriteUseCase(get(), apiType)
+            hasFavoriteUseCase = HasFavoriteUseCase(get())
         )
     }
 
@@ -42,21 +43,23 @@ val webToonModule = module {
         val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
         EpisodeViewModel(
             dispatchers = get(),
+            type = apiType,
             info = info,
             episodeUseCase = get(named(UseCaseProperties.EPISODE_USECASE)),
-            readEpisodeListUseCase = ReadEpisodeListUseCase(get(), apiType),
-            addFavoriteUseCase = AddFavoriteUseCase(get(), apiType),
-            delFavoriteUseCase = RemoveFavoriteUseCase(get(), apiType)
+            readEpisodeListUseCase = ReadEpisodeListUseCase(get()),
+            addFavoriteUseCase = AddFavoriteUseCase(get()),
+            delFavoriteUseCase = RemoveFavoriteUseCase(get())
         )
     }
 
-    viewModel { (episode: EpisodeInfo) ->
+    viewModel { (handle: SavedStateHandle) ->
         val apiType = getProperty<NAV_ITEM>(ServiceProperties.NAV_ITEM)
         DetailViewModel(
+            handle = handle,
+            type = apiType,
             dispatchers = get(),
-            episode = episode,
             detailUseCase = get(named(UseCaseProperties.DETAIL_USECASE)),
-            readUseCase = ReadUseCase(get(), apiType),
+            readUseCase = ReadUseCase(get()),
             shareUseCase = get()
         )
     }
