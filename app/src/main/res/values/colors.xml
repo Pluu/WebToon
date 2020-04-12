@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_3f51b5">#3F51B5</color>
-    <color name="color_1a237e">#1A237E</color>
-    <color name="color_de000000">#de000000</color>
-    <color name="color_888888">#888</color>
-    <color name="color_12000000">#12000000</color>
-    <color name="color_0091ea">#0091EA</color>
+    <color name="indigo_500">#3F51B5</color>
+    <color name="indigo_900">#1A237E</color>
+    <color name="light_blue_a700">#0091EA</color>
+    <color name="red_500">#F44336</color>
 
-    <color name="color1">#ff0f9d58</color>
-    <color name="color2">#ffdb4437</color>
-    <color name="color3">#ff4285f4</color>
-    <color name="color4">#fff4b400</color>
+    <color name="google_color_green">#0F9D58</color>
+    <color name="google_color_red">#DB4437</color>
+    <color name="google_color_blue">#4285f4</color>
+    <color name="google_color_yellow">#f4b400</color>
 
-    <!-- 상단에 정의된 내용만 하단에 사용 -->
     <!-- Base -->
-    <color name="body_text_1">@color/color_de000000</color>
-    <color name="theme_primary">@color/color_3f51b5</color>
-    <color name="theme_primary_dark">@color/color_1a237e</color>
-    <color name="color_accent">#F44336</color>
-
-    <!-- navdrawer -->
-    <color name="navdrawer_text_color">@color/body_text_1</color>
-    <color name="navdrawer_icon_tint">@color/color_888888</color>
-
+    <color name="theme_primary">@color/indigo_500</color>
+    <color name="theme_primary_variant">@color/indigo_900</color>
 </resources>

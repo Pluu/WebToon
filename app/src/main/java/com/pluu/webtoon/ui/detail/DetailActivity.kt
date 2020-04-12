@@ -75,7 +75,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     private fun initView() {
-        darkAnimator().start()
+        variantAnimator().start()
 
         binding.tvSubTitle.text = ""
         binding.btnPrev.isEnabled = false
@@ -105,7 +105,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         }
     }
 
-    private fun darkAnimator(): Animator = animatorColor(
+    private fun variantAnimator(): Animator = animatorColor(
         startColor = getThemeColor(R.attr.colorPrimary),
         endColor = palletColor.darkVibrantColor
     ).apply {

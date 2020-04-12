@@ -5,15 +5,15 @@
     <style name="BaseMaterialAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/theme_primary</item>
-        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
+        <item name="colorPrimaryVariant">@color/theme_primary_variant</item>
+        <item name="colorAccent">@color/red_500</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="BaeMaterialAppThemeToolBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/theme_primary</item>
-        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
+        <item name="colorPrimaryVariant">@color/theme_primary_variant</item>
+        <item name="colorAccent">@color/red_500</item>
     </style>
 
     <style name="PreferenceToolBar" parent="BaeMaterialAppThemeToolBar">

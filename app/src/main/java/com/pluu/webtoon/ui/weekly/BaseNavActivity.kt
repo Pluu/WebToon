@@ -62,7 +62,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
 
     private fun setupNavDrawer() {
         mDrawerLayout.setStatusBarBackgroundColor(
-            ContextCompat.getColor(this, R.color.theme_primary_dark)
+            ContextCompat.getColor(this, R.color.theme_primary_variant)
         )
 
         ActionBarDrawerToggle(
@@ -151,10 +151,11 @@ abstract class BaseNavActivity : AppCompatActivity() {
             }
         )
         iconView.setColorFilter(
-            ContextCompat.getColor(
-                this,
-                if (selected) item.bgColor else R.color.navdrawer_icon_tint
-            )
+            if (selected) {
+                ContextCompat.getColor(this, item.bgColor)
+            } else {
+                getThemeColor(R.attr.colorOnSurface)
+            }
         )
     }
 

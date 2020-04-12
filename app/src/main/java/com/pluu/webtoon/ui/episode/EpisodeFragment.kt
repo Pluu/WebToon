@@ -92,10 +92,10 @@ class EpisodeFragment : Fragment(),
 
     private fun initView() {
         binding.swipeRefreshWidget.setColorSchemeResources(
-            R.color.color1,
-            R.color.color2,
-            R.color.color3,
-            R.color.color4
+            R.color.google_color_green,
+            R.color.google_color_red,
+            R.color.google_color_blue,
+            R.color.google_color_yellow
         )
         binding.swipeRefreshWidget.setOnRefreshListener(this)
 

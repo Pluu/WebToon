@@ -42,7 +42,7 @@ class MainActivity : BaseNavActivity() {
         themeChange(
             ThemeEvent(
                 defaultProvider.getTitleColor(),
-                defaultProvider.getTitleColorDark()
+                defaultProvider.getTitleColorVariant()
             )
         )
 
@@ -69,7 +69,7 @@ class MainActivity : BaseNavActivity() {
     }
 
     private fun themeChange(event: ThemeEvent) {
-        binding.navDrawer.navTitle.setBackgroundColor(event.darkColor)
+        binding.navDrawer.navTitle.setBackgroundColor(event.variantColor)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

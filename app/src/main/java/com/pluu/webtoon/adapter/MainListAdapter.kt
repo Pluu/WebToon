@@ -20,7 +20,7 @@ class MainListAdapter(
     private val list: List<ToonInfo>,
     private val listener: WebToonSelectListener
 ) : RecyclerView.Adapter<MainListViewHolder>() {
-    private val filterColor: Int = ContextCompat.getColor(mContext, R.color.color_accent)
+    private val filterColor: Int = ContextCompat.getColor(mContext, R.color.red_500)
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MainListViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)

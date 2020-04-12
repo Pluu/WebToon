@@ -95,12 +95,12 @@ class MainFragment : Fragment() {
     @ExperimentalCoroutinesApi
     private fun setServiceTheme() {
         val color = colorProvider.getTitleColor()
-        val colorDark = colorProvider.getTitleColorDark()
+        val colorVariant = colorProvider.getTitleColorVariant()
         val activity = activity
 
         if (activity is AppCompatActivity) {
             val animator1 = activity.animatorToolbarColor(color)
-            val animator2 = activity.animatorStatusBarColor(colorDark)
+            val animator2 = activity.animatorStatusBarColor(colorVariant)
 
             AnimatorSet().apply {
                 duration = 250L
@@ -108,7 +108,7 @@ class MainFragment : Fragment() {
             }.start()
         }
 
-        EventBus.send(ThemeEvent(color, colorDark))
+        EventBus.send(ThemeEvent(color, colorVariant))
         binding.slidingTabLayout.setSelectedTabIndicatorColor(color)
     }
 

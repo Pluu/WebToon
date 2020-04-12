@@ -68,7 +68,7 @@ class EpisodesActivity : AppCompatActivity() {
             }
         }
 
-        val darkListener = ValueAnimator.AnimatorUpdateListener { animation ->
+        val variantListener = ValueAnimator.AnimatorUpdateListener { animation ->
             val value = animation.animatedValue as Int
             toolbar.setBackgroundColor(value)
             binding.btnFirst.backgroundTintList = ColorStateList.valueOf(value)
@@ -79,7 +79,7 @@ class EpisodesActivity : AppCompatActivity() {
         animatorColor(
             startColor = getThemeColor(R.attr.colorPrimary),
             endColor = palletColor.darkVibrantColor,
-            listener = darkListener
+            listener = variantListener
         ).apply {
             duration = 1000L
         }.start()
