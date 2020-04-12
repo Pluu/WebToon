@@ -46,7 +46,7 @@ class EpisodeViewModel(
     val updateListEvent: LiveData<List<String>>
         get() = _updateListEvent
 
-    private val _favorite = MutableLiveData<Boolean>(info.isFavorite)
+    private val _favorite = MutableLiveData(info.isFavorite)
     val favorite: LiveData<Boolean>
         get() = _favorite
 

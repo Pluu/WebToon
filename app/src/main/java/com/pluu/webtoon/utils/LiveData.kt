@@ -20,7 +20,7 @@ inline fun <T> LiveData<T>.observe(
     owner: LifecycleOwner,
     crossinline observer: (T?) -> Unit
 ) {
-    observe(owner, Observer<T> { v -> observer(v) })
+    observe(owner, Observer { v -> observer(v) })
 }
 
 inline fun <T> LiveData<T>.observeNonNull(

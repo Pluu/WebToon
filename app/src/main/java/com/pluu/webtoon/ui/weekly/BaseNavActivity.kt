@@ -32,7 +32,7 @@ import org.koin.android.ext.android.getKoin
 abstract class BaseNavActivity : AppCompatActivity() {
 
     // Primary toolbar and drawer toggle
-    private val mActionBarToolbar: Toolbar by lazyNone {
+    private val mActionBarToolbar by lazyNone {
         findViewById<Toolbar>(R.id.actionBar)
     }
 

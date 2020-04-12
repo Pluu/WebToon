@@ -112,7 +112,6 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     override fun selectSuccess(view: ImageView, item: ToonInfo) {
         fun asyncPalette(bitmap: Bitmap, block: (PalletColor) -> Unit) {
-            val context = context ?: return
             Palette.from(bitmap).generate { p ->
                 val colors = p?.let {
                     PalletColor(
