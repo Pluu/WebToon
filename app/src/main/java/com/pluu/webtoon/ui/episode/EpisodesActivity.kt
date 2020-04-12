@@ -73,7 +73,6 @@ class EpisodesActivity : AppCompatActivity() {
             toolbar.setBackgroundColor(value)
             binding.btnFirst.backgroundTintList = ColorStateList.valueOf(value)
             childTitle?.setBackgroundColor(value)
-            binding.tvRate.setTextColor(value)
 
             this@EpisodesActivity.setStatusBarColor(value)
         }
@@ -88,6 +87,7 @@ class EpisodesActivity : AppCompatActivity() {
         val writerListener = ValueAnimator.AnimatorUpdateListener { animation ->
             val value = animation.animatedValue as Int
             binding.tvName.setTextColor(value)
+            binding.tvRate.setTextColor(value)
         }
         animatorColor(
             startColor = resolveAttribute(android.R.attr.textColorPrimary).data,
