@@ -22,6 +22,5 @@
     <!-- navdrawer -->
     <color name="navdrawer_text_color">@color/body_text_1</color>
     <color name="navdrawer_icon_tint">@color/color_888888</color>
-    <color name="navdrawer_pressed">@color/color_12000000</color>
 
 </resources>
