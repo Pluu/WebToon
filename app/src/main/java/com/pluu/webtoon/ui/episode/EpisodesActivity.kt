@@ -17,8 +17,8 @@ import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.ThemeHelper
 import com.pluu.webtoon.utils.animatorColor
+import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.resolveAttribute
 import com.pluu.webtoon.utils.setStatusBarColor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -77,7 +77,7 @@ class EpisodesActivity : AppCompatActivity() {
             this@EpisodesActivity.setStatusBarColor(value)
         }
         animatorColor(
-            startColor = resolveAttribute(R.attr.colorPrimary).data,
+            startColor = getThemeColor(R.attr.colorPrimary),
             endColor = palletColor.darkVibrantColor,
             listener = darkListener
         ).apply {
@@ -90,7 +90,7 @@ class EpisodesActivity : AppCompatActivity() {
             binding.tvRate.setTextColor(value)
         }
         animatorColor(
-            startColor = resolveAttribute(android.R.attr.textColorPrimary).data,
+            startColor = getThemeColor(android.R.attr.textColorPrimary),
             endColor = if (ThemeHelper.isLightTheme(this)) palletColor.darkMutedColor else palletColor.lightMutedColor,
             listener = writerListener
         ).apply {

@@ -20,8 +20,8 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.common.PrefConfig
 import com.pluu.webtoon.di.ServiceProperties
+import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.resolveAttribute
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 
@@ -147,7 +147,7 @@ abstract class BaseNavActivity : AppCompatActivity() {
             if (selected) {
                 ContextCompat.getColor(this, item.color)
             } else {
-                resolveAttribute(R.attr.colorOnSurface).data
+                getThemeColor(R.attr.colorOnSurface)
             }
         )
         iconView.setColorFilter(

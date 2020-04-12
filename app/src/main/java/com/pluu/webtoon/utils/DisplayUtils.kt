@@ -35,7 +35,7 @@ fun Activity.setStatusBarColor(color: Int) {
 
 fun AppCompatActivity.animatorToolbarColor(endColor: Int) =
     animatorColor(
-        startColor = resolveAttribute(R.attr.colorPrimary).data,
+        startColor = getThemeColor(R.attr.colorPrimary),
         endColor = endColor,
         listener = ValueAnimator.AnimatorUpdateListener {
             supportActionBar?.apply {
@@ -45,7 +45,7 @@ fun AppCompatActivity.animatorToolbarColor(endColor: Int) =
 
 fun Activity.animatorStatusBarColor(color: Int): ValueAnimator {
     return animatorColor(
-        startColor =  resolveAttribute(R.attr.colorPrimaryDark).data,
+        startColor = getThemeColor(R.attr.colorPrimaryDark),
         endColor = color
     ).apply {
         addUpdateListener { animation ->

@@ -24,9 +24,9 @@ import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.getMessage
+import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
-import com.pluu.webtoon.utils.resolveAttribute
 import com.pluu.webtoon.utils.setStatusBarColor
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -106,7 +106,7 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
     }
 
     private fun darkAnimator(): Animator = animatorColor(
-        startColor = resolveAttribute(R.attr.colorPrimary).data,
+        startColor = getThemeColor(R.attr.colorPrimary),
         endColor = palletColor.darkVibrantColor
     ).apply {
         val toolbar = binding.toolbarActionbar
