@@ -37,8 +37,6 @@ import timber.log.Timber
  */
 class MainFragment : Fragment() {
 
-    private val TAG = MainFragment::class.java.simpleName
-
     private var isFirstDlg = true
 
     private val loadDlg: Dialog by lazyNone {

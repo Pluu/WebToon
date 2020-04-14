@@ -16,7 +16,6 @@ import timber.log.Timber
  * Created by pluu on 2017-05-07.
  */
 class IntroActivity : AppCompatActivity() {
-    private val TAG = IntroActivity::class.java.simpleName
 
     private val viewModel: IntroViewModel by viewModel()
     private lateinit var binding: ActivityIntroBinding
