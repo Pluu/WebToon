@@ -55,7 +55,7 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.3.71"
+        const val version = "1.3.72"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         private const val coroutinesVersion = "1.3.5"
@@ -79,7 +79,7 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.4.1"
+        private const val version = "4.5.0"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
