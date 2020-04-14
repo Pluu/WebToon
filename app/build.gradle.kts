@@ -92,6 +92,8 @@ dependencies {
     implementation(Dep.Kotlin.coroutinesCore)
     implementation(Dep.Kotlin.coroutinesAndroid)
 
+    implementation(Dep.timber)
+
     testImplementation(Dep.Test.assertJ)
     testImplementation(Dep.Test.mockito)
 }

@@ -84,6 +84,8 @@ object Dep {
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
 
+    const val timber = "com.jakewharton.timber:timber:4.7.1"
+
     object Test {
         const val junit = "junit:junit:4.13"
         const val assertJ = "org.assertj:assertj-core:3.15.0"

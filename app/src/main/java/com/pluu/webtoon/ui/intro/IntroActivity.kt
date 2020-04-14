@@ -2,7 +2,6 @@ package com.pluu.webtoon.ui.intro
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.pluu.webtoon.R
@@ -10,6 +9,7 @@ import com.pluu.webtoon.databinding.ActivityIntroBinding
 import com.pluu.webtoon.ui.weekly.MainActivity
 import com.pluu.webtoon.utils.observeNonNull
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 /**
  * 인트로 화면 Activity
@@ -30,7 +30,7 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun nextView() {
-        Log.i(TAG, "Login Process Complete")
+        Timber.i("Login Process Complete")
         binding.tvMsg.setText(R.string.msg_intro_complete)
         binding.progressBar.visibility = View.INVISIBLE
 

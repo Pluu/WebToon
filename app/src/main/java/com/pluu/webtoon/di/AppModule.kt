@@ -17,6 +17,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import timber.log.Timber
 
 private val dbModule = module {
     single<IDBHelper> {
@@ -42,13 +43,20 @@ private val appModule = module {
 private val networkModule = module {
     single {
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
+            .addInterceptor(HttpLoggingInterceptor(get()).apply {
                 level = HttpLoggingInterceptor.Level.BASIC
             })
             .build()
     }
     single<INetworkUseCase>(named(AppProperties.NETWORK)) {
         NetworkUseCase(get())
+    }
+    factory<HttpLoggingInterceptor.Logger> {
+        object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                Timber.tag("OkHttp").d(message)
+            }
+        }
     }
 }
 
