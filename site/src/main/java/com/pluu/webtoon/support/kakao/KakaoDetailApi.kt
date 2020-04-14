@@ -13,7 +13,6 @@ import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
@@ -28,27 +27,25 @@ class KakaoDetailApi(
     override suspend fun invoke(param: DetailRequest): DetailResult {
         val id = param.episodeId
 
-        return runBlocking {
-            withContext(Dispatchers.Default) {
-                val jsonDeferred = async {
-                    getData(param.episodeId).orEmpty()
-                }
-                val prevDeferred = async {
-                    getMoreData(param.toonId, id, isPrev = true).orEmpty()
-                }
-                val nextDeferred = async {
-                    getMoreData(param.toonId, id, isPrev = false).orEmpty()
-                }
+        return withContext(Dispatchers.Default) {
+            val jsonDeferred = async {
+                getData(param.episodeId).orEmpty()
+            }
+            val prevDeferred = async {
+                getMoreData(param.toonId, id, isPrev = true).orEmpty()
+            }
+            val nextDeferred = async {
+                getMoreData(param.toonId, id, isPrev = false).orEmpty()
+            }
 
-                DetailResult.Detail(
-                    webtoonId = param.toonId,
-                    episodeId = id
-                ).apply {
-                    title = param.episodeTitle
-                    list = getImages(jsonDeferred.await())
-                    prevLink = prevDeferred.await()
-                    nextLink = nextDeferred.await()
-                }
+            DetailResult.Detail(
+                webtoonId = param.toonId,
+                episodeId = id
+            ).apply {
+                title = param.episodeTitle
+                list = getImages(jsonDeferred.await())
+                prevLink = prevDeferred.await()
+                nextLink = nextDeferred.await()
             }
         }
     }
