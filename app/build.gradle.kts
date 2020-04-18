@@ -1,13 +1,17 @@
+import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    id("plugins.android-app")
-    id("plugins.kotlin-android-extensions")
+    androidApp()
+    kotlinAndroid()
+    kotlinAndroidExtensions()
     kotlinKapt()
     ktlint()
 }
 
 android {
+    setAppConfig()
+
     defaultConfig {
         applicationId = "com.pluu.webtoon"
         versionCode = 57
@@ -28,14 +32,17 @@ android {
         getByName(BuildType.DEBUG) {
             signingConfig = signingConfigs.getByName("debug")
         }
+
+        getByName(BuildType.RELEASE) {
+            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
+            proguardFiles(file("proguard-rules.pro"))
+        }
     }
 
     buildFeatures {
         viewBinding = true
     }
-//    viewBinding {
-//        isEnabled = true
-//    }
 
     lintOptions {
         check("Interoperability")
@@ -43,9 +50,20 @@ android {
     }
 
     useLibrary("android.test.mock")
+
+    lintOptions {
+        isAbortOnError = false
+    }
+}
+
+androidExtensions {
+    isExperimental = true
+    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
 }
 
 dependencies {
+    implementation(Dep.Kotlin.stdlibJvm)
+
     implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":domain"))
@@ -94,6 +112,7 @@ dependencies {
 
     implementation(Dep.timber)
 
+    testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.assertJ)
     testImplementation(Dep.Test.mockito)
 }
