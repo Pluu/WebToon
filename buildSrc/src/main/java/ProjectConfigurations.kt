@@ -7,4 +7,5 @@ object ProjectConfigurations {
     const val buildTools = "29.0.3"
 
     val javaVer = JavaVersion.VERSION_1_8
+    const val javaVerString = "1.8"
 }

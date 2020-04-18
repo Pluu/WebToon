@@ -1,22 +1,28 @@
 plugins {
-    id("plugins.android-library")
+    androidLibrary()
+    kotlinAndroid()
     kotlinKapt()
 }
 
 android {
-    defaultConfig {
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = mapOf(
-                    "room.schemaLocation" to "$projectDir/build/schemas",
-                    "room.incremental" to "true"
-                )
-            }
+    setDefaultRoomConfig(project)
+
+    buildTypes {
+        getByName(BuildType.RELEASE) {
+            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
+            proguardFiles(file("proguard-rules.pro"))
         }
+    }
+
+    lintOptions {
+        isAbortOnError = false
     }
 }
 
 dependencies {
+    implementation(Dep.Kotlin.stdlibJvm)
+
     implementation(project(":core"))
     implementation(Dep.Kotlin.coroutinesAndroid)
     implementation(Dep.AndroidX.arch.common)
@@ -26,6 +32,8 @@ dependencies {
     implementation(Dep.AndroidX.room.ktx)
     // OkHttp
     implementation(Dep.OkHttp.core)
+
+    testImplementation(Dep.Test.junit)
 }
 
 apply(from = "../publish_local.gradle")
