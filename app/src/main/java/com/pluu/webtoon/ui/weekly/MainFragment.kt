@@ -2,7 +2,6 @@ package com.pluu.webtoon.ui.weekly
 
 import android.animation.AnimatorSet
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +18,7 @@ import com.pluu.webtoon.domain.base.AbstractWeekApi
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent
 import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.event.ThemeEvent
+import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
@@ -39,9 +39,8 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
     private var isFirstDlg = true
 
     private val loadDlg: Dialog by lazyNone {
-        ProgressDialog(activity).apply {
+        ProgressDialog.create(requireContext(), R.string.msg_loading).apply {
             setCancelable(false)
-            setMessage(getString(R.string.msg_loading))
         }
     }
 

@@ -1,7 +1,6 @@
 package com.pluu.webtoon.ui.episode
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -28,6 +27,7 @@ import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.MoreRefreshListener
+import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
@@ -64,9 +64,8 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     }
 
     private val loadDlg by lazyNone {
-        ProgressDialog(context).apply {
+        ProgressDialog.create(requireContext(), R.string.msg_loading).apply {
             setCancelable(false)
-            setMessage(getString(R.string.msg_loading))
         }
     }
 

@@ -2,7 +2,6 @@ package com.pluu.webtoon.ui.detail
 
 import android.animation.Animator
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -22,6 +21,7 @@ import com.pluu.webtoon.databinding.ActivityDetailBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.weekly.PalletColor
+import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.getRequiredParcelableExtra
@@ -61,9 +61,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
     private val toggleId = 0
 
     private val dlg by lazyNone {
-        ProgressDialog(this).apply {
-            setMessage(getString(R.string.msg_loading))
-        }
+        ProgressDialog.create(this, R.string.msg_loading)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
