@@ -6,9 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -29,6 +27,7 @@ import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -38,7 +37,9 @@ import org.koin.core.parameter.parametersOf
  * Main EpisodeResult List Fragment
  * Created by pluu on 2017-05-07.
  */
-class WebtoonListFragment : Fragment(), WebToonSelectListener {
+class WebtoonListFragment : Fragment(
+    R.layout.fragment_webtoon_list
+), WebToonSelectListener {
 
     private val viewModel: WeekyViewModel by viewModel {
         parametersOf(
@@ -48,18 +49,9 @@ class WebtoonListFragment : Fragment(), WebToonSelectListener {
 
     private val toonViewModel: ToonViewModel by sharedViewModel()
 
-    private lateinit var binding: FragmentWebtoonListBinding
+    private val binding by viewBinding(FragmentWebtoonListBinding::bind)
 
     private val REQUEST_DETAIL = 1000
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentWebtoonListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

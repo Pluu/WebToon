@@ -1,43 +1,30 @@
 package com.pluu.webtoon.ui.detail
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.FragmentDefaultDetailBinding
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.resolveAttribute
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 /**
  * Default Detail Fragment
  * Created by pluu on 2017-05-06.
  */
-@SuppressLint("ValidFragment")
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(R.layout.fragment_default_detail) {
 
     private val viewModel: DetailViewModel by sharedViewModel()
 
-    private var _binding: FragmentDefaultDetailBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentDefaultDetailBinding::bind)
 
     private var listener: ToggleListener? = null
     private var bindListener: FirstBindListener? = null
     private var actionBarHeight: Int = 0
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentDefaultDetailBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,11 +68,6 @@ class DetailFragment : Fragment() {
         super.onDetach()
         listener = null
         bindListener = null
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun firstBind() {

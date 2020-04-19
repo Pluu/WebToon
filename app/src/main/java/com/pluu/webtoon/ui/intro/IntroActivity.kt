@@ -8,6 +8,7 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.ActivityIntroBinding
 import com.pluu.webtoon.ui.weekly.MainActivity
 import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -15,16 +16,13 @@ import timber.log.Timber
  * 인트로 화면 Activity
  * Created by pluu on 2017-05-07.
  */
-class IntroActivity : AppCompatActivity() {
+class IntroActivity : AppCompatActivity(R.layout.activity_intro) {
 
     private val viewModel: IntroViewModel by viewModel()
-    private lateinit var binding: ActivityIntroBinding
+    private val binding by viewBinding(ActivityIntroBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityIntroBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         viewModel.observe.observeNonNull(this, ::nextView)
     }
 

@@ -24,10 +24,12 @@ import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.getMessage
+import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.setStatusBarColor
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
@@ -36,7 +38,8 @@ import java.util.concurrent.TimeUnit
  * 상세화면 Activity
  * Created by pluu on 2017-05-09.
  */
-class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
+class DetailActivity : AppCompatActivity(R.layout.activity_detail),
+    ToggleListener, FirstBindListener {
 
     private val viewModel: DetailViewModel by viewModel {
         parametersOf(
@@ -46,10 +49,10 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
         )
     }
 
-    private lateinit var binding: ActivityDetailBinding
+    private val binding by viewBinding(ActivityDetailBinding::bind)
 
     private val palletColor by lazyNone {
-        intent.getParcelableExtra<PalletColor>(Const.EXTRA_PALLET)!!
+        intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
 
     private val toggleDelayTime = TimeUnit.MILLISECONDS.toMillis(150)
@@ -65,9 +68,6 @@ class DetailActivity : AppCompatActivity(), ToggleListener, FirstBindListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         setSupportActionBar(binding.toolbarActionbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()

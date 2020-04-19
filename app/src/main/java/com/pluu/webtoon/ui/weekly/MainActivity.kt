@@ -12,6 +12,7 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -21,16 +22,15 @@ import org.koin.android.ext.android.inject
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
-class MainActivity : BaseNavActivity() {
+class MainActivity : BaseNavActivity(R.layout.activity_main) {
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by viewBinding(ActivityMainBinding::bind)
     private val defaultProvider: NaviColorProvider by inject()
 
     @FlowPreview
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.actionBar.toolbar)
 

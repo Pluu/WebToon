@@ -4,9 +4,7 @@ import android.animation.AnimatorSet
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +22,7 @@ import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -35,7 +34,7 @@ import timber.log.Timber
  * Main View Fragment
  * Created by pluu on 2017-05-07.
  */
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_toon) {
 
     private var isFirstDlg = true
 
@@ -49,17 +48,7 @@ class MainFragment : Fragment() {
     private val serviceApi: AbstractWeekApi by inject(named(UseCaseProperties.WEEKLY_USECASE))
     private val colorProvider: NaviColorProvider by inject()
 
-    private var _binding: FragmentToonBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentToonBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+    private val binding by viewBinding(FragmentToonBinding::bind)
 
     @Suppress("EXPERIMENTAL_API_USAGE")
     @ExperimentalCoroutinesApi
@@ -108,11 +97,6 @@ class MainFragment : Fragment() {
 
         EventBus.send(ThemeEvent(color, colorVariant))
         binding.slidingTabLayout.setSelectedTabIndicatorColor(color)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     @FlowPreview

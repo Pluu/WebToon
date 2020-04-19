@@ -17,32 +17,32 @@ import com.pluu.webtoon.event.FirstItemSelectEvent
 import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.ThemeHelper
 import com.pluu.webtoon.utils.animatorColor
+import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * 에피소드 리스트 Activity
  * Created by pluu on 2017-05-09.
  */
-class EpisodesActivity : AppCompatActivity() {
+class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
     private var childTitle: View? = null
 
-    private lateinit var binding: ActivityEpisodeBinding
+    private val binding by viewBinding(ActivityEpisodeBinding::bind)
 
     private val webToonInfo by lazyNone {
-        intent.getParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)!!
+        intent.getRequiredParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)
     }
     private val palletColor by lazyNone {
-        intent.getParcelableExtra<PalletColor>(Const.EXTRA_PALLET)!!
+        intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
 
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityEpisodeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         setSupportActionBar(binding.actionBar.toolbar)
 
         initSupportActionBar()

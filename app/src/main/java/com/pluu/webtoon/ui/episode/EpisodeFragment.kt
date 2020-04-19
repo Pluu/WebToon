@@ -5,12 +5,10 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -30,8 +28,10 @@ import com.pluu.webtoon.ui.detail.DetailActivity
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.MoreRefreshListener
+import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -42,7 +42,7 @@ import org.koin.core.parameter.parametersOf
  * 에피소드 리스트 Fragment
  * Created by pluu on 2017-05-09.
  */
-class EpisodeFragment : Fragment(),
+class EpisodeFragment : Fragment(R.layout.fragment_episode),
     SwipeRefreshLayout.OnRefreshListener,
     EpisodeSelectListener {
 
@@ -54,11 +54,10 @@ class EpisodeFragment : Fragment(),
         )
     }
 
-    private var _binding: FragmentEpisodeBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentEpisodeBinding::bind)
 
     private val palletColor by lazyNone {
-        requireArguments().getParcelable<PalletColor>(Const.EXTRA_PALLET)!!
+        requireArguments().getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
     private val adapter by lazyNone {
         EpisodeAdapter(this)
@@ -73,14 +72,9 @@ class EpisodeFragment : Fragment(),
 
     private var isFavorite: Boolean = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        _binding = FragmentEpisodeBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -206,11 +200,6 @@ class EpisodeFragment : Fragment(),
         if (requestCode == REQUEST_DETAIL) {
             viewModel.readUpdate()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     // /////////////////////////////////////////////////////////////////////////

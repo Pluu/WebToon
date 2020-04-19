@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -29,7 +30,9 @@ import org.koin.android.ext.android.getKoin
  * Base ActionBar Activity
  * Created by pluu on 2017-05-07.
  */
-abstract class BaseNavActivity : AppCompatActivity() {
+abstract class BaseNavActivity(
+    @LayoutRes layoutId: Int
+) : AppCompatActivity(layoutId) {
 
     // Primary toolbar and drawer toggle
     private val mActionBarToolbar by lazyNone {

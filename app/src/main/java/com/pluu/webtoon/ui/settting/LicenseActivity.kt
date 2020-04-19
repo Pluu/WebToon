@@ -13,6 +13,7 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.adapter.LicenseAdapter
 import com.pluu.webtoon.databinding.ActivityLicenseBinding
 import com.pluu.webtoon.event.RecyclerViewEvent
+import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -21,16 +22,14 @@ import kotlinx.coroutines.flow.collect
  * License Activity
  * Created by pluu on 2017-05-05.
  */
-class LicenseActivity : AppCompatActivity() {
+class LicenseActivity : AppCompatActivity(R.layout.activity_license) {
 
-    private lateinit var binding: ActivityLicenseBinding
+    private val binding by viewBinding(ActivityLicenseBinding::bind)
 
     @FlowPreview
     @ExperimentalCoroutinesApi
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLicenseBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
     }
