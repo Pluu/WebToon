@@ -111,6 +111,7 @@ dependencies {
     implementation(Dep.Kotlin.coroutinesAndroid)
 
     implementation(Dep.timber)
+//    implementation(Dep.leakCanary)
 
     testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.assertJ)

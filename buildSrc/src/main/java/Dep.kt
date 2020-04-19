@@ -85,6 +85,7 @@ object Dep {
     }
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.2"
 
     object Test {
         const val junit = "junit:junit:4.13"
