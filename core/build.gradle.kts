@@ -5,18 +5,7 @@ plugins {
 
 android {
     setDefaultConfig()
-
-    buildTypes {
-        getByName(BuildType.RELEASE) {
-            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
-            proguardFiles(file("proguard-rules.pro"))
-        }
-    }
-
-    lintOptions {
-        isAbortOnError = false
-    }
+    setLibraryProguard(project)
 }
 
 dependencies {

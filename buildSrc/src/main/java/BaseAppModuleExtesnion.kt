@@ -1,5 +1,6 @@
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.Project
 
 fun BaseAppModuleExtension.setAppConfig() {
@@ -17,41 +18,34 @@ fun BaseAppModuleExtension.setAppConfig() {
     }
 }
 
-fun BaseExtension.setDefaultConfig() {
+fun BaseExtension.setDefaultConfig(
+    addDefaultConfigAction: DefaultConfig.() -> Unit = {}
+) {
     compileSdkVersion(ProjectConfigurations.compileSdk)
     buildToolsVersion(ProjectConfigurations.buildTools)
 
     defaultConfig {
         minSdkVersion(ProjectConfigurations.minSdk)
         targetSdkVersion(ProjectConfigurations.targetSdk)
+        addDefaultConfigAction()
     }
 
     compileOptions {
         sourceCompatibility = ProjectConfigurations.javaVer
         targetCompatibility = ProjectConfigurations.javaVer
+    }
+
+    lintOptions {
+        isAbortOnError = false
     }
 }
 
-fun BaseExtension.setDefaultRoomConfig(project: Project) {
-    compileSdkVersion(ProjectConfigurations.compileSdk)
-    buildToolsVersion(ProjectConfigurations.buildTools)
-
-    defaultConfig {
-        minSdkVersion(ProjectConfigurations.minSdk)
-        targetSdkVersion(ProjectConfigurations.targetSdk)
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = mapOf(
-                    "room.schemaLocation" to "${project.projectDir}/build/schemas",
-                    "room.incremental" to "true"
-                )
-            }
+fun BaseExtension.setLibraryProguard(project: Project) {
+    buildTypes {
+        getByName(BuildType.RELEASE) {
+            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
+            proguardFiles(project.file("proguard-rules.pro"))
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = ProjectConfigurations.javaVer
-        targetCompatibility = ProjectConfigurations.javaVer
     }
 }

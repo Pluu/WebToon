@@ -5,19 +5,18 @@ plugins {
 }
 
 android {
-    setDefaultRoomConfig(project)
-
-    buildTypes {
-        getByName(BuildType.RELEASE) {
-            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
-            proguardFiles(file("proguard-rules.pro"))
+    setDefaultConfig() {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf(
+                    "room.schemaLocation" to "$projectDir/build/schemas",
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true"
+                )
+            }
         }
     }
-
-    lintOptions {
-        isAbortOnError = false
-    }
+    setLibraryProguard(project)
 }
 
 dependencies {
