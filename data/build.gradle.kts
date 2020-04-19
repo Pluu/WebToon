@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    setDefaultConfig() {
+    setDefaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = mapOf(
