@@ -60,7 +60,7 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:cornerRadius="0dp"
-            app:icon="@drawable/chevron_left_selector"
+            app:icon="@drawable/ic_chevron_left_24"
             app:iconTint="@android:color/white"
             app:rippleColor="@android:color/white"
             tools:background="@color/theme_primary" />
@@ -77,7 +77,7 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:cornerRadius="0dp"
-            app:icon="@drawable/chevron_right_selector"
+            app:icon="@drawable/ic_chevron_right_24"
             app:iconGravity="end"
             app:iconTint="@android:color/white"
             app:rippleColor="@android:color/white"

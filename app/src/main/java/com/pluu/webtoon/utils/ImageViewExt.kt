@@ -44,7 +44,7 @@ inline fun ImageView.loadUrl(
                     centerCrop()
                 }
             }
-            .error(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+            .error(R.drawable.ic_sentiment_very_dissatisfied_48)
             .listener(object : RequestListener<Drawable> {
                 override fun onResourceReady(
                     resource: Drawable?,
@@ -70,7 +70,7 @@ inline fun ImageView.loadUrl(
             .into(this)
     } else {
         Glide.with(context)
-            .load(R.drawable.ic_sentiment_very_dissatisfied_black_36dp)
+            .load(R.drawable.ic_sentiment_very_dissatisfied_48)
             .apply {
                 if (!isOriginal) {
                     centerCrop()

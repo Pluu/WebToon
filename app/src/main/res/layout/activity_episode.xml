@@ -70,7 +70,7 @@
             android:insetBottom="0dp"
             android:text="@string/label_first"
             android:textColor="@android:color/white"
-            app:icon="@drawable/ic_looks_one_white_36dp"
+            app:icon="@drawable/ic_looks_one_white_36"
             app:iconTint="@android:color/white"
             app:rippleColor="@android:color/white"
             tools:background="@color/theme_primary" />

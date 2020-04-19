@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-	   android:shape="rectangle">
-	<corners android:radius="4dp"/>
-	<solid android:color="#66666666"/>
-	<padding
-		android:left="@dimen/main_status_padding_width"
-		android:top="@dimen/main_status_padding_height"
-		android:right="@dimen/main_status_padding_width"
-		android:bottom="@dimen/main_status_padding_height"/>
+    android:shape="rectangle">
+    <corners android:radius="4dp" />
+    <solid android:color="#66666666" />
+    <padding
+        android:bottom="@dimen/main_status_padding_height"
+        android:left="@dimen/main_status_padding_width"
+        android:right="@dimen/main_status_padding_width"
+        android:top="@dimen/main_status_padding_height" />
 </shape>

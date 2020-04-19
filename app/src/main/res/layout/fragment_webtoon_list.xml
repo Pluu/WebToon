@@ -23,7 +23,7 @@
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_sentiment_neutral_black_48dp"
+        android:src="@drawable/ic_sentiment_very_dissatisfied_48"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

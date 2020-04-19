@@ -107,8 +107,6 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
         startColor = getThemeColor(R.attr.colorPrimary),
         endColor = palletColor.darkVibrantColor
     ).apply {
-        val toolbar = binding.toolbarActionbar
-
         duration = 1000L
         interpolator = DecelerateInterpolator()
         addUpdateListener { animation ->
