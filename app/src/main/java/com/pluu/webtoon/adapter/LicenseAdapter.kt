@@ -28,7 +28,7 @@ class LicenseAdapter(context: Context) : RecyclerView.Adapter<LicenseAdapter.Vie
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.text1.text = list[i]
         viewHolder.itemView.setOnClickListener {
-            EventBus.send(RecyclerViewEvent(viewHolder.adapterPosition))
+            EventBus.send(RecyclerViewEvent(viewHolder.absoluteAdapterPosition))
         }
     }
 

@@ -39,10 +39,10 @@ open class EpisodeAdapter(val listener: EpisodeSelectListener) :
     override fun onBindViewHolder(viewHolder: EpisodeViewHolder, i: Int) {
         viewHolder.bind(list[i])
         viewHolder.clickThumbnail {
-            if (list[viewHolder.adapterPosition].isLock) {
+            if (list[viewHolder.absoluteAdapterPosition].isLock) {
                 listener.selectLockItem()
             } else {
-                listener.selectSuccess(list[viewHolder.adapterPosition])
+                listener.selectSuccess(list[viewHolder.absoluteAdapterPosition])
             }
         }
     }
