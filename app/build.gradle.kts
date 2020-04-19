@@ -14,8 +14,8 @@ android {
 
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        versionCode = 57
-        versionName = "1.6.0"
+        versionCode = 58
+        versionName = "1.6.1"
         vectorDrawables.useSupportLibrary = true
     }
 
