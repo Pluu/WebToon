@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-	  xmlns:app="http://schemas.android.com/apk/res-auto" >
-	<item
-		android:id="@+id/menu_item_favorite_add"
-		app:showAsAction="never"
-		android:title="@string/label_favorite_add" />
-	<item
-		android:id="@+id/menu_item_favorite_delete"
-		app:showAsAction="never"
-		android:title="@string/label_favorite_delete" />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_item_favorite_add"
+        android:title="@string/label_favorite_add"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_favorite_delete"
+        android:title="@string/label_favorite_delete"
+        app:showAsAction="never" />
 </menu>
