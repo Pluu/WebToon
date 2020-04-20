@@ -31,6 +31,7 @@ import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
 import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -45,8 +46,6 @@ import org.koin.core.parameter.parametersOf
 class EpisodeFragment : Fragment(R.layout.fragment_episode),
     SwipeRefreshLayout.OnRefreshListener,
     EpisodeSelectListener {
-
-    private val REQUEST_DETAIL = 1000
 
     private val viewModel: EpisodeViewModel by viewModel {
         parametersOf(
@@ -191,16 +190,6 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
         loading()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-        if (requestCode == REQUEST_DETAIL) {
-            viewModel.readUpdate()
-        }
-    }
-
     // /////////////////////////////////////////////////////////////////////////
 
     override fun selectLockItem() {
@@ -251,14 +240,18 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     }
 
     private fun moveDetailPage(item: EpisodeInfo) {
-        startActivityForResult(Intent(context, DetailActivity::class.java).apply {
-            putExtras(
-                bundleOf(
-                    Const.EXTRA_EPISODE to item,
-                    Const.EXTRA_PALLET to palletColor
+        justSafeRegisterForActivityResult(
+            Intent(context, DetailActivity::class.java).apply {
+                putExtras(
+                    bundleOf(
+                        Const.EXTRA_EPISODE to item,
+                        Const.EXTRA_PALLET to palletColor
+                    )
                 )
-            )
-        }, REQUEST_DETAIL)
+            }
+        ) {
+            viewModel.readUpdate()
+        }
     }
 
     companion object {

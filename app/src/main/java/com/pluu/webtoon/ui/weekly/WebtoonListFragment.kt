@@ -1,6 +1,5 @@
 package com.pluu.webtoon.ui.weekly
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -27,6 +26,7 @@ import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
 import com.pluu.webtoon.utils.viewbinding.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -50,8 +50,6 @@ class WebtoonListFragment : Fragment(
     private val toonViewModel: ToonViewModel by sharedViewModel()
 
     private val binding by viewBinding(FragmentWebtoonListBinding::bind)
-
-    private val REQUEST_DETAIL = 1000
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,19 +76,6 @@ class WebtoonListFragment : Fragment(
         }
         toonViewModel.updateEvent.observeNonNull(viewLifecycleOwner) {
             favoriteUpdate(it)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-
-        if (requestCode == REQUEST_DETAIL) {
-            val favorite =
-                data?.getParcelableExtra<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE) ?: return
-            toonViewModel.updateFavorite(favorite)
         }
     }
 
@@ -137,14 +122,21 @@ class WebtoonListFragment : Fragment(
     }
 
     private fun moveEpisode(item: ToonInfo, palletColor: PalletColor) {
-        startActivityForResult(Intent(activity, EpisodesActivity::class.java).apply {
-            putExtras(
-                bundleOf(
-                    Const.EXTRA_EPISODE to item,
-                    Const.EXTRA_PALLET to palletColor
+        justSafeRegisterForActivityResult(
+            Intent(activity, EpisodesActivity::class.java).apply {
+                putExtras(
+                    bundleOf(
+                        Const.EXTRA_EPISODE to item,
+                        Const.EXTRA_PALLET to palletColor
+                    )
                 )
-            )
-        }, REQUEST_DETAIL)
+            }
+        ) { activityResult ->
+            val favorite: FavoriteResult =
+                activityResult.data?.getParcelableExtra(Const.EXTRA_FAVORITE_EPISODE)
+                    ?: return@justSafeRegisterForActivityResult
+            toonViewModel.updateFavorite(favorite)
+        }
     }
 
     companion object {
