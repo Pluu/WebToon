@@ -78,6 +78,23 @@ class KakaoDetailApi(
     }
 
     private suspend fun getMoreData(toonId: String, episodeId: String, isPrev: Boolean): String? {
+        return try {
+            getMoreResponse(isPrev, toonId, episodeId)
+                ?.optJSONObject("item")?.takeIf {
+                    it.optString("hidden", "N") == "N"
+                }?.optString("pid")
+                ?.replace("[^\\d]".toRegex(), "")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private suspend fun getMoreResponse(
+        isPrev: Boolean,
+        toonId: String,
+        episodeId: String
+    ): JSONObject? {
         val request = IRequest(
             method = REQUEST_METHOD.POST,
             url = if (isPrev) {
@@ -95,29 +112,14 @@ class KakaoDetailApi(
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        val responseData = requestApi(request)
+        return requestApi(request)
             .mapJson()
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return null
+                    is Result.Error -> null
                 }
             }
-
-        ///////////////////////////////////////////////////////////////////////////
-        // Parse Data
-        ///////////////////////////////////////////////////////////////////////////
-
-        return try {
-            responseData
-                .optJSONObject("item")?.takeIf {
-                    it.optString("hidden", "N") == "N"
-                }?.optString("pid")
-                ?.replace("[^\\d]".toRegex(), "")
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
     }
 
     private fun createApi(id: String): IRequest =
