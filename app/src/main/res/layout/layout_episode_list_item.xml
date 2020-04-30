@@ -32,13 +32,12 @@
 
         <TextView
             android:id="@+id/titleView"
+            style="@style/StatusStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#66000000"
             android:gravity="center"
             android:maxLines="@integer/episode_list_title_row"
             android:minHeight="20dp"
-            android:padding="6dp"
             android:text="New Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
