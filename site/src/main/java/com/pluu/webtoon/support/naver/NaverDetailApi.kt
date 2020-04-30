@@ -1,14 +1,17 @@
 package com.pluu.webtoon.support.naver
 
+import com.pluu.core.mapEach
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
+import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.domain.base.AbstractDetailApi
 import com.pluu.webtoon.domain.moel.DetailResult
 import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.network.mapDocument
+import org.json.JSONObject
 import org.jsoup.nodes.Document
 
 /**
@@ -47,86 +50,155 @@ class NaverDetailApi(
         )
         ret.title = responseData.select("div[class=chh] span, h1[class=tit]").first()?.text()
 
-        when {
+        val parser: suspend (ret: DetailResult.Detail, doc: Document) -> TypeResult = when {
+            responseData.select("#ct > .oz-loader")?.isNotEmpty() == true -> {
+                // osLoader
+                ::parseOsLoader
+            }
             responseData.select("#ct > .toon_view_lst")?.isNotEmpty() == true -> {
                 // Fixed
-                parseFixed(ret, responseData)
+                ::parseFixed
             }
-            responseData.select("#ct")?.isNotEmpty() == true -> {
+            responseData.select("div[class=viewer cuttoon]")?.isNotEmpty() == true -> {
                 // 컷툰
-                parseCutToon(ret, responseData)
-            }
-            responseData.select(".oz-loader")?.isNotEmpty() == true -> {
-                // osLoader
-                return DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
+                ::parseCutToon
             }
             // 일반 웹툰
-            else -> parseNormal(ret, responseData)
+            else -> ::parseNormal
         }
-        return ret
+
+        return when (val result = parser(ret, responseData)) {
+            is TypeResult.Success -> {
+                ret.list = result.list
+                ret.prevLink = result.prev
+                ret.nextLink = result.next
+                ret
+            }
+            TypeResult.NotSupport -> {
+                DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
+            }
+        }
     }
 
-    private fun parseNormal(ret: DetailResult.Detail, doc: Document) {
-        ret.list = parseDetailNormalType(doc)
+    private suspend fun parseNormal(ret: DetailResult.Detail, doc: Document): TypeResult {
+        val list = parseDetailNormalType(doc)
+
+        if (list.isEmpty()) {
+            return TypeResult.NotSupport
+        }
 
         // 이전, 다음화
-        doc.select(".paging_wrap").apply {
-            select("[data-type=next]").takeIf { it.isNotEmpty() }.let {
-                ret.nextLink = (ret.episodeId.toInt() + 1).toString()
+        val (prev, next) = doc.select(".paging_wrap")?.let { wrap ->
+            wrap.select("[data-type=next]").takeIf { it.isNotEmpty() }?.let {
+                (ret.episodeId.toInt() + 1).toString()
+            } to wrap.select("[data-type=prev]").takeIf { it.isNotEmpty() }?.let {
+                (ret.episodeId.toInt() - 1).toString()
             }
-            select("[data-type=prev]").takeIf { it.isNotEmpty() }.let {
-                ret.prevLink = (ret.episodeId.toInt() - 1).toString()
-            }
+        } ?: (null to null)
+
+        return TypeResult.Success(
+            list = list,
+            prev = prev,
+            next = next
+        )
+    }
+
+    private fun parseDetailNormalType(doc: Document) = doc.select("#toonLayer li img")
+        .map {
+            it.attr("data-original").takeIf { url ->
+                url.isNotEmpty()
+            } ?: it.attr("src")
         }
+        .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
+        .map { DetailView(it) }
+
+    private suspend fun parseFixed(ret: DetailResult.Detail, doc: Document): TypeResult {
+        val list = parseDetailFixedType(doc)
+
+        if (list.isEmpty()) {
+            return TypeResult.NotSupport
+        }
+
+        val (prev, next) = doc.select("script")
+            .map { it.outerHtml() }
+            .find { it.contains("prevArticle") }
+            ?.let {
+                val html = it.replace("(\\s+\\n+\\t+)".toRegex(), "")
+                val match = "(?<=no: ')\\d*(?=')".toRegex().find(html)
+                match?.value to match?.next()?.value
+            } ?: (null to null)
+
+        return TypeResult.Success(
+            list = list,
+            prev = prev,
+            next = next
+        )
     }
 
-    private fun parseFixed(ret: DetailResult.Detail, doc: Document) {
-        ret.list = parseDetailFixedType(doc)
+    private fun parseDetailFixedType(doc: Document) = doc.select("#ct ul li img")
+        .map { it.attr("data-src") }
+        .map { url -> DetailView(url) }
 
-        doc.select("script")
+    private suspend fun parseCutToon(ret: DetailResult.Detail, doc: Document): TypeResult {
+        val list = parseDetailCutToonType(doc)
+
+        if (list.isEmpty()) {
+            return TypeResult.NotSupport
+        }
+
+        val (prev, next) = doc.select("script")
             .find { it.outerHtml().contains("prevArticle") }
             ?.let {
                 val html = it.outerHtml().replace("(\\s+\\n+\\t+)".toRegex(), "")
                 val match = "(?<=no: ')\\d*(?=')".toRegex().find(html)
-                ret.prevLink = match?.value
-                ret.nextLink = match?.next()?.value
+                match?.value to match?.next()?.value
+            } ?: (null to null)
+
+        return TypeResult.Success(
+            list = list,
+            prev = prev,
+            next = next
+        )
+    }
+
+    private fun parseDetailCutToonType(doc: Document) = doc.select("#ct .swiper-slide > img")
+        .map { it.attr("data-src") }
+        .map { url -> DetailView(url) }
+
+    private suspend fun parseOsLoader(ret: DetailResult.Detail, doc: Document): TypeResult {
+        val infoScript = doc.getElementsByTag("script")
+            .firstOrNull {
+                it.html().contains("effecttoonContent")
+            }?.html() ?: return TypeResult.NotSupport
+
+        val imageUrl = "(?<=imageUrl: ').*(?=')".toRegex().find(infoScript)?.value
+        val motionDataUrl = "(?<=documentUrl: ').*(?=')".toRegex().find(infoScript)?.value
+
+        if (imageUrl.isNullOrEmpty() || motionDataUrl.isNullOrEmpty()) return TypeResult.NotSupport
+
+        val list = getMoreResponse(motionDataUrl)
+            ?.optJSONObject("assets")
+            ?.optJSONObject("stillcut")
+            ?.mapEach {
+                DetailView("${imageUrl}/$it")
+            } ?: return TypeResult.NotSupport
+
+        if (list.isEmpty()) {
+            return TypeResult.NotSupport
+        }
+
+        val articleNoRegex = "(?<=no: ').*(?=')".toRegex()
+        fun findArticleNo(keyword: String): String? = infoScript.indexOf(keyword).takeIf { it > -1 }
+            ?.let { startIndex ->
+                articleNoRegex.find(infoScript, startIndex)?.value
             }
+
+        return TypeResult.Success(
+            list = list,
+            prev = findArticleNo("prevArticle"),
+            next = findArticleNo("nextArticle")
+        )
     }
-
-    private fun parseDetailFixedType(doc: Document): List<DetailView> {
-        return doc.select("#ct ul li img")
-            .map { it.attr("data-src") }
-            .map { url -> DetailView(url) }
-    }
-
-    private fun parseCutToon(ret: DetailResult.Detail, doc: Document) {
-        ret.list = parseDetailCutToonType(doc)
-
-        doc.select("script")
-            .find { it.outerHtml().contains("prevArticle") }
-            ?.let {
-                val html = it.outerHtml().replace("(\\s+\\n+\\t+)".toRegex(), "")
-                val match = "(?<=no: ')\\d*(?=')".toRegex().find(html)
-                ret.prevLink = match?.value
-                ret.nextLink = match?.next()?.value
-            }
-    }
-
-    private fun parseDetailCutToonType(doc: Document): List<DetailView> {
-        return doc.select("#ct .swiper-slide > img")
-            .map { it.attr("data-src") }
-            .map { url -> DetailView(url) }
-    }
-
-    private fun parseDetailNormalType(doc: Document) =
-        doc.select("#toonLayer li img")
-            .map {
-                it.attr("data-original").takeIf { url ->
-                    url.isNotEmpty()
-                } ?: it.attr("src")
-            }
-            .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
-            .map { DetailView(it) }
 
     private fun createApi(toonId: String, episodeId: String): IRequest =
         IRequest(
@@ -136,6 +208,21 @@ class NaverDetailApi(
             )
         )
 
+    private suspend fun getMoreResponse(
+        url: String
+    ): JSONObject? {
+        val request = IRequest(url = url)
+
+        return requestApi(request)
+            .mapJson()
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data
+                    is Result.Error -> null
+                }
+            }
+    }
+
     companion object {
         val detailCreate = { toonId: String, episodeId: String ->
             "http://m.comic.naver.com/webtoon/detail.nhn?titleId=$toonId&no=$episodeId"
@@ -143,3 +230,14 @@ class NaverDetailApi(
     }
 
 }
+
+private sealed class TypeResult {
+    class Success(
+        val list: List<DetailView>,
+        val prev: String? = null,
+        val next: String? = null
+    ) : TypeResult()
+
+    object NotSupport : TypeResult()
+}
+
