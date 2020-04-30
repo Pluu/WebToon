@@ -48,7 +48,7 @@ object Dep {
             const val browser = "androidx.browser:browser:1.3.0-alpha01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
             const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
-            const val material = "com.google.android.material:material:1.2.0-alpha05"
+            const val material = "com.google.android.material:material:1.2.0-alpha06"
             const val swiperefreshlayout =
                 "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-beta01"
         }

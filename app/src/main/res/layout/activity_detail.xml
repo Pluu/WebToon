@@ -50,7 +50,6 @@
 
         <Button
             android:id="@+id/btnPrev"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -67,7 +66,6 @@
 
         <Button
             android:id="@+id/btnNext"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

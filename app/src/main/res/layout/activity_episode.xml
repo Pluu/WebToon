@@ -61,7 +61,7 @@
                 tools:visibility="visible" />
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnFirst"
             android:layout_width="0dp"
             android:layout_height="match_parent"
