@@ -18,10 +18,19 @@ fun Project.addScriptRepository() {
 }
 
 private fun RepositoryHandler.addScriptDependencies() {
-    google()
+    google {
+        content {
+            includeGroupByRegex("com.android.*")
+            includeGroupByRegex("androidx.*")
+            includeGroupByRegex("com.google.*")
+        }
+    }
     jcenter()
-    maven("https://plugins.gradle.org/m2/")
-    maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    maven("https://plugins.gradle.org/m2/") {
+        content {
+            includeGroup("org.jlleitschuh.gradle")
+        }
+    }
 }
 
 fun ScriptHandlerScope.addScriptDependencies() {
