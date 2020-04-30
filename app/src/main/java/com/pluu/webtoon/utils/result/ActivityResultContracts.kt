@@ -10,7 +10,7 @@ inline fun ActivityResultCaller.justSafeRegisterForActivityResult(
     input: Intent,
     crossinline callback: (ActivityResult) -> Unit
 ) {
-    prepareCall(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
         if (activityResult.resultCode == Activity.RESULT_OK) {
             callback(activityResult)
         }

@@ -1,6 +1,5 @@
 package com.pluu.webtoon.ui.weekly
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
@@ -70,13 +69,5 @@ class MainActivity : BaseNavActivity(R.layout.activity_main) {
 
     private fun themeChange(event: ThemeEvent) {
         binding.navDrawer.navTitle.setBackgroundColor(event.variantColor)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)
-                ?.onActivityResult(requestCode, resultCode, data)
-        }
     }
 }
