@@ -20,7 +20,7 @@ interface RoomDao : IDBHelper {
     override suspend fun getEpisode(serviceName: String, id: String): List<DBEpisode>
 
     @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     override suspend fun addFavorite(item: DBToon)
 
     @Transaction
@@ -28,7 +28,7 @@ interface RoomDao : IDBHelper {
     override suspend fun removeFavorite(item: DBToon)
 
     @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     override suspend fun readEpisode(item: DBEpisode)
 
 }
