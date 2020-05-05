@@ -1,7 +1,7 @@
 package com.pluu.webtoon.domain.usecase
 
 import com.pluu.webtoon.NAV_ITEM
-import com.pluu.webtoon.data.db.IDBHelper
+import com.pluu.webtoon.data.dao.IDBHelper
 
 /**
  * 즐겨찾기 여부 UseCase

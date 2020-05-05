@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils.com.pluu.webtoon.data.model
+package com.pluu.webtoon.data.model
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

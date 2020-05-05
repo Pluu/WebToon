@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils.com.pluu.webtoon.data.db
+package com.pluu.webtoon.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,9 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.pluu.webtoon.data.db.IDBHelper
+import com.pluu.webtoon.data.model.DBEpisode
 import com.pluu.webtoon.data.model.DBToon
-import com.pluu.webtoon.utils.com.pluu.webtoon.data.model.DBEpisode
 
 /** DB Implementation of AndroidX Room */
 @Dao

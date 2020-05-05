@@ -5,8 +5,8 @@ import com.pluu.support.impl.NaviColorProvider
 import com.pluu.support.impl.toUiType
 import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.common.PrefConfig
-import com.pluu.webtoon.data.db.IDBHelper
-import com.pluu.webtoon.data.model.AppDatabase
+import com.pluu.webtoon.data.dao.IDBHelper
+import com.pluu.webtoon.data.db.AppDatabase
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.NetworkUseCase
 import com.pluu.webtoon.di.init.InitUseCase

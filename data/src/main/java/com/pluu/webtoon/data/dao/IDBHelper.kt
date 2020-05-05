@@ -1,7 +1,7 @@
-package com.pluu.webtoon.data.db
+package com.pluu.webtoon.data.dao
 
+import com.pluu.webtoon.data.model.DBEpisode
 import com.pluu.webtoon.data.model.DBToon
-import com.pluu.webtoon.utils.com.pluu.webtoon.data.model.DBEpisode
 
 interface IDBHelper {
     suspend fun isFavorite(serviceName: String, id: String): Boolean
