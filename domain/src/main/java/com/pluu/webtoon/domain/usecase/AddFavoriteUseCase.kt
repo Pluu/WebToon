@@ -13,7 +13,6 @@ class AddFavoriteUseCase(
     suspend operator fun invoke(type: NAV_ITEM, id: String) {
         dbHelper.addFavorite(
             DBToon(
-                id = 0,
                 service = type.name,
                 toonId = id
             )

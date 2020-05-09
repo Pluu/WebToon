@@ -21,9 +21,9 @@ class ReadEpisodeListUseCase(
         dbHelper.getEpisode(type.name, id)
             .map {
                 Episode(
-                    service = it.service!!,
-                    toonId = it.toonId!!,
-                    episodeId = it.episodeId!!
+                    service = it.service,
+                    toonId = it.toonId,
+                    episodeId = it.episodeId
                 )
             }
 }

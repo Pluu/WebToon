@@ -1,19 +1,14 @@
 package com.pluu.webtoon.data.model
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity
+@Entity(primaryKeys = ["service", "toonId", "episodeId"])
 data class DBEpisode(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
     @ColumnInfo
-    val service: String? = null,
+    val service: String,
     @ColumnInfo
-    val toonId: String? = null,
-    @NonNull
+    val toonId: String,
     @ColumnInfo
-    val episodeId: String? = null
+    val episodeId: String
 )

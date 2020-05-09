@@ -13,7 +13,6 @@ class RemoveFavoriteUseCase(
     suspend operator fun invoke(type: NAV_ITEM, id: String) {
         dbHelper.removeFavorite(
             DBToon(
-                id = 0,
                 service = type.name,
                 toonId = id
             )

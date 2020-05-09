@@ -11,7 +11,6 @@ class ReadUseCase(
     suspend operator fun invoke(type: NAV_ITEM, item: DetailResult.Detail) {
         dbHelper.readEpisode(
             DBEpisode(
-                id = 0,
                 service = type.name,
                 toonId = item.webtoonId,
                 episodeId = item.episodeId

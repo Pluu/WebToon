@@ -7,10 +7,11 @@ import androidx.room.RoomDatabase
 import com.pluu.webtoon.data.dao.RoomDao
 import com.pluu.webtoon.data.model.DBEpisode
 import com.pluu.webtoon.data.model.DBToon
+import com.pluu.webtoon.data.db.migration.migration_1_2
 
 @Database(
     entities = [DBToon::class, DBEpisode::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun roomDao(): RoomDao
@@ -21,7 +22,9 @@ abstract class AppDatabase : RoomDatabase() {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "Sample.db"
-            ).build()
+            ).addMigrations(migration_1_2)
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
