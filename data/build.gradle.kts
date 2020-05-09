@@ -8,8 +8,8 @@ android {
     setDefaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf(
-                    "room.schemaLocation" to "$projectDir/build/schemas",
+                arguments = mutableMapOf(
+                    "room.schemaLocation" to "$projectDir/schemas",
                     "room.incremental" to "true",
                     "room.expandProjection" to "true"
                 )

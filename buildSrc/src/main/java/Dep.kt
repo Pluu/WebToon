@@ -2,7 +2,7 @@
 
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:4.1.0-alpha08"
+        const val android = "com.android.tools.build:gradle:4.1.0-alpha09"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
     }
@@ -35,6 +35,7 @@ object Dep {
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
+            const val testing = "androidx.room:room-testing:$roomVersion"
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.2.0-beta01"
@@ -46,7 +47,7 @@ object Dep {
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0"
             const val browser = "androidx.browser:browser:1.3.0-alpha01"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta5"
             const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
             const val material = "com.google.android.material:material:1.2.0-alpha06"
             const val swiperefreshlayout =
@@ -93,5 +94,7 @@ object Dep {
         const val junit = "junit:junit:4.13"
         const val assertJ = "org.assertj:assertj-core:3.15.0"
         const val mockito = "org.mockito:mockito-core:3.3.3"
+        const val androidJunit = "androidx.test.ext:junit:1.1.1"
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
     }
 }
