@@ -21,7 +21,7 @@ android {
     setLibraryProguard(project)
 
     sourceSets {
-        getByName("androidTest").assets.srcDirs("$projectDir/schemas".toString())
+        getByName("androidTest").assets.srcDirs("$projectDir/schemas")
     }
 }
 
