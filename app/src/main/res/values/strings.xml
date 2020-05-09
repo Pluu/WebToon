@@ -61,23 +61,27 @@
 
     <!-- License -->
     <string-array name="license_title">
-        <item>Glide</item>
-        <item>JakeWharton ButterKnife</item>
+        <item>AndroidX Libraries</item>
+        <item>Kotlin</item>
+        <item>Kotlin Coroutines</item>
+        <item>Koin</item>
         <item>Jsoup</item>
-        <item>RxJava</item>
-        <item>RxAndroid</item>
-        <item>Square LeakCanary</item>
-        <item>Square OkHttp</item>
+        <item>Glide</item>
+        <item>LeakCanary by Square</item>
+        <item>OkHttp by Square</item>
+        <item>Timber by JakeWharton</item>
     </string-array>
 
     <string-array name="license_url">
-        <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
-        <item>https://github.com/JakeWharton/butterknife/blob/master/LICENSE.txt</item>
+        <item>https://developer.android.com/jetpack/androidx/versions</item>
+        <item>https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt</item>
+        <item>https://github.com/Kotlin/kotlinx.coroutines/blob/master/LICENSE.txt</item>
+        <item>https://github.com/InsertKoinIO/koin/blob/master/LICENSE</item>
         <item>https://github.com/jhy/jsoup/blob/master/LICENSE</item>
-        <item>https://github.com/ReactiveX/RxJava/blob/1.x/LICENSE</item>
-        <item>https://github.com/ReactiveX/RxAndroid/blob/master/LICENSE</item>
+        <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
         <item>https://github.com/square/leakcanary/blob/master/LICENSE.txt</item>
         <item>https://github.com/square/okhttp/blob/master/LICENSE.txt</item>
+        <item>https://github.com/JakeWharton/timber/blob/master/LICENSE.txt</item>
     </string-array>
 
 </resources>
