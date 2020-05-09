@@ -15,8 +15,14 @@ android {
                 )
             }
         }
+        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
     }
+
     setLibraryProguard(project)
+
+    sourceSets {
+        getByName("androidTest").assets.srcDirs("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {
@@ -34,6 +40,10 @@ dependencies {
     implementation(Dep.OkHttp.core)
 
     testImplementation(Dep.Test.junit)
+    androidTestImplementation(Dep.AndroidX.room.testing)
+    androidTestImplementation(Dep.Test.androidJunit)
+    androidTestImplementation(Dep.Test.espressoCore)
+    androidTestImplementation(Dep.Kotlin.coroutines.test)
 }
 
 apply(from = "../publish_local.gradle")
