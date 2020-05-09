@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(Dep.Kotlin.coroutinesCore)
+    implementation(Dep.Kotlin.coroutines.core)
     // Jsoup
     implementation(Dep.jsoup)
 

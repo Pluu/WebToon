@@ -107,8 +107,8 @@ dependencies {
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)
     // kotlin
-    implementation(Dep.Kotlin.coroutinesCore)
-    implementation(Dep.Kotlin.coroutinesAndroid)
+    implementation(Dep.Kotlin.coroutines.core)
+    implementation(Dep.Kotlin.coroutines.android)
 
     implementation(Dep.timber)
 //    implementation(Dep.leakCanary)
