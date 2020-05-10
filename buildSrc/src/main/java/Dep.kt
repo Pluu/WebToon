@@ -60,7 +60,7 @@ object Dep {
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
-            private const val coroutinesVersion = "1.3.5"
+            private const val coroutinesVersion = "1.3.6"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
             const val android =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"

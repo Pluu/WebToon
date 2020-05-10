@@ -23,6 +23,11 @@ android {
     sourceSets {
         getByName("androidTest").assets.srcDirs("$projectDir/schemas")
     }
+
+    packagingOptions {
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+    }
 }
 
 dependencies {
