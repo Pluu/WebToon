@@ -16,7 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.EventBus
 import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
-import com.pluu.webtoon.adapter.EpisodeAdapter
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo

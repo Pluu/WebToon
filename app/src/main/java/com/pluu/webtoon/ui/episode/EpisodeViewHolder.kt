@@ -1,4 +1,4 @@
-package com.pluu.webtoon.adapter.viewholder
+package com.pluu.webtoon.ui.episode
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.pluu.webtoon.adapter
+package com.pluu.webtoon.ui.settting
 
 import android.content.Context
 import android.view.LayoutInflater

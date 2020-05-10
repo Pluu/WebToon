@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.event.EventBus
 import com.pluu.webtoon.R
-import com.pluu.webtoon.adapter.LicenseAdapter
 import com.pluu.webtoon.databinding.ActivityLicenseBinding
 import com.pluu.webtoon.event.RecyclerViewEvent
 import com.pluu.webtoon.utils.viewbinding.viewBinding

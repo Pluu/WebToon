@@ -1,4 +1,4 @@
-package com.pluu.webtoon.adapter.viewholder
+package com.pluu.webtoon.ui.weekly
 
 import android.view.View
 import android.widget.ImageView

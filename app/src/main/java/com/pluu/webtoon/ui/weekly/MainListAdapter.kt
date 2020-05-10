@@ -1,4 +1,4 @@
-package com.pluu.webtoon.adapter
+package com.pluu.webtoon.ui.weekly
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.R
-import com.pluu.webtoon.adapter.viewholder.MainListViewHolder
 import com.pluu.webtoon.databinding.LayoutMainListItemBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.ui.listener.WebToonSelectListener

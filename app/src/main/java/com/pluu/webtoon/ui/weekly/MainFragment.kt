@@ -11,7 +11,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
-import com.pluu.webtoon.adapter.MainFragmentAdapter
 import com.pluu.webtoon.databinding.FragmentToonBinding
 import com.pluu.webtoon.di.UseCaseProperties
 import com.pluu.webtoon.domain.base.AbstractWeekApi

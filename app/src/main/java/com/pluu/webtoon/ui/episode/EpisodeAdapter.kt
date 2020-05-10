@@ -1,9 +1,8 @@
-package com.pluu.webtoon.adapter
+package com.pluu.webtoon.ui.episode
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.adapter.viewholder.EpisodeViewHolder
 import com.pluu.webtoon.databinding.LayoutEpisodeListItemBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.ui.listener.EpisodeSelectListener
