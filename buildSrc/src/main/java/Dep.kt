@@ -8,7 +8,7 @@ object Dep {
     }
 
     object AndroidX {
-        const val annotation = "androidx.annotation:annotation:1.1.0"
+        const val annotation = "androidx.annotation:annotation:1.2.0-alpha01"
 
         private const val activityVersion = "1.2.0-alpha04"
         const val activity = "androidx.activity:activity:$activityVersion"
@@ -38,7 +38,7 @@ object Dep {
             const val testing = "androidx.room:room-testing:$roomVersion"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.2.0-beta01"
+        const val appcompat = "androidx.appcompat:appcompat:1.2.0-rc01"
         const val coreKtx = "androidx.core:core-ktx:1.3.0-rc01"
 
         object UI {
@@ -47,7 +47,7 @@ object Dep {
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val preference = "androidx.preference:preference:1.1.0"
             const val browser = "androidx.browser:browser:1.3.0-alpha01"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta5"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta6"
             const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
             const val material = "com.google.android.material:material:1.2.0-alpha06"
             const val swiperefreshlayout =
@@ -82,13 +82,13 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.5.0"
+        private const val version = "4.6.0"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
-    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.2"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
     object Test {
         const val junit = "junit:junit:4.13"
