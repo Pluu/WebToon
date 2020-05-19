@@ -6,16 +6,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pluu.event.EventBus
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.ActivityLicenseBinding
-import com.pluu.webtoon.event.RecyclerViewEvent
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 
 /**
  * License Activity
@@ -25,24 +19,16 @@ class LicenseActivity : AppCompatActivity(R.layout.activity_license) {
 
     private val binding by viewBinding(ActivityLicenseBinding::bind)
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
     }
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
     private fun initView() {
         binding.listView.apply {
             layoutManager = LinearLayoutManager(this@LicenseActivity)
-            adapter = LicenseAdapter(this@LicenseActivity)
-        }
-
-        lifecycleScope.launchWhenResumed {
-            registerViewEvent()
+            adapter = LicenseAdapter(this@LicenseActivity, this@LicenseActivity::showDetailLicense)
         }
     }
 
@@ -54,24 +40,12 @@ class LicenseActivity : AppCompatActivity(R.layout.activity_license) {
         return super.onOptionsItemSelected(item)
     }
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
-    private suspend fun registerViewEvent() {
-        EventBus.subscribeToEvent<RecyclerViewEvent>()
-            .collect {
-                itemClick(it)
-            }
-    }
-
     /**
-     * RecyclerView Item Click
-     * @param event Click Event
+     * Show Detail License Page
+     * @param url Web Site Url
      */
-    private fun itemClick(event: RecyclerViewEvent) {
-        val url = resources.getStringArray(R.array.license_url)[event.pos]
-
+    private fun showDetailLicense(url: String) {
         // http://qiita.com/droibit/items/66704f96a602adec5a35
-
         CustomTabsIntent.Builder()
             .setShowTitle(true)
             .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary))
