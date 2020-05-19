@@ -3,18 +3,14 @@ package com.pluu.webtoon.ui.weekly
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
-import com.pluu.event.EventBus
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
+import com.pluu.webtoon.utils.result.setFragmentResultListener
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
 /**
@@ -26,8 +22,6 @@ class MainActivity : BaseNavActivity(R.layout.activity_main) {
     private val binding by viewBinding(ActivityMainBinding::bind)
     private val defaultProvider: NaviColorProvider by inject()
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -55,16 +49,15 @@ class MainActivity : BaseNavActivity(R.layout.activity_main) {
             closeNavDrawer()
         }
 
-        lifecycleScope.launchWhenStarted {
-            registerThemeChangeEvent()
-        }
+        registerThemeChangeEvent()
     }
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
-    private suspend fun registerThemeChangeEvent() {
-        EventBus.subscribeToEvent<ThemeEvent>()
-            .collect { themeChange(it) }
+    private fun registerThemeChangeEvent() {
+        setFragmentResultListener(
+            MainFragment.resultRequestTheme
+        ) { _, data ->
+            themeChange(data.getSerializable(MainFragment.KEY_COLOR) as ThemeEvent)
+        }
     }
 
     private fun themeChange(event: ThemeEvent) {

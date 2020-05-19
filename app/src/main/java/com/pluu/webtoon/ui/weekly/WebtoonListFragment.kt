@@ -10,24 +10,21 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.pluu.event.EventBus
 import com.pluu.kotlin.toast
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.FragmentWebtoonListBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.event.MainEpisodeLoadedEvent
-import com.pluu.webtoon.event.MainEpisodeStartEvent
 import com.pluu.webtoon.model.FavoriteResult
 import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -50,7 +47,6 @@ class WebtoonListFragment : Fragment(
 
     private val binding by viewBinding(FragmentWebtoonListBinding::bind)
 
-    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.layoutManager =
@@ -63,10 +59,10 @@ class WebtoonListFragment : Fragment(
         viewModel.event.observeNonNull(viewLifecycleOwner) { event ->
             when (event) {
                 WeeklyEvent.START -> {
-                    EventBus.send(MainEpisodeStartEvent())
+                    setFragmentResult(resultRequestEpisodeStart, Bundle())
                 }
                 WeeklyEvent.LOADED -> {
-                    EventBus.send(MainEpisodeLoadedEvent())
+                    setFragmentResult(resultRequestEpisodeLoaded, Bundle())
                 }
                 is WeeklyEvent.ERROR -> {
                     toast(event.message)
@@ -140,6 +136,8 @@ class WebtoonListFragment : Fragment(
 
     companion object {
         private const val EXTRA_POS = "EXTRA_POS"
+        const val resultRequestEpisodeStart = "resultRequestEpisodeStart"
+        const val resultRequestEpisodeLoaded = "resultRequestEpisodeLoaded"
 
         fun newInstance(position: Int): WebtoonListFragment {
             val fragment = WebtoonListFragment()
