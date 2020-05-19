@@ -82,7 +82,7 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.6.0"
+        private const val version = "4.7.1"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
