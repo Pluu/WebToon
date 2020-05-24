@@ -6,7 +6,7 @@ import androidx.fragment.app.setFragmentResultListener
 
 fun FragmentActivity.setFragmentResultListener(
     requestKey: String,
-    listener: ((resultKey: String, bundle: Bundle) -> Unit)?
+    listener: (resultKey: String, bundle: Bundle) -> Unit
 ) {
     supportFragmentManager.setFragmentResultListener(requestKey, this, listener)
 }
