@@ -4,6 +4,7 @@ object Dep {
     object GradlePlugin {
         const val android = "com.android.tools.build:gradle:4.1.0-alpha09"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
+        const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
     }
 
@@ -74,6 +75,8 @@ object Dep {
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
+
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
     }
 
     object Koin {

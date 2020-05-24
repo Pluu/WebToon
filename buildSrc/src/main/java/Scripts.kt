@@ -37,6 +37,7 @@ fun ScriptHandlerScope.addScriptDependencies() {
     dependencies {
         classpath(Dep.GradlePlugin.android)
         classpath(Dep.GradlePlugin.kotlin)
+        classpath(Dep.GradlePlugin.kotlinSerialization)
         classpath(Dep.GradlePlugin.ktlint)
     }
 }

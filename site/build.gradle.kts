@@ -1,4 +1,5 @@
 plugins {
+    kotlin("plugin.serialization")
     androidLibrary()
     kotlinAndroid()
 }
@@ -10,6 +11,7 @@ android {
 
 dependencies {
     implementation(Dep.Kotlin.stdlibJvm)
+    implementation(Dep.Kotlin.serialization)
 
     implementation(project(":core"))
     implementation(project(":data"))

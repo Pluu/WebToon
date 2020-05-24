@@ -11,6 +11,9 @@ import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.network.mapDocument
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import org.json.JSONObject
 import org.jsoup.nodes.Document
 
@@ -26,6 +29,17 @@ class NaverDetailApi(
         "http://static.naver.com/m/comic/im/txt_ads.png",
         "http://static.naver.com/m/comic/im/toon_app_pop.png"
     )
+
+    private val json by lazy {
+        Json(JsonConfiguration(ignoreUnknownKeys = true, isLenient = true))
+    }
+
+    private val articleWordRegex by lazy {
+        "(?<='?)\\w+(?='?)".toRegex()
+    }
+    private val articleNodRegex by lazy {
+        "(?<='?)\\d+(?='?)".toRegex()
+    }
 
     override suspend fun invoke(param: DetailRequest): DetailResult {
         ///////////////////////////////////////////////////////////////////////////
@@ -122,10 +136,9 @@ class NaverDetailApi(
         val (prev, next) = doc.select("script")
             .map { it.outerHtml() }
             .find { it.contains("prevArticle") }
+            ?.replace("(\\s|\\n|\\t)".toRegex(), "")
             ?.let {
-                val html = it.replace("(\\s+\\n+\\t+)".toRegex(), "")
-                val match = "(?<=no: ')\\d*(?=')".toRegex().find(html)
-                match?.value to match?.next()?.value
+                parseFixedPage(it, "prevArticle") to parseFixedPage(it, "nextArticle")
             } ?: (null to null)
 
         return TypeResult.Success(
@@ -133,6 +146,23 @@ class NaverDetailApi(
             prev = prev,
             next = next
         )
+    }
+
+    private fun parseFixedPage(src: String, key: String): String? {
+        return src.indexOf(key)
+            .takeIf { it > -1 }
+            ?.let { start ->
+                val openIndex = src.indexOf("{", startIndex = start)
+                val closeIndex = src.indexOf("}", startIndex = start)
+                val article = json.parse(
+                    Article.serializer(),
+                    src.substring(openIndex, closeIndex + 1)
+                )
+                if (articleWordRegex.find(article.chargeYn)?.value == "Y") {
+                    return null
+                }
+                articleNodRegex.find(article.no)?.value
+            }
     }
 
     private fun parseDetailFixedType(doc: Document) = doc.select("#ct ul li img")
@@ -241,3 +271,8 @@ private sealed class TypeResult {
     object NotSupport : TypeResult()
 }
 
+@Serializable
+data class Article(
+    val no: String,
+    val chargeYn: String
+)
