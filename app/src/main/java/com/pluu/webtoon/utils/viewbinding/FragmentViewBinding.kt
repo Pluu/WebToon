@@ -9,13 +9,13 @@ import androidx.viewbinding.ViewBinding
 fun <T : ViewBinding> Fragment.viewBinding(
     bind: (View) -> T
 ): Lazy<T> = object : Lazy<T> {
-    private var chached: T? = null
+    private var cached: T? = null
 
-    override fun isInitialized(): Boolean = chached != null
+    override fun isInitialized(): Boolean = cached != null
 
     override val value: T
-        get() = chached ?: bind(requireView()).also {
-            chached = it
+        get() = cached ?: bind(requireView()).also {
+            cached = it
         }
 
     init {
@@ -29,7 +29,7 @@ fun <T : ViewBinding> Fragment.viewBinding(
     private fun autoDestroyBinding() {
         viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_DESTROY) {
-                chached = null
+                cached = null
             }
         })
     }

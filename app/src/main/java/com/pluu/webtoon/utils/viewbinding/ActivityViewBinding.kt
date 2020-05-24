@@ -8,13 +8,13 @@ import androidx.viewbinding.ViewBinding
 fun <T : ViewBinding> FragmentActivity.viewBinding(
     bind: (View) -> T
 ): Lazy<T> = object : Lazy<T> {
-    private var chached: T? = null
+    private var cached: T? = null
 
-    override fun isInitialized(): Boolean = chached != null
+    override fun isInitialized(): Boolean = cached != null
 
     override val value: T
-        get() = chached ?: bind(getContentView()).also {
-            chached = it
+        get() = cached ?: bind(getContentView()).also {
+            cached = it
         }
 
     private fun FragmentActivity.getContentView(): View {
