@@ -36,7 +36,7 @@ class KToonDetailApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR(result.exception))
                 }
             }
 
@@ -44,7 +44,7 @@ class KToonDetailApi(
         // Parse Data
         ///////////////////////////////////////////////////////////////////////////
         val array: JSONArray = responseData
-            .optJSONArray("response") ?: return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+            .optJSONArray("response") ?: return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR())
 
         val ret = DetailResult.Detail(
             webtoonId = param.toonId,

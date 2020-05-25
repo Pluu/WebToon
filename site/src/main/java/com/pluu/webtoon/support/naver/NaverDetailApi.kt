@@ -51,7 +51,9 @@ class NaverDetailApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+                    is Result.Error -> return DetailResult.ErrorResult(
+                        ERROR_TYPE.DEFAULT_ERROR(result.exception)
+                    )
                 }
             }
 
@@ -64,33 +66,31 @@ class NaverDetailApi(
         )
         ret.title = responseData.select("div[class=chh] span, h1[class=tit]").first()?.text()
 
-        val parser: suspend (ret: DetailResult.Detail, doc: Document) -> TypeResult = when {
-            responseData.select("#ct > .oz-loader")?.isNotEmpty() == true -> {
-                // osLoader
-                ::parseOsLoader
-            }
-            responseData.select("#ct > .toon_view_lst")?.isNotEmpty() == true -> {
-                // Fixed
-                ::parseFixed
-            }
-            responseData.select("div[class=viewer cuttoon]")?.isNotEmpty() == true -> {
-                // 컷툰
-                ::parseCutToon
-            }
+        val parser = when {
+            // osLoader
+            responseData.select("#ct > .oz-loader")?.isNotEmpty() == true -> ::parseOsLoader
+            // Fixed
+            responseData.select("#ct > .toon_view_lst")?.isNotEmpty() == true -> ::parseFixed
+            // 컷툰
+            responseData.select("div[class=viewer cuttoon]")
+                ?.isNotEmpty() == true -> ::parseCutToon
             // 일반 웹툰
             else -> ::parseNormal
         }
 
-        return when (val result = parser(ret, responseData)) {
-            is TypeResult.Success -> {
-                ret.list = result.list
-                ret.prevLink = result.prev
-                ret.nextLink = result.next
-                ret
+        return runCatching {
+            when (val result = parser(ret, responseData)) {
+                is TypeResult.Success -> ret.apply {
+                    list = result.list
+                    prevLink = result.prev
+                    nextLink = result.next
+                }
+                TypeResult.NotSupport -> {
+                    DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
+                }
             }
-            TypeResult.NotSupport -> {
-                DetailResult.ErrorResult(ERROR_TYPE.NOT_SUPPORT)
-            }
+        }.getOrElse {
+            DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR(it))
         }
     }
 

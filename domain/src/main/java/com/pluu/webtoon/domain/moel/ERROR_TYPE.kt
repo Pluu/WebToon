@@ -5,9 +5,16 @@ package com.pluu.webtoon.domain.moel
  * Created by pluu on 2017-04-18.
  */
 @Suppress("ClassName")
-enum class ERROR_TYPE {
-    ADULT_CERTIFY, // 성인 인증
-    COIN_NEED, // 코인 필요
-    NOT_SUPPORT, // 지원 불가 웹툰 타입
-    DEFAULT_ERROR // 기본 에러
+sealed class ERROR_TYPE {
+    // 성인 인증
+    object ADULT_CERTIFY : ERROR_TYPE()
+
+    // 코인 필요
+    object COIN_NEED : ERROR_TYPE()
+
+    // 지원 불가 웹툰 타입
+    object NOT_SUPPORT : ERROR_TYPE()
+
+    // 기본 에러
+    class DEFAULT_ERROR(val throwable: Throwable? = null) : ERROR_TYPE()
 }

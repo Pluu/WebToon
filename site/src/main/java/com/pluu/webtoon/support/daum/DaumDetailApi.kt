@@ -34,7 +34,7 @@ class DaumDetailApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR)
+                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR(result.exception))
                 }
             }
 

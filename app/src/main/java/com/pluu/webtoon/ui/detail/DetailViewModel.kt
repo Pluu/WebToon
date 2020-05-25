@@ -19,6 +19,7 @@ import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class DetailViewModel(
     handle: SavedStateHandle,
@@ -32,16 +33,13 @@ class DetailViewModel(
     private val episode = handle.get<EpisodeInfo>(Const.EXTRA_EPISODE)!!
 
     private val _event = MutableLiveData<DetailEvent>()
-    val event: LiveData<DetailEvent>
-        get() = _event
+    val event: LiveData<DetailEvent> get() = _event
 
     private val _elementEvent = MutableLiveData<ElementEvent>()
-    val elementEvent: LiveData<ElementEvent>
-        get() = _elementEvent
+    val elementEvent: LiveData<ElementEvent> get() = _elementEvent
 
     private val _list = MutableLiveData<List<DetailView>>()
-    val list: LiveData<List<DetailView>>
-        get() = _list
+    val list: LiveData<List<DetailView>> get() = _list
 
     private var currentItem: DetailResult.Detail? = null
 
@@ -83,6 +81,10 @@ class DetailViewModel(
                     )
                 }
                 is DetailResult.ErrorResult -> {
+                    val errorType = result.errorType
+                    if (errorType is ERROR_TYPE.DEFAULT_ERROR) {
+                        Timber.e(errorType.throwable)
+                    }
                     error = DetailEvent.ERROR(result.errorType)
                 }
             }
@@ -102,7 +104,7 @@ class DetailViewModel(
                 )
             )
         }.getOrElse {
-            DetailResult.ErrorResult(errorType = ERROR_TYPE.DEFAULT_ERROR)
+            DetailResult.ErrorResult(errorType = ERROR_TYPE.DEFAULT_ERROR(it))
         }
     }
 
