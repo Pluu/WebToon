@@ -8,14 +8,14 @@ android {
     setDefaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mutableMapOf(
+                arguments = mapOf(
                     "room.schemaLocation" to "$projectDir/schemas",
                     "room.incremental" to "true",
                     "room.expandProjection" to "true"
                 )
             }
         }
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     setLibraryProguard(project)
