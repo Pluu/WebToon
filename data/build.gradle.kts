@@ -8,11 +8,13 @@ android {
     setDefaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf(
+                mapOf(
                     "room.schemaLocation" to "$projectDir/schemas",
                     "room.incremental" to "true",
                     "room.expandProjection" to "true"
-                )
+                ).forEach { (k, v) ->
+                    arguments[k] = v
+                }
             }
         }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

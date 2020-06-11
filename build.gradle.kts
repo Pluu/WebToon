@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     addScriptRepository()
     addScriptDependencies()
@@ -6,7 +8,7 @@ buildscript {
 allprojects {
     addScriptRepository()
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
+    tasks.withType(KotlinCompile::class).configureEach {
         kotlinOptions.jvmTarget = ProjectConfigurations.javaVerString
     }
 }
