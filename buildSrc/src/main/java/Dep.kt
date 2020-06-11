@@ -12,7 +12,7 @@ object Dep {
         const val annotation = "androidx.annotation:annotation:1.2.0-alpha01"
 
         object activity {
-            private const val activityVersion = "1.2.0-alpha05"
+            private const val activityVersion = "1.2.0-alpha06"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -25,16 +25,16 @@ object Dep {
             const val runtime = "androidx.arch.core:core-runtime:$version"
         }
 
-        const val coreKtx = "androidx.core:core-ktx:1.4.0-alpha01"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha01"
 
         object fragment {
-            private const val fragmentVersion = "1.3.0-alpha05"
+            private const val fragmentVersion = "1.3.0-alpha06"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.3.0-alpha03"
+            private const val lifecycleVersion = "2.3.0-alpha04"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
@@ -42,7 +42,7 @@ object Dep {
         }
 
         object room {
-            private const val roomVersion = "2.2.5"
+            private const val roomVersion = "2.3.0-alpha01"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -50,11 +50,11 @@ object Dep {
         }
 
         object UI {
-            const val browser = "androidx.browser:browser:1.3.0-alpha01"
+            const val browser = "androidx.browser:browser:1.3.0-alpha03"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta6"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.0-rc01"
-            const val material = "com.google.android.material:material:1.2.0-alpha06"
+            const val material = "com.google.android.material:material:1.3.0-alpha01"
             const val swiperefreshlayout =
                 "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01"
             const val palette = "androidx.palette:palette:1.0.0"
@@ -105,7 +105,7 @@ object Dep {
         const val junit = "junit:junit:4.13"
         const val assertJ = "org.assertj:assertj-core:3.16.1"
         const val mockito = "org.mockito:mockito-core:3.3.3"
-        const val androidJunit = "androidx.test.ext:junit:1.1.2-beta02"
-        const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0-beta02"
+        const val androidJunit = "androidx.test.ext:junit:1.1.2-rc01"
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0-rc01"
     }
 }
