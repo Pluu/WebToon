@@ -1,12 +1,14 @@
 package com.pluu.webtoon.ui.detail
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.common.Session
 import com.pluu.webtoon.domain.moel.DetailResult
 import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE
@@ -21,15 +23,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class DetailViewModel(
-    handle: SavedStateHandle,
-    private val type: NAV_ITEM,
+class DetailViewModel @ViewModelInject constructor(
+    @Assisted handle: SavedStateHandle,
+    private val session: Session,
     private val dispatchers: AppCoroutineDispatchers,
     private val detailUseCase: DetailUseCase,
     private val readUseCase: ReadUseCase,
     private val shareUseCase: ShareUseCase
 ) : ViewModel() {
 
+    // TODO
+    private val type = session.navi
     private val episode = handle.get<EpisodeInfo>(Const.EXTRA_EPISODE)!!
 
     private val _event = MutableLiveData<DetailEvent>()

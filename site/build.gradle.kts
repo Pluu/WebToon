@@ -2,6 +2,8 @@ plugins {
     kotlin("plugin.serialization")
     androidLibrary()
     kotlinAndroid()
+    daggerHilt()
+    kotlinKapt()
 }
 
 android {
@@ -19,6 +21,11 @@ dependencies {
     implementation(Dep.Kotlin.coroutines.core)
     // Jsoup
     implementation(Dep.jsoup)
+
+    // Dagger Hilt
+    implementation(Dep.Dagger.android)
+    kapt(Dep.Dagger.hilt_compiler)
+    implementation(Dep.Dagger.hilt_common)
 
     testImplementation(Dep.Test.junit)
 }

@@ -1,4 +1,4 @@
-package com.pluu.webtoon.common
+package com.pluu.webtoon.data
 
 import android.content.Context
 import androidx.preference.PreferenceManager

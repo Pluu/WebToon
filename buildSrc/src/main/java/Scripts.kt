@@ -25,6 +25,7 @@ private fun RepositoryHandler.addScriptDependencies() {
             includeGroupByRegex("com.google.*")
         }
     }
+    mavenCentral()
     jcenter()
     maven("https://plugins.gradle.org/m2/") {
         content {
@@ -39,5 +40,6 @@ fun ScriptHandlerScope.addScriptDependencies() {
         classpath(Dep.GradlePlugin.kotlin)
         classpath(Dep.GradlePlugin.kotlinSerialization)
         classpath(Dep.GradlePlugin.ktlint)
+        classpath(Dep.GradlePlugin.hilt)
     }
 }

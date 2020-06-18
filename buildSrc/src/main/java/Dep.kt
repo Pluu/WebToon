@@ -6,6 +6,7 @@ object Dep {
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
+        const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
     }
 
     object AndroidX {
@@ -64,6 +65,18 @@ object Dep {
         }
     }
 
+    object Dagger {
+        const val version = "2.28-alpha"
+        const val android = "com.google.dagger:hilt-android:${version}"
+        const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${version}"
+        const val testing = "com.google.dagger:hilt-android-testing:${version}"
+
+        private const val androidX = "1.0.0-alpha01"
+        const val hilt_common = "androidx.hilt:hilt-common:${androidX}"
+        const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${androidX}"
+        const val android_hilt_compiler = "androidx.hilt:hilt-compiler:${androidX}"
+    }
+
     object Kotlin {
         const val version = "1.3.72"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
@@ -77,11 +90,6 @@ object Dep {
         }
 
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
-    }
-
-    object Koin {
-        private const val version = "2.1.5"
-        const val android = "org.koin:koin-android-viewmodel:$version"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.13.1"

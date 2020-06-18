@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -32,25 +33,21 @@ import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
 import com.pluu.webtoon.utils.viewbinding.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 /**
  * 에피소드 리스트 Fragment
  * Created by pluu on 2017-05-09.
  */
+@AndroidEntryPoint
 class EpisodeFragment : Fragment(R.layout.fragment_episode),
     SwipeRefreshLayout.OnRefreshListener,
     EpisodeSelectListener {
 
-    private val viewModel: EpisodeViewModel by viewModel {
-        parametersOf(
-            requireArguments().getParcelable<ToonInfo>(Const.EXTRA_EPISODE)
-        )
-    }
+    private val viewModel by viewModels<EpisodeViewModel>()
 
     private val binding by viewBinding(FragmentEpisodeBinding::bind)
 

@@ -5,6 +5,7 @@ plugins {
     androidApp()
     kotlinAndroid()
     kotlinAndroidExtensions()
+    daggerHilt()
     kotlinKapt()
     ktlint()
 }
@@ -45,15 +46,12 @@ android {
     }
 
     lintOptions {
-        check("Interoperability")
+        checkOnly("Interoperability")
         disable("ContentDescription")
+        isAbortOnError = false
     }
 
     useLibrary("android.test.mock")
-
-    lintOptions {
-        isAbortOnError = false
-    }
 }
 
 androidExtensions {
@@ -87,25 +85,31 @@ dependencies {
     implementation(Dep.AndroidX.room.ktx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.drawerlayout)
-    implementation(Dep.AndroidX.UI.recyclerview)
-    implementation(Dep.AndroidX.UI.palette)
-    implementation(Dep.AndroidX.UI.cardview)
-    implementation(Dep.AndroidX.UI.preference)
     implementation(Dep.AndroidX.UI.browser)
+    implementation(Dep.AndroidX.UI.cardview)
     implementation(Dep.AndroidX.UI.constraintLayout)
-    implementation(Dep.AndroidX.UI.viewPager)
+    implementation(Dep.AndroidX.UI.drawerlayout)
     implementation(Dep.AndroidX.UI.material)
+    implementation(Dep.AndroidX.UI.palette)
+    implementation(Dep.AndroidX.UI.preference)
+    implementation(Dep.AndroidX.UI.recyclerview)
     implementation(Dep.AndroidX.UI.swiperefreshlayout)
+    implementation(Dep.AndroidX.UI.viewPager)
 
-    // DI
-    implementation(Dep.Koin.android)
+    // OkHttp
+    implementation(Dep.OkHttp.core)
+    implementation(Dep.OkHttp.loggingInterceptor)
+
+    // Dagger Hilt
+    implementation(Dep.Dagger.android)
+    kapt(Dep.Dagger.hilt_compiler)
+    implementation(Dep.Dagger.viewModel)
+    kapt(Dep.Dagger.android_hilt_compiler)
 
     // Glide
     implementation(Dep.Glide.core)
     kapt(Dep.Glide.compiler)
-    // OkHttp
-    implementation(Dep.OkHttp.loggingInterceptor)
+
     // kotlin
     implementation(Dep.Kotlin.coroutines.core)
     implementation(Dep.Kotlin.coroutines.android)

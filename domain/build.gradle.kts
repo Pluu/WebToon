@@ -4,6 +4,8 @@ plugins {
     androidLibrary()
     kotlinAndroid()
     kotlinAndroidExtensions()
+    daggerHilt()
+    kotlinKapt()
 }
 
 android {
@@ -21,6 +23,10 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":data"))
+
+    // Dagger Hilt
+    implementation(Dep.Dagger.android)
+    kapt(Dep.Dagger.hilt_compiler)
 
     testImplementation(Dep.Test.junit)
 }
