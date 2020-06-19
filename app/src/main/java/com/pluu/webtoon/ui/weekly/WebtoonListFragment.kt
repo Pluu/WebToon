@@ -27,11 +27,13 @@ import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
 import com.pluu.webtoon.utils.viewbinding.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Main EpisodeResult List Fragment
  * Created by pluu on 2017-05-07.
  */
+@AndroidEntryPoint
 class WebtoonListFragment : Fragment(
     R.layout.fragment_webtoon_list
 ), WebToonSelectListener {
