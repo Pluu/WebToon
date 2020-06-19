@@ -2,9 +2,6 @@ package com.pluu.webtoon.di
 
 import android.content.Context
 import com.pluu.support.impl.ColorProvider
-import com.pluu.support.impl.NaviColorProvider
-import com.pluu.support.impl.toUiType
-import com.pluu.webtoon.common.Session
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,10 +17,4 @@ object ResourceModule {
     fun provideColorProvider(
         @ApplicationContext context: Context
     ): ColorProvider = ColorProvider(context)
-
-    @Provides
-    fun provideNaviColorProvider(
-        colorProvider: ColorProvider,
-        session: Session
-    ): NaviColorProvider = NaviColorProvider(colorProvider, session.navi.toUiType())
 }
