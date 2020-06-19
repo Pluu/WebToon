@@ -100,11 +100,11 @@ dependencies {
     implementation(Dep.OkHttp.core)
     implementation(Dep.OkHttp.loggingInterceptor)
 
-    // Dagger Hilt
-    implementation(Dep.Dagger.android)
-    kapt(Dep.Dagger.hilt_compiler)
-    implementation(Dep.Dagger.viewModel)
-    kapt(Dep.Dagger.android_hilt_compiler)
+    // Hilt
+    implementation(Dep.Hilt.android)
+    kapt(Dep.Hilt.hilt_compiler)
+    implementation(Dep.Hilt.viewModel)
+    kapt(Dep.Hilt.android_hilt_compiler)
 
     // Glide
     implementation(Dep.Glide.core)

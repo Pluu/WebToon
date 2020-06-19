@@ -46,8 +46,8 @@ dependencies {
     implementation(Dep.OkHttp.core)
 
     // Dagger Hilt
-    implementation(Dep.Dagger.android)
-    kapt(Dep.Dagger.hilt_compiler)
+    implementation(Dep.Hilt.android)
+    kapt(Dep.Hilt.hilt_compiler)
 
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidX.room.testing)
