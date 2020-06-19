@@ -1,7 +1,8 @@
-package com.pluu.webtoon.di
+package com.pluu.webtoon.data.di
 
 import android.content.Context
-import com.pluu.webtoon.data.PrefConfig
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import com.pluu.webtoon.data.dao.IDBHelper
 import com.pluu.webtoon.data.db.AppDatabase
 import dagger.Module
@@ -18,11 +19,10 @@ object DataModule {
     @Provides
     fun provideAppDatabase(
         @ApplicationContext context: Context
-    ): IDBHelper = AppDatabase.getInstance(context.applicationContext).roomDao()
+    ): IDBHelper = AppDatabase.getInstance(context).roomDao()
 
-    @Singleton
     @Provides
-    fun providePrefConfig(
+    fun provideDefaultSharedPreferences(
         @ApplicationContext context: Context
-    ): PrefConfig = PrefConfig(context)
+    ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 }

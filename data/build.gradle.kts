@@ -41,6 +41,7 @@ dependencies {
     implementation(Dep.AndroidX.room.runtime)
     kapt(Dep.AndroidX.room.compiler)
     implementation(Dep.AndroidX.room.ktx)
+    implementation(Dep.AndroidX.UI.preference)
 
     // OkHttp
     implementation(Dep.OkHttp.core)
