@@ -17,7 +17,6 @@ import androidx.fragment.app.commit
 import com.pluu.support.impl.ServiceConst
 import com.pluu.support.impl.UI_NAV_ITEM
 import com.pluu.support.impl.toUiType
-import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.common.Session
@@ -43,11 +42,14 @@ abstract class BaseNavActivity(
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
-    // TODO
-//    @Inject
-//    lateinit var session: Session
+    @Inject
+    lateinit var session: Session
 
-    private var selfNavDrawerItem = NAV_ITEM.NAVER.toUiType()
+    private var selfNavDrawerItem
+        get() = session.navi.toUiType()
+        set(value) {
+            session.navi = value.getCoreType()
+        }
 
     private val mHandler: Handler by lazyNone { Handler() }
 
@@ -189,7 +191,6 @@ abstract class BaseNavActivity(
         item ?: return
 
         selfNavDrawerItem = item
-//        session.navi = item.getCoreType()
 
         supportFragmentManager.commit {
             supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
