@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.common.Session
+import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
@@ -19,14 +19,12 @@ import kotlinx.coroutines.withContext
 
 class WeekyViewModel @ViewModelInject constructor(
     @Assisted handle: SavedStateHandle,
-    private val session: Session,
+    private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
     private val weeklyUseCase: WeeklyUseCase,
     private val hasFavoriteUseCase: HasFavoriteUseCase
 ) : ViewModel() {
 
-    // TODO
-    private val type = session.navi
     private val weekPos = handle.get<Int>("EXTRA_POS") ?: 0
 
     private val _listEvent = MutableLiveData<List<ToonInfo>>()
