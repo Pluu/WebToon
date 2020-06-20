@@ -1,8 +1,7 @@
 package com.pluu.webtoon.ui.settting
 
-import android.annotation.TargetApi
 import android.content.Intent
-import android.os.Build
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +9,14 @@ import androidx.fragment.app.commit
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.pluu.webtoon.R
 import com.pluu.webtoon.data.pref.PrefConfig
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +35,11 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @AndroidEntryPoint
     class GeneralPreferenceFragment : PreferenceFragmentCompat() {
+
+        @Inject
+        lateinit var pref: SharedPreferences
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.pref_settings)
@@ -80,10 +84,7 @@ class SettingsActivity : AppCompatActivity() {
             preference ?: return
             preference.onPreferenceChangeListener = changeListener
             changeListener.onPreferenceChange(
-                preference,
-                PreferenceManager
-                    .getDefaultSharedPreferences(preference.context)
-                    .getString(preference.key, "")
+                preference, pref.getString(preference.key, "")
             )
         }
     }
