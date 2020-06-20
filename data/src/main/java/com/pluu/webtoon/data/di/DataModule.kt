@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.pluu.webtoon.data.dao.IDBHelper
 import com.pluu.webtoon.data.db.AppDatabase
+import com.pluu.webtoon.data.pref.PrefConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +26,9 @@ object DataModule {
     fun provideDefaultSharedPreferences(
         @ApplicationContext context: Context
     ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides
+    fun providePrefConfig(
+        preferences: SharedPreferences
+    ) = PrefConfig(preferences)
 }

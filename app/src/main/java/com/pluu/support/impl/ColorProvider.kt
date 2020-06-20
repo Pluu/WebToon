@@ -7,7 +7,7 @@ import com.pluu.webtoon.NAV_ITEM
 import javax.inject.Inject
 
 /** Color Resource Provider */
-class ColorProvider @Inject constructor(
+class ColorProvider(
     private val context: Context
 ) {
     fun getColor(

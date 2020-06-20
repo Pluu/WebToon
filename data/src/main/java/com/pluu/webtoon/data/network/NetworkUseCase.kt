@@ -4,9 +4,8 @@ import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.buildRequestApi
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import javax.inject.Inject
 
-class NetworkUseCase @Inject constructor(
+class NetworkUseCase(
     private val okHttpClient: OkHttpClient
 ) : INetworkUseCase {
 
