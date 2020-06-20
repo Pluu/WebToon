@@ -1,7 +1,6 @@
-package com.pluu.webtoon.di
+package com.pluu.webtoon.site.di
 
 import com.pluu.webtoon.NAV_ITEM
-import com.pluu.webtoon.common.Session
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.EpisodeUseCase
@@ -31,19 +30,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.ApplicationComponent
-import javax.inject.Named
-import javax.inject.Qualifier
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(ActivityComponent::class)
 object SiteModule {
 
     @Provides
     fun provideWeeklyUseCase(
-        session: Session,
+        naviItem: NAV_ITEM,
         networkUseCase: INetworkUseCase
-    ): WeeklyUseCase = when (session.navi) {
+    ): WeeklyUseCase = when (naviItem) {
         NAV_ITEM.NAVER -> NaverWeekApi(networkUseCase)
         NAV_ITEM.DAUM -> DaumWeekApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonWeekApi(networkUseCase)
@@ -53,9 +49,9 @@ object SiteModule {
 
     @Provides
     fun provideEpisodeUseCase(
-        session: Session,
+        naviItem: NAV_ITEM,
         networkUseCase: INetworkUseCase
-    ): EpisodeUseCase = when (session.navi) {
+    ): EpisodeUseCase = when (naviItem) {
         NAV_ITEM.NAVER -> NaverEpisodeApi(networkUseCase)
         NAV_ITEM.DAUM -> DaumEpisodeApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonEpisodeApi(networkUseCase)
@@ -65,9 +61,9 @@ object SiteModule {
 
     @Provides
     fun provideDetailUseCase(
-        session: Session,
+        naviItem: NAV_ITEM,
         networkUseCase: INetworkUseCase
-    ): DetailUseCase = when (session.navi) {
+    ): DetailUseCase = when (naviItem) {
         NAV_ITEM.NAVER -> NaverDetailApi(networkUseCase)
         NAV_ITEM.DAUM -> DaumDetailApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonDetailApi(networkUseCase)
@@ -77,8 +73,8 @@ object SiteModule {
 
     @Provides
     fun provideShareUseCase(
-        session: Session
-    ): ShareUseCase = when (session.navi) {
+        naviItem: NAV_ITEM
+    ): ShareUseCase = when (naviItem) {
         NAV_ITEM.NAVER -> NaverDetailShare()
         NAV_ITEM.DAUM -> DaumDetailShare()
         NAV_ITEM.KTOON -> KToonDetailShare()
