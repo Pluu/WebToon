@@ -3,12 +3,13 @@ package com.pluu.webtoon.data.pref
 import android.content.SharedPreferences
 import com.pluu.webtoon.NAV_ITEM
 import java.util.Locale
+import javax.inject.Inject
 
 /**
  * SharedPreferences
  * Created by pluu on 2017-04-29.
  */
-class PrefConfig(
+class PrefConfig @Inject constructor(
     private val pref: SharedPreferences
 ) {
     fun getDefaultWebToon(): NAV_ITEM {
