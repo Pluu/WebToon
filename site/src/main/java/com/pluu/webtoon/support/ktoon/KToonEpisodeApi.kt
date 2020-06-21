@@ -4,7 +4,7 @@ import com.pluu.core.asSequence
 import com.pluu.core.orEmpty
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
-import com.pluu.webtoon.data.model.Result
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.domain.moel.EpisodeInfo

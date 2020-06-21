@@ -11,4 +11,6 @@
     <string name="title_olleh_key">KTOON</string>
     <string name="title_kakao_page_key">KAKAOPAGE</string>
     <string name="title_nate_key">NATE</string>
+
+    <string name="msg_not_support">현재 성인, 과금 관련 메뉴 접근은 지원하지 않습니다.</string>
 </resources>

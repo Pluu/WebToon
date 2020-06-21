@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils
+package com.pluu.utils
 
 import kotlinx.coroutines.CoroutineDispatcher
 

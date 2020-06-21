@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils.result
+package com.pluu.utils.result
 
 import android.app.Activity
 import android.content.Intent

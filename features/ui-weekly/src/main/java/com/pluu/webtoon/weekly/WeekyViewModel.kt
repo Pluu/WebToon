@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -7,13 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.NAV_ITEM
-import com.pluu.webtoon.data.model.Result
+import com.pluu.utils.AppCoroutineDispatchers
+import com.pluu.utils.coroutines.mapOnSuspend
+import com.pluu.webtoon.model.NAV_ITEM
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
-import com.pluu.webtoon.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.utils.coroutines.mapOnSuspend
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

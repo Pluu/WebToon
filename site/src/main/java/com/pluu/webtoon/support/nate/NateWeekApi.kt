@@ -1,7 +1,7 @@
 package com.pluu.webtoon.support.nate
 
 import com.pluu.webtoon.data.model.IRequest
-import com.pluu.webtoon.data.model.Result
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase

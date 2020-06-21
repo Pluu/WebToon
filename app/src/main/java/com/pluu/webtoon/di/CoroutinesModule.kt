@@ -1,6 +1,6 @@
 package com.pluu.webtoon.di
 
-import com.pluu.webtoon.utils.AppCoroutineDispatchers
+import com.pluu.utils.AppCoroutineDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

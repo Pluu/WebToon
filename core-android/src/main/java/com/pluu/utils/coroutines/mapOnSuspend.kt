@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils.coroutines
+package com.pluu.utils.coroutines
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

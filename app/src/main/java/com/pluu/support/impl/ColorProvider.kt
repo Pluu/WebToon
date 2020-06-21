@@ -3,7 +3,7 @@ package com.pluu.support.impl
 import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.pluu.webtoon.NAV_ITEM
+import com.pluu.webtoon.model.NAV_ITEM
 import javax.inject.Inject
 
 /** Color Resource Provider */

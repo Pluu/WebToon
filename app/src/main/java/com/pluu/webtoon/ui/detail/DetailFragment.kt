@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.FragmentDefaultDetailBinding
-import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.utils.observeNonNull
 import com.pluu.webtoon.utils.resolveAttribute
 import dagger.hilt.android.AndroidEntryPoint
 

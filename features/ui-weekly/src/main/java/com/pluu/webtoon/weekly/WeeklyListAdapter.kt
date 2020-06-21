@@ -1,33 +1,32 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.R
-import com.pluu.webtoon.databinding.LayoutMainListItemBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.ui.listener.WebToonSelectListener
+import com.pluu.webtoon.weekly.databinding.LayoutMainListItemBinding
+import com.pluu.webtoon.weekly.listener.WebToonSelectListener
 
 /**
  * Main EpisodeInfo List Adapter
  * Created by pluu on 2017-05-02.
  */
-class MainListAdapter(
+class WeeklyListAdapter(
     mContext: Context,
     private val list: List<ToonInfo>,
     private val listener: WebToonSelectListener
-) : RecyclerView.Adapter<MainListViewHolder>() {
+) : RecyclerView.Adapter<WeeklyViewHolder>() {
     private val filterColor: Int = ContextCompat.getColor(mContext, R.color.red_500)
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MainListViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): WeeklyViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)
         val binding = LayoutMainListItemBinding.inflate(layoutInflater, viewGroup, false)
-        return MainListViewHolder(binding = binding, filterColor = filterColor)
+        return WeeklyViewHolder(binding = binding, filterColor = filterColor)
     }
 
-    override fun onBindViewHolder(viewHolder: MainListViewHolder, i: Int) {
+    override fun onBindViewHolder(viewHolder: WeeklyViewHolder, i: Int) {
         viewHolder.bind(list[i])
         viewHolder.clickThumbnail {
             if (list[i].isLock) {

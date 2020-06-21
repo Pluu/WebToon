@@ -1,13 +1,11 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,17 +14,14 @@ import androidx.fragment.app.viewModels
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.pluu.kotlin.toast
-import com.pluu.webtoon.R
-import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.databinding.FragmentWebtoonListBinding
-import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.model.FavoriteResult
-import com.pluu.webtoon.ui.episode.EpisodesActivity
-import com.pluu.webtoon.ui.listener.WebToonSelectListener
-import com.pluu.webtoon.utils.observeNonNull
-import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
+import com.pluu.utils.observeNonNull
+import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.ui.model.FavoriteResult
+import com.pluu.webtoon.ui.model.PalletColor
+import com.pluu.webtoon.weekly.databinding.FragmentWebtoonListBinding
+import com.pluu.webtoon.weekly.listener.WebToonSelectListener
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -50,7 +45,7 @@ class WebtoonListFragment : Fragment(
             GridLayoutManager(context, resources.getInteger(R.integer.webtoon_column_count))
 
         viewModel.listEvent.observeNonNull(viewLifecycleOwner) { list ->
-            binding.recyclerView.adapter = MainListAdapter(requireContext(), list, this)
+            binding.recyclerView.adapter = WeeklyListAdapter(requireContext(), list, this)
             binding.emptyView.isVisible = list.isEmpty()
         }
         viewModel.event.observeNonNull(viewLifecycleOwner) { event ->
@@ -109,26 +104,27 @@ class WebtoonListFragment : Fragment(
     // /////////////////////////////////////////////////////////////////////////
 
     private fun favoriteUpdate(info: FavoriteResult) {
-        (binding.recyclerView.adapter as? MainListAdapter)
+        (binding.recyclerView.adapter as? WeeklyListAdapter)
             ?.modifyInfo(info.id, info.isFavorite)
     }
 
     private fun moveEpisode(item: ToonInfo, palletColor: PalletColor) {
-        justSafeRegisterForActivityResult(
-            Intent(activity, EpisodesActivity::class.java).apply {
-                putExtras(
-                    bundleOf(
-                        Const.EXTRA_EPISODE to item,
-                        Const.EXTRA_PALLET to palletColor
-                    )
-                )
-            }
-        ) { activityResult ->
-            val favorite: FavoriteResult =
-                activityResult.data?.getParcelableExtra(Const.EXTRA_FAVORITE_EPISODE)
-                    ?: return@justSafeRegisterForActivityResult
-            toonViewModel.updateFavorite(favorite)
-        }
+        // TODO
+//        justSafeRegisterForActivityResult(
+//            Intent(activity, EpisodesActivity::class.java).apply {
+//                putExtras(
+//                    bundleOf(
+//                        Const.EXTRA_EPISODE to item,
+//                        Const.EXTRA_PALLET to palletColor
+//                    )
+//                )
+//            }
+//        ) { activityResult ->
+//            val favorite: FavoriteResult =
+//                activityResult.data?.getParcelableExtra(Const.EXTRA_FAVORITE_EPISODE)
+//                    ?: return@justSafeRegisterForActivityResult
+//            toonViewModel.updateFavorite(favorite)
+//        }
     }
 
     companion object {

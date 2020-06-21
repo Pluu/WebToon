@@ -1,4 +1,4 @@
-package com.pluu.webtoon.data.model
+package com.pluu.webtoon.model
 
 sealed class Result<out T : Any> {
 

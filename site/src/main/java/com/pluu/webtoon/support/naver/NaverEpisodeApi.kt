@@ -1,7 +1,7 @@
 package com.pluu.webtoon.support.naver
 
 import com.pluu.webtoon.data.model.IRequest
-import com.pluu.webtoon.data.model.Result
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.EpisodeResult

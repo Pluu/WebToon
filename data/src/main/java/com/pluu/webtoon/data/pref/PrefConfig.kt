@@ -1,7 +1,7 @@
 package com.pluu.webtoon.data.pref
 
 import android.content.SharedPreferences
-import com.pluu.webtoon.NAV_ITEM
+import com.pluu.webtoon.model.NAV_ITEM
 import java.util.Locale
 import javax.inject.Inject
 

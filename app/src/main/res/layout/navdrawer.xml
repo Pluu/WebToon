@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:fitsSystemWindows="true"
-    tools:context=".ui.weekly.MainActivity">
+    tools:context=".weekly.MainActivity">
 
     <TextView
         android:id="@+id/navTitle"

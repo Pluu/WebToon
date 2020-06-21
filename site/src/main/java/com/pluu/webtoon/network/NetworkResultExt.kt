@@ -2,7 +2,7 @@
 
 package com.pluu.webtoon.network
 
-import com.pluu.webtoon.data.model.Result
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.NetworkResult
 import com.pluu.webtoon.data.network.safeAPi
 import org.jsoup.Jsoup

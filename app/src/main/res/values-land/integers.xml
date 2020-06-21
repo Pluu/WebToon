@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="webtoon_column_count">2</integer>
     <integer name="episode_column_count">3</integer>
     <integer name="episode_list_title_row">1</integer>
 </resources>

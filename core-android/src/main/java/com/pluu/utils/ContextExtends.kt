@@ -1,4 +1,4 @@
-package com.pluu.kotlin
+package com.pluu.utils
 
 import android.content.Context
 import android.graphics.Point

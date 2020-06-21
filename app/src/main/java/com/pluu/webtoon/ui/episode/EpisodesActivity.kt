@@ -14,7 +14,6 @@ import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityEpisodeBinding
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.event.FirstItemSelectEvent
-import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.ThemeHelper
 import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.getRequiredParcelableExtra
@@ -22,6 +21,7 @@ import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
 import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

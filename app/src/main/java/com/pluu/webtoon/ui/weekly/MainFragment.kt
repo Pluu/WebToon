@@ -20,6 +20,7 @@ import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
+import com.pluu.webtoon.weekly.WebtoonListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject

@@ -67,6 +67,8 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":site"))
+    implementation(project(":ui-feature-common"))
+    implementation(project(":ui-weekly"))
     implementation(project(":ui-setting"))
 
     implementation(Dep.AndroidX.annotation)
@@ -87,7 +89,6 @@ dependencies {
     implementation(Dep.AndroidX.UI.constraintLayout)
     implementation(Dep.AndroidX.UI.drawerlayout)
     implementation(Dep.AndroidX.UI.material)
-    implementation(Dep.AndroidX.UI.palette)
     implementation(Dep.AndroidX.UI.preference)
     implementation(Dep.AndroidX.UI.recyclerview)
     implementation(Dep.AndroidX.UI.swiperefreshlayout)

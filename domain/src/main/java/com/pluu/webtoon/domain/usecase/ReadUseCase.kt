@@ -1,6 +1,6 @@
 package com.pluu.webtoon.domain.usecase
 
-import com.pluu.webtoon.NAV_ITEM
+import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.data.dao.IDBHelper
 import com.pluu.webtoon.data.model.DBEpisode
 import com.pluu.webtoon.domain.moel.DetailResult

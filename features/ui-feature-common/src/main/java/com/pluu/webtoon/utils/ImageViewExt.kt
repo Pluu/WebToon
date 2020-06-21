@@ -4,6 +4,7 @@ package com.pluu.webtoon.utils
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -12,14 +13,19 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.pluu.webtoon.R
+import com.pluu.wetoon.ui.R
 
-const val userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+const val userAgent =
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
 
 inline fun ImageView.loadUrlOriginal(
     url: String?
 ) {
-    loadUrl(url = url, isOriginal = true)
+    loadUrl(
+        url = url,
+        isOriginal = true,
+        errorImageResId = R.drawable.ic_sentiment_very_dissatisfied_48
+    )
 }
 
 inline fun ImageView.loadUrl(
@@ -27,12 +33,18 @@ inline fun ImageView.loadUrl(
     crossinline ready: () -> Unit = {},
     crossinline fail: () -> Unit = {}
 ) {
-    loadUrl(url = url, isOriginal = false, ready = ready, fail = fail)
+    loadUrl(
+        url = url,
+        errorImageResId = R.drawable.ic_sentiment_very_dissatisfied_48,
+        ready = ready,
+        fail = fail
+    )
 }
 
 inline fun ImageView.loadUrl(
     url: String?,
-    isOriginal: Boolean,
+    isOriginal: Boolean = false,
+    @DrawableRes errorImageResId: Int,
     crossinline ready: () -> Unit = {},
     crossinline fail: () -> Unit = {}
 ) {
@@ -44,7 +56,7 @@ inline fun ImageView.loadUrl(
                     centerCrop()
                 }
             }
-            .error(R.drawable.ic_sentiment_very_dissatisfied_48)
+            .error(errorImageResId)
             .listener(object : RequestListener<Drawable> {
                 override fun onResourceReady(
                     resource: Drawable?,
@@ -70,7 +82,7 @@ inline fun ImageView.loadUrl(
             .into(this)
     } else {
         Glide.with(context)
-            .load(R.drawable.ic_sentiment_very_dissatisfied_48)
+            .load(errorImageResId)
             .apply {
                 if (!isOriginal) {
                     centerCrop()

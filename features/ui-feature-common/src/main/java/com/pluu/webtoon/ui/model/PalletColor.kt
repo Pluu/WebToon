@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.ui.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

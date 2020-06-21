@@ -20,14 +20,14 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityDetailBinding
 import com.pluu.webtoon.domain.moel.ShareItem
-import com.pluu.webtoon.ui.weekly.PalletColor
+import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.getMessage
 import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.observeNonNull
+import com.pluu.utils.observeNonNull
 import com.pluu.webtoon.utils.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit

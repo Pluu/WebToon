@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils.result
+package com.pluu.utils.result
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity

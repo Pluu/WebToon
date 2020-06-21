@@ -1,6 +1,6 @@
 package com.pluu.webtoon.site.di
 
-import com.pluu.webtoon.NAV_ITEM
+import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.EpisodeUseCase

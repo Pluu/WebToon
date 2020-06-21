@@ -3,7 +3,7 @@ package com.pluu.webtoon.support.nate
 import com.pluu.core.asSequence
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
-import com.pluu.webtoon.data.model.Result
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.safeApi
 import com.pluu.webtoon.domain.moel.EpisodeInfo

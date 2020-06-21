@@ -1,15 +1,15 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly
 
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.databinding.LayoutMainListItemBinding
 import com.pluu.webtoon.domain.moel.Status
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.utils.loadUrl
+import com.pluu.webtoon.weekly.databinding.LayoutMainListItemBinding
 
-class MainListViewHolder(
+class WeeklyViewHolder(
     private val binding: LayoutMainListItemBinding,
     filterColor: Int
 ) : RecyclerView.ViewHolder(binding.root) {
