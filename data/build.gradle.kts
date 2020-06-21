@@ -45,6 +45,7 @@ dependencies {
 
     // OkHttp
     implementation(Dep.OkHttp.core)
+    implementation(Dep.OkHttp.loggingInterceptor)
 
     // Dagger Hilt
     implementation(Dep.Hilt.android)

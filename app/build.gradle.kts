@@ -97,7 +97,6 @@ dependencies {
     implementation(Dep.AndroidX.UI.viewPager)
 
     // OkHttp
-    implementation(Dep.OkHttp.core)
     implementation(Dep.OkHttp.loggingInterceptor)
 
     // Hilt
