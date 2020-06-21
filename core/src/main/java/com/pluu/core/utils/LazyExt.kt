@@ -1,3 +1,3 @@
-package com.pluu.webtoon.utils
+package com.pluu.core.utils
 
 fun <T> lazyNone(initializer: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, initializer)

@@ -16,4 +16,6 @@ dependencies {
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.fragment.ktx)
     compileOnly(Dep.AndroidX.viewBinding)
+
+    implementation(Dep.AndroidX.UI.recyclerview)
 }

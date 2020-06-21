@@ -15,22 +15,23 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.pluu.core.utils.lazyNone
+import com.pluu.utils.ProgressDialog
+import com.pluu.utils.animatorColor
+import com.pluu.utils.getRequiredParcelableExtra
+import com.pluu.utils.getThemeColor
 import com.pluu.utils.observeNonNull
+import com.pluu.utils.setStatusBarColor
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityDetailBinding
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.model.PalletColor
-import com.pluu.webtoon.utils.ProgressDialog
-import com.pluu.webtoon.utils.animatorColor
 import com.pluu.webtoon.utils.getMessage
-import com.pluu.webtoon.utils.getRequiredParcelableExtra
-import com.pluu.webtoon.utils.getThemeColor
-import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
+import com.pluu.webtoon.Const as FeatureConst
 
 /**
  * 상세화면 Activity
@@ -45,7 +46,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
     private val binding by viewBinding(ActivityDetailBinding::bind)
 
     private val palletColor by lazyNone {
-        intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
+        intent.getRequiredParcelableExtra<PalletColor>(FeatureConst.EXTRA_PALLET)
     }
 
     private val toggleDelayTime = TimeUnit.MILLISECONDS.toMillis(150)

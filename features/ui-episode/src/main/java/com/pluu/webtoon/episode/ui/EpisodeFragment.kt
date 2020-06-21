@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.episode
+package com.pluu.webtoon.episode.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -10,33 +10,27 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.pluu.event.EventBus
+import com.pluu.core.utils.lazyNone
+import com.pluu.utils.MoreRefreshListener
+import com.pluu.utils.ProgressDialog
+import com.pluu.utils.getRequiredParcelableExtra
 import com.pluu.utils.observeNonNull
-import com.pluu.utils.result.justSafeRegisterForActivityResult
 import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
-import com.pluu.webtoon.R
-import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.databinding.FragmentEpisodeBinding
+import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.event.FirstItemSelectEvent
-import com.pluu.webtoon.ui.detail.DetailActivity
-import com.pluu.webtoon.ui.listener.EpisodeSelectListener
+import com.pluu.webtoon.episode.R
+import com.pluu.webtoon.episode.databinding.FragmentEpisodeBinding
+import com.pluu.webtoon.episode.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
-import com.pluu.webtoon.utils.MoreRefreshListener
-import com.pluu.webtoon.utils.ProgressDialog
-import com.pluu.webtoon.utils.getRequiredParcelableExtra
-import com.pluu.webtoon.utils.lazyNone
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 import com.pluu.webtoon.Const as FeatureConst
 
 /**
@@ -53,7 +47,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     private val binding by viewBinding(FragmentEpisodeBinding::bind)
 
     private val palletColor by lazyNone {
-        requireArguments().getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
+        requireArguments().getRequiredParcelableExtra<PalletColor>(FeatureConst.EXTRA_PALLET)
     }
     private val adapter by lazyNone {
         EpisodeAdapter(this)
@@ -66,6 +60,9 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     }
 
     private var isFavorite: Boolean = false
+
+    @Inject
+    lateinit var appNavigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,8 +137,9 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
                 }
             }
         }
-        lifecycleScope.launchWhenResumed {
-            registerFirstSelectEvent()
+
+        setFragmentResultListener(EpisodeConst.ShowFirst) { _, _ ->
+            firstItemSelect()
         }
     }
 
@@ -204,15 +202,6 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     // View Function
     // /////////////////////////////////////////////////////////////////////////
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
-    private suspend fun registerFirstSelectEvent() {
-        EventBus.subscribeToEvent<FirstItemSelectEvent>()
-            .collect {
-                firstItemSelect()
-            }
-    }
-
     private fun closeRefreshing() {
         binding.swipeRefreshWidget.isRefreshing = false
     }
@@ -237,15 +226,11 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     }
 
     private fun moveDetailPage(item: EpisodeInfo) {
-        justSafeRegisterForActivityResult(
-            Intent(context, DetailActivity::class.java).apply {
-                putExtras(
-                    bundleOf(
-                        Const.EXTRA_EPISODE to item,
-                        Const.EXTRA_PALLET to palletColor
-                    )
-                )
-            }
+        appNavigator.openDetail(
+            context = requireContext(),
+            caller = this,
+            item = item,
+            palletColor = palletColor
         ) {
             viewModel.readUpdate()
         }
@@ -258,8 +243,8 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
         ): EpisodeFragment {
             return EpisodeFragment().apply {
                 arguments = bundleOf(
-                    Const.EXTRA_EPISODE to info,
-                    Const.EXTRA_PALLET to color
+                    FeatureConst.EXTRA_EPISODE to info,
+                    FeatureConst.EXTRA_PALLET to color
                 )
             }
         }

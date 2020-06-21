@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils
+package com.pluu.utils
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager

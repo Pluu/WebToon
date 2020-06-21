@@ -1,8 +1,8 @@
 package com.pluu.webtoon
 
 import android.app.Application
-import com.pluu.webtoon.utils.ThemeHelper
-import com.pluu.webtoon.utils.ThemeType
+import com.pluu.utils.ThemeHelper
+import com.pluu.utils.ThemeType
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

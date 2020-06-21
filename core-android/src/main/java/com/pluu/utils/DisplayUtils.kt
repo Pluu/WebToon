@@ -1,14 +1,13 @@
-package com.pluu.webtoon.utils
+package com.pluu.utils
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
-import androidx.appcompat.app.AppCompatActivity
-import com.pluu.webtoon.R
+import android.view.animation.Interpolator
+import androidx.annotation.AttrRes
 
 fun animatorColor(
     startColor: Int,
@@ -33,24 +32,20 @@ fun Activity.setStatusBarColor(color: Int) {
     }
 }
 
-fun AppCompatActivity.animatorToolbarColor(endColor: Int) =
-    animatorColor(
-        startColor = getThemeColor(R.attr.colorPrimary),
-        endColor = endColor,
-        listener = ValueAnimator.AnimatorUpdateListener {
-            supportActionBar?.apply {
-                setBackgroundDrawable(ColorDrawable(it.animatedValue as Int))
-            }
-        })
-
-fun Activity.animatorStatusBarColor(color: Int): ValueAnimator {
+inline fun Activity.animatorColorFromThemeAttrId(
+    @AttrRes themeAttrId: Int,
+    color: Int,
+    interpolator: Interpolator = DecelerateInterpolator(),
+    crossinline updateAction: (Int) -> Unit = {}
+): ValueAnimator {
     return animatorColor(
-        startColor = getThemeColor(R.attr.colorPrimaryVariant),
+        startColor = getThemeColor(themeAttrId),
         endColor = color
     ).apply {
         addUpdateListener { animation ->
-            this@animatorStatusBarColor.setStatusBarColor(animation.animatedValue as Int)
+            updateAction(animation.animatedValue as Int)
         }
-        interpolator = DecelerateInterpolator()
+        this.interpolator = interpolator
     }
 }
+

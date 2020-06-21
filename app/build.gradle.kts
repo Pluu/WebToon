@@ -69,6 +69,7 @@ dependencies {
     implementation(project(":site"))
     implementation(project(":ui-common"))
     implementation(project(":ui-weekly"))
+    implementation(project(":ui-episode"))
     implementation(project(":ui-setting"))
 
     implementation(Dep.AndroidX.annotation)

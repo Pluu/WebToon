@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils
+package com.pluu.utils
 
 import android.content.Context
 import android.graphics.Color

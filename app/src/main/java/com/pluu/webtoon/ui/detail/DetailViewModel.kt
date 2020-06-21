@@ -8,7 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.moel.DetailResult
 import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE

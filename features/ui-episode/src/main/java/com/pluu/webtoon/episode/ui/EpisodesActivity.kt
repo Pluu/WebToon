@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.episode
+package com.pluu.webtoon.episode.ui
 
 import android.animation.ValueAnimator
 import android.content.res.ColorStateList
@@ -8,20 +8,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
-import com.pluu.event.EventBus
+import com.pluu.core.utils.lazyNone
+import com.pluu.utils.ThemeHelper
+import com.pluu.utils.animatorColor
+import com.pluu.utils.getRequiredParcelableExtra
+import com.pluu.utils.getThemeColor
+import com.pluu.utils.setStatusBarColor
 import com.pluu.utils.viewbinding.viewBinding
-import com.pluu.webtoon.R
-import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.databinding.ActivityEpisodeBinding
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.moel.ToonInfo
-import com.pluu.webtoon.event.FirstItemSelectEvent
+import com.pluu.webtoon.episode.R
+import com.pluu.webtoon.episode.databinding.ActivityEpisodeBinding
 import com.pluu.webtoon.ui.model.PalletColor
-import com.pluu.webtoon.utils.ThemeHelper
-import com.pluu.webtoon.utils.animatorColor
-import com.pluu.webtoon.utils.getRequiredParcelableExtra
-import com.pluu.webtoon.utils.getThemeColor
-import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -45,7 +43,7 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.actionBar.toolbar)
+        setSupportActionBar(binding.toolbar)
 
         initSupportActionBar()
         initView()
@@ -61,7 +59,7 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
 
     @ExperimentalCoroutinesApi
     private fun initView() {
-        val toolbar = binding.actionBar.toolbar
+        val toolbar = binding.toolbar
         // Title TextView
         for (i in 0 until toolbar.childCount) {
             if (toolbar.getChildAt(i) is TextView) {
@@ -100,11 +98,10 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
         }.start()
 
         binding.tvName.text = webToonInfo.writer
-        binding.tvRate.text = Const.getRateNameByRate(webToonInfo.rate)
+        binding.tvRate.text = "평점 : %.2f".format(webToonInfo.rate)
         binding.tvRate.isVisible = webToonInfo.rate != 0.0
-
         binding.btnFirst.setOnClickListener {
-            EventBus.send(FirstItemSelectEvent)
+            supportFragmentManager.setFragmentResult(EpisodeConst.ShowFirst, Bundle())
         }
     }
 

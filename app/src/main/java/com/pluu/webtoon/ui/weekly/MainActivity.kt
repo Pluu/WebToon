@@ -6,8 +6,8 @@ import androidx.fragment.app.commit
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.utils.result.setFragmentResultListener
 import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
-import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.setting.ui.SettingsActivity
@@ -28,7 +28,7 @@ class MainActivity : BaseNavActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setSupportActionBar(binding.actionBar.toolbar)
+        setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

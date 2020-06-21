@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils
+package com.pluu.utils
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -9,7 +9,10 @@ object RippleDrawableFactory {
         pressedColor: Int,
         backgroundDrawable: Drawable
     ): RippleDrawable {
-        return RippleDrawable(getPressedState(pressedColor), backgroundDrawable, null)
+        return RippleDrawable(
+            getPressedState(
+                pressedColor
+            ), backgroundDrawable, null)
     }
 
     private fun getPressedState(

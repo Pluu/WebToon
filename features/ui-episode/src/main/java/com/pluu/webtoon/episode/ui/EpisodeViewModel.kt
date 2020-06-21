@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.episode
+package com.pluu.webtoon.episode.ui
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -8,7 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.moel.Episode
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.EpisodeResult

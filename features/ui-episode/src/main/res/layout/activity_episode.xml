@@ -4,18 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.episode.EpisodesActivity">
+    tools:context=".ui.EpisodesActivity">
 
-    <include
-        android:id="@+id/actionBar"
-        layout="@layout/toolbar_actionbar" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:popupTheme="@style/Theme.AppCompat.NoActionBar"
+        app:theme="@style/ActionBarThemeOverlay"
+        app:titleTextAppearance="@style/ActionBar.TitleText" />
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom"
-        android:layout_below="@id/actionBar" />
+        android:layout_below="@id/toolbar" />
 
     <LinearLayout
         android:id="@+id/bottom"

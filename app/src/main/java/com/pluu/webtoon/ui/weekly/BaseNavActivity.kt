@@ -18,10 +18,10 @@ import com.pluu.support.impl.ServiceConst
 import com.pluu.support.impl.UI_NAV_ITEM
 import com.pluu.support.impl.toUiType
 import com.pluu.webtoon.R
-import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.common.Session
-import com.pluu.webtoon.utils.getThemeColor
-import com.pluu.webtoon.utils.lazyNone
+import com.pluu.utils.getThemeColor
+import com.pluu.core.utils.lazyNone
+import com.pluu.webtoon.Const
 import javax.inject.Inject
 
 /**
@@ -34,7 +34,7 @@ abstract class BaseNavActivity(
 
     // Primary toolbar and drawer toggle
     private val mActionBarToolbar by lazyNone {
-        findViewById<Toolbar>(R.id.actionBar)
+        findViewById<Toolbar>(R.id.toolbar)
     }
 
     // Navigation drawer:

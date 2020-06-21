@@ -2,4 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pluu.webtoon.episode">
 
+    <application android:theme="@style/BaseMaterialAppTheme">
+        <activity
+            android:name=".ui.EpisodesActivity"
+            android:screenOrientation="portrait" />
+    </application>
 </manifest>

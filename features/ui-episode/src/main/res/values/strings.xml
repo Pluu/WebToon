@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="favorite_add">즐겨찾기 추가</string>
+    <string name="favorite_delete">즐겨찾기 제거</string>
+
+    <string name="label_first">첫화보기</string>
+</resources>

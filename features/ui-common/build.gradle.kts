@@ -17,6 +17,11 @@ dependencies {
     implementation(project(":core-android"))
     implementation(project(":domain"))
 
+    implementation(Dep.AndroidX.appcompat)
+
+    // Android UI
+    implementation(Dep.AndroidX.UI.material)
+
     // Glide
     implementation(Dep.Glide.core)
 }
