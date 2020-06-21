@@ -13,7 +13,7 @@ import javax.inject.Singleton
 object CoroutinesModule {
     @Singleton
     @Provides
-    fun provideDispatchers(): AppCoroutineDispatchers = AppCoroutineDispatchers(
+    fun provideDispatchers() = AppCoroutineDispatchers(
         io = Dispatchers.IO,
         computation = Dispatchers.Default,
         main = Dispatchers.Main
