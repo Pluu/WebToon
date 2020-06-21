@@ -25,7 +25,6 @@ dependencies {
     // Dagger Hilt
     implementation(Dep.Hilt.android)
     kapt(Dep.Hilt.hilt_compiler)
-    implementation(Dep.Hilt.hilt_common)
 
     testImplementation(Dep.Test.junit)
 }
