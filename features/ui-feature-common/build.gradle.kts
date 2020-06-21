@@ -15,6 +15,7 @@ dependencies {
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(project(":core-android"))
+    implementation(project(":domain"))
 
     // Glide
     implementation(Dep.Glide.core)

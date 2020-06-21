@@ -20,6 +20,7 @@ import com.pluu.utils.result.justSafeRegisterForActivityResult
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
+import com.pluu.webtoon.Const as FeatureConst
 import com.pluu.webtoon.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
@@ -124,7 +125,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
                     activity?.run {
                         setResult(Activity.RESULT_OK, Intent().apply {
                             putExtra(
-                                Const.EXTRA_FAVORITE_EPISODE,
+                                FeatureConst.EXTRA_FAVORITE_EPISODE,
                                 FavoriteResult(event.id, event.isFavorite)
                             )
                         })
