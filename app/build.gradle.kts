@@ -67,6 +67,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":site"))
+    implementation(project(":ui-setting"))
 
     implementation(Dep.AndroidX.annotation)
     implementation(Dep.AndroidX.activity.ktx)
@@ -82,7 +83,6 @@ dependencies {
     implementation(Dep.AndroidX.room.ktx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.browser)
     implementation(Dep.AndroidX.UI.cardview)
     implementation(Dep.AndroidX.UI.constraintLayout)
     implementation(Dep.AndroidX.UI.drawerlayout)

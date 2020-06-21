@@ -1,23 +1,10 @@
 <resources>
-
     <!-- Base application theme. -->
-
     <style name="BaseMaterialAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryVariant">@color/theme_primary_variant</item>
         <item name="colorAccent">@color/red_500</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-    </style>
-
-    <style name="BaeMaterialAppThemeToolBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/theme_primary</item>
-        <item name="colorPrimaryVariant">@color/theme_primary_variant</item>
-        <item name="colorAccent">@color/red_500</item>
-    </style>
-
-    <style name="PreferenceToolBar" parent="BaeMaterialAppThemeToolBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

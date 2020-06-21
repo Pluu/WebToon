@@ -37,16 +37,6 @@
         <activity
             android:name=".ui.detail.DetailActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.settting.SettingsActivity"
-            android:label="@string/label_setting"
-            android:screenOrientation="portrait"
-            android:theme="@style/PreferenceToolBar" />
-        <activity
-            android:name=".ui.settting.LicenseActivity"
-            android:label="@string/label_license"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaeMaterialAppThemeToolBar" />
     </application>
 
 </manifest>

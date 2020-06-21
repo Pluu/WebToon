@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.settting
+package com.pluu.webtoon.setting.ui
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,8 +9,8 @@ import androidx.fragment.app.commit
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.pluu.webtoon.R
 import com.pluu.webtoon.data.pref.PrefConfig
+import com.pluu.webtoon.setting.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -22,7 +22,9 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportFragmentManager.commit {
-            replace(android.R.id.content, GeneralPreferenceFragment())
+            replace(android.R.id.content,
+                GeneralPreferenceFragment()
+            )
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

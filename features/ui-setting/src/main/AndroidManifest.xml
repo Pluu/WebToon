@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pluu.webtoon.setting">
+
+    <application>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/label_setting"
+            android:screenOrientation="portrait"
+            android:theme="@style/PreferenceToolBar" />
+        <activity
+            android:name=".ui.LicenseActivity"
+            android:label="@string/label_license"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseMaterialAppThemeToolBar" />
+    </application>
+</manifest>

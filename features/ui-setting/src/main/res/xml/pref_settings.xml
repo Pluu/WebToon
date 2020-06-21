@@ -11,7 +11,7 @@
         android:title="@string/label_default_webtoon" />
 
     <PreferenceScreen
-        android:fragment="com.pluu.webtoon.ui.settting.LicenseActivity"
+        android:fragment="com.pluu.webtoon.setting.ui.LicenseActivity"
         android:title="@string/label_license" />
 
 </PreferenceScreen>

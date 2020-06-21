@@ -2,7 +2,8 @@
 
 object Dep {
     object GradlePlugin {
-        const val android = "com.android.tools.build:gradle:4.2.0-alpha02"
+        const val androidStudioVersion = "4.2.0-alpha02"
+        const val android = "com.android.tools.build:gradle:$androidStudioVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
@@ -63,6 +64,8 @@ object Dep {
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha03"
             const val viewPager = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
         }
+
+        const val viewBinding = "androidx.databinding:viewbinding:${GradlePlugin.androidStudioVersion}"
     }
 
     object Dagger {

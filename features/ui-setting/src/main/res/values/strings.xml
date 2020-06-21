@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings -->
+    <string name="label_setting">설정</string>
+    <string name="label_default_webtoon">기본 웹툰</string>
+    <string name="label_license">오픈소스 라이센스</string>
+
+    <string-array name="label_webtoon_list">
+        <item>@string/title_naver</item>
+        <item>@string/title_daum</item>
+        <item>@string/title_olleh</item>
+        <item>@string/title_kakao_page</item>
+        <item>@string/title_nate</item>
+    </string-array>
+
+    <string-array name="label_webtoon_value">
+        <item>@string/title_naver_key</item>
+        <item>@string/title_daum_key</item>
+        <item>@string/title_olleh_key</item>
+        <item>@string/title_kakao_page_key</item>
+        <item>@string/title_nate_key</item>
+    </string-array>
+
+    <!-- License -->
+    <string-array name="license_title">
+        <item>AndroidX Libraries</item>
+        <item>Kotlin</item>
+        <item>Kotlin Coroutines</item>
+        <item>Koin</item>
+        <item>Jsoup</item>
+        <item>Glide</item>
+        <item>LeakCanary by Square</item>
+        <item>OkHttp by Square</item>
+        <item>Timber by JakeWharton</item>
+    </string-array>
+
+    <string-array name="license_url">
+        <item>https://developer.android.com/jetpack/androidx/versions</item>
+        <item>https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt</item>
+        <item>https://github.com/Kotlin/kotlinx.coroutines/blob/master/LICENSE.txt</item>
+        <item>https://github.com/InsertKoinIO/koin/blob/master/LICENSE</item>
+        <item>https://github.com/jhy/jsoup/blob/master/LICENSE</item>
+        <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
+        <item>https://github.com/square/leakcanary/blob/master/LICENSE.txt</item>
+        <item>https://github.com/square/okhttp/blob/master/LICENSE.txt</item>
+        <item>https://github.com/JakeWharton/timber/blob/master/LICENSE.txt</item>
+    </string-array>
+</resources>

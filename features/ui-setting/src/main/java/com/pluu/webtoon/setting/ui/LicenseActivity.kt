@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.settting
+package com.pluu.webtoon.setting.ui
 
 import android.net.Uri
 import android.os.Bundle
@@ -8,8 +8,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.utils.viewbinding.viewBinding
-import com.pluu.webtoon.R
-import com.pluu.webtoon.databinding.ActivityLicenseBinding
+import com.pluu.webtoon.setting.R
+import com.pluu.webtoon.setting.databinding.ActivityLicenseBinding
 
 /**
  * License Activity

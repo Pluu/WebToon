@@ -9,7 +9,7 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.event.ThemeEvent
-import com.pluu.webtoon.ui.settting.SettingsActivity
+import com.pluu.webtoon.setting.ui.SettingsActivity
 import com.pluu.webtoon.utils.result.setFragmentResultListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
