@@ -21,7 +21,7 @@ import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
-import com.pluu.webtoon.utils.viewbinding.viewBinding
+import com.pluu.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

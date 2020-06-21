@@ -1,1 +1,8 @@
-include(":app", ":data", ":core", ":domain", ":site")
+include(
+    ":app",
+    ":data",
+    ":core",
+    ":core-android",
+    ":domain",
+    ":site"
+)

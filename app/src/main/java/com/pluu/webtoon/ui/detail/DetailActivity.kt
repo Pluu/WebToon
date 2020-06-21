@@ -15,6 +15,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityDetailBinding
@@ -28,7 +29,6 @@ import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.setStatusBarColor
-import com.pluu.webtoon.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pluu.support.impl.NaviColorProvider
+import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.FragmentToonBinding
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
@@ -19,7 +20,6 @@ import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
-import com.pluu.webtoon.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject

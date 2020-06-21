@@ -9,7 +9,7 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.ActivityIntroBinding
 import com.pluu.webtoon.ui.weekly.MainActivity
 import com.pluu.webtoon.utils.observeNonNull
-import com.pluu.webtoon.utils.viewbinding.viewBinding
+import com.pluu.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

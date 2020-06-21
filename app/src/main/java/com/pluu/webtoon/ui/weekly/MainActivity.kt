@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
 import com.pluu.support.impl.NaviColorProvider
+import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
 import com.pluu.webtoon.utils.result.setFragmentResultListener
-import com.pluu.webtoon.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

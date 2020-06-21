@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.EventBus
 import com.pluu.kotlin.toast
+import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.FragmentEpisodeBinding
@@ -32,7 +33,6 @@ import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
-import com.pluu.webtoon.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

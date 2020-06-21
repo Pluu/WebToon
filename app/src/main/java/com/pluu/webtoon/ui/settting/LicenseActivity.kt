@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.ActivityLicenseBinding
-import com.pluu.webtoon.utils.viewbinding.viewBinding
 
 /**
  * License Activity

@@ -1,4 +1,4 @@
-package com.pluu.webtoon.utils.viewbinding
+package com.pluu.utils.viewbinding
 
 import android.view.View
 import android.view.ViewGroup

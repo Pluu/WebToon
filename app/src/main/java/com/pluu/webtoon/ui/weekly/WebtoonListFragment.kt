@@ -26,7 +26,7 @@ import com.pluu.webtoon.ui.episode.EpisodesActivity
 import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
-import com.pluu.webtoon.utils.viewbinding.viewBinding
+import com.pluu.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
