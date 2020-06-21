@@ -25,4 +25,4 @@ dependencies {
     testImplementation(Dep.Test.junit)
 }
 
-apply(from = "../publish_local.gradle")
+//apply(from = "../publish_local.gradle")

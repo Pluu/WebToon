@@ -15,4 +15,4 @@ dependencies {
     api(Dep.Dagger.dagger)
 }
 
-apply(from = "../publish_local.gradle")
+//apply(from = "../publish_local.gradle")
