@@ -15,7 +15,7 @@ import org.jsoup.nodes.Element
  * 올레 웹툰 Week API
  * Created by pluu on 2017-04-22.
  */
-class KToonWeekApi(
+internal class KToonWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 

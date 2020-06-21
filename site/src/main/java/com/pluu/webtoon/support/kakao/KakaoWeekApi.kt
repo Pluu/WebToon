@@ -15,7 +15,7 @@ import org.json.JSONObject
  * 카카오 페이지 웹툰 Week API
  * Created by pluu on 2017-04-25.
  */
-class KakaoWeekApi(
+internal class KakaoWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 

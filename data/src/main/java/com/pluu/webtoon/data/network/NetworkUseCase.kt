@@ -5,7 +5,7 @@ import com.pluu.webtoon.data.model.buildRequestApi
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class NetworkUseCase(
+internal class NetworkUseCase(
     private val okHttpClient: OkHttpClient
 ) : INetworkUseCase {
 
@@ -13,7 +13,7 @@ class NetworkUseCase(
         return requestApi(request.buildRequestApi())
     }
 
-    override suspend fun requestApi(request: Request): NetworkResult {
+    private suspend fun requestApi(request: Request): NetworkResult {
         return runCatching {
             createTask().requestApi(request)
         }.getOrElse { e ->
@@ -27,5 +27,4 @@ class NetworkUseCase(
 
 interface INetworkUseCase {
     suspend fun requestApi(request: IRequest): NetworkResult
-    suspend fun requestApi(request: Request): NetworkResult
 }

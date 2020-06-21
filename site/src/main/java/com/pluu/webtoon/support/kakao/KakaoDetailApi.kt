@@ -20,7 +20,7 @@ import org.json.JSONObject
  * 카카오 페이지 웹툰 상세 API
  * Created by pluu on 2017-04-25.
  */
-class KakaoDetailApi(
+internal class KakaoDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : DetailUseCase, INetworkUseCase by networkUseCase {
 

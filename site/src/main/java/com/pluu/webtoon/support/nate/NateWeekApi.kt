@@ -14,7 +14,7 @@ import org.jsoup.nodes.Element
  * 네이트 웹툰 Week API
  * Created by pluu on 2017-04-26.
  */
-class NateWeekApi(
+internal class NateWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 

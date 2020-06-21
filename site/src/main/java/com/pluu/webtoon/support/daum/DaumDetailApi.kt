@@ -18,7 +18,7 @@ import org.json.JSONObject
  * 다음 웹툰 상세 API
  * Created by pluu on 2017-04-22.
  */
-class DaumDetailApi(
+internal class DaumDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : DetailUseCase, INetworkUseCase by networkUseCase {
 

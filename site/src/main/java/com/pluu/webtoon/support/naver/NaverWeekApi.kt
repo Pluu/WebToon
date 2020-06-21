@@ -15,7 +15,7 @@ import org.jsoup.nodes.Element
  * 네이버 웹툰 Week API
  * Created by pluu on 2017-04-20.
  */
-class NaverWeekApi(
+internal class NaverWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 

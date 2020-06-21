@@ -18,7 +18,7 @@ import org.json.JSONObject
  * 올레 웹툰 EpisodeInfo API
  * Created by pluu on 2017-04-22.
  */
-class KToonEpisodeApi(
+internal class KToonEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 

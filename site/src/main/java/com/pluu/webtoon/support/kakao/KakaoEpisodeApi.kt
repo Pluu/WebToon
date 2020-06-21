@@ -16,7 +16,7 @@ import org.json.JSONArray
  * 카카오 페이지 웹툰 EpisodeInfo API
  * Created by pluu on 2017-04-25.
  */
-class KakaoEpisodeApi(
+internal class KakaoEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 

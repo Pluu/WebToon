@@ -20,7 +20,7 @@ import java.util.*
  * 다음 웹툰 Week Api
  * Created by pluu on 2017-04-20.
  */
-class DaumWeekApi(
+internal class DaumWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 

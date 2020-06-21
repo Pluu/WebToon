@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document
  * 네이트 웹툰 상세 API
  * Created by pluu on 2017-04-27.
  */
-class NateDetailApi(
+internal class NateDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : DetailUseCase, INetworkUseCase by networkUseCase {
 

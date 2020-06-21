@@ -19,7 +19,7 @@ import org.json.JSONObject
  * 다음 웹툰 EpisodeInfo API
  * Created by pluu on 2017-04-21.
  */
-class DaumEpisodeApi(
+internal class DaumEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 

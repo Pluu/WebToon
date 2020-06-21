@@ -21,7 +21,7 @@ import org.jsoup.nodes.Document
  * 네이버 웹툰 상세 API
  * Created by pluu on 2017-04-20.
  */
-class NaverDetailApi(
+internal class NaverDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : DetailUseCase, INetworkUseCase by networkUseCase {
 

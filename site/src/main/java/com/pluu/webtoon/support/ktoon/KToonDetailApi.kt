@@ -20,7 +20,7 @@ import org.jsoup.nodes.Document
  * 올레 웹툰 상세 API
  * Created by pluu on 2017-04-22.
  */
-class KToonDetailApi(
+internal class KToonDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : DetailUseCase, INetworkUseCase by networkUseCase {
 

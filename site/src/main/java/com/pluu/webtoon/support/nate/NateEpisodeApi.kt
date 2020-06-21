@@ -18,7 +18,7 @@ import org.jsoup.nodes.Document
  * 네이트 웹툰 EpisodeInfo API
  * Created by pluu on 2017-04-27.
  */
-class NateEpisodeApi(
+internal class NateEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 

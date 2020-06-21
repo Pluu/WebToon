@@ -16,7 +16,7 @@ import org.jsoup.nodes.Element
  * 네이버 웹툰 EpisodeInfo API
  * Created by pluu on 2017-04-20.
  */
-class NaverEpisodeApi(
+internal class NaverEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 

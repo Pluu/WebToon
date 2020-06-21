@@ -5,7 +5,7 @@ import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.domain.usecase.ShareUseCase
 
-class NaverDetailShare: ShareUseCase {
+internal class NaverDetailShare: ShareUseCase {
     override fun invoke(episode: EpisodeInfo, detail: DetailResult.Detail): ShareItem {
         return ShareItem(
             title = "${episode.title} / ${detail.title}",
