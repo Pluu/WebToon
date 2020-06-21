@@ -7,13 +7,15 @@ include(
     ":site",
     ":ui-common",
     ":ui-weekly",
+    ":ui-episode",
     ":ui-setting"
 )
 
 arrayOf(
     ":ui-common",
     ":ui-weekly",
-    ":ui-setting"
+    ":ui-setting",
+    ":ui-episode"
 ).forEach { name ->
     project(name).projectDir = File(rootDir, "features/${name.substring(startIndex = 1)}")
 }
