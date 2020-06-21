@@ -1,5 +1,6 @@
 package com.pluu.webtoon.ui.intro
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Intro ViewModel
  */
-class IntroViewModel : ViewModel() {
+class IntroViewModel @ViewModelInject constructor() : ViewModel() {
 
     private val _observe = MutableLiveData<Unit>()
     val observe: LiveData<Unit>

@@ -18,3 +18,6 @@ fun PluginDependenciesSpec.kotlinKapt() =
 
 fun PluginDependenciesSpec.ktlint() =
     id("org.jlleitschuh.gradle.ktlint")
+
+fun PluginDependenciesSpec.daggerHilt() =
+    id("dagger.hilt.android.plugin")

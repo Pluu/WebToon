@@ -10,7 +10,9 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
@@ -25,25 +27,20 @@ import com.pluu.webtoon.ui.listener.WebToonSelectListener
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.result.justSafeRegisterForActivityResult
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Main EpisodeResult List Fragment
  * Created by pluu on 2017-05-07.
  */
+@AndroidEntryPoint
 class WebtoonListFragment : Fragment(
     R.layout.fragment_webtoon_list
 ), WebToonSelectListener {
 
-    private val viewModel: WeekyViewModel by viewModel {
-        parametersOf(
-            arguments?.getInt(EXTRA_POS) ?: 0
-        )
-    }
+    private val viewModel by viewModels<WeekyViewModel>()
 
-    private val toonViewModel: ToonViewModel by sharedViewModel()
+    private val toonViewModel by activityViewModels<ToonViewModel>()
 
     private val binding by viewBinding(FragmentWebtoonListBinding::bind)
 

@@ -13,22 +13,22 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.pluu.support.impl.NaviColorProvider
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.FragmentToonBinding
-import com.pluu.webtoon.di.UseCaseProperties
-import com.pluu.webtoon.domain.base.AbstractWeekApi
+import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.animatorStatusBarColor
 import com.pluu.webtoon.utils.animatorToolbarColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import org.koin.android.ext.android.inject
-import org.koin.core.qualifier.named
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Main View Fragment
  * Created by pluu on 2017-05-07.
  */
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_toon) {
 
     private var isFirstDlg = true
@@ -39,8 +39,11 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
         }
     }
 
-    private val serviceApi: AbstractWeekApi by inject(named(UseCaseProperties.WEEKLY_USECASE))
-    private val colorProvider: NaviColorProvider by inject()
+    @Inject
+    lateinit var serviceApi: WeeklyUseCase
+
+    @Inject
+    lateinit var colorProvider: NaviColorProvider
 
     private val binding by viewBinding(FragmentToonBinding::bind)
 

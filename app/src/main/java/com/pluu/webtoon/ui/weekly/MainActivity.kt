@@ -11,16 +11,19 @@ import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.settting.SettingsActivity
 import com.pluu.webtoon.utils.result.setFragmentResultListener
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import org.koin.android.ext.android.inject
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * 메인 화면 Activity
  * Created by pluu on 2017-05-07.
  */
+@AndroidEntryPoint
 class MainActivity : BaseNavActivity(R.layout.activity_main) {
 
     private val binding by viewBinding(ActivityMainBinding::bind)
-    private val defaultProvider: NaviColorProvider by inject()
+    @Inject
+    lateinit var defaultProvider: NaviColorProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,17 +1,16 @@
-package com.pluu.webtoon.domain.base
+package com.pluu.webtoon.domain.usecase
 
 import com.pluu.webtoon.data.model.Result
+import com.pluu.webtoon.domain.moel.DetailResult
+import com.pluu.webtoon.domain.moel.EpisodeResult
 import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.usecase.param.DetailRequest
+import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
 import java.util.Calendar
 import java.util.Locale
 
-/**
- * Week API
- * Created by pluu on 2017-04-20.
- */
-interface AbstractWeekApi {
-
+interface WeeklyUseCase {
     val CURRENT_TABS: Array<String>
 
     val weeklyTabSize: Int
@@ -25,4 +24,12 @@ interface AbstractWeekApi {
 
     @Throws(Exception::class)
     suspend operator fun invoke(param: WeeklyRequest): Result<List<ToonInfo>>
+}
+
+interface EpisodeUseCase {
+    suspend operator fun invoke(param: EpisodeRequest): Result<EpisodeResult>
+}
+
+interface DetailUseCase {
+    suspend operator fun invoke(param: DetailRequest): DetailResult
 }

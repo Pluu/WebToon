@@ -7,9 +7,9 @@ import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
-import com.pluu.webtoon.domain.base.AbstractEpisodeApi
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.EpisodeResult
+import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import org.json.JSONArray
 import org.json.JSONObject
@@ -20,7 +20,7 @@ import org.json.JSONObject
  */
 class KToonEpisodeApi(
     private val networkUseCase: INetworkUseCase
-) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
+) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 
     private val PAGE_SIZE = 20
 

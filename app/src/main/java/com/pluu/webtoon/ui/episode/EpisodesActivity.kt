@@ -22,12 +22,14 @@ import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.setStatusBarColor
 import com.pluu.webtoon.utils.viewbinding.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * 에피소드 리스트 Activity
  * Created by pluu on 2017-05-09.
  */
+@AndroidEntryPoint
 class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
     private var childTitle: View? = null
 

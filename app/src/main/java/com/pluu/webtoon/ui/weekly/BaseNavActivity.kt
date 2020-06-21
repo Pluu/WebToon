@@ -19,12 +19,10 @@ import com.pluu.support.impl.UI_NAV_ITEM
 import com.pluu.support.impl.toUiType
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.common.PrefConfig
-import com.pluu.webtoon.di.ServiceProperties
+import com.pluu.webtoon.common.Session
 import com.pluu.webtoon.utils.getThemeColor
 import com.pluu.webtoon.utils.lazyNone
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.getKoin
+import javax.inject.Inject
 
 /**
  * Base ActionBar Activity
@@ -44,11 +42,14 @@ abstract class BaseNavActivity(
         findViewById<DrawerLayout>(R.id.drawer_layout)
     }
 
-    private val first: UI_NAV_ITEM by lazyNone {
-        val pref: PrefConfig = get()
-        getKoin().getProperty(ServiceProperties.NAV_ITEM, pref.getDefaultWebToon()).toUiType()
-    }
-    private var selfNavDrawerItem: UI_NAV_ITEM = first
+    @Inject
+    lateinit var session: Session
+
+    private var selfNavDrawerItem
+        get() = session.navi.toUiType()
+        set(value) {
+            session.navi = value.getCoreType()
+        }
 
     private val mHandler: Handler by lazyNone { Handler() }
 
@@ -190,7 +191,6 @@ abstract class BaseNavActivity(
         item ?: return
 
         selfNavDrawerItem = item
-        getKoin().setProperty(ServiceProperties.NAV_ITEM, item.getCoreType())
 
         supportFragmentManager.commit {
             supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {

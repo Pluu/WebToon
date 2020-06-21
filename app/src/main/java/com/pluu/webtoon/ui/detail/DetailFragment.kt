@@ -4,21 +4,23 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.FragmentDefaultDetailBinding
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.resolveAttribute
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Default Detail Fragment
  * Created by pluu on 2017-05-06.
  */
+@AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_default_detail) {
 
-    private val viewModel: DetailViewModel by sharedViewModel()
+    private val viewModel by activityViewModels<DetailViewModel>()
 
     private val binding by viewBinding(FragmentDefaultDetailBinding::bind)
 

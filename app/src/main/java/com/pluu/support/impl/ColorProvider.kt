@@ -3,6 +3,8 @@ package com.pluu.support.impl
 import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import com.pluu.webtoon.NAV_ITEM
+import javax.inject.Inject
 
 /** Color Resource Provider */
 class ColorProvider(
@@ -14,10 +16,13 @@ class ColorProvider(
 }
 
 /** Navigation Color Provider */
-class NaviColorProvider(
+class NaviColorProvider @Inject constructor(
     private val provider: ColorProvider,
-    private val naviItem: UI_NAV_ITEM
+    naviItem: NAV_ITEM
 ) {
-    fun getTitleColor(): Int = provider.getColor(naviItem.color)
-    fun getTitleColorVariant(): Int = provider.getColor(naviItem.bgColor)
+    private val uiNaviItem = naviItem.toUiType()
+
+    fun getTitleColor(): Int = provider.getColor(uiNaviItem.color)
+
+    fun getTitleColorVariant(): Int = provider.getColor(uiNaviItem.bgColor)
 }

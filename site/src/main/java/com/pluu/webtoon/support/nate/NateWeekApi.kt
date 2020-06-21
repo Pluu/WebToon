@@ -3,8 +3,8 @@ package com.pluu.webtoon.support.nate
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
-import com.pluu.webtoon.domain.base.AbstractWeekApi
 import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
 import com.pluu.webtoon.network.mapDocument
 import org.jsoup.nodes.Document
@@ -16,7 +16,7 @@ import org.jsoup.nodes.Element
  */
 class NateWeekApi(
     private val networkUseCase: INetworkUseCase
-) : AbstractWeekApi, INetworkUseCase by networkUseCase {
+) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 
     override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
 

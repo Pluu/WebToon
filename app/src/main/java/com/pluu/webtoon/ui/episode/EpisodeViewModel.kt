@@ -1,10 +1,14 @@
 package com.pluu.webtoon.ui.episode
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.webtoon.NAV_ITEM
+import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.domain.moel.Episode
 import com.pluu.webtoon.domain.moel.EpisodeInfo
@@ -19,18 +23,18 @@ import com.pluu.webtoon.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/**
- * EpisodeInfo ViewModel
- */
-class EpisodeViewModel(
-    private val dispatchers: AppCoroutineDispatchers,
+/** EpisodeInfo ViewModel */
+class EpisodeViewModel @ViewModelInject constructor(
+    @Assisted handle: SavedStateHandle,
     private val type: NAV_ITEM,
-    private val info: ToonInfo,
+    private val dispatchers: AppCoroutineDispatchers,
     private val episodeUseCase: EpisodeUseCase,
     private val readEpisodeListUseCase: ReadEpisodeListUseCase,
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val delFavoriteUseCase: RemoveFavoriteUseCase
 ) : ViewModel() {
+
+    private val info = handle.get<ToonInfo>(Const.EXTRA_EPISODE)!!
 
     private var isNext = true
 

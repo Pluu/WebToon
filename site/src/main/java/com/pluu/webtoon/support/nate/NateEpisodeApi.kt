@@ -6,9 +6,9 @@ import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.safeApi
-import com.pluu.webtoon.domain.base.AbstractEpisodeApi
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.EpisodeResult
+import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import org.json.JSONArray
 import org.jsoup.Jsoup
@@ -20,7 +20,7 @@ import org.jsoup.nodes.Document
  */
 class NateEpisodeApi(
     private val networkUseCase: INetworkUseCase
-) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
+) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 
     private val EPISODE_ID_PATTERN = "(?<=bsno=)\\d+".toRegex()
 

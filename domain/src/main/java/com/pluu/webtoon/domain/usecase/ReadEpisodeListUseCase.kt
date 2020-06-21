@@ -3,11 +3,12 @@ package com.pluu.webtoon.domain.usecase
 import com.pluu.webtoon.NAV_ITEM
 import com.pluu.webtoon.data.dao.IDBHelper
 import com.pluu.webtoon.domain.moel.Episode
+import javax.inject.Inject
 
 /**
  * EpisodeInfo Section Use Case
  */
-class ReadEpisodeListUseCase(
+class ReadEpisodeListUseCase @Inject constructor(
     private val dbHelper: IDBHelper
 ) {
     /**

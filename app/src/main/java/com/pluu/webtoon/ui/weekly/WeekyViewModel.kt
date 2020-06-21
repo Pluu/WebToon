@@ -1,7 +1,10 @@
 package com.pluu.webtoon.ui.weekly
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.webtoon.NAV_ITEM
@@ -14,13 +17,15 @@ import com.pluu.webtoon.utils.coroutines.mapOnSuspend
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class WeekyViewModel(
-    private val dispatchers: AppCoroutineDispatchers,
+class WeekyViewModel @ViewModelInject constructor(
+    @Assisted handle: SavedStateHandle,
     private val type: NAV_ITEM,
-    private val weekPos: Int,
+    private val dispatchers: AppCoroutineDispatchers,
     private val weeklyUseCase: WeeklyUseCase,
     private val hasFavoriteUseCase: HasFavoriteUseCase
 ) : ViewModel() {
+
+    private val weekPos = handle.get<Int>("EXTRA_POS") ?: 0
 
     private val _listEvent = MutableLiveData<List<ToonInfo>>()
     val listEvent: LiveData<List<ToonInfo>>

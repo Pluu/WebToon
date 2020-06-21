@@ -11,14 +11,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import androidx.lifecycle.SavedStateHandle
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.databinding.ActivityDetailBinding
-import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.weekly.PalletColor
 import com.pluu.webtoon.utils.ProgressDialog
@@ -30,24 +29,18 @@ import com.pluu.webtoon.utils.lazyNone
 import com.pluu.webtoon.utils.observeNonNull
 import com.pluu.webtoon.utils.setStatusBarColor
 import com.pluu.webtoon.utils.viewbinding.viewBinding
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
 /**
  * 상세화면 Activity
  * Created by pluu on 2017-05-09.
  */
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity(R.layout.activity_detail),
     ToggleListener, FirstBindListener {
 
-    private val viewModel: DetailViewModel by viewModel {
-        parametersOf(
-            SavedStateHandle(
-                mapOf(Const.EXTRA_EPISODE to intent.getParcelableExtra<EpisodeInfo>(Const.EXTRA_EPISODE))
-            )
-        )
-    }
+    private val viewModel by viewModels<DetailViewModel>()
 
     private val binding by viewBinding(ActivityDetailBinding::bind)
 

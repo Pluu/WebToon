@@ -1,6 +1,7 @@
 plugins {
     androidLibrary()
     kotlinAndroid()
+    daggerHilt()
     kotlinKapt()
 }
 
@@ -8,13 +9,11 @@ android {
     setDefaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
-                mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                ).forEach { (k, v) ->
-                    arguments[k] = v
-                }
+                    arguments += mapOf(
+                        "room.schemaLocation" to "$projectDir/schemas",
+                        "room.incremental" to "true",
+                        "room.expandProjection" to "true"
+                    )
             }
         }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -42,9 +41,15 @@ dependencies {
     implementation(Dep.AndroidX.room.runtime)
     kapt(Dep.AndroidX.room.compiler)
     implementation(Dep.AndroidX.room.ktx)
+    implementation(Dep.AndroidX.UI.preference)
 
     // OkHttp
     implementation(Dep.OkHttp.core)
+    implementation(Dep.OkHttp.loggingInterceptor)
+
+    // Dagger Hilt
+    implementation(Dep.Hilt.android)
+    kapt(Dep.Hilt.hilt_compiler)
 
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidX.room.testing)

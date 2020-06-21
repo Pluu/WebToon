@@ -3,10 +3,10 @@ package com.pluu.webtoon.support.nate
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
-import com.pluu.webtoon.domain.base.AbstractDetailApi
 import com.pluu.webtoon.domain.moel.DetailResult
 import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE
+import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.network.mapDocument
 import org.jsoup.nodes.Document
@@ -17,7 +17,7 @@ import org.jsoup.nodes.Document
  */
 class NateDetailApi(
     private val networkUseCase: INetworkUseCase
-) : AbstractDetailApi, INetworkUseCase by networkUseCase {
+) : DetailUseCase, INetworkUseCase by networkUseCase {
 
     private lateinit var webToonId: String
     private lateinit var episodeId: String

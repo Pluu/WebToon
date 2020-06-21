@@ -3,10 +3,10 @@ package com.pluu.webtoon.support.naver
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
-import com.pluu.webtoon.domain.base.AbstractEpisodeApi
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.EpisodeResult
 import com.pluu.webtoon.domain.moel.Status
+import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.network.mapDocument
 import org.jsoup.nodes.Document
@@ -18,7 +18,7 @@ import org.jsoup.nodes.Element
  */
 class NaverEpisodeApi(
     private val networkUseCase: INetworkUseCase
-) : AbstractEpisodeApi, INetworkUseCase by networkUseCase {
+) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 
     override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {
         ///////////////////////////////////////////////////////////////////////////

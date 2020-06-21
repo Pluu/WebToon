@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.pluu.webtoon.domain.base.AbstractWeekApi
+import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 
 /**
  * Main ViewPager Fragment Adapter
@@ -13,7 +13,7 @@ import com.pluu.webtoon.domain.base.AbstractWeekApi
 class MainFragmentAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle,
-    private val serviceApi: AbstractWeekApi
+    private val serviceApi: WeeklyUseCase
 ) : FragmentStateAdapter(fm, lifecycle) {
 
     override fun createFragment(position: Int): Fragment {

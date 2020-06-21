@@ -13,7 +13,7 @@ import com.pluu.webtoon.data.db.migration.migration_1_2
     entities = [DBToon::class, DBEpisode::class],
     version = 2
 )
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun roomDao(): RoomDao
 
     companion object {
