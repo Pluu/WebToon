@@ -22,3 +22,36 @@
 P.S.
 
 웹툰 사이트측의 웹페이지 변화로 일부 올바르게 나타나지 않을수도 있습니다.
+
+## Credit
+
+Dependencies
+
+- AndroidX
+  - Activity
+  - Arch
+  - Browser
+  - CardView
+  - Constraint Layout
+  - Core
+  - Drawer Layout
+  - Fragment
+  - Hilt
+  - Lifecycle
+  - Palette
+  - Preference
+  - Recyclerview
+  - Room
+  - Swiperefresh Layout
+  - ViewPager2
+- Dagger
+  - Dagger2
+  - Dagger Hilt
+- Glide
+- Joup
+- Kotlin
+  - Kotlin
+  - Coroutines
+- Material Component for Android
+- Okhttp
+- Timber
