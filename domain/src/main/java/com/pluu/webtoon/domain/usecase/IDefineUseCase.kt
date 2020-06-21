@@ -1,12 +1,12 @@
 package com.pluu.webtoon.domain.usecase
 
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.domain.moel.DetailResult
 import com.pluu.webtoon.domain.moel.EpisodeResult
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
+import com.pluu.webtoon.model.Result
 import java.util.Calendar
 import java.util.Locale
 

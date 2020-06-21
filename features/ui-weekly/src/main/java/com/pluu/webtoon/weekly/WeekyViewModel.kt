@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.utils.coroutines.mapOnSuspend
-import com.pluu.webtoon.model.NAV_ITEM
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
+import com.pluu.webtoon.model.NAV_ITEM
+import com.pluu.webtoon.model.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

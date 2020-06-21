@@ -2,7 +2,6 @@ package com.pluu.webtoon.support.naver
 
 import com.pluu.core.mapEach
 import com.pluu.webtoon.data.model.IRequest
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.domain.moel.DetailResult
@@ -10,6 +9,7 @@ import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE
 import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.network.mapDocument
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

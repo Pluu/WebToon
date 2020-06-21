@@ -4,7 +4,6 @@ import android.net.Uri
 import com.pluu.core.asSequence
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.domain.moel.DetailResult
@@ -12,6 +11,7 @@ import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.domain.moel.ERROR_TYPE
 import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.network.mapDocument
 import org.json.JSONArray
 import org.jsoup.nodes.Document

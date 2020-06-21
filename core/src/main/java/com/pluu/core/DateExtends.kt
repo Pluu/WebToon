@@ -2,7 +2,8 @@ package com.pluu.core
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * String to Date Convert Extension Function

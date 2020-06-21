@@ -1,8 +1,8 @@
 package com.pluu.webtoon.domain.usecase
 
-import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.data.dao.IDBHelper
 import com.pluu.webtoon.data.model.DBToon
+import com.pluu.webtoon.model.NAV_ITEM
 import javax.inject.Inject
 
 /**

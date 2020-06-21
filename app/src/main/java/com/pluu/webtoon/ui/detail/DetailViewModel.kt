@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.model.NAV_ITEM
+import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.common.Const
 import com.pluu.webtoon.domain.moel.DetailResult
 import com.pluu.webtoon.domain.moel.DetailView
@@ -18,7 +18,7 @@ import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.ReadUseCase
 import com.pluu.webtoon.domain.usecase.ShareUseCase
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
-import com.pluu.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.model.NAV_ITEM
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber

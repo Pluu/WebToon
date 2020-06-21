@@ -15,12 +15,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.event.EventBus
-import com.pluu.utils.toast
+import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.justSafeRegisterForActivityResult
+import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.R
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.Const as FeatureConst
 import com.pluu.webtoon.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
@@ -33,11 +33,11 @@ import com.pluu.webtoon.utils.MoreRefreshListener
 import com.pluu.webtoon.utils.ProgressDialog
 import com.pluu.webtoon.utils.getRequiredParcelableExtra
 import com.pluu.webtoon.utils.lazyNone
-import com.pluu.utils.observeNonNull
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
+import com.pluu.webtoon.Const as FeatureConst
 
 /**
  * 에피소드 리스트 Fragment

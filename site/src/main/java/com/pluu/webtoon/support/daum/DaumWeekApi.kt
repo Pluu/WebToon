@@ -4,17 +4,18 @@ import com.pluu.core.asSequence
 import com.pluu.core.isNotEmpty
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.domain.moel.Status
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
+import com.pluu.webtoon.model.Result
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * 다음 웹툰 Week Api

@@ -7,9 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pluu.webtoon.model.NAV_ITEM
+import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.domain.moel.Episode
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.EpisodeResult
@@ -19,7 +18,8 @@ import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.domain.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
-import com.pluu.utils.AppCoroutineDispatchers
+import com.pluu.webtoon.model.NAV_ITEM
+import com.pluu.webtoon.model.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
