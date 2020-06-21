@@ -19,7 +19,7 @@ dependencies {
     implementation(project(":core-android"))
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":ui-feature-common"))
+    implementation(project(":ui-common"))
 
     implementation(Dep.AndroidX.activity.ktx)
     implementation(Dep.AndroidX.coreKtx)

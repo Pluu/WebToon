@@ -16,7 +16,7 @@ android {
 
 dependencies {
     implementation(project(":core-android"))
-    implementation(project(":ui-feature-common"))
+    implementation(project(":ui-common"))
     implementation(project(":data"))
 
     implementation(Dep.Kotlin.stdlibJvm)

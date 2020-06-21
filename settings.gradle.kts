@@ -5,13 +5,13 @@ include(
     ":core-android",
     ":domain",
     ":site",
-    ":ui-feature-common",
+    ":ui-common",
     ":ui-weekly",
     ":ui-setting"
 )
 
 arrayOf(
-    ":ui-feature-common",
+    ":ui-common",
     ":ui-weekly",
     ":ui-setting"
 ).forEach { name ->
