@@ -70,7 +70,12 @@ workflows:
   version: 2
   build-check:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
       - check:
           requires:
             - build
