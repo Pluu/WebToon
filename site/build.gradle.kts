@@ -12,12 +12,12 @@ android {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
-    implementation(Dep.Kotlin.serialization)
-
     implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":domain"))
+
+    implementation(Dep.Kotlin.stdlibJvm)
+    implementation(Dep.Kotlin.serialization)
     implementation(Dep.Kotlin.coroutines.core)
     // Jsoup
     implementation(Dep.jsoup)

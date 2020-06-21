@@ -17,10 +17,10 @@ androidExtensions {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
-
     implementation(project(":core"))
     implementation(project(":data"))
+
+    implementation(Dep.Kotlin.stdlibJvm)
 
     testImplementation(Dep.Test.junit)
 }

@@ -12,10 +12,10 @@ android {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
-
     implementation(project(":core-android"))
     implementation(project(":domain"))
+
+    implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.appcompat)
 

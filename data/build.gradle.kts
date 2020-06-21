@@ -32,10 +32,11 @@ android {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
-
     implementation(project(":core"))
+
+    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.coroutines.android)
+
     implementation(Dep.AndroidX.arch.common)
     implementation(Dep.AndroidX.arch.runtime)
     implementation(Dep.AndroidX.room.runtime)

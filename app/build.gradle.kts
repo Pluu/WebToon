@@ -60,8 +60,6 @@ androidExtensions {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
-
     implementation(project(":core"))
     implementation(project(":core-android"))
     implementation(project(":data"))
@@ -71,6 +69,8 @@ dependencies {
     implementation(project(":ui-weekly"))
     implementation(project(":ui-episode"))
     implementation(project(":ui-setting"))
+
+    implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.annotation)
     implementation(Dep.AndroidX.activity.ktx)
