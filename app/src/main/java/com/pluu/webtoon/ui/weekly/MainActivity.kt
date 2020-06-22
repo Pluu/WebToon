@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.commit
 import com.pluu.utils.result.setFragmentResultListener
 import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.ActivityMainBinding
@@ -24,6 +25,8 @@ class MainActivity : BaseNavActivity(R.layout.activity_main) {
     private val binding by viewBinding(ActivityMainBinding::bind)
     @Inject
     lateinit var defaultProvider: NaviColorProvider
+    @Inject
+    lateinit var appNavigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,7 @@ class MainActivity : BaseNavActivity(R.layout.activity_main) {
             )
         }
         binding.navDrawer.btnSetting.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
+            appNavigator.openSetting(this)
             closeNavDrawer()
         }
 

@@ -26,4 +26,8 @@ interface AppNavigator {
         palletColor: PalletColor,
         callback: (ActivityResult) -> Unit
     )
+
+    fun openSetting(context: Context)
+
+    fun openLicense(context: Context)
 }

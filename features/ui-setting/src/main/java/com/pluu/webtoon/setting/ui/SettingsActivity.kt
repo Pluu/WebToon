@@ -1,6 +1,5 @@
 package com.pluu.webtoon.setting.ui
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,6 +8,7 @@ import androidx.fragment.app.commit
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.data.pref.PrefConfig
 import com.pluu.webtoon.setting.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +43,9 @@ class SettingsActivity : AppCompatActivity() {
         @Inject
         lateinit var pref: SharedPreferences
 
+        @Inject
+        lateinit var appNavigator: AppNavigator
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.pref_settings)
             setHasOptionsMenu(true)
@@ -61,7 +64,7 @@ class SettingsActivity : AppCompatActivity() {
         @ObsoleteCoroutinesApi
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
             if (LicenseActivity::class.java.canonicalName == preference?.fragment) {
-                startActivity(Intent(activity, LicenseActivity::class.java))
+                appNavigator.openLicense(requireContext())
                 return true
             }
             return super.onPreferenceTreeClick(preference)

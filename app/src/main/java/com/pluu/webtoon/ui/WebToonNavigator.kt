@@ -1,16 +1,19 @@
 package com.pluu.webtoon.ui
 
 import android.content.Context
-import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCaller
-import androidx.core.os.bundleOf
+import com.pluu.utils.buildIntent
 import com.pluu.utils.result.justSafeRegisterForActivityResult
+import com.pluu.utils.startActivity
 import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
+import com.pluu.webtoon.detail.ui.DetailActivity
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.episode.ui.EpisodesActivity
+import com.pluu.webtoon.setting.ui.LicenseActivity
+import com.pluu.webtoon.setting.ui.SettingsActivity
 import com.pluu.webtoon.ui.model.PalletColor
 import javax.inject.Inject
 
@@ -22,16 +25,11 @@ class WebToonNavigator @Inject constructor() : AppNavigator {
         palletColor: PalletColor,
         callback: (ActivityResult) -> Unit
     ) {
-        caller.justSafeRegisterForActivityResult(
-            Intent(context, EpisodesActivity::class.java).apply {
-                putExtras(
-                    bundleOf(
-                        Const.EXTRA_EPISODE to item,
-                        Const.EXTRA_PALLET to palletColor
-                    )
-                )
-            }, callback
+        val intent = context.buildIntent<EpisodesActivity>(
+            Const.EXTRA_EPISODE to item,
+            Const.EXTRA_PALLET to palletColor
         )
+        caller.justSafeRegisterForActivityResult(intent, callback)
     }
 
     override fun openDetail(
@@ -41,15 +39,18 @@ class WebToonNavigator @Inject constructor() : AppNavigator {
         palletColor: PalletColor,
         callback: (ActivityResult) -> Unit
     ) {
-        caller.justSafeRegisterForActivityResult(
-            Intent(context, com.pluu.webtoon.detail.ui.DetailActivity::class.java).apply {
-                putExtras(
-                    bundleOf(
-                        Const.EXTRA_EPISODE to item,
-                        Const.EXTRA_PALLET to palletColor
-                    )
-                )
-            }, callback
+        val intent = context.buildIntent<DetailActivity>(
+            Const.EXTRA_EPISODE to item,
+            Const.EXTRA_PALLET to palletColor
         )
+        caller.justSafeRegisterForActivityResult(intent, callback)
+    }
+
+    override fun openSetting(context: Context) {
+        context.startActivity<SettingsActivity>()
+    }
+
+    override fun openLicense(context: Context) {
+        context.startActivity<LicenseActivity>()
     }
 }
