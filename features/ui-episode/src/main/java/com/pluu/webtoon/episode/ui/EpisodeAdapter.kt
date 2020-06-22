@@ -11,8 +11,9 @@ import com.pluu.webtoon.episode.ui.listener.EpisodeSelectListener
  * 에피소드 화면 Adapter
  * Created by pluu on 2017-05-02.
  */
-open class EpisodeAdapter(val listener: EpisodeSelectListener) :
-    RecyclerView.Adapter<EpisodeViewHolder>() {
+internal class EpisodeAdapter(
+    private val listener: EpisodeSelectListener
+) : RecyclerView.Adapter<EpisodeViewHolder>() {
     private val list = mutableListOf<EpisodeInfo>()
 
     fun addItems(list: List<EpisodeInfo>) {

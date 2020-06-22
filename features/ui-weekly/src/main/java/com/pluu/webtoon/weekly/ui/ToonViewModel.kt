@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly
+package com.pluu.webtoon.weekly.ui
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData

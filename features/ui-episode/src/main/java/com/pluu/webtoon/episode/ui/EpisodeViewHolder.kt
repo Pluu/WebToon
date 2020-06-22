@@ -7,7 +7,7 @@ import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.LayoutEpisodeListItemBinding
 import com.pluu.webtoon.utils.loadUrl
 
-class EpisodeViewHolder(
+internal class EpisodeViewHolder(
     private val binding: LayoutEpisodeListItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 

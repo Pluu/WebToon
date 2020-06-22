@@ -12,7 +12,7 @@ import com.pluu.webtoon.setting.R
  * Main EpisodeInfo List Adapter
  * Created by pluu on 2017-05-02.
  */
-class LicenseAdapter(
+internal class LicenseAdapter(
     context: Context,
     private val clickConsumer: (url: String) -> Unit
 ) : RecyclerView.Adapter<LicenseAdapter.ViewHolder>() {

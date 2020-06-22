@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.listener
+package com.pluu.webtoon.weekly.ui.listener
 
 import android.widget.ImageView
 import com.pluu.webtoon.domain.moel.ToonInfo

@@ -6,7 +6,7 @@ import com.pluu.webtoon.domain.moel.EpisodeInfo
  * EpisodeInfo Item Select Listener
  * Created by pluu on 2017-05-02.
  */
-interface EpisodeSelectListener {
+internal interface EpisodeSelectListener {
 
     /**
      * 접근 불가능 아이템 선택

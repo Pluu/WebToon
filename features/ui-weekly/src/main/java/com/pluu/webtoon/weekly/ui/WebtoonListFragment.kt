@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly
+package com.pluu.webtoon.weekly.ui
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -22,8 +22,9 @@ import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
+import com.pluu.webtoon.weekly.R
 import com.pluu.webtoon.weekly.databinding.FragmentWebtoonListBinding
-import com.pluu.webtoon.weekly.listener.WebToonSelectListener
+import com.pluu.webtoon.weekly.ui.listener.WebToonSelectListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

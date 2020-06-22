@@ -20,7 +20,7 @@ import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.animator.animatorStatusBarColor
 import com.pluu.webtoon.utils.animator.animatorToolbarColor
-import com.pluu.webtoon.weekly.WebtoonListFragment
+import com.pluu.webtoon.weekly.ui.WebtoonListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
