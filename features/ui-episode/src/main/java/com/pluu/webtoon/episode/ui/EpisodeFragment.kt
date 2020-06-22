@@ -22,6 +22,7 @@ import com.pluu.utils.observeNonNull
 import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.AppNavigator
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.episode.R
@@ -31,7 +32,6 @@ import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.pluu.webtoon.Const as FeatureConst
 
 /**
  * 에피소드 리스트 Fragment
@@ -47,7 +47,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     private val binding by viewBinding(FragmentEpisodeBinding::bind)
 
     private val palletColor by lazyNone {
-        requireArguments().getRequiredParcelableExtra<PalletColor>(FeatureConst.EXTRA_PALLET)
+        requireArguments().getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
     private val adapter by lazyNone {
         EpisodeAdapter(this)
@@ -122,7 +122,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
                     activity?.run {
                         setResult(Activity.RESULT_OK, Intent().apply {
                             putExtra(
-                                FeatureConst.EXTRA_FAVORITE_EPISODE,
+                                Const.EXTRA_FAVORITE_EPISODE,
                                 FavoriteResult(event.id, event.isFavorite)
                             )
                         })
@@ -243,8 +243,8 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
         ): EpisodeFragment {
             return EpisodeFragment().apply {
                 arguments = bundleOf(
-                    FeatureConst.EXTRA_EPISODE to info,
-                    FeatureConst.EXTRA_PALLET to color
+                    Const.EXTRA_EPISODE to info,
+                    Const.EXTRA_PALLET to color
                 )
             }
         }

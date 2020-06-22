@@ -23,6 +23,7 @@ import com.pluu.utils.getThemeColor
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.setStatusBarColor
 import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.detail.databinding.ActivityDetailBinding
 import com.pluu.webtoon.detail.model.getMessage
@@ -30,7 +31,6 @@ import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
-import com.pluu.webtoon.Const as FeatureConst
 
 /**
  * 상세화면 Activity
@@ -46,7 +46,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
     private val binding by viewBinding(ActivityDetailBinding::bind)
 
     private val palletColor by lazyNone {
-        intent.getRequiredParcelableExtra<PalletColor>(FeatureConst.EXTRA_PALLET)
+        intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
 
     private val toggleDelayTime = TimeUnit.MILLISECONDS.toMillis(150)
@@ -223,7 +223,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
             .setMessage(event.errorType.getMessage(this))
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                supportFragmentManager.findFragmentByTag(FeatureConst.DETAIL_FRAG_TAG) ?: finish()
+                supportFragmentManager.findFragmentByTag(Const.DETAIL_FRAG_TAG) ?: finish()
             }
             .show()
     }
