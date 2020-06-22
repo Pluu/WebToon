@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.detail
+package com.pluu.webtoon.detail.ui
 
 import android.animation.Animator
 import android.app.Activity
@@ -23,12 +23,11 @@ import com.pluu.utils.getThemeColor
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.setStatusBarColor
 import com.pluu.utils.viewbinding.viewBinding
-import com.pluu.webtoon.R
-import com.pluu.webtoon.common.Const
-import com.pluu.webtoon.databinding.ActivityDetailBinding
+import com.pluu.webtoon.detail.R
+import com.pluu.webtoon.detail.databinding.ActivityDetailBinding
+import com.pluu.webtoon.detail.model.getMessage
 import com.pluu.webtoon.domain.moel.ShareItem
 import com.pluu.webtoon.ui.model.PalletColor
-import com.pluu.webtoon.utils.getMessage
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import com.pluu.webtoon.Const as FeatureConst
@@ -39,7 +38,8 @@ import com.pluu.webtoon.Const as FeatureConst
  */
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity(R.layout.activity_detail),
-    ToggleListener, FirstBindListener {
+    ToggleListener,
+    FirstBindListener {
 
     private val viewModel by viewModels<DetailViewModel>()
 
@@ -126,7 +126,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
 
     private fun fragmentInit() {
         supportFragmentManager.commit {
-            replace(R.id.container, DetailFragment())
+            replace(R.id.container, com.pluu.webtoon.detail.ui.DetailFragment())
         }
     }
 
@@ -223,7 +223,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
             .setMessage(event.errorType.getMessage(this))
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                supportFragmentManager.findFragmentByTag(Const.DETAIL_FRAG_TAG) ?: finish()
+                supportFragmentManager.findFragmentByTag(FeatureConst.DETAIL_FRAG_TAG) ?: finish()
             }
             .show()
     }

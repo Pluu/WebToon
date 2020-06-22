@@ -11,7 +11,7 @@ import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.episode.ui.EpisodesActivity
-import com.pluu.webtoon.ui.detail.DetailActivity
+import com.pluu.webtoon.detail.ui.DetailActivity
 import com.pluu.webtoon.ui.model.PalletColor
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class WebToonNavigator @Inject constructor() : AppNavigator {
         callback: (ActivityResult) -> Unit
     ) {
         caller.justSafeRegisterForActivityResult(
-            Intent(context, DetailActivity::class.java).apply {
+            Intent(context, com.pluu.webtoon.detail.ui.DetailActivity::class.java).apply {
                 putExtras(
                     bundleOf(
                         Const.EXTRA_EPISODE to item,

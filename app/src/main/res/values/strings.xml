@@ -6,12 +6,9 @@
     <string name="msg_intro_ready">준비중이야&#8230; 기다려&#8230;</string>
     <string name="msg_intro_complete">다됐어&#8230; 이제 갈거야&#8230;</string>
 
-    <string name="label_share">Share</string>
-    <string name="label_prev_view">이전 화</string>
-    <string name="label_next_view">다음 화</string>
     <string name="label_up">UP</string>
     <string name="label_19">19</string>
     <string name="label_sleep">휴재</string>
 
-    <string name="not_support_type">현재 해당 웹툰은 지원하지 않습니다.</string>
+
 </resources>

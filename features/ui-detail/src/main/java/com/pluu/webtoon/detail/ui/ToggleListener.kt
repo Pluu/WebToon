@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.detail
+package com.pluu.webtoon.detail.ui
 
 /**
  * ToggleListener

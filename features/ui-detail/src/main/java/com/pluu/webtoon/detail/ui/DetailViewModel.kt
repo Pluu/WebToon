@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.detail
+package com.pluu.webtoon.detail.ui
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -75,19 +75,21 @@ class DetailViewModel @ViewModelInject constructor(
                     _list.value = result.list.filter {
                         it.url.isNotEmpty()
                     }
-                    _elementEvent.value = ElementEvent(
-                        title = result.title.orEmpty(),
-                        webToonTitle = episode.title,
-                        prevEpisodeId = result.prevLink,
-                        nextEpisodeId = result.nextLink
-                    )
+                    _elementEvent.value =
+                        ElementEvent(
+                            title = result.title.orEmpty(),
+                            webToonTitle = episode.title,
+                            prevEpisodeId = result.prevLink,
+                            nextEpisodeId = result.nextLink
+                        )
                 }
                 is DetailResult.ErrorResult -> {
                     val errorType = result.errorType
                     if (errorType is ERROR_TYPE.DEFAULT_ERROR) {
                         Timber.e(errorType.throwable)
                     }
-                    error = DetailEvent.ERROR(result.errorType)
+                    error =
+                        DetailEvent.ERROR(result.errorType)
                 }
             }
             _event.value = error ?: DetailEvent.LOADED

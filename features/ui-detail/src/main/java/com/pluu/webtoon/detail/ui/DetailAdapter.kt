@@ -1,13 +1,13 @@
-package com.pluu.webtoon.ui.detail
+package com.pluu.webtoon.detail.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.databinding.ItemDetailViewholderBinding
+import com.pluu.webtoon.detail.databinding.ItemDetailViewholderBinding
 import com.pluu.webtoon.domain.moel.DetailView
 import com.pluu.webtoon.utils.loadUrlOriginal
 
-class DetailAdapter(
+internal class DetailAdapter(
     private val list: List<DetailView>,
     private val listener: ToggleListener?
 ) : RecyclerView.Adapter<DetailViewHolder>() {
@@ -27,7 +27,7 @@ class DetailAdapter(
     }
 }
 
-class DetailViewHolder(
+internal class DetailViewHolder(
     private val binding: ItemDetailViewholderBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 

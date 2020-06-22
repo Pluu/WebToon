@@ -68,6 +68,7 @@ dependencies {
     implementation(project(":ui-common"))
     implementation(project(":ui-weekly"))
     implementation(project(":ui-episode"))
+    implementation(project(":ui-detail"))
     implementation(project(":ui-setting"))
 
     implementation(Dep.Kotlin.stdlibJvm)

@@ -1,10 +1,10 @@
-package com.pluu.webtoon.ui.detail
+package com.pluu.webtoon.detail.ui
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class DetailItemDecoration(
+internal class DetailItemDecoration(
     private val top: Int,
     private val bottom: Int
 ) : RecyclerView.ItemDecoration() {

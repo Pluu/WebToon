@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.detail
+package com.pluu.webtoon.detail.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pluu.utils.observeNonNull
-import com.pluu.utils.viewbinding.viewBinding
-import com.pluu.webtoon.R
-import com.pluu.webtoon.databinding.FragmentDefaultDetailBinding
 import com.pluu.utils.resolveAttribute
+import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.webtoon.detail.R
+import com.pluu.webtoon.detail.databinding.FragmentDefaultDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

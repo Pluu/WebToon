@@ -31,9 +31,6 @@
             android:name=".ui.weekly.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".ui.detail.DetailActivity"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
