@@ -1,9 +1,10 @@
-package com.pluu.support.impl
+package com.pluu.webtoon.di.provider
 
 import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.pluu.webtoon.model.NAV_ITEM
+import com.pluu.webtoon.model.toUiType
 import javax.inject.Inject
 
 /** Color Resource Provider */

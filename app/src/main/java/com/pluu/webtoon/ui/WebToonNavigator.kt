@@ -11,7 +11,6 @@ import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.moel.EpisodeInfo
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.episode.ui.EpisodesActivity
-import com.pluu.webtoon.detail.ui.DetailActivity
 import com.pluu.webtoon.ui.model.PalletColor
 import javax.inject.Inject
 

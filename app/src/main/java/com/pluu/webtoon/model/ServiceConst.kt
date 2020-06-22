@@ -1,8 +1,7 @@
-package com.pluu.support.impl
+package com.pluu.webtoon.model
 
 import androidx.annotation.ColorRes
 import com.pluu.webtoon.R
-import com.pluu.webtoon.model.NAV_ITEM
 
 /**
  * Service Const Class

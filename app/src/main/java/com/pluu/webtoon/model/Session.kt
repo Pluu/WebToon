@@ -1,4 +1,4 @@
-package com.pluu.webtoon.common
+package com.pluu.webtoon.model
 
 import com.pluu.webtoon.data.pref.PrefConfig
 

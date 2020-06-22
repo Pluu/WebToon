@@ -1,4 +1,4 @@
-package com.pluu.kotlin
+package com.pluu.utils
 
 import android.view.LayoutInflater
 import android.view.View

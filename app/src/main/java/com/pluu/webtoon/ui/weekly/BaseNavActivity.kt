@@ -14,14 +14,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
-import com.pluu.support.impl.ServiceConst
-import com.pluu.support.impl.UI_NAV_ITEM
-import com.pluu.support.impl.toUiType
-import com.pluu.webtoon.R
-import com.pluu.webtoon.common.Session
-import com.pluu.utils.getThemeColor
 import com.pluu.core.utils.lazyNone
+import com.pluu.utils.getThemeColor
 import com.pluu.webtoon.Const
+import com.pluu.webtoon.R
+import com.pluu.webtoon.model.ServiceConst
+import com.pluu.webtoon.model.Session
+import com.pluu.webtoon.model.UI_NAV_ITEM
+import com.pluu.webtoon.model.toUiType
 import javax.inject.Inject
 
 /**

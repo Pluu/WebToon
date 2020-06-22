@@ -1,7 +1,7 @@
 package com.pluu.webtoon.di
 
-import com.pluu.webtoon.common.Session
 import com.pluu.webtoon.data.pref.PrefConfig
+import com.pluu.webtoon.model.Session
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

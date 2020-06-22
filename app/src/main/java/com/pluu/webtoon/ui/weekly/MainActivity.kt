@@ -3,12 +3,12 @@ package com.pluu.webtoon.ui.weekly
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
-import com.pluu.support.impl.NaviColorProvider
 import com.pluu.utils.result.setFragmentResultListener
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.ActivityMainBinding
+import com.pluu.webtoon.di.provider.NaviColorProvider
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.setting.ui.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
