@@ -37,8 +37,6 @@ dependencies {
     implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.coroutines.android)
 
-    implementation(Dep.AndroidX.arch.common)
-    implementation(Dep.AndroidX.arch.runtime)
     implementation(Dep.AndroidX.room.runtime)
     kapt(Dep.AndroidX.room.compiler)
     implementation(Dep.AndroidX.room.ktx)

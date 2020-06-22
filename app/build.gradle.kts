@@ -76,23 +76,16 @@ dependencies {
     implementation(Dep.AndroidX.annotation)
     implementation(Dep.AndroidX.activity.ktx)
     implementation(Dep.AndroidX.appcompat)
-    implementation(Dep.AndroidX.arch.common)
-    implementation(Dep.AndroidX.arch.runtime)
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
     implementation(Dep.AndroidX.lifecycle.liveDataKtx)
-    implementation(Dep.AndroidX.room.runtime)
-    kapt(Dep.AndroidX.room.compiler)
-    implementation(Dep.AndroidX.room.ktx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.cardview)
     implementation(Dep.AndroidX.UI.constraintLayout)
     implementation(Dep.AndroidX.UI.drawerlayout)
     implementation(Dep.AndroidX.UI.material)
     implementation(Dep.AndroidX.UI.preference)
-    implementation(Dep.AndroidX.UI.recyclerview)
     implementation(Dep.AndroidX.UI.swiperefreshlayout)
     implementation(Dep.AndroidX.UI.viewPager)
 
@@ -104,10 +97,6 @@ dependencies {
     kapt(Dep.Hilt.hilt_compiler)
     implementation(Dep.Hilt.viewModel)
     kapt(Dep.Hilt.android_hilt_compiler)
-
-    // Glide
-    implementation(Dep.Glide.core)
-    kapt(Dep.Glide.compiler)
 
     // kotlin
     implementation(Dep.Kotlin.coroutines.core)

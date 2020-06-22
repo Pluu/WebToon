@@ -20,13 +20,6 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha01"
-
-        object arch {
-            private const val version = "2.1.0"
-            const val common = "androidx.arch.core:core-common:$version"
-            const val runtime = "androidx.arch.core:core-runtime:$version"
-        }
-
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha01"
 
         object fragment {

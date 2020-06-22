@@ -35,6 +35,4 @@ dependencies {
     // Hilt
     implementation(Dep.Hilt.android)
     kapt(Dep.Hilt.hilt_compiler)
-    implementation(Dep.Hilt.viewModel)
-    kapt(Dep.Hilt.android_hilt_compiler)
 }
