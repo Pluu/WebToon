@@ -77,12 +77,12 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
         val activity = activity
 
         if (activity is AppCompatActivity) {
-            val animator1 = activity.animatorToolbarColor(color)
-            val animator2 = activity.animatorStatusBarColor(colorVariant)
+            val toolbarAnimator = activity.animatorToolbarColor(color)
+            val statusBarAnimator = activity.animatorStatusBarColor(colorVariant)
 
             AnimatorSet().apply {
                 duration = 250L
-                playTogether(animator1, animator2)
+                playTogether(toolbarAnimator, statusBarAnimator)
             }.start()
         }
 
