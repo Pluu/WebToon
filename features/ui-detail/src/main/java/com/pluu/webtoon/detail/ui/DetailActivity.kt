@@ -14,6 +14,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ProgressDialog
@@ -232,8 +233,12 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
         startActivity(
             Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_SUBJECT, item.title)
-                putExtra(Intent.EXTRA_TEXT, item.url)
+                putExtras(
+                    bundleOf(
+                        Intent.EXTRA_SUBJECT to item.title,
+                        Intent.EXTRA_TEXT to item.url
+                    )
+                )
             }, "Share")
         )
     }
