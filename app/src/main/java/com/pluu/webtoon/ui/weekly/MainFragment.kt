@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ProgressDialog
 import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.FragmentToonBinding
 import com.pluu.webtoon.di.provider.NaviColorProvider
@@ -20,7 +21,6 @@ import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.utils.animator.animatorStatusBarColor
 import com.pluu.webtoon.utils.animator.animatorToolbarColor
-import com.pluu.webtoon.weekly.ui.WebtoonListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -87,7 +87,7 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
         }
 
         setFragmentResult(
-            resultRequestTheme, bundleOf(
+            Const.resultTheme, bundleOf(
                 KEY_COLOR to ThemeEvent(color, colorVariant)
             )
         )
@@ -95,13 +95,13 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
     }
 
     private fun registerLoadEvent() {
-        setFragmentResultListener(WebtoonListFragment.resultRequestEpisodeLoaded) { _, _ ->
+        setFragmentResultListener(Const.resultEpisodeLoaded) { _, _ ->
             eventLoadedEvent()
         }
     }
 
     private fun registerStartEvent() {
-        setFragmentResultListener(WebtoonListFragment.resultRequestEpisodeStart) { _, _ ->
+        setFragmentResultListener(Const.resultEpisodeStart) { _, _ ->
             eventStartEvent()
         }
     }
@@ -122,7 +122,6 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
     }
 
     companion object {
-        const val resultRequestTheme = "resultRequestTheme"
         const val KEY_COLOR = "color"
 
         fun newInstance() = MainFragment()

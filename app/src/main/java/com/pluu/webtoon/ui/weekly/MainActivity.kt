@@ -1,6 +1,5 @@
 package com.pluu.webtoon.ui.weekly
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
 import com.pluu.utils.result.setFragmentResultListener
@@ -11,7 +10,6 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.di.provider.NaviColorProvider
 import com.pluu.webtoon.event.ThemeEvent
-import com.pluu.webtoon.setting.ui.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -59,9 +57,7 @@ class MainActivity : BaseNavActivity(R.layout.activity_main) {
     }
 
     private fun registerThemeChangeEvent() {
-        setFragmentResultListener(
-            MainFragment.resultRequestTheme
-        ) { _, data ->
+        setFragmentResultListener(Const.resultTheme) { _, data ->
             themeChange(data.getSerializable(MainFragment.KEY_COLOR) as ThemeEvent)
         }
     }

@@ -19,6 +19,8 @@ import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
+import com.pluu.webtoon.Const.resultEpisodeLoaded
+import com.pluu.webtoon.Const.resultEpisodeStart
 import com.pluu.webtoon.domain.moel.ToonInfo
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
@@ -33,9 +35,7 @@ import javax.inject.Inject
  * Created by pluu on 2017-05-07.
  */
 @AndroidEntryPoint
-class WebtoonListFragment : Fragment(
-    R.layout.fragment_webtoon_list
-), WebToonSelectListener {
+class WebtoonListFragment : Fragment(R.layout.fragment_webtoon_list) {
 
     private val viewModel by viewModels<WeekyViewModel>()
 
@@ -52,16 +52,28 @@ class WebtoonListFragment : Fragment(
             GridLayoutManager(context, resources.getInteger(R.integer.webtoon_column_count))
 
         viewModel.listEvent.observeNonNull(viewLifecycleOwner) { list ->
-            binding.recyclerView.adapter = WeeklyListAdapter(requireContext(), list, this)
+            binding.recyclerView.adapter = WeeklyListAdapter(
+                requireContext(),
+                list,
+                object : WebToonSelectListener {
+                    override fun selectLockItem() {
+                        this@WebtoonListFragment.selectLockItem()
+                    }
+
+                    override fun selectSuccess(view: ImageView, item: ToonInfo) {
+                        this@WebtoonListFragment.selectSuccess(view, item)
+                    }
+                }
+            )
             binding.emptyView.isVisible = list.isEmpty()
         }
         viewModel.event.observeNonNull(viewLifecycleOwner) { event ->
             when (event) {
                 WeeklyEvent.START -> {
-                    setFragmentResult(resultRequestEpisodeStart, Bundle())
+                    setFragmentResult(resultEpisodeStart, Bundle())
                 }
                 WeeklyEvent.LOADED -> {
-                    setFragmentResult(resultRequestEpisodeLoaded, Bundle())
+                    setFragmentResult(resultEpisodeLoaded, Bundle())
                 }
                 is WeeklyEvent.ERROR -> {
                     toast(event.message)
@@ -77,11 +89,11 @@ class WebtoonListFragment : Fragment(
     // WebToonSelectListener
     // /////////////////////////////////////////////////////////////////////////
 
-    override fun selectLockItem() {
+    private fun selectLockItem() {
         toast(R.string.msg_not_support)
     }
 
-    override fun selectSuccess(view: ImageView, item: ToonInfo) {
+    private fun selectSuccess(view: ImageView, item: ToonInfo) {
         fun asyncPalette(bitmap: Bitmap, block: (PalletColor) -> Unit) {
             Palette.from(bitmap).generate { p ->
                 val colors = p?.let {
@@ -131,8 +143,6 @@ class WebtoonListFragment : Fragment(
 
     companion object {
         private const val EXTRA_POS = "EXTRA_POS"
-        const val resultRequestEpisodeStart = "resultRequestEpisodeStart"
-        const val resultRequestEpisodeLoaded = "resultRequestEpisodeLoaded"
 
         fun newInstance(position: Int): WebtoonListFragment {
             val fragment = WebtoonListFragment()

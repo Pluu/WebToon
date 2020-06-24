@@ -7,4 +7,8 @@ object Const {
 
     const val MAIN_FRAG_TAG = "main_frag_tag"
     const val DETAIL_FRAG_TAG = "detail_frag_tag"
+
+    const val resultTheme = "resultTheme"
+    const val resultEpisodeStart = "resultEpisodeStart"
+    const val resultEpisodeLoaded = "resultEpisodeLoaded"
 }
