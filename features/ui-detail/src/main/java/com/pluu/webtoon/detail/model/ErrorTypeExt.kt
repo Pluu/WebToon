@@ -2,7 +2,7 @@ package com.pluu.webtoon.detail.model
 
 import android.content.Context
 import com.pluu.webtoon.detail.R
-import com.pluu.webtoon.domain.moel.ERROR_TYPE
+import com.pluu.webtoon.domain.model.ERROR_TYPE
 
 internal fun ERROR_TYPE.getMessage(context: Context): String {
     val resId: Int = when (this) {

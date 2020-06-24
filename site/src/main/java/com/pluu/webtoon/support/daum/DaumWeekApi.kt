@@ -6,8 +6,8 @@ import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
-import com.pluu.webtoon.domain.moel.Status
-import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.model.Status
+import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
 import com.pluu.webtoon.model.Result

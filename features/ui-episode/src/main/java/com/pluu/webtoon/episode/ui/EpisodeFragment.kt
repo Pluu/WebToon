@@ -23,8 +23,8 @@ import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.domain.moel.EpisodeInfo
-import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.model.EpisodeInfo
+import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.episode.ui.listener.EpisodeSelectListener

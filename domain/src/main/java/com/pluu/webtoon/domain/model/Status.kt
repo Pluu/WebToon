@@ -1,4 +1,4 @@
-package com.pluu.webtoon.domain.moel
+package com.pluu.webtoon.domain.model
 
 /**
  * 해당 내용 상태 정보

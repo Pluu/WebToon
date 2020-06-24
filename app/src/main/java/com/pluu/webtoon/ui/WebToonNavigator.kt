@@ -9,8 +9,8 @@ import com.pluu.utils.startActivity
 import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.DetailActivity
-import com.pluu.webtoon.domain.moel.EpisodeInfo
-import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.model.EpisodeInfo
+import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.episode.ui.EpisodesActivity
 import com.pluu.webtoon.setting.ui.LicenseActivity
 import com.pluu.webtoon.setting.ui.SettingsActivity

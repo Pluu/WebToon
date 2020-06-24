@@ -3,7 +3,7 @@ package com.pluu.webtoon.episode.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.domain.moel.EpisodeInfo
+import com.pluu.webtoon.domain.model.EpisodeInfo
 import com.pluu.webtoon.episode.databinding.LayoutEpisodeListItemBinding
 import com.pluu.webtoon.episode.ui.listener.EpisodeSelectListener
 

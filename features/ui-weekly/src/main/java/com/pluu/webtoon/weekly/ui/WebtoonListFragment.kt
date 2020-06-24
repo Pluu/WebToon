@@ -21,7 +21,7 @@ import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.Const.resultEpisodeLoaded
 import com.pluu.webtoon.Const.resultEpisodeStart
-import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.R

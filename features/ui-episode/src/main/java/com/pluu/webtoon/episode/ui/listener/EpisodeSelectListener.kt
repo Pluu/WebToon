@@ -1,6 +1,6 @@
 package com.pluu.webtoon.episode.ui.listener
 
-import com.pluu.webtoon.domain.moel.EpisodeInfo
+import com.pluu.webtoon.domain.model.EpisodeInfo
 
 /**
  * EpisodeInfo Item Select Listener

@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.domain.moel.DetailResult
-import com.pluu.webtoon.domain.moel.DetailView
-import com.pluu.webtoon.domain.moel.ERROR_TYPE
-import com.pluu.webtoon.domain.moel.EpisodeInfo
-import com.pluu.webtoon.domain.moel.ShareItem
+import com.pluu.webtoon.domain.model.DetailResult
+import com.pluu.webtoon.domain.model.DetailView
+import com.pluu.webtoon.domain.model.ERROR_TYPE
+import com.pluu.webtoon.domain.model.EpisodeInfo
+import com.pluu.webtoon.domain.model.ShareItem
 import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.ReadUseCase
 import com.pluu.webtoon.domain.usecase.ShareUseCase

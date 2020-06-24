@@ -1,4 +1,4 @@
-package com.pluu.webtoon.domain.moel
+package com.pluu.webtoon.domain.model
 
 /**
  * Share Item Class

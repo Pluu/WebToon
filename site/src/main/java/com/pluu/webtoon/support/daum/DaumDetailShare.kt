@@ -1,8 +1,8 @@
 package com.pluu.webtoon.support.daum
 
-import com.pluu.webtoon.domain.moel.DetailResult
-import com.pluu.webtoon.domain.moel.EpisodeInfo
-import com.pluu.webtoon.domain.moel.ShareItem
+import com.pluu.webtoon.domain.model.DetailResult
+import com.pluu.webtoon.domain.model.EpisodeInfo
+import com.pluu.webtoon.domain.model.ShareItem
 import com.pluu.webtoon.domain.usecase.ShareUseCase
 
 internal class DaumDetailShare: ShareUseCase {

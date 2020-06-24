@@ -5,8 +5,8 @@ import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
-import com.pluu.webtoon.domain.moel.EpisodeInfo
-import com.pluu.webtoon.domain.moel.EpisodeResult
+import com.pluu.webtoon.domain.model.EpisodeInfo
+import com.pluu.webtoon.domain.model.EpisodeResult
 import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.model.Result

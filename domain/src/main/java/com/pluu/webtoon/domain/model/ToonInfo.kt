@@ -1,24 +1,21 @@
-package com.pluu.webtoon.domain.moel
+package com.pluu.webtoon.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class EpisodeInfo(
+class ToonInfo(
     val id: String,
-    val toonId: String,
     val title: String,
     val image: String,
+    val writer: String = "",
+    val rate: Double = 0.0,
     val updateDate: String = "",
     val status: Status = Status.NONE,
-    val rate: String = "",
-    private val isLoginNeed: Boolean = false
+    val isAdult: Boolean = false,
+    var isFavorite: Boolean = false
 ) : Parcelable {
-
     @IgnoredOnParcel
-    var isRead: Boolean = false
-
-    @IgnoredOnParcel
-    val isLock: Boolean = isLoginNeed
+    var isLock: Boolean = false
 }

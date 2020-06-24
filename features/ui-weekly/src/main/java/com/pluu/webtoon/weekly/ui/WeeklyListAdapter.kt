@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.weekly.R
 import com.pluu.webtoon.weekly.databinding.LayoutMainListItemBinding
 import com.pluu.webtoon.weekly.ui.listener.WebToonSelectListener

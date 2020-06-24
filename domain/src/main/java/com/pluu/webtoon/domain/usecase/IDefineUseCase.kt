@@ -1,8 +1,8 @@
 package com.pluu.webtoon.domain.usecase
 
-import com.pluu.webtoon.domain.moel.DetailResult
-import com.pluu.webtoon.domain.moel.EpisodeResult
-import com.pluu.webtoon.domain.moel.ToonInfo
+import com.pluu.webtoon.domain.model.DetailResult
+import com.pluu.webtoon.domain.model.EpisodeResult
+import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
