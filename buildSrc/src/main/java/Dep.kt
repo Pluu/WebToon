@@ -5,7 +5,8 @@ object Dep {
         const val androidStudioVersion = "4.2.0-alpha02"
         const val android = "com.android.tools.build:gradle:$androidStudioVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
-        const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
+        const val kotlinSerialization =
+            "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Hilt.version}"
     }
@@ -29,7 +30,7 @@ object Dep {
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.3.0-alpha04"
+            private const val lifecycleVersion = "2.3.0-alpha05"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
@@ -45,20 +46,20 @@ object Dep {
         }
 
         object UI {
-            const val browser = "androidx.browser:browser:1.3.0-alpha03"
+            const val browser = "androidx.browser:browser:1.3.0-alpha04"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta6"
-            const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.0-rc01"
+            const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.0"
             const val material = "com.google.android.material:material:1.3.0-alpha01"
-            const val swiperefreshlayout =
-                "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01"
+            const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha03"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha04"
             const val viewPager = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
         }
 
-        const val viewBinding = "androidx.databinding:viewbinding:${GradlePlugin.androidStudioVersion}"
+        const val viewBinding =
+            "androidx.databinding:viewbinding:${GradlePlugin.androidStudioVersion}"
     }
 
     object Dagger {
