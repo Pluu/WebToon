@@ -13,6 +13,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":core-android"))
     implementation(project(":data"))
     implementation(project(":domain"))
 

@@ -1,4 +1,4 @@
-package com.pluu.core
+package com.pluu.utils
 
 import org.json.JSONArray
 import org.json.JSONObject

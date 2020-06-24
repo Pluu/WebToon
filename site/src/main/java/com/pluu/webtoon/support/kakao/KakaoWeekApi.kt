@@ -1,6 +1,6 @@
 package com.pluu.webtoon.support.kakao
 
-import com.pluu.core.asSequence
+import com.pluu.utils.asSequence
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson

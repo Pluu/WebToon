@@ -1,7 +1,7 @@
 package com.pluu.webtoon.support.ktoon
 
-import com.pluu.core.asSequence
-import com.pluu.core.orEmpty
+import com.pluu.utils.asSequence
+import com.pluu.utils.orEmpty
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.network.INetworkUseCase

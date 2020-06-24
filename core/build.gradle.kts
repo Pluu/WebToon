@@ -1,11 +1,11 @@
 plugins {
-    androidLibrary()
-    kotlinAndroid()
+    javaLibrary()
+    kotlinJvm()
 }
 
-android {
-    setDefaultConfig()
-    setLibraryProguard(project)
+java {
+    sourceCompatibility = ProjectConfigurations.javaVer
+    targetCompatibility = ProjectConfigurations.javaVer
 }
 
 dependencies {

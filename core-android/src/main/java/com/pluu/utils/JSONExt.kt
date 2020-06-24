@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.pluu.core
+package com.pluu.utils
 
 import org.json.JSONArray
 import org.json.JSONObject
