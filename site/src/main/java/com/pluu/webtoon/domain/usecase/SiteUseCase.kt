@@ -1,7 +1,9 @@
 package com.pluu.webtoon.domain.usecase
 
 import com.pluu.webtoon.domain.model.DetailResult
+import com.pluu.webtoon.domain.model.EpisodeInfo
 import com.pluu.webtoon.domain.model.EpisodeResult
+import com.pluu.webtoon.domain.model.ShareItem
 import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
@@ -32,4 +34,8 @@ interface EpisodeUseCase {
 
 interface DetailUseCase {
     suspend operator fun invoke(param: DetailRequest): DetailResult
+}
+
+interface ShareUseCase {
+    operator fun invoke(episode: EpisodeInfo, detail: DetailResult.Detail): ShareItem
 }

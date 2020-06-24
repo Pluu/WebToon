@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":core-android"))
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":site"))
     implementation(project(":ui-common"))
 
     implementation(Dep.Kotlin.stdlibJvm)
