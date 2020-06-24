@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pluu.webtoon.detail.databinding.ItemDetailViewholderBinding
-import com.pluu.webtoon.domain.model.DetailView
+import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.utils.loadUrlOriginal
 
 internal class DetailAdapter(

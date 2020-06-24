@@ -23,11 +23,11 @@ import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.domain.model.EpisodeInfo
-import com.pluu.webtoon.domain.model.ToonInfo
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.episode.ui.listener.EpisodeSelectListener
+import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint

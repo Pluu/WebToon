@@ -3,6 +3,7 @@ include(
     ":data",
     ":core",
     ":core-android",
+    ":model",
     ":domain",
     ":site",
     ":ui-common",

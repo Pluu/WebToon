@@ -12,11 +12,12 @@ import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.animatorColor
 import com.pluu.utils.getRequiredParcelableExtra
+import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
 import com.pluu.utils.setStatusBarColor
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.domain.model.ToonInfo
+import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.ActivityEpisodeBinding
 import com.pluu.webtoon.ui.model.PalletColor
@@ -34,7 +35,7 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
     private val binding by viewBinding(ActivityEpisodeBinding::bind)
 
     private val webToonInfo by lazyNone {
-        intent.getRequiredParcelableExtra<ToonInfo>(Const.EXTRA_EPISODE)
+        intent.getRequiredSerializableExtra<ToonInfo>(Const.EXTRA_EPISODE)
     }
     private val palletColor by lazyNone {
         intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)

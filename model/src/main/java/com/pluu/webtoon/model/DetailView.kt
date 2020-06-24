@@ -1,4 +1,4 @@
-package com.pluu.webtoon.domain.model
+package com.pluu.webtoon.model
 
 /**
  * 상세데이터 타입

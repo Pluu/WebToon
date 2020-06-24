@@ -1,10 +1,7 @@
-package com.pluu.webtoon.domain.model
+package com.pluu.webtoon.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.IgnoredOnParcel
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
-@Parcelize
 class ToonInfo(
     val id: String,
     val title: String,
@@ -15,7 +12,6 @@ class ToonInfo(
     val status: Status = Status.NONE,
     val isAdult: Boolean = false,
     var isFavorite: Boolean = false
-) : Parcelable {
-    @IgnoredOnParcel
+) : Serializable {
     var isLock: Boolean = false
 }

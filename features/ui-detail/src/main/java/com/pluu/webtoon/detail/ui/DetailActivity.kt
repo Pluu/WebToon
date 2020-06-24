@@ -28,7 +28,7 @@ import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.detail.databinding.ActivityDetailBinding
 import com.pluu.webtoon.detail.model.getMessage
-import com.pluu.webtoon.domain.model.ShareItem
+import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit

@@ -1,10 +1,7 @@
-package com.pluu.webtoon.domain.model
+package com.pluu.webtoon.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.IgnoredOnParcel
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
-@Parcelize
 data class EpisodeInfo(
     val id: String,
     val toonId: String,
@@ -14,11 +11,8 @@ data class EpisodeInfo(
     val status: Status = Status.NONE,
     val rate: String = "",
     private val isLoginNeed: Boolean = false
-) : Parcelable {
-
-    @IgnoredOnParcel
+) : Serializable {
     var isRead: Boolean = false
 
-    @IgnoredOnParcel
     val isLock: Boolean = isLoginNeed
 }

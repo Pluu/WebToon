@@ -19,6 +19,7 @@ androidExtensions {
 dependencies {
     implementation(project(":core"))
     implementation(project(":data"))
+    implementation(project(":model"))
 
     implementation(Dep.Kotlin.stdlibJvm)
 

@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.domain.model.Episode
-import com.pluu.webtoon.domain.model.EpisodeInfo
-import com.pluu.webtoon.domain.model.EpisodeResult
-import com.pluu.webtoon.domain.model.ToonInfo
+import com.pluu.webtoon.model.Episode
+import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.model.EpisodeResult
+import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.domain.usecase.AddFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.ReadEpisodeListUseCase

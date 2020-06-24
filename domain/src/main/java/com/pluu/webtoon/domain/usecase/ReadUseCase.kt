@@ -2,7 +2,7 @@ package com.pluu.webtoon.domain.usecase
 
 import com.pluu.webtoon.data.dao.IDBHelper
 import com.pluu.webtoon.data.model.DBEpisode
-import com.pluu.webtoon.domain.model.DetailResult
+import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.NAV_ITEM
 import javax.inject.Inject
 

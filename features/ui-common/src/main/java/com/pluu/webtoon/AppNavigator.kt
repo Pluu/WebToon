@@ -3,8 +3,8 @@ package com.pluu.webtoon
 import android.content.Context
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCaller
-import com.pluu.webtoon.domain.model.EpisodeInfo
-import com.pluu.webtoon.domain.model.ToonInfo
+import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.ui.model.PalletColor
 
 interface AppNavigator {

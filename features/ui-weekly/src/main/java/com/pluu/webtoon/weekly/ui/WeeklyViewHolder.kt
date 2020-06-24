@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.domain.model.Status
-import com.pluu.webtoon.domain.model.ToonInfo
+import com.pluu.webtoon.model.Status
+import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.utils.loadUrl
 import com.pluu.webtoon.weekly.databinding.LayoutMainListItemBinding
 

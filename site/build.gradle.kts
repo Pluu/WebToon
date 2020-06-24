@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":core-android"))
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":model"))
 
     implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.serialization)

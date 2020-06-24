@@ -1,7 +1,7 @@
 package com.pluu.webtoon.weekly.ui.listener
 
 import android.widget.ImageView
-import com.pluu.webtoon.domain.model.ToonInfo
+import com.pluu.webtoon.model.ToonInfo
 
 /**
  * WebToon Item Select Listener

@@ -13,7 +13,7 @@ android {
 
 dependencies {
     implementation(project(":core-android"))
-    implementation(project(":domain"))
+    api(project(":model"))
 
     implementation(Dep.Kotlin.stdlibJvm)
 
