@@ -127,7 +127,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
 
     private fun fragmentInit() {
         supportFragmentManager.commit {
-            replace(R.id.container, com.pluu.webtoon.detail.ui.DetailFragment())
+            replace(R.id.container, DetailFragment())
         }
     }
 
