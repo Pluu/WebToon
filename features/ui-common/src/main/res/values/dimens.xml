@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="toon_weekly_min_height">100dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="main_status_padding_height">2dp</dimen>
+    <dimen name="main_status_padding_width">6dp</dimen>
 </resources>

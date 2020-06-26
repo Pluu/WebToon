@@ -1,9 +1,0 @@
-<resources>
-    <style name="StatusStyle">
-        <item name="android:background">#66000000</item>
-        <item name="android:paddingStart">@dimen/main_status_padding_width</item>
-        <item name="android:paddingTop">@dimen/main_status_padding_height</item>
-        <item name="android:paddingRight">@dimen/main_status_padding_width</item>
-        <item name="android:paddingBottom">@dimen/main_status_padding_height</item>
-    </style>
-</resources>
