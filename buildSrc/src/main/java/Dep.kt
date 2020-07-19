@@ -63,7 +63,7 @@ object Dep {
     }
 
     object Dagger {
-        private const val version = "2.28.2"
+        private const val version = "2.28.3"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
     }
