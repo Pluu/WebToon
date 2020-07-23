@@ -15,7 +15,7 @@ object Dep {
         const val annotation = "androidx.annotation:annotation:1.2.0-alpha01"
 
         object activity {
-            private const val activityVersion = "1.2.0-alpha06"
+            private const val activityVersion = "1.2.0-alpha07"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -24,13 +24,13 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha01"
 
         object fragment {
-            private const val fragmentVersion = "1.3.0-alpha06"
+            private const val fragmentVersion = "1.3.0-alpha07"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.3.0-alpha05"
+            private const val lifecycleVersion = "2.3.0-alpha06"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
@@ -38,7 +38,7 @@ object Dep {
         }
 
         object room {
-            private const val roomVersion = "2.3.0-alpha01"
+            private const val roomVersion = "2.3.0-alpha02"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -51,7 +51,7 @@ object Dep {
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta8"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.0"
             const val material = "com.google.android.material:material:1.3.0-alpha01"
-            const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+            const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha04"
@@ -69,12 +69,12 @@ object Dep {
     }
 
     object Hilt {
-        const val version = "2.28.2-alpha"
+        const val version = "2.28.3-alpha"
         const val android = "com.google.dagger:hilt-android:${version}"
         const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${version}"
         const val testing = "com.google.dagger:hilt-android-testing:${version}"
 
-        private const val androidX = "1.0.0-alpha01"
+        private const val androidX = "1.0.0-alpha02"
         const val hilt_common = "androidx.hilt:hilt-common:${androidX}"
         const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${androidX}"
         const val android_hilt_compiler = "androidx.hilt:hilt-compiler:${androidX}"
@@ -104,7 +104,7 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.7.2"
+        private const val version = "4.8.0"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
@@ -115,7 +115,7 @@ object Dep {
     object Test {
         const val junit = "junit:junit:4.13"
         const val assertJ = "org.assertj:assertj-core:3.16.1"
-        const val mockito = "org.mockito:mockito-core:3.3.3"
+        const val mockito = "org.mockito:mockito-core:3.4.4"
         const val androidJunit = "androidx.test.ext:junit:1.1.2-rc01"
         const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0-rc01"
     }
