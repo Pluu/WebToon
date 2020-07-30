@@ -50,7 +50,7 @@ object Dep {
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-rc1"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.0"
-            const val material = "com.google.android.material:material:1.3.0-alpha01"
+            const val material = "com.google.android.material:material:1.3.0-alpha02"
             const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
