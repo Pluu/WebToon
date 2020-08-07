@@ -46,7 +46,7 @@ object Dep {
         }
 
         object UI {
-            const val browser = "androidx.browser:browser:1.3.0-alpha04"
+            const val browser = "androidx.browser:browser:1.3.0-alpha05"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-rc1"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.0"
@@ -104,19 +104,19 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.8.0"
+        private const val version = "4.8.1"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
-    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.4"
 
     object Test {
         const val junit = "junit:junit:4.13"
         const val assertJ = "org.assertj:assertj-core:3.16.1"
-        const val mockito = "org.mockito:mockito-core:3.4.4"
-        const val androidJunit = "androidx.test.ext:junit:1.1.2-rc01"
-        const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0-rc01"
+        const val mockito = "org.mockito:mockito-core:3.4.6"
+        const val androidJunit = "androidx.test.ext:junit:1.1.2-rc03"
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0-rc03"
     }
 }
