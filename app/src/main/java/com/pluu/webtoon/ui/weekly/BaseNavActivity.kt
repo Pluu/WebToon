@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.postDelayed
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
@@ -179,7 +180,9 @@ abstract class BaseNavActivity(
         }
 
         // launch the target Activity after a short delay, to allow the close animation to play
-        mHandler.postDelayed({ goToNavDrawerItem(item) }, NAVDRAWER_LAUNCH_DELAY.toLong())
+        mHandler.postDelayed(NAVDRAWER_LAUNCH_DELAY.toLong()) {
+            goToNavDrawerItem(item)
+        }
 
         // change the active item on the list so the user can see the item changed
         setSelectedNavDrawerItem(item)
