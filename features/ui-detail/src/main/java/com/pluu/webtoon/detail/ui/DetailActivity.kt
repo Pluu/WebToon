@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -148,7 +149,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
         return super.onOptionsItemSelected(item)
     }
 
-    private val mToggleHandler = Handler {
+    private val mToggleHandler = Handler(Looper.getMainLooper()) {
         toggleHideBar()
         true
     }

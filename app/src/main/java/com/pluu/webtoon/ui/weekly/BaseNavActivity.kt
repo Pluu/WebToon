@@ -2,6 +2,7 @@ package com.pluu.webtoon.ui.weekly
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -52,7 +53,7 @@ abstract class BaseNavActivity(
             session.navi = value.getCoreType()
         }
 
-    private val mHandler: Handler by lazyNone { Handler() }
+    private val mHandler by lazyNone { Handler(Looper.getMainLooper()) }
 
     // list of navdrawer items that were actually added to the navdrawer, in order
     private val mNavDrawerItems = ArrayList<UI_NAV_ITEM>()
