@@ -13,7 +13,6 @@ import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.network.mapDocument
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import org.json.JSONObject
 import org.jsoup.nodes.Document
 
@@ -31,7 +30,10 @@ internal class NaverDetailApi(
     )
 
     private val json by lazy {
-        Json(JsonConfiguration(ignoreUnknownKeys = true, isLenient = true))
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+        }
     }
 
     private val articleWordRegex by lazy {
@@ -154,7 +156,7 @@ internal class NaverDetailApi(
             ?.let { start ->
                 val openIndex = src.indexOf("{", startIndex = start)
                 val closeIndex = src.indexOf("}", startIndex = start)
-                val article = json.parse(
+                val article = json.decodeFromString(
                     Article.serializer(),
                     src.substring(openIndex, closeIndex + 1)
                 )

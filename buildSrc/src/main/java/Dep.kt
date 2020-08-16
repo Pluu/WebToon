@@ -81,7 +81,7 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.3.72"
+        const val version = "1.4.0"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
@@ -92,7 +92,7 @@ object Dep {
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
 
-        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0-RC"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.13.1"
