@@ -18,6 +18,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ProgressDialog
+import com.pluu.utils.SystemUiHelper
 import com.pluu.utils.animatorColor
 import com.pluu.utils.getRequiredParcelableExtra
 import com.pluu.utils.getThemeColor
@@ -156,19 +157,14 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
      * Detects and toggles immersive mode.
      */
     private fun toggleHideBar() {
-        val uiOptions = window.decorView.systemUiVisibility
-
-        if (uiOptions and View.SYSTEM_UI_FLAG_LOW_PROFILE == 0) {
+        val isHide = SystemUiHelper.toggleHideBar(window)
+        if (isHide) {
             moveToAxisY(binding.toolbarActionbar, true)
             moveToAxisY(binding.bottomMenu, false)
         } else {
             moveRevert(binding.toolbarActionbar)
             moveRevert(binding.bottomMenu)
         }
-
-        var newUiOptions = uiOptions
-        newUiOptions = newUiOptions xor View.SYSTEM_UI_FLAG_LOW_PROFILE
-        window.decorView.systemUiVisibility = newUiOptions
     }
 
     private fun moveToAxisY(view: View, isToTop: Boolean) {
