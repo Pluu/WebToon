@@ -17,9 +17,9 @@ import com.pluu.utils.getThemeColor
 import com.pluu.utils.setStatusBarColor
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.ActivityEpisodeBinding
+import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi

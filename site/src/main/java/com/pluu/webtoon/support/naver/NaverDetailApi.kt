@@ -4,11 +4,11 @@ import com.pluu.utils.mapEach
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
+import com.pluu.webtoon.domain.usecase.DetailUseCase
+import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.model.ERROR_TYPE
-import com.pluu.webtoon.domain.usecase.DetailUseCase
-import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.network.mapDocument
 import kotlinx.serialization.Serializable

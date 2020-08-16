@@ -1,14 +1,14 @@
 package com.pluu.webtoon.domain.usecase
 
-import com.pluu.webtoon.model.DetailResult
-import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.model.EpisodeResult
-import com.pluu.webtoon.model.ShareItem
-import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.domain.usecase.param.WeeklyRequest
+import com.pluu.webtoon.model.DetailResult
+import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.model.Result
+import com.pluu.webtoon.model.ShareItem
+import com.pluu.webtoon.model.ToonInfo
 import java.util.Calendar
 import java.util.Locale
 

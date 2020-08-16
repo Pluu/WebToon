@@ -2,9 +2,9 @@ package com.pluu.webtoon.episode.ui
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.LayoutEpisodeListItemBinding
+import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.utils.loadUrl
 
 internal class EpisodeViewHolder(

@@ -7,10 +7,10 @@ import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
 import com.pluu.webtoon.data.network.safeAPi
-import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
+import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.model.Result
 import org.json.JSONArray
 import org.json.JSONObject

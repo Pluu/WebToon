@@ -1,9 +1,9 @@
 package com.pluu.webtoon.support.kakao
 
+import com.pluu.webtoon.domain.usecase.ShareUseCase
 import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ShareItem
-import com.pluu.webtoon.domain.usecase.ShareUseCase
 
 internal class KakaoDetailShare: ShareUseCase {
     private val shareUrl =

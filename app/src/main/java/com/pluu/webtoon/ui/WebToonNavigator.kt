@@ -9,9 +9,9 @@ import com.pluu.utils.startActivity
 import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.DetailActivity
+import com.pluu.webtoon.episode.ui.EpisodesActivity
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfo
-import com.pluu.webtoon.episode.ui.EpisodesActivity
 import com.pluu.webtoon.setting.ui.LicenseActivity
 import com.pluu.webtoon.setting.ui.SettingsActivity
 import com.pluu.webtoon.ui.model.PalletColor
