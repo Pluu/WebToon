@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 
+/** Origin Source : https://github.com/wada811/ViewBinding-ktx */
 fun <T : ViewBinding> FragmentActivity.viewBinding(
     bind: (View) -> T
 ): Lazy<T> = object : Lazy<T> {
