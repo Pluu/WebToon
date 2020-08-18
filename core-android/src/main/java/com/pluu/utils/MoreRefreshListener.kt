@@ -61,7 +61,7 @@ abstract class MoreRefreshListener : RecyclerView.OnScrollListener() {
         else -> throw RuntimeException("Unsupported LayoutManager used")
     }
 
-    private fun findMax(lastPositions: IntArray) = lastPositions.max() ?: Integer.MIN_VALUE
+    private fun findMax(lastPositions: IntArray) = lastPositions.maxOrNull() ?: Integer.MIN_VALUE
 
     /**
      * Enable/Disable the More event

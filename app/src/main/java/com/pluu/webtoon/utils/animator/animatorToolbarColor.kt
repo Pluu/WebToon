@@ -1,6 +1,5 @@
 package com.pluu.webtoon.utils.animator
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +13,7 @@ fun AppCompatActivity.animatorToolbarColor(endColor: Int) =
     animatorColor(
         startColor = getThemeColor(R.attr.colorPrimary),
         endColor = endColor,
-        listener = ValueAnimator.AnimatorUpdateListener {
+        listener = {
             supportActionBar?.apply {
                 setBackgroundDrawable(ColorDrawable(it.animatedValue as Int))
             }
