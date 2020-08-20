@@ -15,6 +15,7 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.pluu.utils.observeNonNull
+import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.AppNavigator
@@ -42,6 +43,13 @@ class WebtoonListFragment : Fragment(R.layout.fragment_webtoon_list) {
     private val toonViewModel by activityViewModels<ToonViewModel>()
 
     private val binding by viewBinding(FragmentWebtoonListBinding::bind)
+
+    private val openEpisodeLauncher = registerStartActivityForResult { activityResult ->
+        val favorite: FavoriteResult = activityResult.data
+            ?.getParcelableExtra(Const.EXTRA_FAVORITE_EPISODE)
+            ?: return@registerStartActivityForResult
+        toonViewModel.updateFavorite(favorite)
+    }
 
     @Inject
     lateinit var appNavigator: AppNavigator
@@ -130,15 +138,10 @@ class WebtoonListFragment : Fragment(R.layout.fragment_webtoon_list) {
     private fun moveEpisode(item: ToonInfo, palletColor: PalletColor) {
         appNavigator.openEpisode(
             context = requireContext(),
-            caller = this,
+            launcher = openEpisodeLauncher,
             item = item,
             palletColor = palletColor
-        ) { activityResult ->
-            val favorite: FavoriteResult =
-                activityResult.data?.getParcelableExtra(Const.EXTRA_FAVORITE_EPISODE)
-                    ?: return@openEpisode
-            toonViewModel.updateFavorite(favorite)
-        }
+        )
     }
 
     companion object {

@@ -19,6 +19,7 @@ import com.pluu.utils.MoreRefreshListener
 import com.pluu.utils.ProgressDialog
 import com.pluu.utils.getRequiredParcelableExtra
 import com.pluu.utils.observeNonNull
+import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.AppNavigator
@@ -63,6 +64,10 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
 
     @Inject
     lateinit var appNavigator: AppNavigator
+
+    private val openDetailLauncher = registerStartActivityForResult {
+        viewModel.readUpdate()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -228,12 +233,10 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     private fun moveDetailPage(item: EpisodeInfo) {
         appNavigator.openDetail(
             context = requireContext(),
-            caller = this,
+            launcher = openDetailLauncher,
             item = item,
             palletColor = palletColor
-        ) {
-            viewModel.readUpdate()
-        }
+        )
     }
 
     companion object {

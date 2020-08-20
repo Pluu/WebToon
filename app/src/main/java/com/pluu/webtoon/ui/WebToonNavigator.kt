@@ -1,10 +1,9 @@
 package com.pluu.webtoon.ui
 
 import android.content.Context
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCaller
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import com.pluu.utils.buildIntent
-import com.pluu.utils.result.justSafeRegisterForActivityResult
 import com.pluu.utils.startActivity
 import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
@@ -20,30 +19,28 @@ import javax.inject.Inject
 class WebToonNavigator @Inject constructor() : AppNavigator {
     override fun openEpisode(
         context: Context,
-        caller: ActivityResultCaller,
+        launcher: ActivityResultLauncher<Intent>,
         item: ToonInfo,
-        palletColor: PalletColor,
-        callback: (ActivityResult) -> Unit
+        palletColor: PalletColor
     ) {
         val intent = context.buildIntent<EpisodesActivity>(
             Const.EXTRA_EPISODE to item,
             Const.EXTRA_PALLET to palletColor
         )
-        caller.justSafeRegisterForActivityResult(intent, callback)
+        launcher.launch(intent)
     }
 
     override fun openDetail(
         context: Context,
-        caller: ActivityResultCaller,
+        launcher: ActivityResultLauncher<Intent>,
         item: EpisodeInfo,
-        palletColor: PalletColor,
-        callback: (ActivityResult) -> Unit
+        palletColor: PalletColor
     ) {
         val intent = context.buildIntent<DetailActivity>(
             Const.EXTRA_EPISODE to item,
             Const.EXTRA_PALLET to palletColor
         )
-        caller.justSafeRegisterForActivityResult(intent, callback)
+        launcher.launch(intent)
     }
 
     override fun openSetting(context: Context) {
