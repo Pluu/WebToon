@@ -15,22 +15,22 @@ object Dep {
         const val annotation = "androidx.annotation:annotation:1.2.0-alpha01"
 
         object activity {
-            private const val activityVersion = "1.2.0-alpha07"
+            private const val activityVersion = "1.2.0-alpha08"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha01"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha01"
+        const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha02"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha02"
 
         object fragment {
-            private const val fragmentVersion = "1.3.0-alpha07"
+            private const val fragmentVersion = "1.3.0-alpha08"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.3.0-alpha06"
+            private const val lifecycleVersion = "2.3.0-alpha07"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
@@ -115,7 +115,7 @@ object Dep {
     object Test {
         const val junit = "junit:junit:4.13"
         const val assertJ = "org.assertj:assertj-core:3.16.1"
-        const val mockito = "org.mockito:mockito-core:3.4.6"
+        const val mockito = "org.mockito:mockito-core:3.5.2"
         const val androidJunit = "androidx.test.ext:junit:1.1.2-rc03"
         const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0-rc03"
     }
