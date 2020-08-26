@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="BaseMaterialAppThemeToolBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/theme_primary</item>
-        <item name="colorPrimaryVariant">@color/theme_primary_variant</item>
-        <item name="colorAccent">@color/red_500</item>
-    </style>
-
-    <style name="PreferenceToolBar" parent="BaseMaterialAppThemeToolBar">
+    <style name="PreferenceToolBar" parent="BaseMaterialAppTheme">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 </resources>
