@@ -2,12 +2,11 @@ package com.pluu.utils
 
 import android.content.Context
 import android.graphics.Point
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
+import androidx.core.hardware.display.DisplayManagerCompat
 import androidx.fragment.app.Fragment
 
 fun Context.getCompatColor(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
@@ -33,8 +32,11 @@ fun Context.screenWidth() = screen().first
 fun Context.screenHeight() = screen().second
 
 fun Context.screen(): Pair<Int, Int> {
-    val display = getSystemService<WindowManager>()!!.defaultDisplay
-    val size = Point()
-    display.getRealSize(size)
-    return size.x to size.y
+    return DisplayManagerCompat.getInstance(this)
+        .displays.firstOrNull()
+        ?.let {
+            val size = Point()
+            it.getRealSize(size)
+            size.x to size.y
+        } ?: 0 to 0
 }
