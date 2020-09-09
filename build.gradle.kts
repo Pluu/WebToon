@@ -10,6 +10,7 @@ allprojects {
 
     tasks.withType(KotlinCompile::class).configureEach {
         kotlinOptions.jvmTarget = ProjectConfigurations.javaVerString
+        kotlinOptions.useIR = true
     }
 }
 

@@ -1,6 +1,6 @@
 plugins {
-    javaLibrary()
-    kotlinJvm()
+    id("java-library")
+    kotlin("jvm")
 }
 
 java {

@@ -2,7 +2,7 @@
 
 object Dep {
     object GradlePlugin {
-        const val androidStudioVersion = "4.2.0-alpha08"
+        const val androidStudioVersion = "4.2.0-alpha10"
         const val android = "com.android.tools.build:gradle:$androidStudioVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization =
@@ -49,7 +49,7 @@ object Dep {
             const val browser = "androidx.browser:browser:1.3.0-alpha05"
             const val cardview = "androidx.cardview:cardview:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.1"
-            const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.0"
+            const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
             const val material = "com.google.android.material:material:1.3.0-alpha02"
             const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"

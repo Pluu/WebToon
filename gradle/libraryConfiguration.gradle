@@ -1,0 +1,13 @@
+android {
+    buildTypes {
+        release {
+            minifyEnabled BuildTypeRelease.isMinifyEnabled
+            proguardFiles getDefaultProguardFile("proguard-android.txt")
+            proguardFiles project.file("proguard-rules.pro")
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}

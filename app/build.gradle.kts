@@ -2,17 +2,17 @@ import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    androidApp()
-    kotlinAndroid()
-    kotlinAndroidExtensions()
-    daggerHilt()
-    kotlinKapt()
-    ktlint()
+    id("com.android.application")
+    kotlin("android")
+    kotlin("android.extensions")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
-android {
-    setAppConfig()
+apply(from = "${rootProject.projectDir}/gradle/commonConfiguration.gradle")
 
+android {
     defaultConfig {
         applicationId = "com.pluu.webtoon"
         versionCode = 61

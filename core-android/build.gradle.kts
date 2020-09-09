@@ -1,11 +1,13 @@
 plugins {
-    androidLibrary()
-    kotlinAndroid()
+    id("com.android.library")
+    kotlin("android")
 }
 
-android {
-    setDefaultConfig()
-    setLibraryProguard(project)
+listOf(
+    "commonConfiguration.gradle",
+    "libraryConfiguration.gradle"
+).forEach { file ->
+    apply(from = "${rootProject.projectDir}/gradle/${file}")
 }
 
 dependencies {

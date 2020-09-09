@@ -1,14 +1,18 @@
 plugins {
-    androidLibrary()
-    kotlinAndroid()
-    daggerHilt()
-    kotlinKapt()
+    id("com.android.library")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
+
+listOf(
+    "commonConfiguration.gradle",
+    "libraryConfiguration.gradle"
+).forEach { file ->
+    apply(from = "${rootProject.projectDir}/gradle/${file}")
 }
 
 android {
-    setDefaultConfig()
-    setLibraryProguard(project)
-
     buildFeatures {
         viewBinding = true
     }

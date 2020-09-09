@@ -1,0 +1,14 @@
+android {
+    compileSdkVersion ProjectConfigurations.compileSdk
+    buildToolsVersion ProjectConfigurations.buildTools
+
+    defaultConfig {
+        minSdkVersion ProjectConfigurations.minSdk
+        targetSdkVersion ProjectConfigurations.targetSdk
+    }
+
+    compileOptions {
+        sourceCompatibility ProjectConfigurations.javaVer
+        targetCompatibility ProjectConfigurations.javaVer
+    }
+}

@@ -1,14 +1,16 @@
 import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 
 plugins {
-    androidLibrary()
-    kotlinAndroid()
-    kotlinAndroidExtensions()
+    id("com.android.library")
+    kotlin("android")
+    kotlin("android.extensions")
 }
 
-android {
-    setDefaultConfig()
-    setLibraryProguard(project)
+listOf(
+    "commonConfiguration.gradle",
+    "libraryConfiguration.gradle"
+).forEach { file ->
+    apply(from = "${rootProject.projectDir}/gradle/${file}")
 }
 
 dependencies {

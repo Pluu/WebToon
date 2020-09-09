@@ -1,12 +1,19 @@
 plugins {
-    androidLibrary()
-    kotlinAndroid()
-    daggerHilt()
-    kotlinKapt()
+    id("com.android.library")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
+
+listOf(
+    "commonConfiguration.gradle",
+    "libraryConfiguration.gradle"
+).forEach { file ->
+    apply(from = "${rootProject.projectDir}/gradle/${file}")
 }
 
 android {
-    setDefaultConfig {
+    defaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf(
@@ -19,15 +26,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    setLibraryProguard(project)
-
     sourceSets {
         getByName("androidTest").assets.srcDirs("$projectDir/schemas")
-    }
-
-    packagingOptions {
-        exclude("META-INF/AL2.0")
-        exclude("META-INF/LGPL2.1")
     }
 }
 
