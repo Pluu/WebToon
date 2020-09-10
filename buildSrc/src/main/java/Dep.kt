@@ -7,7 +7,7 @@ object Dep {
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization =
             "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
-        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
+        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.3.0"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Hilt.version}"
     }
 
@@ -81,7 +81,7 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.4.0"
+        const val version = "1.4.10"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
@@ -114,9 +114,9 @@ object Dep {
 
     object Test {
         const val junit = "junit:junit:4.13"
-        const val assertJ = "org.assertj:assertj-core:3.16.1"
-        const val mockito = "org.mockito:mockito-core:3.5.2"
-        const val androidJunit = "androidx.test.ext:junit:1.1.2-rc03"
-        const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0-rc03"
+        const val assertJ = "org.assertj:assertj-core:3.17.2"
+        const val mockito = "org.mockito:mockito-core:3.5.10"
+        const val androidJunit = "androidx.test.ext:junit:1.1.2"
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0"
     }
 }
