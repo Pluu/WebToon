@@ -33,8 +33,8 @@ dependencies {
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.cardview)
     implementation(Dep.AndroidX.UI.constraintLayout)
+    implementation(Dep.AndroidX.UI.material)
     implementation(Dep.AndroidX.UI.palette)
     implementation(Dep.AndroidX.UI.recyclerview)
 

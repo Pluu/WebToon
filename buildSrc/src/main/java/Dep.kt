@@ -47,7 +47,6 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0-alpha05"
-            const val cardview = "androidx.cardview:cardview:1.0.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.1"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
             const val material = "com.google.android.material:material:1.3.0-alpha02"
