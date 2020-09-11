@@ -53,7 +53,7 @@ object Dep {
             const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha04"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha05"
             const val viewPager = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
         }
 
