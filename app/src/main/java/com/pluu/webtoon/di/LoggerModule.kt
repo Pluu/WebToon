@@ -13,12 +13,9 @@ import javax.inject.Singleton
 object LoggerModule {
     @Provides
     @Singleton
-    fun provideLoggingInterceptor() = HttpLoggingInterceptor(
-        object : HttpLoggingInterceptor.Logger {
-            override fun log(message: String) {
-                Timber.tag("OkHttp").d(message)
-            }
-        }).apply {
+    fun provideLoggingInterceptor() = HttpLoggingInterceptor { message ->
+        Timber.tag("OkHttp").d(message)
+    }.apply {
         level = HttpLoggingInterceptor.Level.BASIC
     }
 }
