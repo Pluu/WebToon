@@ -2,36 +2,28 @@ package com.pluu.utils
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 
 inline fun LiveData<Unit>.observeNonNull(
     owner: LifecycleOwner,
     crossinline observer: () -> Unit
 ) {
-    this.observe(owner, Observer {
+    this.observe(owner) {
         if (it != null) {
             observer()
         }
-    })
-}
-
-inline fun <T> LiveData<T>.observe(
-    owner: LifecycleOwner,
-    crossinline observer: (T?) -> Unit
-) {
-    observe(owner, Observer { v -> observer(v) })
+    }
 }
 
 inline fun <T> LiveData<T>.observeNonNull(
     owner: LifecycleOwner,
     crossinline observer: (T) -> Unit
 ) {
-    this.observe(owner, Observer {
+    this.observe(owner) {
         if (it != null) {
             observer(it)
         }
-    })
+    }
 }
 
 inline fun <X, Y> LiveData<X>.map(
