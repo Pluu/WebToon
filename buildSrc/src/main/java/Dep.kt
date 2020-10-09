@@ -33,7 +33,6 @@ object Dep {
             private const val lifecycleVersion = "2.3.0-beta01"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-            const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
         }
 
@@ -74,7 +73,6 @@ object Dep {
         const val testing = "com.google.dagger:hilt-android-testing:${version}"
 
         private const val androidX = "1.0.0-alpha02"
-        const val hilt_common = "androidx.hilt:hilt-common:${androidX}"
         const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${androidX}"
         const val android_hilt_compiler = "androidx.hilt:hilt-compiler:${androidX}"
     }
