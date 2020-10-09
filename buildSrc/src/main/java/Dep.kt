@@ -91,7 +91,7 @@ object Dep {
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
 
-        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0-RC"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.13.1"
