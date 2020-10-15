@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,7 +49,11 @@ class LicenseActivity : AppCompatActivity(R.layout.activity_license) {
         // http://qiita.com/droibit/items/66704f96a602adec5a35
         CustomTabsIntent.Builder()
             .setShowTitle(true)
-            .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary))
+            .setDefaultColorSchemeParams(
+                CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary))
+                    .build()
+            )
             .build()
             .launchUrl(this, Uri.parse(url))
     }
