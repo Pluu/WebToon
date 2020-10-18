@@ -18,11 +18,11 @@ import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
-import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.Const.resultEpisodeLoaded
 import com.pluu.webtoon.Const.resultEpisodeStart
 import com.pluu.webtoon.model.ToonInfo
+import com.pluu.webtoon.navigator.EpisodeNavigator
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.R
@@ -52,7 +52,7 @@ class WebtoonListFragment : Fragment(R.layout.fragment_webtoon_list) {
     }
 
     @Inject
-    lateinit var appNavigator: AppNavigator
+    lateinit var episodeNavigator: EpisodeNavigator
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -136,7 +136,7 @@ class WebtoonListFragment : Fragment(R.layout.fragment_webtoon_list) {
     }
 
     private fun moveEpisode(item: ToonInfo, palletColor: PalletColor) {
-        appNavigator.openEpisode(
+        episodeNavigator.openEpisode(
             context = requireContext(),
             launcher = openEpisodeLauncher,
             item = item,

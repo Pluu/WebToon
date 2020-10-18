@@ -1,4 +1,4 @@
-package com.pluu.webtoon
+package com.pluu.webtoon.navigator
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,7 @@ import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.ui.model.PalletColor
 
-interface AppNavigator {
-
+interface EpisodeNavigator {
     /** Weekly 에서 Episode 화면 선택 */
     fun openEpisode(
         context: Context,
@@ -16,7 +15,9 @@ interface AppNavigator {
         item: ToonInfo,
         palletColor: PalletColor
     )
+}
 
+interface DetailNavigator {
     /** Episode 에서 Detail 화면 선택 */
     fun openDetail(
         context: Context,
@@ -24,7 +25,9 @@ interface AppNavigator {
         item: EpisodeInfo,
         palletColor: PalletColor
     )
+}
 
+interface SettingNavigator {
     fun openSetting(context: Context)
 
     fun openLicense(context: Context)

@@ -8,8 +8,8 @@ import androidx.fragment.app.commit
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.data.pref.PrefConfig
+import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.setting.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
         lateinit var pref: SharedPreferences
 
         @Inject
-        lateinit var appNavigator: AppNavigator
+        lateinit var navigator: SettingNavigator
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.pref_settings)
@@ -64,7 +64,7 @@ class SettingsActivity : AppCompatActivity() {
         @ObsoleteCoroutinesApi
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
             if (LicenseActivity::class.java.canonicalName == preference?.fragment) {
-                appNavigator.openLicense(requireContext())
+                navigator.openLicense(requireContext())
                 return true
             }
             return super.onPreferenceTreeClick(preference)

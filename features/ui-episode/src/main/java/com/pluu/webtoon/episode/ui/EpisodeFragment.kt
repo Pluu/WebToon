@@ -22,13 +22,13 @@ import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
 import com.pluu.utils.viewbinding.viewBinding
-import com.pluu.webtoon.AppNavigator
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.episode.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfo
+import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,7 +63,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     private var isFavorite: Boolean = false
 
     @Inject
-    lateinit var appNavigator: AppNavigator
+    lateinit var detailNavigator: DetailNavigator
 
     private val openDetailLauncher = registerStartActivityForResult {
         viewModel.readUpdate()
@@ -231,7 +231,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     }
 
     private fun moveDetailPage(item: EpisodeInfo) {
-        appNavigator.openDetail(
+        detailNavigator.openDetail(
             context = requireContext(),
             launcher = openDetailLauncher,
             item = item,
