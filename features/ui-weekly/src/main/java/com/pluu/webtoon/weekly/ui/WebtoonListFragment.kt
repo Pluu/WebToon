@@ -90,6 +90,7 @@ class WebtoonListFragment : Fragment(R.layout.fragment_webtoon_list) {
         }
         toonViewModel.updateEvent.observeNonNull(viewLifecycleOwner) {
             favoriteUpdate(it)
+            viewModel.onSortList()
         }
     }
 
