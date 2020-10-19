@@ -61,6 +61,28 @@ class WeekyViewModel @ViewModelInject constructor(
             emptyList()
         }
     }
+
+    fun onSortList() {
+        viewModelScope.launch {
+            _listEvent.value = sortedListEvent()
+        }
+    }
+
+    private suspend fun sortedListEvent(): List<ToonInfo> = withContext(dispatchers.computation) {
+        val list = listEvent.value
+        if (!list.isNullOrEmpty()) {
+            list
+                .sortedWith(compareBy<ToonInfo> {
+                    !it.isFavorite
+                }.thenBy {
+                    it.title
+                })
+                .toList()
+        } else {
+            emptyList()
+        }
+    }
+
 }
 
 sealed class WeeklyEvent {
