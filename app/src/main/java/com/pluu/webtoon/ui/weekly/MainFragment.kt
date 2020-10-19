@@ -59,7 +59,7 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
                 lifecycle = viewLifecycleOwner.lifecycle
             )
             // 금일 기준으로 ViewPager 기본 표시
-            currentItem = serviceApi.todayTabPosition
+            setCurrentItem(serviceApi.todayTabPosition, false)
         }
 
         TabLayoutMediator(binding.slidingTabLayout, binding.viewPager) { tab, position ->
