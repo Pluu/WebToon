@@ -14,7 +14,8 @@ internal class EpisodeViewHolder(
     fun bind(item: EpisodeInfo) {
         binding.titleView.text = item.title
 
-        binding.thumbnailView.loadUrl(item.image,
+        binding.thumbnailView.loadUrl(
+            url = item.image,
             ready = { binding.progress.visibility = View.GONE },
             fail = { binding.progress.visibility = View.GONE }
         )
