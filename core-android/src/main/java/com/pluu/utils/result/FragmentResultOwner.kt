@@ -1,6 +1,7 @@
 package com.pluu.utils.result
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
 fun FragmentActivity.setFragmentResultListener(
@@ -11,3 +12,8 @@ fun FragmentActivity.setFragmentResultListener(
         { _requestKey, bundle -> listener.invoke(_requestKey, bundle) }
     )
 }
+
+fun Fragment.setFragmentResult(
+    requestKey: String,
+    result: Bundle = Bundle()
+) = parentFragmentManager.setFragmentResult(requestKey, result)
