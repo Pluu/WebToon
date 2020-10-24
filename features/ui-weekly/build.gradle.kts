@@ -33,16 +33,12 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
-    implementation(Dep.AndroidX.activity.ktx)
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.constraintLayout)
-    implementation(Dep.AndroidX.UI.material)
     implementation(Dep.AndroidX.UI.palette)
-    implementation(Dep.AndroidX.UI.recyclerview)
 
     // Compose
     implementation(Dep.AndroidX.Compose.runtime)
