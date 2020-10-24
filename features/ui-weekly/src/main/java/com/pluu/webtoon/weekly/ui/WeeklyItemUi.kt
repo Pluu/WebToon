@@ -58,6 +58,7 @@ fun WeeklyItemUi(
             GlideImage(
                 modifier = Modifier.fillMaxSize(),
                 url = item.image,
+                errorImageResId = R.drawable.ic_sentiment_very_dissatisfied_48,
                 options = { centerCrop() },
                 onReady = { image ->
                     state.image = image

@@ -2,6 +2,7 @@ package com.pluu.webtoon.ui.compose.image
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.pluu.webtoon.utils.toAgentGlideUrl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +29,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun GlideImage(
     url: String,
+    @DrawableRes errorImageResId: Int,
     options: RequestOptions.() -> RequestOptions = { this },
     modifier: Modifier = Modifier.fillMaxSize(),
     contentScale: ContentScale = ContentScale.Crop,
@@ -60,8 +63,9 @@ fun GlideImage(
 
                 glide
                     .asBitmap()
-                    .load(url)
+                    .load(url.toAgentGlideUrl())
                     .apply(options(RequestOptions()))
+                    .error(errorImageResId)
                     .into(target!!)
             }
 
