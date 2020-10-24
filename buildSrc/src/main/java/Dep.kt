@@ -56,6 +56,19 @@ object Dep {
             const val viewPager = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
         }
 
+        object Compose {
+            const val version = "1.0.0-alpha05"
+
+            const val runtime = "androidx.compose.runtime:runtime:$version"
+            const val foundation = "androidx.compose.foundation:foundation:${version}"
+            const val ui = "androidx.compose.ui:ui:${version}"
+            const val layout = "androidx.compose.foundation:foundation-layout:${version}"
+            const val material = "androidx.compose.material:material:${version}"
+            const val materialAdapter = "com.google.android.material:compose-theme-adapter:${version}"
+            const val tooling = "androidx.ui:ui-tooling:${version}"
+            const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
+        }
+
         const val viewBinding =
             "androidx.databinding:viewbinding:${GradlePlugin.androidStudioVersion}"
     }
