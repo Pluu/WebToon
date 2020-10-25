@@ -1,15 +1,15 @@
 package com.pluu.webtoon.ui.compose
 
 import android.view.ViewGroup
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import com.google.android.material.composethemeadapter.MdcTheme
 
 @Suppress("NOTHING_TO_INLINE")
 @Composable
 inline fun WebToonSetup(noinline content: @Composable () -> Unit) {
-    MaterialTheme {
+    MdcTheme {
         content()
     }
 }

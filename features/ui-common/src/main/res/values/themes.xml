@@ -3,7 +3,7 @@
     <style name="BaseMaterialAppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryVariant">@color/theme_primary_variant</item>
-        <item name="colorAccent">@color/red_500</item>
+        <item name="colorSecondary">@color/red_500</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
         <!-- Status bar color. -->
