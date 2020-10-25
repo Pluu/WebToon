@@ -23,11 +23,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
-import com.pluu.utils.result.setFragmentResult
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.Const.resultEpisodeLoaded
-import com.pluu.webtoon.Const.resultEpisodeStart
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.navigator.EpisodeNavigator
 import com.pluu.webtoon.ui.compose.FragmentComposeView
@@ -109,12 +106,6 @@ class WebtoonListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.event.observeNonNull(viewLifecycleOwner) { event ->
             when (event) {
-                WeeklyEvent.START -> {
-                    setFragmentResult(resultEpisodeStart)
-                }
-                WeeklyEvent.LOADED -> {
-                    setFragmentResult(resultEpisodeLoaded)
-                }
                 is WeeklyEvent.ERROR -> {
                     toast(event.message)
                 }

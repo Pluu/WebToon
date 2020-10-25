@@ -37,9 +37,7 @@ class WeekyViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch {
-            _event.value = WeeklyEvent.START
             _listEvent.value = getWeekLoad()
-            _event.value = WeeklyEvent.LOADED
         }
     }
 
@@ -64,7 +62,5 @@ class WeekyViewModel @ViewModelInject constructor(
 }
 
 sealed class WeeklyEvent {
-    object START : WeeklyEvent()
-    object LOADED : WeeklyEvent()
     class ERROR(val message: String) : WeeklyEvent()
 }
