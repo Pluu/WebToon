@@ -16,14 +16,13 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ImageAsset
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,37 +35,43 @@ import androidx.ui.tooling.preview.PreviewParameterProvider
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.ui.compose.foundation.backgroundCorner
-import com.pluu.webtoon.ui.compose.image.GlideImage
-import com.pluu.webtoon.ui.compose.image.rememberImageState
+import com.pluu.webtoon.ui.compose.graphics.toColor
+import com.pluu.webtoon.utils.userAgent
 import com.pluu.webtoon.weekly.R
+import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 fun WeeklyItemUi(
     item: ToonInfo,
-    onClicked: (ToonInfo, ImageAsset?) -> Unit
+    onClicked: (ToonInfo) -> Unit
 ) {
     Card(modifier = Modifier.padding(2.dp)) {
-        val state = rememberImageState()
-
-        val isLoading = remember { mutableStateOf(false) }
-
         Box(
             modifier = Modifier
                 .fillMaxWidth().height(100.dp)
-                .clickable { onClicked(item, state.image) }
+                .clickable { onClicked(item) }
         ) {
-            GlideImage(
-                modifier = Modifier.fillMaxSize(),
-                url = item.image,
-                errorImageResId = R.drawable.ic_sentiment_very_dissatisfied_48,
-                options = { centerCrop() },
-                onReady = { image ->
-                    state.image = image
-                    isLoading.value = false
+            CoilImage(
+                data = item.image,
+                requestBuilder = {
+                    addHeader("User-Agent", userAgent)
                 },
+                fadeIn = true,
+                contentScale = ContentScale.Crop,
+                loading = {
+                    Box(Modifier.fillMaxSize()) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                            color = MaterialTheme.colors.secondary
+                        )
+                    }
+                },
+                error = {
+                    Image(asset = vectorResource(id = R.drawable.ic_sentiment_very_dissatisfied_48))
+                }
             )
 
-            previewWeeklyItemOverlayUi(item, isLoading.value)
+            previewWeeklyItemOverlayUi(item)
         }
     }
 }
@@ -74,21 +79,12 @@ fun WeeklyItemUi(
 @Composable
 fun previewWeeklyItemOverlayUi(
     item: ToonInfo,
-    isLoading: Boolean,
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
     ConstraintLayout(modifier = modifier) {
-        val (progress, title,
-            status, regDate, favorite
+        val (title, status,
+            regDate, favorite
         ) = createRefs()
-
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.constrainAs(progress) {
-                    centerTo(parent)
-                }
-            )
-        }
 
         Text(
             text = item.title,
@@ -99,7 +95,7 @@ fun previewWeeklyItemOverlayUi(
             textAlign = TextAlign.Start,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .background(Color(0x66000000))
+                .background(0x66000000.toColor())
                 .padding(horizontal = 6.dp, vertical = 2.dp)
                 .wrapContentWidth(align = Alignment.Start)
                 .constrainAs(title) {
@@ -126,7 +122,7 @@ fun previewWeeklyItemOverlayUi(
                 text = item.updateDate,
                 color = Color.White,
                 modifier = Modifier
-                    .backgroundCorner(color = Color(0x66000000), size = 4.dp)
+                    .backgroundCorner(color = 0x66000000.toColor(), size = 4.dp)
                     .padding(horizontal = 6.dp, vertical = 2.dp)
                     .constrainAs(regDate) {
                         end.linkTo(parent.end)
@@ -138,7 +134,7 @@ fun previewWeeklyItemOverlayUi(
         if (item.isFavorite) {
             Image(
                 asset = vectorResource(id = R.drawable.ic_favorite_black_36),
-                colorFilter = ColorFilter.tint(Color(0xFFF44336)),
+                colorFilter = ColorFilter.tint(0xFFF44336.toColor()),
                 modifier = Modifier.constrainAs(favorite) {
                     start.linkTo(parent.start)
                     bottom.linkTo(parent.bottom)
@@ -181,7 +177,7 @@ class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfo> {
 fun previewWeeklyItemUi(
     @PreviewParameter(FakeWeeklyItemProvider::class) info: ToonInfo,
 ) {
-    WeeklyItemUi(item = info, onClicked = { _, _ -> })
+    WeeklyItemUi(item = info, onClicked = { })
 }
 
 @Composable
@@ -228,7 +224,7 @@ private fun WeeklyStatusUi(
                             0.dp
                         }
                     )
-                    .backgroundCorner(color = Color(0x66000000), size = 4.dp)
+                    .backgroundCorner(color = 0x66000000.toColor(), size = 4.dp)
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }

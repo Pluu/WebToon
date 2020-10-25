@@ -73,6 +73,10 @@ object Dep {
             "androidx.databinding:viewbinding:${GradlePlugin.androidStudioVersion}"
     }
 
+    object Accompnist {
+        const val coil = "dev.chrisbanes.accompanist:accompanist-coil:0.3.1"
+    }
+
     object Dagger {
         private const val version = "2.29.1"
         const val dagger = "com.google.dagger:dagger:$version"

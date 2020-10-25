@@ -1,7 +1,5 @@
 package com.pluu.webtoon.weekly.ui
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +14,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageAsset
-import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.palette.graphics.Palette
+import androidx.lifecycle.lifecycleScope
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.result.setFragmentResult
@@ -37,7 +34,9 @@ import com.pluu.webtoon.ui.compose.FragmentComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.R
+import com.pluu.webtoon.weekly.ui.image.CoilPalletDarkCalculator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -67,28 +66,41 @@ class WebtoonListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = FragmentComposeView {
         val toonList by viewModel.listEvent.observeAsState()
-        // TODO: 리스트 로딩
-        if (toonList?.isNotEmpty() == true) {
-            LazyColumnFor(
-                items = toonList!!,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp)
-            ) { item ->
-                WeeklyItemUi(item) { info, image ->
-                    if (info.isLock) {
-                        selectLockItem()
-                    } else {
-                        if (image != null) {
-                            selectSuccess(info, image)
+        val palletCalculator = CoilPalletDarkCalculator(ContextAmbient.current)
+
+        when {
+            toonList == null -> {
+                // 초기 Loading
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                ) {
+                    WeeklyLoadingUi()
+                }
+            }
+            toonList!!.isNotEmpty() -> {
+                // 해당 요일에 웹툰이 있을 경
+                LazyColumnFor(
+                    items = toonList!!,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp)
+                ) { item ->
+                    WeeklyItemUi(item) { info ->
+                        if (info.isLock) {
+                            selectLockItem()
+                        } else {
+                            selectSuccess(palletCalculator, info)
                         }
                     }
                 }
             }
-        } else {
-            Box(
-                modifier = Modifier.fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
-            ) {
-                WeeklyEmptyUi()
+            else -> {
+                // 해당 요일에 웹툰이 없을 경우
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                ) {
+                    WeeklyEmptyUi()
+                }
             }
         }
     }
@@ -121,25 +133,6 @@ class WebtoonListFragment : Fragment() {
         toast(R.string.msg_not_support)
     }
 
-    private fun selectSuccess(item: ToonInfo, image: ImageAsset) {
-        fun asyncPalette(bitmap: Bitmap, block: (PalletColor) -> Unit) {
-            Palette.from(bitmap).generate { p ->
-                val colors = p?.let {
-                    PalletColor(
-                        p.getDarkVibrantColor(Color.BLACK),
-                        p.getDarkMutedColor(Color.BLACK),
-                        Color.WHITE
-                    )
-                } ?: PalletColor(Color.BLACK, Color.BLACK, Color.WHITE)
-                block(colors)
-            }
-        }
-
-        asyncPalette(image.asAndroidBitmap()) { colors ->
-            moveEpisode(item, colors)
-        }
-    }
-
     // /////////////////////////////////////////////////////////////////////////
     // Private Function
     // /////////////////////////////////////////////////////////////////////////
@@ -148,6 +141,13 @@ class WebtoonListFragment : Fragment() {
         // TODO: 즐겨찾기 갱신
 //        (binding.recyclerView.adapter as? WeeklyListAdapter)
 //            ?.modifyInfo(info.id, info.isFavorite)
+    }
+
+    private fun selectSuccess(palletCalculator: CoilPalletDarkCalculator, item: ToonInfo) {
+        lifecycleScope.launch {
+            val palletColor = palletCalculator.calculateSwatchesInImage(item.image)
+            moveEpisode(item, palletColor)
+        }
     }
 
     private fun moveEpisode(item: ToonInfo, palletColor: PalletColor) {

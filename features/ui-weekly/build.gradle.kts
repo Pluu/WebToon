@@ -49,6 +49,8 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
 
+    implementation(Dep.Accompnist.coil)
+
     // Hilt
     implementation(Dep.Hilt.android)
     kapt(Dep.Hilt.hilt_compiler)
