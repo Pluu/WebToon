@@ -19,7 +19,7 @@ import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.ActivityEpisodeBinding
-import com.pluu.webtoon.model.ToonInfo
+import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,8 +34,8 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
 
     private val binding by viewBinding(ActivityEpisodeBinding::bind)
 
-    private val webToonInfo by lazyNone {
-        intent.getRequiredSerializableExtra<ToonInfo>(Const.EXTRA_EPISODE)
+    private val webToonItem by lazyNone {
+        intent.getRequiredSerializableExtra<ToonInfoWithFavorite>(Const.EXTRA_EPISODE)
     }
     private val palletColor by lazyNone {
         intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
@@ -54,7 +54,7 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
     private fun initSupportActionBar() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            title = webToonInfo.title
+            title = webToonItem.info.title
         }
     }
 
@@ -98,16 +98,17 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
             duration = 1000L
         }.start()
 
-        binding.tvName.text = webToonInfo.writer
-        binding.tvRate.text = "평점 : %.2f".format(webToonInfo.rate)
-        binding.tvRate.isVisible = webToonInfo.rate != 0.0
+        val info = webToonItem.info
+        binding.tvName.text = info.writer
+        binding.tvRate.text = "평점 : %.2f".format(info.rate)
+        binding.tvRate.isVisible = info.rate != 0.0
         binding.btnFirst.setOnClickListener {
             supportFragmentManager.setFragmentResult(EpisodeConst.ShowFirst, Bundle())
         }
     }
 
     private fun initFragment() {
-        val fragment = EpisodeFragment.newInstance(webToonInfo, palletColor)
+        val fragment = EpisodeFragment.newInstance(webToonItem, palletColor)
 
         supportFragmentManager.commit {
             replace(R.id.container, fragment, Const.MAIN_FRAG_TAG)

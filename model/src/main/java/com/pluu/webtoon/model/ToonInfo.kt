@@ -15,3 +15,8 @@ class ToonInfo(
 ) : Serializable {
     var isLock: Boolean = false
 }
+
+data class ToonInfoWithFavorite(
+    val info: ToonInfo,
+    var isFavorite: Boolean = false
+) : Serializable

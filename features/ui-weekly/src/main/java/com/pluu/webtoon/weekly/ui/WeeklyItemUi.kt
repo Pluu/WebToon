@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -34,6 +33,7 @@ import androidx.ui.tooling.preview.PreviewParameter
 import androidx.ui.tooling.preview.PreviewParameterProvider
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
+import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.foundation.backgroundCorner
 import com.pluu.webtoon.ui.compose.graphics.toColor
 import com.pluu.webtoon.utils.userAgent
@@ -43,6 +43,7 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 @Composable
 fun WeeklyItemUi(
     item: ToonInfo,
+    isFavorite: Boolean,
     onClicked: (ToonInfo) -> Unit
 ) {
     Card(modifier = Modifier.padding(2.dp)) {
@@ -71,17 +72,21 @@ fun WeeklyItemUi(
                 }
             )
 
-            previewWeeklyItemOverlayUi(item)
+            WeeklyItemOverlayUi(
+                item = item,
+                isFavorite = isFavorite
+            )
         }
     }
 }
 
 @Composable
-fun previewWeeklyItemOverlayUi(
+fun WeeklyItemOverlayUi(
     item: ToonInfo,
-    modifier: Modifier = Modifier.fillMaxSize()
+    isFavorite: Boolean,
+    modifier: Modifier = Modifier
 ) {
-    ConstraintLayout(modifier = modifier) {
+    ConstraintLayout(modifier = modifier.fillMaxSize()) {
         val (title, status,
             regDate, favorite
         ) = createRefs()
@@ -131,10 +136,8 @@ fun previewWeeklyItemOverlayUi(
             )
         }
 
-        if (item.isFavorite) {
-            Image(
-                asset = vectorResource(id = R.drawable.ic_favorite_black_36),
-                colorFilter = ColorFilter.tint(0xFFF44336.toColor()),
+        if (isFavorite) {
+            WeeklyItemFavoriteUi(
                 modifier = Modifier.constrainAs(favorite) {
                     start.linkTo(parent.start)
                     bottom.linkTo(parent.bottom)
@@ -142,26 +145,39 @@ fun previewWeeklyItemOverlayUi(
             )
         }
     }
-
 }
 
-class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfo> {
+@Composable
+fun WeeklyItemFavoriteUi(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        asset = vectorResource(id = R.drawable.ic_favorite_black_36),
+        colorFilter = ColorFilter.tint(0xFFF44336.toColor()),
+        modifier = modifier
+    )
+}
+
+class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
     override val values = sequenceOf(
-        ToonInfo(
-            id = "",
-            title = "타이틀",
-            image = "",
-            updateDate = "1234.56.78",
-            status = Status.UPDATE,
+        ToonInfoWithFavorite(
+            ToonInfo(
+                id = "",
+                title = "타이틀",
+                image = "",
+                updateDate = "1234.56.78",
+                status = Status.UPDATE,
+            ), false
         ),
-        ToonInfo(
-            id = "",
-            title = "타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀",
-            image = "",
-            updateDate = "1234.56.78",
-            status = Status.BREAK,
-            isAdult = true,
-            isFavorite = true
+        ToonInfoWithFavorite(
+            ToonInfo(
+                id = "",
+                title = "타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀",
+                image = "",
+                updateDate = "1234.56.78",
+                status = Status.BREAK,
+                isAdult = true
+            ), true
         )
     )
     override val count: Int = values.count()
@@ -175,9 +191,9 @@ class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfo> {
 )
 @Composable
 fun previewWeeklyItemUi(
-    @PreviewParameter(FakeWeeklyItemProvider::class) info: ToonInfo,
+    @PreviewParameter(FakeWeeklyItemProvider::class) item: ToonInfoWithFavorite,
 ) {
-    WeeklyItemUi(item = info, onClicked = { })
+    WeeklyItemUi(item = item.info, isFavorite = item.isFavorite, onClicked = { })
 }
 
 @Composable
@@ -235,20 +251,4 @@ private fun WeeklyStatusUi(
 @Composable
 fun previewWeeklyStatusUi() {
     WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
-}
-
-@Composable
-fun WeeklyEmptyUi() {
-    Image(asset = vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
-}
-
-@Preview("EmptyView", widthDp = 100, heightDp = 100)
-@Composable
-fun previewWeeklyEmptyUi() {
-    Box(
-        modifier = Modifier.fillMaxSize()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        WeeklyEmptyUi()
-    }
 }

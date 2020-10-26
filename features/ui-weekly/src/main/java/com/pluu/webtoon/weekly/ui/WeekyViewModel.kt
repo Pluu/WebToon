@@ -14,6 +14,8 @@ import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfo
+import com.pluu.webtoon.model.ToonInfoWithFavorite
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -27,37 +29,52 @@ class WeekyViewModel @ViewModelInject constructor(
 
     private val weekPos = handle.get<Int>("EXTRA_POS") ?: 0
 
-    private val _listEvent = MutableLiveData<List<ToonInfo>>()
-    val listEvent: LiveData<List<ToonInfo>>
-        get() = _listEvent
+    private val _listEvent = MutableLiveData<List<ToonInfoWithFavorite>>()
+    val listEvent: LiveData<List<ToonInfoWithFavorite>> get() = _listEvent
 
     private val _event = MutableLiveData<WeeklyEvent>()
-    val event: LiveData<WeeklyEvent>
-        get() = _event
+    val event: LiveData<WeeklyEvent> get() = _event
+
+    private val cacheLister = mutableListOf<ToonInfoWithFavorite>()
+
+    private val ceh = CoroutineExceptionHandler { _, t ->
+        _event.value = WeeklyEvent.ERROR(t.localizedMessage ?: "Unknown Message")
+    }
 
     init {
         viewModelScope.launch {
-            _listEvent.value = getWeekLoad()
+            cacheLister.addAll(getWeekLoad())
+            _listEvent.value = cacheLister
         }
     }
 
-    private suspend fun getWeekLoad(): List<ToonInfo> = withContext(dispatchers.computation) {
-        val apiResult: Result<List<ToonInfo>> = weeklyUseCase(weekPos)
-        if (apiResult is Result.Success) {
-            apiResult.data
-                .mapOnSuspend {
-                    it.isFavorite = hasFavoriteUseCase(type, it.id)
-                    it
-                }
-                .sortedWith(compareBy<ToonInfo> {
-                    !it.isFavorite
-                }.thenBy {
-                    it.title
-                })
-                .toList()
-        } else {
-            emptyList()
+    private suspend fun getWeekLoad(): List<ToonInfoWithFavorite> =
+        withContext(dispatchers.computation + ceh) {
+            val apiResult: Result<List<ToonInfo>> = weeklyUseCase(weekPos)
+            if (apiResult is Result.Success) {
+                apiResult.data
+                    .mapOnSuspend {
+                        val isFavorite = hasFavoriteUseCase(type, it.id)
+                        ToonInfoWithFavorite(it, isFavorite)
+                    }
+                    .sortedWith(compareBy<ToonInfoWithFavorite> {
+                        !it.isFavorite
+                    }.thenBy {
+                        it.info.title
+                    })
+                    .toList()
+            } else {
+                emptyList()
+            }
         }
+
+    fun updateFavorite(id: String, isFavorite: Boolean) {
+        // TODO: 캐시 데이터없이 데이터 갱신 개선 필요
+        val item = cacheLister.first {
+            it.info.id == id
+        }
+        item.isFavorite = isFavorite
+        _listEvent.value = cacheLister
     }
 }
 

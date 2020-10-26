@@ -19,7 +19,7 @@ import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Result
-import com.pluu.webtoon.model.ToonInfo
+import com.pluu.webtoon.model.ToonInfoWithFavorite
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,7 +34,8 @@ class EpisodeViewModel @ViewModelInject constructor(
     private val delFavoriteUseCase: RemoveFavoriteUseCase
 ) : ViewModel() {
 
-    private val info = handle.get<ToonInfo>(Const.EXTRA_EPISODE)!!
+    private val item = handle.get<ToonInfoWithFavorite>(Const.EXTRA_EPISODE)!!
+    private val id = item.info.id
 
     private var isNext = true
 
@@ -50,7 +51,7 @@ class EpisodeViewModel @ViewModelInject constructor(
     val updateListEvent: LiveData<List<String>>
         get() = _updateListEvent
 
-    private val _favorite = MutableLiveData(info.isFavorite)
+    private val _favorite = MutableLiveData(item.isFavorite)
     val favorite: LiveData<Boolean>
         get() = _favorite
 
@@ -70,7 +71,7 @@ class EpisodeViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             _event.value = EpisodeEvent.START
 
-            when (val episodePage = getEpisodeUseCase(info.id, pageNo)) {
+            when (val episodePage = getEpisodeUseCase(id, pageNo)) {
                 is Result.Success -> {
                     val data = episodePage.data
 
@@ -121,7 +122,7 @@ class EpisodeViewModel @ViewModelInject constructor(
     }
 
     private suspend fun getReadList(): List<Episode> = withContext(dispatchers.computation) {
-        readEpisodeListUseCase(type, info.id)
+        readEpisodeListUseCase(type, id)
     }
 
     fun readUpdate() {
@@ -150,15 +151,15 @@ class EpisodeViewModel @ViewModelInject constructor(
     fun favorite(isFavorite: Boolean) {
         viewModelScope.launch(dispatchers.computation) {
             if (isFavorite) {
-                addFavoriteUseCase(type, info.id)
+                addFavoriteUseCase(type, id)
             } else {
-                delFavoriteUseCase(type, info.id)
+                delFavoriteUseCase(type, id)
             }
         }
-        info.isFavorite = isFavorite
+        item.isFavorite = isFavorite
 
         _favorite.value = isFavorite
-        _event.value = EpisodeEvent.UPDATE_FAVORITE(info.id, info.isFavorite)
+        _event.value = EpisodeEvent.UPDATE_FAVORITE(id, item.isFavorite)
     }
 }
 
