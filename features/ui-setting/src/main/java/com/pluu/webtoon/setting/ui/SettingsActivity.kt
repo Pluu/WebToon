@@ -12,8 +12,6 @@ import com.pluu.webtoon.data.pref.PrefConfig
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.setting.R
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -22,7 +20,8 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportFragmentManager.commit {
-            replace(android.R.id.content,
+            replace(
+                android.R.id.content,
                 GeneralPreferenceFragment()
             )
         }
@@ -60,8 +59,6 @@ class SettingsActivity : AppCompatActivity() {
             return super.onOptionsItemSelected(item)
         }
 
-        @ExperimentalCoroutinesApi
-        @ObsoleteCoroutinesApi
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
             if (LicenseActivity::class.java.canonicalName == preference?.fragment) {
                 navigator.openLicense(requireContext())

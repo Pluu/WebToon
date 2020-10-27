@@ -156,10 +156,8 @@ class EpisodeViewModel @ViewModelInject constructor(
                 delFavoriteUseCase(type, id)
             }
         }
-        item.isFavorite = isFavorite
-
         _favorite.value = isFavorite
-        _event.value = EpisodeEvent.UPDATE_FAVORITE(id, item.isFavorite)
+        _event.value = EpisodeEvent.UPDATE_FAVORITE(id, isFavorite)
     }
 }
 

@@ -46,12 +46,10 @@ fun WeeklyItemUi(
     isFavorite: Boolean,
     onClicked: (ToonInfo) -> Unit
 ) {
-    Card(modifier = Modifier.padding(2.dp)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth().height(100.dp)
-                .clickable { onClicked(item) }
-        ) {
+    Card(modifier = Modifier.padding(2.dp)
+        .clickable { onClicked(item) }
+    ) {
+        Box(modifier = Modifier.fillMaxWidth().height(100.dp)) {
             CoilImage(
                 data = item.image,
                 requestBuilder = {

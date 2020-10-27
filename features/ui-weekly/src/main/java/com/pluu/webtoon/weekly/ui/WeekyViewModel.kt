@@ -8,7 +8,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
-import com.pluu.utils.coroutines.mapOnSuspend
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.model.NAV_ITEM
@@ -16,6 +15,9 @@ import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -35,7 +37,9 @@ class WeekyViewModel @ViewModelInject constructor(
     private val _event = MutableLiveData<WeeklyEvent>()
     val event: LiveData<WeeklyEvent> get() = _event
 
-    private val cacheLister = mutableListOf<ToonInfoWithFavorite>()
+    // Cashing Data
+    private val cacheList = mutableListOf<ToonInfo>()
+    private val cacheFavorites = mutableSetOf<String>()
 
     private val ceh = CoroutineExceptionHandler { _, t ->
         _event.value = WeeklyEvent.ERROR(t.localizedMessage ?: "Unknown Message")
@@ -43,38 +47,61 @@ class WeekyViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch {
-            cacheLister.addAll(getWeekLoad())
-            _listEvent.value = cacheLister
+            // Step1. 주간 웹툰 로드
+            val tempList = getWeekLoad()
+            // Step2. 즐겨찾기 취득
+            cacheFavorites.addAll(getFavorites(tempList))
+            // Step3. 즐겨찾기 - 타이틀 순서로 정렬한 값을 리스트로 보관
+            cacheList.addAll(
+                tempList.sortedWith(compareBy<ToonInfo> {
+                    cacheFavorites.contains(it.id).not()
+                }.thenBy {
+                    it.title
+                })
+            )
+            // Step4. 화면 렌더링
+            renderList(cacheList, cacheFavorites)
         }
     }
 
-    private suspend fun getWeekLoad(): List<ToonInfoWithFavorite> =
+    private suspend fun getWeekLoad(): List<ToonInfo> =
         withContext(dispatchers.computation + ceh) {
             val apiResult: Result<List<ToonInfo>> = weeklyUseCase(weekPos)
             if (apiResult is Result.Success) {
                 apiResult.data
-                    .mapOnSuspend {
-                        val isFavorite = hasFavoriteUseCase(type, it.id)
-                        ToonInfoWithFavorite(it, isFavorite)
-                    }
-                    .sortedWith(compareBy<ToonInfoWithFavorite> {
-                        !it.isFavorite
-                    }.thenBy {
-                        it.info.title
-                    })
-                    .toList()
             } else {
                 emptyList()
             }
         }
 
+    private suspend fun getFavorites(
+        list: List<ToonInfo>
+    ): Set<String> = withContext(dispatchers.computation + ceh) {
+        delay(5000L)
+        list.filter {
+            hasFavoriteUseCase(type, it.id)
+        }.map {
+            it.id
+        }.toSet()
+    }
+
     fun updateFavorite(id: String, isFavorite: Boolean) {
-        // TODO: 캐시 데이터없이 데이터 갱신 개선 필요
-        val item = cacheLister.first {
-            it.info.id == id
+        if (isFavorite) {
+            cacheFavorites.add(id)
+        } else {
+            cacheFavorites.remove(id)
         }
-        item.isFavorite = isFavorite
-        _listEvent.value = cacheLister
+        renderList(cacheList, cacheFavorites)
+    }
+
+    private fun renderList(
+        list: List<ToonInfo>,
+        favoriteMap: Set<String>
+    ) = viewModelScope.launch {
+        _listEvent.value = list
+            .map {
+                ToonInfoWithFavorite(it, favoriteMap.contains(it.id))
+            }
     }
 }
 

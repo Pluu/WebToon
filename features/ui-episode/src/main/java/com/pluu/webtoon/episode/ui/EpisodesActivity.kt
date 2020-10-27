@@ -22,7 +22,6 @@ import com.pluu.webtoon.episode.databinding.ActivityEpisodeBinding
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * 에피소드 리스트 Activity
@@ -41,7 +40,6 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
         intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
 
-    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
@@ -58,7 +56,6 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
         }
     }
 
-    @ExperimentalCoroutinesApi
     private fun initView() {
         val toolbar = binding.toolbar
         // Title TextView

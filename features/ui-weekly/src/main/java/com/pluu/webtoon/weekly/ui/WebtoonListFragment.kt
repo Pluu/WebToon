@@ -4,13 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -58,38 +53,14 @@ class WebtoonListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FragmentComposeView {
-        val toonList by viewModel.listEvent.observeAsState()
         val palletCalculator = CoilPalletDarkCalculator(ContextAmbient.current)
+        val list by viewModel.listEvent.observeAsState(null)
 
-        when {
-            toonList == null -> {
-                // 초기 Loading
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                        .wrapContentSize(Alignment.Center)
-                ) {
-                    WeeklyLoadingUi()
-                }
-            }
-            toonList!!.isNotEmpty() -> {
-                // 해당 요일에 웹툰이 있을 경
-                // TODO: Non-Null 체크가 정상으로 되면 수정해야함
-                WeeklyListUi(toonList!!) { item ->
-                    if (item.info.isLock) {
-                        selectLockItem()
-                    } else {
-                        selectSuccess(palletCalculator, item)
-                    }
-                }
-            }
-            else -> {
-                // 해당 요일에 웹툰이 없을 경우
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                        .wrapContentSize(Alignment.Center)
-                ) {
-                    WeeklyEmptyUi()
-                }
+        WeeklyHomeUi(list) { item ->
+            if (item.info.isLock) {
+                selectLockItem()
+            } else {
+                selectSuccess(palletCalculator, item)
             }
         }
     }
