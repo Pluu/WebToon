@@ -12,6 +12,6 @@
             android:name=".ui.LicenseActivity"
             android:label="@string/label_license"
             android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme" />
+            android:theme="@style/BaseMaterialAppTheme.NoActionBar" />
     </application>
 </manifest>
