@@ -1,12 +1,10 @@
 package com.pluu.webtoon.weekly.ui
 
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.CircularProgressIndicator
@@ -57,13 +55,11 @@ fun previewWeeklyEmptyUi() {
 
 @Composable
 fun WeeklyLoadingUi(
-    modifier: Modifier = Modifier,
-    @FloatRange(from = 0.0, to = 1.0) progress: Float = 0f
+    modifier: Modifier = Modifier
 ) {
     CircularProgressIndicator(
-        modifier = modifier.preferredWidth(60.dp).preferredHeight(60.dp),
-        color = MaterialTheme.colors.secondary,
-        progress = progress
+        modifier = modifier.preferredSize(60.dp),
+        color = MaterialTheme.colors.secondary
     )
 }
 
@@ -74,6 +70,6 @@ fun previewWeeklyLoadingUi() {
         modifier = Modifier.fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
-        WeeklyLoadingUi(progress = 1f)
+        WeeklyLoadingUi()
     }
 }

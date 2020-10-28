@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -56,7 +58,10 @@ class WebtoonListFragment : Fragment() {
         val palletCalculator = CoilPalletDarkCalculator(ContextAmbient.current)
         val list by viewModel.listEvent.observeAsState(null)
 
-        WeeklyHomeUi(list) { item ->
+        WeeklyHomeUi(
+            items = list,
+            modifier = Modifier.fillMaxSize()
+        ) { item ->
             if (item.info.isLock) {
                 selectLockItem()
             } else {

@@ -15,9 +15,6 @@ import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -77,7 +74,6 @@ class WeekyViewModel @ViewModelInject constructor(
     private suspend fun getFavorites(
         list: List<ToonInfo>
     ): Set<String> = withContext(dispatchers.computation + ceh) {
-        delay(5000L)
         list.filter {
             hasFavoriteUseCase(type, it.id)
         }.map {
