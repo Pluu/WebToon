@@ -63,7 +63,10 @@ fun WeeklyLoadingUi(
     )
 }
 
-@Preview(widthDp = 100, heightDp = 100, showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Preview(
+    widthDp = 100, heightDp = 100,
+    showBackground = true, backgroundColor = 0xFFFFFFFF
+)
 @Composable
 fun previewWeeklyLoadingUi() {
     Box(

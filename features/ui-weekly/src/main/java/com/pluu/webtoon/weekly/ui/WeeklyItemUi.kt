@@ -184,8 +184,7 @@ class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
 @Preview(
     group = "Weekly Component",
     widthDp = 240,
-    showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
 fun previewWeeklyItemUi(
@@ -245,7 +244,10 @@ private fun WeeklyStatusUi(
     }
 }
 
-@Preview("Weekly Status Component", showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Preview(
+    "Weekly Status Component",
+    showBackground = true, backgroundColor = 0xFFFFFFFF
+)
 @Composable
 fun previewWeeklyStatusUi() {
     WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
