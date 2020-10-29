@@ -40,7 +40,6 @@ dependencies {
     implementation(Dep.AndroidX.UI.browser)
     implementation(Dep.AndroidX.UI.material)
     implementation(Dep.AndroidX.UI.preference)
-    implementation(Dep.AndroidX.UI.recyclerview)
 
     // Compose
     implementation(Dep.AndroidX.Compose.runtime)
