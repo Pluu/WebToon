@@ -27,7 +27,6 @@ import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.databinding.FragmentEpisodeBinding
 import com.pluu.webtoon.episode.ui.listener.EpisodeSelectListener
 import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.model.FavoriteResult

@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.ui.platform.ContextAmbient
 import androidx.core.content.ContextCompat
 import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
