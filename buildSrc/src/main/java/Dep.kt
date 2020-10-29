@@ -45,7 +45,7 @@ object Dep {
         }
 
         object UI {
-            const val browser = "androidx.browser:browser:1.3.0-alpha06"
+            const val browser = "androidx.browser:browser:1.3.0-beta01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.3"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
             const val material = "com.google.android.material:material:1.3.0-alpha03"
@@ -57,7 +57,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha05"
+            const val version = "1.0.0-alpha06"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -74,7 +74,7 @@ object Dep {
     }
 
     object Accompnist {
-        const val coil = "dev.chrisbanes.accompanist:accompanist-coil:0.3.1"
+        const val coil = "dev.chrisbanes.accompanist:accompanist-coil:0.3.2"
     }
 
     object Dagger {
