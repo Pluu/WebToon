@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +27,7 @@ fun LicenseItemUi(
             .preferredHeight(48.dp)
             .clickable(onClick = { onClicked.invoke(item) })
             .padding(horizontal = 16.dp)
-            .wrapContentWidth(align = Alignment.Start),
+            .wrapContentSize(align = Alignment.CenterStart),
         color = MaterialTheme.colors.onSurface
     )
 }

@@ -1,13 +1,13 @@
 package com.pluu.webtoon.setting.ui
 
 import android.content.Context
-import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TopAppBar
@@ -21,16 +21,16 @@ import androidx.ui.tooling.preview.Preview
 import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
-import com.pluu.webtoon.ui.compose.WebToonSetup
 
 @Composable
 fun LicenseContentUi(
     context: Context = ContextAmbient.current,
     list: List<LicenseModel>,
+    modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     onClicked: (item: LicenseModel) -> Unit
 ) {
-    Column {
+    Column(modifier = modifier) {
         TopAppBar(
             title = {
                 Text(text = context.getString(R.string.label_license))
@@ -69,15 +69,16 @@ fun LicenseHomeUi(
 }
 
 @Preview(
+    widthDp = 320,
+    heightDp = 240,
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
 fun previewLicenseContentUi() {
-    WebToonSetup {
-        LicenseContentUi(
-            list = licenseModels,
-            onBackPressed = {},
-            onClicked = {}
-        )
-    }
+    LicenseContentUi(
+        list = licenseModels,
+        modifier = Modifier.fillMaxSize(),
+        onClicked = {},
+        onBackPressed = {}
+    )
 }
