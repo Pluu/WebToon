@@ -28,6 +28,7 @@ dependencies {
     implementation(project(":core-android"))
     implementation(project(":ui-common"))
     implementation(project(":data"))
+    implementation(project(":compose"))
 
     implementation(Dep.Kotlin.stdlibJvm)
 

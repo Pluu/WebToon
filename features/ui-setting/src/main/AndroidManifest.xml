@@ -7,7 +7,7 @@
             android:name=".ui.SettingsActivity"
             android:label="@string/label_setting"
             android:screenOrientation="portrait"
-            android:theme="@style/PreferenceToolBar" />
+            android:theme="@style/BaseMaterialAppTheme" />
         <activity
             android:name=".ui.LicenseActivity"
             android:label="@string/label_license"

@@ -65,6 +65,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":site"))
+    implementation(project(":compose"))
     implementation(project(":ui-common"))
     implementation(project(":ui-weekly"))
     implementation(project(":ui-episode"))
