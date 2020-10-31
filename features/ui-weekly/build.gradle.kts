@@ -14,7 +14,6 @@ listOf(
 
 android {
     buildFeatures {
-        viewBinding = true
         compose = true
     }
 
