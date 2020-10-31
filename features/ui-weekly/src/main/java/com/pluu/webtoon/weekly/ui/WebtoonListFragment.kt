@@ -24,9 +24,11 @@ import com.pluu.webtoon.ui.compose.FragmentComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.R
-import com.pluu.webtoon.weekly.ui.image.CoilPalletDarkCalculator
+import com.pluu.webtoon.weekly.ui.image.PalletDarkCalculator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -47,6 +49,11 @@ class WebtoonListFragment : Fragment() {
         toonViewModel.updateFavorite(favorite)
     }
 
+    private val ceh = CoroutineExceptionHandler { _, throwable ->
+        toast(R.string.unknown_fail)
+        Timber.e(throwable)
+    }
+
     @Inject
     lateinit var episodeNavigator: EpisodeNavigator
 
@@ -55,7 +62,7 @@ class WebtoonListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FragmentComposeView {
-        val palletCalculator = CoilPalletDarkCalculator(ContextAmbient.current)
+        val palletCalculator = PalletDarkCalculator(ContextAmbient.current)
         val list by viewModel.listEvent.observeAsState(null)
 
         WeeklyHomeUi(
@@ -101,10 +108,10 @@ class WebtoonListFragment : Fragment() {
     }
 
     private fun selectSuccess(
-        palletCalculator: CoilPalletDarkCalculator,
+        palletCalculator: PalletDarkCalculator,
         item: ToonInfoWithFavorite
     ) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(ceh) {
             val palletColor = palletCalculator.calculateSwatchesInImage(item.info.image)
             moveEpisode(item, palletColor)
         }

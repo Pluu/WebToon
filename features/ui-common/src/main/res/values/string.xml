@@ -16,4 +16,5 @@
 
     <string name="msg_loading">Loading &#8230;</string>
     <string name="network_fail">통신에 실패했습니다. 잠시후 다시 시도해주세요.</string>
+    <string name="unknown_fail">오류가 발생했습니다. 잠시후 다시 시도해주세요.</string>
 </resources>

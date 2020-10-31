@@ -74,7 +74,7 @@ object Dep {
     }
 
     object Accompnist {
-        const val coil = "dev.chrisbanes.accompanist:accompanist-coil:0.3.2"
+        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:0.3.2"
     }
 
     object Dagger {

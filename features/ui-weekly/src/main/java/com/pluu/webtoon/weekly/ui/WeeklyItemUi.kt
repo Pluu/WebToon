@@ -36,9 +36,9 @@ import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.foundation.backgroundCorner
 import com.pluu.webtoon.ui.compose.graphics.toColor
-import com.pluu.webtoon.utils.userAgent
+import com.pluu.webtoon.utils.toAgentGlideUrl
 import com.pluu.webtoon.weekly.R
-import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
 fun WeeklyItemUi(
@@ -50,11 +50,8 @@ fun WeeklyItemUi(
         .clickable { onClicked(item) }
     ) {
         Box(modifier = Modifier.fillMaxWidth().height(100.dp)) {
-            CoilImage(
-                data = item.image,
-                requestBuilder = {
-                    addHeader("User-Agent", userAgent)
-                },
+            GlideImage(
+                data = item.image.toAgentGlideUrl(),
                 fadeIn = true,
                 contentScale = ContentScale.Crop,
                 loading = {

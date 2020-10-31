@@ -49,7 +49,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
 
-    implementation(Dep.Accompnist.coil)
+    implementation(Dep.Accompnist.glide)
 
     // Hilt
     implementation(Dep.Hilt.android)
@@ -59,4 +59,6 @@ dependencies {
 
     // Glide
     implementation(Dep.Glide.core)
+
+    implementation(Dep.timber)
 }
