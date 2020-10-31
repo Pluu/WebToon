@@ -13,6 +13,12 @@ fun FragmentActivity.setFragmentResultListener(
     )
 }
 
+fun FragmentActivity.setFragmentResult(
+    requestKey: String,
+    result: Bundle = Bundle()
+) = supportFragmentManager.setFragmentResult(requestKey, result)
+
+
 fun Fragment.setFragmentResult(
     requestKey: String,
     result: Bundle = Bundle()

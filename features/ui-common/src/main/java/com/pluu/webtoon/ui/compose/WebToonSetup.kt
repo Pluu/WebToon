@@ -44,3 +44,14 @@ inline fun Fragment.FragmentComposeView(
         }
     }
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun ComposeView.setComposeContent(
+    noinline content: @Composable () -> Unit
+) {
+    setContent {
+        WebToonSetup {
+            content()
+        }
+    }
+}

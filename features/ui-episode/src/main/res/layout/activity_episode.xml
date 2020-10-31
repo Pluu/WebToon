@@ -1,83 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.EpisodesActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <androidx.compose.ui.platform.ComposeView
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:popupTheme="@style/Theme.AppCompat.NoActionBar"
-        app:theme="@style/ActionBarThemeOverlay"
-        app:titleTextAppearance="@style/ActionBar.TitleText" />
+        android:layout_height="?actionBarSize" />
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom"
         android:layout_below="@id/toolbar" />
 
-    <LinearLayout
+    <androidx.compose.ui.platform.ComposeView
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:minHeight="48dp"
-        android:padding="3dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                tools:text="제작자 이름"
-                tools:textColor="?android:attr/textColorPrimary" />
-
-            <TextView
-                android:id="@+id/tvRate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:textColor="@android:color/white"
-                android:visibility="gone"
-                tools:text="평점 : "
-                tools:textColor="?android:attr/textColorPrimary"
-                tools:visibility="visible" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnFirst"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:text="@string/label_first"
-            android:textColor="@android:color/white"
-            app:icon="@drawable/ic_looks_one_white_36"
-            app:iconTint="@android:color/white"
-            app:rippleColor="@android:color/white"
-            tools:background="@color/theme_primary" />
-
-    </LinearLayout>
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
