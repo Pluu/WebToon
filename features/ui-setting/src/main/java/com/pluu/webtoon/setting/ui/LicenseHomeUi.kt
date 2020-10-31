@@ -20,7 +20,7 @@ import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
 
 @Composable
-fun LicenseContentUi(
+fun LicenseHomeUi(
     list: List<LicenseModel>,
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
@@ -37,7 +37,7 @@ fun LicenseContentUi(
                 }
             }
         )
-        LicenseHomeUi(
+        LicenseContentUi(
             list = list,
             modifier = Modifier.fillMaxSize(),
             onClicked = onClicked
@@ -46,7 +46,7 @@ fun LicenseContentUi(
 }
 
 @Composable
-fun LicenseHomeUi(
+private fun LicenseContentUi(
     list: List<LicenseModel>,
     modifier: Modifier = Modifier,
     onClicked: (item: LicenseModel) -> Unit
@@ -70,8 +70,8 @@ fun LicenseHomeUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewLicenseContentUi() {
-    LicenseContentUi(
+fun previewLicenseHomeUi() {
+    LicenseHomeUi(
         list = licenseModels,
         modifier = Modifier.fillMaxSize(),
         onBackPressed = {},

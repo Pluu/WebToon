@@ -20,7 +20,7 @@ class LicenseActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityComposeView {
-            LicenseContentUi(
+            LicenseHomeUi(
                 list = licenseModels,
                 onBackPressed = { finish() },
                 onClicked = ::showDetailLicense
