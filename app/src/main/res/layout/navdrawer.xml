@@ -71,7 +71,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:gravity="start|center_vertical"
-                android:text="@string/label_setting"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 app:fontFamily="@string/font_fontFamily_medium" />

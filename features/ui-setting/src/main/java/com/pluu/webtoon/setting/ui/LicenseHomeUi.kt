@@ -1,6 +1,5 @@
 package com.pluu.webtoon.setting.ui
 
-import android.content.Context
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,16 +14,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
 
 @Composable
 fun LicenseContentUi(
-    context: Context = ContextAmbient.current,
     list: List<LicenseModel>,
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
@@ -33,7 +29,7 @@ fun LicenseContentUi(
     Column(modifier = modifier) {
         TopAppBar(
             title = {
-                Text(text = context.getString(R.string.label_license))
+                Text(text = "오픈소스 라이센스")
             },
             navigationIcon = {
                 IconButton(onClick = onBackPressed) {
@@ -78,7 +74,7 @@ fun previewLicenseContentUi() {
     LicenseContentUi(
         list = licenseModels,
         modifier = Modifier.fillMaxSize(),
-        onClicked = {},
-        onBackPressed = {}
+        onBackPressed = {},
+        onClicked = {}
     )
 }

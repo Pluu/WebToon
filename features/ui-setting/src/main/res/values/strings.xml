@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Settings -->
-    <string name="label_setting">설정</string>
-    <string name="label_default_webtoon">기본 웹툰</string>
-    <string name="label_license">오픈소스 라이센스</string>
-</resources>
