@@ -1,5 +1,6 @@
 package com.pluu.webtoon.di
 
+import com.pluu.webtoon.utils.log.ComponentLogger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,4 +19,8 @@ object LoggerModule {
     }.apply {
         level = HttpLoggingInterceptor.Level.BASIC
     }
+
+    @Provides
+    @Singleton
+    fun provideAppLogger() = ComponentLogger()
 }
