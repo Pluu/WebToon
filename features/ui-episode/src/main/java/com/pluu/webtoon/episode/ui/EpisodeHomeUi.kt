@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.ui.tooling.preview.Preview
+import com.pluu.compose.utils.navigationBarsPadding
 import com.pluu.webtoon.episode.R
 
 @Composable
@@ -38,6 +39,7 @@ fun EpisodeInfoUi(
 ) {
     Row(
         modifier = modifier
+            .navigationBarsPadding()
             .sizeIn(minHeight = 48.dp)
             .padding(3.dp)
     ) {

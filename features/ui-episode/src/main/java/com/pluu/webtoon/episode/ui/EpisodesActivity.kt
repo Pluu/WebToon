@@ -1,27 +1,37 @@
 package com.pluu.webtoon.episode.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import com.pluu.compose.transition.colorStartToEndTransition
 import com.pluu.compose.transition.colorStateKey
 import com.pluu.compose.transition.colorTransitionDefinition
+import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.getRequiredParcelableExtra
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
 import com.pluu.utils.result.setFragmentResult
-import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
-import com.pluu.webtoon.episode.databinding.ActivityEpisodeBinding
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.ui.compose.ActivityComposeView
 import com.pluu.webtoon.ui.compose.graphics.toColor
-import com.pluu.webtoon.ui.compose.setComposeContent
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,9 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by pluu on 2017-05-09.
  */
 @AndroidEntryPoint
-class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
-
-    private val binding by viewBinding(ActivityEpisodeBinding::bind)
+class EpisodesActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<EpisodeViewModel>()
 
@@ -47,7 +55,7 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
         colorTransitionDefinition(
             startColor = getThemeColor(R.attr.colorPrimary).toColor(),
             endColor = palletColor.darkVibrantColor.toColor(),
-            durationMillis = 1000
+            durationMillis = 750
         )
     }
 
@@ -59,59 +67,76 @@ class EpisodesActivity : AppCompatActivity(R.layout.activity_episode) {
             } else {
                 palletColor.lightMutedColor.toColor()
             },
-            durationMillis = 1000
+            durationMillis = 750
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initEpisodeTopUi()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        supportFragmentManager.commit {
-            replace(
-                R.id.container,
-                EpisodeFragment.newInstance(webToonItem, palletColor),
-                Const.MAIN_FRAG_TAG
-            )
-        }
-
-        initEpisodeInfoUi()
-    }
-
-    private fun initEpisodeTopUi() {
-        binding.toolbar.setComposeContent {
-            val isFavorite by viewModel.favorite.observeAsState(false)
-            val transition = colorStartToEndTransition(colorDefinition)
-
-            EpisodeTopUi(
-                title = webToonItem.info.title,
-                backgroundColor = transition[colorStateKey],
-                onBackPressed = {
-                    finish()
-                },
-                isFavorite = isFavorite,
-                onFavoriteClicked = { currentFavorite ->
-                    viewModel.favorite(currentFavorite.not())
+        ActivityComposeView {
+            ProvideDisplayInsets {
+                val context = ContextAmbient.current
+                val contentView = remember {
+                    FragmentContainerView(context).apply {
+                        id = View.generateViewId()
+                        supportFragmentManager.commit {
+                            replace(
+                                this@apply.id,
+                                EpisodeFragment.newInstance(webToonItem, palletColor),
+                                Const.MAIN_FRAG_TAG
+                            )
+                        }
+                    }
                 }
-            )
+
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = { initEpisodeTopUi() },
+                    bottomBar = { initEpisodeInfoUi() }
+                ) { innerPadding ->
+                    AndroidView(
+                        modifier = Modifier.padding(innerPadding),
+                        viewBlock = { contentView }
+                    )
+                }
+            }
         }
     }
 
+    @Composable
+    private fun initEpisodeTopUi() {
+        val isFavorite by viewModel.favorite.observeAsState(false)
+        val transition = colorStartToEndTransition(colorDefinition)
+
+        EpisodeTopUi(
+            title = webToonItem.info.title,
+            backgroundColor = transition[colorStateKey],
+            onBackPressed = {
+                finish()
+            },
+            isFavorite = isFavorite,
+            onFavoriteClicked = { currentFavorite ->
+                viewModel.favorite(currentFavorite.not())
+            }
+        )
+    }
+
+    @Composable
     private fun initEpisodeInfoUi() {
         val info = webToonItem.info
-        binding.bottom.setComposeContent {
-            val bgTransition = colorStartToEndTransition(colorDefinition)
-            val infoTextTransition = colorStartToEndTransition(infoTextColorDefinition)
+        val bgTransition = colorStartToEndTransition(colorDefinition)
+        val infoTextTransition = colorStartToEndTransition(infoTextColorDefinition)
 
-            EpisodeInfoUi(
-                name = info.writer,
-                rate = info.rate,
-                infoTextColor = infoTextTransition[colorStateKey],
-                buttonBackgroundColor = bgTransition[colorStateKey],
-                onFirstClicked = {
-                    setFragmentResult(EpisodeConst.ShowFirst)
-                }
-            )
-        }
+        EpisodeInfoUi(
+            name = info.writer,
+            rate = info.rate,
+            infoTextColor = infoTextTransition[colorStateKey],
+            buttonBackgroundColor = bgTransition[colorStateKey],
+            onFirstClicked = {
+                setFragmentResult(EpisodeConst.ShowFirst)
+            }
+        )
     }
 }

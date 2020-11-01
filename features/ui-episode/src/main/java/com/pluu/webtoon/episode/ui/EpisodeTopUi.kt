@@ -1,6 +1,7 @@
 package com.pluu.webtoon.episode.ui
 
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.background
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.ui.tooling.preview.Preview
+import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.ui.compose.graphics.toColor
 
 @Composable
@@ -26,14 +28,16 @@ fun EpisodeTopUi(
     onFavoriteClicked: (isFavorite: Boolean) -> Unit
 ) {
     TopAppBar(
-        modifier = modifier,
+        modifier = modifier.background(color = backgroundColor)
+            .statusBarsPadding(),
+        contentColor = Color.White,
         backgroundColor = backgroundColor,
         title = {
-            Text(text = title, color = Color.White)
+            Text(text = title)
         },
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
-                Icon(Icons.Filled.ArrowBack, tint = Color.White)
+                Icon(Icons.Filled.ArrowBack)
             }
         },
         actions = {
