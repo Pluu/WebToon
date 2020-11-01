@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pluu.webtoon.detail">
 
-    <application android:theme="@style/BaseMaterialAppTheme.NoActionBar">
+    <application android:theme="@style/BaseMaterialAppTheme">
         <activity
             android:name=".ui.DetailActivity"
             android:screenOrientation="portrait" />
