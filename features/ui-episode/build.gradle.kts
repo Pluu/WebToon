@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":site"))
     implementation(project(":ui-common"))
+    implementation(project(":compose"))
 
     implementation(Dep.Kotlin.stdlibJvm)
 

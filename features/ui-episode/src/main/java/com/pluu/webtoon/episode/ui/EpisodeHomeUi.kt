@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonConstants
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,6 +31,8 @@ fun EpisodeContentUi(
 fun EpisodeInfoUi(
     name: String,
     rate: Double,
+    infoTextColor: Color = MaterialTheme.colors.onSurface,
+    buttonBackgroundColor: Color = MaterialTheme.colors.primary,
     modifier: Modifier = Modifier,
     onFirstClicked: () -> Unit
 ) {
@@ -47,19 +50,20 @@ fun EpisodeInfoUi(
                 fontSize = 22.sp,
                 maxLines = 1,
                 fontWeight = FontWeight.Bold,
-                color =  MaterialTheme.colors.onSurface
+                color = infoTextColor
             )
             if (rate != 0.0) {
                 Text(
                     text = "평점 : %.2f".format(rate),
                     maxLines = 1,
                     fontSize = 14.sp,
-                    color =  MaterialTheme.colors.onSurface
+                    color = infoTextColor
                 )
             }
         }
         Button(
             modifier = Modifier.weight(1f),
+            colors = ButtonConstants.defaultButtonColors(backgroundColor = buttonBackgroundColor),
             onClick = onFirstClicked
         ) {
             Icon(
