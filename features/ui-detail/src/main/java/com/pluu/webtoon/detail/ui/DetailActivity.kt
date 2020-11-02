@@ -11,7 +11,6 @@ import androidx.compose.animation.core.transitionDefinition
 import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.preferredHeight
@@ -76,14 +75,15 @@ class DetailActivity : AppCompatActivity(), FirstBindListener {
         colorTransitionDefinition(
             startColor = getThemeColor(R.attr.colorPrimary).toColor(),
             endColor = palletColor.darkVibrantColor.toColor(),
-            durationMillis = 1000
+            durationMillis = 750
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        initView()
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         val requestManager = Glide.with(this)
 
         ActivityComposeView {
