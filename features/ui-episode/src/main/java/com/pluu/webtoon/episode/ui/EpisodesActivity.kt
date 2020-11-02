@@ -55,7 +55,7 @@ class EpisodesActivity : AppCompatActivity() {
         colorTransitionDefinition(
             startColor = getThemeColor(R.attr.colorPrimary).toColor(),
             endColor = palletColor.darkVibrantColor.toColor(),
-            durationMillis = 750
+            durationMillis = 1000
         )
     }
 
@@ -67,7 +67,7 @@ class EpisodesActivity : AppCompatActivity() {
             } else {
                 palletColor.lightMutedColor.toColor()
             },
-            durationMillis = 750
+            durationMillis = 1000
         )
     }
 

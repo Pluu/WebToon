@@ -23,12 +23,6 @@ import com.pluu.compose.utils.navigationBarsPadding
 import com.pluu.webtoon.episode.R
 
 @Composable
-fun EpisodeContentUi(
-    modifier: Modifier = Modifier,
-) {
-}
-
-@Composable
 fun EpisodeInfoUi(
     name: String,
     rate: Double,
@@ -65,7 +59,7 @@ fun EpisodeInfoUi(
         }
         Button(
             modifier = Modifier.weight(1f),
-            colors = ButtonConstants.defaultButtonColors(backgroundColor = buttonBackgroundColor),
+            colors = ButtonConstants.defaultButtonColors(buttonBackgroundColor),
             onClick = onFirstClicked
         ) {
             Icon(

@@ -1,40 +1,42 @@
-package com.pluu.webtoon.episode.ui
+package com.pluu.webtoon.detail.ui
 
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.utils.statusBarsPadding
-import com.pluu.webtoon.ui.compose.graphics.toColor
 
 @Composable
-fun EpisodeTopUi(
+fun DetailTopUi(
     title: String,
+    subTitle: String,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
-    isFavorite: Boolean,
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
-    onFavoriteClicked: (isFavorite: Boolean) -> Unit
+    onShared: () -> Unit
 ) {
     TopAppBar(
-        modifier = modifier.background(color = backgroundColor)
-            .statusBarsPadding(),
+        modifier = modifier.background(color = backgroundColor),
         contentColor = Color.White,
         backgroundColor = backgroundColor,
         title = {
-            Text(text = title)
+            Column {
+                Text(text = title, fontSize = 22.sp, maxLines = 1)
+                Text(text = subTitle, fontSize = 14.sp, maxLines = 1)
+            }
         },
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
@@ -43,20 +45,11 @@ fun EpisodeTopUi(
         },
         elevation = 0.dp,
         actions = {
-            IconButton(onClick = {
-                onFavoriteClicked(isFavorite)
-            }) {
-                if (isFavorite) {
-                    Icon(
-                        asset = Icons.Default.Favorite,
-                        tint = 0xFFF44336.toColor()
-                    )
-                } else {
-                    Icon(
-                        asset = Icons.Default.FavoriteBorder,
-                        tint = Color.White
-                    )
-                }
+            IconButton(onClick = onShared) {
+                Icon(
+                    asset = Icons.Default.Share,
+                    tint = Color.White
+                )
             }
         }
     )
@@ -64,11 +57,11 @@ fun EpisodeTopUi(
 
 @Preview
 @Composable
-fun previewEpisodeTopUi() {
-    EpisodeTopUi(
-        title = "테스트",
-        isFavorite = true,
-        onFavoriteClicked = {},
+fun previewDetailTopUi() {
+    DetailTopUi(
+        title = "타이틀",
+        subTitle = "서브 타이틀",
+        onShared = {},
         onBackPressed = {}
     )
 }

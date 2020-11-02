@@ -5,7 +5,7 @@
     <application android:theme="@style/BaseMaterialAppTheme">
         <activity
             android:name=".ui.EpisodesActivity"
-            android:theme="@style/BaseMaterialAppTheme.Immersive"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseMaterialAppTheme.Immersive" />
     </application>
 </manifest>

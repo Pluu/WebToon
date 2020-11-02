@@ -1,84 +1,218 @@
 package com.pluu.webtoon.detail.ui
 
-import android.animation.Animator
 import android.app.Activity
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.animation.DecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.DpPropKey
+import androidx.compose.animation.core.transitionDefinition
+import androidx.compose.animation.transition
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Providers
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.os.bundleOf
-import androidx.fragment.app.commit
+import androidx.core.view.WindowCompat
+import com.bumptech.glide.Glide
+import com.pluu.compose.transition.colorStartToEndTransition
+import com.pluu.compose.transition.colorStateKey
+import com.pluu.compose.transition.colorTransitionDefinition
+import com.pluu.compose.utils.ProvideDisplayInsets
+import com.pluu.compose.utils.navigationBarsPadding
+import com.pluu.compose.utils.statusBarsHeight
+import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ProgressDialog
-import com.pluu.utils.SystemUiHelper
-import com.pluu.utils.animatorColor
 import com.pluu.utils.getRequiredParcelableExtra
 import com.pluu.utils.getThemeColor
 import com.pluu.utils.observeNonNull
-import com.pluu.utils.setStatusBarColor
-import com.pluu.utils.viewbinding.viewBinding
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.R
-import com.pluu.webtoon.detail.databinding.ActivityDetailBinding
+import com.pluu.webtoon.detail.model.DetailPageFieldValue
 import com.pluu.webtoon.detail.model.getMessage
 import com.pluu.webtoon.model.ShareItem
+import com.pluu.webtoon.ui.compose.ActivityComposeView
+import com.pluu.webtoon.ui.compose.graphics.toColor
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
+import dev.chrisbanes.accompanist.glide.AmbientRequestManager
 
 /**
  * 상세화면 Activity
  * Created by pluu on 2017-05-09.
  */
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity(R.layout.activity_detail),
-    ToggleListener,
-    FirstBindListener {
+class DetailActivity : AppCompatActivity(), FirstBindListener {
 
     private val viewModel by viewModels<DetailViewModel>()
-
-    private val binding by viewBinding(ActivityDetailBinding::bind)
 
     private val palletColor by lazyNone {
         intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
 
-    private val toggleDelayTime = TimeUnit.MILLISECONDS.toMillis(150)
-    private val toggleAnimTime = 200L
-
-    private val toggleId = 0
-
     private val dlg by lazyNone {
         ProgressDialog.create(this, R.string.msg_loading)
     }
 
+    private val colorDefinition by lazy {
+        colorTransitionDefinition(
+            startColor = getThemeColor(R.attr.colorPrimary).toColor(),
+            endColor = palletColor.darkVibrantColor.toColor(),
+            durationMillis = 1000
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.toolbarActionbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        initView()
-        fragmentInit()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val requestManager = Glide.with(this)
+
+        ActivityComposeView {
+            ProvideDisplayInsets {
+                Providers(AmbientRequestManager provides requestManager) {
+                    var showNavigation by remember { mutableStateOf(true) }
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        initContentUi(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .statusBarsPadding()
+                                .navigationBarsPadding()
+                        ) {
+                            showNavigation = showNavigation.not()
+                        }
+                        initTopUi(
+                            showNavigation,
+                            Modifier.align(Alignment.TopCenter)
+                        )
+                        initBottomUi(
+                            showNavigation,
+                            Modifier.align(Alignment.BottomCenter)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun initTopUi(
+        showNavigation: Boolean,
+        modifier: Modifier = Modifier
+    ) {
+        val element by viewModel.elementEvent.observeAsState()
+        val transition = colorStartToEndTransition(colorDefinition)
+
+        val showTransition = transition(
+            definition = topDefinition,
+            toState = showNavigation
+        )
+
+        Column(modifier = modifier) {
+            Divider(
+                modifier = Modifier.statusBarsHeight().zIndex(1f),
+                color = transition[colorStateKey],
+                thickness = 0.dp
+            )
+            DetailTopUi(
+                modifier = Modifier
+                    .preferredHeight(topAppBarSize)
+                    .offset(y = -showTransition[offset]),
+                title = element?.title.orEmpty(),
+                subTitle = element?.webToonTitle.orEmpty(),
+                backgroundColor = transition[colorStateKey],
+                onBackPressed = {
+                    finish()
+                },
+                onShared = {
+                    // 공유하기
+                    viewModel.requestShare()
+                }
+            )
+        }
+    }
+
+    @Composable
+    private fun initBottomUi(
+        showNavigation: Boolean,
+        modifier: Modifier = Modifier
+    ) {
+        var page by remember {
+            mutableStateOf(
+                DetailPageFieldValue(
+                    isPrevEnabled = false,
+                    isNextEnabled = false
+                )
+            )
+        }
+        val transition = colorStartToEndTransition(colorDefinition)
+        val showTransition = transition(
+            definition = bottomDefinition,
+            toState = showNavigation
+        )
+
+        viewModel.elementEvent.observeAsState().value?.let { element ->
+            page = page.copy(
+                isPrevEnabled = element.prevEpisodeId.isNullOrEmpty().not(),
+                isNextEnabled = element.nextEpisodeId.isNullOrEmpty().not()
+            )
+        }
+
+        DetailNavigationUi(
+            modifier = modifier
+                .navigationBarsPadding()
+                .preferredHeight(bottomBarSize)
+                .offset(y = showTransition[offset]),
+            buttonBackgroundColor = transition[colorStateKey],
+            isPrevEnabled = page.isPrevEnabled,
+            onPrevClicked = { viewModel.movePrev() },
+            isNextEnabled = page.isNextEnabled,
+            onNextClicked = { viewModel.moveNext() }
+        )
+    }
+
+    @Composable
+    private fun initContentUi(
+        modifier: Modifier = Modifier,
+        onClick: () -> Unit
+    ) {
+        val element by viewModel.list.observeAsState()
+
+        if (element == null) {
+            Box(Modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = MaterialTheme.colors.secondary
+                )
+            }
+        } else {
+            DetailContentUi(
+                modifier = modifier,
+                items = element.orEmpty(),
+                onClick = onClick
+            )
+        }
     }
 
     private fun initView() {
-        variantAnimator().start()
-
-        binding.tvSubTitle.text = ""
-        binding.btnPrev.isEnabled = false
-        binding.btnNext.isEnabled = false
-
-        binding.btnPrev.setOnClickListener { viewModel.movePrev() }
-        binding.btnNext.setOnClickListener { viewModel.moveNext() }
-
         viewModel.event.observeNonNull(this) { event ->
             when (event) {
                 DetailEvent.START -> dlg.show()
@@ -92,117 +226,11 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
                 }
             }
         }
-        viewModel.elementEvent.observeNonNull(this) { event ->
-            binding.tvTitle.text = event.title
-            binding.tvSubTitle.text = event.webToonTitle
-            binding.btnPrev.isEnabled = event.prevEpisodeId.isNullOrEmpty().not()
-            binding.btnNext.isEnabled = event.nextEpisodeId.isNullOrEmpty().not()
-        }
-    }
-
-    private fun variantAnimator(): Animator = animatorColor(
-        startColor = getThemeColor(R.attr.colorPrimary),
-        endColor = palletColor.darkVibrantColor
-    ).apply {
-        duration = 1000L
-        interpolator = DecelerateInterpolator()
-        addUpdateListener { animation ->
-            val value = animation.animatedValue as Int
-            binding.toolbarActionbar.setBackgroundColor(value)
-            binding.btnPrev.backgroundTintList = stateListBgDrawable(value)
-            binding.btnNext.backgroundTintList = stateListBgDrawable(value)
-
-            this@DetailActivity.setStatusBarColor(value)
-        }
-    }
-
-    private fun stateListBgDrawable(color: Int): ColorStateList = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_enabled),
-            intArrayOf(android.R.attr.state_enabled)
-        ),
-        intArrayOf(
-            Color.GRAY,
-            color
-        )
-    )
-
-    private fun fragmentInit() {
-        supportFragmentManager.commit {
-            replace(R.id.container, DetailFragment())
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-
-        when (item.itemId) {
-            R.id.menu_item_share -> {
-                // 공유하기
-                viewModel.requestShare()
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    private val mToggleHandler = Handler(Looper.getMainLooper()) {
-        toggleHideBar()
-        true
-    }
-
-    /**
-     * Detects and toggles immersive mode.
-     */
-    private fun toggleHideBar() {
-        val isHide = SystemUiHelper.toggleHideBar(window)
-        if (isHide) {
-            moveToAxisY(binding.toolbarActionbar, true)
-            moveToAxisY(binding.bottomMenu, false)
-        } else {
-            moveRevert(binding.toolbarActionbar)
-            moveRevert(binding.bottomMenu)
-        }
-    }
-
-    private fun moveToAxisY(view: View, isToTop: Boolean) {
-        view.animate()
-            .setDuration(toggleAnimTime)
-            .translationY((if (isToTop) -view.height else view.height).toFloat())
-            .start()
-    }
-
-    private fun moveRevert(view: View) {
-        view.animate()
-            .setDuration(toggleAnimTime)
-            .translationY(0f)
-            .start()
-    }
-
-    private fun toggleDelay(isDelay: Boolean) {
-        mToggleHandler.removeMessages(toggleId)
-        mToggleHandler.sendEmptyMessageDelayed(toggleId, if (isDelay) toggleDelayTime else 0)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_detail, menu)
-        return true
     }
 
     override fun finish() {
         setResult(Activity.RESULT_OK)
         super.finish()
-    }
-
-    override fun childCallToggle(isDelay: Boolean) {
-        toggleDelay(isDelay)
-    }
-
-    override fun loadingHide() {
-        dlg.dismiss()
     }
 
     override fun firstBind() {
@@ -240,3 +268,27 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail),
         )
     }
 }
+
+private val topAppBarSize = 60.dp
+private val bottomBarSize = 48.dp
+
+private val offset = DpPropKey("Offset")
+
+private val topDefinition = transitionDefinition<Boolean> {
+    state(true) {
+        this[offset] = 0.dp
+    }
+    state(false) {
+        this[offset] = topAppBarSize
+    }
+}
+
+private val bottomDefinition = transitionDefinition<Boolean> {
+    state(true) {
+        this[offset] = 0.dp
+    }
+    state(false) {
+        this[offset] = bottomBarSize
+    }
+}
+

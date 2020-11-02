@@ -15,6 +15,12 @@ listOf(
 android {
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerVersion = Dep.Kotlin.version
+        kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
     }
 }
 
@@ -24,6 +30,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":site"))
     implementation(project(":ui-common"))
+    implementation(project(":compose"))
 
     implementation(Dep.Kotlin.stdlibJvm)
 
@@ -33,6 +40,17 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.recyclerview)
+
+    // Compose
+    implementation(Dep.AndroidX.Compose.runtime)
+    implementation(Dep.AndroidX.Compose.foundation)
+    implementation(Dep.AndroidX.Compose.ui)
+    implementation(Dep.AndroidX.Compose.layout)
+    implementation(Dep.AndroidX.Compose.material)
+    implementation(Dep.AndroidX.Compose.tooling)
+    implementation(Dep.AndroidX.Compose.livedata)
+
+    implementation(Dep.Accompnist.glide)
 
     // Hilt
     implementation(Dep.Hilt.android)
