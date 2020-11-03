@@ -2,13 +2,8 @@ package com.pluu.webtoon.detail.ui
 
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredWidth
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -23,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import com.pluu.compose.utils.navigationBarsPadding
 
 @Composable
 fun DetailNavigationUi(
@@ -55,7 +49,6 @@ fun DetailNavigationUi(
         }
         Button(
             modifier = Modifier.weight(1f).fillMaxHeight(),
-            colors = ButtonConstants.defaultButtonColors(buttonBackgroundColor),
             shape = RoundedCornerShape(0.dp),
             enabled = isNextEnabled,
             onClick = onNextClicked
