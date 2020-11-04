@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.DpPropKey
+import androidx.compose.animation.animate
+import androidx.compose.animation.animatedColor
 import androidx.compose.animation.core.transitionDefinition
 import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.Box
@@ -22,6 +24,7 @@ import androidx.compose.runtime.Providers
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,6 +59,10 @@ import dev.chrisbanes.accompanist.glide.AmbientRequestManager
 
 /**
  * 상세화면 Activity
+ *
+ * - 상단 UI : Value Animation
+ * - 하단 UI : TransitionDefinition + TransitionState
+ *
  * Created by pluu on 2017-05-09.
  */
 @AndroidEntryPoint
@@ -119,26 +126,25 @@ class DetailActivity : AppCompatActivity(), FirstBindListener {
         modifier: Modifier = Modifier
     ) {
         val element by viewModel.elementEvent.observeAsState()
-        val transition = colorStartToEndTransition(colorDefinition)
 
-        val showTransition = transition(
-            definition = topDefinition,
-            toState = showNavigation
+        // Animate Value
+        val colorAnimation = animatedColor(
+            getThemeColor(R.attr.colorPrimary).toColor()
         )
 
         Column(modifier = modifier) {
             Divider(
                 modifier = Modifier.statusBarsHeight().zIndex(1f),
-                color = transition[colorStateKey],
+                color = colorAnimation.value,
                 thickness = 0.dp
             )
             DetailTopUi(
                 modifier = Modifier
                     .preferredHeight(topAppBarSize)
-                    .offset(y = -showTransition[offset]),
+                    .offset(y = animate(if (showNavigation) 0.dp else -topAppBarSize)),
                 title = element?.title.orEmpty(),
                 subTitle = element?.webToonTitle.orEmpty(),
-                backgroundColor = transition[colorStateKey],
+                backgroundColor = colorAnimation.value,
                 onBackPressed = {
                     finish()
                 },
@@ -147,6 +153,10 @@ class DetailActivity : AppCompatActivity(), FirstBindListener {
                     viewModel.requestShare()
                 }
             )
+        }
+
+        onCommit(colorAnimation) {
+            colorAnimation.animateTo(palletColor.darkVibrantColor.toColor())
         }
     }
 
@@ -273,15 +283,6 @@ private val topAppBarSize = 60.dp
 private val bottomBarSize = 48.dp
 
 private val offset = DpPropKey("Offset")
-
-private val topDefinition = transitionDefinition<Boolean> {
-    state(true) {
-        this[offset] = 0.dp
-    }
-    state(false) {
-        this[offset] = topAppBarSize
-    }
-}
 
 private val bottomDefinition = transitionDefinition<Boolean> {
     state(true) {

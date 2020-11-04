@@ -49,6 +49,7 @@ fun DetailNavigationUi(
         }
         Button(
             modifier = Modifier.weight(1f).fillMaxHeight(),
+            colors = ButtonConstants.defaultButtonColors(buttonBackgroundColor),
             shape = RoundedCornerShape(0.dp),
             enabled = isNextEnabled,
             onClick = onNextClicked
