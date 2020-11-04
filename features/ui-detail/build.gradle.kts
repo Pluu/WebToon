@@ -38,9 +38,6 @@ dependencies {
     implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
 
-    // Android UI
-    implementation(Dep.AndroidX.UI.recyclerview)
-
     // Compose
     implementation(Dep.AndroidX.Compose.runtime)
     implementation(Dep.AndroidX.Compose.foundation)
