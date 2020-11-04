@@ -67,7 +67,7 @@ private fun DefaultWebtoonUi(
         initialSummary = summaryProvider(
             preferenceProvider.getValue(
                 key = preferenceKey,
-                defaultValue = items[0].entry
+                defaultValue = items[0].entryValue
             )
         )
     ) { receiver, item ->
@@ -97,19 +97,23 @@ private fun getPreItems(
     context: Context
 ): List<ListPreferenceItem<String>> = listOf(
     ListPreferenceItem(
-        context.getString(R.string.title_naver), context.getString(R.string.title_naver_key)
+        context.getString(R.string.title_naver),
+        context.getString(R.string.title_naver_key)
     ),
     ListPreferenceItem(
-        context.getString(R.string.title_daum), context.getString(R.string.title_daum_key)
+        context.getString(R.string.title_daum),
+        context.getString(R.string.title_daum_key)
     ),
     ListPreferenceItem(
-        context.getString(R.string.title_olleh), context.getString(R.string.title_olleh_key)
+        context.getString(R.string.title_olleh),
+        context.getString(R.string.title_olleh_key)
     ),
     ListPreferenceItem(
         context.getString(R.string.title_kakao_page),
         context.getString(R.string.title_kakao_page_key)
     ),
     ListPreferenceItem(
-        context.getString(R.string.title_nate), context.getString(R.string.title_nate_key)
+        context.getString(R.string.title_nate),
+        context.getString(R.string.title_nate_key)
     )
 )
