@@ -37,12 +37,13 @@ internal class EpisodeAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: EpisodeViewHolder, i: Int) {
-        viewHolder.bind(list[i])
+        val position = viewHolder.absoluteAdapterPosition
+        viewHolder.bind(list[position])
         viewHolder.clickThumbnail {
-            if (list[viewHolder.absoluteAdapterPosition].isLock) {
+            if (list[position].isLock) {
                 listener.selectLockItem()
             } else {
-                listener.selectSuccess(list[viewHolder.absoluteAdapterPosition])
+                listener.selectSuccess(list[position])
             }
         }
     }

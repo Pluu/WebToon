@@ -136,6 +136,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
 
     override fun onRefresh() {
         adapter.clear()
+        adapter.notifyDataSetChanged()
         viewModel.initialize()
         loading()
     }
