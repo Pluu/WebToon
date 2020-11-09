@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
+import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.statusBarsPadding
-import com.pluu.webtoon.ui.compose.graphics.toColor
 
 @Composable
 fun EpisodeTopUi(

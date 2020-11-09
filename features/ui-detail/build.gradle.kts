@@ -39,10 +39,7 @@ dependencies {
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.runtime)
-    implementation(Dep.AndroidX.Compose.foundation)
     implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.layout)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)

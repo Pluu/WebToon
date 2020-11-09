@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.sp
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.tooling.preview.PreviewParameter
 import androidx.ui.tooling.preview.PreviewParameterProvider
+import com.pluu.compose.foundation.backgroundCorner
+import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.ui.compose.foundation.backgroundCorner
-import com.pluu.webtoon.ui.compose.graphics.toColor
 import com.pluu.webtoon.utils.toAgentGlideUrl
 import com.pluu.webtoon.weekly.R
 import dev.chrisbanes.accompanist.glide.GlideImage

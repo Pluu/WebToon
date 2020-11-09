@@ -29,6 +29,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":site"))
     implementation(project(":ui-common"))
+    implementation(project(":compose"))
 
     implementation(Dep.Kotlin.stdlibJvm)
 
@@ -40,10 +41,7 @@ dependencies {
     implementation(Dep.AndroidX.UI.palette)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.runtime)
-    implementation(Dep.AndroidX.Compose.foundation)
     implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.layout)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)

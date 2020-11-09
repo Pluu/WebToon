@@ -1,4 +1,4 @@
-package com.pluu.compose.runtime
+package com.pluu.compose.preference
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable

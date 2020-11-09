@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.compose.graphics
+package com.pluu.compose.ui.graphics
 
 import androidx.annotation.ColorLong
 import androidx.compose.ui.graphics.Color

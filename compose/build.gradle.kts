@@ -29,8 +29,6 @@ dependencies {
     implementation(Dep.AndroidX.UI.preference)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.runtime)
-    implementation(Dep.AndroidX.Compose.foundation)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
 }

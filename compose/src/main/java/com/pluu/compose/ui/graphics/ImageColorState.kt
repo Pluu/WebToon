@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.compose.image
+package com.pluu.compose.ui.graphics
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

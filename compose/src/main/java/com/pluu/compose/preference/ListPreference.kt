@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
 import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.R
-import com.pluu.compose.dialog.ListDialog
-import com.pluu.compose.runtime.PreferenceState
+import com.pluu.compose.ui.ListDialog
 
 data class ListPreferenceItem<T>(
     val entry: String,

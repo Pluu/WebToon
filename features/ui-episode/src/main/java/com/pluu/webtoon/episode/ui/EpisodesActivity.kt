@@ -20,6 +20,7 @@ import androidx.fragment.app.commit
 import com.pluu.compose.transition.colorStartToEndTransition
 import com.pluu.compose.transition.colorStateKey
 import com.pluu.compose.transition.colorTransitionDefinition
+import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ThemeHelper
@@ -31,7 +32,6 @@ import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.ActivityComposeView
-import com.pluu.webtoon.ui.compose.graphics.toColor
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 

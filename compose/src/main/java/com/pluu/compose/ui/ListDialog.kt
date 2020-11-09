@@ -1,4 +1,4 @@
-package com.pluu.compose.dialog
+package com.pluu.compose.ui
 
 import androidx.compose.foundation.ProvideTextStyle
 import androidx.compose.foundation.Text

@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide
 import com.pluu.compose.transition.colorStartToEndTransition
 import com.pluu.compose.transition.colorStateKey
 import com.pluu.compose.transition.colorTransitionDefinition
+import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.compose.utils.navigationBarsPadding
 import com.pluu.compose.utils.statusBarsHeight
@@ -52,7 +53,6 @@ import com.pluu.webtoon.detail.model.DetailPageFieldValue
 import com.pluu.webtoon.detail.model.getMessage
 import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.ui.compose.ActivityComposeView
-import com.pluu.webtoon.ui.compose.graphics.toColor
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.glide.AmbientRequestManager

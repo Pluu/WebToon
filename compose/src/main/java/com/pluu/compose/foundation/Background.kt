@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.compose.foundation
+package com.pluu.compose.foundation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape

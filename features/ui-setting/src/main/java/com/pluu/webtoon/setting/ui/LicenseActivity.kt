@@ -2,7 +2,7 @@ package com.pluu.webtoon.setting.ui
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -15,7 +15,7 @@ import com.pluu.webtoon.ui.compose.ActivityComposeView
  * License Activity
  * Created by pluu on 2017-05-05.
  */
-class LicenseActivity : AppCompatActivity() {
+class LicenseActivity : ComponentActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

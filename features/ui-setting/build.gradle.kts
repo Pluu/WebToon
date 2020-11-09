@@ -31,24 +31,17 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
-    implementation(Dep.AndroidX.activity.ktx)
-    implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.fragment.ktx)
 
     // Android UI
     implementation(Dep.AndroidX.UI.browser)
-    implementation(Dep.AndroidX.UI.material)
     implementation(Dep.AndroidX.UI.preference)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.runtime)
-    implementation(Dep.AndroidX.Compose.foundation)
     implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.layout)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
-    implementation(Dep.AndroidX.Compose.livedata)
 
     // Hilt
     implementation(Dep.Hilt.android)

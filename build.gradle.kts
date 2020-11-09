@@ -9,8 +9,22 @@ allprojects {
     addScriptRepository()
 
     tasks.withType(KotlinCompile::class).configureEach {
-        kotlinOptions.jvmTarget = ProjectConfigurations.javaVerString
-        kotlinOptions.useIR = true
+        kotlinOptions {
+            useIR = true
+
+            freeCompilerArgs = freeCompilerArgs + listOf(
+                "-Xallow-jvm-ir-dependencies",
+                "-Xskip-prerelease-check",
+                "-Xopt-in=kotlin.RequiresOptIn",
+                // Enable experimental coroutines APIs, including Flow
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xopt-in=kotlinx.coroutines.FlowPreview",
+                "-Xopt-in=kotlin.Experimental"
+            )
+
+            // Set JVM target to 1.8
+            jvmTarget = ProjectConfigurations.javaVerString
+        }
     }
 }
 
