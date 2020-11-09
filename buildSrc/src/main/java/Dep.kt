@@ -7,7 +7,7 @@ object Dep {
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization =
             "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
-        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.4.0"
+        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Hilt.version}"
     }
 
@@ -67,6 +67,7 @@ object Dep {
             const val materialAdapter = "com.google.android.material:compose-theme-adapter:${version}"
             const val tooling = "androidx.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
+            const val animation = "androidx.compose.animation:animation:$version"
         }
 
         const val viewBinding =
@@ -128,9 +129,9 @@ object Dep {
 
     object Test {
         const val junit = "junit:junit:4.13"
-        const val assertJ = "org.assertj:assertj-core:3.17.2"
-        const val mockito = "org.mockito:mockito-core:3.5.13"
-        const val androidJunit = "androidx.test.ext:junit:1.1.2"
-        const val espressoCore = "androidx.test.espresso:espresso-core:3.3.0"
+        const val assertJ = "org.assertj:assertj-core:3.18.0"
+        const val mockito = "org.mockito:mockito-core:3.6.0"
+        const val androidJunit = "androidx.test.ext:junit:1.1.3-alpha02"
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0-alpha02"
     }
 }
