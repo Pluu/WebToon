@@ -57,7 +57,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha06"
+            const val version = "1.0.0-alpha07"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -75,7 +75,7 @@ object Dep {
     }
 
     object Accompnist {
-        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:0.3.2"
+        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:0.3.3.1"
     }
 
     object Dagger {

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.pluu.compose.utils
 
 import android.view.View
@@ -12,13 +28,14 @@ import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticAmbientOf
-import androidx.compose.ui.LayoutModifier
-import androidx.compose.ui.Measurable
-import androidx.compose.ui.MeasureScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.layout.IntrinsicMeasurable
 import androidx.compose.ui.layout.IntrinsicMeasureScope
+import androidx.compose.ui.layout.LayoutModifier
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.platform.LayoutDirectionAmbient
 import androidx.compose.ui.platform.ViewAmbient
@@ -30,6 +47,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type
+
+/**
+ * Taken from https://goo.gle/compose-insets. Requires androidx.core:core v1.5.0-alpha02+
+ */
 
 /**
  * Main holder of our inset values.
@@ -115,11 +137,11 @@ fun ProvideDisplayInsets(
 
     onCommit(view) {
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, windowInsets ->
-            displayInsets.systemBars.updateFrom(windowInsets, WindowInsetsCompat.Type.systemBars())
-            displayInsets.systemGestures.updateFrom(windowInsets, WindowInsetsCompat.Type.systemGestures())
-            displayInsets.statusBars.updateFrom(windowInsets, WindowInsetsCompat.Type.statusBars())
-            displayInsets.navigationBars.updateFrom(windowInsets, WindowInsetsCompat.Type.navigationBars())
-            displayInsets.ime.updateFrom(windowInsets, WindowInsetsCompat.Type.ime())
+            displayInsets.systemBars.updateFrom(windowInsets, Type.systemBars())
+            displayInsets.systemGestures.updateFrom(windowInsets, Type.systemGestures())
+            displayInsets.statusBars.updateFrom(windowInsets, Type.statusBars())
+            displayInsets.navigationBars.updateFrom(windowInsets, Type.navigationBars())
+            displayInsets.ime.updateFrom(windowInsets, Type.ime())
 
             if (consumeWindowInsets) WindowInsetsCompat.CONSUMED else windowInsets
         }
@@ -460,7 +482,7 @@ private data class InsetsPaddingModifier(
     override fun MeasureScope.measure(
         measurable: Measurable,
         constraints: Constraints
-    ): MeasureScope.MeasureResult {
+    ): MeasureResult {
         val left = if (applyLeft) insets.left else 0
         val top = if (applyTop) insets.top else 0
         val right = if (applyRight) insets.right else 0
@@ -518,7 +540,7 @@ private data class InsetsSizeModifier(
     override fun MeasureScope.measure(
         measurable: Measurable,
         constraints: Constraints
-    ): MeasureScope.MeasureResult {
+    ): MeasureResult {
         val wrappedConstraints = targetConstraints.let { targetConstraints ->
             val resolvedMinWidth = if (widthSide != null) {
                 targetConstraints.minWidth
