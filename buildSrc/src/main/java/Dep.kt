@@ -21,7 +21,7 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha02"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha04"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
 
         object fragment {
             private const val fragmentVersion = "1.3.0-beta01"
@@ -45,7 +45,7 @@ object Dep {
         }
 
         object UI {
-            const val browser = "androidx.browser:browser:1.3.0-beta01"
+            const val browser = "androidx.browser:browser:1.3.0-rc01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
             const val material = "com.google.android.material:material:1.3.0-alpha03"
@@ -107,7 +107,7 @@ object Dep {
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
 
-        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.13.1"
@@ -129,7 +129,7 @@ object Dep {
 
     object Test {
         const val junit = "junit:junit:4.13"
-        const val assertJ = "org.assertj:assertj-core:3.18.0"
+        const val assertJ = "org.assertj:assertj-core:3.18.1"
         const val mockito = "org.mockito:mockito-core:3.6.0"
         const val androidJunit = "androidx.test.ext:junit:1.1.3-alpha02"
         const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0-alpha02"
