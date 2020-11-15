@@ -1,15 +1,43 @@
 package com.pluu.webtoon.ui.weekly
 
 import android.os.Bundle
+import android.view.View
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Providers
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
-import com.pluu.utils.result.setFragmentResultListener
-import com.pluu.utils.viewbinding.viewBinding
+import com.pluu.compose.ambient.BackPressedDispatcherAmbient
+import com.pluu.compose.ambient.backPressHandler
+import com.pluu.compose.ui.graphics.toColor
+import com.pluu.compose.utils.ProvideDisplayInsets
+import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
-import com.pluu.webtoon.databinding.ActivityMainBinding
 import com.pluu.webtoon.di.provider.NaviColorProvider
-import com.pluu.webtoon.event.ThemeEvent
+import com.pluu.webtoon.model.Session
+import com.pluu.webtoon.model.UI_NAV_ITEM
+import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
+import com.pluu.webtoon.ui.compose.ActivityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,51 +46,125 @@ import javax.inject.Inject
  * Created by pluu on 2017-05-07.
  */
 @AndroidEntryPoint
-class MainActivity : BaseNavActivity(R.layout.activity_main) {
+class MainActivity : FragmentActivity() {
 
-    private val binding by viewBinding(ActivityMainBinding::bind)
+    @Inject
+    lateinit var session: Session
+
     @Inject
     lateinit var defaultProvider: NaviColorProvider
+
     @Inject
     lateinit var settingNavigator: SettingNavigator
 
+    private val containerViewId by lazy {
+        View.generateViewId()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeButtonEnabled(true)
+        ActivityComposeView {
+            ProvideDisplayInsets {
+                Providers(BackPressedDispatcherAmbient provides this) {
+                    var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
+
+                    val fragmentView by remember {
+                        mutableStateOf(MainFragment.newInstance())
+                    }
+                    val contentView = remember {
+                        FragmentContainerView(this).apply {
+                            id = containerViewId
+                        }
+                    }
+
+                    // TODO: Site 변경 대응
+
+                    WeeklyContainerUi(
+                        naviItem = naviItem,
+                        backgroundColor = defaultProvider.getTitleColorVariant().toColor(),
+                        changeNavi = { newNaviItem ->
+                            session.navi = naviItem.getCoreType()
+                            naviItem = newNaviItem
+                        },
+                        onSettingClicked = {
+                            settingNavigator.openSetting(this)
+                        }
+                    ) { innerPadding ->
+                        AndroidView(
+                            modifier = Modifier.padding(innerPadding),
+                            viewBlock = {
+                                replaceMainContainer(fragmentView)
+                                contentView
+                            }
+                        )
+                    }
+                }
+            }
         }
+    }
 
-        themeChange(
-            ThemeEvent(
-                defaultProvider.getTitleColor(),
-                defaultProvider.getTitleColorVariant()
-            )
-        )
-
+    private fun replaceMainContainer(fragment: Fragment) {
         supportFragmentManager.commit {
-            replace(
-                R.id.container, MainFragment.newInstance(), Const.MAIN_FRAG_TAG
+            supportFragmentManager.findFragmentByTag(Const.MAIN_FRAG_TAG)?.let {
+                remove(it)
+            }
+            replace(containerViewId, fragment, Const.MAIN_FRAG_TAG)
+        }
+    }
+}
+
+@Composable
+private fun WeeklyContainerUi(
+    naviItem: UI_NAV_ITEM,
+    backgroundColor: Color,
+    changeNavi: (UI_NAV_ITEM) -> Unit,
+    onSettingClicked: () -> Unit,
+    bodyContent: @Composable (PaddingValues) -> Unit
+) {
+    val context = ContextAmbient.current
+    val scaffoldState = rememberScaffoldState()
+
+    backPressHandler(
+        enabled = scaffoldState.drawerState.isOpen,
+        onBackPressed = {
+            scaffoldState.drawerState.close()
+        }
+    )
+
+    Scaffold(
+        modifier = Modifier.background(color = backgroundColor)
+            .statusBarsPadding(),
+        drawerContent = {
+            WeeklyDrawer(
+                title = context.getString(R.string.app_name),
+                menus = UI_NAV_ITEM.values().iterator(),
+                selectedMenu = naviItem,
+                onMenuClicked = { item ->
+                    if (item != naviItem) {
+                        changeNavi(item)
+                    }
+                    scaffoldState.drawerState.close()
+                },
+                onSettingClicked = {
+                    onSettingClicked()
+                    scaffoldState.drawerState.close()
+                }
             )
-        }
-        binding.navDrawer.btnSetting.setOnClickListener {
-            settingNavigator.openSetting(this)
-            closeNavDrawer()
-        }
-
-        registerThemeChangeEvent()
-    }
-
-    private fun registerThemeChangeEvent() {
-        setFragmentResultListener(Const.resultTheme) { _, data ->
-            themeChange(data.getSerializable(MainFragment.KEY_COLOR) as ThemeEvent)
-        }
-    }
-
-    private fun themeChange(event: ThemeEvent) {
-        binding.navDrawer.navTitle.setBackgroundColor(event.variantColor)
+        },
+        drawerElevation = 0.dp,
+        drawerScrimColor = MaterialTheme.colors.background.copy(alpha = 0.5f),
+        topBar = {
+            WeeklyTopBar(
+                title = context.getString(R.string.app_name),
+                backgroundColor = backgroundColor
+            ) {
+                scaffoldState.drawerState.open()
+            }
+        },
+        scaffoldState = scaffoldState
+    ) { innerPadding ->
+        bodyContent(innerPadding)
     }
 }

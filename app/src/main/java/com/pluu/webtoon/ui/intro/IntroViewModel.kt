@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.flow
 /** Intro ViewModel */
 class IntroViewModel @ViewModelInject constructor() : ViewModel() {
     val observe = flow {
-        delay(1000L)
         emit(Unit)
     }.asLiveData()
 }

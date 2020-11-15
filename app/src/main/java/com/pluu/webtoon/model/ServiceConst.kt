@@ -31,16 +31,14 @@ enum class UI_NAV_ITEM(
     DAUM(true, R.color.daum_color, R.color.daum_color_variant),
     KTOON(true, R.color.olleh_color, R.color.olleh_color_variant),
     KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_variant),
-    NATE(true, R.color.nate_color, R.color.nate_color_variant),
-    SEPARATOR, // Separator
-    INVALID;
+    NATE(true, R.color.nate_color, R.color.nate_color_variant);
 
     fun getCoreType(): NAV_ITEM = when (this) {
+        NAVER -> NAV_ITEM.NAVER
         DAUM -> NAV_ITEM.DAUM
         KTOON -> NAV_ITEM.KTOON
         KAKAOPAGE -> NAV_ITEM.KAKAOPAGE
         NATE -> NAV_ITEM.NATE
-        else -> NAV_ITEM.NAVER
     }
 }
 

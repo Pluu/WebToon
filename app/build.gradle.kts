@@ -43,6 +43,12 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerVersion = Dep.Kotlin.version
+        kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
     }
 
     lintOptions {
@@ -89,6 +95,12 @@ dependencies {
     implementation(Dep.AndroidX.UI.preference)
     implementation(Dep.AndroidX.UI.swiperefreshlayout)
     implementation(Dep.AndroidX.UI.viewPager)
+
+    // Compose
+    implementation(Dep.AndroidX.Compose.ui)
+    implementation(Dep.AndroidX.Compose.material)
+    implementation(Dep.AndroidX.Compose.tooling)
+    implementation(Dep.AndroidX.Compose.livedata)
 
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)
