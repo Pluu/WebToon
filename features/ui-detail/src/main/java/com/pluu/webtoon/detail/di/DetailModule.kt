@@ -11,5 +11,7 @@ import dagger.hilt.android.components.ApplicationComponent
 @Module
 abstract class DetailModule {
     @Binds
-    abstract fun provideDetailNavigator(navigator: DetailNavigatorImpl): DetailNavigator
+    abstract fun provideDetailNavigator(
+        navigator: DetailNavigatorImpl
+    ): DetailNavigator
 }

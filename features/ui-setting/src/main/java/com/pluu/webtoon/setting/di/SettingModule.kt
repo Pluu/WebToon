@@ -11,5 +11,7 @@ import dagger.hilt.android.components.ApplicationComponent
 @Module
 abstract class SettingModule {
     @Binds
-    abstract fun provideSettingNavigator(navigator: SettingNavigatorImpl): SettingNavigator
+    abstract fun provideSettingNavigator(
+        navigator: SettingNavigatorImpl
+    ): SettingNavigator
 }

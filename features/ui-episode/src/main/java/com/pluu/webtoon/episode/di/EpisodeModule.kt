@@ -11,5 +11,7 @@ import dagger.hilt.android.components.ApplicationComponent
 @Module
 abstract class EpisodeModule {
     @Binds
-    abstract fun provideEpisodeNavigator(navigator: EpisodeNavigatorImpl): EpisodeNavigator
+    abstract fun provideEpisodeNavigator(
+        navigator: EpisodeNavigatorImpl
+    ): EpisodeNavigator
 }

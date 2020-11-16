@@ -1,6 +1,7 @@
 package com.pluu.webtoon.di
 
 import com.pluu.webtoon.data.pref.PrefConfig
+import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Session
 import dagger.Module
 import dagger.Provides
@@ -15,10 +16,10 @@ object SessionModule {
     @Provides
     fun provideSession(
         prefConfig: PrefConfig
-    ) = Session(prefConfig)
+    ): Session = Session(prefConfig)
 
     @Provides
     fun provideNavType(
         session: Session
-    ) = session.navi
+    ): NAV_ITEM = session.navi
 }

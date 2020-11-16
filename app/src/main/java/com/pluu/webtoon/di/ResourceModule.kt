@@ -16,5 +16,5 @@ object ResourceModule {
     @Provides
     fun provideColorProvider(
         @ApplicationContext context: Context
-    ) = ColorProvider(context)
+    ): ColorProvider = ColorProvider(context)
 }
