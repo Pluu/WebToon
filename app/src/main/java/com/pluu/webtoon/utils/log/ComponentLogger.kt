@@ -16,37 +16,45 @@ private const val loggerTag = "Logger"
 private inline val <T : Any> T.javaClassName: String
     get() = javaClass.name
 
+private inline fun Fragment.printLifecycle(lifecycleScope: String) {
+    Timber.tag(loggerTag).d("[Fragment] $lifecycleScope - ${javaClassName}(${hashCode()})")
+}
+
+private inline fun Activity.printLifecycle(lifecycleScope: String) {
+    Timber.tag(loggerTag).d("[Activity] $lifecycleScope - ${javaClassName}(${hashCode()})")
+}
+
 class ComponentLogger @Inject constructor() {
     fun initialize(application: Application) {
         application.registerActivityLifecycleCallbacks(
             object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                    Timber.tag(loggerTag).d("[Activity] onCreate - ${activity.javaClassName}")
+                    activity.printLifecycle("onCreate")
                     handleActivity(activity)
                 }
 
                 override fun onActivityStarted(activity: Activity) {
-                    Timber.tag(loggerTag).d("[Activity] onStart - ${activity.javaClassName}")
+                    activity.printLifecycle("onStart")
                 }
 
                 override fun onActivityResumed(activity: Activity) {
-                    Timber.tag(loggerTag).d("[Activity] onResume - ${activity.javaClassName}")
+                    activity.printLifecycle("onResume")
                 }
 
                 override fun onActivityPaused(activity: Activity) {
-                    Timber.tag(loggerTag).d("[Activity] onPause - ${activity.javaClassName}")
+                    activity.printLifecycle("onPause")
                 }
 
                 override fun onActivityStopped(activity: Activity) {
-                    Timber.tag(loggerTag).d("[Activity] onStop - ${activity.javaClassName}")
+                    activity.printLifecycle("onStop")
                 }
 
                 override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-                    Timber.tag(loggerTag).d("[Activity] onSaveInstance - ${activity.javaClassName}")
+                    activity.printLifecycle("onSaveInstance")
                 }
 
                 override fun onActivityDestroyed(activity: Activity) {
-                    Timber.tag(loggerTag).d("[Activity] onDestroy - ${activity.javaClassName}")
+                    activity.printLifecycle("onDestroy")
                 }
             }
         )
@@ -70,7 +78,7 @@ class ComponentLogger @Inject constructor() {
                         savedInstanceState: Bundle?
                     ) {
                         super.onFragmentCreated(fm, f, savedInstanceState)
-                        Timber.tag(loggerTag).d("[Fragment] onCreate - ${f.javaClassName}")
+                        f.printLifecycle("onCreate")
                     }
 
                     override fun onFragmentViewCreated(
@@ -80,37 +88,37 @@ class ComponentLogger @Inject constructor() {
                         savedInstanceState: Bundle?
                     ) {
                         super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-                        Timber.tag(loggerTag).d("[Fragment] onViewCreated - ${f.javaClassName}")
+                        f.printLifecycle("onViewCreated")
                     }
 
                     override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
                         super.onFragmentStarted(fm, f)
-                        Timber.tag(loggerTag).d("[Fragment] onStart - ${f.javaClassName}")
+                        f.printLifecycle("onStart")
                     }
 
                     override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
                         super.onFragmentResumed(fm, f)
-                        Timber.tag(loggerTag).d("[Fragment] onResume - ${f.javaClassName}")
+                        f.printLifecycle("onResume")
                     }
 
                     override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
                         super.onFragmentPaused(fm, f)
-                        Timber.tag(loggerTag).d("[Fragment] onPause - ${f.javaClassName}")
+                        f.printLifecycle("onPause")
                     }
 
                     override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
                         super.onFragmentStopped(fm, f)
-                        Timber.tag(loggerTag).d("[Fragment] onStop - ${f.javaClassName}")
+                        f.printLifecycle("onStop")
                     }
 
                     override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
                         super.onFragmentViewDestroyed(fm, f)
-                        Timber.tag(loggerTag).d("[Fragment] onViewDestroy - ${f.javaClassName}")
+                        f.printLifecycle("onViewDestroy")
                     }
 
                     override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
                         super.onFragmentDestroyed(fm, f)
-                        Timber.tag(loggerTag).d("[Fragment] onDestroy - ${f.javaClassName}")
+                        f.printLifecycle("onDestroy")
                     }
                 }, true
             )
