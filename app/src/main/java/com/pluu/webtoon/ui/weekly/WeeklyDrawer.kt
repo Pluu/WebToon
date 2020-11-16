@@ -35,6 +35,7 @@ import com.pluu.webtoon.model.UI_NAV_ITEM
 @Composable
 fun WeeklyDrawer(
     title: String,
+    accentColor: Color,
     menus: Iterator<UI_NAV_ITEM>,
     selectedMenu: UI_NAV_ITEM,
     modifier: Modifier = Modifier,
@@ -50,7 +51,7 @@ fun WeeklyDrawer(
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = ContextCompat.getColor(context, selectedMenu.bgColor).toColor())
+                .background(color = accentColor)
                 .sizeIn(minHeight = 56.dp)
                 .padding(horizontal = 16.dp)
                 .wrapContentSize(align = Alignment.CenterStart)
@@ -63,7 +64,7 @@ fun WeeklyDrawer(
             Text(
                 context.getString(ServiceConst.NAVDRAWER_TITLE_RES_ID[index]),
                 color = if (isSelected) {
-                    ContextCompat.getColor(context, item.color).toColor()
+                    accentColor
                 } else {
                     MaterialTheme.colors.onSurface
                 },
@@ -109,10 +110,13 @@ fun WeeklyDrawer(
 )
 @Composable
 fun previewWeeklyDrawer() {
+    val context = ContextAmbient.current
+    val defaultNavi = UI_NAV_ITEM.NAVER
     WeeklyDrawer(
         title = "Sample",
+        accentColor = ContextCompat.getColor(context, defaultNavi.bgColor).toColor(),
         menus = UI_NAV_ITEM.values().iterator(),
-        selectedMenu = UI_NAV_ITEM.NAVER,
+        selectedMenu = defaultNavi,
         modifier = Modifier.width(240.dp),
         onMenuClicked = {},
         onSettingClicked = {}

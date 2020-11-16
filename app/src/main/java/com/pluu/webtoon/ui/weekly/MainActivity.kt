@@ -5,7 +5,6 @@ import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -20,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -39,6 +39,7 @@ import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.ActivityComposeView
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -68,6 +69,7 @@ class MainActivity : FragmentActivity() {
         ActivityComposeView {
             ProvideDisplayInsets {
                 Providers(BackPressedDispatcherAmbient provides this) {
+                    val context = ContextAmbient.current
                     var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
 
                     val fragmentView by remember {
@@ -83,8 +85,9 @@ class MainActivity : FragmentActivity() {
 
                     WeeklyContainerUi(
                         naviItem = naviItem,
-                        backgroundColor = defaultProvider.getTitleColorVariant().toColor(),
+                        backgroundColor = ContextCompat.getColor(context, naviItem.bgColor).toColor(),
                         changeNavi = { newNaviItem ->
+                            Timber.d(newNaviItem.name)
                             session.navi = naviItem.getCoreType()
                             naviItem = newNaviItem
                         },
@@ -139,6 +142,7 @@ private fun WeeklyContainerUi(
         drawerContent = {
             WeeklyDrawer(
                 title = context.getString(R.string.app_name),
+                accentColor = backgroundColor,
                 menus = UI_NAV_ITEM.values().iterator(),
                 selectedMenu = naviItem,
                 onMenuClicked = { item ->
