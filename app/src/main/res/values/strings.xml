@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PluuToon</string>
-
-    <string name="msg_intro_ready">준비중이야&#8230; 기다려&#8230;</string>
-    <string name="msg_intro_complete">다됐어&#8230; 이제 갈거야&#8230;</string>
 </resources>
