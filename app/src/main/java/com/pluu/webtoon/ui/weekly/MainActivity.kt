@@ -72,24 +72,22 @@ class MainActivity : FragmentActivity() {
                     val context = ContextAmbient.current
                     var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
 
-                    val fragmentView by remember {
-                        mutableStateOf(MainFragment.newInstance())
-                    }
                     val contentView = remember {
                         FragmentContainerView(this).apply {
                             id = containerViewId
+                            replaceMainContainer(MainFragment.newInstance())
                         }
                     }
 
-                    // TODO: Site 변경 대응
-
                     WeeklyContainerUi(
                         naviItem = naviItem,
-                        backgroundColor = ContextCompat.getColor(context, naviItem.bgColor).toColor(),
+                        backgroundColor = ContextCompat.getColor(context, naviItem.bgColor)
+                            .toColor(),
                         changeNavi = { newNaviItem ->
                             Timber.d(newNaviItem.name)
-                            session.navi = naviItem.getCoreType()
+                            session.navi = newNaviItem.getCoreType()
                             naviItem = newNaviItem
+                            replaceMainContainer(MainFragment.newInstance())
                         },
                         onSettingClicked = {
                             settingNavigator.openSetting(this)
@@ -97,10 +95,7 @@ class MainActivity : FragmentActivity() {
                     ) { innerPadding ->
                         AndroidView(
                             modifier = Modifier.padding(innerPadding),
-                            viewBlock = {
-                                replaceMainContainer(fragmentView)
-                                contentView
-                            }
+                            viewBlock = { contentView }
                         )
                     }
                 }
