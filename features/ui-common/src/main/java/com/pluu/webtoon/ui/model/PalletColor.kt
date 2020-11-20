@@ -1,11 +1,10 @@
 package com.pluu.webtoon.ui.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
-@Parcelize
+// TODO: 추후 Parcelable로 대응
 data class PalletColor(
     val darkVibrantColor: Int,
     val darkMutedColor: Int,
     val lightMutedColor: Int
-) : Parcelable
+) : Serializable

@@ -4,7 +4,6 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("org.jlleitschuh.gradle.ktlint")
@@ -58,11 +57,6 @@ android {
     }
 
     useLibrary("android.test.mock")
-}
-
-androidExtensions {
-    isExperimental = true
-    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
 }
 
 dependencies {

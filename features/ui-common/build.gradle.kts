@@ -1,9 +1,6 @@
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
-
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("android.extensions")
 }
 
 listOf(
@@ -43,9 +40,4 @@ dependencies {
 
     // Glide
     implementation(Dep.Glide.core)
-}
-
-androidExtensions {
-    isExperimental = true
-    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
 }

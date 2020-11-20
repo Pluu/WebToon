@@ -24,7 +24,6 @@ import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ThemeHelper
-import com.pluu.utils.getRequiredParcelableExtra
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
 import com.pluu.utils.result.setFragmentResult
@@ -48,7 +47,7 @@ class EpisodesActivity : AppCompatActivity() {
         intent.getRequiredSerializableExtra<ToonInfoWithFavorite>(Const.EXTRA_EPISODE)
     }
     private val palletColor by lazyNone {
-        intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
+        intent.getRequiredSerializableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
 
     private val colorDefinition by lazy {

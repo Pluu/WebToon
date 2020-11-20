@@ -5,12 +5,14 @@ import org.gradle.kotlin.dsl.ScriptHandlerScope
 import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.repositories
 
+// buildscript
 fun ScriptHandler.addScriptRepository() {
     repositories {
         addScriptDependencies()
     }
 }
 
+// allprojects
 fun Project.addScriptRepository() {
     repositories {
         addScriptDependencies()

@@ -44,7 +44,7 @@ import com.pluu.compose.utils.statusBarsHeight
 import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ProgressDialog
-import com.pluu.utils.getRequiredParcelableExtra
+import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
 import com.pluu.utils.observeNonNull
 import com.pluu.webtoon.Const
@@ -71,7 +71,7 @@ class DetailActivity : AppCompatActivity(), FirstBindListener {
     private val viewModel by viewModels<DetailViewModel>()
 
     private val palletColor by lazyNone {
-        intent.getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
+        intent.getRequiredSerializableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
 
     private val dlg by lazyNone {

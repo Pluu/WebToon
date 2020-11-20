@@ -1,13 +1,12 @@
 package com.pluu.webtoon.ui.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 /**
  * 즐겨찾기 여부 업데이트 Pending Extra Data
  */
-@Parcelize
+// TODO: 추후 Parcelable로 대응
 class FavoriteResult(
     val id: String,
     val isFavorite: Boolean
-) : Parcelable
+) : Serializable

@@ -1,9 +1,6 @@
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
-
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("android.extensions")
 }
 
 listOf(
@@ -11,11 +8,6 @@ listOf(
     "libraryConfiguration.gradle"
 ).forEach { file ->
     apply(from = "${rootProject.projectDir}/gradle/${file}")
-}
-
-androidExtensions {
-    isExperimental = true
-    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
 }
 
 dependencies {

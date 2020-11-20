@@ -13,7 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.MoreRefreshListener
 import com.pluu.utils.ProgressDialog
-import com.pluu.utils.getRequiredParcelableExtra
+import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
@@ -44,7 +44,7 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode),
     private val binding by viewBinding(FragmentEpisodeBinding::bind)
 
     private val palletColor by lazyNone {
-        requireArguments().getRequiredParcelableExtra<PalletColor>(Const.EXTRA_PALLET)
+        requireArguments().getRequiredSerializableExtra<PalletColor>(Const.EXTRA_PALLET)
     }
     private val adapter by lazyNone {
         EpisodeAdapter(this)
