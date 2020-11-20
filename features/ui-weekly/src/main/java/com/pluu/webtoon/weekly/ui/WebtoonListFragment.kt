@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.pluu.utils.getSerializable
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
@@ -43,8 +44,8 @@ class WebtoonListFragment : Fragment() {
     private val toonViewModel by activityViewModels<ToonViewModel>()
 
     private val openEpisodeLauncher = registerStartActivityForResult { activityResult ->
-        val favorite: FavoriteResult = activityResult.data
-            ?.getParcelableExtra(Const.EXTRA_FAVORITE_EPISODE)
+        val favorite = activityResult.data
+            ?.getSerializable<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE)
             ?: return@registerStartActivityForResult
         toonViewModel.updateFavorite(favorite)
     }
