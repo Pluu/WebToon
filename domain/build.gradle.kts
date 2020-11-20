@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":model"))
 
     implementation(Dep.Kotlin.stdlibJvm)
+    implementation(Dep.Dagger.dagger)
 
     testImplementation(Dep.Test.junit)
 }
