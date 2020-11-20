@@ -1,7 +1,8 @@
 package com.pluu.webtoon.episode.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,30 +11,35 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.commit
 import com.pluu.compose.transition.colorStartToEndTransition
 import com.pluu.compose.transition.colorStateKey
 import com.pluu.compose.transition.colorTransitionDefinition
+import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
-import com.pluu.utils.result.setFragmentResult
+import com.pluu.utils.result.registerStartActivityForResult
+import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
+import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.compose.ActivityComposeView
+import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+// TODO: 로딩
 /**
  * 에피소드 리스트 Activity
  * Created by pluu on 2017-05-09.
@@ -48,6 +54,13 @@ class EpisodesActivity : AppCompatActivity() {
     }
     private val palletColor by lazyNone {
         intent.getRequiredSerializableExtra<PalletColor>(Const.EXTRA_PALLET)
+    }
+
+    @Inject
+    lateinit var detailNavigator: DetailNavigator
+
+    private val openDetailLauncher = registerStartActivityForResult {
+        viewModel.readUpdate()
     }
 
     private val colorDefinition by lazy {
@@ -76,32 +89,89 @@ class EpisodesActivity : AppCompatActivity() {
 
         ActivityComposeView {
             ProvideDisplayInsets {
-                val context = ContextAmbient.current
-                val contentView = remember {
-                    FragmentContainerView(context).apply {
-                        id = View.generateViewId()
-                        supportFragmentManager.commit {
-                            replace(
-                                this@apply.id,
-                                EpisodeFragment.newInstance(webToonItem, palletColor),
-                                Const.MAIN_FRAG_TAG
-                            )
+                var showDialog by remember { mutableStateOf(false) }
+                var isRefresh by remember { mutableStateOf(false) }
+
+                val uiState by viewModel.uiState.observeAsState(null)
+                val event by viewModel.event.observeAsState(null)
+
+                if (showDialog) {
+                    ProgressDialog("Loading...")
+                }
+
+                val _event = event
+                if (_event != null) {
+                    when (_event) {
+                        EpisodeEvent.START -> {
+                            showDialog = true
+                        }
+                        EpisodeEvent.LOADED -> {
+                            showDialog = false
+                            isRefresh = false
+                        }
+                        is EpisodeEvent.FIRST -> {
+                            moveDetailPage(_event.firstEpisode)
+                        }
+                        EpisodeEvent.ERROR -> {
+                            showDialog = false
+                            isRefresh = false
+//                            toast(R.string.network_fail)
+//                            activity?.finish()
+                        }
+                        is EpisodeEvent.UPDATE_FAVORITE -> {
+                            updateFavorite(_event.isFavorite)
+                            savedResult(_event)
                         }
                     }
                 }
 
+                // Refresh
+//                viewModel.initialize()
+//                viewModel.load()
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = { initEpisodeTopUi() },
-                    bottomBar = { initEpisodeInfoUi() }
+                    bottomBar = {
+                        // TODO:
+//                        val firstPendingItem = list?.firstOrNull()
+                        val firstPendingItem = null
+                        if (firstPendingItem != null) {
+                            initEpisodeInfoUi(firstPendingItem!!) { item ->
+                                validItem(item) {
+                                    requestFirst()
+                                }
+                            }
+                        }
+                    }
                 ) { innerPadding ->
-                    AndroidView(
+                    if (uiState == null) return@Scaffold
+                    EpisodeContentUi(
+                        uiState = uiState!!,
                         modifier = Modifier.padding(innerPadding),
-                        viewBlock = { contentView }
-                    )
+                        onMoreLoaded = {
+                            if (showDialog) return@EpisodeContentUi
+                            viewModel.load()
+                        }
+                    ) { item ->
+                        validItem(item) {
+                            moveDetailPage(item)
+                        }
+                    }
                 }
             }
         }
+
+        viewModel.load()
+    }
+
+    private fun savedResult(event: EpisodeEvent.UPDATE_FAVORITE) {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra(
+                Const.EXTRA_FAVORITE_EPISODE,
+                FavoriteResult(event.id, event.isFavorite)
+            )
+        })
     }
 
     @Composable
@@ -123,7 +193,10 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun initEpisodeInfoUi() {
+    private fun initEpisodeInfoUi(
+        firstItem: EpisodeInfo,
+        onFirstClicked: (EpisodeInfo) -> Unit
+    ) {
         val info = webToonItem.info
         val bgTransition = colorStartToEndTransition(colorDefinition)
         val infoTextTransition = colorStartToEndTransition(infoTextColorDefinition)
@@ -134,8 +207,36 @@ class EpisodesActivity : AppCompatActivity() {
             infoTextColor = infoTextTransition[colorStateKey],
             buttonBackgroundColor = bgTransition[colorStateKey],
             onFirstClicked = {
-                setFragmentResult(EpisodeConst.ShowFirst)
+                onFirstClicked(firstItem)
             }
         )
+    }
+
+    private fun validItem(
+        item: EpisodeInfo,
+        successValidAction: (EpisodeInfo) -> Unit
+    ) {
+        if (item.isLock) {
+            toast(R.string.msg_not_support)
+        } else {
+            successValidAction(item)
+        }
+    }
+
+    private fun moveDetailPage(item: EpisodeInfo) {
+        detailNavigator.openDetail(
+            context = this,
+            launcher = openDetailLauncher,
+            item = item,
+            palletColor = palletColor
+        )
+    }
+
+    private fun updateFavorite(isFavorite: Boolean) {
+        toast(if (isFavorite) "즐겨찾기 추가" else "즐겨찾기 제거")
+    }
+
+    private fun requestFirst() {
+        viewModel.requestFirst()
     }
 }

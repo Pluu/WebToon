@@ -39,21 +39,17 @@ class EpisodeViewModel @ViewModelInject constructor(
 
     private var isNext = true
 
-    private val _listEvent = MutableLiveData<List<EpisodeInfo>>()
-    val listEvent: LiveData<List<EpisodeInfo>>
-        get() = _listEvent
+    private val _uiState = MutableLiveData<EpisodeUiState>()
+    val uiState: LiveData<EpisodeUiState> get() = _uiState
 
     private val _event = MutableLiveData<EpisodeEvent>()
-    val event: LiveData<EpisodeEvent>
-        get() = _event
+    val event: LiveData<EpisodeEvent> get() = _event
 
     private val _updateListEvent = MutableLiveData<List<String>>()
-    val updateListEvent: LiveData<List<String>>
-        get() = _updateListEvent
+    val updateListEvent: LiveData<List<String>> get() = _updateListEvent
 
     private val _favorite = MutableLiveData(item.isFavorite)
-    val favorite: LiveData<Boolean>
-        get() = _favorite
+    val favorite: LiveData<Boolean> get() = _favorite
 
     private val INIT_PAGE = 0
     private var pageNo = INIT_PAGE
@@ -74,12 +70,11 @@ class EpisodeViewModel @ViewModelInject constructor(
             when (val episodePage = getEpisodeUseCase(id, pageNo)) {
                 is Result.Success -> {
                     val data = episodePage.data
-
                     actionSuccessUi(data)
 
                     val resultList = successProcess(data)
                     if (resultList.isNotEmpty()) {
-                        _listEvent.value = resultList
+                        _uiState.value = EpisodeUiState(pageNo, resultList)
                     }
                     _event.value = EpisodeEvent.LOADED
                 }
@@ -155,9 +150,11 @@ class EpisodeViewModel @ViewModelInject constructor(
             } else {
                 delFavoriteUseCase(type, id)
             }
+            withContext(dispatchers.main) {
+                _favorite.value = isFavorite
+                _event.value = EpisodeEvent.UPDATE_FAVORITE(id, isFavorite)
+            }
         }
-        _favorite.value = isFavorite
-        _event.value = EpisodeEvent.UPDATE_FAVORITE(id, isFavorite)
     }
 }
 
