@@ -1,22 +1,28 @@
 package com.pluu.webtoon.ui.weekly
 
-import android.animation.AnimatorSet
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import com.google.android.material.tabs.TabLayoutMediator
-import com.pluu.utils.viewbinding.viewBinding
+import androidx.viewpager2.widget.ViewPager2
+import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.R
-import com.pluu.webtoon.databinding.FragmentToonBinding
 import com.pluu.webtoon.di.provider.NaviColorProvider
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.event.ThemeEvent
-import com.pluu.webtoon.utils.animator.animatorStatusBarColor
-import com.pluu.webtoon.utils.animator.animatorToolbarColor
+import com.pluu.webtoon.ui.compose.FragmentComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,7 +31,7 @@ import javax.inject.Inject
  * Created by pluu on 2017-05-07.
  */
 @AndroidEntryPoint
-class MainFragment : Fragment(R.layout.fragment_toon) {
+class MainFragment : Fragment() {
 
     @Inject
     lateinit var serviceApi: WeeklyUseCase
@@ -33,49 +39,60 @@ class MainFragment : Fragment(R.layout.fragment_toon) {
     @Inject
     lateinit var colorProvider: NaviColorProvider
 
-    private val binding by viewBinding(FragmentToonBinding::bind)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = FragmentComposeView {
+        val context = ContextAmbient.current
+        var selectedIndex by remember { mutableStateOf(serviceApi.todayTabPosition) }
+
+        val pager = remember {
+            ViewPager2(context).apply {
+                orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                adapter = MainFragmentAdapter(
+                    fm = parentFragmentManager,
+                    serviceApi = serviceApi,
+                    lifecycle = viewLifecycleOwner.lifecycle
+                )
+                // 금일 기준으로 ViewPager 기본 표시
+                setCurrentItem(selectedIndex, false)
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        selectedIndex = position
+                    }
+                })
+            }
+        }
+
+        Column {
+            DayOfWeekUi(
+                titles = serviceApi.CURRENT_TABS,
+                selectedTabIndex = selectedIndex,
+                indicatorColor = colorProvider.getTitleColor().toColor()
+            ) {
+                selectedIndex = it
+                pager.currentItem = it
+            }
+            AndroidView(
+                modifier = Modifier.fillMaxSize(),
+                viewBlock = { pager }
+            )
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setServiceTheme()
-
-        binding.viewPager.apply {
-            adapter = MainFragmentAdapter(
-                fm = parentFragmentManager,
-                serviceApi = serviceApi,
-                lifecycle = viewLifecycleOwner.lifecycle
-            )
-            // 금일 기준으로 ViewPager 기본 표시
-            setCurrentItem(serviceApi.todayTabPosition, false)
-        }
-
-        TabLayoutMediator(binding.slidingTabLayout, binding.viewPager) { tab, position ->
-            tab.text = serviceApi.getWeeklyTabName(position)
-        }.attach()
-    }
-
-    // 선택한 서비스에 맞는 컬러 테마 변경
-    private fun setServiceTheme() {
-        val color = colorProvider.getTitleColor()
-        val colorVariant = colorProvider.getTitleColorVariant()
-        val activity = activity
-
-        if (activity is AppCompatActivity) {
-            val toolbarAnimator = activity.animatorToolbarColor(color)
-            val statusBarAnimator = activity.animatorStatusBarColor(colorVariant)
-
-            AnimatorSet().apply {
-                duration = 250L
-                playTogether(toolbarAnimator, statusBarAnimator)
-            }.start()
-        }
 
         setFragmentResult(
             Const.resultTheme, bundleOf(
-                KEY_COLOR to ThemeEvent(color, colorVariant)
+                KEY_COLOR to ThemeEvent(
+                    colorProvider.getTitleColor(),
+                    colorProvider.getTitleColorVariant()
+                )
             )
         )
-        binding.slidingTabLayout.setSelectedTabIndicatorColor(color)
     }
 
     companion object {
