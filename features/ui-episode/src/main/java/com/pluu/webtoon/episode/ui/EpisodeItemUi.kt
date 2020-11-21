@@ -67,7 +67,6 @@ fun EpisodeItemUi(
             EpisodeItemUiOverlayUi(item = item, isRead = isRead)
         }
     }
-
 }
 
 @Composable

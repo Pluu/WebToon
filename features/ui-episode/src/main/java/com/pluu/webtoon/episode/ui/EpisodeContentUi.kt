@@ -24,9 +24,6 @@ import com.pluu.webtoon.episode.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 
-// TODO: SwipeToRefresh
-// TODO: 읽기 처리
-
 @Composable
 fun EpisodeContentUi(
     uiState: UiState<List<EpisodeInfo>>,
@@ -43,7 +40,7 @@ fun EpisodeContentUi(
         listOf(0xFF0F9D58, 0xFFDB4437, 0xFF4285f4, 0xFFF4B400).map { it.toColor() }
     }
 
-    onCommit {
+    onCommit(uiState) {
         when {
             uiState.initialLoad -> {
                 rememberItems.clear()
@@ -54,9 +51,16 @@ fun EpisodeContentUi(
         }
     }
 
-    if (uiState.initialLoad) {
-        EmptyContainer(circleColors)
-    } else {
+    // TODO : SwipeToRefreshLayout 내부의 컨텐츠 기준으로 Swipe 처리
+    LoadingContent(
+        empty = uiState.initialLoad,
+        emptyContent = {
+            EmptyContainer(circleColors)
+        },
+        isLoading = uiState.loading,
+        refreshColors = circleColors,
+        onRefresh = onRefresh
+    ) {
         LazyGridFor(
             items = rememberItems,
             rows = 2,
@@ -105,6 +109,7 @@ private fun LoadingContent(
     } else {
         SwipeToRefreshLayout(
             refreshingState = isLoading,
+            thresholdFraction = 0.9f,
             onRefresh = onRefresh,
             refreshIndicator = {
                 Surface(elevation = 10.dp, shape = CircleShape) {
