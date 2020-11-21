@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flow
 
 /** Intro ViewModel */
 class IntroViewModel @ViewModelInject constructor() : ViewModel() {
+    // TOOD: 로딩 움직임이 멈추는 현상
     val observe = flow {
         delay(1000L)
         emit(Unit)

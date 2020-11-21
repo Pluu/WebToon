@@ -14,7 +14,7 @@ import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.domain.usecase.RemoveFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
-import com.pluu.webtoon.model.Episode
+import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.model.NAV_ITEM
@@ -39,14 +39,14 @@ class EpisodeViewModel @ViewModelInject constructor(
 
     private var isNext = true
 
-    private val _uiState = MutableLiveData<EpisodeUiState>()
-    val uiState: LiveData<EpisodeUiState> get() = _uiState
+    private val _listEvent = MutableLiveData<Result<List<EpisodeInfo>>>()
+    val listEvent: LiveData<Result<List<EpisodeInfo>>> get() = _listEvent
 
     private val _event = MutableLiveData<EpisodeEvent>()
     val event: LiveData<EpisodeEvent> get() = _event
 
-    private val _updateListEvent = MutableLiveData<List<String>>()
-    val updateListEvent: LiveData<List<String>> get() = _updateListEvent
+    private val _readIdSet = MutableLiveData<Set<EpisodeId>>()
+    val readIdSet: LiveData<Set<EpisodeId>> get() = _readIdSet
 
     private val _favorite = MutableLiveData(item.isFavorite)
     val favorite: LiveData<Boolean> get() = _favorite
@@ -58,6 +58,7 @@ class EpisodeViewModel @ViewModelInject constructor(
     fun initialize() {
         pageNo = INIT_PAGE
         isNext = true
+        _listEvent.value = Result.Success(emptyList())
     }
 
     fun load() {
@@ -73,15 +74,16 @@ class EpisodeViewModel @ViewModelInject constructor(
                     actionSuccessUi(data)
 
                     val resultList = successProcess(data)
-                    if (resultList.isNotEmpty()) {
-                        _uiState.value = EpisodeUiState(pageNo, resultList)
-                    }
-                    _event.value = EpisodeEvent.LOADED
+                    _listEvent.value = Result.Success(resultList)
+
                 }
                 is Result.Error -> {
-                    _event.value = EpisodeEvent.ERROR
+                    _listEvent.value = Result.Error(episodePage.exception)
                 }
             }
+
+            _readIdSet.value = refreshReadId()
+            _event.value = EpisodeEvent.LOADED
         }
     }
 
@@ -109,32 +111,23 @@ class EpisodeViewModel @ViewModelInject constructor(
         episodePage: EpisodeResult
     ): List<EpisodeInfo> = withContext(dispatchers.computation) {
         runCatching {
-            val result = episodePage.episodes
-            val readList = getReadList()
-            result.applyReaded(readList)
-            result
+            episodePage.episodes
         }.getOrDefault(emptyList())
-    }
-
-    private suspend fun getReadList(): List<Episode> = withContext(dispatchers.computation) {
-        readEpisodeListUseCase(type, id)
     }
 
     fun readUpdate() {
         viewModelScope.launch {
-            _event.value = EpisodeEvent.START
-            _updateListEvent.value = readableEpisodeList()
-            _event.value = EpisodeEvent.LOADED
+            _readIdSet.value = refreshReadId()
         }
     }
 
-    private suspend fun readableEpisodeList() = withContext(dispatchers.computation) {
+    private suspend fun refreshReadId() = withContext(dispatchers.computation) {
         runCatching {
-            getReadList().asSequence()
+            readEpisodeListUseCase(type, id).asSequence()
                 .mapNotNull { it.episodeId }
                 .distinct()
-                .toList()
-        }.getOrDefault(emptyList())
+                .toSet()
+        }.getOrDefault(emptySet())
     }
 
     fun requestFirst() {
@@ -158,23 +151,10 @@ class EpisodeViewModel @ViewModelInject constructor(
     }
 }
 
-@Suppress("SpellCheckingInspection")
-private fun List<EpisodeInfo>.applyReaded(readList: List<Episode>) {
-    for (readItem in readList) {
-        for (episode in this) {
-            if (readItem.episodeId == episode.id) {
-                episode.isRead = true
-                break
-            }
-        }
-    }
-}
-
 @Suppress("ClassName")
 sealed class EpisodeEvent {
     object START : EpisodeEvent()
     object LOADED : EpisodeEvent()
     class FIRST(val firstEpisode: EpisodeInfo) : EpisodeEvent()
-    object ERROR : EpisodeEvent()
     class UPDATE_FAVORITE(val id: String, val isFavorite: Boolean) : EpisodeEvent()
 }

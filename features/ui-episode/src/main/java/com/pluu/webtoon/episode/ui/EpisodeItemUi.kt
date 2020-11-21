@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ConstraintLayout
 import androidx.compose.foundation.layout.Dimension
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +37,7 @@ import dev.chrisbanes.accompanist.glide.GlideImage
 @Composable
 fun EpisodeItemUi(
     item: EpisodeInfo,
+    isRead: Boolean,
     modifier: Modifier = Modifier,
     onClicked: (EpisodeInfo) -> Unit
 ) {
@@ -65,9 +64,7 @@ fun EpisodeItemUi(
                 }
             )
 
-            EpisodeItemUiOverlayUi(
-                item = item
-            )
+            EpisodeItemUiOverlayUi(item = item, isRead = isRead)
         }
     }
 
@@ -76,6 +73,7 @@ fun EpisodeItemUi(
 @Composable
 fun EpisodeItemUiOverlayUi(
     item: EpisodeInfo,
+    isRead: Boolean,
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(modifier = modifier.fillMaxSize()) {
@@ -100,7 +98,7 @@ fun EpisodeItemUiOverlayUi(
                 }
         )
 
-        if (item.isRead) {
+        if (isRead) {
             ImageInCircle(
                 asset = vectorResource(id = R.drawable.ic_check_white_24),
                 circleColor = 0xFFCC222222.toColor(),
@@ -140,6 +138,7 @@ fun previewEpisodeItemUi() {
     )
     EpisodeItemUi(
         item = item,
+        isRead = true,
         onClicked = {}
     )
 }

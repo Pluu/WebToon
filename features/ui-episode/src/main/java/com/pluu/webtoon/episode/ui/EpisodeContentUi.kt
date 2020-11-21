@@ -1,85 +1,115 @@
 package com.pluu.webtoon.episode.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.onActive
 import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pluu.compose.foundation.lazy.LazyGridFor
+import com.pluu.compose.ui.CircularProgressIndicator
 import com.pluu.compose.ui.SwipeToRefreshLayout
+import com.pluu.compose.ui.graphics.toColor
+import com.pluu.webtoon.episode.ui.state.UiState
+import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 
-// TODO: 컨텐츠 추가
-// TODO: Refresh
+// TODO: SwipeToRefresh
 // TODO: 읽기 처리
 
 @Composable
 fun EpisodeContentUi(
-    uiState: EpisodeUiState,
+    uiState: UiState<List<EpisodeInfo>>,
+    readIdSet: Set<EpisodeId>,
     modifier: Modifier = Modifier,
+    onRefresh: () -> Unit,
     onMoreLoaded: () -> Unit,
     onEpisodeClicked: (EpisodeInfo) -> Unit,
 ) {
     // TODO: 페이징 처리 개선 필요
-    var idx by remember { mutableStateOf(-1) }
     val rememberItems = remember { mutableStateListOf<EpisodeInfo>() }
 
-    onCommit {
-        if (uiState.idx == idx || uiState.items.isEmpty()) return@onCommit
-        idx = uiState.idx
-
-        if (idx == 0) {
-            rememberItems.clear()
-        }
-        rememberItems.addAll(uiState.items)
+    val circleColors = remember {
+        listOf(0xFF0F9D58, 0xFFDB4437, 0xFF4285f4, 0xFFF4B400).map { it.toColor() }
     }
 
-    LazyGridFor(
-        items = rememberItems,
-        rows = 2,
-        modifier = modifier
-    ) { item, index ->
-        if (rememberItems.lastIndex == index) {
-            onActive {
-                onMoreLoaded()
+    onCommit {
+        when {
+            uiState.initialLoad -> {
+                rememberItems.clear()
+            }
+            uiState.data != null -> {
+                rememberItems.addAll(uiState.data)
             }
         }
-        EpisodeItemUi(item = item, onClicked = onEpisodeClicked)
+    }
+
+    if (uiState.initialLoad) {
+        EmptyContainer(circleColors)
+    } else {
+        LazyGridFor(
+            items = rememberItems,
+            rows = 2,
+            modifier = modifier.fillMaxSize()
+        ) { item, index ->
+            if (rememberItems.lastIndex == index) {
+                onActive {
+                    onMoreLoaded()
+                }
+            }
+            EpisodeItemUi(
+                item = item,
+                isRead = readIdSet.contains(item.id),
+                onClicked = onEpisodeClicked
+            )
+        }
     }
 }
 
 @Composable
-private fun EpisodeContent(
+private fun EmptyContainer(
+    circleColors: List<Color>
+) {
+    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+        CircularProgressIndicator(
+            colors = circleColors,
+            strokeWidth = 7.dp,
+            modifier = Modifier
+                .preferredSize(72.dp)
+                .padding(4.dp)
+        )
+    }
+}
+
+@Composable
+private fun LoadingContent(
     empty: Boolean,
     emptyContent: @Composable () -> Unit,
     isLoading: Boolean,
+    refreshColors: List<Color>,
     onRefresh: () -> Unit,
     content: @Composable () -> Unit
 ) {
     if (empty) {
         emptyContent()
     } else {
-        // TODO: Refresh Circular
-//        #0F9D58
-//        #DB4437
-//        #4285f4
-//        #f4b400
         SwipeToRefreshLayout(
             refreshingState = isLoading,
             onRefresh = onRefresh,
             refreshIndicator = {
                 Surface(elevation = 10.dp, shape = CircleShape) {
                     CircularProgressIndicator(
+                        colors = refreshColors,
                         modifier = Modifier
                             .preferredSize(36.dp)
                             .padding(4.dp)

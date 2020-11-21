@@ -30,7 +30,9 @@ import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
+import com.pluu.webtoon.episode.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.compose.ActivityComposeView
@@ -39,7 +41,6 @@ import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-// TODO: 로딩
 /**
  * 에피소드 리스트 Activity
  * Created by pluu on 2017-05-09.
@@ -92,8 +93,12 @@ class EpisodesActivity : AppCompatActivity() {
                 var showDialog by remember { mutableStateOf(false) }
                 var isRefresh by remember { mutableStateOf(false) }
 
-                val uiState by viewModel.uiState.observeAsState(null)
+                val episodeList by viewModel.listEvent.observeAsState(
+                    Result.Success(emptyList())
+                )
                 val event by viewModel.event.observeAsState(null)
+
+                val readIdSet by viewModel.readIdSet.observeAsState(emptySet())
 
                 if (showDialog) {
                     ProgressDialog("Loading...")
@@ -112,12 +117,6 @@ class EpisodesActivity : AppCompatActivity() {
                         is EpisodeEvent.FIRST -> {
                             moveDetailPage(_event.firstEpisode)
                         }
-                        EpisodeEvent.ERROR -> {
-                            showDialog = false
-                            isRefresh = false
-//                            toast(R.string.network_fail)
-//                            activity?.finish()
-                        }
                         is EpisodeEvent.UPDATE_FAVORITE -> {
                             updateFavorite(_event.isFavorite)
                             savedResult(_event)
@@ -125,32 +124,39 @@ class EpisodesActivity : AppCompatActivity() {
                     }
                 }
 
-                // Refresh
-//                viewModel.initialize()
-//                viewModel.load()
+                if (episodeList is Result.Error) {
+                    toast(R.string.network_fail)
+                    finish()
+                }
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = { initEpisodeTopUi() },
                     bottomBar = {
-                        // TODO:
-//                        val firstPendingItem = list?.firstOrNull()
-                        val firstPendingItem = null
-                        if (firstPendingItem != null) {
-                            initEpisodeInfoUi(firstPendingItem!!) { item ->
-                                validItem(item) {
-                                    requestFirst()
+                        val _episodeList = episodeList
+                        if (_episodeList is Result.Success) {
+                            // TODO: 첫화 보기
+                            val firstPendingItem = _episodeList.data?.firstOrNull()
+                            if (firstPendingItem != null) {
+                                initEpisodeInfoUi(firstPendingItem) { item ->
+                                    validItem(item) {
+                                        requestFirst()
+                                    }
                                 }
                             }
                         }
                     }
                 ) { innerPadding ->
-                    if (uiState == null) return@Scaffold
                     EpisodeContentUi(
-                        uiState = uiState!!,
+                        uiState = convertUiState(episodeList),
+                        readIdSet = readIdSet,
                         modifier = Modifier.padding(innerPadding),
                         onMoreLoaded = {
                             if (showDialog) return@EpisodeContentUi
+                            viewModel.load()
+                        },
+                        onRefresh = {
+                            viewModel.initialize()
                             viewModel.load()
                         }
                     ) { item ->
@@ -163,6 +169,16 @@ class EpisodesActivity : AppCompatActivity() {
         }
 
         viewModel.load()
+    }
+
+    private fun convertUiState(value: Result<List<EpisodeInfo>>): UiState<List<EpisodeInfo>> {
+        return when (value) {
+            is Result.Success -> UiState(
+                data = value.data.takeIf { it.isNotEmpty() },
+                loading = value.data.isEmpty()
+            )
+            is Result.Error -> UiState(exception = value.exception)
+        }
     }
 
     private fun savedResult(event: EpisodeEvent.UPDATE_FAVORITE) {
