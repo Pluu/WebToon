@@ -1,5 +1,6 @@
 package com.pluu.compose.ui
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offsetPx
 import androidx.compose.material.ExperimentalMaterialApi
@@ -20,6 +21,7 @@ private val RefreshDistance = 80.dp
 @Composable
 fun SwipeToRefreshLayout(
     refreshingState: Boolean,
+    @FloatRange(from = 0.0, to = 1.0) thresholdFraction: Float = 0.5f,
     onRefresh: () -> Unit,
     refreshIndicator: @Composable () -> Unit,
     content: @Composable () -> Unit
@@ -38,7 +40,7 @@ fun SwipeToRefreshLayout(
                 -refreshDistance to false,
                 refreshDistance to true
             ),
-            thresholds = { _, _ -> FractionalThreshold(0.5f) },
+            thresholds = { _, _ -> FractionalThreshold(thresholdFraction) },
             orientation = Orientation.Vertical
         )
     ) {
