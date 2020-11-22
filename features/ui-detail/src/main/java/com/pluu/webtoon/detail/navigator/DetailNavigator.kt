@@ -1,10 +1,11 @@
-package com.pluu.webtoon.detail.ui
+package com.pluu.webtoon.detail.navigator
 
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import com.pluu.utils.buildIntent
 import com.pluu.webtoon.Const
+import com.pluu.webtoon.detail.ui.DetailActivity
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.model.PalletColor

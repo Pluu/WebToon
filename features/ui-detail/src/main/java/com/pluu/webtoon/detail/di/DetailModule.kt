@@ -1,6 +1,6 @@
 package com.pluu.webtoon.detail.di
 
-import com.pluu.webtoon.detail.ui.DetailNavigatorImpl
+import com.pluu.webtoon.detail.navigator.DetailNavigatorImpl
 import com.pluu.webtoon.navigator.DetailNavigator
 import dagger.Binds
 import dagger.Module

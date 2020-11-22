@@ -1,8 +1,10 @@
-package com.pluu.webtoon.setting.ui
+package com.pluu.webtoon.setting.navigator
 
 import android.content.Context
 import com.pluu.utils.startActivity
 import com.pluu.webtoon.navigator.SettingNavigator
+import com.pluu.webtoon.setting.ui.LicenseActivity
+import com.pluu.webtoon.setting.ui.SettingsActivity
 import javax.inject.Inject
 
 class SettingNavigatorImpl @Inject constructor() : SettingNavigator {

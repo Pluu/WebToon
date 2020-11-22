@@ -1,6 +1,6 @@
 package com.pluu.webtoon.episode.di
 
-import com.pluu.webtoon.episode.ui.EpisodeNavigatorImpl
+import com.pluu.webtoon.episode.navigator.EpisodeNavigatorImpl
 import com.pluu.webtoon.navigator.EpisodeNavigator
 import dagger.Binds
 import dagger.Module
