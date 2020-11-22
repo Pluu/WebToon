@@ -117,7 +117,9 @@ class EpisodeViewModel @ViewModelInject constructor(
 
     fun readUpdate() {
         viewModelScope.launch {
+            _event.value = EpisodeEvent.START
             _readIdSet.value = refreshReadId()
+            _event.value = EpisodeEvent.LOADED
         }
     }
 
