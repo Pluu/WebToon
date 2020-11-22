@@ -23,8 +23,7 @@ fun WeeklyHomeUi(
             }
         }
         items.isNotEmpty() -> {
-            // 해당 요일에 웹툰이 있을 경
-            // TODO: Non-Null 체크가 정상으로 되면 수정해야함
+            // 해당 요일에 웹툰이 있을 경우
             WeeklyListUi(
                 items = items,
                 modifier = modifier,

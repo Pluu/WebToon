@@ -66,7 +66,7 @@ import dev.chrisbanes.accompanist.glide.AmbientRequestManager
  * Created by pluu on 2017-05-09.
  */
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity(), FirstBindListener {
+class DetailActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<DetailViewModel>()
 
@@ -243,15 +243,8 @@ class DetailActivity : AppCompatActivity(), FirstBindListener {
         super.finish()
     }
 
-    override fun firstBind() {
-//        val currentItem = currentItem
-//        if (currentItem?.list?.isNotEmpty() == true) {
-//            fragmentAttach(currentItem.list)
-//        }
-    }
-
     // /////////////////////////////////////////////////////////////////////////
-    //
+    // 추가 처리
     // /////////////////////////////////////////////////////////////////////////
 
     private fun showError(event: DetailEvent.ERROR) {
