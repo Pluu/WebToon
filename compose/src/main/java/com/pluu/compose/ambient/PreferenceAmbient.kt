@@ -36,5 +36,5 @@ class PreferenceProvider(
     fun getValue(
         key: String,
         defaultValue: Set<String> = emptySet()
-    ) = preferences.getStringSet(key, defaultValue)
+    ): Set<String> = preferences.getStringSet(key, defaultValue)!!
 }
