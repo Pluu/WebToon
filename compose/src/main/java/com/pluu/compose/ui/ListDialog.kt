@@ -1,6 +1,5 @@
 package com.pluu.compose.ui
 
-import androidx.compose.foundation.ProvideTextStyle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,15 +10,17 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumnForIndexed
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.material.AmbientEmphasisLevels
+import androidx.compose.material.AmbientContentAlpha
 import androidx.compose.material.Button
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideEmphasis
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Providers
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,11 +68,10 @@ private fun <T> dialogContent(
     items: List<T>,
     itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
-    val emphasisLevels = AmbientEmphasisLevels.current
     Column(modifier = modifier) {
         if (title != null) {
             Box(modifier = TitlePadding.align(Alignment.Start)) {
-                ProvideEmphasis(emphasisLevels.high) {
+                Providers(AmbientContentAlpha provides ContentAlpha.high) {
                     val textStyle = MaterialTheme.typography.subtitle1
                     ProvideTextStyle(textStyle, title)
                 }
@@ -92,7 +92,6 @@ private fun <T> dialogContent(
 }
 
 internal val TitlePadding = Modifier.padding(24.dp)
-internal fun Modifier.ItemPadding() = padding(24.dp)
 
 @Preview
 @Composable

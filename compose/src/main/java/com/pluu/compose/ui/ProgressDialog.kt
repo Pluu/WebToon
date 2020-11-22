@@ -1,18 +1,19 @@
 package com.pluu.compose.ui
 
-import androidx.compose.foundation.ProvideTextStyle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
-import androidx.compose.material.AmbientEmphasisLevels
+import androidx.compose.material.AmbientContentAlpha
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideEmphasis
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Providers
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,8 +36,6 @@ fun ProgressDialog(
         title = {
             if (title != null) {
                 Text(text = title)
-            } else {
-                null
             }
         },
         modifier = modifier,
@@ -58,7 +57,6 @@ private fun dialogContent(
     contentColor: Color = contentColorFor(backgroundColor),
     properties: DialogProperties? = null
 ) {
-    val emphasisLevels = AmbientEmphasisLevels.current
     Dialog(onDismissRequest = onDismiss, properties = properties) {
         Surface(
             modifier = modifier,
@@ -73,7 +71,7 @@ private fun dialogContent(
                 )
                 if (title != null) {
                     Box(modifier = TitlePadding.align(Alignment.CenterVertically)) {
-                        ProvideEmphasis(emphasisLevels.high) {
+                        Providers(AmbientContentAlpha provides ContentAlpha.high) {
                             val textStyle = MaterialTheme.typography.subtitle1
                             ProvideTextStyle(textStyle, title)
                         }
