@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pluu.ui.state.UiState
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.usecase.DetailUseCase
@@ -37,12 +38,10 @@ class DetailViewModel @ViewModelInject constructor(
     private val _event = MutableLiveData<DetailEvent>()
     val event: LiveData<DetailEvent> get() = _event
 
-    private val _elementEvent = MutableLiveData<ElementEvent>()
-    val elementEvent: LiveData<ElementEvent> get() = _elementEvent
+    private val _elementUiState = MutableLiveData<UiState<ElementEvent>>()
+    val elementUiState: LiveData<UiState<ElementEvent>> get() = _elementUiState
 
-    private val _list = MutableLiveData<List<DetailView>>()
-    val list: LiveData<List<DetailView>> get() = _list
-
+    private lateinit var element: ElementEvent
     private var currentItem: DetailResult.Detail? = null
 
     init {
@@ -50,13 +49,13 @@ class DetailViewModel @ViewModelInject constructor(
     }
 
     fun movePrev() {
-        _elementEvent.value?.prevEpisodeId?.let {
+        element.prevEpisodeId?.let {
             loadDetail(episode.copy(id = it))
         }
     }
 
     fun moveNext() {
-        _elementEvent.value?.nextEpisodeId?.let {
+        element.nextEpisodeId?.let {
             loadDetail(episode.copy(id = it))
         }
     }
@@ -67,29 +66,34 @@ class DetailViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             var error: DetailEvent? = null
 
+            _elementUiState.value = UiState(loading = true)
+
             when (val result: DetailResult = readDetail(episode)) {
                 is DetailResult.Detail -> {
                     updateEpisodeState(result)
 
                     currentItem = result
-                    _list.value = result.list.filter {
-                        it.url.isNotEmpty()
-                    }
-                    _elementEvent.value =
-                        ElementEvent(
-                            title = result.title.orEmpty(),
-                            webToonTitle = episode.title,
-                            prevEpisodeId = result.prevLink,
-                            nextEpisodeId = result.nextLink
-                        )
+
+                    element = ElementEvent(
+                        title = result.title.orEmpty(),
+                        webToonTitle = episode.title,
+                        prevEpisodeId = result.prevLink,
+                        nextEpisodeId = result.nextLink,
+                        list = result.list.filter {
+                            it.url.isNotEmpty()
+                        }
+                    )
+
+                    _elementUiState.value = UiState(data = element)
                 }
                 is DetailResult.ErrorResult -> {
                     val errorType = result.errorType
                     if (errorType is ERROR_TYPE.DEFAULT_ERROR) {
                         Timber.e(errorType.throwable)
+                        _elementUiState.value = UiState(exception = errorType.throwable)
+                    } else {
+                        error = DetailEvent.ERROR(result.errorType)
                     }
-                    error =
-                        DetailEvent.ERROR(result.errorType)
                 }
             }
             _event.value = error ?: DetailEvent.LOADED
@@ -132,10 +136,7 @@ class DetailViewModel @ViewModelInject constructor(
 sealed class DetailEvent {
     object START : DetailEvent()
     object LOADED : DetailEvent()
-    class ERROR(
-        val errorType: ERROR_TYPE
-    ) : DetailEvent()
-
+    class ERROR(val errorType: ERROR_TYPE) : DetailEvent()
     class SHARE(val item: ShareItem) : DetailEvent()
 }
 
@@ -143,5 +144,6 @@ class ElementEvent(
     val title: String,
     val webToonTitle: String,
     val prevEpisodeId: String?,
-    val nextEpisodeId: String?
+    val nextEpisodeId: String?,
+    val list: List<DetailView>
 )

@@ -23,6 +23,7 @@ import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.core.utils.lazyNone
+import com.pluu.ui.state.UiState
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
@@ -30,7 +31,6 @@ import com.pluu.utils.result.registerStartActivityForResult
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
-import com.pluu.webtoon.episode.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.Result

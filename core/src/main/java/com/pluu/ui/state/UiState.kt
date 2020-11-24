@@ -1,4 +1,4 @@
-package com.pluu.webtoon.episode.ui.state
+package com.pluu.ui.state
 
 import com.pluu.webtoon.model.Result
 
@@ -14,7 +14,7 @@ import com.pluu.webtoon.model.Result
  */
 data class UiState<T>(
     val loading: Boolean = false,
-    val exception: Exception? = null,
+    val exception: Throwable? = null,
     val data: T? = null
 ) {
     /**

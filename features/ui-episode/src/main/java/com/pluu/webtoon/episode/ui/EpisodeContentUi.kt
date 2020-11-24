@@ -20,7 +20,7 @@ import com.pluu.compose.foundation.lazy.LazyGridFor
 import com.pluu.compose.ui.CircularProgressIndicator
 import com.pluu.compose.ui.SwipeToRefreshLayout
 import com.pluu.compose.ui.graphics.toColor
-import com.pluu.webtoon.episode.ui.state.UiState
+import com.pluu.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 
@@ -46,7 +46,7 @@ fun EpisodeContentUi(
                 rememberItems.clear()
             }
             uiState.data != null -> {
-                rememberItems.addAll(uiState.data)
+                rememberItems.addAll(uiState.data.orEmpty())
             }
         }
     }

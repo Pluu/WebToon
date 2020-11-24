@@ -14,6 +14,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.onCommit
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -28,9 +33,9 @@ fun DetailNavigationUi(
     isNextEnabled: Boolean,
     onNextClicked: () -> Unit
 ) {
-    Row(
-        modifier = modifier
-    ) {
+    var buttonEnabled by remember { mutableStateOf(false to false) }
+
+    Row(modifier = modifier) {
         Button(
             modifier = Modifier.weight(1f).fillMaxHeight(),
             colors = ButtonConstants.defaultButtonColors(buttonBackgroundColor),
@@ -43,7 +48,8 @@ fun DetailNavigationUi(
                 tint = Color.White
             )
             Text(
-                text = "이전 화", color = Color.White,
+                text = "이전 화",
+                color = Color.White,
                 modifier = Modifier.weight(1f).wrapContentWidth()
             )
         }
@@ -64,6 +70,10 @@ fun DetailNavigationUi(
                 tint = Color.White
             )
         }
+    }
+    
+    onCommit(buttonEnabled) {
+        buttonEnabled = isPrevEnabled to isNextEnabled
     }
 }
 
