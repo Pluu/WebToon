@@ -62,11 +62,11 @@ class EpisodeViewModel @ViewModelInject constructor(
     }
 
     fun load() {
-        if (!isNext) return
+        if (!isNext || _event.value is EpisodeEvent.START) return
         isNext = !isNext
 
         viewModelScope.launch {
-            _event.value = EpisodeEvent.START
+            _event.value = EpisodeEvent.START(pageNo > INIT_PAGE)
 
             when (val episodePage = getEpisodeUseCase(id, pageNo)) {
                 is Result.Success -> {
@@ -84,6 +84,10 @@ class EpisodeViewModel @ViewModelInject constructor(
 
             _readIdSet.value = refreshReadId()
             _event.value = EpisodeEvent.LOADED
+
+            if (isNext) {
+                pageNo += 1
+            }
         }
     }
 
@@ -102,9 +106,6 @@ class EpisodeViewModel @ViewModelInject constructor(
         if (pageNo == INIT_PAGE) {
             firstEpisode = data.first
         }
-        if (isNext) {
-            pageNo += 1
-        }
     }
 
     private suspend fun successProcess(
@@ -116,10 +117,9 @@ class EpisodeViewModel @ViewModelInject constructor(
     }
 
     fun readUpdate() {
-        viewModelScope.launch {
-            _event.value = EpisodeEvent.START
+        viewModelScope.launch(dispatchers.main) {
             _readIdSet.value = refreshReadId()
-            _event.value = EpisodeEvent.LOADED
+            _event.value = EpisodeEvent.READED
         }
     }
 
@@ -155,8 +155,9 @@ class EpisodeViewModel @ViewModelInject constructor(
 
 @Suppress("ClassName")
 sealed class EpisodeEvent {
-    object START : EpisodeEvent()
+    class START(val isOverFirstPage: Boolean) : EpisodeEvent()
     object LOADED : EpisodeEvent()
+    object READED : EpisodeEvent()
     class FIRST(val firstEpisode: EpisodeInfo) : EpisodeEvent()
     class UPDATE_FAVORITE(val id: String, val isFavorite: Boolean) : EpisodeEvent()
 }

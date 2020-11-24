@@ -104,7 +104,7 @@ class EpisodesActivity : AppCompatActivity() {
 
                 when (val _event = event) {
                     is EpisodeEvent.START -> {
-                        showDialog = true
+                        showDialog = _event.isOverFirstPage
                     }
                     is EpisodeEvent.LOADED -> {
                         showDialog = false
@@ -134,7 +134,7 @@ class EpisodesActivity : AppCompatActivity() {
                     firstItem = _episodeList.data.firstOrNull()
                 }
 
-                initContentUi(episodeList, readIdSet, firstItem, showDialog)
+                initContentUi(episodeList, readIdSet, firstItem)
             }
         }
 
@@ -145,8 +145,7 @@ class EpisodesActivity : AppCompatActivity() {
     private fun initContentUi(
         episodeList: Result<List<EpisodeInfo>>,
         readIdSet: Set<EpisodeId>,
-        firstItem: EpisodeInfo?,
-        isShowDialog: Boolean
+        firstItem: EpisodeInfo?
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -166,7 +165,6 @@ class EpisodesActivity : AppCompatActivity() {
                 readIdSet = readIdSet,
                 modifier = Modifier.padding(innerPadding),
                 onMoreLoaded = {
-                    if (isShowDialog) return@EpisodeContentUi
                     viewModel.load()
                 },
                 onRefresh = {
