@@ -31,7 +31,7 @@ import javax.inject.Inject
  * Created by pluu on 2017-05-07.
  */
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class WeeklyContainerFragment : Fragment() {
 
     @Inject
     lateinit var serviceApi: WeeklyUseCase
@@ -50,7 +50,7 @@ class MainFragment : Fragment() {
         val pager = remember {
             ViewPager2(context).apply {
                 orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                adapter = MainFragmentAdapter(
+                adapter = WeeklyFragmentAdapter(
                     fm = parentFragmentManager,
                     serviceApi = serviceApi,
                     lifecycle = viewLifecycleOwner.lifecycle
@@ -98,6 +98,6 @@ class MainFragment : Fragment() {
     companion object {
         const val KEY_COLOR = "color"
 
-        fun newInstance() = MainFragment()
+        fun newInstance() = WeeklyContainerFragment()
     }
 }

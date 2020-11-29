@@ -2,7 +2,6 @@ package com.pluu.webtoon.ui.weekly
 
 import android.os.Bundle
 import android.view.View
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -29,10 +28,8 @@ import com.pluu.compose.ambient.BackPressedDispatcherAmbient
 import com.pluu.compose.ambient.backPressHandler
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.ProvideDisplayInsets
-import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
-import com.pluu.webtoon.di.provider.NaviColorProvider
 import com.pluu.webtoon.model.Session
 import com.pluu.webtoon.model.UI_NAV_ITEM
 import com.pluu.webtoon.model.getCoreType
@@ -44,11 +41,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * 메인 화면 Activity
+ * 주간 화면 Activity
  * Created by pluu on 2017-05-07.
  */
 @AndroidEntryPoint
-class MainActivity : FragmentActivity() {
+class WeeklyActivity : FragmentActivity() {
 
     @Inject
     lateinit var session: Session
@@ -76,7 +73,7 @@ class MainActivity : FragmentActivity() {
                     val contentView = remember {
                         FragmentContainerView(this).apply {
                             id = containerViewId
-                            replaceMainContainer(MainFragment.newInstance())
+                            replaceMainContainer(WeeklyContainerFragment.newInstance())
                         }
                     }
 
@@ -88,7 +85,7 @@ class MainActivity : FragmentActivity() {
                             Timber.d(newNaviItem.name)
                             session.navi = newNaviItem.getCoreType()
                             naviItem = newNaviItem
-                            replaceMainContainer(MainFragment.newInstance())
+                            replaceMainContainer(WeeklyContainerFragment.newInstance())
                         },
                         onSettingClicked = {
                             settingNavigator.openSetting(this)

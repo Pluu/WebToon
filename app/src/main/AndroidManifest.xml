@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.weekly.MainActivity"
+            android:name=".ui.weekly.WeeklyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseMaterialAppTheme.Immersive"/>
     </application>

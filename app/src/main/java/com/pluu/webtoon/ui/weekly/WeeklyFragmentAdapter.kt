@@ -11,7 +11,7 @@ import com.pluu.webtoon.weekly.ui.WebtoonListFragment
  * Main ViewPager Fragment Adapter
  * Created by pluu on 2017-05-02.
  */
-class MainFragmentAdapter(
+class WeeklyFragmentAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle,
     private val serviceApi: WeeklyUseCase

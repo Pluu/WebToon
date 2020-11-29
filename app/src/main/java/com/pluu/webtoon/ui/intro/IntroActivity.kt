@@ -8,7 +8,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.onCommit
 import com.pluu.utils.startActivity
 import com.pluu.webtoon.ui.compose.ActivityComposeView
-import com.pluu.webtoon.ui.weekly.MainActivity
+import com.pluu.webtoon.ui.weekly.WeeklyActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -40,7 +40,7 @@ class IntroActivity : ComponentActivity() {
     }
 
     private fun moveMainScreen() {
-        startActivity<MainActivity>()
+        startActivity<WeeklyActivity>()
         finish()
     }
 }

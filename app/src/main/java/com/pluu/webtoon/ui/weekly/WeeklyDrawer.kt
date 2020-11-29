@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.navigationBarsPadding
+import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.model.ServiceConst
 import com.pluu.webtoon.model.UI_NAV_ITEM
 
