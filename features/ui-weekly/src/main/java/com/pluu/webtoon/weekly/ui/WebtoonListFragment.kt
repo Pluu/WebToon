@@ -62,7 +62,7 @@ class WebtoonListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentComposeView {
+    ) = FragmentComposeView {
         val palletCalculator = PalletDarkCalculator(ContextAmbient.current)
         val list by viewModel.listEvent.observeAsState(null)
 

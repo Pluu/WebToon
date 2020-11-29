@@ -35,6 +35,7 @@ import com.pluu.webtoon.R
 import com.pluu.webtoon.di.provider.NaviColorProvider
 import com.pluu.webtoon.model.Session
 import com.pluu.webtoon.model.UI_NAV_ITEM
+import com.pluu.webtoon.model.getCoreType
 import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.ActivityComposeView
