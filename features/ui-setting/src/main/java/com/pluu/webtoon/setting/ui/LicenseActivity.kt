@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
@@ -19,12 +21,16 @@ class LicenseActivity : ComponentActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         ActivityComposeView {
-            LicenseHomeUi(
-                list = licenseModels,
-                onBackPressed = { finish() },
-                onClicked = ::showDetailLicense
-            )
+            ProvideDisplayInsets {
+                LicenseHomeUi(
+                    list = licenseModels,
+                    onBackPressed = { finish() },
+                    onClicked = ::showDetailLicense
+                )
+            }
         }
     }
 

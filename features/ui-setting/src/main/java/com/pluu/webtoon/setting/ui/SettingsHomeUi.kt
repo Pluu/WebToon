@@ -2,23 +2,28 @@ package com.pluu.webtoon.setting.ui
 
 import android.content.Context
 import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.unit.dp
 import com.pluu.compose.ambient.PreferenceProviderAmbient
 import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
+import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.data.pref.PrefConfig
 import com.pluu.webtoon.setting.R
 
@@ -38,7 +43,12 @@ fun SettingContentUi(
                 IconButton(onClick = onBackPressed) {
                     Icon(Icons.Filled.ArrowBack)
                 }
-            }
+            },
+            modifier = modifier
+                .background(MaterialTheme.colors.primarySurface)
+                .statusBarsPadding(),
+            backgroundColor = MaterialTheme.colors.primarySurface,
+            elevation = 0.dp
         )
         ScrollableColumn(modifier = Modifier.fillMaxSize()) {
             DefaultWebtoonUi(getPreItems(context))

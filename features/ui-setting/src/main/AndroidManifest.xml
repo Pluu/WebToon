@@ -6,10 +6,10 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme" />
+            android:theme="@style/BaseMaterialAppTheme.Immersive" />
         <activity
             android:name=".ui.LicenseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme" />
+            android:theme="@style/BaseMaterialAppTheme.Immersive" />
     </application>
 </manifest>

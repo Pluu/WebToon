@@ -12,10 +12,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
+import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
 
@@ -35,7 +37,12 @@ fun LicenseHomeUi(
                 IconButton(onClick = onBackPressed) {
                     Icon(Icons.Filled.ArrowBack)
                 }
-            }
+            },
+            modifier = modifier
+                .background(MaterialTheme.colors.primarySurface)
+                .statusBarsPadding(),
+            backgroundColor = MaterialTheme.colors.primarySurface,
+            elevation = 0.dp
         )
         LicenseContentUi(
             list = list,
