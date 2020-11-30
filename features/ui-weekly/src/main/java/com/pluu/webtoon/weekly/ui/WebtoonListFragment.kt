@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.utils.getSerializable
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
@@ -63,17 +64,19 @@ class WebtoonListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentComposeView {
-        val palletCalculator = PalletDarkCalculator(ContextAmbient.current)
-        val list by viewModel.listEvent.observeAsState(null)
+        ProvideDisplayInsets {
+            val palletCalculator = PalletDarkCalculator(ContextAmbient.current)
+            val list by viewModel.listEvent.observeAsState(null)
 
-        WeeklyHomeUi(
-            items = list,
-            modifier = Modifier.fillMaxSize()
-        ) { item ->
-            if (item.info.isLock) {
-                selectLockItem()
-            } else {
-                selectSuccess(palletCalculator, item)
+            WeeklyHomeUi(
+                items = list,
+                modifier = Modifier.fillMaxSize()
+            ) { item ->
+                if (item.info.isLock) {
+                    selectLockItem()
+                } else {
+                    selectSuccess(palletCalculator, item)
+                }
             }
         }
     }

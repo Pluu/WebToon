@@ -53,6 +53,7 @@ fun WeeklyDrawer(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = accentColor)
+                .statusBarsPadding()
                 .sizeIn(minHeight = 56.dp)
                 .padding(horizontal = 16.dp)
                 .wrapContentSize(align = Alignment.CenterStart)

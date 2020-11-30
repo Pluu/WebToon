@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ConstraintLayout
 import androidx.compose.foundation.layout.Dimension
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -44,12 +43,16 @@ import dev.chrisbanes.accompanist.glide.GlideImage
 fun WeeklyItemUi(
     item: ToonInfo,
     isFavorite: Boolean,
+    modifier: Modifier = Modifier,
     onClicked: (ToonInfo) -> Unit
 ) {
-    Card(modifier = Modifier.padding(2.dp)
-        .clickable { onClicked(item) }
+    Card(
+        modifier = modifier
+            .padding(2.dp)
+            .clickable { onClicked(item) }
+            .height(100.dp)
     ) {
-        Box(modifier = Modifier.fillMaxWidth().height(100.dp)) {
+        Box {
             GlideImage(
                 data = item.image.toAgentGlideUrl(),
                 fadeIn = true,

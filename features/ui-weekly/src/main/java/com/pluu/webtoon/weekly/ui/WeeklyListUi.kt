@@ -2,11 +2,12 @@ package com.pluu.webtoon.weekly.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumnForIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
+import com.pluu.compose.utils.navigationBarsHeight
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.weekly.R
 
@@ -24,16 +26,19 @@ fun WeeklyListUi(
     modifier: Modifier = Modifier,
     onClicked: (ToonInfoWithFavorite) -> Unit
 ) {
-    LazyColumnFor(
+    LazyColumnForIndexed(
         items = items,
-        modifier = modifier
-            .padding(horizontal = 3.dp)
-    ) { item ->
+        modifier = modifier.padding(horizontal = 3.dp)
+    ) { index, item ->
         WeeklyItemUi(
             item = item.info,
             isFavorite = item.isFavorite,
             onClicked = { onClicked.invoke(item) }
         )
+
+        if (index == items.lastIndex) {
+            Spacer(Modifier.navigationBarsHeight())
+        }
     }
 }
 

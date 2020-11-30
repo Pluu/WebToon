@@ -51,9 +51,6 @@ class WeeklyActivity : FragmentActivity() {
     lateinit var session: Session
 
     @Inject
-    lateinit var defaultProvider: NaviColorProvider
-
-    @Inject
     lateinit var settingNavigator: SettingNavigator
 
     private val containerViewId by lazy {
@@ -65,7 +62,7 @@ class WeeklyActivity : FragmentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         ActivityComposeView {
-            ProvideDisplayInsets {
+            ProvideDisplayInsets(false) {
                 Providers(BackPressedDispatcherAmbient provides this) {
                     val context = ContextAmbient.current
                     var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
@@ -130,8 +127,6 @@ private fun WeeklyContainerUi(
     )
 
     Scaffold(
-        modifier = Modifier.background(color = backgroundColor)
-            .statusBarsPadding(),
         drawerContent = {
             WeeklyDrawer(
                 title = context.getString(R.string.app_name),

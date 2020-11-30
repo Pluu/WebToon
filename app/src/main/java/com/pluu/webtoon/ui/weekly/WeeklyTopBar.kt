@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
+import com.pluu.compose.utils.statusBarsPadding
 
 @Composable
 fun WeeklyTopBar(
@@ -32,7 +33,9 @@ fun WeeklyTopBar(
     onDrawerClicked: () -> Unit
 ) {
     TopAppBar(
-        modifier = modifier,
+        modifier = modifier
+            .background(color = backgroundColor)
+            .statusBarsPadding(),
         contentColor = Color.White,
         backgroundColor = backgroundColor,
         elevation = 0.dp,
