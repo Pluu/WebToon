@@ -2,8 +2,8 @@
 
 object Dep {
     object GradlePlugin {
-        const val androidStudioVersion = "4.2.0-alpha16"
-        const val android = "com.android.tools.build:gradle:$androidStudioVersion"
+        const val androidStudioGradlePluginVersion = "7.0.0-alpha01"
+        const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization =
             "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
@@ -71,7 +71,7 @@ object Dep {
         }
 
         const val viewBinding =
-            "androidx.databinding:viewbinding:${GradlePlugin.androidStudioVersion}"
+            "androidx.databinding:viewbinding:${GradlePlugin.androidStudioGradlePluginVersion}"
     }
 
     object Accompnist {
