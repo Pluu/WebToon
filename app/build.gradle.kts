@@ -61,6 +61,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":core-android"))
+    implementation(project(":model"))
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":site"))
@@ -83,10 +84,7 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.constraintLayout)
-    implementation(Dep.AndroidX.UI.drawerlayout)
     implementation(Dep.AndroidX.UI.material)
-    implementation(Dep.AndroidX.UI.preference)
-    implementation(Dep.AndroidX.UI.swiperefreshlayout)
     implementation(Dep.AndroidX.UI.viewPager)
 
     // Compose
