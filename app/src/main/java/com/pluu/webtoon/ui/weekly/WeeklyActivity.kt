@@ -24,8 +24,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
-import com.pluu.compose.ambient.BackPressedDispatcherAmbient
-import com.pluu.compose.ambient.backPressHandler
+import com.pluu.compose.ambient.AmbientBackPressedDispatcher
+import com.pluu.compose.ambient.BackPressHandler
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
@@ -63,7 +63,7 @@ class WeeklyActivity : FragmentActivity() {
 
         ActivityComposeView {
             ProvideWindowInsets(false) {
-                Providers(BackPressedDispatcherAmbient provides this) {
+                Providers(AmbientBackPressedDispatcher provides this) {
                     val context = AmbientContext.current
                     var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
 
@@ -119,7 +119,7 @@ private fun WeeklyContainerUi(
     val context = AmbientContext.current
     val scaffoldState = rememberScaffoldState()
 
-    backPressHandler(
+    BackPressHandler(
         enabled = scaffoldState.drawerState.isOpen,
         onBackPressed = {
             scaffoldState.drawerState.close()

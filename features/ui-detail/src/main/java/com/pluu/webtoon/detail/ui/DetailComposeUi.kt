@@ -29,7 +29,7 @@ import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
-internal fun initTopUi(
+internal fun InitTopUi(
     featureColor: Color,
     uiStateElement: UiState<ElementEvent>,
     showNavigation: Boolean,
@@ -57,7 +57,7 @@ internal fun initTopUi(
 }
 
 @Composable
-internal fun initBottomUi(
+internal fun InitBottomUi(
     featureColor: Color,
     uiStateElement: UiState<ElementEvent>,
     showNavigation: Boolean,
@@ -100,7 +100,7 @@ internal fun initBottomUi(
 }
 
 @Composable
-internal fun initContentUi(
+internal fun InitContentUi(
     uiStateElement: UiState<ElementEvent>,
     modifier: Modifier = Modifier,
     onClick: () -> Unit

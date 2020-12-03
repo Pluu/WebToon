@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,6 +67,6 @@ fun IntroUi(isNextMove: Boolean) {
     heightDp = 640
 )
 @Composable
-fun previewIntroUi() {
+fun PreviewIntroUi() {
     IntroUi(false)
 }

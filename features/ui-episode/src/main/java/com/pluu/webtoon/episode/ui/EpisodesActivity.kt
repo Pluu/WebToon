@@ -134,7 +134,7 @@ class EpisodesActivity : AppCompatActivity() {
                     firstItem = _episodeList.data.firstOrNull()
                 }
 
-                initContentUi(episodeList, readIdSet, firstItem)
+                InitContentUi(episodeList, readIdSet, firstItem)
             }
         }
 
@@ -142,17 +142,17 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun initContentUi(
+    private fun InitContentUi(
         episodeList: Result<List<EpisodeInfo>>,
         readIdSet: Set<EpisodeId>,
         firstItem: EpisodeInfo?
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            topBar = { initEpisodeTopUi() },
+            topBar = { InitEpisodeTopUi() },
             bottomBar = {
                 if (firstItem != null) {
-                    initEpisodeInfoUi(firstItem) { item ->
+                    InitEpisodeInfoUi(firstItem) { item ->
                         validItem(item) {
                             requestFirst()
                         }
@@ -180,7 +180,7 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun initEpisodeTopUi() {
+    private fun InitEpisodeTopUi() {
         val isFavorite by viewModel.favorite.observeAsState(false)
         val transition = colorStartToEndTransition(colorDefinition)
 
@@ -198,7 +198,7 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun initEpisodeInfoUi(
+    private fun InitEpisodeInfoUi(
         firstItem: EpisodeInfo,
         onFirstClicked: (EpisodeInfo) -> Unit
     ) {

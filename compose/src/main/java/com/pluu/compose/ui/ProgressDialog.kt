@@ -32,7 +32,7 @@ fun ProgressDialog(
     contentColor: Color = contentColorFor(backgroundColor),
     properties: DialogProperties? = null
 ) {
-    dialogContent(
+    DialogContent(
         title = {
             if (title != null) {
                 Text(text = title)
@@ -48,7 +48,7 @@ fun ProgressDialog(
 }
 
 @Composable
-private fun dialogContent(
+private fun DialogContent(
     title: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,

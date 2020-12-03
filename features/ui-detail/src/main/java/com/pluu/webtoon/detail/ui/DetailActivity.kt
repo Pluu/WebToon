@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -20,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import com.bumptech.glide.Glide
-import com.pluu.compose.transition.colorStartToEndTransition
+import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.transition.colorStateKey
 import com.pluu.compose.transition.colorTransitionDefinition
 import com.pluu.compose.ui.ProgressDialog
@@ -159,6 +160,8 @@ fun DetailComposeUi(
 ) {
     var showNavigation by remember { mutableStateOf(true) }
 
+    var isFirstShow by remember { mutableStateOf(true) }
+
     // Animate Value
     val colorDefinition = remember(featureColor) {
         colorTransitionDefinition(
@@ -167,11 +170,19 @@ fun DetailComposeUi(
             durationMillis = 750
         )
     }
-
-    val transition = colorStartToEndTransition(colorDefinition)
+    val transition = transition(
+        definition = colorDefinition,
+        initState = if (isFirstShow) ColorTransitionState.START else ColorTransitionState.END,
+        toState = ColorTransitionState.END,
+        onStateChangeFinished = {
+            if (it == ColorTransitionState.END) {
+                isFirstShow = false
+            }
+        }
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        initContentUi(
+        InitContentUi(
             uiStateElement = uiStateElement,
             modifier = Modifier
                 .fillMaxSize()
@@ -180,7 +191,7 @@ fun DetailComposeUi(
         ) {
             showNavigation = showNavigation.not()
         }
-        initTopUi(
+        InitTopUi(
             featureColor = transition[colorStateKey],
             uiStateElement = uiStateElement,
             showNavigation = showNavigation,
@@ -188,7 +199,7 @@ fun DetailComposeUi(
             onBackPressed = onBackPressed,
             onSharedPressed = onSharedPressed
         )
-        initBottomUi(
+        InitBottomUi(
             featureColor = transition[colorStateKey],
             uiStateElement = uiStateElement,
             showNavigation = showNavigation,
@@ -198,4 +209,3 @@ fun DetailComposeUi(
         )
     }
 }
-

@@ -9,6 +9,7 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import com.pluu.compose.ambient.AmbientPreferenceProvider
 import com.pluu.compose.ambient.PreferenceProvider
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.FragmentComposeView

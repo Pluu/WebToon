@@ -3,7 +3,7 @@ package com.pluu.compose.ambient
 import android.content.SharedPreferences
 import androidx.compose.runtime.staticAmbientOf
 
-val PreferenceProviderAmbient = staticAmbientOf<PreferenceProvider>()
+val AmbientPreferenceProvider = staticAmbientOf<PreferenceProvider>()
 
 class PreferenceProvider(
     val preferences: SharedPreferences
