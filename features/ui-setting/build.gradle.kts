@@ -43,6 +43,8 @@ dependencies {
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
 
+    implementation(Dep.Accompnist.insets)
+
     // Hilt
     implementation(Dep.Hilt.android)
     kapt(Dep.Hilt.hilt_compiler)

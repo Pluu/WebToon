@@ -95,6 +95,8 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
 
+    implementation(Dep.Accompnist.insets)
+
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)
 

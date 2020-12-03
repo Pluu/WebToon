@@ -75,7 +75,9 @@ object Dep {
     }
 
     object Accompnist {
-        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:0.4.0"
+        private const val version = "0.4.0"
+        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:$version"
+        const val insets = "dev.chrisbanes.accompanist:accompanist-insets:$version"
     }
 
     object Dagger {

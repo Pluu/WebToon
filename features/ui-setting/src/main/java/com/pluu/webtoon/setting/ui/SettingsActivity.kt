@@ -10,11 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import com.pluu.compose.ambient.PreferenceProvider
-import com.pluu.compose.ambient.PreferenceProviderAmbient
-import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.FragmentComposeView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,9 +45,9 @@ class SettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentComposeView {
-        ProvideDisplayInsets {
+        ProvideWindowInsets {
             val context = AmbientContext.current
-            Providers(PreferenceProviderAmbient provides preferenceProvider) {
+            Providers(AmbientPreferenceProvider provides preferenceProvider) {
                 SettingContentUi(
                     onBackPressed = {
                         activity?.finish()

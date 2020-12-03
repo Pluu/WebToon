@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.utils.getSerializable
 import com.pluu.utils.observeNonNull
 import com.pluu.utils.result.registerStartActivityForResult
@@ -28,6 +27,7 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.R
 import com.pluu.webtoon.weekly.ui.image.PalletDarkCalculator
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -64,7 +64,7 @@ class WebtoonListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentComposeView {
-        ProvideDisplayInsets {
+        ProvideWindowInsets {
             val palletCalculator = PalletDarkCalculator(AmbientContext.current)
             val list by viewModel.listEvent.observeAsState(null)
 

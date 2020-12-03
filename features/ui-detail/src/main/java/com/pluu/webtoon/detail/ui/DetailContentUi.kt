@@ -8,12 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.gesture.tapGestureFilter
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.pluu.compose.utils.navigationBarsHeightPlus
-import com.pluu.compose.utils.statusBarsHeightPlus
 import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.detail.compose.GlideImageAdjustBounds
 import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.utils.toAgentGlideUrl
+import dev.chrisbanes.accompanist.insets.navigationBarsHeight
+import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import timber.log.Timber
 
 @Composable
@@ -29,7 +29,7 @@ fun DetailContentUi(
         }
     ) { index, item ->
         if (index == 0) {
-            Spacer(Modifier.statusBarsHeightPlus(48.dp))
+            Spacer(Modifier.statusBarsHeight(48.dp))
         }
         // TODO: Adjust Image 처리 개선 해야함
         GlideImageAdjustBounds(
@@ -40,7 +40,7 @@ fun DetailContentUi(
             }
         )
         if (items.size - 1 == index) {
-            Spacer(Modifier.navigationBarsHeightPlus(48.dp))
+            Spacer(Modifier.navigationBarsHeight(48.dp))
         }
     }
 }

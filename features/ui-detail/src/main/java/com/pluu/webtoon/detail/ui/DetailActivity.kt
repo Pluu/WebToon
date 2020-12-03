@@ -25,9 +25,6 @@ import com.pluu.compose.transition.colorStateKey
 import com.pluu.compose.transition.colorTransitionDefinition
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
-import com.pluu.compose.utils.ProvideDisplayInsets
-import com.pluu.compose.utils.navigationBarsPadding
-import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.core.utils.lazyNone
 import com.pluu.ui.state.UiState
 import com.pluu.utils.getRequiredSerializableExtra
@@ -41,6 +38,9 @@ import com.pluu.webtoon.ui.compose.ActivityComposeView
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.glide.AmbientRequestManager
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
+import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 /**
  * 상세화면 Activity
@@ -73,7 +73,7 @@ class DetailActivity : AppCompatActivity() {
         val requestManager = Glide.with(this)
 
         ActivityComposeView {
-            ProvideDisplayInsets {
+            ProvideWindowInsets {
                 Providers(AmbientRequestManager provides requestManager) {
                     var loadingDialog by remember { mutableStateOf(false) }
                     val event by viewModel.event.observeAsState()

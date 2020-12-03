@@ -27,7 +27,6 @@ import androidx.fragment.app.commit
 import com.pluu.compose.ambient.BackPressedDispatcherAmbient
 import com.pluu.compose.ambient.backPressHandler
 import com.pluu.compose.ui.graphics.toColor
-import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
 import com.pluu.webtoon.model.Session
@@ -37,6 +36,7 @@ import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.ActivityComposeView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -62,7 +62,7 @@ class WeeklyActivity : FragmentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         ActivityComposeView {
-            ProvideDisplayInsets(false) {
+            ProvideWindowInsets(false) {
                 Providers(BackPressedDispatcherAmbient provides this) {
                     val context = AmbientContext.current
                     var naviItem by remember { mutableStateOf(session.navi.toUiType()) }

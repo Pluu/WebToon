@@ -21,7 +21,6 @@ import com.pluu.compose.transition.colorStateKey
 import com.pluu.compose.transition.colorTransitionDefinition
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
-import com.pluu.compose.utils.ProvideDisplayInsets
 import com.pluu.core.utils.lazyNone
 import com.pluu.ui.state.UiState
 import com.pluu.utils.ThemeHelper
@@ -40,6 +39,7 @@ import com.pluu.webtoon.ui.compose.ActivityComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
 
 /**
@@ -90,7 +90,7 @@ class EpisodesActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         ActivityComposeView {
-            ProvideDisplayInsets {
+            ProvideWindowInsets {
                 var showDialog by remember { mutableStateOf(false) }
 
                 var firstItem by remember { mutableStateOf<EpisodeInfo?>(null) }
@@ -121,7 +121,7 @@ class EpisodesActivity : AppCompatActivity() {
                 if (episodeList is Result.Error) {
                     toast(R.string.network_fail)
                     finish()
-                    return@ProvideDisplayInsets
+                    return@ProvideWindowInsets
                 }
 
                 if (showDialog) {

@@ -23,10 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.pluu.compose.utils.navigationBarsPadding
-import com.pluu.compose.utils.statusBarsHeight
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.DetailPageFieldValue
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
+import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
 internal fun initTopUi(

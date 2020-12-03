@@ -23,9 +23,9 @@ import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
-import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.data.pref.PrefConfig
 import com.pluu.webtoon.setting.R
+import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
 fun SettingContentUi(

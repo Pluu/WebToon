@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pluu.compose.utils.navigationBarsHeight
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.weekly.R
+import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 
 @Composable
 fun WeeklyListUi(

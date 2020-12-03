@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.pluu.compose.ui.graphics.toColor
-import com.pluu.compose.utils.navigationBarsPadding
-import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.model.ServiceConst
 import com.pluu.webtoon.model.UI_NAV_ITEM
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
+import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
 fun WeeklyDrawer(
