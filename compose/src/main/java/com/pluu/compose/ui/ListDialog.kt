@@ -25,10 +25,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.ui.tooling.preview.Preview
 
 @Composable
 fun <T> ListDialog(
@@ -50,7 +50,7 @@ fun <T> ListDialog(
             color = backgroundColor,
             contentColor = contentColor
         ) {
-            dialogContent(
+            DialogContent(
                 title = title,
                 buttons = buttons,
                 items = items,
@@ -61,7 +61,7 @@ fun <T> ListDialog(
 }
 
 @Composable
-private fun <T> dialogContent(
+private fun <T> DialogContent(
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier,
@@ -95,12 +95,12 @@ internal val TitlePadding = Modifier.padding(24.dp)
 
 @Preview
 @Composable
-fun previewListDialog() {
+fun PreviewListDialog() {
     val list = (1..3).map {
         "Content $it"
     }
     Surface(color = Color.White) {
-        dialogContent(
+        DialogContent(
             title = {
                 Text(text = "Test")
             },

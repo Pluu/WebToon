@@ -38,7 +38,7 @@ fun <T> LazyGridFor(
                     modifier = Modifier.weight(1F)
                         .padding(contentPadding)
                         .align(Alignment.Top),
-                    alignment = Alignment.Center
+                    contentAlignment = Alignment.Center
                 ) {
                     itemContent(item, index * rows + rowIndex)
                 }

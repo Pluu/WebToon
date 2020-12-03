@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -64,7 +64,7 @@ class WeeklyActivity : FragmentActivity() {
         ActivityComposeView {
             ProvideDisplayInsets(false) {
                 Providers(BackPressedDispatcherAmbient provides this) {
-                    val context = ContextAmbient.current
+                    val context = AmbientContext.current
                     var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
 
                     val contentView = remember {
@@ -116,7 +116,7 @@ private fun WeeklyContainerUi(
     onSettingClicked: () -> Unit,
     bodyContent: @Composable (PaddingValues) -> Unit
 ) {
-    val context = ContextAmbient.current
+    val context = AmbientContext.current
     val scaffoldState = rememberScaffoldState()
 
     backPressHandler(

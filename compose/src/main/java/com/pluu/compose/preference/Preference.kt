@@ -17,12 +17,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageAsset
-import androidx.compose.ui.graphics.vector.VectorAsset
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.R
 
 @Composable
@@ -31,7 +31,7 @@ fun Preference(
     title: String,
     summary: String? = null
 ) {
-    contentPreference(
+    ContentPreference(
         modifier = modifier,
         title = title,
         summary = summary
@@ -41,18 +41,18 @@ fun Preference(
 @Composable
 fun Preference(
     modifier: Modifier = Modifier,
-    asset: VectorAsset? = null,
+    imageVector: ImageVector? = null,
     title: String,
     summary: String? = null
 ) {
-    contentPreference(
+    ContentPreference(
         modifier = modifier,
         title = title,
         summary = summary
     ) {
-        if (asset != null) {
+        if (imageVector != null) {
             Image(
-                asset = asset,
+                imageVector = imageVector,
                 modifier = ImageSize
             )
         }
@@ -62,17 +62,17 @@ fun Preference(
 @Composable
 fun Preference(
     modifier: Modifier = Modifier,
-    asset: ImageAsset? = null,
+    bitmap: ImageBitmap? = null,
     title: String,
     summary: String? = null
 ) {
-    contentPreference(
+    ContentPreference(
         modifier = modifier,
         title = title, summary = summary
     ) {
-        if (asset != null) {
+        if (bitmap != null) {
             Image(
-                asset = asset,
+                bitmap = bitmap,
                 modifier = ImageSize
             )
         }
@@ -80,11 +80,11 @@ fun Preference(
 }
 
 @Composable
-private fun contentPreference(
+private fun ContentPreference(
     modifier: Modifier = Modifier,
     title: String,
     summary: String? = null,
-    imageAsset: @Composable (() -> Unit)? = null
+    content: @Composable (() -> Unit)? = null
 ) {
     Row(
         modifier = modifier
@@ -97,7 +97,7 @@ private fun contentPreference(
                 .wrapContentHeight()
                 .align(Alignment.CenterVertically)
         ) {
-            imageAsset?.invoke()
+            content?.invoke()
         }
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -126,9 +126,9 @@ internal val ImageSize = Modifier.size(26.dp)
 
 @Preview
 @Composable
-fun previewPreference() {
+fun PreviewPreference() {
     Preference(
-        asset = vectorResource(id = R.drawable.ic_baseline_android_24),
+        imageVector = vectorResource(R.drawable.ic_baseline_android_24),
         title = "Title",
         summary = "Summary"
     )

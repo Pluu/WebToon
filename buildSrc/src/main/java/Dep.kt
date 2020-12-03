@@ -15,7 +15,7 @@ object Dep {
         const val annotation = "androidx.annotation:annotation:1.2.0-alpha01"
 
         object activity {
-            private const val activityVersion = "1.2.0-beta01"
+            private const val activityVersion = "1.2.0-beta02"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -24,7 +24,7 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
 
         object fragment {
-            private const val fragmentVersion = "1.3.0-beta01"
+            private const val fragmentVersion = "1.3.0-beta02"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
@@ -45,19 +45,19 @@ object Dep {
         }
 
         object UI {
-            const val browser = "androidx.browser:browser:1.3.0-rc01"
+            const val browser = "androidx.browser:browser:1.3.0"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
             const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
             const val material = "com.google.android.material:material:1.3.0-alpha03"
             const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha06"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-beta01"
             const val viewPager = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
         }
 
         object Compose {
-            const val version = "1.0.0-alpha07"
+            const val version = "1.0.0-alpha08"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -65,7 +65,7 @@ object Dep {
             const val layout = "androidx.compose.foundation:foundation-layout:${version}"
             const val material = "androidx.compose.material:material:${version}"
             const val materialAdapter = "com.google.android.material:compose-theme-adapter:${version}"
-            const val tooling = "androidx.ui:ui-tooling:${version}"
+            const val tooling = "androidx.compose.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
         }
@@ -75,7 +75,7 @@ object Dep {
     }
 
     object Accompnist {
-        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:0.3.3.1"
+        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:0.4.0"
     }
 
     object Dagger {
@@ -96,7 +96,7 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.4.10"
+        const val version = "1.4.20"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {

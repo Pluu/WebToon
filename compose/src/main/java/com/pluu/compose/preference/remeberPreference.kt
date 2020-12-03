@@ -15,8 +15,7 @@ class PreferenceState<T>(
     private val preferences: SharedPreferences,
     private val onValueChange: (receiver: PreferenceState<T>, item: T) -> Unit
 ) {
-    var entryValue by mutableStateOf(initialValue)
-        private set
+    private var entryValue by mutableStateOf(initialValue)
     var summary by mutableStateOf(initialSummary)
 
     fun updateEntryValue(value: T) {

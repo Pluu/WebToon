@@ -15,8 +15,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.utils.statusBarsPadding
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
@@ -77,7 +77,7 @@ private fun LicenseContentUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewLicenseHomeUi() {
+fun PreviewLicenseHomeUi() {
     LicenseHomeUi(
         list = licenseModels,
         modifier = Modifier.fillMaxSize(),

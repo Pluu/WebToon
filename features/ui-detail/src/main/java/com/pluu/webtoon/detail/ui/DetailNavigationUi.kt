@@ -21,8 +21,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 
 @Composable
 fun DetailNavigationUi(
@@ -44,7 +44,7 @@ fun DetailNavigationUi(
             onClick = onPrevClicked
         ) {
             Icon(
-                asset = Icons.Default.KeyboardArrowLeft,
+                imageVector = Icons.Default.KeyboardArrowLeft,
                 tint = Color.White
             )
             Text(
@@ -66,7 +66,7 @@ fun DetailNavigationUi(
                 modifier = Modifier.weight(1f).wrapContentWidth()
             )
             Icon(
-                asset = Icons.Default.KeyboardArrowRight,
+                imageVector = Icons.Default.KeyboardArrowRight,
                 tint = Color.White
             )
         }
@@ -79,7 +79,7 @@ fun DetailNavigationUi(
 
 @Preview
 @Composable
-fun previewDetailNavigationUi() {
+fun PreviewDetailNavigationUi() {
     DetailNavigationUi(
         modifier = Modifier.preferredHeight(48.dp),
         isPrevEnabled = true,

@@ -5,12 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ComposableContract
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.ImageAsset
+import androidx.compose.ui.graphics.ImageBitmap
 
 @Composable
 inline fun rememberImageAsset(
-    initValues: ImageAsset? = null,
-    init: @ComposableContract(preventCapture = true) () -> ImageAsset?
+    initValues: ImageBitmap? = null,
+    init: @ComposableContract(preventCapture = true) () -> ImageBitmap?
 ) = remember(initValues) { mutableStateOf(init()) }
 
 @Composable

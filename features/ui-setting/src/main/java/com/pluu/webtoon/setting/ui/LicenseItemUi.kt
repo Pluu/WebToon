@@ -11,8 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.webtoon.setting.model.LicenseModel
 
 @Composable
@@ -37,7 +37,7 @@ fun LicenseItemUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewLicenseItemUi() {
+fun PreviewLicenseItemUi() {
     Box {
         val sample = LicenseModel("Test Title", "")
         LicenseItemUi(item = sample, onClicked = {})

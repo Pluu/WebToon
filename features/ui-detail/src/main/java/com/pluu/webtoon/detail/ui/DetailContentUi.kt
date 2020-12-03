@@ -36,7 +36,7 @@ fun DetailContentUi(
             data = item.url.toAgentGlideUrl(),
             error = {
                 Timber.e(it.throwable)
-                Image(asset = vectorResource(id = R.drawable.ic_sentiment_very_dissatisfied_48))
+                Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
             }
         )
         if (items.size - 1 == index) {

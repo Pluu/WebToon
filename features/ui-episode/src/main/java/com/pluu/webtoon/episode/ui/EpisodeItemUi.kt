@@ -24,9 +24,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
@@ -60,7 +60,7 @@ fun EpisodeItemUi(
                     }
                 },
                 error = {
-                    Image(asset = vectorResource(id = R.drawable.ic_sentiment_very_dissatisfied_48))
+                    Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
                 }
             )
 
@@ -99,7 +99,7 @@ fun EpisodeItemUiOverlayUi(
 
         if (isRead) {
             ImageInCircle(
-                asset = vectorResource(id = R.drawable.ic_check_white_24),
+                imageVector = vectorResource(R.drawable.ic_check_white_24),
                 circleColor = 0xFFCC222222.toColor(),
                 modifier = Modifier
                     .padding(5.dp)
@@ -112,7 +112,7 @@ fun EpisodeItemUiOverlayUi(
 
         if (item.isLock) {
             ImageInCircle(
-                asset = vectorResource(id = R.drawable.ic_lock_white_24),
+                imageVector = vectorResource(R.drawable.ic_lock_white_24),
                 circleColor = 0xFFCC222222.toColor(),
                 modifier = Modifier
                     .padding(5.dp)
@@ -128,7 +128,7 @@ fun EpisodeItemUiOverlayUi(
 
 @Preview
 @Composable
-fun previewEpisodeItemUi() {
+fun PreviewEpisodeItemUi() {
     val item = EpisodeInfo(
         id = "0",
         toonId = "0",

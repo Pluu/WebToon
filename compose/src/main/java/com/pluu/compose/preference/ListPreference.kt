@@ -12,13 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageAsset
-import androidx.compose.ui.graphics.vector.VectorAsset
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.R
 import com.pluu.compose.ui.ListDialog
 
@@ -38,7 +38,7 @@ fun <T> ListPreference(
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        showAlertDialog(
+        ShowAlertDialog(
             items = items,
             title = title,
             onClicked = { item ->
@@ -66,13 +66,13 @@ fun <T> ListPreference(
     preferenceState: PreferenceState<T>,
     modifier: Modifier = Modifier,
     title: String,
-    asset: VectorAsset? = null,
+    imageVector: ImageVector? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        showAlertDialog(
+        ShowAlertDialog(
             items = items,
             title = title,
             onClicked = { item ->
@@ -91,7 +91,7 @@ fun <T> ListPreference(
         }),
         title = title,
         summary = preferenceState.summary,
-        asset = asset
+        imageVector = imageVector
     )
 }
 
@@ -101,13 +101,13 @@ fun <T> ListPreference(
     preferenceState: PreferenceState<T>,
     modifier: Modifier = Modifier,
     title: String,
-    asset: ImageAsset? = null,
+    bitmap: ImageBitmap? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        showAlertDialog(
+        ShowAlertDialog(
             items = items,
             title = title,
             onClicked = { item ->
@@ -126,12 +126,12 @@ fun <T> ListPreference(
         }),
         title = title,
         summary = preferenceState.summary,
-        asset = asset
+        bitmap = bitmap
     )
 }
 
 @Composable
-private fun <LPT, T : ListPreferenceItem<LPT>> showAlertDialog(
+private fun <LPT, T : ListPreferenceItem<LPT>> ShowAlertDialog(
     title: String,
     items: List<T>,
     onClicked: (T) -> Unit,
@@ -143,7 +143,7 @@ private fun <LPT, T : ListPreferenceItem<LPT>> showAlertDialog(
         },
         onDismiss = onDismiss,
         items = items
-    ) { index, item ->
+    ) { _, item ->
         Text(
             text = item.entry,
             modifier = Modifier.fillMaxWidth()
@@ -160,12 +160,12 @@ private fun <LPT, T : ListPreferenceItem<LPT>> showAlertDialog(
 
 @Preview
 @Composable
-fun previewListPreference() {
+fun PreviewListPreference() {
     val preferenceState = PreferenceState(
         key = "Test",
         initialValue = "Init value",
         initialSummary = "Init Summary",
-        preferences = PreferenceManager.getDefaultSharedPreferences(ContextAmbient.current),
+        preferences = PreferenceManager.getDefaultSharedPreferences(AmbientContext.current),
         onValueChange = { _, _ -> }
     )
 
@@ -175,6 +175,6 @@ fun previewListPreference() {
         },
         preferenceState = preferenceState,
         title = "Title",
-        asset = vectorResource(id = R.drawable.ic_baseline_android_24)
+        imageVector = vectorResource(R.drawable.ic_baseline_android_24)
     )
 }

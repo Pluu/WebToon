@@ -3,11 +3,11 @@ package com.pluu.compose.ui.graphics
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.ImageAsset
+import androidx.compose.ui.graphics.ImageBitmap
 
 @Stable
 class ImageColorState(
-    var image: ImageAsset? = null
+    var image: ImageBitmap? = null
 )
 
 @Composable

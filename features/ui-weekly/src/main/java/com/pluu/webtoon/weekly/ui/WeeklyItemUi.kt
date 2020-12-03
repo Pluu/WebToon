@@ -25,11 +25,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.ui.tooling.preview.Preview
-import androidx.ui.tooling.preview.PreviewParameter
-import androidx.ui.tooling.preview.PreviewParameterProvider
 import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.model.Status
@@ -66,7 +66,7 @@ fun WeeklyItemUi(
                     }
                 },
                 error = {
-                    Image(asset = vectorResource(id = R.drawable.ic_sentiment_very_dissatisfied_48))
+                    Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
                 }
             )
 
@@ -150,7 +150,7 @@ fun WeeklyItemFavoriteUi(
     modifier: Modifier = Modifier
 ) {
     Image(
-        asset = vectorResource(id = R.drawable.ic_favorite_black_36),
+        imageVector = vectorResource(R.drawable.ic_favorite_black_36),
         colorFilter = ColorFilter.tint(0xFFF44336.toColor()),
         modifier = modifier
     )
@@ -187,7 +187,7 @@ class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewWeeklyItemUi(
+fun PreviewWeeklyItemUi(
     @PreviewParameter(FakeWeeklyItemProvider::class) item: ToonInfoWithFavorite,
 ) {
     WeeklyItemUi(item = item.info, isFavorite = item.isFavorite, onClicked = { })
@@ -249,6 +249,6 @@ private fun WeeklyStatusUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewWeeklyStatusUi() {
+fun PreviewWeeklyStatusUi() {
     WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
 }

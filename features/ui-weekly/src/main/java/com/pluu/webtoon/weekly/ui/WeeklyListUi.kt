@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.utils.navigationBarsHeight
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.weekly.R
@@ -44,12 +44,12 @@ fun WeeklyListUi(
 
 @Composable
 fun WeeklyEmptyUi() {
-    Image(asset = vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
+    Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
 }
 
 @Preview("EmptyView", widthDp = 100, heightDp = 100)
 @Composable
-fun previewWeeklyEmptyUi() {
+fun PreviewWeeklyEmptyUi() {
     Box(
         modifier = Modifier.fillMaxSize()
             .wrapContentSize(Alignment.Center)
@@ -73,7 +73,7 @@ fun WeeklyLoadingUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewWeeklyLoadingUi() {
+fun PreviewWeeklyLoadingUi() {
     Box(
         modifier = Modifier.fillMaxSize()
             .wrapContentSize(Alignment.Center)

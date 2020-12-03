@@ -41,10 +41,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.DensityAmbient
+import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.ui.graphics.toColor
 import kotlin.math.PI
 import kotlin.math.abs
@@ -67,7 +67,7 @@ fun CircularProgressIndicator(
     colors: List<Color> = listOf(MaterialTheme.colors.primary),
     strokeWidth: Dp = ProgressIndicatorConstants.DefaultStrokeWidth
 ) {
-    val stroke = with(DensityAmbient.current) {
+    val stroke = with(AmbientDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Square)
     }
     val state = transition(
@@ -257,7 +257,7 @@ private val CircularIndeterminateTransition = transitionDefinition<Int> {
 
 @Preview
 @Composable
-fun previewCircularProgressIndicator() {
+fun PreviewCircularProgressIndicator() {
     val list = listOf(
         0xFF0F9D58.toColor(),
         0xFFDB4437.toColor(),

@@ -16,7 +16,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.unit.dp
 import com.pluu.compose.ambient.PreferenceProviderAmbient
 import com.pluu.compose.preference.ListPreference
@@ -30,7 +30,7 @@ import com.pluu.webtoon.setting.R
 @Composable
 fun SettingContentUi(
     modifier: Modifier = Modifier,
-    context: Context = ContextAmbient.current,
+    context: Context = AmbientContext.current,
     onBackPressed: () -> Unit,
     onOpenSourceClicked: () -> Unit
 ) {

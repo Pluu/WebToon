@@ -21,8 +21,8 @@ import androidx.compose.runtime.emptyContent
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.utils.statusBarsPadding
 
 @Composable
@@ -93,7 +93,7 @@ fun DayOfWeekUi(
 
 @Preview
 @Composable
-fun previewWeeklyTopBar() {
+fun PreviewWeeklyTopBar() {
     WeeklyTopBar(
         backgroundColor = Color.DarkGray,
         title = "Test Title",
@@ -103,7 +103,7 @@ fun previewWeeklyTopBar() {
 
 @Preview
 @Composable
-fun previewDayOfWeekUi() {
+fun PreviewDayOfWeekUi() {
     DayOfWeekUi(
         titles = (0..10).map { "$it" }.toTypedArray(),
         selectedTabIndex = 2,

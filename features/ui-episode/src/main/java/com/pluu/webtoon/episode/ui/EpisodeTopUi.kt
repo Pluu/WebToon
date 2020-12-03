@@ -14,8 +14,8 @@ import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.statusBarsPadding
 
@@ -48,12 +48,12 @@ fun EpisodeTopUi(
             }) {
                 if (isFavorite) {
                     Icon(
-                        asset = Icons.Default.Favorite,
+                        imageVector = Icons.Default.Favorite,
                         tint = 0xFFF44336.toColor()
                     )
                 } else {
                     Icon(
-                        asset = Icons.Default.FavoriteBorder,
+                        imageVector = Icons.Default.FavoriteBorder,
                         tint = Color.White
                     )
                 }
@@ -64,7 +64,7 @@ fun EpisodeTopUi(
 
 @Preview
 @Composable
-fun previewEpisodeTopUi() {
+fun PreviewEpisodeTopUi() {
     EpisodeTopUi(
         title = "테스트",
         isFavorite = true,

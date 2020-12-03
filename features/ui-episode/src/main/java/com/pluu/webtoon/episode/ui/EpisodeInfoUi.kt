@@ -16,9 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.utils.navigationBarsPadding
 import com.pluu.webtoon.episode.R
 
@@ -63,7 +63,7 @@ fun EpisodeInfoUi(
             onClick = onFirstClicked
         ) {
             Icon(
-                asset = vectorResource(R.drawable.ic_looks_one_white_36),
+                imageVector = vectorResource(R.drawable.ic_looks_one_white_36),
                 tint = Color.White
             )
             Text(
@@ -83,7 +83,7 @@ fun EpisodeInfoUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewEpisodeInfoUi() {
+fun PreviewEpisodeInfoUi() {
     EpisodeInfoUi(
         name = "타이틀",
         rate = 1.1,
@@ -96,7 +96,7 @@ fun previewEpisodeInfoUi() {
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewEpisodeInfoEmptyRateUi() {
+fun PreviewEpisodeInfoEmptyRateUi() {
     EpisodeInfoUi(
         name = "타이틀",
         rate = 0.0,

@@ -21,12 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.ui.tooling.preview.Preview
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.utils.navigationBarsPadding
 import com.pluu.compose.utils.statusBarsPadding
@@ -43,7 +43,7 @@ fun WeeklyDrawer(
     onMenuClicked: (UI_NAV_ITEM) -> Unit,
     onSettingClicked: () -> Unit
 ) {
-    val context = ContextAmbient.current
+    val context = AmbientContext.current
     Column(modifier = modifier.navigationBarsPadding()) {
         Text(
             title,
@@ -90,7 +90,7 @@ fun WeeklyDrawer(
                 .padding(horizontal = 16.dp)
         ) {
             Icon(
-                asset = Icons.Default.Settings,
+                imageVector = Icons.Default.Settings,
                 tint = MaterialTheme.colors.onSurface,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
@@ -111,8 +111,8 @@ fun WeeklyDrawer(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun previewWeeklyDrawer() {
-    val context = ContextAmbient.current
+fun PreviewWeeklyDrawer() {
+    val context = AmbientContext.current
     val defaultNavi = UI_NAV_ITEM.NAVER
     WeeklyDrawer(
         title = "Sample",
