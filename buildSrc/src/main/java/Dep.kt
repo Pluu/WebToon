@@ -98,11 +98,11 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.4.20"
+        const val version = "1.4.21"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
-            private const val coroutinesVersion = "1.4.1"
+            private const val coroutinesVersion = "1.4.2"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
             const val android =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
@@ -132,7 +132,7 @@ object Dep {
     object Test {
         const val junit = "junit:junit:4.13"
         const val assertJ = "org.assertj:assertj-core:3.18.1"
-        const val mockito = "org.mockito:mockito-core:3.6.0"
+        const val mockito = "org.mockito:mockito-core:3.6.28"
         const val androidJunit = "androidx.test.ext:junit:1.1.3-alpha02"
         const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0-alpha02"
     }
