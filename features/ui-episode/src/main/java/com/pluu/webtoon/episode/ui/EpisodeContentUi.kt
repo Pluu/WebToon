@@ -36,7 +36,6 @@ fun EpisodeContentUi(
     onMoreLoaded: () -> Unit,
     onEpisodeClicked: (EpisodeInfo) -> Unit,
 ) {
-    // TODO: 페이징 처리 개선 필요
     val rememberItems = remember { mutableStateListOf<EpisodeInfo>() }
 
     val circleColors = remember {
@@ -54,7 +53,6 @@ fun EpisodeContentUi(
         }
     }
 
-    // TODO : SwipeToRefreshLayout 내부의 컨텐츠 기준으로 Swipe 처리
     LoadingContent(
         empty = uiState.initialLoad,
         emptyContent = {

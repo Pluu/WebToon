@@ -65,11 +65,10 @@ fun DayOfWeekUi(
         )
     }
 
-    // TODO: 첫 화면에서 기본 선택한 Tab에 이동
     ScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
-        divider = emptyContent(),
         indicator = indicator,
+        divider = emptyContent(),
         backgroundColor = MaterialTheme.colors.background,
         modifier = Modifier.fillMaxWidth().height(56.dp),
         edgePadding = 0.dp
