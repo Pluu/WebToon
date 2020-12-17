@@ -9,8 +9,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
-import androidx.compose.material.TabConstants
-import androidx.compose.material.TabConstants.defaultTabIndicatorOffset
+import androidx.compose.material.TabDefaults
+import androidx.compose.material.TabDefaults.tabIndicatorOffset
 import androidx.compose.material.TabPosition
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -58,10 +58,10 @@ fun DayOfWeekUi(
     onTabSelected: (Int) -> Unit
 ) {
     val indicator = @Composable { tabPositions: List<TabPosition> ->
-        TabConstants.DefaultIndicator(
-            modifier = Modifier.defaultTabIndicatorOffset(tabPositions[selectedTabIndex]),
+        TabDefaults.Indicator(
+            modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
             color = indicatorColor,
-            height = TabConstants.DefaultIndicatorHeight
+            height = TabDefaults.IndicatorHeight
         )
     }
 

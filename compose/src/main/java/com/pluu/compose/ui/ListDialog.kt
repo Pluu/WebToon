@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumnForIndexed
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.AmbientContentAlpha
 import androidx.compose.material.Button
@@ -78,11 +78,12 @@ private fun <T> DialogContent(
             }
         }
         Divider()
-        LazyColumnForIndexed(
-            items = items,
-            modifier = Modifier.fillMaxWidth(),
-            itemContent = itemContent,
-        )
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            itemsIndexed(
+                items = items,
+                itemContent = itemContent
+            )
+        }
         if (buttons != null) {
             Spacer(Modifier.preferredHeight(2.dp))
             buttons.invoke()

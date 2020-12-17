@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -58,15 +58,19 @@ private fun LicenseContentUi(
     modifier: Modifier = Modifier,
     onClicked: (item: LicenseModel) -> Unit
 ) {
-    LazyColumnFor(
-        items = list,
+    LazyColumn(
         modifier = modifier
             .background(color = MaterialTheme.colors.surface)
             .padding(horizontal = 3.dp)
-    ) { item ->
-        LicenseItemUi(
-            item = item,
-            onClicked = onClicked
+    ) {
+        items(
+            items = list,
+            itemContent = { item ->
+                LicenseItemUi(
+                    item = item,
+                    onClicked = onClicked
+                )
+            }
         )
     }
 }

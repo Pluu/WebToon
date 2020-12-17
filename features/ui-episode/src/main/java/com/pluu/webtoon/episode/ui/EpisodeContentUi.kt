@@ -1,10 +1,13 @@
 package com.pluu.webtoon.episode.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -16,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.pluu.compose.foundation.lazy.LazyGridFor
 import com.pluu.compose.ui.CircularProgressIndicator
 import com.pluu.compose.ui.SwipeToRefreshLayout
 import com.pluu.compose.ui.graphics.toColor
@@ -24,6 +26,7 @@ import com.pluu.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EpisodeContentUi(
     uiState: UiState<List<EpisodeInfo>>,
@@ -61,21 +64,22 @@ fun EpisodeContentUi(
         refreshColors = circleColors,
         onRefresh = onRefresh
     ) {
-        LazyGridFor(
-            items = rememberItems,
-            rows = 2,
+        LazyVerticalGrid(
+            cells = GridCells.Fixed(2),
             modifier = modifier.fillMaxSize()
-        ) { item, index ->
-            if (rememberItems.lastIndex == index) {
-                onActive {
-                    onMoreLoaded()
+        ) {
+            itemsIndexed(rememberItems) { index, item ->
+                if (rememberItems.lastIndex == index) {
+                    onActive {
+                        onMoreLoaded()
+                    }
                 }
+                EpisodeItemUi(
+                    item = item,
+                    isRead = readIdSet.contains(item.id),
+                    onClicked = onEpisodeClicked
+                )
             }
-            EpisodeItemUi(
-                item = item,
-                isRead = readIdSet.contains(item.id),
-                onClicked = onEpisodeClicked
-            )
         }
     }
 }

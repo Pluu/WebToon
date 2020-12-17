@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumnForIndexed
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -26,19 +26,23 @@ fun WeeklyListUi(
     modifier: Modifier = Modifier,
     onClicked: (ToonInfoWithFavorite) -> Unit
 ) {
-    LazyColumnForIndexed(
-        items = items,
+    LazyColumn(
         modifier = modifier.padding(horizontal = 3.dp)
-    ) { index, item ->
-        WeeklyItemUi(
-            item = item.info,
-            isFavorite = item.isFavorite,
-            onClicked = { onClicked.invoke(item) }
-        )
+    ) {
+        itemsIndexed(
+            items = items,
+            itemContent = { index, item ->
+                WeeklyItemUi(
+                    item = item.info,
+                    isFavorite = item.isFavorite,
+                    onClicked = { onClicked.invoke(item) }
+                )
 
-        if (index == items.lastIndex) {
-            Spacer(Modifier.navigationBarsHeight())
-        }
+                if (index == items.lastIndex) {
+                    Spacer(Modifier.navigationBarsHeight())
+                }
+            }
+        )
     }
 }
 

@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProgressIndicatorConstants
+import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,7 +54,7 @@ fun IntroUi(isNextMove: Boolean) {
                     .preferredSize(64.dp)
                     .alpha(if (isNextMove) 0f else 1f),
                 color = MaterialTheme.colors.secondary,
-                strokeWidth = ProgressIndicatorConstants.DefaultStrokeWidth * 1.5f
+                strokeWidth = ProgressIndicatorDefaults.StrokeWidth * 1.5f
             )
 
             Spacer(modifier = Modifier.height(30.dp))

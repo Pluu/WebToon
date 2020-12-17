@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonConstants
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -59,7 +59,7 @@ fun EpisodeInfoUi(
         }
         Button(
             modifier = Modifier.weight(1f),
-            colors = ButtonConstants.defaultButtonColors(buttonBackgroundColor),
+            colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
             onClick = onFirstClicked
         ) {
             Icon(

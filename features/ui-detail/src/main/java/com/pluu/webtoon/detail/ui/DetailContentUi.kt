@@ -2,7 +2,7 @@ package com.pluu.webtoon.detail.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.lazy.LazyColumnForIndexed
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.gesture.tapGestureFilter
@@ -22,25 +22,27 @@ fun DetailContentUi(
     items: List<DetailView>,
     onClick: () -> Unit
 ) {
-    LazyColumnForIndexed(
-        items = items,
-        modifier = modifier.tapGestureFilter {
-            onClick()
-        }
-    ) { index, item ->
-        if (index == 0) {
-            Spacer(Modifier.statusBarsHeight(48.dp))
-        }
-        // TODO: Adjust Image 처리 개선 해야함
-        GlideImageAdjustBounds(
-            data = item.url.toAgentGlideUrl(),
-            error = {
-                Timber.e(it.throwable)
-                Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
+    LazyColumn(modifier = modifier
+        .tapGestureFilter { onClick() }
+    ) {
+        itemsIndexed(
+            items = items,
+            itemContent = { index, item ->
+                if (index == 0) {
+                    Spacer(Modifier.statusBarsHeight(48.dp))
+                }
+                // TODO: Adjust Image 처리 개선 해야함
+                GlideImageAdjustBounds(
+                    data = item.url.toAgentGlideUrl(),
+                    error = {
+                        Timber.e(it.throwable)
+                        Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
+                    }
+                )
+                if (items.size - 1 == index) {
+                    Spacer(Modifier.navigationBarsHeight(48.dp))
+                }
             }
         )
-        if (items.size - 1 == index) {
-            Spacer(Modifier.navigationBarsHeight(48.dp))
-        }
     }
 }

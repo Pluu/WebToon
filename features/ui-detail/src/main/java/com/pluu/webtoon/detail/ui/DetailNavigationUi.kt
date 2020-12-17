@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonConstants
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -38,7 +38,7 @@ fun DetailNavigationUi(
     Row(modifier = modifier) {
         Button(
             modifier = Modifier.weight(1f).fillMaxHeight(),
-            colors = ButtonConstants.defaultButtonColors(buttonBackgroundColor),
+            colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
             shape = RoundedCornerShape(0.dp),
             enabled = isPrevEnabled,
             onClick = onPrevClicked
@@ -55,7 +55,7 @@ fun DetailNavigationUi(
         }
         Button(
             modifier = Modifier.weight(1f).fillMaxHeight(),
-            colors = ButtonConstants.defaultButtonColors(buttonBackgroundColor),
+            colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
             shape = RoundedCornerShape(0.dp),
             enabled = isNextEnabled,
             onClick = onNextClicked

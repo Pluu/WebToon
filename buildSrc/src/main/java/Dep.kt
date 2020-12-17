@@ -57,14 +57,14 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha08"
+            const val version = "1.0.0-alpha09"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
             const val ui = "androidx.compose.ui:ui:${version}"
             const val layout = "androidx.compose.foundation:foundation-layout:${version}"
             const val material = "androidx.compose.material:material:${version}"
-            const val materialAdapter = "com.google.android.material:compose-theme-adapter:${version}"
+            const val materialAdapter = "com.google.android.material:compose-theme-adapter:1.0.0-alpha08"
             const val tooling = "androidx.compose.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
@@ -75,7 +75,7 @@ object Dep {
     }
 
     object Accompnist {
-        private const val version = "0.4.0"
+        private const val version = "0.4.1"
         const val glide = "dev.chrisbanes.accompanist:accompanist-glide:$version"
         const val insets = "dev.chrisbanes.accompanist:accompanist-insets:$version"
     }
