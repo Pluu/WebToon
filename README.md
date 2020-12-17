@@ -49,6 +49,7 @@ Dependencies
 - Glide
 - Accompnist
   - Glide
+  - Insets
 - Joup
 - Kotlin
   - Kotlin
@@ -56,7 +57,3 @@ Dependencies
 - Material Component for Android
 - Okhttp
 - Timber
-
-### Another Source
-
-- Compose Inset : https://github.com/android/compose-samples/blob/main/Owl/app/src/main/java/com/example/owl/ui/utils/Insets.kt
