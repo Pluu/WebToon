@@ -46,9 +46,7 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
             const val material = "com.google.android.material:material:1.3.0-beta01"
-            const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-beta01"

@@ -83,7 +83,6 @@ dependencies {
     implementation(Dep.AndroidX.lifecycle.liveDataKtx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.constraintLayout)
     implementation(Dep.AndroidX.UI.material)
     implementation(Dep.AndroidX.UI.viewPager)
 
