@@ -20,6 +20,10 @@ object Dep {
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
 
+        object arch {
+            const val testing = "androidx.arch.core:core-testing:2.1.0"
+        }
+
         const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha02"
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
 
@@ -34,6 +38,7 @@ object Dep {
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+            const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
 
         object room {
@@ -127,7 +132,7 @@ object Dep {
     const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.5"
 
     object Test {
-        const val junit = "junit:junit:4.13"
+        const val junit = "junit:junit:4.13.1"
         const val assertJ = "org.assertj:assertj-core:3.18.1"
         const val mockito = "org.mockito:mockito-core:3.6.28"
         const val androidJunit = "androidx.test.ext:junit:1.1.3-alpha02"
