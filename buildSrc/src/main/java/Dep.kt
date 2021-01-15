@@ -12,7 +12,7 @@ object Dep {
     }
 
     object AndroidX {
-        const val annotation = "androidx.annotation:annotation:1.2.0-alpha01"
+        const val annotation = "androidx.annotation:annotation:1.2.0-beta01"
 
         object activity {
             private const val activityVersion = "1.2.0-rc01"
@@ -24,7 +24,7 @@ object Dep {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha02"
+        const val appcompat = "androidx.appcompat:appcompat:1.3.0-beta01"
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
 
         object fragment {
@@ -51,7 +51,7 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val material = "com.google.android.material:material:1.3.0-beta01"
+            const val material = "com.google.android.material:material:1.3.0-rc01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-beta01"
@@ -129,13 +129,13 @@ object Dep {
     }
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
-    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.5"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.6"
 
     object Test {
         const val junit = "junit:junit:4.13.1"
         const val assertJ = "org.assertj:assertj-core:3.18.1"
-        const val mockito = "org.mockito:mockito-core:3.6.28"
-        const val androidJunit = "androidx.test.ext:junit:1.1.3-alpha02"
-        const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0-alpha02"
+        const val mockito = "org.mockito:mockito-core:3.7.0"
+        const val androidJunit = "androidx.test.ext:junit:1.1.3-alpha03"
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0-alpha03"
     }
 }
