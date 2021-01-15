@@ -1,7 +1,7 @@
 package com.pluu.webtoon.detail.ui
 
 import androidx.compose.animation.DpPropKey
-import androidx.compose.animation.animate
+import androidx.compose.animation.core.animateAsState
 import androidx.compose.animation.core.transitionDefinition
 import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.Box
@@ -37,6 +37,8 @@ internal fun InitTopUi(
     onBackPressed: () -> Unit,
     onSharedPressed: () -> Unit
 ) {
+    val animateOffset by animateAsState(if (showNavigation) 0.dp else -topAppBarSize)
+
     Column(modifier = modifier) {
         Divider(
             modifier = Modifier.statusBarsHeight().zIndex(1f),
@@ -46,7 +48,7 @@ internal fun InitTopUi(
         DetailTopUi(
             modifier = Modifier
                 .preferredHeight(topAppBarSize)
-                .offset(y = animate(if (showNavigation) 0.dp else -topAppBarSize)),
+                .offset(y = animateOffset),
             title = uiStateElement.data?.title.orEmpty(),
             subTitle = uiStateElement.data?.webToonTitle.orEmpty(),
             backgroundColor = featureColor,
