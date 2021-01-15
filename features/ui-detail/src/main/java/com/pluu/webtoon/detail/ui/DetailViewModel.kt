@@ -21,12 +21,15 @@ import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.model.getLogMessage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
-class DetailViewModel @ViewModelInject constructor(
-    @Assisted handle: SavedStateHandle,
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    handle: SavedStateHandle,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
     private val detailUseCase: DetailUseCase,

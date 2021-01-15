@@ -1,7 +1,5 @@
 package com.pluu.webtoon.episode.ui
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -20,12 +18,15 @@ import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /** EpisodeInfo ViewModel */
-class EpisodeViewModel @ViewModelInject constructor(
-    @Assisted handle: SavedStateHandle,
+@HiltViewModel
+class EpisodeViewModel @Inject constructor(
+    handle: SavedStateHandle,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
     private val episodeUseCase: EpisodeUseCase,
