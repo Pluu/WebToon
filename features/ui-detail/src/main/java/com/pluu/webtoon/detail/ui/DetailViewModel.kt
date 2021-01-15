@@ -20,6 +20,7 @@ import com.pluu.webtoon.model.ERROR_TYPE
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.ShareItem
+import com.pluu.webtoon.model.getLogMessage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -87,13 +88,8 @@ class DetailViewModel @ViewModelInject constructor(
                     _elementUiState.value = UiState(data = element)
                 }
                 is DetailResult.ErrorResult -> {
-                    val errorType = result.errorType
-                    if (errorType is ERROR_TYPE.DEFAULT_ERROR) {
-                        Timber.e(errorType.throwable)
-                        _elementUiState.value = UiState(exception = errorType.throwable)
-                    } else {
-                        error = DetailEvent.ERROR(result.errorType)
-                    }
+                    error = DetailEvent.ERROR(result.errorType)
+                    Timber.e(result.errorType.getLogMessage())
                 }
             }
             _event.value = error ?: DetailEvent.LOADED
