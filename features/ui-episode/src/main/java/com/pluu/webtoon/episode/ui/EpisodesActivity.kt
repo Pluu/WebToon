@@ -5,20 +5,23 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import com.pluu.compose.transition.colorStartToEndTransition
-import com.pluu.compose.transition.colorStateKey
-import com.pluu.compose.transition.colorTransitionDefinition
+import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.core.utils.lazyNone
@@ -63,26 +66,6 @@ class EpisodesActivity : AppCompatActivity() {
 
     private val openDetailLauncher = registerStartActivityForResult {
         viewModel.readUpdate()
-    }
-
-    private val colorDefinition by lazy {
-        colorTransitionDefinition(
-            startColor = getThemeColor(R.attr.colorPrimary).toColor(),
-            endColor = palletColor.darkVibrantColor.toColor(),
-            durationMillis = 1000
-        )
-    }
-
-    private val infoTextColorDefinition by lazy {
-        colorTransitionDefinition(
-            startColor = getThemeColor(android.R.attr.textColorPrimary).toColor(),
-            endColor = if (ThemeHelper.isLightTheme(this)) {
-                palletColor.darkMutedColor.toColor()
-            } else {
-                palletColor.lightMutedColor.toColor()
-            },
-            durationMillis = 1000
-        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,12 +130,42 @@ class EpisodesActivity : AppCompatActivity() {
         readIdSet: Set<EpisodeId>,
         firstItem: EpisodeInfo?
     ) {
+        var transitionState by remember { mutableStateOf(ColorTransitionState.START) }
+
+        val transition = updateTransition(transitionState)
+
+        val featureColor: Color by transition.animateColor(
+            transitionSpec = { tween(durationMillis = 1000) }
+        ) { state ->
+            when (state) {
+                ColorTransitionState.START -> getThemeColor(R.attr.colorPrimary).toColor()
+                ColorTransitionState.END -> palletColor.darkVibrantColor.toColor()
+            }
+        }
+
+        val featureTextColor: Color by transition.animateColor(
+            transitionSpec = { tween(durationMillis = 1000) }
+        ) { state ->
+            when (state) {
+                ColorTransitionState.START -> getThemeColor(android.R.attr.textColorPrimary).toColor()
+                ColorTransitionState.END -> if (ThemeHelper.isLightTheme(this)) {
+                    palletColor.darkMutedColor.toColor()
+                } else {
+                    palletColor.lightMutedColor.toColor()
+                }
+            }
+        }
+
+        SideEffect {
+            transitionState = ColorTransitionState.END
+        }
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            topBar = { InitEpisodeTopUi() },
+            topBar = { InitEpisodeTopUi(featureColor) },
             bottomBar = {
                 if (firstItem != null) {
-                    InitEpisodeInfoUi(firstItem) { item ->
+                    InitEpisodeInfoUi(firstItem, featureColor, featureTextColor) { item ->
                         validItem(item) {
                             requestFirst()
                         }
@@ -180,13 +193,14 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun InitEpisodeTopUi() {
+    private fun InitEpisodeTopUi(
+        featureColor: Color
+    ) {
         val isFavorite by viewModel.favorite.observeAsState(false)
-        val transition = colorStartToEndTransition(colorDefinition)
 
         EpisodeTopUi(
             title = webToonItem.info.title,
-            backgroundColor = transition[colorStateKey],
+            backgroundColor = featureColor,
             onBackPressed = {
                 finish()
             },
@@ -200,17 +214,17 @@ class EpisodesActivity : AppCompatActivity() {
     @Composable
     private fun InitEpisodeInfoUi(
         firstItem: EpisodeInfo,
+        featureColor: Color,
+        textFeatureColor: Color,
         onFirstClicked: (EpisodeInfo) -> Unit
     ) {
         val info = webToonItem.info
-        val bgTransition = colorStartToEndTransition(colorDefinition)
-        val infoTextTransition = colorStartToEndTransition(infoTextColorDefinition)
 
         EpisodeInfoUi(
             name = info.writer,
             rate = info.rate,
-            infoTextColor = infoTextTransition[colorStateKey],
-            buttonBackgroundColor = bgTransition[colorStateKey],
+            infoTextColor = textFeatureColor,
+            buttonBackgroundColor = featureColor,
             onFirstClicked = {
                 onFirstClicked(firstItem)
             }

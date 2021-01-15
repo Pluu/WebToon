@@ -6,11 +6,14 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.transition
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Providers
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -18,12 +21,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import com.bumptech.glide.Glide
 import com.pluu.compose.transition.ColorTransitionState
-import com.pluu.compose.transition.colorStateKey
-import com.pluu.compose.transition.colorTransitionDefinition
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.core.utils.lazyNone
@@ -162,24 +164,28 @@ fun DetailComposeUi(
 
     var isFirstShow by remember { mutableStateOf(true) }
 
-    // Animate Value
-    val colorDefinition = remember(featureColor) {
-        colorTransitionDefinition(
-            startColor = featureColor.themeColor,
-            endColor = featureColor.webToonColor,
-            durationMillis = 750
+    var transitionState by remember(featureColor) {
+        mutableStateOf(
+            if (isFirstShow) ColorTransitionState.START else ColorTransitionState.END
         )
     }
-    val transition = transition(
-        definition = colorDefinition,
-        initState = if (isFirstShow) ColorTransitionState.START else ColorTransitionState.END,
-        toState = ColorTransitionState.END,
-        onStateChangeFinished = {
-            if (it == ColorTransitionState.END) {
-                isFirstShow = false
-            }
+
+    val transition = updateTransition(transitionState) {
+        isFirstShow = false
+    }
+
+    val featureColorValue: Color by transition.animateColor(
+        transitionSpec = { tween(durationMillis = 750) }
+    ) { state ->
+        when (state) {
+            ColorTransitionState.START -> featureColor.themeColor
+            ColorTransitionState.END -> featureColor.webToonColor
         }
-    )
+    }
+
+    SideEffect {
+        transitionState = ColorTransitionState.END
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         InitContentUi(
@@ -192,7 +198,7 @@ fun DetailComposeUi(
             showNavigation = showNavigation.not()
         }
         InitTopUi(
-            featureColor = transition[colorStateKey],
+            featureColor = featureColorValue,
             uiStateElement = uiStateElement,
             showNavigation = showNavigation,
             modifier = Modifier.align(Alignment.TopCenter),
@@ -200,7 +206,7 @@ fun DetailComposeUi(
             onSharedPressed = onSharedPressed
         )
         InitBottomUi(
-            featureColor = transition[colorStateKey],
+            featureColor = featureColorValue,
             uiStateElement = uiStateElement,
             showNavigation = showNavigation,
             modifier = Modifier.align(Alignment.BottomCenter),
