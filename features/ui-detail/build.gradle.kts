@@ -47,10 +47,10 @@ dependencies {
     implementation(Dep.Accompnist.insets)
 
     // Hilt
-    implementation(Dep.Hilt.android)
-    kapt(Dep.Hilt.hilt_compiler)
-    implementation(Dep.Hilt.viewModel)
-    kapt(Dep.Hilt.android_hilt_compiler)
+    implementation(Dep.Hilt.dagger_android)
+    kapt(Dep.Hilt.dagger_compiler)
+    implementation(Dep.Hilt.androidx_viewModel)
+    kapt(Dep.Hilt.androidx_compiler)
 
     implementation(Dep.timber)
 }

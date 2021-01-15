@@ -35,7 +35,6 @@ object Dep {
 
         object lifecycle {
             private const val lifecycleVersion = "2.3.0-rc01"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
@@ -90,13 +89,13 @@ object Dep {
 
     object Hilt {
         const val version = "2.30-alpha"
-        const val android = "com.google.dagger:hilt-android:${version}"
-        const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${version}"
-        const val testing = "com.google.dagger:hilt-android-testing:${version}"
+        const val dagger_android = "com.google.dagger:hilt-android:${version}"
+        const val dagger_compiler = "com.google.dagger:hilt-compiler:${version}"
+        const val dagger_android_testing = "com.google.dagger:hilt-android-testing:${version}"
 
         private const val androidX = "1.0.0-alpha02"
-        const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${androidX}"
-        const val android_hilt_compiler = "androidx.hilt:hilt-compiler:${androidX}"
+        const val androidx_viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${androidX}"
+        const val androidx_compiler = "androidx.hilt:hilt-compiler:${androidX}"
     }
 
     object Kotlin {

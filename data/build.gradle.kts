@@ -47,8 +47,8 @@ dependencies {
     implementation(Dep.OkHttp.loggingInterceptor)
 
     // Dagger Hilt
-    implementation(Dep.Hilt.android)
-    kapt(Dep.Hilt.hilt_compiler)
+    implementation(Dep.Hilt.dagger_android)
+    kapt(Dep.Hilt.dagger_compiler)
 
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidX.room.testing)
