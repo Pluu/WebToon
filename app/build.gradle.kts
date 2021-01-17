@@ -100,8 +100,6 @@ dependencies {
     // Hilt
     implementation(Dep.Hilt.dagger_android)
     kapt(Dep.Hilt.dagger_compiler)
-    implementation(Dep.Hilt.androidx_viewModel)
-    kapt(Dep.Hilt.androidx_compiler)
 
     // kotlin
     implementation(Dep.Kotlin.coroutines.core)

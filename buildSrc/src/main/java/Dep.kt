@@ -92,10 +92,6 @@ object Dep {
         const val dagger_android = "com.google.dagger:hilt-android:${version}"
         const val dagger_compiler = "com.google.dagger:hilt-compiler:${version}"
         const val dagger_android_testing = "com.google.dagger:hilt-android-testing:${version}"
-
-        private const val androidX = "1.0.0-alpha02"
-        const val androidx_viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${androidX}"
-        const val androidx_compiler = "androidx.hilt:hilt-compiler:${androidX}"
     }
 
     object Kotlin {
