@@ -47,6 +47,6 @@ dependencies {
     implementation(Dep.Accompnist.insets)
 
     // Hilt
-    implementation(Dep.Hilt.dagger_android)
-    kapt(Dep.Hilt.dagger_compiler)
+    implementation(Dep.Dagger.Hilt.android)
+    kapt(Dep.Dagger.Hilt.compiler)
 }
