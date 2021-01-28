@@ -28,7 +28,7 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
 
         object fragment {
-            private const val fragmentVersion = "1.3.0-rc01"
+            private const val fragmentVersion = "1.3.0-rc02"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
@@ -41,7 +41,7 @@ object Dep {
         }
 
         object room {
-            private const val roomVersion = "2.3.0-alpha04"
+            private const val roomVersion = "2.3.0-beta01"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
