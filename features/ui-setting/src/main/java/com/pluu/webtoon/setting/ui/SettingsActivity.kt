@@ -2,7 +2,9 @@ package com.pluu.webtoon.setting.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.compose.runtime.Providers
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
@@ -24,11 +26,13 @@ class SettingsActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        val content = FrameLayout(this).apply {
+            id = View.generateViewId()
+        }
+        setContentView(content)
+
         supportFragmentManager.commit {
-            replace(
-                android.R.id.content,
-                SettingFragment()
-            )
+            replace(content.id, SettingFragment())
         }
     }
 }
