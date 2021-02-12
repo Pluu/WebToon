@@ -8,12 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -22,8 +23,8 @@ import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 
 @Composable
 fun WeeklyListUi(
-    items: List<ToonInfoWithFavorite>,
     modifier: Modifier = Modifier,
+    items: List<ToonInfoWithFavorite>,
     onClicked: (ToonInfoWithFavorite) -> Unit
 ) {
     LazyColumn(
@@ -48,7 +49,10 @@ fun WeeklyListUi(
 
 @Composable
 fun WeeklyEmptyUi() {
-    Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
+    Image(
+        painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+        contentDescription = null
+    )
 }
 
 @Preview("EmptyView", widthDp = 100, heightDp = 100)

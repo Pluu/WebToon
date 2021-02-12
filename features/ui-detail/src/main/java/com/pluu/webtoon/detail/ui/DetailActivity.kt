@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
@@ -40,7 +41,7 @@ import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.ui.compose.ActivityComposeView
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.glide.AmbientRequestManager
+import dev.chrisbanes.accompanist.glide.LocalRequestManager
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
@@ -77,7 +78,7 @@ class DetailActivity : AppCompatActivity() {
 
         ActivityComposeView {
             ProvideWindowInsets {
-                Providers(AmbientRequestManager provides requestManager) {
+                Providers(LocalRequestManager provides requestManager) {
                     var loadingDialog by remember { mutableStateOf(false) }
                     val event by viewModel.event.observeAsState()
                     val elementUiState by viewModel.elementUiState.observeAsState(
@@ -101,7 +102,7 @@ class DetailActivity : AppCompatActivity() {
                     }
 
                     if (loadingDialog) {
-                        ProgressDialog("Loading ...")
+                        ProgressDialog(title = "Loading ...")
                     }
 
                     DetailComposeUi(
@@ -164,15 +165,19 @@ fun DetailComposeUi(
 
     var isFirstShow by remember { mutableStateOf(true) }
 
-    var transitionState by remember(featureColor) {
+    val transitionState by remember(featureColor) {
         mutableStateOf(
-            if (isFirstShow) ColorTransitionState.START else ColorTransitionState.END
+            MutableTransitionState(
+                if (isFirstShow) {
+                    ColorTransitionState.START
+                } else {
+                    ColorTransitionState.END
+                }
+            )
         )
     }
 
-    val transition = updateTransition(transitionState) {
-        isFirstShow = false
-    }
+    val transition = updateTransition(transitionState)
 
     val featureColorValue: Color by transition.animateColor(
         transitionSpec = { tween(durationMillis = 750) }
@@ -184,7 +189,8 @@ fun DetailComposeUi(
     }
 
     SideEffect {
-        transitionState = ColorTransitionState.END
+        isFirstShow = false
+        transitionState.targetState = ColorTransitionState.END
     }
 
     Box(modifier = Modifier.fillMaxSize()) {

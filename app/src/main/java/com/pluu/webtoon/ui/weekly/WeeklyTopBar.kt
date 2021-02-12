@@ -44,7 +44,10 @@ fun WeeklyTopBar(
         },
         navigationIcon = {
             IconButton(onClick = onDrawerClicked) {
-                Icon(Icons.Filled.Menu)
+                Icon(
+                    Icons.Filled.Menu,
+                    contentDescription = null
+                )
             }
         }
     )

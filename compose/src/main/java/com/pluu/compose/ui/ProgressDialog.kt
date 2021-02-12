@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
-import androidx.compose.material.AmbientContentAlpha
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Surface
@@ -20,17 +20,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 
 @Composable
 fun ProgressDialog(
+    modifier: Modifier = Modifier,
     title: String? = null,
-    modifier: Modifier = Modifier.padding(12.dp),
     onDismiss: () -> Unit = { },
     shape: Shape = MaterialTheme.shapes.medium,
     backgroundColor: Color = MaterialTheme.colors.surface,
     contentColor: Color = contentColorFor(backgroundColor),
-    properties: DialogProperties? = null
 ) {
     DialogContent(
         title = {
@@ -38,26 +36,24 @@ fun ProgressDialog(
                 Text(text = title)
             }
         },
-        modifier = modifier,
+        modifier = modifier.padding(12.dp),
         onDismiss = onDismiss,
         shape = shape,
         backgroundColor = backgroundColor,
         contentColor = contentColor,
-        properties = properties
     )
 }
 
 @Composable
 private fun DialogContent(
-    title: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier,
+    title: (@Composable () -> Unit)? = null,
     onDismiss: () -> Unit,
     shape: Shape = MaterialTheme.shapes.medium,
     backgroundColor: Color = MaterialTheme.colors.surface,
     contentColor: Color = contentColorFor(backgroundColor),
-    properties: DialogProperties? = null
 ) {
-    Dialog(onDismissRequest = onDismiss, properties = properties) {
+    Dialog(onDismissRequest = onDismiss) {
         Surface(
             modifier = modifier,
             shape = shape,
@@ -71,7 +67,7 @@ private fun DialogContent(
                 )
                 if (title != null) {
                     Box(modifier = TitlePadding.align(Alignment.CenterVertically)) {
-                        Providers(AmbientContentAlpha provides ContentAlpha.high) {
+                        Providers(LocalContentAlpha provides ContentAlpha.high) {
                             val textStyle = MaterialTheme.typography.subtitle1
                             ProvideTextStyle(textStyle, title)
                         }

@@ -21,15 +21,16 @@ import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
 fun EpisodeTopUi(
+    modifier: Modifier = Modifier,
     title: String,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
     isFavorite: Boolean,
-    modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     onFavoriteClicked: (isFavorite: Boolean) -> Unit
 ) {
     TopAppBar(
-        modifier = modifier.background(color = backgroundColor)
+        modifier = modifier
+            .background(color = backgroundColor)
             .statusBarsPadding(),
         contentColor = Color.White,
         backgroundColor = backgroundColor,
@@ -38,7 +39,10 @@ fun EpisodeTopUi(
         },
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
-                Icon(Icons.Filled.ArrowBack)
+                Icon(
+                    Icons.Filled.ArrowBack,
+                    contentDescription = null
+                )
             }
         },
         elevation = 0.dp,
@@ -49,12 +53,14 @@ fun EpisodeTopUi(
                 if (isFavorite) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
-                        tint = 0xFFF44336.toColor()
+                        tint = 0xFFF44336.toColor(),
+                        contentDescription = null
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
-                        tint = Color.White
+                        tint = Color.White,
+                        contentDescription = null
                     )
                 }
             }

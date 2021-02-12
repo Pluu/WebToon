@@ -17,13 +17,14 @@ import com.pluu.webtoon.setting.model.LicenseModel
 
 @Composable
 fun LicenseItemUi(
+    modifier: Modifier = Modifier,
     item: LicenseModel,
-    modifier: Modifier = Modifier.fillMaxWidth(),
     onClicked: (item: LicenseModel) -> Unit
 ) {
     Text(
         text = item.title,
         modifier = modifier
+            .fillMaxWidth()
             .preferredHeight(48.dp)
             .clickable(onClick = { onClicked.invoke(item) })
             .padding(horizontal = 16.dp)

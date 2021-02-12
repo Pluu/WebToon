@@ -46,6 +46,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
+    implementation(Dep.AndroidX.Compose.constraintlayout)
 
     implementation(Dep.Accompnist.glide)
     implementation(Dep.Accompnist.insets)

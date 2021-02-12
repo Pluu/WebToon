@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,11 +24,11 @@ import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 
 @Composable
 fun EpisodeInfoUi(
+    modifier: Modifier = Modifier,
     name: String,
     rate: Double,
     infoTextColor: Color = MaterialTheme.colors.onSurface,
     buttonBackgroundColor: Color = MaterialTheme.colors.primary,
-    modifier: Modifier = Modifier,
     onFirstClicked: () -> Unit
 ) {
     Row(
@@ -63,8 +63,9 @@ fun EpisodeInfoUi(
             onClick = onFirstClicked
         ) {
             Icon(
-                imageVector = vectorResource(R.drawable.ic_looks_one_white_36),
-                tint = Color.White
+                painter = painterResource(R.drawable.ic_looks_one_white_36),
+                tint = Color.White,
+                contentDescription = null
             )
             Text(
                 text = "첫화보기",

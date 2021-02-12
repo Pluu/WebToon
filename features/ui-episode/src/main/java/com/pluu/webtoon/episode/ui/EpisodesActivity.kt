@@ -108,7 +108,7 @@ class EpisodesActivity : AppCompatActivity() {
                 }
 
                 if (showDialog) {
-                    ProgressDialog("Loading...")
+                    ProgressDialog(title = "Loading...")
                 }
 
                 // 첫화보기 로직은 최초 한번만 아이템을 적용하도록 대응

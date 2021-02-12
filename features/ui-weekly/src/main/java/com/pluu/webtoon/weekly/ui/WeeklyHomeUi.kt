@@ -9,8 +9,8 @@ import com.pluu.webtoon.model.ToonInfoWithFavorite
 
 @Composable
 fun WeeklyHomeUi(
-    items: List<ToonInfoWithFavorite>?,
     modifier: Modifier = Modifier,
+    items: List<ToonInfoWithFavorite>?,
     onClick: (ToonInfoWithFavorite) -> Unit
 ) {
     when {

@@ -9,7 +9,7 @@ import androidx.compose.material.SwipeableState
 import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.onCommit
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -17,7 +17,7 @@ import androidx.compose.ui.gesture.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.gesture.nestedscroll.NestedScrollSource
 import androidx.compose.ui.gesture.nestedscroll.nestedScroll
 import androidx.compose.ui.gesture.scrollorientationlocking.Orientation
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
@@ -34,7 +34,7 @@ fun SwipeToRefreshLayout(
     refreshIndicator: @Composable () -> Unit,
     content: @Composable () -> Unit
 ) {
-    val refreshDistance = with(AmbientDensity.current) { RefreshDistance.toPx() }
+    val refreshDistance = with(LocalDensity.current) { RefreshDistance.toPx() }
     val state = rememberSwipeableState(refreshingState) { newValue ->
         // compare both copies of the swipe state before calling onRefresh(). This is a workaround.
         if (newValue && !refreshingState) onRefresh()
@@ -68,8 +68,9 @@ fun SwipeToRefreshLayout(
         // TODO (https://issuetracker.google.com/issues/164113834): This state->event trampoline is a
         //  workaround for a bug in the SwipableState API. Currently, state.value is a duplicated
         //  source of truth of refreshingState.
-        onCommit(refreshingState) {
+        DisposableEffect(refreshingState) {
             state.animateTo(refreshingState)
+            onDispose {  }
         }
     }
 }

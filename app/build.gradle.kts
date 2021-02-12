@@ -1,12 +1,11 @@
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+//import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-    id("org.jlleitschuh.gradle.ktlint")
+//    id("org.jlleitschuh.gradle.ktlint")
 }
 
 apply(from = "${rootProject.projectDir}/gradle/commonConfiguration.gradle")
@@ -31,6 +30,7 @@ android {
     buildTypes {
         getByName(BuildType.DEBUG) {
             signingConfig = signingConfigs.getByName("debug")
+            applicationIdSuffix = ".debug"
         }
 
         getByName(BuildType.RELEASE) {
@@ -90,6 +90,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
+    implementation(Dep.AndroidX.Compose.activity)
 
     implementation(Dep.Accompnist.insets)
 
@@ -116,18 +117,18 @@ kapt {
     useBuildCache = true
 }
 
-ktlint {
-    debug.set(true)
-    verbose.set(true)
-    android.set(true)
-    outputToConsole.set(true)
-    outputColorName.set("RED")
-    ignoreFailures.set(true)
-    reporters {
-        reporter(ReporterType.CHECKSTYLE)
-    }
-    filter {
-        exclude("**/generated/**")
-        include("**/kotlin/**")
-    }
-}
+//ktlint {
+//    debug.set(true)
+//    verbose.set(true)
+//    android.set(true)
+//    outputToConsole.set(true)
+//    outputColorName.set("RED")
+//    ignoreFailures.set(true)
+//    reporters {
+//        reporter(ReporterType.CHECKSTYLE)
+//    }
+//    filter {
+//        exclude("**/generated/**")
+//        include("**/kotlin/**")
+//    }
+//}

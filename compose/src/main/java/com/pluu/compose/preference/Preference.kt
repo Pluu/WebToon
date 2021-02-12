@@ -18,8 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,7 +54,8 @@ fun Preference(
         if (imageVector != null) {
             Image(
                 imageVector = imageVector,
-                modifier = ImageSize
+                modifier = ImageSize,
+                contentDescription = null
             )
         }
     }
@@ -73,7 +75,29 @@ fun Preference(
         if (bitmap != null) {
             Image(
                 bitmap = bitmap,
-                modifier = ImageSize
+                modifier = ImageSize,
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Composable
+fun Preference(
+    modifier: Modifier = Modifier,
+    painter: Painter? = null,
+    title: String,
+    summary: String? = null
+) {
+    ContentPreference(
+        modifier = modifier,
+        title = title, summary = summary
+    ) {
+        if (painter != null) {
+            Image(
+                painter = painter,
+                modifier = ImageSize,
+                contentDescription = null
             )
         }
     }
@@ -122,13 +146,13 @@ private fun ContentPreference(
     }
 }
 
-internal val ImageSize = Modifier.size(26.dp)
+private val ImageSize = Modifier.size(26.dp)
 
 @Preview
 @Composable
 fun PreviewPreference() {
     Preference(
-        imageVector = vectorResource(R.drawable.ic_baseline_android_24),
+        painter = painterResource(R.drawable.ic_baseline_android_24),
         title = "Title",
         summary = "Summary"
     )

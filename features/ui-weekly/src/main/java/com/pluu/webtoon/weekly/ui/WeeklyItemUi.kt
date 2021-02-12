@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.Dimension
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -30,6 +28,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.model.Status
@@ -41,9 +41,9 @@ import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
 fun WeeklyItemUi(
+    modifier: Modifier = Modifier,
     item: ToonInfo,
     isFavorite: Boolean,
-    modifier: Modifier = Modifier,
     onClicked: (ToonInfo) -> Unit
 ) {
     Card(
@@ -66,8 +66,12 @@ fun WeeklyItemUi(
                     }
                 },
                 error = {
-                    Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
-                }
+                    Image(
+                        painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                        contentDescription = null
+                    )
+                },
+                contentDescription = null
             )
 
             WeeklyItemOverlayUi(
@@ -80,9 +84,9 @@ fun WeeklyItemUi(
 
 @Composable
 fun WeeklyItemOverlayUi(
+    modifier: Modifier = Modifier,
     item: ToonInfo,
-    isFavorite: Boolean,
-    modifier: Modifier = Modifier
+    isFavorite: Boolean
 ) {
     ConstraintLayout(modifier = modifier.fillMaxSize()) {
         val (title, status,
@@ -150,9 +154,10 @@ fun WeeklyItemFavoriteUi(
     modifier: Modifier = Modifier
 ) {
     Image(
-        imageVector = vectorResource(R.drawable.ic_favorite_black_36),
+        painter = painterResource(R.drawable.ic_favorite_black_36),
         colorFilter = ColorFilter.tint(0xFFF44336.toColor()),
-        modifier = modifier
+        modifier = modifier,
+        contentDescription = null
     )
 }
 

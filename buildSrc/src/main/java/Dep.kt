@@ -15,7 +15,7 @@ object Dep {
         const val annotation = "androidx.annotation:annotation:1.2.0-beta01"
 
         object activity {
-            private const val activityVersion = "1.2.0-rc01"
+            private const val activityVersion = "1.3.0-alpha02"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -28,13 +28,13 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
 
         object fragment {
-            private const val fragmentVersion = "1.3.0-rc02"
+            private const val fragmentVersion = "1.3.0"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.3.0-rc01"
+            private const val lifecycleVersion = "2.3.0"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
@@ -58,7 +58,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha10"
+            const val version = "1.0.0-alpha12"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -69,6 +69,8 @@ object Dep {
             const val tooling = "androidx.compose.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
+            const val activity = "androidx.activity:activity-compose:1.3.0-alpha02"
+            const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha02"
         }
 
         const val viewBinding =
@@ -76,13 +78,13 @@ object Dep {
     }
 
     object Accompnist {
-        private const val version = "0.4.2"
+        private const val version = "0.5.1"
         const val glide = "dev.chrisbanes.accompanist:accompanist-glide:$version"
         const val insets = "dev.chrisbanes.accompanist:accompanist-insets:$version"
     }
 
     object Dagger {
-        private const val version = "2.31.2"
+        private const val version = "2.32"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
 
@@ -95,7 +97,7 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.4.21"
+        const val version = "1.4.30"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
@@ -112,7 +114,7 @@ object Dep {
     const val jsoup = "org.jsoup:jsoup:1.13.1"
 
     object Glide {
-        private const val version = "4.11.0"
+        private const val version = "4.12.0"
         const val core = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }

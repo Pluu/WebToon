@@ -16,24 +16,25 @@
 
 package com.pluu.compose.ui
 
-import android.annotation.SuppressLint
-import androidx.compose.animation.core.AnimationConstants.Infinite
 import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.FloatPropKey
-import androidx.compose.animation.core.IntPropKey
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateValue
+import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.repeatable
-import androidx.compose.animation.core.transitionDefinition
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.transition
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -41,7 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -67,13 +68,57 @@ fun CircularProgressIndicator(
     colors: List<Color> = listOf(MaterialTheme.colors.primary),
     strokeWidth: Dp = ProgressIndicatorDefaults.StrokeWidth
 ) {
-    val stroke = with(AmbientDensity.current) {
+    val stroke = with(LocalDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Square)
     }
-    val state = transition(
-        definition = CircularIndeterminateTransition,
-        initState = 0,
-        toState = 1
+
+    val transition = rememberInfiniteTransition()
+    // The current rotation around the circle, so we know where to start the rotation from
+    val currentRotation by transition.animateValue(
+        0,
+        RotationsPerCycle,
+        Int.VectorConverter,
+        infiniteRepeatable(
+            animation = tween(
+                durationMillis = RotationDuration * RotationsPerCycle,
+                easing = LinearEasing
+            )
+        )
+    )
+    // How far forward (degrees) the base point should be from the start point
+    val baseRotation by transition.animateFloat(
+        0f,
+        BaseRotationAngle,
+        infiniteRepeatable(
+            animation = tween(
+                durationMillis = RotationDuration,
+                easing = LinearEasing
+            )
+        )
+    )
+    // How far forward (degrees) both the head and tail should be from the base point
+    val endAngle by transition.animateFloat(
+        0f,
+        JumpRotationAngle,
+        infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = HeadAndTailAnimationDuration + HeadAndTailDelayDuration
+                0f at 0 with CircularEasing
+                JumpRotationAngle at HeadAndTailAnimationDuration
+            }
+        )
+    )
+
+    val startAngle by transition.animateFloat(
+        0f,
+        JumpRotationAngle,
+        infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = HeadAndTailAnimationDuration + HeadAndTailDelayDuration
+                0f at HeadAndTailDelayDuration with CircularEasing
+                JumpRotationAngle at durationMillis
+            }
+        )
     )
 
     // Select color Index
@@ -83,35 +128,46 @@ fun CircularProgressIndicator(
     Canvas(
         modifier
             .progressSemantics()
-            .preferredSize(CircularIndicatorDiameter)
+            .size(CircularIndicatorDiameter)
+            .focusable()
     ) {
-        val currentRotation = state[IterationProp]
-        val baseRotation = state[BaseRotationProp]
 
         val currentRotationAngleOffset = (currentRotation * RotationAngleOffset) % 360f
 
-        var startAngle = state[TailRotationProp]
-        val endAngle = state[HeadRotationProp]
         // How long a line to draw using the start angle as a reference point
         val sweep = abs(endAngle - startAngle)
 
         // Offset by the constant offset and the per rotation offset
-        startAngle += StartAngleOffset + currentRotationAngleOffset
-        startAngle += baseRotation
+        val offset = StartAngleOffset + currentRotationAngleOffset + baseRotation
 
         if (colors.size > 1 && prevAngleOffset != currentRotationAngleOffset) {
             colorIndex = (colorIndex + 1) % colors.size
             prevAngleOffset = currentRotationAngleOffset
         }
 
-        drawIndeterminateCircularIndicator(
-            startAngle,
-            strokeWidth,
-            sweep,
-            colors[colorIndex],
-            stroke
-        )
+        drawIndeterminateCircularIndicator(startAngle + offset, strokeWidth, sweep, colors[colorIndex], stroke)
     }
+}
+
+private fun DrawScope.drawCircularIndicator(
+    startAngle: Float,
+    sweep: Float,
+    color: Color,
+    stroke: Stroke
+) {
+    // To draw this circle we need a rect with edges that line up with the midpoint of the stroke.
+    // To do this we need to remove half the stroke width from the total diameter for both sides.
+    val diameterOffset = stroke.width / 2
+    val arcDimen = size.width - 2 * diameterOffset
+    drawArc(
+        color = color,
+        startAngle = startAngle,
+        sweepAngle = sweep,
+        useCenter = false,
+        topLeft = Offset(diameterOffset, diameterOffset),
+        size = Size(arcDimen, arcDimen),
+        style = stroke
+    )
 }
 
 private fun DrawScope.drawIndeterminateCircularIndicator(
@@ -136,27 +192,6 @@ private fun DrawScope.drawIndeterminateCircularIndicator(
     val adjustedSweep = max(sweep, 0.1f)
 
     drawCircularIndicator(adjustedStartAngle, adjustedSweep, color, stroke)
-}
-
-private fun DrawScope.drawCircularIndicator(
-    startAngle: Float,
-    sweep: Float,
-    color: Color,
-    stroke: Stroke
-) {
-    // To draw this circle we need a rect with edges that line up with the midpoint of the stroke.
-    // To do this we need to remove half the stroke width from the total diameter for both sides.
-    val diameterOffset = stroke.width / 2
-    val arcDimen = size.width - 2 * diameterOffset
-    drawArc(
-        color = color,
-        startAngle = startAngle,
-        sweepAngle = sweep,
-        useCenter = false,
-        topLeft = Offset(diameterOffset, diameterOffset),
-        size = Size(arcDimen, arcDimen),
-        style = stroke
-    )
 }
 
 // CircularProgressIndicator Material specs
@@ -191,69 +226,8 @@ private const val RotationAngleOffset = (BaseRotationAngle + JumpRotationAngle) 
 private const val HeadAndTailAnimationDuration = (RotationDuration * 0.5).toInt()
 private const val HeadAndTailDelayDuration = HeadAndTailAnimationDuration
 
-// The current rotation around the circle, so we know where to start the rotation from
-private val IterationProp = IntPropKey()
-
-// How far forward (degrees) the base point should be from the start point
-private val BaseRotationProp = FloatPropKey()
-
-// How far forward (degrees) both the head and tail should be from the base point
-private val HeadRotationProp = FloatPropKey()
-private val TailRotationProp = FloatPropKey()
-
 // The easing for the head and tail jump
 private val CircularEasing = CubicBezierEasing(0.4f, 0f, 0.2f, 1f)
-
-// The easing for the head and tail jump
-@SuppressLint("Range")
-private val CircularIndeterminateTransition = transitionDefinition<Int> {
-    state(0) {
-        this[IterationProp] = 0
-        this[BaseRotationProp] = 0f
-        this[HeadRotationProp] = 0f
-        this[TailRotationProp] = 0f
-    }
-
-    state(1) {
-        this[IterationProp] = RotationsPerCycle
-        this[BaseRotationProp] = BaseRotationAngle
-        this[HeadRotationProp] = JumpRotationAngle
-        this[TailRotationProp] = JumpRotationAngle
-    }
-
-    transition(fromState = 0, toState = 1) {
-        IterationProp using repeatable(
-            iterations = Infinite,
-            animation = tween(
-                durationMillis = RotationDuration * RotationsPerCycle,
-                easing = LinearEasing
-            )
-        )
-        BaseRotationProp using repeatable(
-            iterations = Infinite,
-            animation = tween(
-                durationMillis = RotationDuration,
-                easing = LinearEasing
-            )
-        )
-        HeadRotationProp using repeatable(
-            iterations = Infinite,
-            animation = keyframes {
-                durationMillis = HeadAndTailAnimationDuration + HeadAndTailDelayDuration
-                0f at 0 with CircularEasing
-                JumpRotationAngle at HeadAndTailAnimationDuration
-            }
-        )
-        TailRotationProp using repeatable(
-            iterations = Infinite,
-            animation = keyframes {
-                durationMillis = HeadAndTailAnimationDuration + HeadAndTailDelayDuration
-                0f at HeadAndTailDelayDuration with CircularEasing
-                JumpRotationAngle at durationMillis
-            }
-        )
-    }
-}
 
 @Preview
 @Composable

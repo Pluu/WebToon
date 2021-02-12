@@ -5,18 +5,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 
 @Composable
 fun ImageInCircle(
-    imageVector: ImageVector,
-    circleColor: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    painter: Painter,
+    circleColor: Color
 ) {
     Image(
-        imageVector = imageVector,
+        painter = painter,
         modifier = modifier.drawBehind {
             drawCircle(color = circleColor)
-        }
+        },
+        contentDescription = null
     )
 }

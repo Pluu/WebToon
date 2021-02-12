@@ -13,9 +13,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
@@ -29,10 +30,11 @@ data class ListPreferenceItem<T>(
 
 @Composable
 fun <T> ListPreference(
+    modifier: Modifier = Modifier,
     items: List<ListPreferenceItem<T>>,
     preferenceState: PreferenceState<T>,
-    modifier: Modifier = Modifier,
     title: String,
+    painter: Painter? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -57,14 +59,15 @@ fun <T> ListPreference(
         }),
         title = title,
         summary = preferenceState.summary,
+        painter = painter
     )
 }
 
 @Composable
 fun <T> ListPreference(
+    modifier: Modifier = Modifier,
     items: List<ListPreferenceItem<T>>,
     preferenceState: PreferenceState<T>,
-    modifier: Modifier = Modifier,
     title: String,
     imageVector: ImageVector? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
@@ -97,9 +100,9 @@ fun <T> ListPreference(
 
 @Composable
 fun <T> ListPreference(
+    modifier: Modifier = Modifier,
     items: List<ListPreferenceItem<T>>,
     preferenceState: PreferenceState<T>,
-    modifier: Modifier = Modifier,
     title: String,
     bitmap: ImageBitmap? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
@@ -165,7 +168,7 @@ fun PreviewListPreference() {
         key = "Test",
         initialValue = "Init value",
         initialSummary = "Init Summary",
-        preferences = PreferenceManager.getDefaultSharedPreferences(AmbientContext.current),
+        preferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current),
         onValueChange = { _, _ -> }
     )
 
@@ -175,6 +178,6 @@ fun PreviewListPreference() {
         },
         preferenceState = preferenceState,
         title = "Title",
-        imageVector = vectorResource(R.drawable.ic_baseline_android_24)
+        painter = painterResource(R.drawable.ic_baseline_android_24)
     )
 }

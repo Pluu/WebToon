@@ -11,7 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -44,7 +44,7 @@ class WeeklyContainerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentComposeView {
-        val context = AmbientContext.current
+        val context = LocalContext.current
         var selectedIndex by remember { mutableStateOf(serviceApi.todayTabPosition) }
 
         val pager = remember {

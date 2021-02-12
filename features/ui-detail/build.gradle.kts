@@ -37,6 +37,7 @@ dependencies {
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
 
     // Compose
+    implementation(Dep.AndroidX.Compose.animation)
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)

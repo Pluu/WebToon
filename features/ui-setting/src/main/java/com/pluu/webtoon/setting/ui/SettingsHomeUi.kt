@@ -1,11 +1,11 @@
 package com.pluu.webtoon.setting.ui
 
 import android.content.Context
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -16,9 +16,9 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.pluu.compose.ambient.AmbientPreferenceProvider
+import com.pluu.compose.ambient.StaticCompositionPreferenceProvider
 import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
@@ -30,7 +30,7 @@ import dev.chrisbanes.accompanist.insets.statusBarsPadding
 @Composable
 fun SettingContentUi(
     modifier: Modifier = Modifier,
-    context: Context = AmbientContext.current,
+    context: Context = LocalContext.current,
     onBackPressed: () -> Unit,
     onOpenSourceClicked: () -> Unit
 ) {
@@ -41,7 +41,10 @@ fun SettingContentUi(
             },
             navigationIcon = {
                 IconButton(onClick = onBackPressed) {
-                    Icon(Icons.Filled.ArrowBack)
+                    Icon(
+                        Icons.Filled.ArrowBack,
+                        contentDescription = null
+                    )
                 }
             },
             modifier = modifier
@@ -50,9 +53,11 @@ fun SettingContentUi(
             backgroundColor = MaterialTheme.colors.primarySurface,
             elevation = 0.dp
         )
-        ScrollableColumn(modifier = Modifier.fillMaxSize()) {
-            DefaultWebtoonUi(getPreItems(context))
-            OpenSourceUi(onClick = onOpenSourceClicked)
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            item {
+                DefaultWebtoonUi(getPreItems(context))
+                OpenSourceUi(onClick = onOpenSourceClicked)
+            }
         }
     }
 }
@@ -61,7 +66,7 @@ fun SettingContentUi(
 private fun DefaultWebtoonUi(
     items: List<ListPreferenceItem<String>>
 ) {
-    val preferenceProvider = AmbientPreferenceProvider.current
+    val preferenceProvider = StaticCompositionPreferenceProvider.current
 
     val preferenceKey = PrefConfig.KEY_DEFAULT_WEBTOON
     val summaryProvider: (String) -> String = { value ->
@@ -88,7 +93,8 @@ private fun DefaultWebtoonUi(
         items = items,
         preferenceState = defaultWeebtoon,
         title = "기본 웹툰",
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        painter = null
     )
 }
 

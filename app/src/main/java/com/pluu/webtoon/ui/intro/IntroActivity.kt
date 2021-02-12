@@ -3,9 +3,9 @@ package com.pluu.webtoon.ui.intro
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.onCommit
 import com.pluu.utils.startActivity
 import com.pluu.webtoon.ui.compose.ActivityComposeView
 import com.pluu.webtoon.ui.weekly.WeeklyActivity
@@ -24,10 +24,10 @@ class IntroActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         ActivityComposeView {
-            val isNextMove by viewModel.observe.observeAsState()
+            val isNextMove by viewModel.observe.observeAsState(null)
             IntroUi(isNextMove != null)
 
-            onCommit(isNextMove) {
+            LaunchedEffect(isNextMove) {
                 if (isNextMove != null) {
                     moveMainScreen()
                 }

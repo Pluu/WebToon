@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun DetailTopUi(
+    modifier: Modifier = Modifier,
     title: String,
     subTitle: String,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
-    modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     onShared: () -> Unit
 ) {
@@ -39,7 +39,10 @@ fun DetailTopUi(
         },
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
-                Icon(Icons.Filled.ArrowBack)
+                Icon(
+                    Icons.Filled.ArrowBack,
+                    contentDescription = null
+                )
             }
         },
         elevation = 0.dp,
@@ -47,7 +50,8 @@ fun DetailTopUi(
             IconButton(onClick = onShared) {
                 Icon(
                     imageVector = Icons.Default.Share,
-                    tint = Color.White
+                    tint = Color.White,
+                    contentDescription = null
                 )
             }
         }

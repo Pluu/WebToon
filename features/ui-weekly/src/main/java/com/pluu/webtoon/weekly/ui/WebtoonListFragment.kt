@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
+
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -65,7 +66,7 @@ class WebtoonListFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentComposeView {
         ProvideWindowInsets {
-            val palletCalculator = PalletDarkCalculator(AmbientContext.current)
+            val palletCalculator = PalletDarkCalculator(LocalContext.current)
             val list by viewModel.listEvent.observeAsState(null)
 
             WeeklyHomeUi(

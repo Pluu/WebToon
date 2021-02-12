@@ -1,12 +1,15 @@
 package com.pluu.webtoon.detail.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.gesture.tapGestureFilter
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.detail.compose.GlideImageAdjustBounds
@@ -23,7 +26,9 @@ fun DetailContentUi(
     onClick: () -> Unit
 ) {
     LazyColumn(modifier = modifier
-        .tapGestureFilter { onClick() }
+        .pointerInput(Unit) {
+            detectTapGestures(onTap = { onClick() })
+        }
     ) {
         itemsIndexed(
             items = items,
@@ -36,7 +41,10 @@ fun DetailContentUi(
                     data = item.url.toAgentGlideUrl(),
                     error = {
                         Timber.e(it.throwable)
-                        Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
+                        Image(
+                            painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                            contentDescription = null
+                        )
                     }
                 )
                 if (items.size - 1 == index) {

@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.onActive
-import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,9 +29,9 @@ import com.pluu.webtoon.model.EpisodeInfo
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EpisodeContentUi(
+    modifier: Modifier = Modifier,
     uiState: UiState<List<EpisodeInfo>>,
     readIdSet: Set<EpisodeId>,
-    modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
     onMoreLoaded: () -> Unit,
     onEpisodeClicked: (EpisodeInfo) -> Unit,
@@ -42,7 +42,7 @@ fun EpisodeContentUi(
         listOf(0xFF0F9D58, 0xFFDB4437, 0xFF4285f4, 0xFFF4B400).map { it.toColor() }
     }
 
-    onCommit(uiState) {
+    DisposableEffect(uiState) {
         when {
             uiState.initialLoad -> {
                 rememberItems.clear()
@@ -51,6 +51,7 @@ fun EpisodeContentUi(
                 rememberItems.addAll(uiState.data.orEmpty())
             }
         }
+        onDispose { }
     }
 
     LoadingContent(
@@ -68,8 +69,9 @@ fun EpisodeContentUi(
         ) {
             itemsIndexed(rememberItems) { index, item ->
                 if (rememberItems.lastIndex == index) {
-                    onActive {
+                    DisposableEffect(Unit) {
                         onMoreLoaded()
+                        onDispose { }
                     }
                 }
                 EpisodeItemUi(

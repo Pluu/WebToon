@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.material.AmbientContentAlpha
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Surface
@@ -28,22 +29,20 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 
 @Composable
 fun <T> ListDialog(
+    modifier: Modifier = Modifier,
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)? = null,
-    modifier: Modifier = Modifier,
     items: List<T>,
     onDismiss: () -> Unit,
     shape: Shape = MaterialTheme.shapes.medium,
     backgroundColor: Color = MaterialTheme.colors.surface,
     contentColor: Color = contentColorFor(backgroundColor),
-    properties: DialogProperties? = null,
     itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
-    Dialog(onDismissRequest = onDismiss, properties = properties) {
+    Dialog(onDismissRequest = onDismiss) {
         Surface(
             modifier = modifier,
             shape = shape,
@@ -62,16 +61,16 @@ fun <T> ListDialog(
 
 @Composable
 private fun <T> DialogContent(
+    modifier: Modifier = Modifier,
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)? = null,
-    modifier: Modifier = Modifier,
     items: List<T>,
     itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
     Column(modifier = modifier) {
         if (title != null) {
             Box(modifier = TitlePadding.align(Alignment.Start)) {
-                Providers(AmbientContentAlpha provides ContentAlpha.high) {
+                Providers(LocalContentAlpha provides ContentAlpha.high) {
                     val textStyle = MaterialTheme.typography.subtitle1
                     ProvideTextStyle(textStyle, title)
                 }

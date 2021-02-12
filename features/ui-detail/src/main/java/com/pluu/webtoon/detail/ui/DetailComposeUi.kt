@@ -1,9 +1,8 @@
 package com.pluu.webtoon.detail.ui
 
-import androidx.compose.animation.DpPropKey
-import androidx.compose.animation.core.animateAsState
-import androidx.compose.animation.core.transitionDefinition
-import androidx.compose.animation.transition
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,9 +12,9 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,14 +29,14 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
 internal fun InitTopUi(
+    modifier: Modifier = Modifier,
     featureColor: Color,
     uiStateElement: UiState<ElementEvent>,
     showNavigation: Boolean,
-    modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     onSharedPressed: () -> Unit
 ) {
-    val animateOffset by animateAsState(if (showNavigation) 0.dp else -topAppBarSize)
+    val animateOffset by animateDpAsState(if (showNavigation) 0.dp else -topAppBarSize)
 
     Column(modifier = modifier) {
         Divider(
@@ -60,10 +59,10 @@ internal fun InitTopUi(
 
 @Composable
 internal fun InitBottomUi(
+    modifier: Modifier = Modifier,
     featureColor: Color,
     uiStateElement: UiState<ElementEvent>,
     showNavigation: Boolean,
-    modifier: Modifier = Modifier,
     onPrevClicked: () -> Unit,
     onNextClicked: () -> Unit,
 ) {
@@ -76,23 +75,24 @@ internal fun InitBottomUi(
         )
     }
 
-    val showTransition = transition(
-        definition = bottomDefinition,
-        toState = showNavigation
-    )
+    val transition = updateTransition(showNavigation)
+    val offsetY by transition.animateDp {
+        if (it) 0.dp else bottomBarSize
+    }
 
-    onCommit(page, uiStateElement) {
+    DisposableEffect(page, uiStateElement) {
         page = page.copy(
             isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not(),
             isNextEnabled = uiStateElement.data?.nextEpisodeId.isNullOrEmpty().not()
         )
+        onDispose { }
     }
 
     DetailNavigationUi(
         modifier = modifier
             .navigationBarsPadding()
             .preferredHeight(bottomBarSize)
-            .offset(y = showTransition[offset]),
+            .offset(y = offsetY),
         buttonBackgroundColor = featureColor,
         isPrevEnabled = page.isPrevEnabled,
         onPrevClicked = onPrevClicked,
@@ -103,8 +103,8 @@ internal fun InitBottomUi(
 
 @Composable
 internal fun InitContentUi(
-    uiStateElement: UiState<ElementEvent>,
     modifier: Modifier = Modifier,
+    uiStateElement: UiState<ElementEvent>,
     onClick: () -> Unit
 ) {
     if (uiStateElement.loading) {
@@ -125,14 +125,3 @@ internal fun InitContentUi(
 
 private val topAppBarSize = 60.dp
 private val bottomBarSize = 48.dp
-
-private val offset = DpPropKey("Offset")
-
-private val bottomDefinition = transitionDefinition<Boolean> {
-    state(true) {
-        this[offset] = 0.dp
-    }
-    state(false) {
-        this[offset] = bottomBarSize
-    }
-}

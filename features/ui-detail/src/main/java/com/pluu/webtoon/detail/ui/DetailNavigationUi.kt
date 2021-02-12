@@ -14,9 +14,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -45,7 +45,8 @@ fun DetailNavigationUi(
         ) {
             Icon(
                 imageVector = Icons.Default.KeyboardArrowLeft,
-                tint = Color.White
+                tint = Color.White,
+                contentDescription = null
             )
             Text(
                 text = "이전 화",
@@ -67,13 +68,15 @@ fun DetailNavigationUi(
             )
             Icon(
                 imageVector = Icons.Default.KeyboardArrowRight,
-                tint = Color.White
+                tint = Color.White,
+                contentDescription = null
             )
         }
     }
     
-    onCommit(buttonEnabled) {
+    DisposableEffect(buttonEnabled) {
         buttonEnabled = isPrevEnabled to isNextEnabled
+        onDispose { }
     }
 }
 

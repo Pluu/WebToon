@@ -4,8 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.Dimension
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,13 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
@@ -36,9 +36,9 @@ import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
 fun EpisodeItemUi(
+    modifier: Modifier = Modifier,
     item: EpisodeInfo,
     isRead: Boolean,
-    modifier: Modifier = Modifier,
     onClicked: (EpisodeInfo) -> Unit
 ) {
     Card(
@@ -46,7 +46,9 @@ fun EpisodeItemUi(
             .clickable(onClick = { onClicked(item) })
             .padding(all = 2.dp)
     ) {
-        Box(modifier = Modifier.fillMaxWidth().height(100.dp)) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)) {
             GlideImage(
                 data = item.image.toAgentGlideUrl(),
                 fadeIn = true,
@@ -60,8 +62,12 @@ fun EpisodeItemUi(
                     }
                 },
                 error = {
-                    Image(vectorResource(R.drawable.ic_sentiment_very_dissatisfied_48))
-                }
+                    Image(
+                        painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                        contentDescription = null
+                    )
+                },
+                contentDescription = null
             )
 
             EpisodeItemUiOverlayUi(item = item, isRead = isRead)
@@ -71,9 +77,9 @@ fun EpisodeItemUi(
 
 @Composable
 fun EpisodeItemUiOverlayUi(
+    modifier: Modifier = Modifier,
     item: EpisodeInfo,
-    isRead: Boolean,
-    modifier: Modifier = Modifier
+    isRead: Boolean
 ) {
     ConstraintLayout(modifier = modifier.fillMaxSize()) {
         val (title, read, space, lock) = createRefs()
@@ -99,7 +105,7 @@ fun EpisodeItemUiOverlayUi(
 
         if (isRead) {
             ImageInCircle(
-                imageVector = vectorResource(R.drawable.ic_check_white_24),
+                painter = painterResource(R.drawable.ic_check_white_24),
                 circleColor = 0xFFCC222222.toColor(),
                 modifier = Modifier
                     .padding(5.dp)
@@ -112,7 +118,7 @@ fun EpisodeItemUiOverlayUi(
 
         if (item.isLock) {
             ImageInCircle(
-                imageVector = vectorResource(R.drawable.ic_lock_white_24),
+                painter = painterResource(R.drawable.ic_lock_white_24),
                 circleColor = 0xFFCC222222.toColor(),
                 modifier = Modifier
                     .padding(5.dp)

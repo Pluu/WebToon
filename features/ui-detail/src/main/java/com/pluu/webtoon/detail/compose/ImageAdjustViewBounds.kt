@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import dev.chrisbanes.accompanist.glide.GlideImage
 import dev.chrisbanes.accompanist.imageloading.ImageLoadState
 import dev.chrisbanes.accompanist.imageloading.MaterialLoadingImage
@@ -22,14 +22,15 @@ fun GlideImageAdjustBounds(
     var heightSize by remember { mutableStateOf(1f) }
     GlideImage(
         modifier = modifier
-            .height(with(AmbientDensity.current) { heightSize.toDp() }),
+            .height(with(LocalDensity.current) { heightSize.toDp() }),
         data = data
     ) { imageState ->
         when (imageState) {
             is ImageLoadState.Success -> {
                 MaterialLoadingImage(
                     result = imageState,
-                    fadeInEnabled = false
+                    fadeInEnabled = false,
+                    contentDescription = null
                 )
                 heightSize = imageState.painter.intrinsicSize.height
             }
