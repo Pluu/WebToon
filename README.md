@@ -33,7 +33,6 @@ Dependencies
   - Constraint Layout
   - Core
   - Compose
-  - Drawer Layout
   - Fragment
   - Hilt
   - Lifecycle
@@ -41,16 +40,16 @@ Dependencies
   - Preference
   - Recyclerview
   - Room
-  - Swiperefresh Layout
   - ViewPager2
+- Accompnist
+  - Glide
+  - Insets
 - Dagger
   - Dagger2
   - Dagger Hilt
 - Glide
-- Accompnist
-  - Glide
-  - Insets
 - Joup
+- ktlint
 - Kotlin
   - Kotlin
   - Coroutines
