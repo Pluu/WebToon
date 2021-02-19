@@ -18,3 +18,8 @@ sealed class ERROR_TYPE {
     // 기본 에러
     class DEFAULT_ERROR(val throwable: Throwable? = null) : ERROR_TYPE()
 }
+
+fun ERROR_TYPE.getLogMessage(): String = when (this) {
+    is ERROR_TYPE.DEFAULT_ERROR -> throwable?.stackTraceToString().orEmpty()
+    else -> javaClass.simpleName
+}

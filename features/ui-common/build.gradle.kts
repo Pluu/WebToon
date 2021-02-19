@@ -1,9 +1,6 @@
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
-
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("android.extensions")
 }
 
 listOf(
@@ -11,6 +8,16 @@ listOf(
     "libraryConfiguration.gradle"
 ).forEach { file ->
     apply(from = "${rootProject.projectDir}/gradle/${file}")
+}
+
+android {
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
+    }
 }
 
 dependencies {
@@ -24,11 +31,12 @@ dependencies {
     // Android UI
     implementation(Dep.AndroidX.UI.material)
 
+    // Compose
+    implementation(Dep.AndroidX.Compose.ui)
+    implementation(Dep.AndroidX.Compose.material)
+    implementation(Dep.AndroidX.Compose.materialAdapter)
+    implementation(Dep.AndroidX.Compose.tooling)
+
     // Glide
     implementation(Dep.Glide.core)
-}
-
-androidExtensions {
-    isExperimental = true
-    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
 }

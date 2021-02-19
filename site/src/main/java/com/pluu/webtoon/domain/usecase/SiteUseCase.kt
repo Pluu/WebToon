@@ -18,9 +18,6 @@ interface WeeklyUseCase {
     val weeklyTabSize: Int
         get() = CURRENT_TABS.size
 
-    fun getWeeklyTabName(position: Int): String =
-        CURRENT_TABS[position]
-
     val todayTabPosition: Int
         get() = (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7
 

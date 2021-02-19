@@ -1,12 +1,12 @@
 package com.pluu.webtoon.weekly.ui
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pluu.webtoon.ui.model.FavoriteResult
+import javax.inject.Inject
 
-class ToonViewModel @ViewModelInject constructor() : ViewModel() {
+class ToonViewModel @Inject constructor() : ViewModel() {
     private val _updateEvent: MutableLiveData<FavoriteResult> = MutableLiveData()
     val updateEvent: LiveData<FavoriteResult>
         get() = _updateEvent

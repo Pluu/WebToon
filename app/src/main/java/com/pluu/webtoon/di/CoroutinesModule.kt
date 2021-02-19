@@ -4,16 +4,16 @@ import com.pluu.utils.AppCoroutineDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
-@InstallIn(ApplicationComponent::class)
 object CoroutinesModule {
     @Singleton
     @Provides
-    fun provideDispatchers() = AppCoroutineDispatchers(
+    fun provideDispatchers(): AppCoroutineDispatchers = AppCoroutineDispatchers(
         io = Dispatchers.IO,
         computation = Dispatchers.Default,
         main = Dispatchers.Main

@@ -5,13 +5,11 @@
     <application>
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="@string/label_setting"
             android:screenOrientation="portrait"
-            android:theme="@style/PreferenceToolBar" />
+            android:theme="@style/BaseMaterialAppTheme.Immersive" />
         <activity
             android:name=".ui.LicenseActivity"
-            android:label="@string/label_license"
             android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme" />
+            android:theme="@style/BaseMaterialAppTheme.Immersive" />
     </application>
 </manifest>

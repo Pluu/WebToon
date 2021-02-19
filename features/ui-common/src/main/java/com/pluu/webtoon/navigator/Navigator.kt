@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.model.ToonInfo
+import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
 
 interface EpisodeNavigator {
@@ -12,7 +12,7 @@ interface EpisodeNavigator {
     fun openEpisode(
         context: Context,
         launcher: ActivityResultLauncher<Intent>,
-        item: ToonInfo,
+        item: ToonInfoWithFavorite,
         palletColor: PalletColor
     )
 }

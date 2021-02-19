@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="label_share">Share</string>
-    <string name="label_prev_view">이전 화</string>
-    <string name="label_next_view">다음 화</string>
-
     <string name="not_support_type">현재 해당 웹툰은 지원하지 않습니다.</string>
 </resources>

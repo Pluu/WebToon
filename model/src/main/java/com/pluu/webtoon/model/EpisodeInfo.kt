@@ -2,8 +2,10 @@ package com.pluu.webtoon.model
 
 import java.io.Serializable
 
+typealias EpisodeId = String
+
 data class EpisodeInfo(
-    val id: String,
+    val id: EpisodeId,
     val toonId: String,
     val title: String,
     val image: String,
@@ -12,7 +14,5 @@ data class EpisodeInfo(
     val rate: String = "",
     private val isLoginNeed: Boolean = false
 ) : Serializable {
-    var isRead: Boolean = false
-
     val isLock: Boolean = isLoginNeed
 }

@@ -20,4 +20,8 @@ dependencies {
     compileOnly(Dep.AndroidX.viewBinding)
 
     implementation(Dep.AndroidX.UI.recyclerview)
+
+    testImplementation(Dep.AndroidX.arch.testing)
+    testImplementation(Dep.AndroidX.lifecycle.runtimeTesting)
+    testImplementation(Dep.Test.junit)
 }

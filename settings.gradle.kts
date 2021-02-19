@@ -10,7 +10,8 @@ include(
     ":ui-weekly",
     ":ui-episode",
     ":ui-setting",
-    ":ui-detail"
+    ":ui-detail",
+    ":compose"
 )
 
 arrayOf(

@@ -29,11 +29,10 @@ Dependencies
 
 - AndroidX
   - Activity
-  - Arch
   - Browser
-  - CardView
   - Constraint Layout
   - Core
+  - Compose
   - Drawer Layout
   - Fragment
   - Hilt
@@ -48,6 +47,9 @@ Dependencies
   - Dagger2
   - Dagger Hilt
 - Glide
+- Accompnist
+  - Glide
+  - Insets
 - Joup
 - Kotlin
   - Kotlin

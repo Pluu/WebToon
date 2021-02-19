@@ -12,6 +12,7 @@ import com.pluu.webtoon.model.ERROR_TYPE
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.network.mapDocument
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.json.JSONObject
 import org.jsoup.nodes.Document
@@ -156,9 +157,9 @@ internal class NaverDetailApi(
             ?.let { start ->
                 val openIndex = src.indexOf("{", startIndex = start)
                 val closeIndex = src.indexOf("}", startIndex = start)
-                val article = json.decodeFromString(
-                    Article.serializer(),
-                    src.substring(openIndex, closeIndex + 1)
+                // 간혹 JSON의 예약어가 들어올 경우 변경 대응
+                val article = json.decodeFromString<Article>(
+                    src.substring(openIndex, closeIndex + 1).replace("'", "\"")
                 )
                 if (articleWordRegex.find(article.chargeYn)?.value == "Y") {
                     return null

@@ -3,8 +3,10 @@ package com.pluu.webtoon
 import android.app.Application
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.ThemeType
+import com.pluu.webtoon.utils.log.ComponentLogger
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Application Controller
@@ -12,9 +14,14 @@ import timber.log.Timber
  */
 @HiltAndroidApp
 class AppController : Application() {
+
+    @Inject
+    lateinit var componentLogger: ComponentLogger
+
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
+        componentLogger.initialize(this)
 
         // Init Theme
         ThemeHelper.applyTheme(ThemeType.DEFAULT)

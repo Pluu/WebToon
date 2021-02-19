@@ -1,6 +1,0 @@
-<resources>
-    <dimen name="navigation_drawer_width">240dp</dimen>
-
-    <dimen name="text_size_medium">14sp</dimen>
-
-</resources>

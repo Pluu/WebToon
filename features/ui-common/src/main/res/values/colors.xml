@@ -8,4 +8,7 @@
     <!-- Base -->
     <color name="theme_primary">@color/indigo_500</color>
     <color name="theme_primary_variant">@color/indigo_900</color>
+
+    <color name="immersive_sys_ui">@android:color/transparent</color>
+    <color name="nav_bar">@color/immersive_sys_ui</color>
 </resources>

@@ -27,8 +27,8 @@ dependencies {
     implementation(Dep.jsoup)
 
     // Dagger Hilt
-    implementation(Dep.Hilt.android)
-    kapt(Dep.Hilt.hilt_compiler)
+    implementation(Dep.Dagger.Hilt.android)
+    kapt(Dep.Dagger.Hilt.compiler)
 
     testImplementation(Dep.Test.junit)
 }

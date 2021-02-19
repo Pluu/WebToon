@@ -1,15 +1,17 @@
 package com.pluu.webtoon.setting.di
 
 import com.pluu.webtoon.navigator.SettingNavigator
-import com.pluu.webtoon.setting.ui.SettingNavigatorImpl
+import com.pluu.webtoon.setting.navigator.SettingNavigatorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 abstract class SettingModule {
     @Binds
-    abstract fun provideSettingNavigator(navigator: SettingNavigatorImpl): SettingNavigator
+    abstract fun provideSettingNavigator(
+        navigator: SettingNavigatorImpl
+    ): SettingNavigator
 }

@@ -9,6 +9,4 @@ object Const {
     const val DETAIL_FRAG_TAG = "detail_frag_tag"
 
     const val resultTheme = "resultTheme"
-    const val resultEpisodeStart = "resultEpisodeStart"
-    const val resultEpisodeLoaded = "resultEpisodeLoaded"
 }

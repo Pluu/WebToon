@@ -1,13 +1,11 @@
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+//import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-    id("org.jlleitschuh.gradle.ktlint")
+//    id("org.jlleitschuh.gradle.ktlint")
 }
 
 apply(from = "${rootProject.projectDir}/gradle/commonConfiguration.gradle")
@@ -32,6 +30,7 @@ android {
     buildTypes {
         getByName(BuildType.DEBUG) {
             signingConfig = signingConfigs.getByName("debug")
+            applicationIdSuffix = ".debug"
         }
 
         getByName(BuildType.RELEASE) {
@@ -42,7 +41,11 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
     }
 
     lintOptions {
@@ -54,17 +57,14 @@ android {
     useLibrary("android.test.mock")
 }
 
-androidExtensions {
-    isExperimental = true
-    features = setOf(AndroidExtensionsFeature.PARCELIZE.featureName)
-}
-
 dependencies {
     implementation(project(":core"))
     implementation(project(":core-android"))
+    implementation(project(":model"))
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":site"))
+    implementation(project(":compose"))
     implementation(project(":ui-common"))
     implementation(project(":ui-weekly"))
     implementation(project(":ui-episode"))
@@ -82,21 +82,24 @@ dependencies {
     implementation(Dep.AndroidX.lifecycle.liveDataKtx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.constraintLayout)
-    implementation(Dep.AndroidX.UI.drawerlayout)
     implementation(Dep.AndroidX.UI.material)
-    implementation(Dep.AndroidX.UI.preference)
-    implementation(Dep.AndroidX.UI.swiperefreshlayout)
     implementation(Dep.AndroidX.UI.viewPager)
+
+    // Compose
+    implementation(Dep.AndroidX.Compose.ui)
+    implementation(Dep.AndroidX.Compose.material)
+    implementation(Dep.AndroidX.Compose.tooling)
+    implementation(Dep.AndroidX.Compose.livedata)
+    implementation(Dep.AndroidX.Compose.activity)
+
+    implementation(Dep.Accompnist.insets)
 
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)
 
     // Hilt
-    implementation(Dep.Hilt.android)
-    kapt(Dep.Hilt.hilt_compiler)
-    implementation(Dep.Hilt.viewModel)
-    kapt(Dep.Hilt.android_hilt_compiler)
+    implementation(Dep.Dagger.Hilt.android)
+    kapt(Dep.Dagger.Hilt.compiler)
 
     // kotlin
     implementation(Dep.Kotlin.coroutines.core)
@@ -114,18 +117,18 @@ kapt {
     useBuildCache = true
 }
 
-ktlint {
-    debug.set(true)
-    verbose.set(true)
-    android.set(true)
-    outputToConsole.set(true)
-    outputColorName.set("RED")
-    ignoreFailures.set(true)
-    reporters {
-        reporter(ReporterType.CHECKSTYLE)
-    }
-    filter {
-        exclude("**/generated/**")
-        include("**/kotlin/**")
-    }
-}
+//ktlint {
+//    debug.set(true)
+//    verbose.set(true)
+//    android.set(true)
+//    outputToConsole.set(true)
+//    outputColorName.set("RED")
+//    ignoreFailures.set(true)
+//    reporters {
+//        reporter(ReporterType.CHECKSTYLE)
+//    }
+//    filter {
+//        exclude("**/generated/**")
+//        include("**/kotlin/**")
+//    }
+//}

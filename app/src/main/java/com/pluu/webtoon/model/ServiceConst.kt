@@ -16,32 +16,26 @@ object ServiceConst {
         R.string.title_kakao_page,
         R.string.title_nate
     )
-
-    // icons for navdrawer items (indices must correspond to above array)
-    val NAVDRAWER_ICON_RES_ID = IntArray(NAVDRAWER_TITLE_RES_ID.size) { 0 }
 }
 
 @Suppress("ClassName")
 enum class UI_NAV_ITEM(
-    val isSelect: Boolean = false,
     @ColorRes val color: Int = 0,
     @ColorRes val bgColor: Int = 0
 ) {
-    NAVER(true, R.color.naver_color, R.color.naver_color_variant),
-    DAUM(true, R.color.daum_color, R.color.daum_color_variant),
-    KTOON(true, R.color.olleh_color, R.color.olleh_color_variant),
-    KAKAOPAGE(true, R.color.kakao_color, R.color.kakao_color_variant),
-    NATE(true, R.color.nate_color, R.color.nate_color_variant),
-    SEPARATOR, // Separator
-    INVALID;
+    NAVER(R.color.naver_color, R.color.naver_color_variant),
+    DAUM(R.color.daum_color, R.color.daum_color_variant),
+    KTOON(R.color.olleh_color, R.color.olleh_color_variant),
+    KAKAOPAGE(R.color.kakao_color, R.color.kakao_color_variant),
+    NATE(R.color.nate_color, R.color.nate_color_variant)
+}
 
-    fun getCoreType(): NAV_ITEM = when (this) {
-        DAUM -> NAV_ITEM.DAUM
-        KTOON -> NAV_ITEM.KTOON
-        KAKAOPAGE -> NAV_ITEM.KAKAOPAGE
-        NATE -> NAV_ITEM.NATE
-        else -> NAV_ITEM.NAVER
-    }
+fun UI_NAV_ITEM.getCoreType(): NAV_ITEM = when (this) {
+    UI_NAV_ITEM.NAVER -> NAV_ITEM.NAVER
+    UI_NAV_ITEM.DAUM -> NAV_ITEM.DAUM
+    UI_NAV_ITEM.KTOON -> NAV_ITEM.KTOON
+    UI_NAV_ITEM.KAKAOPAGE -> NAV_ITEM.KAKAOPAGE
+    UI_NAV_ITEM.NATE -> NAV_ITEM.NATE
 }
 
 fun NAV_ITEM.toUiType(): UI_NAV_ITEM = when (this) {
