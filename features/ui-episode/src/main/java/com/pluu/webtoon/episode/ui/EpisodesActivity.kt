@@ -38,7 +38,7 @@ import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.navigator.DetailNavigator
-import com.pluu.webtoon.ui.compose.ActivityComposeView
+import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +72,7 @@ class EpisodesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ActivityComposeView {
+        activityComposeView {
             ProvideWindowInsets {
                 var showDialog by remember { mutableStateOf(false) }
 

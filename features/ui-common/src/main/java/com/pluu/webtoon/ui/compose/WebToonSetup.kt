@@ -16,7 +16,7 @@ inline fun WebToonSetup(noinline content: @Composable () -> Unit) {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun Activity.ActivityComposeView(
+inline fun Activity.activityComposeView(
     noinline content: @Composable () -> Unit
 ) = ComposeView(this).apply {
     setContentView(this)

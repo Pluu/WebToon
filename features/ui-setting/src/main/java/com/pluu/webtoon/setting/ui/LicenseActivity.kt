@@ -10,7 +10,7 @@ import androidx.core.view.WindowCompat
 import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
-import com.pluu.webtoon.ui.compose.ActivityComposeView
+import com.pluu.webtoon.ui.compose.activityComposeView
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 /**
@@ -23,7 +23,7 @@ class LicenseActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ActivityComposeView {
+        activityComposeView {
             ProvideWindowInsets {
                 LicenseHomeUi(
                     list = licenseModels,

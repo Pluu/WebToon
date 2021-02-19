@@ -7,7 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import com.pluu.utils.startActivity
-import com.pluu.webtoon.ui.compose.ActivityComposeView
+import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.weekly.WeeklyActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +23,7 @@ class IntroActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ActivityComposeView {
+        activityComposeView {
             val isNextMove by viewModel.observe.observeAsState(null)
             IntroUi(isNextMove != null)
 

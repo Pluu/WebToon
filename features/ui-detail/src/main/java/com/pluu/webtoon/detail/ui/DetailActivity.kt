@@ -38,7 +38,7 @@ import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.detail.model.FeatureColor
 import com.pluu.webtoon.detail.model.getMessage
 import com.pluu.webtoon.model.ShareItem
-import com.pluu.webtoon.ui.compose.ActivityComposeView
+import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.glide.LocalRequestManager
@@ -76,7 +76,7 @@ class DetailActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val requestManager = Glide.with(this)
 
-        ActivityComposeView {
+        activityComposeView {
             ProvideWindowInsets {
                 Providers(LocalRequestManager provides requestManager) {
                     var loadingDialog by remember { mutableStateOf(false) }

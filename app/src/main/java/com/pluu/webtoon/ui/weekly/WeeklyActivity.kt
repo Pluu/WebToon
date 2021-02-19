@@ -32,7 +32,7 @@ import com.pluu.webtoon.model.UI_NAV_ITEM
 import com.pluu.webtoon.model.getCoreType
 import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
-import com.pluu.webtoon.ui.compose.ActivityComposeView
+import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import timber.log.Timber
@@ -59,7 +59,7 @@ class WeeklyActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ActivityComposeView {
+        activityComposeView {
             ProvideWindowInsets(false) {
                 val context = LocalContext.current
                 var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
