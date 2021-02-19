@@ -2,7 +2,7 @@
 
 object Dep {
     object GradlePlugin {
-        const val androidStudioGradlePluginVersion = "7.0.0-alpha06"
+        const val androidStudioGradlePluginVersion = "7.0.0-alpha07"
         const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization =
@@ -58,7 +58,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha12"
+            private const val version = "1.0.0-alpha12"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
