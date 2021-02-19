@@ -7,7 +7,7 @@ object Dep {
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization =
             "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
-        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
+        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.0.0"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.Hilt.version}"
     }
 
@@ -25,7 +25,7 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.3.0-beta01"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-beta01"
 
         object fragment {
             private const val fragmentVersion = "1.3.0"
@@ -41,7 +41,7 @@ object Dep {
         }
 
         object room {
-            private const val roomVersion = "2.3.0-beta01"
+            private const val roomVersion = "2.3.0-beta02"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
