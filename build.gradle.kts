@@ -13,12 +13,12 @@ allprojects {
             useIR = true
 
             freeCompilerArgs = freeCompilerArgs + listOf(
-                "-Xallow-jvm-ir-dependencies",
+//                "-Xallow-jvm-ir-dependencies",
                 "-Xskip-prerelease-check",
                 "-Xopt-in=kotlin.RequiresOptIn",
                 // Enable experimental coroutines APIs, including Flow
-                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xopt-in=kotlinx.coroutines.FlowPreview",
+//                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+//                "-Xopt-in=kotlinx.coroutines.FlowPreview",
                 "-Xopt-in=kotlin.Experimental"
             )
 

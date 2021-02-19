@@ -50,7 +50,7 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val material = "com.google.android.material:material:1.3.0-rc01"
+            const val material = "com.google.android.material:material:1.3.0"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-beta01"
@@ -58,7 +58,7 @@ object Dep {
         }
 
         object Compose {
-            private const val version = "1.0.0-alpha12"
+            const val version = "1.0.0-alpha12"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
