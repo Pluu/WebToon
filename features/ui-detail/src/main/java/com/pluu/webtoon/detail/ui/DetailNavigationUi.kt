@@ -2,7 +2,7 @@ package com.pluu.webtoon.detail.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -84,7 +84,7 @@ fun DetailNavigationUi(
 @Composable
 fun PreviewDetailNavigationUi() {
     DetailNavigationUi(
-        modifier = Modifier.preferredHeight(48.dp),
+        modifier = Modifier.height(48.dp),
         isPrevEnabled = true,
         onPrevClicked = {},
         isNextEnabled = true,

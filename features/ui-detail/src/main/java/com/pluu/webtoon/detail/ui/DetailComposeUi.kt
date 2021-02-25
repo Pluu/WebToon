@@ -6,8 +6,8 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -46,7 +46,7 @@ internal fun InitTopUi(
         )
         DetailTopUi(
             modifier = Modifier
-                .preferredHeight(topAppBarSize)
+                .height(topAppBarSize)
                 .offset(y = animateOffset),
             title = uiStateElement.data?.title.orEmpty(),
             subTitle = uiStateElement.data?.webToonTitle.orEmpty(),
@@ -91,7 +91,7 @@ internal fun InitBottomUi(
     DetailNavigationUi(
         modifier = modifier
             .navigationBarsPadding()
-            .preferredHeight(bottomBarSize)
+            .height(bottomBarSize)
             .offset(y = offsetY),
         buttonBackgroundColor = featureColor,
         isPrevEnabled = page.isPrevEnabled,

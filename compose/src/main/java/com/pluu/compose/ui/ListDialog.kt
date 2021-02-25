@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +21,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -70,7 +70,7 @@ private fun <T> DialogContent(
     Column(modifier = modifier) {
         if (title != null) {
             Box(modifier = TitlePadding.align(Alignment.Start)) {
-                Providers(LocalContentAlpha provides ContentAlpha.high) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
                     val textStyle = MaterialTheme.typography.subtitle1
                     ProvideTextStyle(textStyle, title)
                 }
@@ -84,10 +84,10 @@ private fun <T> DialogContent(
             )
         }
         if (buttons != null) {
-            Spacer(Modifier.preferredHeight(2.dp))
+            Spacer(Modifier.height(2.dp))
             buttons.invoke()
         }
-        Spacer(Modifier.preferredHeight(1.dp))
+        Spacer(Modifier.height(1.dp))
     }
 }
 

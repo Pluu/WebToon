@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -117,7 +117,7 @@ private fun ContentPreference(
             .wrapContentHeight()
     ) {
         Box(
-            Modifier.preferredWidth(52.dp)
+            Modifier.width(52.dp)
                 .wrapContentHeight()
                 .align(Alignment.CenterVertically)
         ) {
@@ -135,7 +135,7 @@ private fun ContentPreference(
                 fontSize = 16.sp
             )
             if (summary != null) {
-                Spacer(Modifier.preferredHeight(2.dp))
+                Spacer(Modifier.height(2.dp))
                 Text(
                     text = summary,
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.75f),

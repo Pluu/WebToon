@@ -238,6 +238,7 @@ class EpisodesActivity : AppCompatActivity() {
                 loading = value.data.isEmpty()
             )
             is Result.Error -> UiState(exception = value.exception)
+            else -> UiState()
         }
     }
 

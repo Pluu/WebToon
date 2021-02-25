@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import com.pluu.compose.ambient.LocalPreferenceProvider
 import com.pluu.compose.ambient.PreferenceProvider
-import com.pluu.compose.ambient.StaticCompositionPreferenceProvider
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.FragmentComposeView
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +52,7 @@ class SettingFragment : Fragment() {
     ) = FragmentComposeView {
         ProvideWindowInsets {
             val context = LocalContext.current
-            Providers(StaticCompositionPreferenceProvider provides preferenceProvider) {
+            CompositionLocalProvider(LocalPreferenceProvider provides preferenceProvider) {
                 SettingContentUi(
                     onBackPressed = {
                         activity?.finish()

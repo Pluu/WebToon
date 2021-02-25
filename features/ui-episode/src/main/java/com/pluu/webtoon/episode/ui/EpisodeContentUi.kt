@@ -4,7 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -54,31 +54,38 @@ fun EpisodeContentUi(
         onDispose { }
     }
 
-    LoadingContent(
-        empty = uiState.initialLoad,
-        emptyContent = {
+    when {
+        uiState.initialLoad -> {
             EmptyContainer(circleColors)
-        },
-        isLoading = uiState.loading,
-        refreshColors = circleColors,
-        onRefresh = onRefresh
-    ) {
-        LazyVerticalGrid(
-            cells = GridCells.Fixed(2),
-            modifier = modifier.fillMaxSize()
-        ) {
-            itemsIndexed(rememberItems) { index, item ->
-                if (rememberItems.lastIndex == index) {
-                    DisposableEffect(Unit) {
-                        onMoreLoaded()
-                        onDispose { }
-                    }
-                }
-                EpisodeItemUi(
-                    item = item,
-                    isRead = readIdSet.contains(item.id),
-                    onClicked = onEpisodeClicked
+        }
+        uiState.loading -> {
+            Surface(elevation = 10.dp, shape = CircleShape) {
+                CircularProgressIndicator(
+                    colors = circleColors,
+                    modifier = Modifier
+                        .size(36.dp)
+                        .padding(4.dp)
                 )
+            }
+        }
+        else -> {
+            LazyVerticalGrid(
+                cells = GridCells.Fixed(2),
+                modifier = modifier.fillMaxSize()
+            ) {
+                itemsIndexed(rememberItems) { index, item ->
+                    if (rememberItems.lastIndex == index) {
+                        DisposableEffect(Unit) {
+                            onMoreLoaded()
+                            onDispose { }
+                        }
+                    }
+                    EpisodeItemUi(
+                        item = item,
+                        isRead = readIdSet.contains(item.id),
+                        onClicked = onEpisodeClicked
+                    )
+                }
             }
         }
     }
@@ -93,7 +100,7 @@ private fun EmptyContainer(
             colors = circleColors,
             strokeWidth = 7.dp,
             modifier = Modifier
-                .preferredSize(72.dp)
+                .size(72.dp)
                 .padding(4.dp)
         )
     }
@@ -120,7 +127,7 @@ private fun LoadingContent(
                     CircularProgressIndicator(
                         colors = refreshColors,
                         modifier = Modifier
-                            .preferredSize(36.dp)
+                            .size(36.dp)
                             .padding(4.dp)
                     )
                 }

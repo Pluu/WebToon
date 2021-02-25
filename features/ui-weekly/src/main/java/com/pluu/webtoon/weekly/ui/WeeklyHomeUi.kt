@@ -25,8 +25,8 @@ fun WeeklyHomeUi(
         items.isNotEmpty() -> {
             // 해당 요일에 웹툰이 있을 경우
             WeeklyListUi(
-                items = items,
                 modifier = modifier,
+                items = items,
                 onClicked = onClick
             )
         }

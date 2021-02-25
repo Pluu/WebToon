@@ -77,7 +77,7 @@ class WeeklyContainerFragment : Fragment() {
             }
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
-                viewBlock = { pager }
+                factory = { pager }
             )
         }
     }

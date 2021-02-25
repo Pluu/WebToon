@@ -3,7 +3,9 @@ package com.pluu.compose.ambient
 import android.content.SharedPreferences
 import androidx.compose.runtime.staticCompositionLocalOf
 
-val StaticCompositionPreferenceProvider = staticCompositionLocalOf<PreferenceProvider>()
+val LocalPreferenceProvider = staticCompositionLocalOf<PreferenceProvider> {
+    error("LocalPreferenceProvider value not available. Are you using ProvidePreference?")
+}
 
 class PreferenceProvider(
     val preferences: SharedPreferences

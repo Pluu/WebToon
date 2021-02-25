@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -48,6 +49,7 @@ fun WeeklyItemUi(
 ) {
     Card(
         modifier = modifier
+            .fillMaxWidth()
             .padding(2.dp)
             .clickable { onClicked(item) }
             .height(100.dp)
@@ -66,10 +68,13 @@ fun WeeklyItemUi(
                     }
                 },
                 error = {
-                    Image(
-                        painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
-                        contentDescription = null
-                    )
+                    Box(Modifier.fillMaxSize()) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                            contentDescription = null
+                        )
+                    }
                 },
                 contentDescription = null
             )

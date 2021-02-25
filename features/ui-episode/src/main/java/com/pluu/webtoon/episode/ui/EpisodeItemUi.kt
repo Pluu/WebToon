@@ -46,9 +46,11 @@ fun EpisodeItemUi(
             .clickable(onClick = { onClicked(item) })
             .padding(all = 2.dp)
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        ) {
             GlideImage(
                 data = item.image.toAgentGlideUrl(),
                 fadeIn = true,
@@ -62,10 +64,13 @@ fun EpisodeItemUi(
                     }
                 },
                 error = {
-                    Image(
-                        painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
-                        contentDescription = null
-                    )
+                    Box(Modifier.fillMaxSize()) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                            contentDescription = null
+                        )
+                    }
                 },
                 contentDescription = null
             )

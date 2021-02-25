@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,7 @@ import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -87,7 +89,7 @@ class WeeklyActivity : FragmentActivity() {
                 ) { innerPadding ->
                     AndroidView(
                         modifier = Modifier.padding(innerPadding),
-                        viewBlock = { contentView }
+                        factory = { contentView }
                     )
                 }
             }
@@ -114,9 +116,12 @@ private fun WeeklyContainerUi(
 ) {
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
 
     BackHandler(scaffoldState.drawerState.isOpen) {
-        scaffoldState.drawerState.close()
+        coroutineScope.launch {
+            scaffoldState.drawerState.close()
+        }
     }
 
     Scaffold(
@@ -130,11 +135,15 @@ private fun WeeklyContainerUi(
                     if (item != naviItem) {
                         changeNavi(item)
                     }
-                    scaffoldState.drawerState.close()
+                    coroutineScope.launch {
+                        scaffoldState.drawerState.close()
+                    }
                 },
                 onSettingClicked = {
                     onSettingClicked()
-                    scaffoldState.drawerState.close()
+                    coroutineScope.launch {
+                        scaffoldState.drawerState.close()
+                    }
                 }
             )
         },
@@ -146,7 +155,9 @@ private fun WeeklyContainerUi(
                 title = context.getString(R.string.app_name),
                 backgroundColor = backgroundColor
             ) {
-                scaffoldState.drawerState.open()
+                coroutineScope.launch {
+                    scaffoldState.drawerState.open()
+                }
             }
         },
         scaffoldState = scaffoldState

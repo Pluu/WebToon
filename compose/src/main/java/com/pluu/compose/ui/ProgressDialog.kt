@@ -3,7 +3,7 @@ package com.pluu.compose.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
@@ -13,7 +13,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -62,12 +62,12 @@ private fun DialogContent(
         ) {
             Row {
                 CircularProgressIndicator(
-                    modifier = modifier.preferredSize(48.dp),
+                    modifier = modifier.size(48.dp),
                     color = MaterialTheme.colors.secondary
                 )
                 if (title != null) {
                     Box(modifier = TitlePadding.align(Alignment.CenterVertically)) {
-                        Providers(LocalContentAlpha provides ContentAlpha.high) {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
                             val textStyle = MaterialTheme.typography.subtitle1
                             ProvideTextStyle(textStyle, title)
                         }

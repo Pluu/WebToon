@@ -28,7 +28,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.material.MaterialTheme
@@ -242,7 +241,7 @@ fun PreviewCircularProgressIndicator() {
     CircularProgressIndicator(
         colors = list,
         modifier = Modifier
-            .preferredSize(36.dp)
+            .size(36.dp)
             .padding(4.dp)
     )
 }

@@ -13,7 +13,7 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -78,7 +78,7 @@ class DetailActivity : AppCompatActivity() {
 
         activityComposeView {
             ProvideWindowInsets {
-                Providers(LocalRequestManager provides requestManager) {
+                CompositionLocalProvider(LocalRequestManager provides requestManager) {
                     var loadingDialog by remember { mutableStateOf(false) }
                     val event by viewModel.event.observeAsState()
                     val elementUiState by viewModel.elementUiState.observeAsState(

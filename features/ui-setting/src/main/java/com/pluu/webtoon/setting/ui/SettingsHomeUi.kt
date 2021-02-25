@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.pluu.compose.ambient.StaticCompositionPreferenceProvider
+import com.pluu.compose.ambient.LocalPreferenceProvider
 import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
@@ -66,7 +66,7 @@ fun SettingContentUi(
 private fun DefaultWebtoonUi(
     items: List<ListPreferenceItem<String>>
 ) {
-    val preferenceProvider = StaticCompositionPreferenceProvider.current
+    val preferenceProvider = LocalPreferenceProvider.current
 
     val preferenceKey = PrefConfig.KEY_DEFAULT_WEBTOON
     val summaryProvider: (String) -> String = { value ->
