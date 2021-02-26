@@ -54,7 +54,7 @@ fun WeeklyItemUi(
             .clickable { onClicked(item) }
             .height(100.dp)
     ) {
-        Box {
+        Box(modifier = Modifier.fillMaxWidth()) {
             GlideImage(
                 data = item.image.toAgentGlideUrl(),
                 fadeIn = true,

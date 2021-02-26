@@ -1,29 +1,25 @@
 package com.pluu.webtoon.detail.compose
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.unit.IntSize
+import com.pluu.webtoon.utils.toAgentGlideUrl
 import dev.chrisbanes.accompanist.glide.GlideImage
 import dev.chrisbanes.accompanist.imageloading.ImageLoadState
 import dev.chrisbanes.accompanist.imageloading.MaterialLoadingImage
 
 @Composable
-fun GlideImageAdjustBounds(
+fun ImageAdjustBounds(
     modifier: Modifier = Modifier,
-    data: Any,
+    data: String,
+    success: (IntSize) -> Unit,
     error: @Composable ((ImageLoadState.Error) -> Unit)? = null,
     loading: @Composable (() -> Unit)? = null
 ) {
-    var heightSize by remember { mutableStateOf(1f) }
     GlideImage(
-        modifier = modifier
-            .height(with(LocalDensity.current) { heightSize.toDp() }),
-        data = data
+        modifier = modifier,
+        data = data.toAgentGlideUrl()
     ) { imageState ->
         when (imageState) {
             is ImageLoadState.Success -> {
@@ -32,11 +28,16 @@ fun GlideImageAdjustBounds(
                     fadeInEnabled = false,
                     contentDescription = null
                 )
-                heightSize = imageState.painter.intrinsicSize.height
+                success(imageState.painter.toIntrinsicSize())
             }
             is ImageLoadState.Error -> if (error != null) error(imageState)
             ImageLoadState.Loading -> if (loading != null) loading()
             ImageLoadState.Empty -> Unit
         }
     }
+}
+
+private fun Painter.toIntrinsicSize(): IntSize {
+    val size = intrinsicSize
+    return IntSize(size.width.toInt(), size.height.toInt())
 }

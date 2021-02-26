@@ -4,11 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.PreloadTarget
 import com.pluu.webtoon.ui.model.PalletColor
-import com.pluu.webtoon.utils.listener
-import com.pluu.webtoon.utils.toAgentGlideUrl
+import com.pluu.webtoon.utils.LoadedState
+import com.pluu.webtoon.utils.preLoadImage
 import com.pluu.webtoon.utils.toGlideBitmap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -21,29 +19,16 @@ class PalletDarkCalculator(
     suspend fun calculateSwatchesInImage(
         imageUrl: String
     ): PalletColor = suspendCancellableCoroutine { continuation ->
-        val requestManager = Glide.with(context)
-        requestManager
-            .load(imageUrl.toAgentGlideUrl())
-            .onlyRetrieveFromCache(true)
-            .listener(
-                onReady = {
-                    CoroutineScope(continuation.context).launch {
-                        continuation.resume(loadPalette(it))
-                    }
-                },
-                onFailed = {
-                    CoroutineScope(continuation.context).launch {
-                        continuation.resume(defaultPalletColor())
-                    }
+        CoroutineScope(continuation.context).launch {
+            when (val loadedState = preLoadImage(context, imageUrl)) {
+                is LoadedState.Success -> {
+                    continuation.resume(loadPalette(loadedState.drawable))
                 }
-            )
-            .into(
-                PreloadTarget.obtain(
-                    requestManager,
-                    PreloadTarget.SIZE_ORIGINAL,
-                    PreloadTarget.SIZE_ORIGINAL
-                )
-            )
+                else -> {
+                    continuation.resume(defaultPalletColor())
+                }
+            }
+        }
     }
 
     private suspend fun loadPalette(

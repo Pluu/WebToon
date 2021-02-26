@@ -7,8 +7,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
 inline fun <reified T> RequestBuilder<T>.listener(
-    crossinline onReady: (T) -> Unit,
-    crossinline onFailed: (Exception) -> Unit
+    crossinline onReady: (T) -> Unit = {},
+    crossinline onFailed: (Exception) -> Unit = {}
 ) = listener(
     object : RequestListener<T> {
         override fun onResourceReady(
