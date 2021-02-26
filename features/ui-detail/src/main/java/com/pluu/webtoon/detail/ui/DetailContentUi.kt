@@ -35,39 +35,36 @@ fun DetailContentUi(
             detectTapGestures(onTap = { onClick() })
         }
     ) {
-        itemsIndexed(
-            items = items,
-            itemContent = { index, item ->
-                if (index == 0) {
-                    Spacer(Modifier.statusBarsHeight(48.dp))
-                }
-                // TODO: Adjust Image 처리 개선 해야함
-                ImageAdjustBounds(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(
-                            with(LocalDensity.current) {
-                                (cachedViewSizeMap[item.url]?.height ?: 1).toDp()
-                            }
-                        ),
-                    data = item.url,
-                    success = {
-                        if (!cachedViewSizeMap.containsKey(item.url)) {
-                            cachedViewSizeMap[item.url] = it
-                        }
-                    },
-                    error = { error ->
-                        Timber.e(error.throwable)
-                        Image(
-                            painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
-                            contentDescription = null
-                        )
-                    }
-                )
-                if (items.size - 1 == index) {
-                    Spacer(Modifier.navigationBarsHeight(48.dp))
-                }
+        itemsIndexed(items) { index, item ->
+            if (index == 0) {
+                Spacer(Modifier.statusBarsHeight(48.dp))
             }
-        )
+            // TODO: Adjust Image 처리 개선 해야함
+            ImageAdjustBounds(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(
+                        with(LocalDensity.current) {
+                            (cachedViewSizeMap[item.url]?.height ?: 1).toDp()
+                        }
+                    ),
+                data = item.url,
+                success = {
+                    if (!cachedViewSizeMap.containsKey(item.url)) {
+                        cachedViewSizeMap[item.url] = it
+                    }
+                },
+                error = { error ->
+                    Timber.e(error.throwable)
+                    Image(
+                        painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                        contentDescription = null
+                    )
+                }
+            )
+            if (items.size - 1 == index) {
+                Spacer(Modifier.navigationBarsHeight(48.dp))
+            }
+        }
     }
 }

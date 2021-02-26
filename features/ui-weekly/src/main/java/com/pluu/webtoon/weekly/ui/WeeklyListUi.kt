@@ -30,20 +30,17 @@ fun WeeklyListUi(
     LazyColumn(
         modifier = modifier.padding(horizontal = 3.dp)
     ) {
-        itemsIndexed(
-            items = items,
-            itemContent = { index, item ->
-                WeeklyItemUi(
-                    item = item.info,
-                    isFavorite = item.isFavorite,
-                    onClicked = { onClicked.invoke(item) }
-                )
+        itemsIndexed(items) { index, item ->
+            WeeklyItemUi(
+                item = item.info,
+                isFavorite = item.isFavorite,
+                onClicked = { onClicked.invoke(item) }
+            )
 
-                if (index == items.lastIndex) {
-                    Spacer(Modifier.navigationBarsHeight())
-                }
+            if (index == items.lastIndex) {
+                Spacer(Modifier.navigationBarsHeight())
             }
-        )
+        }
     }
 }
 
@@ -59,7 +56,8 @@ fun WeeklyEmptyUi() {
 @Composable
 fun PreviewWeeklyEmptyUi() {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
         WeeklyEmptyUi()
@@ -83,7 +81,8 @@ fun WeeklyLoadingUi(
 @Composable
 fun PreviewWeeklyLoadingUi() {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
         WeeklyLoadingUi()
