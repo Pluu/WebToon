@@ -28,7 +28,7 @@ inline fun Activity.activityComposeView(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun Fragment.FragmentComposeView(
+inline fun Fragment.fragmentComposeView(
     noinline content: @Composable () -> Unit
 ) = ComposeView(requireContext()).apply {
     layoutParams = ViewGroup.LayoutParams(

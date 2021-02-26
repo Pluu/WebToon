@@ -14,7 +14,7 @@ import androidx.fragment.app.commit
 import com.pluu.compose.ambient.LocalPreferenceProvider
 import com.pluu.compose.ambient.PreferenceProvider
 import com.pluu.webtoon.navigator.SettingNavigator
-import com.pluu.webtoon.ui.compose.FragmentComposeView
+import com.pluu.webtoon.ui.compose.fragmentComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class SettingFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentComposeView {
+    ) = fragmentComposeView {
         ProvideWindowInsets {
             val context = LocalContext.current
             CompositionLocalProvider(LocalPreferenceProvider provides preferenceProvider) {

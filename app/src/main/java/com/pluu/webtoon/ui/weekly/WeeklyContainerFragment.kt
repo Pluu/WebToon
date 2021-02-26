@@ -22,7 +22,7 @@ import com.pluu.webtoon.Const
 import com.pluu.webtoon.di.provider.NaviColorProvider
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.event.ThemeEvent
-import com.pluu.webtoon.ui.compose.FragmentComposeView
+import com.pluu.webtoon.ui.compose.fragmentComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class WeeklyContainerFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentComposeView {
+    ) = fragmentComposeView {
         val context = LocalContext.current
         var selectedIndex by remember { mutableStateOf(serviceApi.todayTabPosition) }
 

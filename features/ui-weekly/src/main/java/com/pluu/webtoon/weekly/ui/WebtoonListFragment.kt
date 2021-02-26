@@ -22,7 +22,7 @@ import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.navigator.EpisodeNavigator
-import com.pluu.webtoon.ui.compose.FragmentComposeView
+import com.pluu.webtoon.ui.compose.fragmentComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.R
@@ -64,7 +64,7 @@ class WebtoonListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentComposeView {
+    ) = fragmentComposeView {
         ProvideWindowInsets {
             val palletCalculator = PalletDarkCalculator(LocalContext.current)
             val list by viewModel.listEvent.observeAsState(null)
