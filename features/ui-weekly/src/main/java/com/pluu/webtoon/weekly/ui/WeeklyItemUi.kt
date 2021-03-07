@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -98,6 +100,11 @@ fun WeeklyItemOverlayUi(
             regDate, favorite
         ) = createRefs()
 
+        val isUpdate = item.status == Status.UPDATE
+        val isAdultLimit = item.isAdult
+        val isBreak = item.status == Status.BREAK
+        val isStatusShow = isUpdate || isAdultLimit || isBreak
+
         Text(
             text = item.title,
             maxLines = 1,
@@ -107,27 +114,46 @@ fun WeeklyItemOverlayUi(
             textAlign = TextAlign.Start,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .background(0x66000000.toColor())
+                .background(
+                    color = 0x66000000.toColor(),
+                    shape = if (isStatusShow) {
+                        RoundedCornerShape(bottomEnd = 4.dp)
+                    } else {
+                        RectangleShape
+                    }
+                )
                 .padding(horizontal = 6.dp, vertical = 2.dp)
                 .wrapContentWidth(align = Alignment.Start)
                 .constrainAs(title) {
                     width = Dimension.fillToConstraints
                     start.linkTo(parent.start)
                     top.linkTo(parent.top)
-                    // TODO: goneMarginEnd=0.dp 대응 필요
-                    end.linkTo(status.start, margin = 8.dp)
+                    end.linkTo(
+                        anchor = if (isStatusShow) {
+                            status.start
+                        } else {
+                            parent.end
+                        },
+                        margin = if (isStatusShow) {
+                            8.dp
+                        } else {
+                            0.dp
+                        }
+                    )
                 }
         )
 
-        WeeklyStatusUi(
-            modifier = Modifier.constrainAs(status) {
-                top.linkTo(parent.top)
-                end.linkTo(parent.end)
-            },
-            isUpdate = item.status == Status.UPDATE,
-            isAdultLimit = item.isAdult,
-            isRest = item.status == Status.BREAK
-        )
+        if (isStatusShow) {
+            WeeklyStatusUi(
+                modifier = Modifier.constrainAs(status) {
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                },
+                isUpdate = isUpdate,
+                isAdultLimit = isAdultLimit,
+                isRest = isBreak
+            )
+        }
 
         if (item.updateDate.isNotBlank()) {
             Text(
