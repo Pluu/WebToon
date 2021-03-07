@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -17,6 +16,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.viewpager2.widget.ViewPager2
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.di.provider.NaviColorProvider
@@ -45,7 +45,7 @@ class WeeklyContainerFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = fragmentComposeView {
         val context = LocalContext.current
-        var selectedIndex by remember { mutableStateOf(serviceApi.todayTabPosition) }
+        var selectedIndex by rememberMutableStateOf(serviceApi.todayTabPosition)
 
         val pager = remember {
             ViewPager2(context).apply {

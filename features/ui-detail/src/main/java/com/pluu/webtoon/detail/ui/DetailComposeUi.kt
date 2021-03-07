@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +39,9 @@ internal fun InitTopUi(
 
     Column(modifier = modifier) {
         Divider(
-            modifier = Modifier.statusBarsHeight().zIndex(1f),
+            modifier = Modifier
+                .statusBarsHeight()
+                .zIndex(1f),
             color = featureColor,
             thickness = 0.dp
         )
@@ -66,14 +67,12 @@ internal fun InitBottomUi(
     onPrevClicked: () -> Unit,
     onNextClicked: () -> Unit,
 ) {
-    var page by remember {
-        mutableStateOf(
-            DetailPageFieldValue(
-                isPrevEnabled = false,
-                isNextEnabled = false
-            )
+    var page by mutableStateOf(
+        DetailPageFieldValue(
+            isPrevEnabled = false,
+            isNextEnabled = false
         )
-    }
+    )
 
     val transition = updateTransition(showNavigation)
     val offsetY by transition.animateDp {

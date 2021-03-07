@@ -15,12 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
@@ -74,9 +73,9 @@ class EpisodesActivity : AppCompatActivity() {
 
         activityComposeView {
             ProvideWindowInsets {
-                var showDialog by remember { mutableStateOf(false) }
+                var showDialog by rememberMutableStateOf(false)
 
-                var firstItem by remember { mutableStateOf<EpisodeInfo?>(null) }
+                var firstItem by rememberMutableStateOf<EpisodeInfo?>(null)
 
                 val episodeList by viewModel.listEvent.observeAsState(
                     Result.Success(emptyList())
@@ -130,7 +129,7 @@ class EpisodesActivity : AppCompatActivity() {
         readIdSet: Set<EpisodeId>,
         firstItem: EpisodeInfo?
     ) {
-        var transitionState by remember { mutableStateOf(ColorTransitionState.START) }
+        var transitionState by rememberMutableStateOf(ColorTransitionState.START)
 
         val transition = updateTransition(transitionState)
 

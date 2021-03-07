@@ -17,8 +17,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import com.bumptech.glide.Glide
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
@@ -79,7 +78,7 @@ class DetailActivity : AppCompatActivity() {
         activityComposeView {
             ProvideWindowInsets {
                 CompositionLocalProvider(LocalRequestManager provides requestManager) {
-                    var loadingDialog by remember { mutableStateOf(false) }
+                    var loadingDialog by rememberMutableStateOf(false)
                     val event by viewModel.event.observeAsState()
                     val elementUiState by viewModel.elementUiState.observeAsState(
                         UiState(loading = true)
@@ -161,19 +160,17 @@ fun DetailComposeUi(
     onPrevClicked: () -> Unit,
     onNextClicked: () -> Unit
 ) {
-    var showNavigation by remember { mutableStateOf(true) }
+    var showNavigation by rememberMutableStateOf(true)
 
-    var isFirstShow by remember { mutableStateOf(true) }
+    var isFirstShow by rememberMutableStateOf(true)
 
-    val transitionState by remember(featureColor) {
-        mutableStateOf(
-            MutableTransitionState(
-                if (isFirstShow) {
-                    ColorTransitionState.START
-                } else {
-                    ColorTransitionState.END
-                }
-            )
+    val transitionState by rememberMutableStateOf(featureColor) {
+        MutableTransitionState(
+            if (isFirstShow) {
+                ColorTransitionState.START
+            } else {
+                ColorTransitionState.END
+            }
         )
     }
 

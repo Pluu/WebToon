@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -132,7 +133,8 @@ private fun ContentPreference(
                 maxLines = 1,
                 color = MaterialTheme.colors.onSurface,
                 style = MaterialTheme.typography.subtitle1,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                overflow = TextOverflow.Ellipsis
             )
             if (summary != null) {
                 Spacer(Modifier.height(2.dp))
@@ -148,12 +150,12 @@ private fun ContentPreference(
 
 private val ImageSize = Modifier.size(26.dp)
 
-@Preview
+@Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
 @Composable
 fun PreviewPreference() {
     Preference(
         painter = painterResource(R.drawable.ic_baseline_android_24),
-        title = "Title",
-        summary = "Summary"
+        title = "Title blablabla blablabla blablabla blablabla",
+        summary = "Summary blablabla blablabla blablabla blablabla blablabla"
     )
 }

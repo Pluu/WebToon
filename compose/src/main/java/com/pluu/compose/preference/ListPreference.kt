@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -21,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
 import com.pluu.compose.R
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ListDialog
 
 data class ListPreferenceItem<T>(
@@ -37,7 +36,7 @@ fun <T> ListPreference(
     painter: Painter? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog by rememberMutableStateOf(false)
 
     if (showDialog) {
         ShowAlertDialog(
@@ -72,7 +71,7 @@ fun <T> ListPreference(
     imageVector: ImageVector? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog by rememberMutableStateOf(false)
 
     if (showDialog) {
         ShowAlertDialog(
@@ -107,7 +106,7 @@ fun <T> ListPreference(
     bitmap: ImageBitmap? = null,
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog by rememberMutableStateOf(false)
 
     if (showDialog) {
         ShowAlertDialog(
@@ -149,7 +148,8 @@ private fun <LPT, T : ListPreferenceItem<LPT>> ShowAlertDialog(
     ) { _, item ->
         Text(
             text = item.entry,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .sizeIn(minHeight = 48.dp)
                 .clickable(onClick = {
                     onClicked(item)
@@ -161,7 +161,7 @@ private fun <LPT, T : ListPreferenceItem<LPT>> ShowAlertDialog(
     }
 }
 
-@Preview
+@Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
 @Composable
 fun PreviewListPreference() {
     val preferenceState = PreferenceState(

@@ -10,7 +10,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -25,6 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.R
@@ -64,7 +64,7 @@ class WeeklyActivity : FragmentActivity() {
         activityComposeView {
             ProvideWindowInsets(false) {
                 val context = LocalContext.current
-                var naviItem by remember { mutableStateOf(session.navi.toUiType()) }
+                var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
                 val contentView = remember {
                     FragmentContainerView(this).apply {
