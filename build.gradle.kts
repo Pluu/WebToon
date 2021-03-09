@@ -6,9 +6,12 @@ buildscript {
 }
 
 allprojects {
-    addScriptRepository()
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = ProjectConfigurations.javaVer.majorVersion
+        targetCompatibility = ProjectConfigurations.javaVer.majorVersion
+    }
 
-    tasks.withType(KotlinCompile::class).configureEach {
+    tasks.withType<KotlinCompile> {
         kotlinOptions {
             useIR = true
 
@@ -22,8 +25,8 @@ allprojects {
                 "-Xopt-in=kotlin.Experimental"
             )
 
-            // Set JVM target to 1.8
-            jvmTarget = ProjectConfigurations.javaVerString
+            // Set JVM target to Java 11
+            jvmTarget = ProjectConfigurations.javaVer.majorVersion
         }
     }
 }

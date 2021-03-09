@@ -6,9 +6,4 @@ android {
         minSdkVersion ProjectConfigurations.minSdk
         targetSdkVersion ProjectConfigurations.targetSdk
     }
-
-    compileOptions {
-        sourceCompatibility ProjectConfigurations.javaVer
-        targetCompatibility ProjectConfigurations.javaVer
-    }
 }

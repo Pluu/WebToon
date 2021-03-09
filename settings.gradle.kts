@@ -1,3 +1,16 @@
+@Suppress("UnstableApiUsage")
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+
+rootProject.name = "WebToon"
+
 include(
     ":app",
     ":data",
@@ -13,7 +26,6 @@ include(
     ":ui-detail",
     ":compose"
 )
-
 arrayOf(
     ":ui-common",
     ":ui-weekly",

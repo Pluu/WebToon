@@ -6,6 +6,5 @@ object ProjectConfigurations {
     const val targetSdk = 30
     const val buildTools = "30.0.3"
 
-    val javaVer = JavaVersion.VERSION_1_8
-    const val javaVerString = "1.8"
+    val javaVer = JavaVersion.VERSION_11
 }
