@@ -28,7 +28,6 @@ private fun RepositoryHandler.addScriptDependencies() {
         }
     }
     mavenCentral()
-    jcenter()
     maven("https://plugins.gradle.org/m2/") {
         content {
             includeGroup("org.jlleitschuh.gradle")
