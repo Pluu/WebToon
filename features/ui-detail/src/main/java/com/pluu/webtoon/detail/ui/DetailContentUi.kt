@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -28,7 +29,7 @@ fun DetailContentUi(
     items: List<DetailView>,
     onClick: () -> Unit
 ) {
-    val cachedViewSizeMap = mutableStateMapOf<String, IntSize>()
+    val cachedViewSizeMap = remember { mutableStateMapOf<String, IntSize>() }
 
     LazyColumn(modifier = modifier
         .pointerInput(Unit) {
