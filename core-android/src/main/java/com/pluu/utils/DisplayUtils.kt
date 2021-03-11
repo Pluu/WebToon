@@ -23,6 +23,7 @@ fun animatorColor(
     return animator
 }
 
+@Suppress("DEPRECATION")
 fun Activity.setStatusBarColor(color: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         val controller = window.decorView.windowInsetsController ?: return
