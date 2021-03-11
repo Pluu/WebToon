@@ -15,7 +15,7 @@ object Dep {
         const val annotation = "androidx.annotation:annotation:1.2.0-rc01"
 
         object activity {
-            private const val activityVersion = "1.3.0-alpha03"
+            private const val activityVersion = "1.3.0-alpha04"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -25,10 +25,10 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.3.0-beta01"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-beta02"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-beta03"
 
         object fragment {
-            private const val fragmentVersion = "1.3.0"
+            private const val fragmentVersion = "1.3.1"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
@@ -41,7 +41,7 @@ object Dep {
         }
 
         object room {
-            private const val roomVersion = "2.3.0-beta02"
+            private const val roomVersion = "2.3.0-beta03"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -58,7 +58,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-beta01"
+            const val version = "1.0.0-beta02"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -69,7 +69,7 @@ object Dep {
             const val tooling = "androidx.compose.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
-            const val activity = "androidx.activity:activity-compose:1.3.0-alpha03"
+            const val activity = "androidx.activity:activity-compose:1.3.0-alpha04"
             const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
         }
 
@@ -78,7 +78,7 @@ object Dep {
     }
 
     object Accompnist {
-        private const val version = "0.6.0"
+        private const val version = "0.6.2"
         const val glide = "dev.chrisbanes.accompanist:accompanist-glide:$version"
         const val insets = "dev.chrisbanes.accompanist:accompanist-insets:$version"
     }
@@ -97,18 +97,18 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.4.30"
+        const val version = "1.4.31"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
-            private const val coroutinesVersion = "1.4.2"
+            private const val coroutinesVersion = "1.4.3"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
             const val android =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
 
-        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.13.1"
