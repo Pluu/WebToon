@@ -67,7 +67,7 @@ private fun LicenseContentUi(
             .background(color = MaterialTheme.colors.surface)
             .padding(horizontal = 3.dp)
     ) {
-        items(list) { item ->
+        items(list, key = { license -> license.url }) { item ->
             LicenseItemUi(
                 item = item,
                 onClicked = onClicked

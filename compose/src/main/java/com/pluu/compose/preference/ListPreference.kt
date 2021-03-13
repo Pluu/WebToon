@@ -144,7 +144,8 @@ private fun <LPT, T : ListPreferenceItem<LPT>> ShowAlertDialog(
             Text(text = title)
         },
         onDismiss = onDismiss,
-        items = items
+        items = items,
+        key = { _, item -> item.entry }
     ) { _, item ->
         Text(
             text = item.entry,

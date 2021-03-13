@@ -30,7 +30,7 @@ fun ProgressDialog(
     backgroundColor: Color = MaterialTheme.colors.surface,
     contentColor: Color = contentColorFor(backgroundColor),
 ) {
-    DialogContent(
+    ListDialogContent(
         title = {
             if (title != null) {
                 Text(text = title)
@@ -45,7 +45,7 @@ fun ProgressDialog(
 }
 
 @Composable
-private fun DialogContent(
+private fun ListDialogContent(
     modifier: Modifier = Modifier,
     title: (@Composable () -> Unit)? = null,
     onDismiss: () -> Unit,

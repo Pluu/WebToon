@@ -30,7 +30,9 @@ fun WeeklyListUi(
     LazyColumn(
         modifier = modifier.padding(horizontal = 3.dp)
     ) {
-        itemsIndexed(items) { index, item ->
+        itemsIndexed(items, key = { _, item ->
+            item.info.id
+        }) { index, item ->
             WeeklyItemUi(
                 item = item.info,
                 isFavorite = item.isFavorite,

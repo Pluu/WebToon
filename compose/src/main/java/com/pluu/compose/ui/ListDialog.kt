@@ -36,6 +36,7 @@ fun <T> ListDialog(
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)? = null,
     items: List<T>,
+    key: ((index: Int, item: T) -> Any)? = null,
     onDismiss: () -> Unit,
     shape: Shape = MaterialTheme.shapes.medium,
     backgroundColor: Color = MaterialTheme.colors.surface,
@@ -49,10 +50,11 @@ fun <T> ListDialog(
             color = backgroundColor,
             contentColor = contentColor
         ) {
-            DialogContent(
+            ListDialogContent(
                 title = title,
                 buttons = buttons,
                 items = items,
+                key = key,
                 itemContent = itemContent
             )
         }
@@ -60,11 +62,12 @@ fun <T> ListDialog(
 }
 
 @Composable
-private fun <T> DialogContent(
+private fun <T> ListDialogContent(
     modifier: Modifier = Modifier,
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)? = null,
     items: List<T>,
+    key: ((index: Int, item: T) -> Any)? = null,
     itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
     Column(modifier = modifier) {
@@ -80,6 +83,7 @@ private fun <T> DialogContent(
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             itemsIndexed(
                 items = items,
+                key = key,
                 itemContent = itemContent
             )
         }
@@ -100,7 +104,7 @@ fun PreviewListDialog() {
         "Content $it"
     }
     Surface(color = Color.White) {
-        DialogContent(
+        ListDialogContent(
             title = {
                 Text(text = "Test")
             },

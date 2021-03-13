@@ -36,7 +36,9 @@ fun DetailContentUi(
             detectTapGestures(onTap = { onClick() })
         }
     ) {
-        itemsIndexed(items) { index, item ->
+        itemsIndexed(items,
+            key = { _, item -> item.url }
+        ) { index, item ->
             if (index == 0) {
                 Spacer(Modifier.statusBarsHeight(48.dp))
             }
