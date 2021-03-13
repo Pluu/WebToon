@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.pluu.compose.foundation.backgroundCorner
-import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -115,7 +114,7 @@ fun WeeklyItemOverlayUi(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .background(
-                    color = 0x66000000.toColor(),
+                    color = Color(0x66000000),
                     shape = if (isStatusShow) {
                         RoundedCornerShape(bottomEnd = 4.dp)
                     } else {
@@ -160,7 +159,7 @@ fun WeeklyItemOverlayUi(
                 text = item.updateDate,
                 color = Color.White,
                 modifier = Modifier
-                    .backgroundCorner(color = 0x66000000.toColor(), size = 4.dp)
+                    .backgroundCorner(color = Color(0x66000000), size = 4.dp)
                     .padding(horizontal = 6.dp, vertical = 2.dp)
                     .constrainAs(regDate) {
                         end.linkTo(parent.end)
@@ -186,7 +185,7 @@ fun WeeklyItemFavoriteUi(
 ) {
     Image(
         painter = painterResource(R.drawable.ic_favorite_black_36),
-        colorFilter = ColorFilter.tint(0xFFF44336.toColor()),
+        colorFilter = ColorFilter.tint(Color(0xFFF44336)),
         modifier = modifier,
         contentDescription = null
     )
@@ -273,7 +272,7 @@ private fun WeeklyStatusUi(
                             0.dp
                         }
                     )
-                    .backgroundCorner(color = 0x66000000.toColor(), size = 4.dp)
+                    .backgroundCorner(color = Color(0x66000000), size = 4.dp)
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }

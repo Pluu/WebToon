@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
@@ -98,7 +97,7 @@ fun EpisodeItemUiOverlayUi(
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .background(0x66000000.toColor())
+                .background(Color(0x66000000))
                 .sizeIn(minHeight = 20.dp)
                 .padding(horizontal = 6.dp, vertical = 2.dp)
                 .constrainAs(title) {
@@ -111,7 +110,7 @@ fun EpisodeItemUiOverlayUi(
         if (isRead) {
             ImageInCircle(
                 painter = painterResource(R.drawable.ic_check_white_24),
-                circleColor = 0xFFCC222222.toColor(),
+                circleColor = Color(0xCC222222),
                 modifier = Modifier
                     .padding(5.dp)
                     .constrainAs(read) {
@@ -124,7 +123,7 @@ fun EpisodeItemUiOverlayUi(
         if (item.isLock) {
             ImageInCircle(
                 painter = painterResource(R.drawable.ic_lock_white_24),
-                circleColor = 0xFFCC222222.toColor(),
+                circleColor = Color(0xCC222222),
                 modifier = Modifier
                     .padding(5.dp)
                     .constrainAs(lock) {

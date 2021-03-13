@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pluu.compose.ui.graphics.toColor
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -30,7 +29,7 @@ fun IntroUi(isNextMove: Boolean) {
         Text(
             text = "PluuToon",
             modifier = Modifier.align(Alignment.Center),
-            color = 0xFF0091EA.toColor(),
+            color = Color(0xFF0091EA),
             fontWeight = FontWeight.Bold,
             fontSize = 50.sp
         )

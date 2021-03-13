@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.pluu.compose.runtime.rememberMutableStateListOf
 import com.pluu.compose.ui.CircularProgressIndicator
 import com.pluu.compose.ui.SwipeToRefreshLayout
-import com.pluu.compose.ui.graphics.toColor
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
@@ -39,7 +38,12 @@ fun EpisodeContentUi(
     val rememberItems = rememberMutableStateListOf<EpisodeInfo>()
 
     val circleColors = remember {
-        listOf(0xFF0F9D58, 0xFFDB4437, 0xFF4285f4, 0xFFF4B400).map { it.toColor() }
+        listOf(
+            Color(0xFF0F9D58),
+            Color(0xFFDB4437),
+            Color(0xFF4285f4),
+            Color(0xFFF4B400)
+        )
     }
 
     DisposableEffect(uiState) {

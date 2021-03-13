@@ -45,7 +45,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.pluu.compose.ui.graphics.toColor
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.max
@@ -232,10 +231,10 @@ private val CircularEasing = CubicBezierEasing(0.4f, 0f, 0.2f, 1f)
 @Composable
 fun PreviewCircularProgressIndicator() {
     val list = listOf(
-        0xFF0F9D58.toColor(),
-        0xFFDB4437.toColor(),
-        0xFF4285f4.toColor(),
-        0xFFF4B400.toColor()
+        Color(0xFF0F9D58),
+        Color(0xFFDB4437),
+        Color(0xFF4285f4),
+        Color(0xFFF4B400)
     )
 
     CircularProgressIndicator(
