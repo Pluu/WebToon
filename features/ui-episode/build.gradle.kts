@@ -54,4 +54,6 @@ dependencies {
     // Hilt
     implementation(Dep.Dagger.Hilt.android)
     kapt(Dep.Dagger.Hilt.compiler)
+
+    implementation(Dep.timber)
 }

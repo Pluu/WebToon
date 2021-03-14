@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,8 +25,8 @@ import com.pluu.compose.ui.SwipeToRefreshLayout
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
+import timber.log.Timber
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EpisodeContentUi(
     modifier: Modifier = Modifier,
@@ -63,34 +64,40 @@ fun EpisodeContentUi(
             EmptyContainer(circleColors)
         }
         uiState.loading -> {
-            Surface(elevation = 10.dp, shape = CircleShape) {
-                CircularProgressIndicator(
-                    colors = circleColors,
-                    modifier = Modifier
-                        .size(36.dp)
-                        .padding(4.dp)
-                )
-            }
+            EpisodeLoadingContent(circleColors)
         }
         else -> {
-            LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
-                modifier = modifier.fillMaxSize()
-            ) {
-                itemsIndexed(rememberItems) { index, item ->
-                    if (rememberItems.lastIndex == index) {
-                        DisposableEffect(Unit) {
-                            onMoreLoaded()
-                            onDispose { }
-                        }
-                    }
-                    EpisodeItemUi(
-                        item = item,
-                        isRead = readIdSet.contains(item.id),
-                        onClicked = onEpisodeClicked
-                    )
+            EpisodeGridContent(modifier, rememberItems, onMoreLoaded, readIdSet, onEpisodeClicked)
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun EpisodeGridContent(
+    modifier: Modifier,
+    items: List<EpisodeInfo>,
+    onMoreLoaded: () -> Unit,
+    readIdSet: Set<EpisodeId>,
+    onEpisodeClicked: (EpisodeInfo) -> Unit
+) {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(2),
+        modifier = modifier.fillMaxSize()
+    ) {
+        Timber.d(">>>")
+        itemsIndexed(items) { index, item ->
+            Timber.d(">>> $index")
+            if (items.lastIndex == index) {
+                LaunchedEffect(Unit) {
+                    onMoreLoaded()
                 }
             }
+            EpisodeItemUi(
+                item = item,
+                isRead = readIdSet.contains(item.id),
+                onClicked = onEpisodeClicked
+            )
         }
     }
 }
@@ -129,17 +136,20 @@ private fun LoadingContent(
             refreshingState = isLoading,
             thresholdFraction = 0.9f,
             onRefresh = onRefresh,
-            refreshIndicator = {
-                Surface(elevation = 10.dp, shape = CircleShape) {
-                    CircularProgressIndicator(
-                        colors = refreshColors,
-                        modifier = Modifier
-                            .size(36.dp)
-                            .padding(4.dp)
-                    )
-                }
-            },
+            refreshIndicator = { EpisodeLoadingContent(refreshColors) },
             content = content,
+        )
+    }
+}
+
+@Composable
+private fun EpisodeLoadingContent(circleColors: List<Color>) {
+    Surface(elevation = 10.dp, shape = CircleShape) {
+        CircularProgressIndicator(
+            colors = circleColors,
+            modifier = Modifier
+                .size(36.dp)
+                .padding(4.dp)
         )
     }
 }
