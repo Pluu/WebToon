@@ -2,21 +2,12 @@ package com.pluu.webtoon.ui.weekly
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -27,16 +18,13 @@ import androidx.fragment.app.commit
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.R
 import com.pluu.webtoon.model.Session
-import com.pluu.webtoon.model.UI_NAV_ITEM
 import com.pluu.webtoon.model.getCoreType
 import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -73,18 +61,24 @@ class WeeklyActivity : FragmentActivity() {
                     }
                 }
 
-                WeeklyContainerUi(
+                WeeklyScreen(
                     naviItem = naviItem,
                     backgroundColor = ContextCompat.getColor(context, naviItem.bgColor)
                         .toColor(),
-                    changeNavi = { newNaviItem ->
-                        Timber.d(newNaviItem.name)
-                        session.navi = newNaviItem.getCoreType()
-                        naviItem = newNaviItem
-                        replaceMainContainer(WeeklyContainerFragment.newInstance())
-                    },
-                    onSettingClicked = {
-                        settingNavigator.openSetting(this)
+                    onEventAction = { event ->
+                        when (event) {
+                            is WeeklyEvent.OnMenuClicked -> {
+                                if (naviItem != event.item) {
+                                    Timber.d(event.item.name)
+                                    session.navi = event.item.getCoreType()
+                                    naviItem = event.item
+                                    replaceMainContainer(WeeklyContainerFragment.newInstance())
+                                }
+                            }
+                            WeeklyEvent.OnSettingClicked -> {
+                                settingNavigator.openSetting(this)
+                            }
+                        }
                     }
                 ) { innerPadding ->
                     AndroidView(
@@ -103,65 +97,5 @@ class WeeklyActivity : FragmentActivity() {
             }
             replace(containerViewId, fragment, Const.MAIN_FRAG_TAG)
         }
-    }
-}
-
-@Composable
-private fun WeeklyContainerUi(
-    naviItem: UI_NAV_ITEM,
-    backgroundColor: Color,
-    changeNavi: (UI_NAV_ITEM) -> Unit,
-    onSettingClicked: () -> Unit,
-    bodyContent: @Composable (PaddingValues) -> Unit
-) {
-    val context = LocalContext.current
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
-
-    BackHandler(scaffoldState.drawerState.isOpen) {
-        coroutineScope.launch {
-            scaffoldState.drawerState.close()
-        }
-    }
-
-    Scaffold(
-        drawerContent = {
-            WeeklyDrawer(
-                title = context.getString(R.string.app_name),
-                accentColor = backgroundColor,
-                menus = UI_NAV_ITEM.values().iterator(),
-                selectedMenu = naviItem,
-                onMenuClicked = { item ->
-                    if (item != naviItem) {
-                        changeNavi(item)
-                    }
-                    coroutineScope.launch {
-                        scaffoldState.drawerState.close()
-                    }
-                },
-                onSettingClicked = {
-                    onSettingClicked()
-                    coroutineScope.launch {
-                        scaffoldState.drawerState.close()
-                    }
-                }
-            )
-        },
-        drawerGesturesEnabled = false,
-        drawerElevation = 0.dp,
-        drawerScrimColor = MaterialTheme.colors.background.copy(alpha = 0.5f),
-        topBar = {
-            WeeklyTopBar(
-                title = context.getString(R.string.app_name),
-                backgroundColor = backgroundColor
-            ) {
-                coroutineScope.launch {
-                    scaffoldState.drawerState.open()
-                }
-            }
-        },
-        scaffoldState = scaffoldState
-    ) { innerPadding ->
-        bodyContent(innerPadding)
     }
 }

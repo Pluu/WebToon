@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,11 +41,14 @@ fun WeeklyDrawer(
     accentColor: Color,
     menus: Iterator<UI_NAV_ITEM>,
     selectedMenu: UI_NAV_ITEM,
-    onMenuClicked: (UI_NAV_ITEM) -> Unit,
-    onSettingClicked: () -> Unit
+    onEventAction: (WeeklyEvent) -> Unit
 ) {
     val context = LocalContext.current
-    Column(modifier = modifier.navigationBarsPadding()) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .navigationBarsPadding()
+    ) {
         Text(
             title,
             color = Color.White,
@@ -74,7 +78,9 @@ fun WeeklyDrawer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .sizeIn(minHeight = 48.dp)
-                    .clickable { onMenuClicked(item) }
+                    .clickable {
+                        onEventAction(WeeklyEvent.OnMenuClicked(item))
+                    }
                     .padding(horizontal = 16.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
             )
@@ -86,7 +92,9 @@ fun WeeklyDrawer(
             modifier = Modifier
                 .fillMaxWidth()
                 .sizeIn(minHeight = 48.dp)
-                .clickable(onClick = onSettingClicked)
+                .clickable {
+                    onEventAction(WeeklyEvent.OnSettingClicked)
+                }
                 .padding(horizontal = 16.dp)
         ) {
             Icon(
@@ -116,12 +124,11 @@ fun PreviewWeeklyDrawer() {
     val context = LocalContext.current
     val defaultNavi = UI_NAV_ITEM.NAVER
     WeeklyDrawer(
+        modifier = Modifier.width(240.dp),
         title = "Sample",
         accentColor = ContextCompat.getColor(context, defaultNavi.bgColor).toColor(),
         menus = UI_NAV_ITEM.values().iterator(),
         selectedMenu = defaultNavi,
-        modifier = Modifier.width(240.dp),
-        onMenuClicked = {},
-        onSettingClicked = {}
+        onEventAction = {}
     )
 }
