@@ -75,7 +75,7 @@ private fun DefaultWebtoonUi(
         }.entry
     }
 
-    val defaultWeebtoon = rememberPreferenceState(
+    val defaultWebtoon = rememberPreferenceState(
         key = preferenceKey,
         preferences = preferenceProvider.preferences,
         initialValue = items[0].entryValue,
@@ -91,9 +91,8 @@ private fun DefaultWebtoonUi(
 
     ListPreference(
         items = items,
-        preferenceState = defaultWeebtoon,
+        preferenceState = defaultWebtoon,
         title = "기본 웹툰",
-        modifier = Modifier.fillMaxSize(),
         painter = null
     )
 }
@@ -103,10 +102,9 @@ private fun OpenSourceUi(
     onClick: () -> Unit
 ) {
     Preference(
-        title = "오픈소스 라이센스",
         modifier = Modifier
-            .fillMaxSize()
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick),
+        title = "오픈소스 라이센스"
     )
 }
 
