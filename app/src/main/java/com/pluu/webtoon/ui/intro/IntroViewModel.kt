@@ -11,8 +11,7 @@ import javax.inject.Inject
 /** Intro ViewModel */
 class IntroViewModel @Inject constructor() : ViewModel() {
     private val _initLoading = MutableStateFlow(false)
-    val observe: StateFlow<Boolean>
-        get() = _initLoading
+    val observe: StateFlow<Boolean> get() = _initLoading
 
     init {
         viewModelScope.launch {

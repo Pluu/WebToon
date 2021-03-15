@@ -3,7 +3,6 @@ package com.pluu.webtoon.ui.intro
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.pluu.utils.startActivity
@@ -17,21 +16,15 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class IntroActivity : ComponentActivity() {
-
     private val viewModel by viewModels<IntroViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         activityComposeView {
-            val isNextMove by viewModel.observe.collectAsState(initial = false)
-            IntroUi(isNextMove)
-
-            DisposableEffect(isNextMove) {
-                if (isNextMove) {
-                    moveMainScreen()
-                }
-                onDispose { }
+            val isNextMove by viewModel.observe.collectAsState(false)
+            IntroScreen(isLoading = !isNextMove) {
+                moveMainScreen()
             }
         }
     }

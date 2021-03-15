@@ -13,6 +13,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,12 +23,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+
+@Composable
+fun IntroScreen(
+    isLoading: Boolean,
+    onTimeout: () -> Unit
+) {
+    val currentOnTimeout by rememberUpdatedState(onTimeout)
+
+    IntroScreen(isLoading = isLoading)
+
+    if (!isLoading) {
+        LaunchedEffect(true) {
+            delay(500L)
+            currentOnTimeout()
+        }
+    }
+}
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun IntroUi(isNextMove: Boolean) {
-    Box(modifier = Modifier.fillMaxSize()) {
-
+fun IntroScreen(
+    modifier: Modifier = Modifier,
+    isLoading: Boolean
+) {
+    Box(modifier = modifier.fillMaxSize()) {
         Text(
             text = "PluuToon",
             modifier = Modifier.align(Alignment.Center),
@@ -38,10 +61,10 @@ fun IntroUi(isNextMove: Boolean) {
             modifier = Modifier.align(alignment = Alignment.BottomCenter)
         ) {
             Text(
-                text = if (isNextMove) {
-                    "다됐어... 이제 갈거야..."
-                } else {
+                text = if (isLoading) {
                     "준비중이야... 기다려..."
+                } else {
+                    "다됐어... 이제 갈거야..."
                 },
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -52,7 +75,8 @@ fun IntroUi(isNextMove: Boolean) {
 
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                visible = !isNextMove
+                initiallyVisible = true,
+                visible = isLoading
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
@@ -72,5 +96,5 @@ fun IntroUi(isNextMove: Boolean) {
 )
 @Composable
 fun PreviewIntroUi() {
-    IntroUi(false)
+    IntroScreen(isLoading = false)
 }
