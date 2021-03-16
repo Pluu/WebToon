@@ -32,7 +32,6 @@ fun EpisodeContentUi(
     modifier: Modifier = Modifier,
     uiState: UiState<List<EpisodeInfo>>,
     readIdSet: Set<EpisodeId>,
-    onRefresh: () -> Unit,
     onMoreLoaded: () -> Unit,
     onEpisodeClicked: (EpisodeInfo) -> Unit,
 ) {

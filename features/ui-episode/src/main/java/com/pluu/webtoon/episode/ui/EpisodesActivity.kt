@@ -163,10 +163,6 @@ class EpisodesActivity : AppCompatActivity() {
             EpisodeAction.MoreLoad -> {
                 viewModel.load()
             }
-            EpisodeAction.Refresh -> {
-                viewModel.initialize()
-                viewModel.load()
-            }
         }
     }
 
@@ -213,7 +209,6 @@ sealed class EpisodeAction {
     class OnShowDetail(val item: EpisodeInfo) : EpisodeAction()
     object OnBackPressed : EpisodeAction()
     class UpdateFavorite(val isFavorite: Boolean) : EpisodeAction()
-    object Refresh : EpisodeAction()
     object MoreLoad : EpisodeAction()
 }
 
@@ -271,11 +266,10 @@ private fun InitContentUi(
         }
     ) { innerPadding ->
         EpisodeContentUi(
+            modifier = Modifier.padding(innerPadding),
             uiState = convertUiState(episodeList),
             readIdSet = readIdSet,
-            modifier = Modifier.padding(innerPadding),
-            onMoreLoaded = { eventAction(EpisodeAction.MoreLoad) },
-            onRefresh = { eventAction(EpisodeAction.Refresh) }
+            onMoreLoaded = { eventAction(EpisodeAction.MoreLoad) }
         ) { item ->
             eventAction(EpisodeAction.OnShowDetail(item))
         }
