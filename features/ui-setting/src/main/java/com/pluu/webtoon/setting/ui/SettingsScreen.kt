@@ -14,21 +14,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.preference.PreferenceManager
 import com.pluu.compose.ambient.LocalPreferenceProvider
+import com.pluu.compose.ambient.PreferenceProvider
 import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
 import com.pluu.webtoon.data.pref.PrefConfig
 import com.pluu.webtoon.setting.R
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
-fun SettingContentUi(
+fun SettingsScreen(
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     onOpenSourceClicked: () -> Unit
@@ -36,7 +41,7 @@ fun SettingContentUi(
     val context: Context = LocalContext.current
     val items: List<ListPreferenceItem<String>> = remember { getPreItems(context).toMutableList() }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxSize()) {
         TopAppBar(
             title = {
                 Text(text = "설정")
@@ -132,3 +137,22 @@ private fun getPreItems(
         context.getString(R.string.title_nate_key)
     )
 )
+
+@Preview(
+    heightDp = 240,
+    showBackground = true, backgroundColor = 0xFFF
+)
+@Composable
+fun PreviewSettingContentUi() {
+    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current)
+    val preferenceProvider = PreferenceProvider(sharedPreferences)
+
+    ProvideWindowInsets {
+        CompositionLocalProvider(LocalPreferenceProvider provides preferenceProvider) {
+            SettingsScreen(
+                onBackPressed = {},
+                onOpenSourceClicked = {}
+            )
+        }
+    }
+}

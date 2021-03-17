@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
@@ -70,10 +71,12 @@ fun EpisodeTopUi(
 @Preview
 @Composable
 fun PreviewEpisodeTopUi() {
-    EpisodeTopUi(
-        title = "테스트",
-        isFavorite = true,
-        onFavoriteClicked = {},
-        onBackPressed = {}
-    )
+    ProvideWindowInsets {
+        EpisodeTopUi(
+            title = "테스트",
+            isFavorite = true,
+            onFavoriteClicked = {},
+            onBackPressed = {}
+        )
+    }
 }

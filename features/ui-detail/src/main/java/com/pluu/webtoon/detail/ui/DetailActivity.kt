@@ -6,26 +6,14 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import com.bumptech.glide.Glide
 import com.pluu.compose.runtime.rememberMutableStateOf
-import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.core.utils.lazyNone
@@ -42,8 +30,6 @@ import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.glide.LocalRequestManager
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
-import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 /**
  * 상세화면 Activity
@@ -104,14 +90,25 @@ class DetailActivity : AppCompatActivity() {
                         ProgressDialog(title = "Loading ...")
                     }
 
-                    DetailComposeUi(
+                    DetailScreen(
                         featureColor = featureColor,
-                        uiStateElement = elementUiState,
-                        onBackPressed = { finish() },
-                        onSharedPressed = { viewModel.requestShare() },
-                        onPrevClicked = { viewModel.movePrev() },
-                        onNextClicked = { viewModel.moveNext() }
-                    )
+                        uiStateElement = elementUiState
+                    ) { uiEvent ->
+                        when (uiEvent) {
+                            DetailUiEvent.OnBackPressed -> {
+                                finish()
+                            }
+                            DetailUiEvent.OnNextPressed -> {
+                                viewModel.moveNext()
+                            }
+                            DetailUiEvent.OnPrevPressed -> {
+                                viewModel.movePrev()
+                            }
+                            DetailUiEvent.OnSharedPressed -> {
+                                viewModel.requestShare()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -147,74 +144,6 @@ class DetailActivity : AppCompatActivity() {
                     )
                 )
             }, "Share")
-        )
-    }
-}
-
-@Composable
-fun DetailComposeUi(
-    featureColor: FeatureColor,
-    uiStateElement: UiState<ElementEvent>,
-    onBackPressed: () -> Unit,
-    onSharedPressed: () -> Unit,
-    onPrevClicked: () -> Unit,
-    onNextClicked: () -> Unit
-) {
-    var showNavigation by rememberMutableStateOf(true)
-
-    var isFirstShow by rememberMutableStateOf(true)
-
-    val transitionState by rememberMutableStateOf(featureColor) {
-        MutableTransitionState(
-            if (isFirstShow) {
-                ColorTransitionState.START
-            } else {
-                ColorTransitionState.END
-            }
-        )
-    }
-
-    val transition = updateTransition(transitionState)
-
-    val featureColorValue: Color by transition.animateColor(
-        transitionSpec = { tween(durationMillis = 750) }
-    ) { state ->
-        when (state) {
-            ColorTransitionState.START -> featureColor.themeColor
-            ColorTransitionState.END -> featureColor.webToonColor
-        }
-    }
-
-    SideEffect {
-        isFirstShow = false
-        transitionState.targetState = ColorTransitionState.END
-    }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        InitContentUi(
-            uiStateElement = uiStateElement,
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
-        ) {
-            showNavigation = showNavigation.not()
-        }
-        InitTopUi(
-            featureColor = featureColorValue,
-            uiStateElement = uiStateElement,
-            showNavigation = showNavigation,
-            modifier = Modifier.align(Alignment.TopCenter),
-            onBackPressed = onBackPressed,
-            onSharedPressed = onSharedPressed
-        )
-        InitBottomUi(
-            featureColor = featureColorValue,
-            uiStateElement = uiStateElement,
-            showNavigation = showNavigation,
-            modifier = Modifier.align(Alignment.BottomCenter),
-            onPrevClicked = onPrevClicked,
-            onNextClicked = onNextClicked
         )
     }
 }

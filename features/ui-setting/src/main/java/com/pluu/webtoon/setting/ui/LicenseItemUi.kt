@@ -35,7 +35,7 @@ fun LicenseItemUi(
 
 @Preview(
     widthDp = 240,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
+    showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
 fun PreviewLicenseItemUi() {

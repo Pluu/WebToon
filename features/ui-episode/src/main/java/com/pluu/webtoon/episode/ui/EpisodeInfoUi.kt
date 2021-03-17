@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.pluu.webtoon.episode.R
@@ -38,7 +39,8 @@ fun EpisodeInfoUi(
                 fontSize = 22.sp,
                 maxLines = 1,
                 fontWeight = FontWeight.Bold,
-                color = infoTextColor
+                color = infoTextColor,
+                overflow = TextOverflow.Ellipsis
             )
             if (rate != 0.0) {
                 Text(
@@ -73,7 +75,7 @@ fun EpisodeInfoUi(
 
 @Preview(
     widthDp = 320,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
+    showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
 fun PreviewEpisodeInfoUi() {
@@ -86,7 +88,7 @@ fun PreviewEpisodeInfoUi() {
 
 @Preview(
     widthDp = 320,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
+    showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
 fun PreviewEpisodeInfoEmptyRateUi() {

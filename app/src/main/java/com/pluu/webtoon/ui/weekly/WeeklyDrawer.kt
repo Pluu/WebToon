@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.model.ServiceConst
 import com.pluu.webtoon.model.UI_NAV_ITEM
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
@@ -117,18 +118,20 @@ fun WeeklyDrawer(
 
 @Preview(
     widthDp = 320, heightDp = 450,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
+    showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
 fun PreviewWeeklyDrawer() {
     val context = LocalContext.current
     val defaultNavi = UI_NAV_ITEM.NAVER
-    WeeklyDrawer(
-        modifier = Modifier.width(240.dp),
-        title = "Sample",
-        accentColor = ContextCompat.getColor(context, defaultNavi.bgColor).toColor(),
-        menus = UI_NAV_ITEM.values().iterator(),
-        selectedMenu = defaultNavi,
-        onEventAction = {}
-    )
+
+    ProvideWindowInsets {
+        WeeklyDrawer(
+            title = "Sample",
+            accentColor = ContextCompat.getColor(context, defaultNavi.bgColor).toColor(),
+            menus = UI_NAV_ITEM.values().iterator(),
+            selectedMenu = defaultNavi,
+            onEventAction = {}
+        )
+    }
 }

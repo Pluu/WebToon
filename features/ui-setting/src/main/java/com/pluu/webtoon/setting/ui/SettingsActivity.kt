@@ -53,7 +53,7 @@ class SettingFragment : Fragment() {
         ProvideWindowInsets {
             val context = LocalContext.current
             CompositionLocalProvider(LocalPreferenceProvider provides preferenceProvider) {
-                SettingContentUi(
+                SettingsScreen(
                     onBackPressed = {
                         activity?.finish()
                     },

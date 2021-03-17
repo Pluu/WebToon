@@ -25,7 +25,7 @@ class LicenseActivity : ComponentActivity() {
 
         activityComposeView {
             ProvideWindowInsets {
-                LicenseHomeUi(
+                LicenseScreen(
                     list = licenseModels,
                     onBackPressed = { finish() },
                     onClicked = ::showDetailLicense

@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
@@ -72,7 +73,9 @@ fun DayOfWeekUi(
         indicator = indicator,
         divider = {},
         backgroundColor = MaterialTheme.colors.background,
-        modifier = Modifier.fillMaxWidth().height(56.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp),
         edgePadding = 0.dp
     ) {
         titles.forEachIndexed { index, title ->
@@ -95,11 +98,13 @@ fun DayOfWeekUi(
 @Preview
 @Composable
 fun PreviewWeeklyTopBar() {
-    WeeklyTopBar(
-        backgroundColor = Color.DarkGray,
-        title = "Test Title",
-        onDrawerClicked = {}
-    )
+    ProvideWindowInsets {
+        WeeklyTopBar(
+            backgroundColor = Color.DarkGray,
+            title = "Test Title",
+            onDrawerClicked = {}
+        )
+    }
 }
 
 @Preview

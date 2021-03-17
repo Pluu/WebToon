@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -21,11 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pluu.compose.runtime.rememberMutableStateListOf
 import com.pluu.compose.ui.CircularProgressIndicator
-import com.pluu.compose.ui.SwipeToRefreshLayout
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
-import timber.log.Timber
 
 @Composable
 fun EpisodeContentUi(
@@ -60,10 +56,10 @@ fun EpisodeContentUi(
 
     when {
         uiState.initialLoad -> {
-            EmptyContainer(circleColors)
+            EmptyContainer(modifier, circleColors)
         }
         uiState.loading -> {
-            EpisodeLoadingContent(circleColors)
+            EpisodeLoadingContent(modifier, circleColors)
         }
         else -> {
             EpisodeGridContent(modifier, rememberItems, onMoreLoaded, readIdSet, onEpisodeClicked)
@@ -81,12 +77,10 @@ private fun EpisodeGridContent(
     onEpisodeClicked: (EpisodeInfo) -> Unit
 ) {
     LazyVerticalGrid(
-        cells = GridCells.Fixed(2),
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        cells = GridCells.Fixed(2)
     ) {
-        Timber.d(">>>")
         itemsIndexed(items) { index, item ->
-            Timber.d(">>> $index")
             if (items.lastIndex == index) {
                 LaunchedEffect(Unit) {
                     onMoreLoaded()
@@ -103,11 +97,13 @@ private fun EpisodeGridContent(
 
 @Composable
 private fun EmptyContainer(
+    modifier: Modifier = Modifier,
     circleColors: List<Color>
 ) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .wrapContentSize(Alignment.Center)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
     ) {
         CircularProgressIndicator(
             colors = circleColors,
@@ -120,30 +116,15 @@ private fun EmptyContainer(
 }
 
 @Composable
-private fun LoadingContent(
-    empty: Boolean,
-    emptyContent: @Composable () -> Unit,
-    isLoading: Boolean,
-    refreshColors: List<Color>,
-    onRefresh: () -> Unit,
-    content: @Composable () -> Unit
+private fun EpisodeLoadingContent(
+    modifier: Modifier,
+    circleColors: List<Color>
 ) {
-    if (empty) {
-        emptyContent()
-    } else {
-        SwipeToRefreshLayout(
-            refreshingState = isLoading,
-            thresholdFraction = 0.9f,
-            onRefresh = onRefresh,
-            refreshIndicator = { EpisodeLoadingContent(refreshColors) },
-            content = content,
-        )
-    }
-}
-
-@Composable
-private fun EpisodeLoadingContent(circleColors: List<Color>) {
-    Surface(elevation = 10.dp, shape = CircleShape) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
         CircularProgressIndicator(
             colors = circleColors,
             modifier = Modifier

@@ -3,6 +3,7 @@ package com.pluu.webtoon.setting.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,16 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
-fun LicenseHomeUi(
+fun LicenseScreen(
     modifier: Modifier = Modifier,
     list: List<LicenseModel>,
     onBackPressed: () -> Unit,
     onClicked: (item: LicenseModel) -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxSize()) {
         TopAppBar(
             title = {
                 Text(text = "오픈소스 라이센스")
@@ -42,7 +44,7 @@ fun LicenseHomeUi(
                     )
                 }
             },
-            modifier = modifier
+            modifier = Modifier.fillMaxWidth()
                 .background(MaterialTheme.colors.primarySurface)
                 .statusBarsPadding(),
             backgroundColor = MaterialTheme.colors.primarySurface,
@@ -76,17 +78,14 @@ private fun LicenseContentUi(
     }
 }
 
-@Preview(
-    widthDp = 320,
-    heightDp = 240,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
-)
+@Preview(widthDp = 340, heightDp = 640)
 @Composable
 fun PreviewLicenseHomeUi() {
-    LicenseHomeUi(
-        list = licenseModels,
-        modifier = Modifier.fillMaxSize(),
-        onBackPressed = {},
-        onClicked = {}
-    )
+    ProvideWindowInsets {
+        LicenseScreen(
+            list = licenseModels,
+            onBackPressed = {},
+            onClicked = {}
+        )
+    }
 }

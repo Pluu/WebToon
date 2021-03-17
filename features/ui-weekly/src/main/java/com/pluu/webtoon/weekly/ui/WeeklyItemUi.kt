@@ -191,43 +191,6 @@ fun WeeklyItemFavoriteUi(
     )
 }
 
-class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
-    override val values = sequenceOf(
-        ToonInfoWithFavorite(
-            ToonInfo(
-                id = "",
-                title = "타이틀",
-                image = "",
-                updateDate = "1234.56.78",
-                status = Status.UPDATE,
-            ), false
-        ),
-        ToonInfoWithFavorite(
-            ToonInfo(
-                id = "",
-                title = "타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀",
-                image = "",
-                updateDate = "1234.56.78",
-                status = Status.BREAK,
-                isAdult = true
-            ), true
-        )
-    )
-    override val count: Int = values.count()
-}
-
-@Preview(
-    group = "Weekly Component",
-    widthDp = 240,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
-)
-@Composable
-fun PreviewWeeklyItemUi(
-    @PreviewParameter(FakeWeeklyItemProvider::class) item: ToonInfoWithFavorite,
-) {
-    WeeklyItemUi(item = item.info, isFavorite = item.isFavorite, onClicked = { })
-}
-
 @Composable
 private fun WeeklyStatusUi(
     modifier: Modifier = Modifier,
@@ -277,6 +240,47 @@ private fun WeeklyStatusUi(
             )
         }
     }
+}
+
+class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
+    override val values = sequenceOf(
+        ToonInfoWithFavorite(
+            ToonInfo(
+                id = "",
+                title = "타이틀",
+                image = "",
+                updateDate = "1234.56.78",
+                status = Status.UPDATE,
+            ), false
+        ),
+        ToonInfoWithFavorite(
+            ToonInfo(
+                id = "",
+                title = "타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀 타이틀",
+                image = "",
+                updateDate = "1234.56.78",
+                status = Status.BREAK,
+                isAdult = true
+            ), true
+        )
+    )
+    override val count: Int = values.count()
+}
+
+@Preview(
+    group = "Weekly Component",
+    widthDp = 240,
+    showBackground = true, backgroundColor = 0xFFFFFFFF
+)
+@Composable
+fun PreviewWeeklyItemUi(
+    @PreviewParameter(FakeWeeklyItemProvider::class) item: ToonInfoWithFavorite,
+) {
+    WeeklyItemUi(
+        item = item.info,
+        isFavorite = item.isFavorite,
+        onClicked = { }
+    )
 }
 
 @Preview(
