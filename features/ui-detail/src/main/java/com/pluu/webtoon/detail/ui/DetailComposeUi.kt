@@ -12,17 +12,13 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.pluu.ui.state.UiState
-import com.pluu.webtoon.detail.model.DetailPageFieldValue
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
@@ -67,25 +63,13 @@ internal fun InitBottomUi(
     onPrevClicked: () -> Unit,
     onNextClicked: () -> Unit,
 ) {
-    var page by mutableStateOf(
-        DetailPageFieldValue(
-            isPrevEnabled = false,
-            isNextEnabled = false
-        )
-    )
-
     val transition = updateTransition(showNavigation)
     val offsetY by transition.animateDp {
         if (it) 0.dp else bottomBarSize
     }
 
-    DisposableEffect(page, uiStateElement) {
-        page = page.copy(
-            isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not(),
-            isNextEnabled = uiStateElement.data?.nextEpisodeId.isNullOrEmpty().not()
-        )
-        onDispose { }
-    }
+    val isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not()
+    val isNextEnabled = uiStateElement.data?.nextEpisodeId.isNullOrEmpty().not()
 
     DetailNavigationUi(
         modifier = modifier
@@ -93,9 +77,9 @@ internal fun InitBottomUi(
             .height(bottomBarSize)
             .offset(y = offsetY),
         buttonBackgroundColor = featureColor,
-        isPrevEnabled = page.isPrevEnabled,
+        isPrevEnabled = isPrevEnabled,
         onPrevClicked = onPrevClicked,
-        isNextEnabled = page.isNextEnabled,
+        isNextEnabled = isNextEnabled,
         onNextClicked = onNextClicked
     )
 }
