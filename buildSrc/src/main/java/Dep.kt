@@ -77,10 +77,10 @@ object Dep {
             "androidx.databinding:viewbinding:${GradlePlugin.androidStudioGradlePluginVersion}"
     }
 
-    object Accompnist {
+    object Accompanist {
         private const val version = "0.6.2"
-        const val glide = "dev.chrisbanes.accompanist:accompanist-glide:$version"
-        const val insets = "dev.chrisbanes.accompanist:accompanist-insets:$version"
+        const val glide = "com.google.accompanist:accompanist-glide:$version"
+        const val insets = "com.google.accompanist:accompanist-insets:$version"
     }
 
     object Dagger {

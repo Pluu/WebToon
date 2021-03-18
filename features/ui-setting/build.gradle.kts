@@ -43,7 +43,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
 
-    implementation(Dep.Accompnist.insets)
+    implementation(Dep.Accompanist.insets)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

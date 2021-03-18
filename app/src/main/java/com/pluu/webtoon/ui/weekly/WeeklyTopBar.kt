@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.statusBarsPadding
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
 fun WeeklyTopBar(

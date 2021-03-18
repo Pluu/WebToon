@@ -7,11 +7,11 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
 import com.pluu.webtoon.ui.compose.activityComposeView
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 /**
  * License Activity

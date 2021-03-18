@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.core.utils.lazyNone
@@ -25,7 +26,6 @@ import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
 
 /**

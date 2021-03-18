@@ -46,8 +46,8 @@ dependencies {
     implementation(Dep.AndroidX.Compose.livedata)
     implementation(Dep.AndroidX.Compose.constraintlayout)
 
-    implementation(Dep.Accompnist.glide)
-    implementation(Dep.Accompnist.insets)
+    implementation(Dep.Accompanist.glide)
+    implementation(Dep.Accompanist.insets)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

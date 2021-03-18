@@ -33,13 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.google.accompanist.glide.GlideImage
 import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.utils.toAgentGlideUrl
 import com.pluu.webtoon.weekly.R
-import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
 fun WeeklyItemUi(

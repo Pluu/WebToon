@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntSize
+import com.google.accompanist.glide.GlideImage
+import com.google.accompanist.imageloading.ImageLoadState
+import com.google.accompanist.imageloading.MaterialLoadingImage
 import com.pluu.webtoon.utils.toAgentGlideUrl
-import dev.chrisbanes.accompanist.glide.GlideImage
-import dev.chrisbanes.accompanist.imageloading.ImageLoadState
-import dev.chrisbanes.accompanist.imageloading.MaterialLoadingImage
 
 @Composable
 fun ImageAdjustBounds(

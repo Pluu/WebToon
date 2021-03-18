@@ -27,11 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.google.accompanist.glide.GlideImage
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.utils.toAgentGlideUrl
-import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
 fun EpisodeItemUi(

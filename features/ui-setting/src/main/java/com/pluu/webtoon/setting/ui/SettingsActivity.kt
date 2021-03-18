@@ -11,11 +11,11 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.ambient.ProvidePreference
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.fragmentComposeView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
 
 @AndroidEntryPoint

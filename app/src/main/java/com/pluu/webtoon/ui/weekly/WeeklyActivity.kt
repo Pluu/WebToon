@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
@@ -24,7 +25,6 @@ import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import timber.log.Timber
 import javax.inject.Inject
 

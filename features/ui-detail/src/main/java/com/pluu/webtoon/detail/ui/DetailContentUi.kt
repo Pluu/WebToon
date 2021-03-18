@@ -16,11 +16,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.navigationBarsHeight
+import com.google.accompanist.insets.statusBarsHeight
 import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.detail.compose.ImageAdjustBounds
 import com.pluu.webtoon.model.DetailView
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import timber.log.Timber
 
 @Composable

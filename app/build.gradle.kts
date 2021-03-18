@@ -92,7 +92,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.livedata)
     implementation(Dep.AndroidX.Compose.activity)
 
-    implementation(Dep.Accompnist.insets)
+    implementation(Dep.Accompanist.insets)
 
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)

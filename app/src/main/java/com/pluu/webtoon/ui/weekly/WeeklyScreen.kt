@@ -17,9 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.webtoon.R
 import com.pluu.webtoon.model.UI_NAV_ITEM
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.launch
 
 @Composable

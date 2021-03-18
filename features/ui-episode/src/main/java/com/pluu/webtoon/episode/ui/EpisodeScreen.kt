@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsPadding
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.ui.state.UiState
@@ -32,8 +34,6 @@ import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 
 @Composable
 fun EpisodeScreen(

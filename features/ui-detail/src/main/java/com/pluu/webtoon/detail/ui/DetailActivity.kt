@@ -13,6 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import com.bumptech.glide.Glide
+import com.google.accompanist.glide.LocalRequestManager
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
@@ -28,8 +30,6 @@ import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.glide.LocalRequestManager
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 /**
  * 상세화면 Activity

@@ -19,10 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.statusBarsPadding
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
 fun LicenseScreen(

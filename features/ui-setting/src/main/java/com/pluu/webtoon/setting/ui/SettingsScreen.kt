@@ -20,6 +20,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.statusBarsPadding
 import com.pluu.compose.ambient.LocalPreference
 import com.pluu.compose.ambient.ProvidePreference
 import com.pluu.compose.preference.ListPreference
@@ -28,8 +30,6 @@ import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
 import com.pluu.webtoon.data.pref.PrefConfig
 import com.pluu.webtoon.setting.R
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.statusBarsPadding
 
 @Composable
 fun SettingsScreen(

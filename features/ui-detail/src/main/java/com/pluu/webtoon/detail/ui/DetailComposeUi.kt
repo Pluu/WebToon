@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsHeight
 import com.pluu.ui.state.UiState
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
 internal fun InitTopUi(
