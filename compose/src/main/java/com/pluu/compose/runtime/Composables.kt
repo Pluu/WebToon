@@ -19,7 +19,7 @@ inline fun <T> rememberMutableStateOf(
 @Composable
 inline fun <T> rememberMutableStateOf(
     key1: Any,
-    calculation: @androidx.compose.runtime.DisallowComposableCalls() () -> T
+    calculation: @androidx.compose.runtime.DisallowComposableCalls () -> T
 ): MutableState<T> = remember(key1) {
     mutableStateOf(calculation())
 }

@@ -6,7 +6,7 @@ import android.os.Parcelable
 import java.io.Serializable
 
 inline fun <reified T : Serializable> Intent.getRequiredSerializableExtra(name: String): T =
-    getSerializable<T>(name) ?: throw IllegalArgumentException("$name does not reference")
+    getSerializable(name) ?: throw IllegalArgumentException("$name does not reference")
 
 inline fun <reified T : Serializable> Intent.getSerializable(name: String): T? =
     getSerializableExtra(name) as? T
