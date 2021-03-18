@@ -96,5 +96,5 @@ fun IntroScreen(
 )
 @Composable
 fun PreviewIntroUi() {
-    IntroScreen(isLoading = false)
+    IntroScreen(isLoading = true)
 }
