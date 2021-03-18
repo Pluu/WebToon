@@ -27,8 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
-import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.model.ServiceConst
 import com.pluu.webtoon.model.UI_NAV_ITEM
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -122,15 +120,12 @@ fun WeeklyDrawer(
 )
 @Composable
 fun PreviewWeeklyDrawer() {
-    val context = LocalContext.current
-    val defaultNavi = UI_NAV_ITEM.NAVER
-
     ProvideWindowInsets {
         WeeklyDrawer(
             title = "Sample",
-            accentColor = ContextCompat.getColor(context, defaultNavi.bgColor).toColor(),
+            accentColor = Color(0xFFDF2E1C),
             menus = UI_NAV_ITEM.values().iterator(),
-            selectedMenu = defaultNavi,
+            selectedMenu = UI_NAV_ITEM.NAVER,
             onEventAction = {}
         )
     }
