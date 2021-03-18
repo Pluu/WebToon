@@ -57,7 +57,7 @@ internal class NaverDetailApi(
                 when (result) {
                     is Result.Success -> result.data
                     is Result.Error -> return DetailResult.ErrorResult(
-                        ERROR_TYPE.DEFAULT_ERROR(result.exception)
+                        ERROR_TYPE.DEFAULT_ERROR(result.throwable)
                     )
                 }
             }
@@ -248,15 +248,9 @@ internal class NaverDetailApi(
         url: String
     ): JSONObject? {
         val request = IRequest(url = url)
-
         return requestApi(request)
             .mapJson()
-            .let { result ->
-                when (result) {
-                    is Result.Success -> result.data
-                    is Result.Error -> null
-                }
-            }
+            .successOr(null)
     }
 
     companion object {

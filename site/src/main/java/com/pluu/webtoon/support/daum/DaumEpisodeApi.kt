@@ -12,6 +12,7 @@ import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.model.Result
+import com.pluu.webtoon.model.successOr
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -34,7 +35,7 @@ internal class DaumEpisodeApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return Result.Error(result.exception)
+                    is Result.Error -> return Result.Error(result.throwable)
                 }
             }
 
@@ -81,11 +82,7 @@ internal class DaumEpisodeApi(
             JSONObject(response)
         }
 
-        return if (apiResult is Result.Success) {
-            apiResult.data
-        } else {
-            null
-        }
+        return apiResult.successOr(null)
     }
 
     private fun parseList(toonId: String, data: JSONArray): List<EpisodeInfo> =

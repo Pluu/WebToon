@@ -36,7 +36,7 @@ internal class KToonEpisodeApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return Result.Error(result.exception)
+                    is Result.Error -> return Result.Error(result.throwable)
                 }
             }
 
@@ -87,7 +87,7 @@ internal class KToonEpisodeApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return null
+                    else -> return null
                 }
             }
 

@@ -80,7 +80,7 @@ class EpisodeViewModel @Inject constructor(
 
                 }
                 is Result.Error -> {
-                    _listEvent.value = Result.Error(episodePage.exception)
+                    _listEvent.value = Result.Error(episodePage.throwable)
                 }
             }
 

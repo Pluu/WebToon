@@ -31,7 +31,7 @@ internal class KakaoEpisodeApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return Result.Error(result.exception)
+                    is Result.Error -> return Result.Error(result.throwable)
                 }
             }
 
@@ -88,7 +88,7 @@ internal class KakaoEpisodeApi(
                     is Result.Success -> result.data
                         .optString("first_single_id")
                         .takeIf { it.isNotEmpty() }
-                    is Result.Error -> null
+                    else -> null
                 }
             }
     }

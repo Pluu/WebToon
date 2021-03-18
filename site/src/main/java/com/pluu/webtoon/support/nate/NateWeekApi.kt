@@ -30,7 +30,7 @@ internal class NateWeekApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return Result.Error(result.exception)
+                    is Result.Error -> return Result.Error(result.throwable)
                 }
             }
 

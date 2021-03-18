@@ -31,7 +31,7 @@ internal class NaverEpisodeApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return Result.Error(result.exception)
+                    is Result.Error -> return Result.Error(result.throwable)
                 }
             }
 
@@ -39,8 +39,7 @@ internal class NaverEpisodeApi(
         // Parse Data
         ///////////////////////////////////////////////////////////////////////////
 
-        val episodePage =
-            EpisodeResult(parseList(param.toonId, responseData))
+        val episodePage = EpisodeResult(parseList(param.toonId, responseData))
         episodePage.nextLink = parsePage(responseData)
         episodePage.first = episodePage.episodes.firstOrNull()?.copy(id = "1")
         return Result.Success(episodePage)

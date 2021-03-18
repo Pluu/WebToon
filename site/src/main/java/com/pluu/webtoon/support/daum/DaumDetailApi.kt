@@ -1,7 +1,6 @@
 package com.pluu.webtoon.support.daum
 
 import com.pluu.utils.asSequence
-import com.pluu.utils.iterator
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.network.INetworkUseCase
@@ -34,7 +33,7 @@ internal class DaumDetailApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR(result.exception))
+                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR(result.throwable))
                 }
             }
 
@@ -69,19 +68,18 @@ internal class DaumDetailApi(
     private fun defaultDetailParse(json: JSONObject): List<DetailView> {
         val list = mutableListOf<DetailView>()
         json.optJSONArray("webtoonImages")
-            ?.iterator()
-            ?.forEach {
+            ?.asSequence().orEmpty()
+            .forEach {
                 list.add(DetailView(it.optString("url")))
             }
         json.optJSONArray("webtoonEpisodePages")
-            ?.asSequence()
-            ?.mapNotNull {
+            ?.asSequence().orEmpty()
+            .mapNotNull {
                 it.optJSONArray("webtoonEpisodePageMultimedias")
                     ?.optJSONObject(0)
                     ?.optJSONObject("image")
                     ?.optString("url")
-            }
-            ?.forEach { url ->
+            }.forEach { url ->
                 list.add(DetailView(url))
             }
         return list

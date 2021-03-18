@@ -36,7 +36,7 @@ internal class KToonDetailApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR(result.exception))
+                    is Result.Error -> return DetailResult.ErrorResult(ERROR_TYPE.DEFAULT_ERROR(result.throwable))
                 }
             }
 
@@ -64,8 +64,7 @@ internal class KToonDetailApi(
         return array.asSequence()
             .map {
                 DetailView(it.optString("imagepath"))
-            }
-            .toList()
+            }.toList()
     }
 
     private suspend fun parsePrevNext(id: String): Pair<String?, String?> {
@@ -85,7 +84,7 @@ internal class KToonDetailApi(
             .let { result ->
                 when (result) {
                     is Result.Success -> result.data
-                    is Result.Error -> return null to null
+                    else -> return null to null
                 }
             }
 

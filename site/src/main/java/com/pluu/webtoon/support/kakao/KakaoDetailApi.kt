@@ -10,7 +10,7 @@ import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.param.DetailRequest
 import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.DetailView
-import com.pluu.webtoon.model.Result
+import com.pluu.webtoon.model.successOr
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -52,18 +52,9 @@ internal class KakaoDetailApi(
 
     @Throws
     private suspend fun getData(id: String): JSONObject? {
-        ///////////////////////////////////////////////////////////////////////////
-        // API
-        ///////////////////////////////////////////////////////////////////////////
-
         return requestApi(createApi(id))
             .mapJson()
-            .let { result ->
-                when (result) {
-                    is Result.Success -> result.data
-                    is Result.Error -> null
-                }
-            }
+            .successOr(null)
     }
 
     private fun getImages(json: JSONObject): List<DetailView> {
@@ -78,16 +69,13 @@ internal class KakaoDetailApi(
     }
 
     private suspend fun getMoreData(toonId: String, episodeId: String, isPrev: Boolean): String? {
-        return try {
+        return runCatching {
             getMoreResponse(isPrev, toonId, episodeId)
                 ?.optJSONObject("item")?.takeIf {
                     it.optString("hidden", "N") == "N"
                 }?.optString("pid")
                 ?.replace("[^\\d]".toRegex(), "")
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+        }.getOrNull()
     }
 
     private suspend fun getMoreResponse(
@@ -114,12 +102,7 @@ internal class KakaoDetailApi(
 
         return requestApi(request)
             .mapJson()
-            .let { result ->
-                when (result) {
-                    is Result.Success -> result.data
-                    is Result.Error -> null
-                }
-            }
+            .successOr(null)
     }
 
     private fun createApi(id: String): IRequest =

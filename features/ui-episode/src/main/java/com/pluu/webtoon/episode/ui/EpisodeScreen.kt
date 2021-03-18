@@ -131,7 +131,7 @@ private fun convertUiState(value: Result<List<EpisodeInfo>>): UiState<List<Episo
             data = value.data.takeIf { it.isNotEmpty() },
             loading = value.data.isEmpty()
         )
-        is Result.Error -> UiState(exception = value.exception)
+        is Result.Error -> UiState(exception = value.throwable)
         else -> UiState()
     }
 }

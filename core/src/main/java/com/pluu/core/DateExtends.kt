@@ -1,6 +1,5 @@
 package com.pluu.core
 
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -14,17 +13,14 @@ fun String.toDate(
     pattern: String,
     locale: Locale = Locale.US
 ): Date? {
-    val sdFormat = try {
+    val sdFormat = runCatching {
         SimpleDateFormat(pattern, locale)
-    } catch (e: IllegalArgumentException) {
-        null
-    }
+    }.getOrNull()
+
     return sdFormat?.let {
-        try {
+        runCatching {
             it.parse(this)
-        } catch (e: ParseException) {
-            null
-        }
+        }.getOrNull()
     }
 }
 

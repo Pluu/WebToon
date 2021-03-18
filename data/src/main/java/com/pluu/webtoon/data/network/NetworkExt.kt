@@ -10,17 +10,17 @@ val networkFailedException: Exception
 
 fun <T : Any> NetworkResult.safeApi(convert: (String) -> T): Result<T> = safeAPi(this, convert)
 
-inline fun NetworkResult.mapJson(): Result<JSONObject> = safeAPi(this) { response ->
-    JSONObject(response)
-}
+inline fun NetworkResult.mapJson(): Result<JSONObject> =
+    safeAPi(this) { response ->
+        JSONObject(response)
+    }
 
 fun <T : Any> safeAPi(result: NetworkResult, convert: (String) -> T): Result<T> {
     return when (result) {
         is NetworkResult.Success -> {
-            try {
+            runCatching {
                 Result.Success(convert(result.response))
-            } catch (e: Exception) {
-                e.printStackTrace()
+            }.getOrElse { e ->
                 Result.Error(e)
             }
         }
