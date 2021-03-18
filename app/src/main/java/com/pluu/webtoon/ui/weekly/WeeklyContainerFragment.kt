@@ -68,7 +68,7 @@ class WeeklyContainerFragment : Fragment() {
 
         Column {
             DayOfWeekUi(
-                titles = serviceApi.CURRENT_TABS,
+                titles = serviceApi.currentTabs,
                 selectedTabIndex = selectedIndex,
                 indicatorColor = colorProvider.getTitleColor().toColor()
             ) {

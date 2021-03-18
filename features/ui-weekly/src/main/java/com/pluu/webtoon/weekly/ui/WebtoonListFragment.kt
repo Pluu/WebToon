@@ -41,7 +41,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class WebtoonListFragment : Fragment() {
 
-    private val viewModel by viewModels<WeekyViewModel>()
+    private val viewModel by viewModels<WeeklyViewModel>()
 
     private val toonViewModel by activityViewModels<ToonViewModel>()
 

@@ -52,6 +52,7 @@ class EpisodeViewModel @Inject constructor(
     private val _favorite = MutableLiveData(item.isFavorite)
     val favorite: LiveData<Boolean> get() = _favorite
 
+    @Suppress("PrivatePropertyName")
     private val INIT_PAGE = 0
     private var pageNo = INIT_PAGE
     private var firstEpisode: EpisodeInfo? = null

@@ -26,6 +26,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class Migartion1_2Test {
 
+    @Suppress("PrivatePropertyName")
     private val TEST_DB_NAME = "test-db"
 
     @get:Rule

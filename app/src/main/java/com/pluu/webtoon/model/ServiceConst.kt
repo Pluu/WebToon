@@ -5,11 +5,11 @@ import com.pluu.webtoon.R
 
 /**
  * Service Const Class
- * Created by PLUUSYSTEM-NEW on 2015-11-01.
+ * Created by pluu on 2015-11-01.
  */
 object ServiceConst {
-    // titles for navdrawer items (indices must correspond to the above)
-    val NAVDRAWER_TITLE_RES_ID = intArrayOf(
+    // titles for nav drawer items (indices must correspond to the above)
+    val NAV_DRAWER_TITLE_RES_ID = intArrayOf(
         R.string.title_naver,
         R.string.title_daum,
         R.string.title_olleh,

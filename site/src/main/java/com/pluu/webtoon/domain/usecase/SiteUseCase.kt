@@ -13,10 +13,11 @@ import java.util.Calendar
 import java.util.Locale
 
 interface WeeklyUseCase {
-    val CURRENT_TABS: Array<String>
+
+    val currentTabs: Array<String>
 
     val weeklyTabSize: Int
-        get() = CURRENT_TABS.size
+        get() = currentTabs.size
 
     val todayTabPosition: Int
         get() = (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7

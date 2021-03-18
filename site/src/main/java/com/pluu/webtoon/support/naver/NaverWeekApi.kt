@@ -19,8 +19,9 @@ internal class NaverWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 
-    override val CURRENT_TABS = TITLE
+    override val currentTabs = TITLE
 
+    @Suppress("PrivatePropertyName")
     private val URL_VALUE = arrayOf("mon", "tue", "wed", "thu", "fri", "sat", "sun", "fin")
 
     override suspend fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {

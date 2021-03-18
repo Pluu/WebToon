@@ -22,6 +22,7 @@ internal class NateEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 
+    @Suppress("PrivatePropertyName")
     private val EPISODE_ID_PATTERN = "(?<=bsno=)\\d+".toRegex()
 
     override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {

@@ -69,7 +69,7 @@ fun WeeklyDrawer(
         menus.withIndex().forEach { (index, item) ->
             val isSelected = selectedMenu == item
             Text(
-                context.getString(ServiceConst.NAVDRAWER_TITLE_RES_ID[index]),
+                context.getString(ServiceConst.NAV_DRAWER_TITLE_RES_ID[index]),
                 color = if (isSelected) {
                     accentColor
                 } else {

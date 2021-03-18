@@ -19,7 +19,7 @@ internal class KToonWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 
-    override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
+    override val currentTabs = arrayOf("월", "화", "수", "목", "금", "토", "일")
 
     override suspend fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ internal class KToonWeekApi(
 
         val weekly = responseData.select("div[class=list week_all] .inner")
         val dataPosition = weekly.select("h4")
-            .indexOfFirst { it.text() == CURRENT_TABS[param] }
+            .indexOfFirst { it.text() == currentTabs[param] }
 
         val list = weekly.getOrNull(dataPosition)
             ?.select("li")

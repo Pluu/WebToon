@@ -18,7 +18,7 @@ internal class NateWeekApi(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyUseCase, INetworkUseCase by networkUseCase {
 
-    override val CURRENT_TABS = arrayOf("월", "화", "수", "목", "금", "토", "일")
+    override val currentTabs = arrayOf("월", "화", "수", "목", "금", "토", "일")
 
     override suspend fun invoke(param: WeeklyRequest): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////

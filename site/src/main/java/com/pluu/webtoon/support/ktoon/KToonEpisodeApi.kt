@@ -22,6 +22,7 @@ internal class KToonEpisodeApi(
     private val networkUseCase: INetworkUseCase
 ) : EpisodeUseCase, INetworkUseCase by networkUseCase {
 
+    @Suppress("PrivatePropertyName")
     private val PAGE_SIZE = 20
 
     override suspend fun invoke(param: EpisodeRequest): Result<EpisodeResult> {

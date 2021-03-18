@@ -10,6 +10,7 @@ import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.model.ERROR_TYPE
 import com.pluu.webtoon.model.Result
+import com.pluu.webtoon.model.successOr
 import com.pluu.webtoon.network.mapDocument
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -25,6 +26,7 @@ internal class NaverDetailApi(
     private val networkUseCase: INetworkUseCase
 ) : DetailUseCase, INetworkUseCase by networkUseCase {
 
+    @Suppress("PrivatePropertyName")
     private val SKIP_DETAIL = arrayOf(
         "http://static.naver.com/m/comic/im/txt_ads.png",
         "http://static.naver.com/m/comic/im/toon_app_pop.png"
