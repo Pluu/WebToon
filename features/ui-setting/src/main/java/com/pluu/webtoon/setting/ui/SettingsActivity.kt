@@ -1,18 +1,17 @@
 package com.pluu.webtoon.setting.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
-import com.pluu.compose.ambient.LocalPreferenceProvider
-import com.pluu.compose.ambient.PreferenceProvider
+import com.pluu.compose.ambient.ProvidePreference
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.fragmentComposeView
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +39,7 @@ class SettingsActivity : FragmentActivity() {
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
     @Inject
-    lateinit var preferenceProvider: PreferenceProvider
+    lateinit var sharedPreferences: SharedPreferences
 
     @Inject
     lateinit var navigator: SettingNavigator
@@ -52,7 +51,7 @@ class SettingFragment : Fragment() {
     ) = fragmentComposeView {
         ProvideWindowInsets {
             val context = LocalContext.current
-            CompositionLocalProvider(LocalPreferenceProvider provides preferenceProvider) {
+            ProvidePreference(sharedPreferences) {
                 SettingsScreen(
                     onBackPressed = {
                         activity?.finish()

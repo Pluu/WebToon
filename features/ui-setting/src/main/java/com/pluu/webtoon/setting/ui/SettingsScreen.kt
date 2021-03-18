@@ -14,15 +14,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
-import com.pluu.compose.ambient.LocalPreferenceProvider
-import com.pluu.compose.ambient.PreferenceProvider
+import com.pluu.compose.ambient.LocalPreference
+import com.pluu.compose.ambient.ProvidePreference
 import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
@@ -71,7 +70,7 @@ fun SettingsScreen(
 private fun DefaultWebtoonUi(
     items: List<ListPreferenceItem<String>>
 ) {
-    val preferenceProvider = LocalPreferenceProvider.current
+    val preferenceProvider = LocalPreference.current
 
     val preferenceKey = PrefConfig.KEY_DEFAULT_WEBTOON
     val summaryProvider: (String) -> String = { value ->
@@ -145,10 +144,8 @@ private fun getPreItems(
 @Composable
 fun PreviewSettingContentUi() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current)
-    val preferenceProvider = PreferenceProvider(sharedPreferences)
-
     ProvideWindowInsets {
-        CompositionLocalProvider(LocalPreferenceProvider provides preferenceProvider) {
+        ProvidePreference(sharedPreferences) {
             SettingsScreen(
                 onBackPressed = {},
                 onOpenSourceClicked = {}
