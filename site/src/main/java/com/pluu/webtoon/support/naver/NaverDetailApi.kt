@@ -164,6 +164,7 @@ internal class NaverDetailApi(
                     src.substring(openIndex, closeIndex + 1).replace("'", "\"")
                 )
                 if (articleWordRegex.find(article.chargeYn)?.value == "Y") {
+                    // 과금 에피소드인 경우, 이동 불가능 처리
                     return null
                 }
                 articleNodRegex.find(article.no)?.value
