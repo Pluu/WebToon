@@ -1,0 +1,26 @@
+name: android build test
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'buildSrc/src/**/*.kt', '**/gradle.properties', 'gradle/**') }}
+      - name: Run build
+        run: ./gradlew assembleDebug
