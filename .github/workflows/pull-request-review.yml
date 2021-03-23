@@ -7,6 +7,7 @@ on:
 jobs:
   danger:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' # if only run pull request when multiple trigger workflow
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,16 +25,11 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - name: Bundle install
-        run: |
-          gem install bundler
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
-      - name: Danger install
-        run: |
-          gem install danger danger-android_lint
-      - name: Run Danger
-        run: |
-          bundle exec danger
+      - uses: MeilCli/danger-action@v5
+        with:
+          plugins_file: 'Gemfile'
+          install_path: 'vendor/bundle'
+          danger_file: 'Dangerfile'
+          danger_id: 'danger-pr'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
