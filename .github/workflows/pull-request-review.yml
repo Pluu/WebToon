@@ -24,12 +24,9 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - name: Bundle install
+      - name: Danger install
         run: |
-          gem install bundler
-          gem install danger-android_lint
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
+          gem install danger danger-android_lint
       - name: Run Danger
         run: |
           bundle exec danger
