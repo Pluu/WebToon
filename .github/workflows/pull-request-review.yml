@@ -1,4 +1,4 @@
-name: android build test
+name: pull request review
 
 on:
   pull_request:
