@@ -22,7 +22,19 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'buildSrc/src/**/*.kt', '**/gradle.properties', 'gradle/**') }}
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-      - name: Run build
-        run: ./gradlew assembleDebug
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          gradle-version: 6.8.3
+          arguments: assembleDebug
+          wrapper-cache-enabled: true
+          dependencies-cache-key: |
+            **/*.gradle
+            **/*.gradle.kts
+            buildSrc/src/**/*.kt
+            **/gradle.properties
+            gradle/**
+          dependencies-cache-exact: true
+          configuration-cache-key: |
+            **/gradle.properties
+            gradle/dependency-locks/**
+          configuration-cache-exact: true
