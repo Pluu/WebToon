@@ -27,6 +27,7 @@ jobs:
       - name: Bundle install
         run: |
           gem install bundler
+          gem install danger-android_lint
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
       - name: Run Danger
