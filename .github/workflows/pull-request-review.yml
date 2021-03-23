@@ -21,15 +21,23 @@ jobs:
           ruby-version: '2.6'
       - uses: actions/cache@v1
         with:
-          path: vendor/bundle
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            vendor/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - uses: MeilCli/danger-action@v5.1.1
+      - uses: eskatos/gradle-command-action@v1
         with:
-          plugins_file: 'Gemfile'
-          install_path: 'vendor/bundle'
-          danger_file: 'Dangerfile'
-          danger_id: 'danger-pr'
+          gradle-version: 6.8.3
+          arguments: lintDebug
+          wrapper-cache-enabled: true
+      - name: Set up and run Danger
         env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gem install danger
+          gem install danger-checkstyle_format
+          gem install danger-android_lint
+          danger
