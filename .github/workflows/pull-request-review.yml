@@ -25,7 +25,7 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - uses: MeilCli/danger-action@v5
+      - uses: MeilCli/danger-action@v5.1.1
         with:
           plugins_file: 'Gemfile'
           install_path: 'vendor/bundle'
