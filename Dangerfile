@@ -25,4 +25,6 @@ Dir.glob("**//build/reports/lint-results*.xml").each { |report|
     android_lint.report_file = report.to_s
     android_lint.filtering = true
     android_lint.lint(inline_mode: true)
+
+    markdown "- #{report.to_s}"
 }
