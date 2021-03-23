@@ -53,6 +53,7 @@ android {
         disable("ContentDescription")
         isAbortOnError = false
         xmlReport = true
+        xmlOutput = file("${project.rootDir}/app/build/reports/lint-results.xml")
     }
 
     useLibrary("android.test.mock")
