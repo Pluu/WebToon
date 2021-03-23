@@ -52,6 +52,7 @@ android {
         checkOnly("Interoperability")
         disable("ContentDescription")
         isAbortOnError = false
+        xmlReport = true
     }
 
     useLibrary("android.test.mock")
