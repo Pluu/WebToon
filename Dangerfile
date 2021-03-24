@@ -20,11 +20,8 @@ warn "This PR does not have any assignees yet." unless github.pr_json["assignee"
 # --------------------
 # Android Lint
 # --------------------
-Dir.glob("**//build/reports/lint-results*.xml").each { |report|
+Dir["*/build/reports/lint-results*.xml"].each do |file|
     android_lint.skip_gradle_task = true
-    android_lint.report_file = report.to_s
-    android_lint.filtering = true
+    android_lint.report_file = file
     android_lint.lint(inline_mode: true)
-
-    markdown "- #{report.to_s}"
-}
+end

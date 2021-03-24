@@ -40,4 +40,4 @@ jobs:
           gem install danger
           gem install danger-checkstyle_format
           gem install danger-android_lint
-          danger
+          bundle exec danger
