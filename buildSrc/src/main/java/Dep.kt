@@ -11,10 +11,10 @@ object Dep {
     }
 
     object AndroidX {
-        const val annotation = "androidx.annotation:annotation:1.2.0-rc01"
+        const val annotation = "androidx.annotation:annotation:1.3.0-alpha01"
 
         object activity {
-            private const val activityVersion = "1.3.0-alpha04"
+            private const val activityVersion = "1.3.0-alpha05"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -23,24 +23,24 @@ object Dep {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.3.0-beta01"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-beta03"
+        const val appcompat = "androidx.appcompat:appcompat:1.3.0-rc01"
+        const val coreKtx = "androidx.core:core-ktx:1.6.0-alpha01"
 
         object fragment {
-            private const val fragmentVersion = "1.3.1"
+            private const val fragmentVersion = "1.3.2"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.3.0"
+            private const val lifecycleVersion = "2.3.1"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
 
         object room {
-            private const val roomVersion = "2.3.0-beta03"
+            private const val roomVersion = "2.3.0-rc01"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -49,15 +49,15 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val material = "com.google.android.material:material:1.3.0"
+            const val material = "com.google.android.material:material:1.4.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-beta02"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-rc01"
             const val viewPager = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
         }
 
         object Compose {
-            const val version = "1.0.0-beta02"
+            const val version = "1.0.0-beta03"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -68,8 +68,8 @@ object Dep {
             const val tooling = "androidx.compose.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
-            const val activity = "androidx.activity:activity-compose:1.3.0-alpha04"
-            const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
+            const val activity = "androidx.activity:activity-compose:1.3.0-alpha05"
+            const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
         }
 
         const val viewBinding =
@@ -77,7 +77,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.6.2"
+        private const val version = "0.7.0"
         const val glide = "com.google.accompanist:accompanist-glide:$version"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
     }
