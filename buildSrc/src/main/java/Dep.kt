@@ -2,7 +2,7 @@
 
 object Dep {
     object GradlePlugin {
-        const val androidStudioGradlePluginVersion = "7.0.0-alpha11"
+        const val androidStudioGradlePluginVersion = "7.0.0-alpha12"
         const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
@@ -80,6 +80,7 @@ object Dep {
         private const val version = "0.7.0"
         const val glide = "com.google.accompanist:accompanist-glide:$version"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
+        const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
 
     object Dagger {
