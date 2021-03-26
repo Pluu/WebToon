@@ -32,11 +32,10 @@ fun WeeklyHomeUi(
         key = weekPosition.toString(),
         factory = WeeklyViewModel.provideFactory(viewModelFactory, weekPosition)
     )
-    val toonViewModel: ToonViewModel = viewModel()
 
     val errorEvent by viewModel.errorEvent.observeAsState()
     val list by viewModel.listEvent.observeAsState(null)
-    val updateFavoriteResult by toonViewModel.updateEvent.observeAsState(null)
+    val updateFavoriteResult by viewModel.updateEvent.observeAsState(null)
     val palletCalculator = PalletDarkCalculator(LocalContext.current)
 
     val context = LocalContext.current
@@ -47,7 +46,7 @@ fun WeeklyHomeUi(
         val favorite = activityResult.data
             ?.getSerializable<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE)
             ?: return@registerStartActivityForResult
-        toonViewModel.updateFavorite(favorite)
+        viewModel.updatedFavorite(favorite)
     }
 
     LaunchedEffect(errorEvent, updateFavoriteResult) {

@@ -12,6 +12,7 @@ import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.event.ErrorEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -33,6 +34,9 @@ class WeeklyViewModel @AssistedInject constructor(
 
     private val _errorEvent = MutableLiveData<ErrorEvent>()
     val errorEvent: LiveData<ErrorEvent> get() = _errorEvent
+
+    private val _updateEvent: MutableLiveData<FavoriteResult> = MutableLiveData()
+    val updateEvent: LiveData<FavoriteResult> get() = _updateEvent
 
     // Cashing Data
     private val cacheList = mutableListOf<ToonInfo>()
@@ -88,6 +92,10 @@ class WeeklyViewModel @AssistedInject constructor(
             cacheFavorites.remove(id)
         }
         renderList(cacheList, cacheFavorites)
+    }
+
+    fun updatedFavorite(favorite: FavoriteResult) {
+        _updateEvent.value = favorite
     }
 
     private fun renderList(
