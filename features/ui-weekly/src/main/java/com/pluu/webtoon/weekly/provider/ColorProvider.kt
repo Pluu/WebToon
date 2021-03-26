@@ -6,11 +6,14 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.weekly.model.toUiType
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /** Color Resource Provider */
-class ColorProvider(
-    private val context: Context
+@Singleton
+class ColorProvider @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
     @ColorInt
     fun getColor(@ColorRes resId: Int): Int = ContextCompat.getColor(context, resId)
