@@ -21,7 +21,7 @@ import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
-import com.pluu.webtoon.weekly.event.WeeklyEvent
+import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.Session
 import com.pluu.webtoon.weekly.model.getCoreType
 import com.pluu.webtoon.weekly.model.toUiType
@@ -68,7 +68,7 @@ class WeeklyActivity : FragmentActivity() {
                         .toColor(),
                     onEventAction = { event ->
                         when (event) {
-                            is WeeklyEvent.OnMenuClicked -> {
+                            is WeeklyMenuEvent.OnMenuClicked -> {
                                 if (naviItem != event.item) {
                                     Timber.d(event.item.name)
                                     session.navi = event.item.getCoreType()
@@ -76,7 +76,7 @@ class WeeklyActivity : FragmentActivity() {
                                     replaceMainContainer(WeeklyContainerFragment.newInstance())
                                 }
                             }
-                            WeeklyEvent.OnSettingClicked -> {
+                            WeeklyMenuEvent.OnSettingClicked -> {
                                 settingNavigator.openSetting(this)
                             }
                         }

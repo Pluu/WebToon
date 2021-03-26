@@ -19,6 +19,7 @@ import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.ui.compose.registerStartActivityForResult
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.R
+import com.pluu.webtoon.weekly.event.WeeklyEvent
 import com.pluu.webtoon.weekly.image.PalletDarkCalculator
 import kotlinx.coroutines.launch
 
@@ -33,13 +34,12 @@ fun WeeklyHomeUi(
         factory = WeeklyViewModel.provideFactory(viewModelFactory, weekPosition)
     )
 
-    val errorEvent by viewModel.errorEvent.observeAsState()
     val list by viewModel.listEvent.observeAsState(null)
-    val updateFavoriteResult by viewModel.updateEvent.observeAsState(null)
-    val palletCalculator = PalletDarkCalculator(LocalContext.current)
+    val event by viewModel.event.observeAsState()
 
     val context = LocalContext.current
     val episodeNavigator = LocalEpisodeNavigator.current
+    val palletCalculator = PalletDarkCalculator(LocalContext.current)
     val coroutineScope = rememberCoroutineScope()
 
     val openEpisodeLauncher = registerStartActivityForResult { activityResult ->
@@ -49,12 +49,16 @@ fun WeeklyHomeUi(
         viewModel.updatedFavorite(favorite)
     }
 
-    LaunchedEffect(errorEvent, updateFavoriteResult) {
-        errorEvent?.let { event ->
-            context.toast(event.message)
-        }
-        updateFavoriteResult?.let { favoriteResult ->
-            viewModel.updateFavorite(favoriteResult.id, favoriteResult.isFavorite)
+    LaunchedEffect(event) {
+        @Suppress("UnnecessaryVariable", "MoveVariableDeclarationIntoWhen")
+        val safeEvent = event
+        when (safeEvent) {
+            is WeeklyEvent.ErrorEvent -> {
+                context.toast(safeEvent.message)
+            }
+            is WeeklyEvent.UpdatedFavorite -> {
+                viewModel.updateFavorite(safeEvent.result.id, safeEvent.result.isFavorite)
+            }
         }
     }
 

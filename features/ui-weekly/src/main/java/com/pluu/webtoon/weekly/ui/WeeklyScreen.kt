@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.webtoon.weekly.R
-import com.pluu.webtoon.weekly.event.WeeklyEvent
+import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import kotlinx.coroutines.launch
 
@@ -28,7 +28,7 @@ fun WeeklyScreen(
     modifier: Modifier = Modifier,
     naviItem: UI_NAV_ITEM,
     backgroundColor: Color,
-    onEventAction: (WeeklyEvent) -> Unit,
+    onEventAction: (WeeklyMenuEvent) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -55,7 +55,7 @@ private fun WeeklyScreen(
     modifier: Modifier = Modifier,
     naviItem: UI_NAV_ITEM,
     backgroundColor: Color,
-    onEventAction: (WeeklyEvent) -> Unit,
+    onEventAction: (WeeklyMenuEvent) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     content: @Composable (PaddingValues) -> Unit
 ) {

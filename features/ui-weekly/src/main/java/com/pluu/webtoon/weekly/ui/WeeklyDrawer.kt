@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
-import com.pluu.webtoon.weekly.event.WeeklyEvent
+import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.ServiceConst
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 
@@ -41,7 +41,7 @@ fun WeeklyDrawer(
     accentColor: Color,
     menus: Iterator<UI_NAV_ITEM>,
     selectedMenu: UI_NAV_ITEM,
-    onEventAction: (WeeklyEvent) -> Unit
+    onEventAction: (WeeklyMenuEvent) -> Unit
 ) {
     val context = LocalContext.current
     Column(
@@ -79,7 +79,7 @@ fun WeeklyDrawer(
                     .fillMaxWidth()
                     .sizeIn(minHeight = 48.dp)
                     .clickable {
-                        onEventAction(WeeklyEvent.OnMenuClicked(item))
+                        onEventAction(WeeklyMenuEvent.OnMenuClicked(item))
                     }
                     .padding(horizontal = 16.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
@@ -93,7 +93,7 @@ fun WeeklyDrawer(
                 .fillMaxWidth()
                 .sizeIn(minHeight = 48.dp)
                 .clickable {
-                    onEventAction(WeeklyEvent.OnSettingClicked)
+                    onEventAction(WeeklyMenuEvent.OnSettingClicked)
                 }
                 .padding(horizontal = 16.dp)
         ) {

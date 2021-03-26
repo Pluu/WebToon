@@ -13,7 +13,7 @@ import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.model.successOr
 import com.pluu.webtoon.ui.model.FavoriteResult
-import com.pluu.webtoon.weekly.event.ErrorEvent
+import com.pluu.webtoon.weekly.event.WeeklyEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,18 +32,15 @@ class WeeklyViewModel @AssistedInject constructor(
     private val _listEvent = MutableLiveData<List<ToonInfoWithFavorite>>()
     val listEvent: LiveData<List<ToonInfoWithFavorite>> get() = _listEvent
 
-    private val _errorEvent = MutableLiveData<ErrorEvent>()
-    val errorEvent: LiveData<ErrorEvent> get() = _errorEvent
-
-    private val _updateEvent: MutableLiveData<FavoriteResult> = MutableLiveData()
-    val updateEvent: LiveData<FavoriteResult> get() = _updateEvent
+    private val _event = MutableLiveData<WeeklyEvent>()
+    val event: LiveData<WeeklyEvent> get() = _event
 
     // Cashing Data
     private val cacheList = mutableListOf<ToonInfo>()
     private val cacheFavorites = mutableSetOf<String>()
 
     private val ceh = CoroutineExceptionHandler { _, t ->
-        _errorEvent.value = ErrorEvent(t.localizedMessage ?: "Unknown Message")
+        _event.value = WeeklyEvent.ErrorEvent(t.localizedMessage ?: "Unknown Message")
     }
 
     init {
@@ -91,7 +88,7 @@ class WeeklyViewModel @AssistedInject constructor(
     }
 
     fun updatedFavorite(favorite: FavoriteResult) {
-        _updateEvent.value = favorite
+        _event.value = WeeklyEvent.UpdatedFavorite(favorite)
     }
 
     private fun renderList(
