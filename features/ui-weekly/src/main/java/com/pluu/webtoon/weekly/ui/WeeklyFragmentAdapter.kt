@@ -1,11 +1,10 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
-import com.pluu.webtoon.weekly.ui.WebtoonListFragment
 
 /**
  * Main ViewPager Fragment Adapter

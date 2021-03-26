@@ -5,10 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.pluu.utils.startActivity
+import com.pluu.webtoon.navigator.WeeklyNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
-import com.pluu.webtoon.ui.weekly.WeeklyActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * 인트로 화면 Activity
@@ -17,6 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class IntroActivity : ComponentActivity() {
     private val viewModel by viewModels<IntroViewModel>()
+
+    @Inject
+    lateinit var weeklyNavigator: WeeklyNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +37,7 @@ class IntroActivity : ComponentActivity() {
     }
 
     private fun moveMainScreen() {
-        startActivity<WeeklyActivity>()
+        weeklyNavigator.openWeekly(this)
         finish()
     }
 }

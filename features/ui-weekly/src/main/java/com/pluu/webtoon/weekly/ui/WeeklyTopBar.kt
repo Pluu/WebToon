@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth

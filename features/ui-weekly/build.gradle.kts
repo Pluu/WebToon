@@ -25,6 +25,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":core-android"))
+    implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":site"))
     implementation(project(":ui-common"))
@@ -38,12 +39,14 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.palette)
+    implementation(Dep.AndroidX.UI.viewPager)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
+    implementation(Dep.AndroidX.Compose.activity)
     implementation(Dep.AndroidX.Compose.constraintlayout)
 
     implementation(Dep.Accompanist.glide)

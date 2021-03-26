@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
@@ -18,8 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.pluu.webtoon.R
-import com.pluu.webtoon.model.UI_NAV_ITEM
+import com.pluu.webtoon.weekly.R
+import com.pluu.webtoon.weekly.event.WeeklyEvent
+import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import kotlinx.coroutines.launch
 
 @Composable

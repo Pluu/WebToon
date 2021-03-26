@@ -1,11 +1,11 @@
-package com.pluu.webtoon.di.provider
+package com.pluu.webtoon.weekly.provider
 
 import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.pluu.webtoon.model.NAV_ITEM
-import com.pluu.webtoon.model.toUiType
+import com.pluu.webtoon.weekly.model.toUiType
 import javax.inject.Inject
 
 /** Color Resource Provider */

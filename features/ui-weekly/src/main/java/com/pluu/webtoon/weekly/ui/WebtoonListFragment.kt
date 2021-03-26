@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,7 +26,7 @@ import com.pluu.webtoon.ui.compose.fragmentComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.R
-import com.pluu.webtoon.weekly.ui.image.PalletDarkCalculator
+import com.pluu.webtoon.weekly.image.PalletDarkCalculator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -84,12 +83,8 @@ class WebtoonListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.event.observeNonNull(viewLifecycleOwner) { event ->
-            when (event) {
-                is WeeklyEvent.ERROR -> {
-                    toast(event.message)
-                }
-            }
+        viewModel.errorEvent.observeNonNull(viewLifecycleOwner) { event ->
+            toast(event.message)
         }
         toonViewModel.updateEvent.observeNonNull(viewLifecycleOwner) {
             favoriteUpdate(it)

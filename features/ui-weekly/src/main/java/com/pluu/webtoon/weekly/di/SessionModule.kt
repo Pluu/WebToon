@@ -1,8 +1,8 @@
-package com.pluu.webtoon.di
+package com.pluu.webtoon.weekly.di
 
 import com.pluu.webtoon.data.pref.PrefConfig
 import com.pluu.webtoon.model.NAV_ITEM
-import com.pluu.webtoon.model.Session
+import com.pluu.webtoon.weekly.model.Session
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

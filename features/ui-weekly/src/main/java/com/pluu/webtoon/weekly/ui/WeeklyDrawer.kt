@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,8 +30,9 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
-import com.pluu.webtoon.model.ServiceConst
-import com.pluu.webtoon.model.UI_NAV_ITEM
+import com.pluu.webtoon.weekly.event.WeeklyEvent
+import com.pluu.webtoon.weekly.model.ServiceConst
+import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 
 @Composable
 fun WeeklyDrawer(

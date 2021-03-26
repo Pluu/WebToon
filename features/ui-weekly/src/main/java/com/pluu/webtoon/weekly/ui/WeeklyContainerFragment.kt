@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,10 +19,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.di.provider.NaviColorProvider
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
-import com.pluu.webtoon.event.ThemeEvent
 import com.pluu.webtoon.ui.compose.fragmentComposeView
+import com.pluu.webtoon.weekly.event.ThemeEvent
+import com.pluu.webtoon.weekly.provider.NaviColorProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

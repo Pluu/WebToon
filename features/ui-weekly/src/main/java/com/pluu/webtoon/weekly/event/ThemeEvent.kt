@@ -1,4 +1,4 @@
-package com.pluu.webtoon.event
+package com.pluu.webtoon.weekly.event
 
 import androidx.annotation.ColorInt
 import java.io.Serializable

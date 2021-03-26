@@ -29,10 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.weekly.WeeklyActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme.Immersive"/>
     </application>
 
 </manifest>

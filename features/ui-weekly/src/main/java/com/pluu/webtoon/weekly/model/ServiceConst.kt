@@ -1,7 +1,8 @@
-package com.pluu.webtoon.model
+package com.pluu.webtoon.weekly.model
 
 import androidx.annotation.ColorRes
-import com.pluu.webtoon.R
+import com.pluu.webtoon.model.NAV_ITEM
+import com.pluu.webtoon.weekly.R
 
 /**
  * Service Const Class

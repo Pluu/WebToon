@@ -12,6 +12,7 @@ import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.weekly.event.ErrorEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -32,15 +33,15 @@ class WeeklyViewModel @Inject constructor(
     private val _listEvent = MutableLiveData<List<ToonInfoWithFavorite>>()
     val listEvent: LiveData<List<ToonInfoWithFavorite>> get() = _listEvent
 
-    private val _event = MutableLiveData<WeeklyEvent>()
-    val event: LiveData<WeeklyEvent> get() = _event
+    private val _errorEvent = MutableLiveData<ErrorEvent>()
+    val errorEvent: LiveData<ErrorEvent> get() = _errorEvent
 
     // Cashing Data
     private val cacheList = mutableListOf<ToonInfo>()
     private val cacheFavorites = mutableSetOf<String>()
 
     private val ceh = CoroutineExceptionHandler { _, t ->
-        _event.value = WeeklyEvent.ERROR(t.localizedMessage ?: "Unknown Message")
+        _errorEvent.value = ErrorEvent(t.localizedMessage ?: "Unknown Message")
     }
 
     init {
@@ -102,6 +103,3 @@ class WeeklyViewModel @Inject constructor(
     }
 }
 
-sealed class WeeklyEvent {
-    class ERROR(val message: String) : WeeklyEvent()
-}

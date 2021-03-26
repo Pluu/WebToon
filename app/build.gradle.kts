@@ -84,7 +84,6 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.material)
-    implementation(Dep.AndroidX.UI.viewPager)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)

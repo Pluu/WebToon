@@ -1,7 +1,7 @@
-package com.pluu.webtoon.di
+package com.pluu.webtoon.weekly.di
 
 import android.content.Context
-import com.pluu.webtoon.di.provider.ColorProvider
+import com.pluu.webtoon.weekly.provider.ColorProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

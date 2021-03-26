@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui.image
+package com.pluu.webtoon.weekly.image
 
 import android.graphics.Bitmap
 import android.graphics.Color

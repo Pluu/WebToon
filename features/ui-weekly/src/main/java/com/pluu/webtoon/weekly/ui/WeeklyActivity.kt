@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.weekly
+package com.pluu.webtoon.weekly.ui
 
 import android.os.Bundle
 import android.view.View
@@ -19,11 +19,12 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.model.Session
-import com.pluu.webtoon.model.getCoreType
-import com.pluu.webtoon.model.toUiType
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
+import com.pluu.webtoon.weekly.event.WeeklyEvent
+import com.pluu.webtoon.weekly.model.Session
+import com.pluu.webtoon.weekly.model.getCoreType
+import com.pluu.webtoon.weekly.model.toUiType
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
