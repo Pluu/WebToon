@@ -9,9 +9,9 @@ import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.model.NAV_ITEM
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.model.successOr
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.event.ErrorEvent
 import dagger.assisted.Assisted
@@ -47,7 +47,7 @@ class WeeklyViewModel @AssistedInject constructor(
     }
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(ceh) {
             // Step1. 주간 웹툰 로드
             val tempList = getWeekLoad(weekPosition)
             // Step2. 즐겨찾기 취득
@@ -65,15 +65,11 @@ class WeeklyViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun getWeekLoad(weekPosition: Int): List<ToonInfo> =
-        withContext(dispatchers.computation + ceh) {
-            val apiResult: Result<List<ToonInfo>> = weeklyUseCase(weekPosition)
-            if (apiResult is Result.Success) {
-                apiResult.data
-            } else {
-                emptyList()
-            }
-        }
+    private suspend fun getWeekLoad(
+        weekPosition: Int
+    ): List<ToonInfo> = withContext(dispatchers.computation) {
+        weeklyUseCase(weekPosition).successOr(emptyList())
+    }
 
     private suspend fun getFavorites(
         list: List<ToonInfo>
@@ -102,10 +98,9 @@ class WeeklyViewModel @AssistedInject constructor(
         list: List<ToonInfo>,
         favoriteMap: Set<String>
     ) = viewModelScope.launch {
-        _listEvent.value = list
-            .map {
-                ToonInfoWithFavorite(it, favoriteMap.contains(it.id))
-            }
+        _listEvent.value = list.map {
+            ToonInfoWithFavorite(it, favoriteMap.contains(it.id))
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
