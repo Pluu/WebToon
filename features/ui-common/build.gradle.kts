@@ -26,8 +26,6 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
-    implementation(Dep.AndroidX.appcompat)
-
     // Android UI
     implementation(Dep.AndroidX.UI.material)
 

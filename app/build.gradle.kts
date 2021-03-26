@@ -74,13 +74,8 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
-    implementation(Dep.AndroidX.annotation)
     implementation(Dep.AndroidX.activity.ktx)
-    implementation(Dep.AndroidX.appcompat)
-    implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
-    implementation(Dep.AndroidX.lifecycle.liveDataKtx)
 
     // Android UI
     implementation(Dep.AndroidX.UI.material)
@@ -89,10 +84,6 @@ dependencies {
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
-    implementation(Dep.AndroidX.Compose.livedata)
-    implementation(Dep.AndroidX.Compose.activity)
-
-    implementation(Dep.Accompanist.insets)
 
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)

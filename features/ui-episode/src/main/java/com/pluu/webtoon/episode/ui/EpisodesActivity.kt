@@ -3,8 +3,8 @@ package com.pluu.webtoon.episode.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
@@ -33,7 +33,7 @@ import javax.inject.Inject
  * Created by pluu on 2017-05-09.
  */
 @AndroidEntryPoint
-class EpisodesActivity : AppCompatActivity() {
+class EpisodesActivity : ComponentActivity() {
 
     private val viewModel by viewModels<EpisodeViewModel>()
 
