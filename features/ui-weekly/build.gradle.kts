@@ -39,7 +39,6 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.palette)
-    implementation(Dep.AndroidX.UI.viewPager)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)
@@ -48,9 +47,11 @@ dependencies {
     implementation(Dep.AndroidX.Compose.livedata)
     implementation(Dep.AndroidX.Compose.activity)
     implementation(Dep.AndroidX.Compose.constraintlayout)
+    implementation(Dep.AndroidX.Compose.viewModel)
 
     implementation(Dep.Accompanist.glide)
     implementation(Dep.Accompanist.insets)
+    implementation(Dep.Accompanist.pager)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

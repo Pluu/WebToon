@@ -2,8 +2,8 @@ package com.pluu.webtoon.weekly.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
@@ -13,22 +13,20 @@ import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.weekly.event.ErrorEvent
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-@HiltViewModel
-class WeeklyViewModel @Inject constructor(
-    handle: SavedStateHandle,
+class WeeklyViewModel @AssistedInject constructor(
+    @Assisted val weekPosition: Int,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
     private val weeklyUseCase: WeeklyUseCase,
     private val hasFavoriteUseCase: HasFavoriteUseCase
 ) : ViewModel() {
-
-    private val weekPos = handle.get<Int>("EXTRA_POS") ?: 0
 
     private val _listEvent = MutableLiveData<List<ToonInfoWithFavorite>>()
     val listEvent: LiveData<List<ToonInfoWithFavorite>> get() = _listEvent
@@ -47,7 +45,7 @@ class WeeklyViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             // Step1. 주간 웹툰 로드
-            val tempList = getWeekLoad()
+            val tempList = getWeekLoad(weekPosition)
             // Step2. 즐겨찾기 취득
             cacheFavorites.addAll(getFavorites(tempList))
             // Step3. 즐겨찾기 - 타이틀 순서로 정렬한 값을 리스트로 보관
@@ -63,9 +61,9 @@ class WeeklyViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getWeekLoad(): List<ToonInfo> =
+    private suspend fun getWeekLoad(weekPosition: Int): List<ToonInfo> =
         withContext(dispatchers.computation + ceh) {
-            val apiResult: Result<List<ToonInfo>> = weeklyUseCase(weekPos)
+            val apiResult: Result<List<ToonInfo>> = weeklyUseCase(weekPosition)
             if (apiResult is Result.Success) {
                 apiResult.data
             } else {
@@ -101,5 +99,21 @@ class WeeklyViewModel @Inject constructor(
                 ToonInfoWithFavorite(it, favoriteMap.contains(it.id))
             }
     }
+
+    @Suppress("UNCHECKED_CAST")
+    companion object {
+        fun provideFactory(
+            assistedFactory: WeeklyViewModelFactory,
+            weekPosition: Int
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return assistedFactory.create(weekPosition) as T
+            }
+        }
+    }
 }
 
+@AssistedFactory
+interface WeeklyViewModelFactory {
+    fun create(weekPosition: Int): WeeklyViewModel
+}

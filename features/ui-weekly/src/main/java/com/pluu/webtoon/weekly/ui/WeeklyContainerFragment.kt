@@ -4,26 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.viewpager2.widget.ViewPager2
-import com.pluu.compose.runtime.rememberMutableStateOf
-import com.pluu.compose.ui.graphics.toColor
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.usecase.WeeklyUseCase
+import com.pluu.webtoon.navigator.EpisodeNavigator
 import com.pluu.webtoon.ui.compose.fragmentComposeView
+import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.weekly.event.ThemeEvent
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
 /**
@@ -39,46 +35,29 @@ class WeeklyContainerFragment : Fragment() {
     @Inject
     lateinit var colorProvider: NaviColorProvider
 
+    @Inject
+    lateinit var viewModelFactory: WeeklyViewModelFactory
+
+    @Inject
+    lateinit var episodeNavigator: EpisodeNavigator
+
+    @OptIn(InternalCoroutinesApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = fragmentComposeView {
-        val context = LocalContext.current
-        var selectedIndex by rememberMutableStateOf(serviceApi.todayTabPosition)
-
-        val pager = remember {
-            ViewPager2(context).apply {
-                orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                adapter = WeeklyFragmentAdapter(
-                    fm = parentFragmentManager,
-                    serviceApi = serviceApi,
-                    lifecycle = viewLifecycleOwner.lifecycle
-                )
-                // 금일 기준으로 ViewPager 기본 표시
-                setCurrentItem(selectedIndex, false)
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-                        super.onPageSelected(position)
-                        selectedIndex = position
-                    }
-                })
-            }
-        }
-
-        Column {
-            DayOfWeekUi(
-                titles = serviceApi.currentTabs,
-                selectedTabIndex = selectedIndex,
-                indicatorColor = colorProvider.getTitleColor().toColor()
+        ProvideWindowInsets {
+            CompositionLocalProvider(
+                LocalEpisodeNavigator provides episodeNavigator
             ) {
-                selectedIndex = it
-                pager.currentItem = it
+                WeeklyContainerScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    serviceApi = serviceApi,
+                    viewModelFactory = viewModelFactory,
+                    colorProvider = colorProvider
+                )
             }
-            AndroidView(
-                modifier = Modifier.fillMaxSize(),
-                factory = { pager }
-            )
         }
     }
 
