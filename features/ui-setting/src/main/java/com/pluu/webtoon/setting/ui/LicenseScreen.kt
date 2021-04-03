@@ -44,7 +44,8 @@ fun LicenseScreen(
                     )
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .background(MaterialTheme.colors.primarySurface)
                 .statusBarsPadding(),
             backgroundColor = MaterialTheme.colors.primarySurface,

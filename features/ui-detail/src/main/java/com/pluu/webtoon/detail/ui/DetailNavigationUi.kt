@@ -36,7 +36,9 @@ fun DetailNavigationUi(
 
     Row(modifier = modifier) {
         Button(
-            modifier = Modifier.weight(1f).fillMaxHeight(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
             colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
             shape = RoundedCornerShape(0.dp),
             enabled = isPrevEnabled,
@@ -50,11 +52,15 @@ fun DetailNavigationUi(
             Text(
                 text = "이전 화",
                 color = Color.White,
-                modifier = Modifier.weight(1f).wrapContentWidth()
+                modifier = Modifier
+                    .weight(1f)
+                    .wrapContentWidth()
             )
         }
         Button(
-            modifier = Modifier.weight(1f).fillMaxHeight(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
             colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
             shape = RoundedCornerShape(0.dp),
             enabled = isNextEnabled,
@@ -63,7 +69,9 @@ fun DetailNavigationUi(
             Text(
                 text = "다음 화",
                 color = Color.White,
-                modifier = Modifier.weight(1f).wrapContentWidth()
+                modifier = Modifier
+                    .weight(1f)
+                    .wrapContentWidth()
             )
             Icon(
                 imageVector = Icons.Default.KeyboardArrowRight,
@@ -72,7 +80,7 @@ fun DetailNavigationUi(
             )
         }
     }
-    
+
     DisposableEffect(buttonEnabled) {
         buttonEnabled = isPrevEnabled to isNextEnabled
         onDispose { }
