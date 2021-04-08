@@ -52,12 +52,12 @@ object Dep {
             const val material = "com.google.android.material:material:1.4.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-rc01"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
             const val viewPager = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
         }
 
         object Compose {
-            const val version = "1.0.0-beta03"
+            const val version = "1.0.0-beta04"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -69,9 +69,9 @@ object Dep {
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
 
-            const val activity = "androidx.activity:activity-compose:1.3.0-alpha05"
+            const val activity = "androidx.activity:activity-compose:1.3.0-alpha06"
             const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha03"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
         }
 
         const val viewBinding =
@@ -79,14 +79,14 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.7.0"
+        private const val version = "0.7.1"
         const val glide = "com.google.accompanist:accompanist-glide:$version"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
 
     object Dagger {
-        private const val version = "2.33"
+        private const val version = "2.34"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
 
@@ -99,7 +99,7 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.4.31"
+        const val version = "1.4.32"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
