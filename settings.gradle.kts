@@ -5,7 +5,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 
