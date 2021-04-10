@@ -14,7 +14,7 @@ import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.getRequiredSerializableExtra
-import com.pluu.utils.result.registerStartActivityForResult
+import com.pluu.utils.result.registerForActivityResult
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
@@ -47,7 +47,7 @@ class EpisodesActivity : ComponentActivity() {
     @Inject
     lateinit var detailNavigator: DetailNavigator
 
-    private val openDetailLauncher = registerStartActivityForResult {
+    private val openDetailLauncher = registerForActivityResult {
         viewModel.readUpdate()
     }
 

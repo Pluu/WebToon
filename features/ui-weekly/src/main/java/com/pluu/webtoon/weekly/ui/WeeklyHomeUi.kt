@@ -16,7 +16,7 @@ import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
-import com.pluu.webtoon.ui.compose.registerStartActivityForResult
+import com.pluu.webtoon.ui.compose.rememberLauncherForActivityResult
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.R
 import com.pluu.webtoon.weekly.event.WeeklyEvent
@@ -42,10 +42,10 @@ fun WeeklyHomeUi(
     val palletCalculator = PalletDarkCalculator(LocalContext.current)
     val coroutineScope = rememberCoroutineScope()
 
-    val openEpisodeLauncher = registerStartActivityForResult { activityResult ->
+    val openEpisodeLauncher = rememberLauncherForActivityResult { activityResult ->
         val favorite = activityResult.data
             ?.getSerializable<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE)
-            ?: return@registerStartActivityForResult
+            ?: return@rememberLauncherForActivityResult
         viewModel.updatedFavorite(favorite)
     }
 
