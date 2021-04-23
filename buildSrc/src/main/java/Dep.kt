@@ -7,7 +7,7 @@ object Dep {
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.0.0"
-        const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.Hilt.version}"
+        const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
     }
 
     object AndroidX {
@@ -86,12 +86,11 @@ object Dep {
     }
 
     object Dagger {
-        private const val version = "2.34.1"
+        const val version = "2.35"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
 
         object Hilt {
-            const val version = "${Dagger.version}-beta"
             const val android = "com.google.dagger:hilt-android:$version"
             const val compiler = "com.google.dagger:hilt-compiler:$version"
             const val android_testing = "com.google.dagger:hilt-android-testing:$version"
