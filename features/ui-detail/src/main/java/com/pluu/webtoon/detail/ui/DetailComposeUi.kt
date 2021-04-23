@@ -63,8 +63,11 @@ internal fun InitBottomUi(
     onPrevClicked: () -> Unit,
     onNextClicked: () -> Unit,
 ) {
-    val transition = updateTransition(showNavigation)
-    val offsetY by transition.animateDp {
+    val transition = updateTransition(
+        targetState = showNavigation,
+        label = null
+    )
+    val offsetY by transition.animateDp(label = "Y-OffSet Animation") {
         if (it) 0.dp else bottomBarSize
     }
 

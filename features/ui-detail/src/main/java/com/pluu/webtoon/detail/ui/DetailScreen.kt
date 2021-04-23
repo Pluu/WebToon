@@ -41,12 +41,16 @@ fun DetailScreen(
         )
     }
 
-    val transition = updateTransition(transitionState)
+    val transition = updateTransition(
+        targetState = transitionState,
+        label = null
+    )
 
     val featureColorValue: Color by transition.animateColor(
-        transitionSpec = { tween(durationMillis = 750) }
+        transitionSpec = { tween(durationMillis = 750) },
+        label = "Color Animation",
     ) { state ->
-        when (state) {
+        when (state.targetState) {
             ColorTransitionState.START -> featureColor.themeColor
             ColorTransitionState.END -> featureColor.webToonColor
         }

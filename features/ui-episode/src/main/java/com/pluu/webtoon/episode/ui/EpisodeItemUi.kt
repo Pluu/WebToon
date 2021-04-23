@@ -27,7 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.google.accompanist.glide.GlideImage
+import com.google.accompanist.glide.rememberGlidePainter
+import com.google.accompanist.imageloading.ImageLoadState
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
@@ -50,29 +51,34 @@ fun EpisodeItemUi(
                 .fillMaxWidth()
                 .height(100.dp)
         ) {
-            GlideImage(
-                data = item.image.toAgentGlideUrl(),
+            val painter = rememberGlidePainter(
+                request = item.image.toAgentGlideUrl(),
                 fadeIn = true,
-                contentScale = ContentScale.Crop,
-                loading = {
-                    Box(Modifier.fillMaxSize()) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center),
-                            color = MaterialTheme.colors.secondary
-                        )
-                    }
-                },
-                error = {
-                    Box(Modifier.fillMaxSize()) {
-                        Image(
-                            modifier = Modifier.align(Alignment.Center),
-                            painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
-                            contentDescription = null
-                        )
-                    }
-                },
-                contentDescription = null
+                previewPlaceholder = R.drawable.ic_check_white_24
             )
+
+            Image(
+                modifier = modifier,
+                painter = painter,
+                contentScale = ContentScale.Crop,
+                contentDescription = null,
+            )
+
+            when (painter.loadState) {
+                ImageLoadState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+                is ImageLoadState.Error -> {
+                    Image(
+                        modifier = Modifier.align(Alignment.Center),
+                        painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                        contentDescription = null
+                    )
+                }
+            }
 
             EpisodeItemUiOverlayUi(item = item, isRead = isRead)
         }

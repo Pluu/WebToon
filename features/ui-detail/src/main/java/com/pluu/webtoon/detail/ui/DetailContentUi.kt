@@ -2,6 +2,7 @@ package com.pluu.webtoon.detail.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,42 +32,45 @@ fun DetailContentUi(
 ) {
     val cachedViewSizeMap = remember { mutableStateMapOf<String, IntSize>() }
 
-    LazyColumn(modifier = modifier
-        .pointerInput(Unit) {
-            detectTapGestures(onTap = { onClick() })
-        }
-    ) {
-        itemsIndexed(items,
-            key = { _, item -> item.url }
-        ) { index, item ->
-            if (index == 0) {
-                Spacer(Modifier.statusBarsHeight(48.dp))
+    BoxWithConstraints {
+        val rememberMaxHeight = remember { this.maxHeight }
+        LazyColumn(modifier = modifier
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { onClick() })
             }
-            // TODO: Adjust Image 처리 개선 해야함
-            ImageAdjustBounds(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(
-                        with(LocalDensity.current) {
-                            (cachedViewSizeMap[item.url]?.height ?: 1).toDp()
-                        }
-                    ),
-                data = item.url,
-                success = {
-                    if (!cachedViewSizeMap.containsKey(item.url)) {
-                        cachedViewSizeMap[item.url] = it
-                    }
-                },
-                error = { error ->
-                    Timber.e(error.throwable)
-                    Image(
-                        painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
-                        contentDescription = null
-                    )
+        ) {
+            itemsIndexed(items,
+                key = { _, item -> item.url }
+            ) { index, item ->
+                if (index == 0) {
+                    Spacer(Modifier.statusBarsHeight(48.dp))
                 }
-            )
-            if (items.size - 1 == index) {
-                Spacer(Modifier.navigationBarsHeight(48.dp))
+                // TODO: Adjust Image 처리 개선 해야함
+                ImageAdjustBounds(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(
+                            with(LocalDensity.current) {
+                                cachedViewSizeMap[item.url]?.height?.toDp() ?: rememberMaxHeight
+                            }
+                        ),
+                    data = item.url,
+                    success = {
+                        if (!cachedViewSizeMap.containsKey(item.url)) {
+                            cachedViewSizeMap[item.url] = it
+                        }
+                    },
+                    error = { error ->
+                        Timber.e(error.throwable)
+                        Image(
+                            painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                            contentDescription = null
+                        )
+                    }
+                )
+                if (items.size - 1 == index) {
+                    Spacer(Modifier.navigationBarsHeight(48.dp))
+                }
             }
         }
     }
