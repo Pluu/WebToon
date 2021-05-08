@@ -30,7 +30,7 @@ fun ImageAdjustBounds(
     )
 
     when (val imageState = painter.loadState) {
-        ImageLoadState.Loading -> {
+        is ImageLoadState.Loading -> {
             loading?.invoke()
         }
         is ImageLoadState.Success -> {

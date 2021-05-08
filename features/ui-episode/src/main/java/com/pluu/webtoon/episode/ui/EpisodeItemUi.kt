@@ -65,7 +65,7 @@ fun EpisodeItemUi(
             )
 
             when (painter.loadState) {
-                ImageLoadState.Loading -> {
+                is ImageLoadState.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
                         color = MaterialTheme.colors.secondary
