@@ -41,6 +41,12 @@ fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
+    val painter = rememberGlidePainter(
+        request = item.image.toAgentGlideUrl(),
+        fadeIn = true,
+        previewPlaceholder = R.drawable.ic_check_white_24
+    )
+
     Card(
         modifier = modifier
             .clickable(onClick = { onClicked(item) })
@@ -51,14 +57,8 @@ fun EpisodeItemUi(
                 .fillMaxWidth()
                 .height(100.dp)
         ) {
-            val painter = rememberGlidePainter(
-                request = item.image.toAgentGlideUrl(),
-                fadeIn = true,
-                previewPlaceholder = R.drawable.ic_check_white_24
-            )
-
             Image(
-                modifier = modifier,
+                modifier = Modifier.fillMaxSize(),
                 painter = painter,
                 contentScale = ContentScale.Crop,
                 contentDescription = null,

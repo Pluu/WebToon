@@ -12,7 +12,7 @@ object Dep {
 
     object AndroidX {
         object activity {
-            const val activityVersion = "1.3.0-alpha07"
+            const val activityVersion = "1.3.0-alpha08"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -21,11 +21,11 @@ object Dep {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.3.0-rc01"
-        const val coreKtx = "androidx.core:core-ktx:1.6.0-alpha03"
+        const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha01"
+        const val coreKtx = "androidx.core:core-ktx:1.6.0-beta01"
 
         object fragment {
-            private const val fragmentVersion = "1.3.3"
+            private const val fragmentVersion = "1.4.0-alpha01"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
@@ -54,7 +54,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-beta06"
+            const val version = "1.0.0-beta07"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:${version}"
@@ -67,8 +67,8 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha06"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
+            const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha07"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05"
         }
 
         const val viewBinding =
@@ -76,7 +76,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.9.0"
+        private const val version = "0.10.0"
         const val glide = "com.google.accompanist:accompanist-glide:$version"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"

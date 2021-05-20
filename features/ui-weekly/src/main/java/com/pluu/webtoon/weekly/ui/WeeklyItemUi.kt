@@ -49,6 +49,12 @@ fun WeeklyItemUi(
     isFavorite: Boolean,
     onClicked: (ToonInfo) -> Unit
 ) {
+    val painter = rememberGlidePainter(
+        request = item.image.toAgentGlideUrl(),
+        fadeIn = true,
+        previewPlaceholder = R.drawable.ic_sentiment_very_dissatisfied_48
+    )
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -56,13 +62,7 @@ fun WeeklyItemUi(
             .clickable { onClicked(item) }
             .height(100.dp)
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            val painter = rememberGlidePainter(
-                request = item.image.toAgentGlideUrl(),
-                fadeIn = true,
-                previewPlaceholder = R.drawable.ic_sentiment_very_dissatisfied_48
-            )
-
+        Box {
             Image(
                 modifier = modifier,
                 painter = painter,
