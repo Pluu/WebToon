@@ -8,13 +8,13 @@ plugins {
 //    id("org.jlleitschuh.gradle.ktlint")
 }
 
-apply(from = "${rootProject.projectDir}/gradle/commonConfiguration.gradle")
+apply(from = "${rootDir}/gradle/commonConfiguration.gradle")
 
 android {
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        versionCode = 62
-        versionName = "1.6.5"
+        versionCode = 63
+        versionName = "1.6.6"
         vectorDrawables.useSupportLibrary = true
     }
 

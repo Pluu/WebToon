@@ -14,7 +14,7 @@ class PrefConfig @Inject constructor(
 ) {
     fun getDefaultWebToon(): NAV_ITEM {
         val name = pref.getString(KEY_DEFAULT_WEBTOON, null) ?: NAV_ITEM.getDefault().name
-        return NAV_ITEM.valueOf(name.toUpperCase(Locale.ROOT))
+        return NAV_ITEM.valueOf(name.uppercase(Locale.ROOT))
     }
 
     companion object {

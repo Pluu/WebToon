@@ -2,7 +2,6 @@ package com.pluu.webtoon.weekly.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +42,7 @@ import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.utils.toAgentGlideUrl
 import com.pluu.webtoon.weekly.R
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WeeklyItemUi(
     modifier: Modifier = Modifier,
@@ -59,8 +60,8 @@ fun WeeklyItemUi(
         modifier = modifier
             .fillMaxWidth()
             .padding(2.dp)
-            .clickable { onClicked(item) }
-            .height(100.dp)
+            .height(100.dp),
+        onClick = { onClicked(item) }
     ) {
         Box {
             Image(

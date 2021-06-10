@@ -2,7 +2,6 @@ package com.pluu.webtoon.episode.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +34,7 @@ import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.utils.toAgentGlideUrl
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EpisodeItemUi(
     modifier: Modifier = Modifier,
@@ -48,9 +49,8 @@ fun EpisodeItemUi(
     )
 
     Card(
-        modifier = modifier
-            .clickable(onClick = { onClicked(item) })
-            .padding(all = 2.dp)
+        modifier = modifier.padding(all = 2.dp),
+        onClick = { onClicked(item) }
     ) {
         Box(
             modifier = Modifier
