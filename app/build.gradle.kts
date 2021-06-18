@@ -48,7 +48,7 @@ android {
         kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
     }
 
-    lintOptions {
+    lint {
         checkOnly("Interoperability")
         disable("ContentDescription")
         isAbortOnError = false
