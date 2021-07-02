@@ -46,7 +46,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
     implementation(Dep.AndroidX.Compose.activity)
-    implementation(Dep.AndroidX.Compose.constraintlayout)
+    implementation(Dep.AndroidX.Compose.constraintLayout)
     implementation(Dep.AndroidX.Compose.viewModel)
 
     implementation(Dep.Accompanist.glide)

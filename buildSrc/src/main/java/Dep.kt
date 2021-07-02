@@ -2,7 +2,7 @@
 
 object Dep {
     object GradlePlugin {
-        const val androidStudioGradlePluginVersion = "7.0.0-beta03"
+        const val androidStudioGradlePluginVersion = "7.1.0-alpha02"
         const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
@@ -12,7 +12,7 @@ object Dep {
 
     object AndroidX {
         object activity {
-            const val activityVersion = "1.3.0-beta02"
+            const val activityVersion = "1.3.0-rc01"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -22,10 +22,10 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha02"
-        const val coreKtx = "androidx.core:core-ktx:1.6.0-rc01"
+        const val coreKtx = "androidx.core:core-ktx:1.7.0-alpha01"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-alpha03"
+            private const val fragmentVersion = "1.4.0-alpha04"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
@@ -33,7 +33,6 @@ object Dep {
         object lifecycle {
             private const val lifecycleVersion = "2.4.0-alpha02"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-            const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
 
@@ -54,12 +53,10 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-beta09"
+            const val version = "1.0.0-rc01"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
-            const val foundation = "androidx.compose.foundation:foundation:${version}"
             const val ui = "androidx.compose.ui:ui:${version}"
-            const val layout = "androidx.compose.foundation:foundation-layout:${version}"
             const val material = "androidx.compose.material:material:${version}"
             const val materialAdapter = "com.google.android.material:compose-theme-adapter:${version}"
             const val tooling = "androidx.compose.ui:ui-tooling:${version}"
@@ -67,7 +64,7 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha07"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha07"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
         }
 
@@ -90,7 +87,6 @@ object Dep {
         object Hilt {
             const val android = "com.google.dagger:hilt-android:$version"
             const val compiler = "com.google.dagger:hilt-compiler:$version"
-            const val android_testing = "com.google.dagger:hilt-android-testing:$version"
         }
     }
 
