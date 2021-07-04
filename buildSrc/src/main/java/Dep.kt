@@ -73,7 +73,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.12.0"
+        private const val version = "0.13.0"
         const val glide = "com.google.accompanist:accompanist-glide:$version"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
