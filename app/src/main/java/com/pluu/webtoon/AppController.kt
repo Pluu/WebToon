@@ -1,6 +1,7 @@
 package com.pluu.webtoon
 
 import android.app.Application
+import androidx.annotation.ColorInt
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.ThemeType
 import com.pluu.webtoon.utils.log.ComponentLogger
