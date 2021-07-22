@@ -11,12 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.glide.rememberGlidePainter
+import coil.compose.rememberImagePainter
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
 import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.model.DetailView
-import com.pluu.webtoon.utils.toAgentGlideUrl
 
 @Composable
 fun DetailContentUi(
@@ -49,15 +48,15 @@ fun DetailContentUi(
 private fun DetailPhotoView(
     item: DetailView
 ) {
-    val painter = rememberGlidePainter(
-        request = item.url.toAgentGlideUrl(),
-        fadeIn = true,
-        previewPlaceholder = R.drawable.ic_sentiment_very_dissatisfied_48,
-    )
-
     Image(
+        painter = rememberImagePainter(
+            data = item.url,
+            builder = {
+                crossfade(true)
+                placeholder(R.drawable.ic_sentiment_very_dissatisfied_48)
+            },
+        ),
         modifier = Modifier.fillMaxWidth(),
-        painter = painter,
         contentDescription = null,
         contentScale = ContentScale.FillWidth
     )

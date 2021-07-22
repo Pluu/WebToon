@@ -27,14 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.google.accompanist.glide.rememberGlidePainter
-import com.google.accompanist.imageloading.ImageLoadState
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.utils.toAgentGlideUrl
+import com.pluu.webtoon.utils.applyAgent
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalCoilApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun EpisodeItemUi(
     modifier: Modifier = Modifier,
@@ -42,10 +43,12 @@ fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
-    val painter = rememberGlidePainter(
-        request = item.image.toAgentGlideUrl(),
-        fadeIn = true,
-        previewPlaceholder = R.drawable.ic_check_white_24
+    val painter = rememberImagePainter(
+        data = item.image,
+        builder = {
+            applyAgent()
+            crossfade(true)
+        }
     )
 
     Card(
@@ -64,14 +67,14 @@ fun EpisodeItemUi(
                 contentDescription = null,
             )
 
-            when (painter.loadState) {
-                is ImageLoadState.Loading -> {
+            when (painter.state) {
+                is ImagePainter.State.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
                         color = MaterialTheme.colors.secondary
                     )
                 }
-                is ImageLoadState.Error -> {
+                is ImagePainter.State.Error -> {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
                         painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),

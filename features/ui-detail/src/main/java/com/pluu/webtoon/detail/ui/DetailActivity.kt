@@ -6,14 +6,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
-import com.bumptech.glide.Glide
-import com.google.accompanist.glide.LocalRequestManager
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ProgressDialog
@@ -59,54 +56,51 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        val requestManager = Glide.with(this)
 
         activityComposeView {
             ProvideWindowInsets {
-                CompositionLocalProvider(LocalRequestManager provides requestManager) {
-                    var loadingDialog by rememberMutableStateOf(false)
-                    val event by viewModel.event.observeAsState()
-                    val elementUiState by viewModel.elementUiState.observeAsState(
-                        UiState(loading = true)
-                    )
+                var loadingDialog by rememberMutableStateOf(false)
+                val event by viewModel.event.observeAsState()
+                val elementUiState by viewModel.elementUiState.observeAsState(
+                    UiState(loading = true)
+                )
 
-                    when (val eventOnScope = event) {
-                        DetailEvent.START -> {
-                            loadingDialog = true
-                        }
-                        DetailEvent.LOADED -> {
-                            loadingDialog = false
-                        }
-                        is DetailEvent.ERROR -> {
-                            loadingDialog = false
-                            showError(eventOnScope)
-                        }
-                        is DetailEvent.SHARE -> {
-                            showShare(eventOnScope.item)
-                        }
+                when (val eventOnScope = event) {
+                    DetailEvent.START -> {
+                        loadingDialog = true
                     }
-
-                    if (loadingDialog) {
-                        ProgressDialog(title = "Loading ...")
+                    DetailEvent.LOADED -> {
+                        loadingDialog = false
                     }
+                    is DetailEvent.ERROR -> {
+                        loadingDialog = false
+                        showError(eventOnScope)
+                    }
+                    is DetailEvent.SHARE -> {
+                        showShare(eventOnScope.item)
+                    }
+                }
 
-                    DetailScreen(
-                        featureColor = featureColor,
-                        uiStateElement = elementUiState
-                    ) { uiEvent ->
-                        when (uiEvent) {
-                            DetailUiEvent.OnBackPressed -> {
-                                finish()
-                            }
-                            DetailUiEvent.OnNextPressed -> {
-                                viewModel.moveNext()
-                            }
-                            DetailUiEvent.OnPrevPressed -> {
-                                viewModel.movePrev()
-                            }
-                            DetailUiEvent.OnSharedPressed -> {
-                                viewModel.requestShare()
-                            }
+                if (loadingDialog) {
+                    ProgressDialog(title = "Loading ...")
+                }
+
+                DetailScreen(
+                    featureColor = featureColor,
+                    uiStateElement = elementUiState
+                ) { uiEvent ->
+                    when (uiEvent) {
+                        DetailUiEvent.OnBackPressed -> {
+                            finish()
+                        }
+                        DetailUiEvent.OnNextPressed -> {
+                            viewModel.moveNext()
+                        }
+                        DetailUiEvent.OnPrevPressed -> {
+                            viewModel.movePrev()
+                        }
+                        DetailUiEvent.OnSharedPressed -> {
+                            viewModel.requestShare()
                         }
                     }
                 }

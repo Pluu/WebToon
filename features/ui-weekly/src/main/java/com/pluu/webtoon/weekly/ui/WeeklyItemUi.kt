@@ -33,16 +33,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.google.accompanist.glide.rememberGlidePainter
-import com.google.accompanist.imageloading.ImageLoadState
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.utils.toAgentGlideUrl
+import com.pluu.webtoon.utils.applyAgent
 import com.pluu.webtoon.weekly.R
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
 @Composable
 fun WeeklyItemUi(
     modifier: Modifier = Modifier,
@@ -50,10 +51,12 @@ fun WeeklyItemUi(
     isFavorite: Boolean,
     onClicked: (ToonInfo) -> Unit
 ) {
-    val painter = rememberGlidePainter(
-        request = item.image.toAgentGlideUrl(),
-        fadeIn = true,
-        previewPlaceholder = R.drawable.ic_sentiment_very_dissatisfied_48
+    val painter = rememberImagePainter(
+        data = item.image,
+        builder = {
+            applyAgent()
+            crossfade(true)
+        }
     )
 
     Card(
@@ -65,20 +68,20 @@ fun WeeklyItemUi(
     ) {
         Box {
             Image(
-                modifier = modifier,
+                modifier = Modifier.fillMaxSize(),
                 painter = painter,
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
 
-            when (painter.loadState) {
-                is ImageLoadState.Loading -> {
+            when (painter.state) {
+                is ImagePainter.State.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
                         color = MaterialTheme.colors.secondary
                     )
                 }
-                is ImageLoadState.Error -> {
+                is ImagePainter.State.Error -> {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
                         painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),

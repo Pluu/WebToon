@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.utils.LoadedState
 import com.pluu.webtoon.utils.preLoadImage
-import com.pluu.webtoon.utils.toGlideBitmap
+import com.pluu.webtoon.utils.toLoaderBitmap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -34,8 +34,14 @@ class PalletDarkCalculator(
     private suspend fun loadPalette(
         drawable: Drawable
     ): PalletColor {
-        val bitmap = drawable.toGlideBitmap()
-        return bitmap?.convertPallet() ?: defaultPalletColor()
+        val bitmap = drawable.toLoaderBitmap()
+        return if (bitmap != null) {
+            runCatching {
+                bitmap.convertPallet()
+            }.getOrDefault(defaultPalletColor())
+        } else {
+            defaultPalletColor()
+        }
     }
 
     private suspend fun Bitmap.convertPallet(): PalletColor {

@@ -43,7 +43,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
 
-    implementation(Dep.Accompanist.glide)
+    implementation(Dep.Coil.compose)
     implementation(Dep.Accompanist.insets)
 
     // Hilt

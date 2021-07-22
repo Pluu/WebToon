@@ -36,6 +36,6 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.activity)
 
-    // Glide
-    implementation(Dep.Glide.core)
+    // Coil
+    implementation(Dep.Coil.core)
 }

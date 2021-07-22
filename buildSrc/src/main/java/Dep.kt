@@ -73,8 +73,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.13.0"
-        const val glide = "com.google.accompanist:accompanist-glide:$version"
+        private const val version = "0.14.0"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
@@ -107,10 +106,10 @@ object Dep {
 
     const val jsoup = "org.jsoup:jsoup:1.13.1"
 
-    object Glide {
-        private const val version = "4.12.0"
-        const val core = "com.github.bumptech.glide:glide:$version"
-        const val compiler = "com.github.bumptech.glide:compiler:$version"
+    object Coil {
+        private const val version = "1.3.0"
+        const val core = "io.coil-kt:coil:$version"
+        const val compose = "io.coil-kt:coil-compose:$version"
     }
 
     object OkHttp {
