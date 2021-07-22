@@ -12,7 +12,7 @@ object Dep {
 
     object AndroidX {
         object activity {
-            const val activityVersion = "1.3.0-rc01"
+            const val activityVersion = "1.3.0-rc02"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -25,7 +25,7 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.7.0-alpha01"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-alpha04"
+            private const val fragmentVersion = "1.4.0-alpha05"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
@@ -37,7 +37,7 @@ object Dep {
         }
 
         object room {
-            private const val roomVersion = "2.4.0-alpha03"
+            private const val roomVersion = "2.4.0-alpha04"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -46,7 +46,7 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val material = "com.google.android.material:material:1.4.0-rc01"
+            const val material = "com.google.android.material:material:1.5.0-alpha01"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
@@ -64,7 +64,7 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha07"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha08"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
         }
 
@@ -124,9 +124,9 @@ object Dep {
 
     object Test {
         const val junit = "junit:junit:4.13.2"
-        const val assertJ = "org.assertj:assertj-core:3.20.1"
-        const val mockito = "org.mockito:mockito-core:3.11.1"
-        const val androidJunit = "androidx.test.ext:junit:1.1.3-beta02"
-        const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0-beta02"
+        const val assertJ = "org.assertj:assertj-core:3.20.2"
+        const val mockito = "org.mockito:mockito-core:3.11.2"
+        const val androidJunit = "androidx.test.ext:junit:1.1.3-rc01"
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0"
     }
 }
