@@ -8,26 +8,18 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.utils.LoadedState
 import com.pluu.webtoon.utils.preLoadImage
 import com.pluu.webtoon.utils.toLoaderBitmap
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
 
 class PalletDarkCalculator(
     private val context: Context
 ) {
     suspend fun calculateSwatchesInImage(
         imageUrl: String
-    ): PalletColor = suspendCancellableCoroutine { continuation ->
-        CoroutineScope(continuation.context).launch {
-            when (val loadedState = preLoadImage(context, imageUrl)) {
-                is LoadedState.Success -> {
-                    continuation.resume(loadPalette(loadedState.drawable))
-                }
-                else -> {
-                    continuation.resume(defaultPalletColor())
-                }
-            }
+    ): PalletColor = when (val loadedState = preLoadImage(context, imageUrl)) {
+        is LoadedState.Success -> {
+            loadPalette(loadedState.drawable)
+        }
+        else -> {
+            defaultPalletColor()
         }
     }
 

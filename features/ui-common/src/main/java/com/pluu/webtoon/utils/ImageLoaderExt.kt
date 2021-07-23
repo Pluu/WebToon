@@ -22,10 +22,10 @@ suspend fun preLoadImage(
     context: Context,
     imageUrl: String
 ): LoadedState {
-    // TODO: Original size load
     val request = ImageRequest.Builder(context)
         .applyAgent()
         .data(imageUrl)
+        .allowHardware(false)
         .build()
 
     return when (val result = context.imageLoader.execute(request)) {

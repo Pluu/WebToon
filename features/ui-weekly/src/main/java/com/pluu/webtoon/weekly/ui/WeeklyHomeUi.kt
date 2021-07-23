@@ -21,6 +21,8 @@ import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.R
 import com.pluu.webtoon.weekly.event.WeeklyEvent
 import com.pluu.webtoon.weekly.image.PalletDarkCalculator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
@@ -70,12 +72,14 @@ fun WeeklyHomeUi(
             context.toast(R.string.msg_not_support)
         } else {
             coroutineScope.launch {
-                val palletColor = palletCalculator.calculateSwatchesInImage(item.info.image)
+                val palletColor = async(Dispatchers.Default) {
+                    palletCalculator.calculateSwatchesInImage(item.info.image)
+                }
                 episodeNavigator.openEpisode(
                     context = context,
                     launcher = openEpisodeLauncher,
                     item = item,
-                    palletColor = palletColor
+                    palletColor = palletColor.await()
                 )
             }
         }
