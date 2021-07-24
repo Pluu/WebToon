@@ -98,6 +98,7 @@ dependencies {
 
     implementation(Dep.timber)
 //    implementation(Dep.leakCanary)
+    implementation(Dep.Coil.core)
 
     testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.assertJ)
