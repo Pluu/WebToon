@@ -130,10 +130,6 @@ private fun getPreItems(
     ListPreferenceItem(
         context.getString(R.string.title_kakao_page),
         context.getString(R.string.title_kakao_page_key)
-    ),
-    ListPreferenceItem(
-        context.getString(R.string.title_nate),
-        context.getString(R.string.title_nate_key)
     )
 )
 

@@ -5,8 +5,7 @@ enum class NAV_ITEM {
     NAVER,
     DAUM,
     KTOON,
-    KAKAOPAGE,
-    NATE;
+    KAKAOPAGE;
 
     companion object {
         fun getDefault() = NAVER

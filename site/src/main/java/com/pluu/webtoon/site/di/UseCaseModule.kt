@@ -18,10 +18,6 @@ import com.pluu.webtoon.support.ktoon.KToonDetailApi
 import com.pluu.webtoon.support.ktoon.KToonDetailShare
 import com.pluu.webtoon.support.ktoon.KToonEpisodeApi
 import com.pluu.webtoon.support.ktoon.KToonWeekApi
-import com.pluu.webtoon.support.nate.NateDetailApi
-import com.pluu.webtoon.support.nate.NateDetailShare
-import com.pluu.webtoon.support.nate.NateEpisodeApi
-import com.pluu.webtoon.support.nate.NateWeekApi
 import com.pluu.webtoon.support.naver.NaverDetailApi
 import com.pluu.webtoon.support.naver.NaverDetailShare
 import com.pluu.webtoon.support.naver.NaverEpisodeApi
@@ -44,7 +40,6 @@ object UseCaseModule {
         NAV_ITEM.DAUM -> DaumWeekApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonWeekApi(networkUseCase)
         NAV_ITEM.KAKAOPAGE -> KakaoWeekApi(networkUseCase)
-        NAV_ITEM.NATE -> NateWeekApi(networkUseCase)
     }
 
     @Provides
@@ -56,7 +51,6 @@ object UseCaseModule {
         NAV_ITEM.DAUM -> DaumEpisodeApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonEpisodeApi(networkUseCase)
         NAV_ITEM.KAKAOPAGE -> KakaoEpisodeApi(networkUseCase)
-        NAV_ITEM.NATE -> NateEpisodeApi(networkUseCase)
     }
 
     @Provides
@@ -68,7 +62,6 @@ object UseCaseModule {
         NAV_ITEM.DAUM -> DaumDetailApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonDetailApi(networkUseCase)
         NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(networkUseCase)
-        NAV_ITEM.NATE -> NateDetailApi(networkUseCase)
     }
 
     @Provides
@@ -79,6 +72,5 @@ object UseCaseModule {
         NAV_ITEM.DAUM -> DaumDetailShare()
         NAV_ITEM.KTOON -> KToonDetailShare()
         NAV_ITEM.KAKAOPAGE -> KakaoDetailShare()
-        NAV_ITEM.NATE -> NateDetailShare()
     }
 }
