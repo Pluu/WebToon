@@ -2,7 +2,7 @@
 
 object Dep {
     object GradlePlugin {
-        const val androidStudioGradlePluginVersion = "7.0.0-rc01"
+        const val androidStudioGradlePluginVersion = "7.0.0"
         const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
@@ -12,7 +12,7 @@ object Dep {
 
     object AndroidX {
         object activity {
-            const val activityVersion = "1.3.0-rc02"
+            const val activityVersion = "1.3.0"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -21,7 +21,7 @@ object Dep {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha02"
+        const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
         const val coreKtx = "androidx.core:core-ktx:1.7.0-alpha01"
 
         object fragment {
@@ -53,7 +53,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.0-rc01"
+            const val version = "1.0.0"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
@@ -64,7 +64,7 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha08"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta01"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
         }
 
@@ -73,13 +73,13 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.14.0"
+        private const val version = "0.15.0"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
 
     object Dagger {
-        const val version = "2.37"
+        const val version = "2.38.1"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
 
@@ -107,7 +107,7 @@ object Dep {
     const val jsoup = "org.jsoup:jsoup:1.13.1"
 
     object Coil {
-        private const val version = "1.3.0"
+        private const val version = "1.3.1"
         const val core = "io.coil-kt:coil:$version"
         const val compose = "io.coil-kt:coil-compose:$version"
     }
