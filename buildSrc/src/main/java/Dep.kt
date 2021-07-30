@@ -104,7 +104,7 @@ object Dep {
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
     }
 
-    const val jsoup = "org.jsoup:jsoup:1.13.1"
+    const val jsoup = "org.jsoup:jsoup:1.14.1"
 
     object Coil {
         private const val version = "1.3.1"

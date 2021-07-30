@@ -62,14 +62,14 @@ internal class NaverWeekApi(
         return ToonInfo(
             id = id,
             title = info.select(".title").text(),
-            image = element.select("img").first().attr("src"),
+            image = element.select("img").first()?.attr("src").orEmpty(),
             status = when {
                 info.select("span[class=bullet up]").isNotEmpty() -> Status.UPDATE // 최근 업데이트
                 info.select("span[class=bullet break]").isNotEmpty() -> Status.BREAK // 휴재
                 else -> Status.NONE
             },
             isAdult = !element.select("em[class=badge badge_adult]").isEmpty(),
-            writer = info.select(".author")?.first()?.text().orEmpty(),
+            writer = info.select(".author").first()?.text().orEmpty(),
             rate = element.select(".txt_score").text().toDoubleOrNull() ?: 0.0,
             updateDate = element.select("span[class=if1]").text()
         )

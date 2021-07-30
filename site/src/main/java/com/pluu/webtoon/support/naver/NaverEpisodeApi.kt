@@ -65,7 +65,7 @@ internal class NaverEpisodeApi(
             id = episodeId,
             toonId = toonId,
             title = element.select(".name").text(),
-            image = element.select("img").first().attr("src"),
+            image = element.select("img").first()?.attr("src").orEmpty(),
             rate = info.select("detail score").text(),
             status = when {
                 info.select("span[class=bullet up]").isNotEmpty() -> Status.UPDATE // 최근 업데이트

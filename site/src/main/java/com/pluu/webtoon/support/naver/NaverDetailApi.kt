@@ -73,12 +73,11 @@ internal class NaverDetailApi(
 
         val parser = when {
             // osLoader
-            responseData.select("#ct > .oz-loader")?.isNotEmpty() == true -> ::parseOsLoader
+            responseData.select("#ct > .oz-loader").isNotEmpty() -> ::parseOsLoader
             // Fixed
-            responseData.select("#ct > .toon_view_lst")?.isNotEmpty() == true -> ::parseFixed
+            responseData.select("#ct > .toon_view_lst").isNotEmpty() -> ::parseFixed
             // 컷툰
-            responseData.select("div[class=viewer cuttoon]")
-                ?.isNotEmpty() == true -> ::parseCutToon
+            responseData.select("div[class=viewer cuttoon]").isNotEmpty() -> ::parseCutToon
             // 일반 웹툰
             else -> ::parseNormal
         }
@@ -107,13 +106,13 @@ internal class NaverDetailApi(
         }
 
         // 이전, 다음화
-        val (prev, next) = doc.select(".paging_wrap")?.let { wrap ->
+        val (prev, next) = doc.select(".paging_wrap").let { wrap ->
             wrap.select("[data-type=next]").takeIf { it.isNotEmpty() }?.let {
                 (ret.episodeId.toInt() + 1).toString()
             } to wrap.select("[data-type=prev]").takeIf { it.isNotEmpty() }?.let {
                 (ret.episodeId.toInt() - 1).toString()
             }
-        } ?: (null to null)
+        }
 
         return TypeResult.Success(
             list = list,
