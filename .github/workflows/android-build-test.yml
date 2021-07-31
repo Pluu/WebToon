@@ -15,7 +15,7 @@ jobs:
           ref: ${{ github.ref }}
       - uses: actions/setup-java@v1
         with:
-          java-version: '11'
+          java-version: 11
       - uses: actions/cache@v2
         with:
           path: |
@@ -24,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'buildSrc/src/**/*.kt', '**/gradle.properties', 'gradle/**') }}
       - uses: eskatos/gradle-command-action@v1
         with:
-          gradle-version: 7.0
+          gradle-version: '7.1.1'
           arguments: assembleDebug
           wrapper-cache-enabled: true
           dependencies-cache-key: |
