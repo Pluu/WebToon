@@ -75,7 +75,6 @@ fun IntroScreen(
 
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                initiallyVisible = true,
                 visible = isLoading
             ) {
                 CircularProgressIndicator(

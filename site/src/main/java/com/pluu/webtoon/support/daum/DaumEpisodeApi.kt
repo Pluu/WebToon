@@ -107,7 +107,7 @@ internal class DaumEpisodeApi(
 
     private fun createApi(param: EpisodeRequest): IRequest =
         IRequest(
-            method = REQUEST_METHOD.POST,
+            method = REQUEST_METHOD.GET,
             url = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname",
             params = mutableMapOf<String, String>().apply {
                 put("page_size", "20")

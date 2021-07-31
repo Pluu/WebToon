@@ -2,7 +2,6 @@ package com.pluu.webtoon.weekly.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -33,14 +33,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.google.accompanist.glide.GlideImage
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.utils.toAgentGlideUrl
+import com.pluu.webtoon.utils.applyAgent
 import com.pluu.webtoon.weekly.R
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
 @Composable
 fun WeeklyItemUi(
     modifier: Modifier = Modifier,
@@ -48,37 +51,44 @@ fun WeeklyItemUi(
     isFavorite: Boolean,
     onClicked: (ToonInfo) -> Unit
 ) {
+    val painter = rememberImagePainter(
+        data = item.image,
+        builder = {
+            applyAgent()
+            crossfade(true)
+        }
+    )
+
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(2.dp)
-            .clickable { onClicked(item) }
-            .height(100.dp)
+            .height(100.dp),
+        onClick = { onClicked(item) }
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            GlideImage(
-                data = item.image.toAgentGlideUrl(),
-                fadeIn = true,
+        Box {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painter,
                 contentScale = ContentScale.Crop,
-                loading = {
-                    Box(Modifier.fillMaxSize()) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center),
-                            color = MaterialTheme.colors.secondary
-                        )
-                    }
-                },
-                error = {
-                    Box(Modifier.fillMaxSize()) {
-                        Image(
-                            modifier = Modifier.align(Alignment.Center),
-                            painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
-                            contentDescription = null
-                        )
-                    }
-                },
-                contentDescription = null
+                contentDescription = null,
             )
+
+            when (painter.state) {
+                is ImagePainter.State.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+                is ImagePainter.State.Error -> {
+                    Image(
+                        modifier = Modifier.align(Alignment.Center),
+                        painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                        contentDescription = null
+                    )
+                }
+            }
 
             WeeklyItemOverlayUi(
                 item = item,

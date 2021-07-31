@@ -8,13 +8,13 @@ plugins {
 //    id("org.jlleitschuh.gradle.ktlint")
 }
 
-apply(from = "${rootProject.projectDir}/gradle/commonConfiguration.gradle")
+apply(from = "${rootDir}/gradle/commonConfiguration.gradle")
 
 android {
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        versionCode = 62
-        versionName = "1.6.5"
+        versionCode = 64
+        versionName = "1.6.7"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -48,10 +48,11 @@ android {
         kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
     }
 
-    lintOptions {
+    lint {
         checkOnly("Interoperability")
         disable("ContentDescription")
         isAbortOnError = false
+        xmlReport = true
     }
 
     useLibrary("android.test.mock")
@@ -73,26 +74,16 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
-    implementation(Dep.AndroidX.annotation)
     implementation(Dep.AndroidX.activity.ktx)
-    implementation(Dep.AndroidX.appcompat)
-    implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
-    implementation(Dep.AndroidX.lifecycle.liveDataKtx)
 
     // Android UI
     implementation(Dep.AndroidX.UI.material)
-    implementation(Dep.AndroidX.UI.viewPager)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
-    implementation(Dep.AndroidX.Compose.livedata)
-    implementation(Dep.AndroidX.Compose.activity)
-
-    implementation(Dep.Accompanist.insets)
 
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)
@@ -107,6 +98,7 @@ dependencies {
 
     implementation(Dep.timber)
 //    implementation(Dep.leakCanary)
+    implementation(Dep.Coil.core)
 
     testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.assertJ)

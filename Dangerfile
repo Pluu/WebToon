@@ -9,19 +9,19 @@ end
 warn("a large PR") if git.lines_of_code > 300
 
 # Warn when PR has no assignees
-warn("A pull request must have some assignees") if github.pr_json["assignee"].nil?
+warn "This PR does not have any assignees yet." unless github.pr_json["assignee"]
 
 # --------------------
 # ktlint
 # --------------------
-checkstyle_format.base_path = Dir.pwd
-checkstyle_format.report "app/build/reports/ktlint/ktlint-#{ENV['APP_BUILD_TYPE'].downcase}.xml"
+# checkstyle_format.base_path = Dir.pwd
+# checkstyle_format.report "app/build/reports/ktlint/ktlint-#{ENV['APP_BUILD_TYPE'].downcase}.xml"
 
 # --------------------
 # Android Lint
 # --------------------
-android_lint.gradle_task = "app:lint"
-android_lint.report_file = "app/build/reports/lint-results.xml"
-android_lint.filtering = true
-android_lint.severity = "Error"
-android_lint.lint(inline_mode: true)
+Dir["*/build/reports/lint-results*.xml"].each do |file|
+    android_lint.skip_gradle_task = true
+    android_lint.report_file = file
+    android_lint.lint(inline_mode: true)
+end

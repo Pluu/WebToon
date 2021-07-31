@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">PluuToon</string>
+
     <string name="title_naver">Naver</string>
     <string name="title_daum">Daum</string>
     <string name="title_olleh">KTOON</string>
     <string name="title_kakao_page">Kakao Page</string>
-    <string name="title_nate">Nate</string>
 
     <string name="title_naver_key">NAVER</string>
     <string name="title_daum_key">DAUM</string>
     <string name="title_olleh_key">KTOON</string>
     <string name="title_kakao_page_key">KAKAOPAGE</string>
-    <string name="title_nate_key">NATE</string>
 
     <string name="msg_not_support">현재 성인, 과금 관련 메뉴 접근은 지원하지 않습니다.</string>
 

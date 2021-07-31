@@ -9,7 +9,7 @@ listOf(
     "commonConfiguration.gradle",
     "libraryConfiguration.gradle"
 ).forEach { file ->
-    apply(from = "${rootProject.projectDir}/gradle/${file}")
+    apply(from = "${rootDir}/gradle/${file}")
 }
 
 android {
@@ -43,7 +43,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
 
-    implementation(Dep.Accompanist.glide)
+    implementation(Dep.Coil.compose)
     implementation(Dep.Accompanist.insets)
 
     // Hilt

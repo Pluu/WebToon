@@ -74,10 +74,9 @@ class EpisodeViewModel @Inject constructor(
                 is Result.Success -> {
                     val data = episodePage.data
                     actionSuccessUi(data)
-
-                    val resultList = successProcess(data)
-                    _listEvent.value = Result.Success(resultList)
-
+                    if (data.episodes.isNotEmpty()) {
+                        _listEvent.value = Result.Success(data.episodes)
+                    }
                 }
                 is Result.Error -> {
                     _listEvent.value = Result.Error(episodePage.throwable)
@@ -108,14 +107,6 @@ class EpisodeViewModel @Inject constructor(
         if (pageNo == INIT_PAGE) {
             firstEpisode = data.first
         }
-    }
-
-    private suspend fun successProcess(
-        episodePage: EpisodeResult
-    ): List<EpisodeInfo> = withContext(dispatchers.computation) {
-        runCatching {
-            episodePage.episodes
-        }.getOrDefault(emptyList())
     }
 
     fun readUpdate() {

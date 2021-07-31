@@ -52,9 +52,12 @@ fun EpisodeScreen(
         }
     }
 
-    val transition = updateTransition(transitionState)
+    val transition = updateTransition(
+        transitionState = transitionState,
+        label = null
+    )
     val featureBgColor by animateBgColor(palletColor, transition)
-    val featureTextColor by animateTestColor(palletColor, transition)
+    val featureTextColor by animateTextColor(palletColor, transition)
 
     EpisodeScreen(
         modifier = modifier,
@@ -143,7 +146,8 @@ private fun animateBgColor(
 ): State<Color> {
     val context = LocalContext.current
     return transition.animateColor(
-        transitionSpec = { tween(durationMillis = 1000) }
+        transitionSpec = { tween(durationMillis = 1000) },
+        label = "BgColor Animation"
     ) { state ->
         when (state) {
             ColorTransitionState.START -> context.getThemeColor(R.attr.colorPrimary).toColor()
@@ -153,13 +157,14 @@ private fun animateBgColor(
 }
 
 @Composable
-private fun animateTestColor(
+private fun animateTextColor(
     palletColor: PalletColor,
     transition: Transition<ColorTransitionState>
 ): State<Color> {
     val context = LocalContext.current
     return transition.animateColor(
-        transitionSpec = { tween(durationMillis = 1000) }
+        transitionSpec = { tween(durationMillis = 1000) },
+        label = "TextColor Animation"
     ) { state ->
         when (state) {
             ColorTransitionState.START -> context.getThemeColor(android.R.attr.textColorPrimary)

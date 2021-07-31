@@ -7,7 +7,7 @@ listOf(
     "commonConfiguration.gradle",
     "libraryConfiguration.gradle"
 ).forEach { file ->
-    apply(from = "${rootProject.projectDir}/gradle/${file}")
+    apply(from = "${rootDir}/gradle/${file}")
 }
 
 android {

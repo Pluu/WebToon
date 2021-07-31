@@ -2,7 +2,6 @@ package com.pluu.webtoon.episode.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.google.accompanist.glide.GlideImage
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.utils.toAgentGlideUrl
+import com.pluu.webtoon.utils.applyAgent
 
+@OptIn(ExperimentalCoilApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun EpisodeItemUi(
     modifier: Modifier = Modifier,
@@ -40,39 +43,45 @@ fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
+    val painter = rememberImagePainter(
+        data = item.image,
+        builder = {
+            applyAgent()
+            crossfade(true)
+        }
+    )
+
     Card(
-        modifier = modifier
-            .clickable(onClick = { onClicked(item) })
-            .padding(all = 2.dp)
+        modifier = modifier.padding(all = 2.dp),
+        onClick = { onClicked(item) }
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
         ) {
-            GlideImage(
-                data = item.image.toAgentGlideUrl(),
-                fadeIn = true,
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painter,
                 contentScale = ContentScale.Crop,
-                loading = {
-                    Box(Modifier.fillMaxSize()) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center),
-                            color = MaterialTheme.colors.secondary
-                        )
-                    }
-                },
-                error = {
-                    Box(Modifier.fillMaxSize()) {
-                        Image(
-                            modifier = Modifier.align(Alignment.Center),
-                            painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
-                            contentDescription = null
-                        )
-                    }
-                },
-                contentDescription = null
+                contentDescription = null,
             )
+
+            when (painter.state) {
+                is ImagePainter.State.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+                is ImagePainter.State.Error -> {
+                    Image(
+                        modifier = Modifier.align(Alignment.Center),
+                        painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                        contentDescription = null
+                    )
+                }
+            }
 
             EpisodeItemUiOverlayUi(item = item, isRead = isRead)
         }

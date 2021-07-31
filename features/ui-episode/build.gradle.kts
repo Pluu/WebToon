@@ -9,7 +9,7 @@ listOf(
     "commonConfiguration.gradle",
     "libraryConfiguration.gradle"
 ).forEach { file ->
-    apply(from = "${rootProject.projectDir}/gradle/${file}")
+    apply(from = "${rootDir}/gradle/${file}")
 }
 
 android {
@@ -34,7 +34,6 @@ dependencies {
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.activity.ktx)
-    implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.fragment.ktx)
 
@@ -46,9 +45,9 @@ dependencies {
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
-    implementation(Dep.AndroidX.Compose.constraintlayout)
+    implementation(Dep.AndroidX.Compose.constraintLayout)
 
-    implementation(Dep.Accompanist.glide)
+    implementation(Dep.Coil.compose)
     implementation(Dep.Accompanist.insets)
 
     // Hilt

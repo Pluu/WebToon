@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="naver_color">#2D8400</color>
+    <color name="naver_color_variant">#246900</color>
+    <color name="daum_color">#608EFC</color>
+    <color name="daum_color_variant">#4C71C9</color>
+    <color name="olleh_color">#DF2E1C</color>
+    <color name="olleh_color_variant">#B22416</color>
+    <color name="kakao_color">#3F3035</color>
+    <color name="kakao_color_variant">#32262A</color>
+</resources>

@@ -2,7 +2,6 @@ package com.pluu.compose.preference
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -27,7 +26,6 @@ class PreferenceState<T>(
     }
 }
 
-@OptIn(ComposeCompilerApi::class)
 @Composable
 fun <T> rememberPreferenceState(
     key: String,

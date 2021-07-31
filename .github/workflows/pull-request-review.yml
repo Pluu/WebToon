@@ -1,0 +1,43 @@
+name: pull request review
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  danger:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' # if only run pull request when multiple trigger workflow
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: develop
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - uses: actions/cache@v1
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          gradle-version: '7.1.1'
+          arguments: lintDebug
+          wrapper-cache-enabled: true
+      - name: Set up and run Danger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gem install danger
+          gem install danger-checkstyle_format
+          gem install danger-android_lint
+          bundle exec danger

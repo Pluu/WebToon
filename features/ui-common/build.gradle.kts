@@ -7,7 +7,7 @@ listOf(
     "commonConfiguration.gradle",
     "libraryConfiguration.gradle"
 ).forEach { file ->
-    apply(from = "${rootProject.projectDir}/gradle/${file}")
+    apply(from = "${rootDir}/gradle/${file}")
 }
 
 android {
@@ -26,8 +26,6 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
-    implementation(Dep.AndroidX.appcompat)
-
     // Android UI
     implementation(Dep.AndroidX.UI.material)
 
@@ -38,6 +36,6 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.activity)
 
-    // Glide
-    implementation(Dep.Glide.core)
+    // Coil
+    implementation(Dep.Coil.core)
 }
