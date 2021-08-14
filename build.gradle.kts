@@ -27,8 +27,6 @@ allprojects {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
-            useIR = true
-
             freeCompilerArgs = freeCompilerArgs + listOf(
 //                "-Xallow-jvm-ir-dependencies",
                 "-Xskip-prerelease-check",

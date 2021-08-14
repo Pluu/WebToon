@@ -12,7 +12,7 @@ object Dep {
 
     object AndroidX {
         object activity {
-            const val activityVersion = "1.3.0"
+            const val activityVersion = "1.3.1"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -25,13 +25,13 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.7.0-alpha01"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-alpha05"
+            private const val fragmentVersion = "1.4.0-alpha06"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.4.0-alpha02"
+            private const val lifecycleVersion = "2.4.0-alpha03"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
@@ -46,14 +46,14 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val material = "com.google.android.material:material:1.5.0-alpha01"
+            const val material = "com.google.android.material:material:1.5.0-alpha02"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
         }
 
         object Compose {
-            const val version = "1.0.0"
+            const val version = "1.0.1"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
@@ -64,7 +64,7 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta01"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
         }
 
@@ -73,7 +73,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.15.0"
+        private const val version = "0.16.1"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
@@ -90,24 +90,24 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.5.10"
+        const val version = "1.5.21"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
-            private const val coroutinesVersion = "1.5.0"
+            private const val coroutinesVersion = "1.5.1"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
             const val android =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
 
-        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.14.1"
 
     object Coil {
-        private const val version = "1.3.1"
+        private const val version = "1.3.2"
         const val core = "io.coil-kt:coil:$version"
         const val compose = "io.coil-kt:coil-compose:$version"
     }

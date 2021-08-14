@@ -106,7 +106,7 @@ class WeeklyViewModel @AssistedInject constructor(
             assistedFactory: WeeklyViewModelFactory,
             weekPosition: Int
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return assistedFactory.create(weekPosition) as T
             }
         }
