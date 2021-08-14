@@ -77,6 +77,7 @@ private fun WeeklyScreen(
                 }
             }
         },
+        drawerGesturesEnabled = false,
         drawerElevation = 0.dp,
         drawerScrimColor = MaterialTheme.colors.background.copy(alpha = 0.5f),
         topBar = {
