@@ -2,7 +2,7 @@
 
 object Dep {
     object GradlePlugin {
-        const val androidStudioGradlePluginVersion = "7.0.0"
+        const val androidStudioGradlePluginVersion = "7.0.2"
         const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
@@ -22,10 +22,10 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
-        const val coreKtx = "androidx.core:core-ktx:1.7.0-alpha01"
+        const val coreKtx = "androidx.core:core-ktx:1.7.0-alpha02"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-alpha06"
+            private const val fragmentVersion = "1.4.0-alpha08"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
@@ -46,14 +46,14 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val material = "com.google.android.material:material:1.5.0-alpha02"
+            const val material = "com.google.android.material:material:1.5.0-alpha03"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
         }
 
         object Compose {
-            const val version = "1.0.1"
+            const val version = "1.0.2"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
@@ -73,7 +73,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.16.1"
+        private const val version = "0.17.0"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
