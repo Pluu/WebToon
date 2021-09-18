@@ -22,16 +22,16 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
-        const val coreKtx = "androidx.core:core-ktx:1.7.0-alpha02"
+        const val coreKtx = "androidx.core:core-ktx:1.7.0-beta01"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-alpha08"
+            private const val fragmentVersion = "1.4.0-alpha09"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.4.0-alpha03"
+            private const val lifecycleVersion = "2.4.0-beta01"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
@@ -73,7 +73,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.17.0"
+        private const val version = "0.18.0"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
