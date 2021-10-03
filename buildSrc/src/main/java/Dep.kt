@@ -6,7 +6,7 @@ object Dep {
         const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
-        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.0.0"
+        const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.2.0"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
     }
 
@@ -21,23 +21,23 @@ object Dep {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
-        const val coreKtx = "androidx.core:core-ktx:1.7.0-beta01"
+        const val appcompat = "androidx.appcompat:appcompat:1.4.0-beta01"
+        const val coreKtx = "androidx.core:core-ktx:1.7.0-beta02"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-alpha09"
+            private const val fragmentVersion = "1.4.0-alpha10"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.4.0-beta01"
+            private const val lifecycleVersion = "2.4.0-rc01"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
 
         object room {
-            private const val roomVersion = "2.4.0-alpha04"
+            private const val roomVersion = "2.4.0-alpha05"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -46,14 +46,14 @@ object Dep {
 
         object UI {
             const val browser = "androidx.browser:browser:1.3.0"
-            const val material = "com.google.android.material:material:1.5.0-alpha03"
+            const val material = "com.google.android.material:material:1.5.0-alpha04"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
         }
 
         object Compose {
-            const val version = "1.0.2"
+            const val version = "1.0.3"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
@@ -64,7 +64,7 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
         }
 
@@ -73,13 +73,13 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.18.0"
+        private const val version = "0.19.0"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
 
     object Dagger {
-        const val version = "2.38.1"
+        const val version = "2.39.1"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
 
@@ -90,21 +90,21 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.5.21"
+        const val version = "1.5.30"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
-            private const val coroutinesVersion = "1.5.1"
+            private const val coroutinesVersion = "1.5.2"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
             const val android =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
 
-        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
     }
 
-    const val jsoup = "org.jsoup:jsoup:1.14.1"
+    const val jsoup = "org.jsoup:jsoup:1.14.3"
 
     object Coil {
         private const val version = "1.3.2"
@@ -113,19 +113,19 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.9.1"
+        private const val version = "4.9.2"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
 
-    const val timber = "com.jakewharton.timber:timber:4.7.1"
+    const val timber = "com.jakewharton.timber:timber:5.0.1"
     const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 
     object Test {
         const val junit = "junit:junit:4.13.2"
-        const val assertJ = "org.assertj:assertj-core:3.20.2"
-        const val mockito = "org.mockito:mockito-core:3.11.2"
-        const val androidJunit = "androidx.test.ext:junit:1.1.3-rc01"
+        const val assertJ = "org.assertj:assertj-core:3.21.0"
+        const val mockito = "org.mockito:mockito-core:3.12.4"
+        const val androidJunit = "androidx.test.ext:junit:1.1.3"
         const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0"
     }
 }

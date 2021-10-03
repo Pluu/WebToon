@@ -27,7 +27,6 @@ fun WeeklyContainerScreen(
         val coroutineScope = rememberCoroutineScope()
 
         val pagerState = rememberPagerState(
-            pageCount = serviceApi.currentTabs.size,
             initialPage = serviceApi.todayTabPosition
         )
 
@@ -42,6 +41,7 @@ fun WeeklyContainerScreen(
         }
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
+            count = serviceApi.currentTabs.size,
             state = pagerState
         ) { page ->
             WeeklyHomeUi(
