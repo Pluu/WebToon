@@ -3,6 +3,7 @@ package com.pluu.webtoon.navigator
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.ColorInt
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
@@ -36,4 +37,12 @@ interface SettingNavigator {
     fun openSetting(context: Context)
 
     fun openLicense(context: Context)
+}
+
+interface BrowserNavigator {
+    fun openBrowser(
+        context: Context,
+        @ColorInt toolbarColor: Int,
+        url: String
+    )
 }

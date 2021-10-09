@@ -35,7 +35,6 @@ dependencies {
     implementation(Dep.AndroidX.fragment.ktx)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.browser)
     implementation(Dep.AndroidX.UI.preference)
 
     // Compose

@@ -78,6 +78,7 @@ dependencies {
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
 
     // Android UI
+    implementation(Dep.AndroidX.UI.browser)
     implementation(Dep.AndroidX.UI.material)
 
     // Compose

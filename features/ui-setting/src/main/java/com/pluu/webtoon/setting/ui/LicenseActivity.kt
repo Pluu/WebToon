@@ -1,23 +1,27 @@
 package com.pluu.webtoon.setting.ui
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.browser.customtabs.CustomTabColorSchemeParams
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
 import com.pluu.webtoon.ui.compose.activityComposeView
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * License Activity
  * Created by pluu on 2017-05-05.
  */
+@AndroidEntryPoint
 class LicenseActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var browserNavigator: BrowserNavigator
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,15 +43,10 @@ class LicenseActivity : ComponentActivity() {
      * @param item License Model
      */
     private fun showDetailLicense(item: LicenseModel) {
-        // http://qiita.com/droibit/items/66704f96a602adec5a35
-        CustomTabsIntent.Builder()
-            .setShowTitle(true)
-            .setDefaultColorSchemeParams(
-                CustomTabColorSchemeParams.Builder()
-                    .setToolbarColor(ContextCompat.getColor(this, R.color.theme_primary))
-                    .build()
-            )
-            .build()
-            .launchUrl(this, Uri.parse(item.url))
+        browserNavigator.openBrowser(
+            this,
+            ContextCompat.getColor(this, R.color.theme_primary),
+            item.url
+        )
     }
 }
