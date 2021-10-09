@@ -9,9 +9,9 @@
 
 지원 웹툰
 - 네이버
-- 다음
+- 카카오 웹툰
 - KTOON
-- 카카오
+- 카카오 페이지
 
 로그인이 필요한 웹툰은 지원하지 않습니다
 - 성인 웹툰
@@ -40,13 +40,13 @@ Dependencies
   - Room
   - ViewPager2
 - Accompnist
-  - Glide
   - Insets
+  - Pager
 - Dagger
   - Dagger2
   - Dagger Hilt
-- Glide
-- Joup
+- Coil
+- Jsoup
 - ktlint
 - Kotlin
   - Kotlin

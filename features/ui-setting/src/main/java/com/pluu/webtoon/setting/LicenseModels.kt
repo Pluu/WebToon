@@ -20,8 +20,8 @@ val licenseModels = listOf(
         "https://github.com/jhy/jsoup/blob/master/LICENSE"
     ),
     LicenseModel(
-        "Glide",
-        "https://github.com/bumptech/glide/blob/master/LICENSE"
+        "Coil",
+        "https://github.com/coil-kt/coil/blob/main/LICENSE.txt"
     ),
     LicenseModel(
         "LeakCanary by Square",
