@@ -38,7 +38,7 @@ allprojects {
             )
 
             // Set JVM target to Java 1.8
-            jvmTarget = JavaVersion.VERSION_1_8.majorVersion
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
     }
 }
