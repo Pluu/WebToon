@@ -25,8 +25,14 @@ class NetworkTask(
         return suspendCancellableCoroutine { continuation ->
             call.enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    continuation.resume(NetworkResult.Success(response.body?.string().orEmpty())) {
-                        call.cancel()
+                    if (response.isSuccessful) {
+                        continuation.resume(
+                            NetworkResult.Success(response.body?.string().orEmpty())
+                        ) {
+                            call.cancel()
+                        }
+                    } else {
+                        continuation.resumeWithException(IllegalStateException(response.message))
                     }
                 }
 
