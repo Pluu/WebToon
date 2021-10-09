@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.graphics.toColorInt
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
@@ -66,7 +67,18 @@ fun WeeklyItemUi(
             .height(100.dp),
         onClick = { onClicked(item) }
     ) {
-        Box {
+        val backgroundModifier = when (painter.state) {
+            is ImagePainter.State.Success -> {
+                if (item.backgroundColor.isNotEmpty()) {
+                    Modifier.background(color = Color(item.backgroundColor.toColorInt()))
+                } else {
+                    Modifier
+                }
+            }
+            else -> Modifier
+        }
+
+        Box(modifier = backgroundModifier) {
             Image(
                 modifier = Modifier.fillMaxSize(),
                 painter = painter,

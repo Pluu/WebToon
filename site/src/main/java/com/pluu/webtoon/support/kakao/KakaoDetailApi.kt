@@ -40,9 +40,9 @@ internal class KakaoDetailApi(
 
             DetailResult.Detail(
                 webtoonId = param.toonId,
-                episodeId = id
-            ).apply {
+                episodeId = id,
                 title = param.episodeTitle
+            ).apply {
                 list = getImages(jsonDeferred.await())
                 prevLink = prevDeferred.await()
                 nextLink = nextDeferred.await()

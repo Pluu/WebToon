@@ -77,7 +77,7 @@ class DetailViewModel @Inject constructor(
                     currentItem = result
 
                     element = ElementEvent(
-                        title = result.title.orEmpty(),
+                        title = result.title,
                         webToonTitle = episode.title,
                         prevEpisodeId = result.prevLink,
                         nextEpisodeId = result.nextLink,

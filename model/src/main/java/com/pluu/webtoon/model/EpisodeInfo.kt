@@ -12,7 +12,16 @@ data class EpisodeInfo(
     val updateDate: String = "",
     val status: Status = Status.NONE,
     val rate: String = "",
-    private val isLoginNeed: Boolean = false
+    private val isLoginNeed: Boolean = false,
+    val landingInfo: LandingInfo = LandingInfo.Detail
 ) : Serializable {
     val isLock: Boolean = isLoginNeed
+}
+
+sealed class LandingInfo {
+    object Detail : LandingInfo()
+
+    data class Browser(
+        val url: String
+    ) : LandingInfo()
 }

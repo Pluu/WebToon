@@ -7,10 +7,10 @@ sealed class DetailResult {
      * Created by pluu on 2018. 10. 07..
      */
     class Detail(
-        var webtoonId: String,
-        var episodeId: String
+        val webtoonId: String,
+        val episodeId: String,
+        val title: String
     ) : DetailResult() {
-        var title: String? = null
         var nextLink: String? = null
         var prevLink: String? = null
         var list: List<DetailView> = emptyList()

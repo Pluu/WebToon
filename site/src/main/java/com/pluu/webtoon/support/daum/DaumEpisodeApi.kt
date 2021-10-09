@@ -1,23 +1,21 @@
 package com.pluu.webtoon.support.daum
 
 import com.pluu.utils.asSequence
-import com.pluu.utils.orEmpty
 import com.pluu.webtoon.data.model.IRequest
 import com.pluu.webtoon.data.model.REQUEST_METHOD
 import com.pluu.webtoon.data.network.INetworkUseCase
 import com.pluu.webtoon.data.network.mapJson
-import com.pluu.webtoon.data.network.safeAPi
 import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.EpisodeResult
+import com.pluu.webtoon.model.LandingInfo
 import com.pluu.webtoon.model.Result
-import com.pluu.webtoon.model.successOr
 import org.json.JSONArray
 import org.json.JSONObject
 
 /**
- * 다음 웹툰 EpisodeInfo API
+ * 카카오 웹툰 EpisodeInfo API
  * Created by pluu on 2017-04-21.
  */
 internal class DaumEpisodeApi(
@@ -45,7 +43,7 @@ internal class DaumEpisodeApi(
 
         val data: JSONArray? = responseData
             .optJSONObject("data")
-            ?.optJSONArray("webtoonEpisodes")
+            ?.optJSONArray("episodes")
         val episodes = if (data != null) {
             parseList(param.toonId, data)
         } else {
@@ -55,69 +53,61 @@ internal class DaumEpisodeApi(
         val result = EpisodeResult(episodes)
 
         if (episodes.isNotEmpty()) {
-            val nick = param.toonId
-            val page = responseData.optJSONObject("page").orEmpty()
+            result.nextLink = parseNextPage(responseData, param)
 
-            result.nextLink = nick.takeIf { parsePage(page) }
-            result.first = getFirstEpisode(nick)
-                ?.optJSONObject("data")
-                ?.optString("firstEpisodeId")
-                ?.let { firstId ->
-                    episodes.first().copy(id = firstId)
-                }
+//            result.first = responseData
+//                .getJSONObject("data")
+//                .getJSONObject("first")
+//                ?.let { firstId ->
+//                    episodes.first().copy(id = firstId)
+//                }
         }
         return Result.Success(result)
     }
 
-    private suspend fun getFirstEpisode(nick: String): JSONObject? {
-        ///////////////////////////////////////////////////////////////////////////
-        // API
-        ///////////////////////////////////////////////////////////////////////////
-
-        val apiResult = safeAPi(
-            requestApi(
-                IRequest(url = PREFIX_FIRST_URL + nick)
-            )
-        ) { response ->
-            JSONObject(response)
+    private fun parseNextPage(
+        responseData: JSONObject,
+        param: EpisodeRequest
+    ): String? = responseData.getJSONObject("meta")
+        .getJSONObject("pagination")
+        .optBoolean("last")
+        .takeUnless { it }
+        ?.let {
+            (param.page + 1).toString()
         }
-
-        return apiResult.successOr(null)
-    }
 
     private fun parseList(toonId: String, data: JSONArray): List<EpisodeInfo> =
         data.asSequence()
             .map {
+                val id = it.optString("id")
+                val seoId = it.getString("seoId")
                 EpisodeInfo(
-                    id = it.optString("id"),
+                    id = id,
                     toonId = toonId,
                     title = it.optString("title"),
-                    image = it.optJSONObject("thumbnailImage")?.optString("url").orEmpty(),
-                    updateDate = it.optString("dateCreated"),
-                    rate = it.optJSONObject("voteTarget")?.optString("voteTotalScore").orEmpty(),
-                    isLoginNeed = it.optInt("price", 0) > 0
+                    image = it.getJSONObject("asset").getString("thumbnailImage") + ".webp",
+                    updateDate = it.optString("serialStartDateTime"),
+                    isLoginNeed = when {
+                        it.optBoolean("adult") -> true
+                        else -> it.getString("useType") != "FREE"
+                    },
+                    landingInfo = LandingInfo.Browser(
+                        "https://webtoon.kakao.com/viewer/${seoId}/${id}"
+                    )
                 )
             }.toList()
-
-    private fun parsePage(obj: JSONObject): Boolean {
-        val total = obj.optInt("size", 1)
-        val current = obj.optInt("no", 1)
-        return total >= current + 1
-    }
 
     private fun createApi(param: EpisodeRequest): IRequest =
         IRequest(
             method = REQUEST_METHOD.GET,
-            url = "http://m.webtoon.daum.net/data/mobile/webtoon/list_episode_by_nickname",
+            url = "https://gateway-kw.kakao.com/episode/v1/views/content-home/contents/${param.toonId}/episodes",
             params = mutableMapOf<String, String>().apply {
-                put("page_size", "20")
-                put("nickname", param.toonId)
-                put("page_no", (param.page + 1).toString())
-            }
+                put("sort", "-NO")
+                put("offset", "${param.page * 30}")
+                put("limit", "30")
+            },
+            headers = mapOf(
+                "Accept-Language" to "ko"
+            )
         )
-
-    companion object {
-        private const val PREFIX_FIRST_URL =
-            "http://m.webtoon.daum.net/data/mobile/webtoon/view?nickname="
-    }
 }

@@ -48,10 +48,9 @@ internal class KToonDetailApi(
 
         val ret = DetailResult.Detail(
             webtoonId = param.toonId,
-            episodeId = param.episodeId
-        ).apply {
+            episodeId = param.episodeId,
             title = param.episodeTitle
-        }
+        )
         ret.list = parserToon(array)
         parsePrevNext(id).let {
             ret.prevLink = it.first

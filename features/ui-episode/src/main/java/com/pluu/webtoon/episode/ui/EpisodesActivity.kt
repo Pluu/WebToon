@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
+import androidx.core.graphics.toColorInt
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
@@ -19,8 +20,10 @@ import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.model.LandingInfo
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
@@ -46,6 +49,9 @@ class EpisodesActivity : ComponentActivity() {
 
     @Inject
     lateinit var detailNavigator: DetailNavigator
+
+    @Inject
+    lateinit var browserNavigator: BrowserNavigator
 
     private val openDetailLauncher = registerForActivityResult {
         viewModel.readUpdate()
@@ -152,12 +158,24 @@ class EpisodesActivity : ComponentActivity() {
     }
 
     private fun moveDetailPage(item: EpisodeInfo) {
-        detailNavigator.openDetail(
-            context = this,
-            launcher = openDetailLauncher,
-            item = item,
-            palletColor = palletColor
-        )
+        when (item.landingInfo) {
+            is LandingInfo.Browser -> {
+                browserNavigator.openBrowser(
+                    context = this,
+                    url = (item.landingInfo as LandingInfo.Browser).url,
+                    toolbarColor = webToonItem.info.backgroundColor.toColorInt()
+                )
+
+            }
+            LandingInfo.Detail -> {
+                detailNavigator.openDetail(
+                    context = this,
+                    launcher = openDetailLauncher,
+                    item = item,
+                    palletColor = palletColor
+                )
+            }
+        }
     }
 
     private fun updateFavorite(isFavorite: Boolean) {

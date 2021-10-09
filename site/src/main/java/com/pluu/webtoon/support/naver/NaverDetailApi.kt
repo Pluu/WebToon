@@ -67,9 +67,9 @@ internal class NaverDetailApi(
         ///////////////////////////////////////////////////////////////////////////
         val ret = DetailResult.Detail(
             webtoonId = param.toonId,
-            episodeId = param.episodeId
+            episodeId = param.episodeId,
+            title = responseData.select("div[class=chh] span, h1[class=tit]").first()?.text().orEmpty()
         )
-        ret.title = responseData.select("div[class=chh] span, h1[class=tit]").first()?.text()
 
         val parser = when {
             // osLoader

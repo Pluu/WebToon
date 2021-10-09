@@ -6,6 +6,7 @@ data class ToonInfo(
     val id: String,
     val title: String,
     val image: String,
+    val backgroundColor: String = "",
     val writer: String = "",
     val rate: Double = 0.0,
     val updateDate: String = "",
