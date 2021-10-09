@@ -107,7 +107,7 @@ object Dep {
     const val jsoup = "org.jsoup:jsoup:1.14.3"
 
     object Coil {
-        private const val version = "1.3.2"
+        private const val version = "1.4.0"
         const val core = "io.coil-kt:coil:$version"
         const val compose = "io.coil-kt:coil-compose:$version"
     }
