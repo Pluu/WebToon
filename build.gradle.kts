@@ -37,8 +37,8 @@ allprojects {
                 "-Xopt-in=kotlin.Experimental"
             )
 
-            // Set JVM target to Java 11
-            jvmTarget = ProjectConfigurations.javaVer.majorVersion
+            // Set JVM target to Java 1.8
+            jvmTarget = JavaVersion.VERSION_1_8.majorVersion
         }
     }
 }
