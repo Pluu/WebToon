@@ -18,7 +18,7 @@ data class EpisodeInfo(
     val isLock: Boolean = isLoginNeed
 }
 
-sealed class LandingInfo {
+sealed class LandingInfo : Serializable {
     object Detail : LandingInfo()
 
     data class Browser(
