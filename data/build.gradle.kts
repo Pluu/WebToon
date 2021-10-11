@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("com.google.devtools.ksp")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -38,7 +39,7 @@ dependencies {
     implementation(Dep.Kotlin.coroutines.android)
 
     implementation(Dep.AndroidX.room.runtime)
-    kapt(Dep.AndroidX.room.compiler)
+    ksp(Dep.AndroidX.room.compiler)
     implementation(Dep.AndroidX.room.ktx)
     implementation(Dep.AndroidX.UI.preference)
 
