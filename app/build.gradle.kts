@@ -13,8 +13,8 @@ apply(from = "${rootDir}/gradle/commonConfiguration.gradle")
 android {
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        versionCode = 67
-        versionName = "1.7.0"
+        versionCode = 68
+        versionName = "1.7.1"
         vectorDrawables.useSupportLibrary = true
     }
 
