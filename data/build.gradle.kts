@@ -1,16 +1,8 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    id("android-library-convention")
     id("com.google.devtools.ksp")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-}
-
-listOf(
-    "commonConfiguration.gradle",
-    "libraryConfiguration.gradle"
-).forEach { file ->
-    apply(from = "${rootDir}/gradle/${file}")
 }
 
 android {

@@ -1,11 +1,5 @@
 plugins {
-    id("java-library")
-    kotlin("jvm")
-}
-
-java {
-    sourceCompatibility = ProjectConfigurations.javaVer
-    targetCompatibility = ProjectConfigurations.javaVer
+    id("kotlin-library-convention")
 }
 
 dependencies {

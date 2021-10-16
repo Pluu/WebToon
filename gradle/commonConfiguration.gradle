@@ -1,9 +1,0 @@
-android {
-    compileSdkVersion ProjectConfigurations.compileSdk
-    buildToolsVersion ProjectConfigurations.buildTools
-
-    defaultConfig {
-        minSdkVersion ProjectConfigurations.minSdk
-        targetSdkVersion ProjectConfigurations.targetSdk
-    }
-}

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 buildscript {
     repositories {
         google()
@@ -16,30 +14,6 @@ buildscript {
         classpath(Dep.GradlePlugin.kotlinSerialization)
         classpath(Dep.GradlePlugin.ktlint)
         classpath(Dep.GradlePlugin.hilt)
-    }
-}
-
-allprojects {
-    tasks.withType<JavaCompile> {
-        sourceCompatibility = ProjectConfigurations.javaVer.majorVersion
-        targetCompatibility = ProjectConfigurations.javaVer.majorVersion
-    }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + listOf(
-//                "-Xallow-jvm-ir-dependencies",
-                "-Xskip-prerelease-check",
-                "-Xopt-in=kotlin.RequiresOptIn",
-                // Enable experimental coroutines APIs, including Flow
-//                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-//                "-Xopt-in=kotlinx.coroutines.FlowPreview",
-                "-Xopt-in=kotlin.Experimental"
-            )
-
-            // Set JVM target to Java 1.8
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
-        }
     }
 }
 

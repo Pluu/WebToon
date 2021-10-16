@@ -1,23 +1,6 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-}
-
-listOf(
-    "commonConfiguration.gradle",
-    "libraryConfiguration.gradle"
-).forEach { file ->
-    apply(from = "${rootDir}/gradle/${file}")
-}
-
-android {
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
-    }
+    id("android-library-convention")
+    id("android-compose-convention")
 }
 
 dependencies {

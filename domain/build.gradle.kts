@@ -1,13 +1,5 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-}
-
-listOf(
-    "commonConfiguration.gradle",
-    "libraryConfiguration.gradle"
-).forEach { file ->
-    apply(from = "${rootDir}/gradle/${file}")
+    id("android-library-convention")
 }
 
 dependencies {

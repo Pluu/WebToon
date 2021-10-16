@@ -1,14 +1,12 @@
 //import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("android-application-convention")
+    id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 //    id("org.jlleitschuh.gradle.ktlint")
 }
-
-apply(from = "${rootDir}/gradle/commonConfiguration.gradle")
 
 android {
     defaultConfig {
@@ -40,17 +38,9 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
-    }
-
     lint {
-        checkOnly("Interoperability")
-        disable("ContentDescription")
+        checkOnly.add("Interoperability")
+        disable.add("ContentDescription")
         isAbortOnError = false
         xmlReport = true
     }

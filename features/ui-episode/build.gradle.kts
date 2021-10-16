@@ -1,25 +1,13 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    id("android-library-convention")
+    id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-}
-
-listOf(
-    "commonConfiguration.gradle",
-    "libraryConfiguration.gradle"
-).forEach { file ->
-    apply(from = "${rootDir}/gradle/${file}")
 }
 
 android {
     buildFeatures {
         viewBinding = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Dep.AndroidX.Compose.version
     }
 }
 
