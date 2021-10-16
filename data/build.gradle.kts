@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(projects.core)
 
     implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.coroutines.android)

@@ -49,18 +49,18 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":core-android"))
-    implementation(project(":model"))
-    implementation(project(":data"))
-    implementation(project(":domain"))
-    implementation(project(":site"))
-    implementation(project(":compose"))
-    implementation(project(":ui-common"))
-    implementation(project(":ui-weekly"))
-    implementation(project(":ui-episode"))
-    implementation(project(":ui-detail"))
-    implementation(project(":ui-setting"))
+    implementation(projects.core)
+    implementation(projects.coreAndroid)
+    implementation(projects.model)
+    implementation(projects.data)
+    implementation(projects.domain)
+    implementation(projects.site)
+    implementation(projects.compose)
+    implementation(projects.uiCommon)
+    implementation(projects.uiWeekly)
+    implementation(projects.uiEpisode)
+    implementation(projects.uiDetail)
+    implementation(projects.uiSetting)
 
     implementation(Dep.Kotlin.stdlibJvm)
 

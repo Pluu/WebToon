@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":data"))
-    implementation(project(":model"))
+    implementation(projects.core)
+    implementation(projects.data)
+    implementation(projects.model)
 
     implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Dagger.dagger)

@@ -6,13 +6,13 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":core-android"))
-    implementation(project(":data"))
-    implementation(project(":domain"))
-    implementation(project(":site"))
-    implementation(project(":ui-common"))
-    implementation(project(":compose"))
+    implementation(projects.core)
+    implementation(projects.coreAndroid)
+    implementation(projects.data)
+    implementation(projects.domain)
+    implementation(projects.site)
+    implementation(projects.uiCommon)
+    implementation(projects.compose)
 
     implementation(Dep.Kotlin.stdlibJvm)
 
