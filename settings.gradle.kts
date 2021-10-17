@@ -42,27 +42,29 @@ dependencyResolutionManagement {
 
 rootProject.name = "WebToon"
 
-include(
-    ":app",
-    ":data",
-    ":core",
-    ":core-android",
-    ":model",
-    ":domain",
-    ":site",
-    ":ui-common",
-    ":ui-weekly",
-    ":ui-episode",
-    ":ui-setting",
-    ":ui-detail",
-    ":compose"
-)
-arrayOf(
-    ":ui-common",
-    ":ui-weekly",
-    ":ui-setting",
-    ":ui-episode",
-    ":ui-detail"
-).forEach { name ->
-    project(name).projectDir = File(rootDir, "features/${name.substring(startIndex = 1)}")
+fun includeProject(moduleName: String, rootFolderName: String = "") {
+    settings.include(moduleName)
+
+    if (rootFolderName.isNotEmpty()) {
+        project(moduleName).projectDir =
+            File(rootDir, "${rootFolderName}/${moduleName.substring(startIndex = 1)}")
+    }
 }
+
+///////////////////////////////////////////////////////////////////////////
+// Modules
+///////////////////////////////////////////////////////////////////////////
+
+includeProject(":app")
+includeProject(":data")
+includeProject(":core")
+includeProject(":core-android")
+includeProject(":model")
+includeProject(":domain")
+includeProject(":site")
+includeProject(":compose")
+includeProject(":ui-common", "features")
+includeProject(":ui-weekly", "features")
+includeProject(":ui-episode", "features")
+includeProject(":ui-setting", "features")
+includeProject(":ui-detail", "features")
