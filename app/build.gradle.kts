@@ -16,28 +16,6 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    signingConfigs {
-        getByName(BuildType.DEBUG) {
-            storeFile = project.rootProject.file("debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
-    }
-
-    buildTypes {
-        getByName(BuildType.DEBUG) {
-            signingConfig = signingConfigs.getByName("debug")
-            applicationIdSuffix = ".debug"
-        }
-
-        getByName(BuildType.RELEASE) {
-            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
-            proguardFiles(file("proguard-rules.pro"))
-        }
-    }
-
     lint {
         checkOnly.add("Interoperability")
         disable.add("ContentDescription")
