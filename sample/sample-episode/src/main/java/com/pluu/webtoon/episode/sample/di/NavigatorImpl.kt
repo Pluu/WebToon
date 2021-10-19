@@ -17,7 +17,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 object NavigatorModule {
     @Provides
-    fun provideSettingNavigator() = object : DetailNavigator {
+    fun provideDetailNavigator() = object : DetailNavigator {
         override fun openDetail(
             context: Context,
             launcher: ActivityResultLauncher<Intent>,
