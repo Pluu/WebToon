@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-abstract class SettingModule {
+internal abstract class SettingModule {
     @Binds
     abstract fun provideSettingNavigator(
         navigator: SettingNavigatorImpl

@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-object SessionModule {
+internal object SessionModule {
     @Provides
     fun provideNavType(
         session: Session

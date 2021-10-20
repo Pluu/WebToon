@@ -1,4 +1,4 @@
-package com.pluu.webtoon.sample.di
+package com.pluu.webtoon.detail.sample.di
 
 import com.pluu.utils.AppCoroutineDispatchers
 import dagger.Module
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object CoroutinesModule {
+internal object CoroutinesModule {
     @Singleton
     @Provides
     fun provideDispatchers(): AppCoroutineDispatchers = AppCoroutineDispatchers(

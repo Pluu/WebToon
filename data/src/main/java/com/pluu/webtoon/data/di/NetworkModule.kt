@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object NetworkModule {
+internal object NetworkModule {
     @Singleton
     @Provides
     fun provideNetworkUseCase(

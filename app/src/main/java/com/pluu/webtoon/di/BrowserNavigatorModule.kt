@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-abstract class BrowserNavigatorModule {
+internal abstract class BrowserNavigatorModule {
     @Binds
     abstract fun provideBrowserNavigator(
         navigator: BrowserNavigatorImpl

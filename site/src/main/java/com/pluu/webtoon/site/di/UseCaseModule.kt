@@ -29,7 +29,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-object UseCaseModule {
+internal object UseCaseModule {
 
     @Provides
     fun provideWeeklyUseCase(

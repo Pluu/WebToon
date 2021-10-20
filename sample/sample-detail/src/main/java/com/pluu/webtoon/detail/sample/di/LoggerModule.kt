@@ -1,4 +1,4 @@
-package com.pluu.webtoon.sample.di
+package com.pluu.webtoon.detail.sample.di
 
 import dagger.Module
 import dagger.Provides
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object LoggerModule {
+internal object LoggerModule {
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor { message ->

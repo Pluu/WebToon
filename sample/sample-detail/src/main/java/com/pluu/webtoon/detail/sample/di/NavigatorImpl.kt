@@ -1,4 +1,4 @@
-package com.pluu.webtoon.sample.di
+package com.pluu.webtoon.detail.sample.di
 
 import android.content.Context
 import android.content.Intent
@@ -18,7 +18,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-object NavigatorModule {
+internal object NavigatorModule {
     @Provides
     fun provideDetailNavigator(): DetailNavigator = object : DetailNavigator {
         override fun openDetail(

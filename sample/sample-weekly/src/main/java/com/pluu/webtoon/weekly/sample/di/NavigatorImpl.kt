@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-object NavigatorModule {
+internal object NavigatorModule {
     @Provides
     fun provideSettingNavigator() = object : SettingNavigator {
         override fun openSetting(context: Context) {

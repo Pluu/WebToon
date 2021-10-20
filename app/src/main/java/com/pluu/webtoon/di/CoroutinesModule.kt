@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object CoroutinesModule {
+internal object CoroutinesModule {
     @Singleton
     @Provides
     fun provideDispatchers(): AppCoroutineDispatchers = AppCoroutineDispatchers(

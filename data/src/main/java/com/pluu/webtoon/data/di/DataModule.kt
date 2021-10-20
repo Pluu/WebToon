@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DataModule {
+internal object DataModule {
     @Singleton
     @Provides
     fun provideAppDatabase(
