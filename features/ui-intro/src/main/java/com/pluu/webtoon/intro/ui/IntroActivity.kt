@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.intro
+package com.pluu.webtoon.intro.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

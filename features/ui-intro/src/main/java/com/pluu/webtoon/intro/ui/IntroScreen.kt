@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui.intro
+package com.pluu.webtoon.intro.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
