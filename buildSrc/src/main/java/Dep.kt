@@ -12,7 +12,7 @@ object Dep {
 
     object AndroidX {
         object activity {
-            const val activityVersion = "1.4.0-rc01"
+            const val activityVersion = "1.4.0"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -21,17 +21,17 @@ object Dep {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.4.0-beta01"
-        const val coreKtx = "androidx.core:core-ktx:1.7.0-rc01"
+        const val appcompat = "androidx.appcompat:appcompat:1.4.0-rc01"
+        const val coreKtx = "androidx.core:core-ktx:1.7.0"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-alpha10"
+            private const val fragmentVersion = "1.4.0-beta01"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.4.0-rc01"
+            private const val lifecycleVersion = "2.4.0"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
@@ -73,7 +73,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.19.0"
+        private const val version = "0.20.0"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
