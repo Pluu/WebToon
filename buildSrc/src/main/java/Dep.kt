@@ -45,7 +45,7 @@ object Dep {
         }
 
         object UI {
-            const val browser = "androidx.browser:browser:1.3.0"
+            const val browser = "androidx.browser:browser:1.4.0"
             const val material = "com.google.android.material:material:1.5.0-alpha04"
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.1.1"
@@ -53,7 +53,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.4"
+            const val version = "1.0.5"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
@@ -73,7 +73,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.20.0"
+        private const val version = "0.20.2"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
     }
