@@ -21,23 +21,23 @@ object Dep {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        const val appcompat = "androidx.appcompat:appcompat:1.4.0-rc01"
+        const val appcompat = "androidx.appcompat:appcompat:1.4.0"
         const val coreKtx = "androidx.core:core-ktx:1.7.0"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0-beta01"
+            private const val fragmentVersion = "1.4.0"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            private const val lifecycleVersion = "2.4.0"
+            const val lifecycleVersion = "2.4.0"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
 
         object room {
-            private const val roomVersion = "2.4.0-beta01"
+            private const val roomVersion = "2.4.0-beta02"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
             const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -64,8 +64,8 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${AndroidX.lifecycle.lifecycleVersion}"
         }
 
         const val viewBinding =
@@ -79,7 +79,7 @@ object Dep {
     }
 
     object Dagger {
-        const val version = "2.40"
+        const val version = "2.40.1"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
 
