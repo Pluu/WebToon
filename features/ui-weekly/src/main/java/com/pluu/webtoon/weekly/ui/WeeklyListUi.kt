@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsHeight
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.weekly.R
 
 @Composable
 fun WeeklyListUi(
@@ -49,7 +48,7 @@ fun WeeklyListUi(
 @Composable
 fun WeeklyEmptyUi() {
     Image(
-        painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+        painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
         contentDescription = null
     )
 }

@@ -18,7 +18,6 @@ import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.result.registerForActivityResult
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.LandingInfo
 import com.pluu.webtoon.model.Result
@@ -93,7 +92,7 @@ class EpisodesActivity : ComponentActivity() {
                 }
 
                 if (episodeList is Result.Error) {
-                    toast(R.string.network_fail)
+                    toast(com.pluu.webtoon.ui_common.R.string.network_fail)
                     finish()
                     return@ProvideWindowInsets
                 }
@@ -191,7 +190,7 @@ class EpisodesActivity : ComponentActivity() {
         successValidAction: (EpisodeInfo) -> Unit
     ) {
         if (item.isLock) {
-            toast(R.string.msg_not_support)
+            toast(com.pluu.webtoon.ui_common.R.string.msg_not_support)
         } else {
             successValidAction(item)
         }

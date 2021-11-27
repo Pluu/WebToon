@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.webtoon.navigator.BrowserNavigator
-import com.pluu.webtoon.setting.R
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
 import com.pluu.webtoon.ui.compose.activityComposeView
@@ -45,7 +44,7 @@ class LicenseActivity : ComponentActivity() {
     private fun showDetailLicense(item: LicenseModel) {
         browserNavigator.openBrowser(
             this,
-            ContextCompat.getColor(this, R.color.theme_primary),
+            ContextCompat.getColor(this, com.pluu.webtoon.ui_common.R.color.theme_primary),
             item.url
         )
     }

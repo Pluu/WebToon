@@ -20,7 +20,6 @@ import com.pluu.ui.state.UiState
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.detail.R
 import com.pluu.webtoon.detail.model.FeatureColor
 import com.pluu.webtoon.detail.model.getMessage
 import com.pluu.webtoon.model.ShareItem
@@ -47,7 +46,7 @@ class DetailActivity : AppCompatActivity() {
 
     private val featureColor by lazyNone {
         FeatureColor(
-            themeColor = getThemeColor(R.attr.colorPrimary).toColor(),
+            themeColor = getThemeColor(androidx.appcompat.R.attr.colorPrimary).toColor(),
             webToonColor = palletColor.darkVibrantColor.toColor()
         )
     }

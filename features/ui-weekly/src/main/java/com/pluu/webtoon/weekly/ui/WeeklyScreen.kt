@@ -18,7 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.pluu.webtoon.weekly.R
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import kotlinx.coroutines.launch
@@ -66,7 +65,7 @@ private fun WeeklyScreen(
         modifier = modifier.fillMaxSize(),
         drawerContent = {
             WeeklyDrawer(
-                title = context.getString(R.string.app_name),
+                title = context.getString(com.pluu.webtoon.ui_common.R.string.app_name),
                 accentColor = backgroundColor,
                 menus = UI_NAV_ITEM.values().iterator(),
                 selectedMenu = naviItem
@@ -82,7 +81,7 @@ private fun WeeklyScreen(
         drawerScrimColor = MaterialTheme.colors.background.copy(alpha = 0.5f),
         topBar = {
             WeeklyTopBar(
-                title = context.getString(R.string.app_name),
+                title = context.getString(com.pluu.webtoon.ui_common.R.string.app_name),
                 backgroundColor = backgroundColor
             ) {
                 coroutineScope.launch {

@@ -96,7 +96,7 @@ fun WeeklyItemUi(
                 is ImagePainter.State.Error -> {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
-                        painter = painterResource(R.drawable.ic_sentiment_very_dissatisfied_48),
+                        painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
                         contentDescription = null
                     )
                 }

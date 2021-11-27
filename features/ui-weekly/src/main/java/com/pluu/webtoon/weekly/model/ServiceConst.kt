@@ -11,10 +11,10 @@ import com.pluu.webtoon.weekly.R
 object ServiceConst {
     // titles for nav drawer items (indices must correspond to the above)
     val NAV_DRAWER_TITLE_RES_ID = intArrayOf(
-        R.string.title_naver,
-        R.string.title_daum,
-        R.string.title_olleh,
-        R.string.title_kakao_page
+        com.pluu.webtoon.ui_common.R.string.title_naver,
+        com.pluu.webtoon.ui_common.R.string.title_daum,
+        com.pluu.webtoon.ui_common.R.string.title_olleh,
+        com.pluu.webtoon.ui_common.R.string.title_kakao_page
     )
 }
 

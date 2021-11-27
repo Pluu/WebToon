@@ -26,7 +26,6 @@ import com.pluu.compose.ui.graphics.toColor
 import com.pluu.ui.state.UiState
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.getThemeColor
-import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.Result
@@ -150,7 +149,7 @@ private fun animateBgColor(
         label = "BgColor Animation"
     ) { state ->
         when (state) {
-            ColorTransitionState.START -> context.getThemeColor(R.attr.colorPrimary).toColor()
+            ColorTransitionState.START -> context.getThemeColor(androidx.appcompat.R.attr.colorPrimary).toColor()
             ColorTransitionState.END -> palletColor.darkVibrantColor.toColor()
         }
     }

@@ -7,11 +7,10 @@ import com.pluu.utils.animatorColor
 import com.pluu.utils.animatorColorFromThemeAttrId
 import com.pluu.utils.getThemeColor
 import com.pluu.utils.setStatusBarColor
-import com.pluu.webtoon.R
 
 fun AppCompatActivity.animatorToolbarColor(endColor: Int) =
     animatorColor(
-        startColor = getThemeColor(R.attr.colorPrimary),
+        startColor = getThemeColor(androidx.appcompat.R.attr.colorPrimary),
         endColor = endColor,
         listener = {
             supportActionBar?.apply {
@@ -21,7 +20,7 @@ fun AppCompatActivity.animatorToolbarColor(endColor: Int) =
 
 fun Activity.animatorStatusBarColor(color: Int) =
     animatorColorFromThemeAttrId(
-        themeAttrId = R.attr.colorPrimaryVariant,
+        themeAttrId = com.google.android.material.R.attr.colorPrimaryVariant,
         color = color
     ) { value ->
         setStatusBarColor(value)

@@ -18,7 +18,6 @@ import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.ui.compose.rememberLauncherForActivityResult
 import com.pluu.webtoon.ui.model.FavoriteResult
-import com.pluu.webtoon.weekly.R
 import com.pluu.webtoon.weekly.event.WeeklyEvent
 import com.pluu.webtoon.weekly.image.PalletDarkCalculator
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +68,7 @@ fun WeeklyHomeUi(
         items = list,
     ) { item ->
         if (item.info.isLock) {
-            context.toast(R.string.msg_not_support)
+            context.toast(com.pluu.webtoon.ui_common.R.string.msg_not_support)
         } else {
             coroutineScope.launch {
                 val palletColor = async(Dispatchers.Default) {

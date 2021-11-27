@@ -29,7 +29,6 @@ import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
 import com.pluu.webtoon.data.pref.PrefConfig
-import com.pluu.webtoon.setting.R
 
 @Composable
 fun SettingsScreen(
@@ -116,20 +115,20 @@ private fun getPreItems(
     context: Context
 ): List<ListPreferenceItem<String>> = listOf(
     ListPreferenceItem(
-        context.getString(R.string.title_naver),
-        context.getString(R.string.title_naver_key)
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_naver),
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_naver_key)
     ),
     ListPreferenceItem(
-        context.getString(R.string.title_daum),
-        context.getString(R.string.title_daum_key)
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_daum),
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_daum_key)
     ),
     ListPreferenceItem(
-        context.getString(R.string.title_olleh),
-        context.getString(R.string.title_olleh_key)
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_olleh),
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_olleh_key)
     ),
     ListPreferenceItem(
-        context.getString(R.string.title_kakao_page),
-        context.getString(R.string.title_kakao_page_key)
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_kakao_page),
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_kakao_page_key)
     )
 )
 
