@@ -8,15 +8,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.pluu.compose.foundation.InfiniteListHandler
 import com.pluu.compose.runtime.rememberMutableStateListOf
 import com.pluu.compose.ui.CircularProgressIndicator
 import com.pluu.ui.state.UiState
@@ -76,22 +77,27 @@ private fun EpisodeGridContent(
     readIdSet: Set<EpisodeId>,
     onEpisodeClicked: (EpisodeInfo) -> Unit
 ) {
+    val listState = rememberLazyListState()
+
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
-        cells = GridCells.Fixed(2)
+        cells = GridCells.Fixed(2),
+        state = listState
     ) {
-        itemsIndexed(items) { index, item ->
-            if (items.lastIndex == index) {
-                LaunchedEffect(Unit) {
-                    onMoreLoaded()
-                }
-            }
+        items(items) { item ->
             EpisodeItemUi(
                 item = item,
                 isRead = readIdSet.contains(item.id),
                 onClicked = onEpisodeClicked
             )
         }
+    }
+
+    InfiniteListHandler(
+        listState = listState,
+        buffer = 3
+    ) {
+        onMoreLoaded()
     }
 }
 
