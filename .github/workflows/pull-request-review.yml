@@ -30,7 +30,7 @@ jobs:
             ${{ runner.os }}-gems-
       - uses: eskatos/gradle-command-action@v1
         with:
-          gradle-version: '7.1.1'
+          gradle-version: '7.3.3'
           arguments: lintDebug
           wrapper-cache-enabled: true
       - name: Set up and run Danger

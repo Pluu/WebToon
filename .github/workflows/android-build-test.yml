@@ -24,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'buildSrc/src/**/*.kt', '**/gradle.properties', 'gradle/**') }}
       - uses: eskatos/gradle-command-action@v1
         with:
-          gradle-version: '7.1.1'
+          gradle-version: '7.3.3'
           arguments: assembleDebug
           wrapper-cache-enabled: true
           dependencies-cache-key: |
