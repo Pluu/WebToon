@@ -50,4 +50,8 @@ dependencies {
     androidTestImplementation(Dep.Kotlin.coroutines.test)
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 //apply(from = "../publish_local.gradle")

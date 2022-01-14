@@ -77,6 +77,7 @@ dependencies {
 
 kapt {
     useBuildCache = true
+    correctErrorTypes = true
 }
 
 //ktlint {

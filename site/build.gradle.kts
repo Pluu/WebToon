@@ -25,4 +25,8 @@ dependencies {
     testImplementation(Dep.Test.junit)
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 //apply(from = "../publish_local.gradle")

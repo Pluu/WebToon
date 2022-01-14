@@ -36,3 +36,11 @@ dependencies {
 
     implementation(Dep.timber)
 }
+
+kapt {
+    correctErrorTypes = true
+}
+
+hilt {
+    enableAggregatingTask = true
+}
