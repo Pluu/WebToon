@@ -3,7 +3,7 @@ package com.pluu.webtoon.weekly.provider
 import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
+import com.pluu.utils.getCompatColor
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.weekly.model.toUiType
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,7 +16,7 @@ class ColorProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     @ColorInt
-    fun getColor(@ColorRes resId: Int): Int = ContextCompat.getColor(context, resId)
+    fun getColor(@ColorRes resId: Int): Int = context.getCompatColor(resId)
 }
 
 /** Navigation Color Provider */
