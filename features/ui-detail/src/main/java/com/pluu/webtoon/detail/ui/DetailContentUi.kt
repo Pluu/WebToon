@@ -90,6 +90,7 @@ private fun AdjustDetailImage(
                 color = MaterialTheme.colors.secondary
             )
         }
+        else -> {}
     }
 
     Image(

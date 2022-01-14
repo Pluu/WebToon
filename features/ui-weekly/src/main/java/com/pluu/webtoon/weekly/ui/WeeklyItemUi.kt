@@ -100,6 +100,7 @@ fun WeeklyItemUi(
                         contentDescription = null
                     )
                 }
+                else -> {}
             }
 
             WeeklyItemOverlayUi(

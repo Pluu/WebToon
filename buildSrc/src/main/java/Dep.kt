@@ -53,12 +53,11 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.0.5"
+            const val version = "1.2.0-alpha01"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
             const val material = "androidx.compose.material:material:${version}"
-            const val materialAdapter = "com.google.android.material:compose-theme-adapter:${version}"
             const val tooling = "androidx.compose.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
@@ -66,6 +65,8 @@ object Dep {
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${AndroidX.lifecycle.lifecycleVersion}"
+
+            const val materialAdapter = "com.google.android.material:compose-theme-adapter:1.1.2"
         }
 
         const val viewBinding =
@@ -90,18 +91,18 @@ object Dep {
     }
 
     object Kotlin {
-        const val version = "1.5.31"
+        const val version = "1.6.10"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object coroutines {
-            private const val coroutinesVersion = "1.5.2"
+            private const val coroutinesVersion = "1.6.0"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
             const val android =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         }
 
-        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
     }
 
     const val jsoup = "org.jsoup:jsoup:1.14.3"

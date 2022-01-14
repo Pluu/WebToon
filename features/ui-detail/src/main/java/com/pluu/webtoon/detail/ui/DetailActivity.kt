@@ -64,7 +64,7 @@ class DetailActivity : AppCompatActivity() {
                     UiState(loading = true)
                 )
 
-                when (val eventOnScope = event) {
+                when (val eventOnScope = event ?: return@ProvideWindowInsets) {
                     DetailEvent.START -> {
                         loadingDialog = true
                     }

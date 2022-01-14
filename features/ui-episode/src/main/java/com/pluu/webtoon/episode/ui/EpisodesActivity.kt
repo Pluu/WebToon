@@ -89,6 +89,7 @@ class EpisodesActivity : ComponentActivity() {
                         updateFavorite(_event.isFavorite)
                         savedResult(_event)
                     }
+                    else -> {}
                 }
 
                 if (episodeList is Result.Error) {

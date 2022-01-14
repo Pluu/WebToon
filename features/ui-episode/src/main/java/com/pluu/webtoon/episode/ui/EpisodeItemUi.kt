@@ -81,6 +81,7 @@ fun EpisodeItemUi(
                         contentDescription = null
                     )
                 }
+                else -> {}
             }
 
             EpisodeItemUiOverlayUi(item = item, isRead = isRead)

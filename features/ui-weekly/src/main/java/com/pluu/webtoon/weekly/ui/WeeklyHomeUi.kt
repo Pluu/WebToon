@@ -51,9 +51,7 @@ fun WeeklyHomeUi(
     }
 
     LaunchedEffect(event) {
-        @Suppress("UnnecessaryVariable", "MoveVariableDeclarationIntoWhen")
-        val safeEvent = event
-        when (safeEvent) {
+        when (val safeEvent = event ?: return@LaunchedEffect) {
             is WeeklyEvent.ErrorEvent -> {
                 context.toast(safeEvent.message)
             }
