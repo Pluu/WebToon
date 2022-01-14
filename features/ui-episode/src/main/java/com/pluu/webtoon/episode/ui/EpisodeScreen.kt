@@ -23,6 +23,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.graphics.toColor
+import com.pluu.compose.ui.res.colorAttribute
 import com.pluu.ui.state.UiState
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.getThemeColor
@@ -149,7 +150,8 @@ private fun animateBgColor(
         label = "BgColor Animation"
     ) { state ->
         when (state) {
-            ColorTransitionState.START -> context.getThemeColor(androidx.appcompat.R.attr.colorPrimary).toColor()
+            ColorTransitionState.START -> context.getThemeColor(androidx.appcompat.R.attr.colorPrimary)
+                .toColor()
             ColorTransitionState.END -> palletColor.darkVibrantColor.toColor()
         }
     }
@@ -166,8 +168,7 @@ private fun animateTextColor(
         label = "TextColor Animation"
     ) { state ->
         when (state) {
-            ColorTransitionState.START -> context.getThemeColor(android.R.attr.textColorPrimary)
-                .toColor()
+            ColorTransitionState.START -> colorAttribute(android.R.attr.textColorPrimary).toColor()
             ColorTransitionState.END -> if (ThemeHelper.isLightTheme(context)) {
                 palletColor.darkMutedColor.toColor()
             } else {
