@@ -7,9 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -17,7 +16,6 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
-import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
@@ -52,7 +50,6 @@ class WeeklyActivity : FragmentActivity() {
 
         activityComposeView {
             ProvideWindowInsets(false) {
-                val context = LocalContext.current
                 var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
                 val contentView = remember {
@@ -64,8 +61,7 @@ class WeeklyActivity : FragmentActivity() {
 
                 WeeklyScreen(
                     naviItem = naviItem,
-                    backgroundColor = ContextCompat.getColor(context, naviItem.bgColor)
-                        .toColor(),
+                    backgroundColor = colorResource(naviItem.bgColor),
                     onEventAction = { event ->
                         when (event) {
                             is WeeklyMenuEvent.OnMenuClicked -> {

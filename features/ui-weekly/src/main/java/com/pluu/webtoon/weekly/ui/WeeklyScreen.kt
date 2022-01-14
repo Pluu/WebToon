@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -58,14 +58,13 @@ private fun WeeklyScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         drawerContent = {
             WeeklyDrawer(
-                title = context.getString(com.pluu.webtoon.ui_common.R.string.app_name),
+                title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
                 accentColor = backgroundColor,
                 menus = UI_NAV_ITEM.values().iterator(),
                 selectedMenu = naviItem
@@ -81,7 +80,7 @@ private fun WeeklyScreen(
         drawerScrimColor = MaterialTheme.colors.background.copy(alpha = 0.5f),
         topBar = {
             WeeklyTopBar(
-                title = context.getString(com.pluu.webtoon.ui_common.R.string.app_name),
+                title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
                 backgroundColor = backgroundColor
             ) {
                 coroutineScope.launch {
