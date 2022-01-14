@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WebToon">
+        android:theme="@style/BaseMaterialAppTheme">
 
         <activity
             android:name="com.pluu.webtoon.intro.ui.IntroActivity"

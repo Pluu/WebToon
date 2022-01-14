@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="BaseMaterialAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="BaseMaterialAppTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryVariant">@color/theme_primary_variant</item>
         <item name="colorSecondary">@color/red_500</item>
