@@ -113,13 +113,13 @@ object Dep {
     }
 
     object OkHttp {
-        private const val version = "4.9.2"
+        private const val version = "4.9.3"
         const val core = "com.squareup.okhttp3:okhttp:$version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
-    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
 
     object Test {
         const val junit = "junit:junit:4.13.2"
