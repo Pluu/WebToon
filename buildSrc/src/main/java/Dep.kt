@@ -66,7 +66,7 @@ object Dep {
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${AndroidX.lifecycle.lifecycleVersion}"
 
-            const val materialAdapter = "com.google.android.material:compose-theme-adapter:1.1.2"
+            const val materialAdapter = "com.google.android.material:compose-theme-adapter:1.1.3"
         }
 
         const val viewBinding =
