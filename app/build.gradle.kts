@@ -11,15 +11,15 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        versionCode = 68
-        versionName = "1.7.1"
+        versionCode = 69
+        versionName = "1.7.2"
         vectorDrawables.useSupportLibrary = true
     }
 
     lint {
         checkOnly.add("Interoperability")
         disable.add("ContentDescription")
-        isAbortOnError = false
+//        isAbortOnError = false
         xmlReport = true
     }
 
