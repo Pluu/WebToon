@@ -3,7 +3,6 @@ package com.pluu.webtoon.weekly.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -19,7 +18,6 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -79,18 +77,11 @@ fun DayOfWeekUi(
         edgePadding = 0.dp
     ) {
         titles.forEachIndexed { index, title ->
-            // TODO : Tab 크기 수정
             Tab(
+                text = { Text(title) },
                 selected = index == selectedTabIndex,
                 onClick = { onTabSelected(index) }
-            ) {
-                Text(
-                    text = title,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.body2,
-                    modifier = Modifier.padding(vertical = 14.dp, horizontal = 2.dp)
-                )
-            }
+            )
         }
     }
 }
