@@ -35,6 +35,7 @@ dependencies {
     implementation(Dep.Coil.compose)
     implementation(Dep.Accompanist.insets)
     implementation(Dep.Accompanist.pager)
+    implementation(Dep.Accompanist.pagerIndicators)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

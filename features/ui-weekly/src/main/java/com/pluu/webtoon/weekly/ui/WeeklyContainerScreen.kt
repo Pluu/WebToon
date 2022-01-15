@@ -9,7 +9,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.pluu.compose.ui.graphics.toColor
-import com.pluu.webtoon.domain.usecase.WeeklyUseCase
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -19,20 +18,20 @@ import kotlinx.coroutines.launch
 @Composable
 fun WeeklyContainerScreen(
     modifier: Modifier = Modifier,
-    serviceApi: WeeklyUseCase,
+    titles: Array<String>,
+    selectedTabIndex: Int,
     viewModelFactory: WeeklyViewModelFactory,
     colorProvider: NaviColorProvider
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxSize()) {
         val coroutineScope = rememberCoroutineScope()
 
-        val pagerState = rememberPagerState(
-            initialPage = serviceApi.todayTabPosition
-        )
+        val pagerState = rememberPagerState(selectedTabIndex)
 
         DayOfWeekUi(
-            titles = serviceApi.currentTabs,
             selectedTabIndex = pagerState.currentPage,
+            pagerState = pagerState,
+            titles = titles,
             indicatorColor = colorProvider.getTitleColor().toColor()
         ) { index ->
             coroutineScope.launch {
@@ -41,8 +40,9 @@ fun WeeklyContainerScreen(
         }
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
-            count = serviceApi.currentTabs.size,
-            state = pagerState
+            count = titles.size,
+            state = pagerState,
+            key = { it }
         ) { page ->
             WeeklyHomeUi(
                 modifier = Modifier.fillMaxSize(),

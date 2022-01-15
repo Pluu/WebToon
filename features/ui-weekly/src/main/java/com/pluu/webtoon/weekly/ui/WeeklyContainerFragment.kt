@@ -53,7 +53,8 @@ class WeeklyContainerFragment : Fragment() {
             ) {
                 WeeklyContainerScreen(
                     modifier = Modifier.fillMaxSize(),
-                    serviceApi = serviceApi,
+                    titles = serviceApi.currentTabs,
+                    selectedTabIndex = serviceApi.todayTabPosition,
                     viewModelFactory = viewModelFactory,
                     colorProvider = colorProvider
                 )
