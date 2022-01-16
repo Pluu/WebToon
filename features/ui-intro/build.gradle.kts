@@ -13,6 +13,7 @@ dependencies {
 
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.activity.ktx)
+    implementation(Dep.AndroidX.splashScreen)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)

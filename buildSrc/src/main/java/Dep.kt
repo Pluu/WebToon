@@ -23,6 +23,7 @@ object Dep {
 
         const val appcompat = "androidx.appcompat:appcompat:1.4.1"
         const val coreKtx = "androidx.core:core-ktx:1.7.0"
+        const val splashScreen = "androidx.core:core-splashscreen:1.0.0-beta01"
 
         object fragment {
             private const val fragmentVersion = "1.4.0"

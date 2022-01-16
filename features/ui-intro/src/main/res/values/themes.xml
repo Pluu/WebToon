@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AppSplash" parent="@style/Theme.SplashScreen.IconBackground">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_icon</item>
+        <item name="windowSplashScreenIconBackgroundColor">#2A80F3</item>
+        <item name="postSplashScreenTheme">@style/BaseMaterialAppTheme.Intro</item>
+    </style>
+
+    <style name="BaseMaterialAppTheme.Intro" parent="BaseMaterialAppTheme" />
+</resources>

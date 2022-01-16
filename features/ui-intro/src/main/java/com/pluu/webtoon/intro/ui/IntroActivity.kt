@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.pluu.webtoon.navigator.WeeklyNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,7 @@ class IntroActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
 
         activityComposeView {
             val isNextMove by viewModel.observe.collectAsState(false)

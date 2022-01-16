@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.pluu.webtoon.intro">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pluu.webtoon.intro">
 
+    <application>
+        <activity
+            android:name=".ui.IntroActivity"
+            android:exported="true"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppSplash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
