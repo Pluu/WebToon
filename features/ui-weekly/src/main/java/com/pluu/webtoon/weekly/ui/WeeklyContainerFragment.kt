@@ -19,7 +19,6 @@ import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.weekly.event.ThemeEvent
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
 /**
@@ -41,7 +40,6 @@ class WeeklyContainerFragment : Fragment() {
     @Inject
     lateinit var episodeNavigator: EpisodeNavigator
 
-    @OptIn(InternalCoroutinesApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

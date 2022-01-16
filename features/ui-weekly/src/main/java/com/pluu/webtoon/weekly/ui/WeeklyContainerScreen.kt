@@ -10,10 +10,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 
-@InternalCoroutinesApi
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun WeeklyContainerScreen(

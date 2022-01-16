@@ -1,7 +1,6 @@
 package com.pluu.webtoon.intro.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,7 +41,6 @@ fun IntroScreen(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun IntroScreen(
     modifier: Modifier = Modifier,

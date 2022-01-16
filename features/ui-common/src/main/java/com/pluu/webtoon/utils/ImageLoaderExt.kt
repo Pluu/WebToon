@@ -8,7 +8,6 @@ import coil.imageLoader
 import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 fun Drawable.toLoaderBitmap(): Bitmap? {
     return when (this) {
@@ -17,7 +16,6 @@ fun Drawable.toLoaderBitmap(): Bitmap? {
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 suspend fun preLoadImage(
     context: Context,
     imageUrl: String
