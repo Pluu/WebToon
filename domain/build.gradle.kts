@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     implementation(projects.core)
-    implementation(projects.data)
     implementation(projects.model)
 
     implementation(Dep.Kotlin.stdlibJvm)

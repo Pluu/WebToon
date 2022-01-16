@@ -1,17 +1,17 @@
 package com.pluu.webtoon.domain.usecase
 
-import com.pluu.webtoon.data.dao.IDBHelper
-import com.pluu.webtoon.data.model.DBEpisode
+import com.pluu.webtoon.data.repository.WebToonRepository
 import com.pluu.webtoon.model.DetailResult
+import com.pluu.webtoon.model.Episode
 import com.pluu.webtoon.model.NAV_ITEM
 import javax.inject.Inject
 
 class ReadUseCase @Inject constructor(
-    private val dbHelper: IDBHelper
+    private val repository: WebToonRepository
 ) {
     suspend operator fun invoke(type: NAV_ITEM, item: DetailResult.Detail) {
-        dbHelper.readEpisode(
-            DBEpisode(
+        repository.readEpisode(
+            Episode(
                 service = type.name,
                 toonId = item.webtoonId,
                 episodeId = item.episodeId
