@@ -28,7 +28,7 @@ import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
-import com.pluu.webtoon.data.pref.PrefConfig
+import com.pluu.webtoon.model.KeyContract
 
 @Composable
 fun SettingsScreen(
@@ -71,7 +71,7 @@ private fun DefaultWebtoonUi(
 ) {
     val preferenceProvider = LocalPreference.current
 
-    val preferenceKey = PrefConfig.KEY_DEFAULT_WEBTOON
+    val preferenceKey = KeyContract.KEY_DEFAULT_WEBTOON
     val summaryProvider: (String) -> String = { value ->
         items.first {
             it.entryValue == value

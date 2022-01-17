@@ -8,7 +8,6 @@ plugins {
 dependencies {
     implementation(projects.core)
     implementation(projects.coreAndroid)
-    implementation(projects.data)
     implementation(projects.domain)
     implementation(projects.site)
     implementation(projects.uiCommon)

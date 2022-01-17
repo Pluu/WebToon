@@ -9,7 +9,7 @@ dependencies {
     implementation(projects.coreAndroid)
     implementation(projects.uiCommon)
     implementation(projects.model)
-    implementation(projects.data)
+    implementation(projects.domain)
     implementation(projects.compose)
 
     implementation(Dep.Kotlin.stdlibJvm)

@@ -31,6 +31,7 @@ dependencies {
     implementation(projects.coreAndroid)
     implementation(projects.model)
     implementation(projects.data)
+    implementation(projects.dataLocal)
     implementation(projects.domain)
     implementation(projects.site)
     implementation(projects.compose)

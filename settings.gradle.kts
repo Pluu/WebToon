@@ -57,6 +57,7 @@ fun includeProject(moduleName: String, rootFolderName: String = "") {
 
 includeProject(":app")
 includeProject(":data")
+includeProject(":data-local")
 includeProject(":core")
 includeProject(":core-android")
 includeProject(":model")

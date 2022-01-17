@@ -1,12 +1,13 @@
 package com.pluu.webtoon.weekly.model
 
-import com.pluu.webtoon.data.pref.PrefConfig
+import com.pluu.webtoon.domain.usecase.GetDefaultNaviUseCase
+import com.pluu.webtoon.model.NAV_ITEM
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class Session @Inject constructor(
-    prefConfig: PrefConfig
+    defaultNaviUseCase: GetDefaultNaviUseCase
 ) {
-    var navi = prefConfig.getDefaultWebToon()
+    var navi: NAV_ITEM = defaultNaviUseCase()
 }
