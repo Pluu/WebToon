@@ -3,10 +3,10 @@ package com.pluu.webtoon.data.local.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import com.pluu.webtoon.data.local.WebToonLocalRepositoryImpl
+import com.pluu.webtoon.data.local.LocalRepositoryImpl
 import com.pluu.webtoon.data.local.dao.RoomDao
 import com.pluu.webtoon.data.local.db.AppDatabase
-import com.pluu.webtoon.utils.com.pluu.webtoon.data.repository.WebToonLocalRepository
+import com.pluu.webtoon.data.repository.LocalRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -35,6 +35,6 @@ internal object LocalDataModule {
 internal abstract class LocalDataBindsModule {
     @Binds
     abstract fun bindsLocalRepository(
-        repository: WebToonLocalRepositoryImpl
-    ): WebToonLocalRepository
+        repository: LocalRepositoryImpl
+    ): LocalRepository
 }

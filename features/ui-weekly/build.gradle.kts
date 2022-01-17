@@ -9,7 +9,6 @@ dependencies {
     implementation(projects.core)
     implementation(projects.coreAndroid)
     implementation(projects.domain)
-    implementation(projects.site)
     implementation(projects.uiCommon)
     implementation(projects.compose)
 

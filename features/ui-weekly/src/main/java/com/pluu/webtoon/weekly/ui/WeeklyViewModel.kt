@@ -7,10 +7,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.domain.usecase.HasFavoriteUseCase
-import com.pluu.webtoon.domain.usecase.WeeklyUseCase
+import com.pluu.webtoon.domain.usecase.site.GetWeeklyUseCase
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.model.WeekPosition
 import com.pluu.webtoon.model.successOr
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.event.WeeklyEvent
@@ -25,7 +26,7 @@ class WeeklyViewModel @AssistedInject constructor(
     @Assisted val weekPosition: Int,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
-    private val weeklyUseCase: WeeklyUseCase,
+    private val getWeeklyUseCase: GetWeeklyUseCase,
     private val hasFavoriteUseCase: HasFavoriteUseCase
 ) : ViewModel() {
 
@@ -46,7 +47,7 @@ class WeeklyViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch(ceh) {
             // Step1. 주간 웹툰 로드
-            val tempList = getWeekLoad(weekPosition)
+            val tempList = getWeekLoad(WeekPosition(weekPosition))
             // Step2. 즐겨찾기 취득
             cacheFavorites.addAll(getFavorites(tempList))
             // Step3. 즐겨찾기 - 타이틀 순서로 정렬한 값을 리스트로 보관
@@ -63,9 +64,9 @@ class WeeklyViewModel @AssistedInject constructor(
     }
 
     private suspend fun getWeekLoad(
-        weekPosition: Int
+        weekPosition: WeekPosition
     ): List<ToonInfo> = withContext(dispatchers.computation) {
-        weeklyUseCase(weekPosition).successOr(emptyList())
+        getWeeklyUseCase(weekPosition).successOr(emptyList())
     }
 
     private suspend fun getFavorites(
@@ -104,10 +105,10 @@ class WeeklyViewModel @AssistedInject constructor(
     companion object {
         fun provideFactory(
             assistedFactory: WeeklyViewModelFactory,
-            weekPosition: Int
+            weekPosition: WeekPosition
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(weekPosition) as T
+                return assistedFactory.create(weekPosition.value) as T
             }
         }
     }

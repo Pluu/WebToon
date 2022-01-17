@@ -9,6 +9,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.pluu.compose.ui.graphics.toColor
+import com.pluu.webtoon.model.WeekPosition
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
 import kotlinx.coroutines.launch
 
@@ -45,7 +46,7 @@ fun WeeklyContainerScreen(
             WeeklyHomeUi(
                 modifier = Modifier.fillMaxSize(),
                 viewModelFactory = viewModelFactory,
-                weekPosition = page
+                weekPosition = WeekPosition(page)
             )
         }
     }

@@ -7,8 +7,8 @@ sealed class DetailResult {
      * Created by pluu on 2018. 10. 07..
      */
     class Detail(
-        val webtoonId: String,
-        val episodeId: String,
+        val webtoonId: ToonId,
+        val episodeId: EpisodeId,
         val title: String
     ) : DetailResult() {
         var nextLink: String? = null

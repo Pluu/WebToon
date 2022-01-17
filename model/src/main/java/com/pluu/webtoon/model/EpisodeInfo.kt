@@ -2,11 +2,12 @@ package com.pluu.webtoon.model
 
 import java.io.Serializable
 
+typealias ToonId = String
 typealias EpisodeId = String
 
 data class EpisodeInfo(
     val id: EpisodeId,
-    val toonId: String,
+    val toonId: ToonId,
     val title: String,
     val image: String,
     val updateDate: String = "",

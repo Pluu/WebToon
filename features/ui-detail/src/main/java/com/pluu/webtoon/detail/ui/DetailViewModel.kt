@@ -8,10 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.pluu.ui.state.UiState
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.domain.usecase.DetailUseCase
 import com.pluu.webtoon.domain.usecase.ReadUseCase
-import com.pluu.webtoon.domain.usecase.ShareUseCase
-import com.pluu.webtoon.domain.usecase.param.DetailRequest
+import com.pluu.webtoon.domain.usecase.site.GetDetailUseCase
+import com.pluu.webtoon.domain.usecase.site.GetShareUseCase
 import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.model.ERROR_TYPE
@@ -30,9 +29,9 @@ class DetailViewModel @Inject constructor(
     handle: SavedStateHandle,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
-    private val detailUseCase: DetailUseCase,
+    private val getDetailUseCase: GetDetailUseCase,
     private val readUseCase: ReadUseCase,
-    private val shareUseCase: ShareUseCase
+    private val getShareUseCase: GetShareUseCase
 ) : ViewModel() {
 
     private val episode = handle.get<EpisodeInfo>(Const.EXTRA_EPISODE)!!
@@ -101,12 +100,10 @@ class DetailViewModel @Inject constructor(
         episode: EpisodeInfo
     ): DetailResult = withContext(dispatchers.computation) {
         runCatching {
-            detailUseCase(
-                DetailRequest(
-                    toonId = episode.toonId,
-                    episodeId = episode.id,
-                    episodeTitle = episode.title
-                )
+            getDetailUseCase(
+                toonId = episode.toonId,
+                episodeId = episode.id,
+                episodeTitle = episode.title
             )
         }.getOrElse {
             DetailResult.ErrorResult(errorType = ERROR_TYPE.DEFAULT_ERROR(it))
@@ -122,9 +119,11 @@ class DetailViewModel @Inject constructor(
     fun requestShare() {
         val item = currentItem ?: return
         _event.value = DetailEvent.SHARE(
-            shareUseCase(
-                episode = episode,
-                detail = item
+            getShareUseCase(
+                toonId = episode.toonId,
+                episodeId = episode.id,
+                episodeTitle = episode.title,
+                detailTitle = item.title
             )
         )
     }

@@ -2,6 +2,8 @@ package com.pluu.webtoon.data.local.common
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
+import com.pluu.webtoon.model.EpisodeId
+import com.pluu.webtoon.model.ToonId
 
 /**
  * Helper class for working with the SQLiteDatabase.
@@ -9,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase
 object SqliteDatabaseTestHelper {
     fun insertToon(
         service: String,
-        toonId: String,
+        toonId: ToonId,
         helper: SqliteTestDbOpenHelper
     ) {
         val db: SQLiteDatabase = helper.writableDatabase
@@ -25,8 +27,8 @@ object SqliteDatabaseTestHelper {
 
     fun insertEpisode(
         service: String,
-        toonId: String,
-        episodeId: String,
+        toonId: ToonId,
+        episodeId: EpisodeId,
         helper: SqliteTestDbOpenHelper
     ) {
         val db: SQLiteDatabase = helper.writableDatabase

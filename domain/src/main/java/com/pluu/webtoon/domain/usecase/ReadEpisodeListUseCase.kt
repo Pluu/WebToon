@@ -19,5 +19,5 @@ class ReadEpisodeListUseCase @Inject constructor(
      * @return Read List
      */
     suspend operator fun invoke(type: NAV_ITEM, id: String): List<Episode> =
-        repository.getEpisode(type.name, id)
+        repository.getReadEpisode(type.name, id)
 }

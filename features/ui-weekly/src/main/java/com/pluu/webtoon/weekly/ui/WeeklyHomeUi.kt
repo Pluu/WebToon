@@ -15,6 +15,7 @@ import com.pluu.utils.getSerializable
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.model.WeekPosition
 import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.ui.compose.rememberLauncherForActivityResult
 import com.pluu.webtoon.ui.model.FavoriteResult
@@ -28,13 +29,22 @@ import kotlinx.coroutines.launch
 fun WeeklyHomeUi(
     modifier: Modifier = Modifier,
     viewModelFactory: WeeklyViewModelFactory,
-    weekPosition: Int,
+    weekPosition: WeekPosition,
 ) {
-    val viewModel: WeeklyViewModel = viewModel(
-        key = weekPosition.toString(),
-        factory = WeeklyViewModel.provideFactory(viewModelFactory, weekPosition)
+    WeeklyHomeUi(
+        modifier = modifier,
+        viewModel = viewModel(
+            key = weekPosition.toString(),
+            factory = WeeklyViewModel.provideFactory(viewModelFactory, weekPosition)
+        )
     )
+}
 
+@Composable
+fun WeeklyHomeUi(
+    modifier: Modifier = Modifier,
+    viewModel: WeeklyViewModel
+) {
     val list by viewModel.listEvent.observeAsState(null)
     val event by viewModel.event.observeAsState()
 

@@ -1,9 +1,10 @@
 package com.pluu.webtoon.data.di
 
+import com.pluu.webtoon.data.WebToonDataRepository
+import com.pluu.webtoon.data.repository.LocalRepository
+import com.pluu.webtoon.data.repository.RemoteRepository
 import com.pluu.webtoon.data.repository.WebToonCacheRepository
 import com.pluu.webtoon.data.repository.WebToonRepository
-import com.pluu.webtoon.utils.com.pluu.webtoon.data.WebToonDataRepository
-import com.pluu.webtoon.utils.com.pluu.webtoon.data.repository.WebToonLocalRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -17,8 +18,9 @@ internal object DataModule {
     @Singleton
     @Provides
     fun provideWebToonRepository(
-        localRepository: WebToonLocalRepository
-    ): WebToonRepository = WebToonDataRepository(localRepository)
+        remoteRepository: RemoteRepository,
+        localRepository: LocalRepository
+    ): WebToonDataRepository = WebToonDataRepository(remoteRepository, localRepository)
 }
 
 @InstallIn(SingletonComponent::class)
@@ -28,4 +30,9 @@ internal abstract class DataModuleBinds {
     abstract fun bindsCacheRepository(
         repository: WebToonDataRepository
     ): WebToonCacheRepository
+
+    @Binds
+    abstract fun bindsRepository(
+        repository: WebToonDataRepository
+    ): WebToonRepository
 }

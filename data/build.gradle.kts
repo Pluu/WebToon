@@ -11,11 +11,7 @@ dependencies {
     implementation(projects.model)
 
     implementation(Dep.Kotlin.stdlibJvm)
-    implementation(Dep.Kotlin.coroutines.android)
-
-    // OkHttp
-    implementation(Dep.OkHttp.core)
-    implementation(Dep.OkHttp.loggingInterceptor)
+    implementation(Dep.Kotlin.coroutines.core)
 
     // Dagger Hilt
     implementation(Dep.Dagger.Hilt.android)

@@ -12,13 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.webtoon.Const
-import com.pluu.webtoon.domain.usecase.WeeklyUseCase
+import com.pluu.webtoon.domain.usecase.site.GetWebToonTabsUseCase
 import com.pluu.webtoon.navigator.EpisodeNavigator
 import com.pluu.webtoon.ui.compose.fragmentComposeView
 import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.weekly.event.ThemeEvent
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -28,8 +30,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class WeeklyContainerFragment : Fragment() {
 
+    private val todayTabPosition by lazy {
+        (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7
+    }
+
     @Inject
-    lateinit var serviceApi: WeeklyUseCase
+    lateinit var serviceApi: GetWebToonTabsUseCase
 
     @Inject
     lateinit var colorProvider: NaviColorProvider
@@ -51,8 +57,8 @@ class WeeklyContainerFragment : Fragment() {
             ) {
                 WeeklyContainerScreen(
                     modifier = Modifier.fillMaxSize(),
-                    titles = serviceApi.currentTabs,
-                    selectedTabIndex = serviceApi.todayTabPosition,
+                    titles = serviceApi(),
+                    selectedTabIndex = todayTabPosition,
                     viewModelFactory = viewModelFactory,
                     colorProvider = colorProvider
                 )

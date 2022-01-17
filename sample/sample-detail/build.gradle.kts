@@ -17,8 +17,8 @@ dependencies {
     implementation(projects.coreAndroid)
     implementation(projects.data)
     implementation(projects.dataLocal)
+    implementation(projects.dataRemote)
     implementation(projects.domain)
-    implementation(projects.site)
     implementation(projects.uiCommon)
     implementation(projects.uiDetail)
 

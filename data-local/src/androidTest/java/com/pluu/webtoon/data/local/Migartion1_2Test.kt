@@ -13,6 +13,7 @@ import com.pluu.webtoon.data.local.db.AppDatabase
 import com.pluu.webtoon.data.local.db.migration.migration_1_2
 import com.pluu.webtoon.data.local.model.DBEpisode
 import com.pluu.webtoon.data.local.model.DBToon
+import com.pluu.webtoon.model.ToonId
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -102,7 +103,7 @@ class Migartion1_2Test {
 
     private suspend fun RoomDao.isReaded(
         serviceId: String,
-        toonId: String,
+        toonId: ToonId,
         episodeId: String
     ): Boolean {
         return getEpisode(serviceId, toonId).any {

@@ -8,10 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.usecase.AddFavoriteUseCase
-import com.pluu.webtoon.domain.usecase.EpisodeUseCase
 import com.pluu.webtoon.domain.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.domain.usecase.RemoveFavoriteUseCase
-import com.pluu.webtoon.domain.usecase.param.EpisodeRequest
+import com.pluu.webtoon.domain.usecase.site.GetEpisodeUseCase
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.EpisodeResult
@@ -29,7 +28,7 @@ class EpisodeViewModel @Inject constructor(
     handle: SavedStateHandle,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
-    private val episodeUseCase: EpisodeUseCase,
+    private val getEpisodeUseCase: GetEpisodeUseCase,
     private val readEpisodeListUseCase: ReadEpisodeListUseCase,
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val delFavoriteUseCase: RemoveFavoriteUseCase
@@ -70,7 +69,7 @@ class EpisodeViewModel @Inject constructor(
         viewModelScope.launch {
             _event.value = EpisodeEvent.START(pageNo > INIT_PAGE)
 
-            when (val episodePage = getEpisodeUseCase(id, pageNo)) {
+            when (val episodePage = getEpisode(id, pageNo)) {
                 is Result.Success -> {
                     val data = episodePage.data
                     actionSuccessUi(data)
@@ -92,11 +91,11 @@ class EpisodeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getEpisodeUseCase(
+    private suspend fun getEpisode(
         id: String,
         page: Int
     ): Result<EpisodeResult> = withContext(dispatchers.computation) {
-        episodeUseCase(EpisodeRequest(id, page))
+        getEpisodeUseCase(id, page)
     }
 
     private fun actionSuccessUi(
