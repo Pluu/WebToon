@@ -2,13 +2,11 @@ package com.pluu.webtoon.data
 
 import com.pluu.webtoon.data.repository.LocalRepository
 import com.pluu.webtoon.data.repository.RemoteRepository
-import com.pluu.webtoon.data.repository.WebToonCacheRepository
 import com.pluu.webtoon.data.repository.WebToonRepository
 import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.Episode
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeResult
-import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.model.Toon
@@ -20,7 +18,7 @@ import javax.inject.Inject
 class WebToonDataRepository @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val localRepository: LocalRepository
-) : WebToonRepository, WebToonCacheRepository {
+) : WebToonRepository {
     override suspend fun isFavorite(
         serviceName: String,
         id: String
@@ -41,10 +39,6 @@ class WebToonDataRepository @Inject constructor(
 
     override suspend fun readEpisode(item: Episode) {
         localRepository.readEpisode(item)
-    }
-
-    override fun getDefaultWebToon(): NAV_ITEM {
-        return localRepository.getDefaultWebToon()
     }
 
     override suspend fun getWeekly(weekPosition: WeekPosition): Result<List<ToonInfo>> {
