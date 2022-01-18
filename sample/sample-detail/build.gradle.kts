@@ -13,29 +13,15 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
-    implementation(projects.coreAndroid)
-    implementation(projects.data)
-    implementation(projects.dataLocal)
-    implementation(projects.dataRemote)
-    implementation(projects.domain)
-    implementation(projects.uiCommon)
+    implementation(projects.sampleCommon)
     implementation(projects.uiDetail)
 
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.UI.material)
 
-    // OkHttp
-    implementation(Dep.OkHttp.loggingInterceptor)
-
     // Hilt
     implementation(Dep.Dagger.Hilt.android)
     kapt(Dep.Dagger.Hilt.compiler)
-
-    // Kotlin
-    implementation(Dep.Kotlin.coroutines.android)
-
-    implementation(Dep.timber)
 }
 
 kapt {

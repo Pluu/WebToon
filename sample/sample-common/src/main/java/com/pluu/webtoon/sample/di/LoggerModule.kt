@@ -1,4 +1,4 @@
-package com.pluu.webtoon.episode.sample.di
+package com.pluu.webtoon.sample.di
 
 import dagger.Module
 import dagger.Provides

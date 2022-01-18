@@ -13,8 +13,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.coreAndroid)
-    implementation(projects.uiCommon)
+    implementation(projects.sampleCommon)
     implementation(projects.uiIntro)
 
     // Hilt

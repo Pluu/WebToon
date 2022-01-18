@@ -1,7 +1,7 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    val agpVersion = "7.0.4"
+    val agpVersion = "7.1.0-rc01"
     val kotlinVersion = "1.6.10"
 
     repositories {
@@ -70,6 +70,7 @@ includeProject(":ui-weekly", "features")
 includeProject(":ui-episode", "features")
 includeProject(":ui-setting", "features")
 includeProject(":ui-detail", "features")
+includeProject(":sample-common", "sample")
 includeProject(":sample-intro", "sample")
 includeProject(":sample-weekly", "sample")
 includeProject(":sample-episode", "sample")

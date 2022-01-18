@@ -1,4 +1,4 @@
-package com.pluu.webtoon.episode.sample.di
+package com.pluu.webtoon.sample.di
 
 import com.pluu.webtoon.model.NAV_ITEM
 import dagger.Module

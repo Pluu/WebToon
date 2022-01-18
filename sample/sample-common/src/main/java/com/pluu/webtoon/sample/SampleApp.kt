@@ -1,4 +1,4 @@
-package com.pluu.webtoon.detail.sample
+package com.pluu.webtoon.sample
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
