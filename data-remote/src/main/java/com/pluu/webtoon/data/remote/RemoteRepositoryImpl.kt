@@ -25,6 +25,10 @@ class RemoteRepositoryImpl @Inject constructor(
         return weeklyApi.invoke(weekPosition)
     }
 
+    override fun getWebToonTabs(): Array<String> {
+        return weeklyApi.currentTabs
+    }
+
     override suspend fun getEpisodes(toonId: String, page: Int): Result<EpisodeResult> {
         return episodeApi(EpisodeApi.Param(toonId, page))
     }
@@ -44,9 +48,5 @@ class RemoteRepositoryImpl @Inject constructor(
         detailTitle: String,
     ): ShareItem {
         return shareApi(ShareApi.Param(toonId, episodeId, episodeTitle, detailTitle))
-    }
-
-    override fun getWebToonTabs(): Array<String> {
-        TODO("Not yet implemented")
     }
 }

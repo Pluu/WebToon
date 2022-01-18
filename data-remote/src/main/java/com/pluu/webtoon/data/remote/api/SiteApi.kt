@@ -13,9 +13,6 @@ interface WeeklyApi {
 
     val currentTabs: Array<String>
 
-    val weeklyTabSize: Int
-        get() = currentTabs.size
-
     @Throws(Exception::class)
     suspend operator fun invoke(param: WeekPosition): Result<List<ToonInfo>>
 }
