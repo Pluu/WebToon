@@ -2,6 +2,7 @@ package com.pluu.webtoon.data.remote.di
 
 import com.pluu.webtoon.data.remote.network.INetworkUseCase
 import com.pluu.webtoon.data.remote.network.NetworkUseCase
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,15 +16,18 @@ import javax.inject.Singleton
 internal object NetworkModule {
     @Singleton
     @Provides
-    fun provideNetworkUseCase(
-        okHttpClient: OkHttpClient
-    ): INetworkUseCase = NetworkUseCase(okHttpClient)
-
-    @Singleton
-    @Provides
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .build()
+}
+
+@InstallIn(SingletonComponent::class)
+@Module
+internal abstract class NetworkModuleBinds {
+    @Binds
+    abstract fun bindsNetworkUseCase(
+        networkUseCase: NetworkUseCase
+    ): INetworkUseCase
 }

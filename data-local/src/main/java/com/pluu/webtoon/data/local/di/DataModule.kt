@@ -24,6 +24,7 @@ internal object LocalDataModule {
         @ApplicationContext context: Context
     ): RoomDao = AppDatabase.getInstance(context).roomDao()
 
+    @Singleton
     @Provides
     fun provideDefaultSharedPreferences(
         @ApplicationContext context: Context
@@ -33,6 +34,7 @@ internal object LocalDataModule {
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class LocalDataBindsModule {
+    @Singleton
     @Binds
     abstract fun bindsLocalRepository(
         repository: LocalRepositoryImpl
