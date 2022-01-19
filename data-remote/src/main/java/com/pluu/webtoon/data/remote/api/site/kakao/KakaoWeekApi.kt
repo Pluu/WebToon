@@ -44,12 +44,8 @@ internal class KakaoWeekApi @Inject constructor(
     }
 
     private fun parse(data: JSONObject): List<ToonInfo> {
-        return data.optJSONArray("section_containers")?.asSequence()
-            ?.flatMap {
-                it.optJSONArray("section_series")?.asSequence().orEmpty()
-            }?.flatMap {
-                it.optJSONArray("list")?.asSequence().orEmpty()
-            }?.map {
+        return data.optJSONArray("list")?.asSequence().orEmpty()
+            .map {
                 ToonInfo(
                     id = it.optString("series_id"),
                     title = it.optString("title"),
@@ -58,17 +54,18 @@ internal class KakaoWeekApi @Inject constructor(
                     status = Status.NONE,
                     writer = it.optString("author")
                 )
-            }?.toList().orEmpty()
+            }.toList()
     }
 
     private fun createApi(currentPos: WeekPosition): IRequest =
         IRequest(
-            url = "https://api2-page.kakao.com/api/v7/store/section_container/list",
+            url = "https://api2-page.kakao.com/api/v2/store/day_of_week_top/list",
             params = mapOf(
-                "agent" to "web",
                 "category" to "10",
-                "subcategory" to "1000",
-                "day" to (currentPos.value + 1).toString()
+                "subcategory" to "0",
+                "page" to "0",
+                "day" to (currentPos.value + 1).toString(),
+                "bm" to "P"
             )
         )
 }
