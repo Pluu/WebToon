@@ -30,7 +30,7 @@ fun WeeklyListUi(
         modifier = modifier.padding(horizontal = 3.dp)
     ) {
         itemsIndexed(items, key = { _, item ->
-            item.info.id
+            item.id
         }) { index, item ->
             WeeklyItemUi(
                 item = item.info,

@@ -30,3 +30,8 @@ fun <T> Result<T>.throwableOr(fallback: Throwable): Throwable {
 fun <T> Result<T>.throwableOrNull(): Throwable? {
     return (this as? Result.Error)?.throwable
 }
+
+fun <T, R> Result<T>.map(transformer: (T) -> R): Result<R> = when (this) {
+    is Result.Error -> this
+    is Result.Success -> Result.Success(transformer(data))
+}

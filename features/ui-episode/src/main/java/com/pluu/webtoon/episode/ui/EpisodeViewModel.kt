@@ -35,7 +35,7 @@ class EpisodeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val item = handle.get<ToonInfoWithFavorite>(Const.EXTRA_EPISODE)!!
-    private val id = item.info.id
+    private val id = item.id
 
     private var isNext = true
 
