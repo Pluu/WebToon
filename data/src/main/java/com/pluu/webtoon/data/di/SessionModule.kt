@@ -1,6 +1,6 @@
-package com.pluu.webtoon.weekly.di
+package com.pluu.webtoon.data.di
 
-import com.pluu.webtoon.domain.usecase.GetDefaultNaviUseCase
+import com.pluu.webtoon.data.repository.SessionRepository
 import com.pluu.webtoon.model.NAV_ITEM
 import dagger.Module
 import dagger.Provides
@@ -12,6 +12,6 @@ import dagger.hilt.components.SingletonComponent
 internal object SessionModule {
     @Provides
     fun provideNavType(
-        defaultNaviUseCase: GetDefaultNaviUseCase
-    ): NAV_ITEM = defaultNaviUseCase()
+        repository: SessionRepository
+    ): NAV_ITEM = repository.getDefaultWebToon()
 }
