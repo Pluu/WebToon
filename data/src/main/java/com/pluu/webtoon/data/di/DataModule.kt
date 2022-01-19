@@ -13,7 +13,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class DataModuleBinds {
-    @Singleton
     @Binds
     abstract fun provideWebToonRepository(
         repository: WebToonDataRepository

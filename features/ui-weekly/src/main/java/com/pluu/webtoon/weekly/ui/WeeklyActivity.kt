@@ -17,10 +17,10 @@ import androidx.fragment.app.commit
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.Const
+import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
-import com.pluu.webtoon.weekly.model.Session
 import com.pluu.webtoon.weekly.model.getCoreType
 import com.pluu.webtoon.weekly.model.toUiType
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class WeeklyActivity : FragmentActivity() {
 
     @Inject
-    lateinit var session: Session
+    lateinit var session: CurrentSession
 
     @Inject
     lateinit var settingNavigator: SettingNavigator
