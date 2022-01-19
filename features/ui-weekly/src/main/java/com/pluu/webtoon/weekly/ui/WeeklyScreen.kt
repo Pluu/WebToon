@@ -13,7 +13,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,7 +26,6 @@ import kotlinx.coroutines.launch
 fun WeeklyScreen(
     modifier: Modifier = Modifier,
     naviItem: UI_NAV_ITEM,
-    backgroundColor: Color,
     onEventAction: (WeeklyMenuEvent) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -42,7 +41,6 @@ fun WeeklyScreen(
     WeeklyScreen(
         modifier = modifier,
         naviItem = naviItem,
-        backgroundColor = backgroundColor,
         onEventAction = onEventAction,
         scaffoldState = scaffoldState,
         content = content
@@ -53,7 +51,6 @@ fun WeeklyScreen(
 private fun WeeklyScreen(
     modifier: Modifier = Modifier,
     naviItem: UI_NAV_ITEM,
-    backgroundColor: Color,
     onEventAction: (WeeklyMenuEvent) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     content: @Composable (PaddingValues) -> Unit
@@ -65,7 +62,8 @@ private fun WeeklyScreen(
         drawerContent = {
             WeeklyDrawer(
                 title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
-                accentColor = backgroundColor,
+                bgColor = colorResource(naviItem.bgColor),
+                accentColor = colorResource(naviItem.color),
                 menus = UI_NAV_ITEM.values().iterator(),
                 selectedMenu = naviItem
             ) { event ->
@@ -81,7 +79,7 @@ private fun WeeklyScreen(
         topBar = {
             WeeklyTopBar(
                 title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
-                backgroundColor = backgroundColor
+                backgroundColor = colorResource(naviItem.bgColor)
             ) {
                 coroutineScope.launch {
                     scaffoldState.drawerState.open()
@@ -99,7 +97,6 @@ fun PreviewWeeklyScreen() {
     ProvideWindowInsets {
         WeeklyScreen(
             naviItem = UI_NAV_ITEM.NAVER,
-            backgroundColor = Color.Blue,
             onEventAction = {},
             scaffoldState = rememberScaffoldState(
                 drawerState = DrawerState(initialValue = DrawerValue.Open)

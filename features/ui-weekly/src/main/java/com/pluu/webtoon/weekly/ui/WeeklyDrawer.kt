@@ -38,6 +38,7 @@ import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 fun WeeklyDrawer(
     modifier: Modifier = Modifier,
     title: String,
+    bgColor: Color,
     accentColor: Color,
     menus: Iterator<UI_NAV_ITEM>,
     selectedMenu: UI_NAV_ITEM,
@@ -55,7 +56,7 @@ fun WeeklyDrawer(
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = accentColor)
+                .background(color = bgColor)
                 .statusBarsPadding()
                 .sizeIn(minHeight = 56.dp)
                 .padding(horizontal = 16.dp)
@@ -123,6 +124,7 @@ fun PreviewWeeklyDrawer() {
     ProvideWindowInsets {
         WeeklyDrawer(
             title = "Sample",
+            bgColor = Color(0xFFB22416),
             accentColor = Color(0xFFDF2E1C),
             menus = UI_NAV_ITEM.values().iterator(),
             selectedMenu = UI_NAV_ITEM.NAVER,

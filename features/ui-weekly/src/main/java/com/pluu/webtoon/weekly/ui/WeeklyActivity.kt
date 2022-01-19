@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
@@ -61,7 +60,6 @@ class WeeklyActivity : FragmentActivity() {
 
                 WeeklyScreen(
                     naviItem = naviItem,
-                    backgroundColor = colorResource(naviItem.bgColor),
                     onEventAction = { event ->
                         when (event) {
                             is WeeklyMenuEvent.OnMenuClicked -> {
