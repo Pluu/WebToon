@@ -6,6 +6,7 @@ import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,12 +25,8 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.ui.res.colorAttribute
-import com.pluu.ui.state.UiState
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.getThemeColor
-import com.pluu.webtoon.model.EpisodeId
-import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -41,10 +38,9 @@ fun EpisodeScreen(
     webToonItem: ToonInfoWithFavorite,
     isFavorite: Boolean,
     palletColor: PalletColor,
-    episodeList: Result<List<EpisodeInfo>>,
-    readIdSet: Set<EpisodeId>,
-    firstItem: EpisodeInfo?,
-    eventAction: (EpisodeUiEvent) -> Unit
+    isFirstLoded: Boolean,
+    eventAction: (EpisodeUiEvent) -> Unit,
+    content: @Composable (PaddingValues) -> Unit
 ) {
     val transitionState = remember {
         MutableTransitionState(ColorTransitionState.START).apply {
@@ -65,10 +61,9 @@ fun EpisodeScreen(
         isFavorite = isFavorite,
         featureBgColor = featureBgColor,
         featureTextColor = featureTextColor,
-        episodeList = episodeList,
-        readIdSet = readIdSet,
-        firstItem = firstItem,
-        eventAction = eventAction
+        isFirstLoded = isFirstLoded,
+        eventAction = eventAction,
+        content = content
     )
 }
 
@@ -79,10 +74,9 @@ private fun EpisodeScreen(
     isFavorite: Boolean,
     featureBgColor: Color,
     featureTextColor: Color,
-    episodeList: Result<List<EpisodeInfo>>,
-    readIdSet: Set<EpisodeId>,
-    firstItem: EpisodeInfo?,
-    eventAction: (EpisodeUiEvent) -> Unit
+    isFirstLoded: Boolean,
+    eventAction: (EpisodeUiEvent) -> Unit,
+    content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -103,39 +97,21 @@ private fun EpisodeScreen(
                     .height(62.dp)
                     .padding(3.dp)
             ) {
-                if (firstItem != null) {
+                if (isFirstLoded) {
                     EpisodeInfoUi(
                         name = webToonItem.info.writer,
                         rate = webToonItem.info.rate,
                         infoTextColor = featureTextColor,
                         buttonBackgroundColor = featureBgColor,
                         onFirstClicked = {
-                            eventAction(EpisodeUiEvent.OnShowFirst(firstItem))
+                            eventAction(EpisodeUiEvent.OnShowFirst)
                         }
                     )
                 }
             }
         }
     ) { innerPadding ->
-        EpisodeContentUi(
-            modifier = Modifier.padding(innerPadding),
-            uiState = convertUiState(episodeList),
-            readIdSet = readIdSet,
-            onMoreLoaded = { eventAction(EpisodeUiEvent.MoreLoad) }
-        ) { item ->
-            eventAction(EpisodeUiEvent.OnShowDetail(item))
-        }
-    }
-}
-
-private fun convertUiState(value: Result<List<EpisodeInfo>>): UiState<List<EpisodeInfo>> {
-    return when (value) {
-        is Result.Success -> UiState(
-            data = value.data.takeIf { it.isNotEmpty() },
-            loading = value.data.isEmpty()
-        )
-        is Result.Error -> UiState(exception = value.throwable)
-        else -> UiState()
+        content(innerPadding)
     }
 }
 
@@ -199,14 +175,7 @@ fun PreviewEpisodeScreen() {
             featureBgColor = Color.Black,
             featureTextColor = Color.Black,
             eventAction = {},
-            episodeList = Result.Success(emptyList()),
-            readIdSet = emptySet(),
-            firstItem = EpisodeInfo(
-                id = "",
-                toonId = "",
-                title = "",
-                image = ""
-            )
-        )
+            isFirstLoded = true
+        ) { }
     }
 }

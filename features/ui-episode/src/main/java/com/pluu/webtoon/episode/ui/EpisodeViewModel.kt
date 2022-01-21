@@ -124,11 +124,7 @@ class EpisodeViewModel @Inject constructor(
         }.getOrDefault(emptySet())
     }
 
-    fun requestFirst() {
-        firstEpisode?.let {
-            _event.value = EpisodeEvent.FIRST(it)
-        }
-    }
+    fun requestFirst() = firstEpisode
 
     fun favorite(isFavorite: Boolean) {
         viewModelScope.launch(dispatchers.computation) {
