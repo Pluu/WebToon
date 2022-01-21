@@ -1,4 +1,4 @@
-package com.pluu.webtoon.episode.ui
+package com.pluu.webtoon.episode.ui.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.material.Icon

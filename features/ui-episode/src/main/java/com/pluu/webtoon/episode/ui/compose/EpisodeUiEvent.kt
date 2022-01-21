@@ -1,4 +1,4 @@
-package com.pluu.webtoon.episode.ui
+package com.pluu.webtoon.episode.ui.compose
 
 import com.pluu.webtoon.model.EpisodeInfo
 
