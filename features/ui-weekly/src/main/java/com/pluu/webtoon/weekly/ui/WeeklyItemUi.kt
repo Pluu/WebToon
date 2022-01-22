@@ -46,7 +46,7 @@ import com.pluu.webtoon.weekly.R
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
 @Composable
-fun WeeklyItemUi(
+internal fun WeeklyItemUi(
     modifier: Modifier = Modifier,
     item: ToonInfo,
     isFavorite: Boolean,
@@ -112,7 +112,7 @@ fun WeeklyItemUi(
 }
 
 @Composable
-fun WeeklyItemOverlayUi(
+internal fun WeeklyItemOverlayUi(
     modifier: Modifier = Modifier,
     item: ToonInfo,
     isFavorite: Boolean
@@ -203,7 +203,7 @@ fun WeeklyItemOverlayUi(
 }
 
 @Composable
-fun WeeklyItemFavoriteUi(
+private fun WeeklyItemFavoriteUi(
     modifier: Modifier = Modifier
 ) {
     Image(
@@ -296,7 +296,7 @@ class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun PreviewWeeklyItemUi(
+private fun PreviewWeeklyItemUi(
     @PreviewParameter(FakeWeeklyItemProvider::class) item: ToonInfoWithFavorite,
 ) {
     WeeklyItemUi(
@@ -311,6 +311,6 @@ fun PreviewWeeklyItemUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun PreviewWeeklyStatusUi() {
+private fun PreviewWeeklyStatusUi() {
     WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
 }

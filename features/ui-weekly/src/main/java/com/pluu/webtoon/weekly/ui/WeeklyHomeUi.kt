@@ -26,7 +26,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
-fun WeeklyHomeUi(
+internal fun WeeklyHomeUi(
     modifier: Modifier = Modifier,
     viewModelFactory: WeeklyViewModelFactory,
     weekPosition: WeekPosition,
@@ -41,7 +41,7 @@ fun WeeklyHomeUi(
 }
 
 @Composable
-fun WeeklyHomeUi(
+private fun WeeklyHomeUi(
     modifier: Modifier = Modifier,
     viewModel: WeeklyViewModel
 ) {
@@ -94,7 +94,7 @@ fun WeeklyHomeUi(
 }
 
 @Composable
-fun WeeklyHomeUi(
+private fun WeeklyHomeUi(
     modifier: Modifier = Modifier,
     items: List<ToonInfoWithFavorite>?,
     onClick: (ToonInfoWithFavorite) -> Unit

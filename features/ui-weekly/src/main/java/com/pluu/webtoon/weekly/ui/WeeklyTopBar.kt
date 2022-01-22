@@ -26,7 +26,7 @@ import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 
 @Composable
-fun WeeklyTopBar(
+internal fun WeeklyTopBar(
     modifier: Modifier = Modifier,
     backgroundColor: Color,
     title: String,
@@ -55,7 +55,7 @@ fun WeeklyTopBar(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun DayOfWeekUi(
+internal fun DayOfWeekUi(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
     pagerState: PagerState,
@@ -90,7 +90,7 @@ fun DayOfWeekUi(
 
 @Preview
 @Composable
-fun PreviewWeeklyTopBar() {
+private fun PreviewWeeklyTopBar() {
     ProvideWindowInsets {
         WeeklyTopBar(
             backgroundColor = Color.DarkGray,
@@ -103,7 +103,7 @@ fun PreviewWeeklyTopBar() {
 @ExperimentalPagerApi
 @Preview
 @Composable
-fun PreviewDayOfWeekUi() {
+private fun PreviewDayOfWeekUi() {
     DayOfWeekUi(
         selectedTabIndex = 2,
         pagerState = rememberPagerState(),

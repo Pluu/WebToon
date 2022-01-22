@@ -21,7 +21,7 @@ import com.google.accompanist.insets.navigationBarsHeight
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 
 @Composable
-fun WeeklyListUi(
+internal fun WeeklyListUi(
     modifier: Modifier = Modifier,
     items: List<ToonInfoWithFavorite>,
     onClicked: (ToonInfoWithFavorite) -> Unit
@@ -46,7 +46,7 @@ fun WeeklyListUi(
 }
 
 @Composable
-fun WeeklyEmptyUi() {
+internal fun WeeklyEmptyUi() {
     Image(
         painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
         contentDescription = null
@@ -55,7 +55,7 @@ fun WeeklyEmptyUi() {
 
 @Preview("EmptyView", widthDp = 100, heightDp = 100)
 @Composable
-fun PreviewWeeklyEmptyUi() {
+private fun PreviewWeeklyEmptyUi() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +66,7 @@ fun PreviewWeeklyEmptyUi() {
 }
 
 @Composable
-fun WeeklyLoadingUi(
+internal fun WeeklyLoadingUi(
     modifier: Modifier = Modifier
 ) {
     CircularProgressIndicator(
@@ -80,7 +80,7 @@ fun WeeklyLoadingUi(
     showBackground = true, backgroundColor = 0xFFFFFFFF
 )
 @Composable
-fun PreviewWeeklyLoadingUi() {
+private fun PreviewWeeklyLoadingUi() {
     Box(
         modifier = Modifier
             .fillMaxSize()

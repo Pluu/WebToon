@@ -23,7 +23,7 @@ import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import kotlinx.coroutines.launch
 
 @Composable
-fun WeeklyScreen(
+internal fun WeeklyScreen(
     modifier: Modifier = Modifier,
     naviItem: UI_NAV_ITEM,
     onEventAction: (WeeklyMenuEvent) -> Unit,
@@ -93,7 +93,7 @@ private fun WeeklyScreen(
 
 @Preview(widthDp = 320, heightDp = 480)
 @Composable
-fun PreviewWeeklyScreen() {
+private fun PreviewWeeklyScreen() {
     ProvideWindowInsets {
         WeeklyScreen(
             naviItem = UI_NAV_ITEM.NAVER,

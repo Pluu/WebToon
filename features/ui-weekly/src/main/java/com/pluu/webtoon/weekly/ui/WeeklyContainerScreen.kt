@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun WeeklyContainerScreen(
+internal fun WeeklyContainerScreen(
     modifier: Modifier = Modifier,
     titles: Array<String>,
     selectedTabIndex: Int,

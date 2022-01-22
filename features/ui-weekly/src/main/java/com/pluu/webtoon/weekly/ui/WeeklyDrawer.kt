@@ -35,7 +35,7 @@ import com.pluu.webtoon.weekly.model.ServiceConst
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 
 @Composable
-fun WeeklyDrawer(
+internal fun WeeklyDrawer(
     modifier: Modifier = Modifier,
     title: String,
     bgColor: Color,
@@ -120,7 +120,7 @@ fun WeeklyDrawer(
     showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
-fun PreviewWeeklyDrawer() {
+private fun PreviewWeeklyDrawer() {
     ProvideWindowInsets {
         WeeklyDrawer(
             title = "Sample",
