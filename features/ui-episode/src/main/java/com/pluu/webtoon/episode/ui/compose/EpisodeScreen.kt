@@ -33,7 +33,7 @@ import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
 
 @Composable
-fun EpisodeScreen(
+internal fun EpisodeScreen(
     modifier: Modifier = Modifier,
     webToonItem: ToonInfoWithFavorite,
     isFavorite: Boolean,
@@ -156,7 +156,7 @@ private fun animateTextColor(
 
 @Preview(heightDp = 480)
 @Composable
-fun PreviewEpisodeScreen() {
+private fun PreviewEpisodeScreen() {
     ProvideWindowInsets {
         EpisodeScreen(
             webToonItem = ToonInfoWithFavorite(

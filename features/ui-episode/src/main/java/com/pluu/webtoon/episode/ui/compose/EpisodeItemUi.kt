@@ -37,7 +37,7 @@ import com.pluu.webtoon.utils.applyAgent
 
 @OptIn(ExperimentalCoilApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun EpisodeItemUi(
+internal fun EpisodeItemUi(
     modifier: Modifier = Modifier,
     item: EpisodeInfo,
     isRead: Boolean,
@@ -90,7 +90,7 @@ fun EpisodeItemUi(
 }
 
 @Composable
-fun EpisodeItemUiOverlayUi(
+private fun EpisodeItemUiOverlayUi(
     modifier: Modifier = Modifier,
     item: EpisodeInfo,
     isRead: Boolean
@@ -148,7 +148,7 @@ fun EpisodeItemUiOverlayUi(
 
 @Preview
 @Composable
-fun PreviewEpisodeItemUi() {
+private fun PreviewEpisodeItemUi() {
     val item = EpisodeInfo(
         id = "0",
         toonId = "0",

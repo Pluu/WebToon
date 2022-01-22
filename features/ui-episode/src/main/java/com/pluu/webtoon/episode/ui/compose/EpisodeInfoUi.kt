@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.pluu.webtoon.episode.R
 
 @Composable
-fun EpisodeInfoUi(
+internal fun EpisodeInfoUi(
     modifier: Modifier = Modifier,
     name: String,
     rate: Double,
@@ -78,7 +78,7 @@ fun EpisodeInfoUi(
     showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
-fun PreviewEpisodeInfoUi() {
+private fun PreviewEpisodeInfoUi() {
     EpisodeInfoUi(
         name = "타이틀",
         rate = 1.1,
@@ -91,7 +91,7 @@ fun PreviewEpisodeInfoUi() {
     showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
-fun PreviewEpisodeInfoEmptyRateUi() {
+private fun PreviewEpisodeInfoEmptyRateUi() {
     EpisodeInfoUi(
         name = "타이틀",
         rate = 0.0,

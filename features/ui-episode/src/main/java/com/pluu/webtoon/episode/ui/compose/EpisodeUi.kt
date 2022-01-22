@@ -30,7 +30,7 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.ui_common.R
 
 @Composable
-fun EpisodeUi(
+internal fun EpisodeUi(
     viewModel: EpisodeViewModel,
     webToonItem: ToonInfoWithFavorite,
     palletColor: PalletColor,

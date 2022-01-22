@@ -20,7 +20,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
-fun EpisodeTopUi(
+internal fun EpisodeTopUi(
     modifier: Modifier = Modifier,
     title: String,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
@@ -70,7 +70,7 @@ fun EpisodeTopUi(
 
 @Preview
 @Composable
-fun PreviewEpisodeTopUi() {
+private fun PreviewEpisodeTopUi() {
     ProvideWindowInsets {
         EpisodeTopUi(
             title = "테스트",
