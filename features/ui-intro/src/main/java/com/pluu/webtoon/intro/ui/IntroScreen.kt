@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun IntroScreen(
+internal fun IntroScreen(
     modifier: Modifier = Modifier,
     isLoading: Boolean
 ) {
@@ -71,6 +71,6 @@ fun IntroScreen(
     heightDp = 640
 )
 @Composable
-fun PreviewIntroUi() {
+private fun PreviewIntroUi() {
     IntroScreen(isLoading = true)
 }
