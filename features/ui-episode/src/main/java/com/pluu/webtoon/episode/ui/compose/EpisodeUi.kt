@@ -1,31 +1,29 @@
 package com.pluu.webtoon.episode.ui.compose
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.pluu.compose.foundation.InfiniteListHandler
-import com.pluu.compose.runtime.rememberMutableStateOf
-import com.pluu.compose.ui.ProgressDialog
+import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.pluu.compose.ui.toast
-import com.pluu.ui.state.UiState
-import com.pluu.utils.toUiState
+import com.pluu.webtoon.episode.compose.ThemeCircularProgressIndicator
+import com.pluu.webtoon.episode.compose.itemsInGrid
 import com.pluu.webtoon.episode.ui.EpisodeEvent
 import com.pluu.webtoon.episode.ui.EpisodeViewModel
 import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
-import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.model.successOr
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.ui_common.R
 
@@ -38,24 +36,15 @@ internal fun EpisodeUi(
     navigationAction: (EpisodeInfo) -> Unit,
     savedAction: (EpisodeEvent.UPDATE_FAVORITE) -> Unit
 ) {
-    var showDialog by rememberMutableStateOf(false)
-
-    val episodeList by viewModel.listEvent.observeAsState(
-        Result.Success(emptyList())
-    )
     val event by viewModel.event.observeAsState(null)
 
-    val readIdSet by viewModel.readIdSet.observeAsState(emptySet())
+    val readIdSet by viewModel.readIdSet.collectAsState()
+
+    val episodeList = viewModel.episodePage.collectAsLazyPagingItems()
 
     val isFavorite by viewModel.favorite.observeAsState(false)
 
     when (val _event = event) {
-        is EpisodeEvent.START -> {
-            showDialog = _event.isOverFirstPage
-        }
-        is EpisodeEvent.LOADED -> {
-            showDialog = false
-        }
         is EpisodeEvent.FIRST -> {
             navigationAction(_event.firstEpisode)
         }
@@ -66,28 +55,22 @@ internal fun EpisodeUi(
         else -> {}
     }
 
-    if (episodeList is Result.Error) {
+    if (episodeList.loadState.refresh is LoadState.Error) {
         toast(stringResource(R.string.network_fail))
         eventAction(EpisodeUiEvent.OnBackPressed)
         return
-    }
-
-    if (showDialog) {
-        ProgressDialog(title = "Loading...")
-    }
-
-    var isFirstLoded by rememberMutableStateOf(false)
-    if (!isFirstLoded) {
-        isFirstLoded = episodeList.successOr(emptyList()).isNotEmpty()
     }
 
     EpisodeUi(
         webToonItem,
         palletColor,
         episodeList,
-        isFirstLoded,
+        episodeList.itemSnapshotList.isNotEmpty(),
         isFavorite,
         readIdSet,
+        updateFavoriteAction = { value ->
+            viewModel.favorite(value)
+        },
         eventAction
     )
 }
@@ -96,10 +79,11 @@ internal fun EpisodeUi(
 private fun EpisodeUi(
     webToonItem: ToonInfoWithFavorite,
     palletColor: PalletColor,
-    episodeList: Result<List<EpisodeInfo>>,
+    episodeList: LazyPagingItems<EpisodeInfo>,
     isFirstLoded: Boolean,
     isFavorite: Boolean,
     readIdSet: Set<EpisodeId>,
+    updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit
 ) {
     EpisodeScreen(
@@ -107,56 +91,54 @@ private fun EpisodeUi(
         isFavorite = isFavorite,
         palletColor = palletColor,
         isFirstLoded = isFirstLoded,
+        updateFavoriteAction = updateFavoriteAction,
         eventAction = eventAction
     ) { innerPadding ->
-        EpisodeContentUi(
+        EpisodeLoadingUi(
             modifier = Modifier.padding(innerPadding),
-            uiState = episodeList.toUiState { list ->
-                UiState(
-                    data = list.takeIf { it.isNotEmpty() },
-                    loading = list.isEmpty()
-                )
-            }
-        ) { items ->
+            episodeList = episodeList
+        ) {
             EpisodeGridContent(
-                items = items,
+                items = episodeList,
                 readIdSet = readIdSet,
-                onMoreLoaded = { eventAction(EpisodeUiEvent.MoreLoad) },
                 onEpisodeClicked = { item -> eventAction(EpisodeUiEvent.OnShowDetail(item)) }
             )
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun EpisodeGridContent(
     modifier: Modifier = Modifier,
-    items: List<EpisodeInfo>,
-    onMoreLoaded: () -> Unit,
+    items: LazyPagingItems<EpisodeInfo>,
     readIdSet: Set<EpisodeId>,
     onEpisodeClicked: (EpisodeInfo) -> Unit
 ) {
-    val listState = rememberLazyListState()
-
-    LazyVerticalGrid(
-        modifier = modifier.fillMaxSize(),
-        cells = GridCells.Fixed(2),
-        state = listState
-    ) {
-        items(items) { item ->
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        itemsInGrid(
+            items = items,
+            columns = 2
+        ) { item ->
             EpisodeItemUi(
                 item = item,
                 isRead = readIdSet.contains(item.id),
                 onClicked = onEpisodeClicked
             )
         }
-    }
 
-    InfiniteListHandler(
-        listState = listState,
-        buffer = 3
-    ) {
-        onMoreLoaded()
+        // 추가 로딩시에 노출하는 Footer Loading
+        if (items.loadState.append == LoadState.Loading) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    ThemeCircularProgressIndicator(
+                        modifier = Modifier.padding(12.dp),
+                        circleSize = 32.dp
+                    )
+                }
+            }
+        }
     }
 }

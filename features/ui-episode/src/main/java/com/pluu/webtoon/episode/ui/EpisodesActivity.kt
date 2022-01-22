@@ -49,7 +49,6 @@ class EpisodesActivity : ComponentActivity() {
     lateinit var browserNavigator: BrowserNavigator
 
     private val openDetailLauncher = registerForActivityResult {
-        viewModel.readUpdate()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,8 +67,6 @@ class EpisodesActivity : ComponentActivity() {
                 )
             }
         }
-
-        viewModel.load()
     }
 
     private fun handleAction(action: EpisodeUiEvent) {
@@ -84,12 +81,6 @@ class EpisodesActivity : ComponentActivity() {
             }
             EpisodeUiEvent.OnBackPressed -> {
                 finish()
-            }
-            is EpisodeUiEvent.UpdateFavorite -> {
-                viewModel.favorite(action.isFavorite)
-            }
-            EpisodeUiEvent.MoreLoad -> {
-                viewModel.load()
             }
         }
     }

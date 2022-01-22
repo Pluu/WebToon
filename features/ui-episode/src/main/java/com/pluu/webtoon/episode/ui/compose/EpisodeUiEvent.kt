@@ -6,6 +6,4 @@ internal sealed class EpisodeUiEvent {
     object OnShowFirst : EpisodeUiEvent()
     class OnShowDetail(val item: EpisodeInfo) : EpisodeUiEvent()
     object OnBackPressed : EpisodeUiEvent()
-    class UpdateFavorite(val isFavorite: Boolean) : EpisodeUiEvent()
-    object MoreLoad : EpisodeUiEvent()
 }

@@ -39,6 +39,7 @@ internal fun EpisodeScreen(
     isFavorite: Boolean,
     palletColor: PalletColor,
     isFirstLoded: Boolean,
+    updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -62,6 +63,7 @@ internal fun EpisodeScreen(
         featureBgColor = featureBgColor,
         featureTextColor = featureTextColor,
         isFirstLoded = isFirstLoded,
+        updateFavoriteAction = updateFavoriteAction,
         eventAction = eventAction,
         content = content
     )
@@ -75,6 +77,7 @@ private fun EpisodeScreen(
     featureBgColor: Color,
     featureTextColor: Color,
     isFirstLoded: Boolean,
+    updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -87,7 +90,7 @@ private fun EpisodeScreen(
                 backgroundColor = featureBgColor,
                 onBackPressed = { eventAction(EpisodeUiEvent.OnBackPressed) }
             ) { currentFavorite ->
-                eventAction(EpisodeUiEvent.UpdateFavorite(currentFavorite.not()))
+                updateFavoriteAction(currentFavorite.not())
             }
         },
         bottomBar = {
@@ -174,6 +177,7 @@ private fun PreviewEpisodeScreen() {
             isFavorite = true,
             featureBgColor = Color.Black,
             featureTextColor = Color.Black,
+            updateFavoriteAction = {},
             eventAction = {},
             isFirstLoded = true
         ) { }
