@@ -3,6 +3,7 @@ package com.pluu.webtoon.domain.usecase
 import com.pluu.webtoon.data.repository.WebToonRepository
 import com.pluu.webtoon.model.Episode
 import com.pluu.webtoon.model.NAV_ITEM
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -18,6 +19,6 @@ class ReadEpisodeListUseCase @Inject constructor(
      * @param id EpisodeInfo ID
      * @return Read List
      */
-    suspend operator fun invoke(type: NAV_ITEM, id: String): List<Episode> =
+    operator fun invoke(type: NAV_ITEM, id: String): Flow<List<Episode>> =
         repository.getReadEpisode(type.name, id)
 }

@@ -10,11 +10,12 @@ import com.pluu.webtoon.model.Toon
 import com.pluu.webtoon.model.ToonId
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.WeekPosition
+import kotlinx.coroutines.flow.Flow
 
 interface WebToonRepository {
     suspend fun isFavorite(serviceName: String, id: String): Boolean
 
-    suspend fun getReadEpisode(serviceName: String, id: String): List<Episode>
+    fun getReadEpisode(serviceName: String, id: String): Flow<List<Episode>>
 
     suspend fun addFavorite(item: Toon)
 

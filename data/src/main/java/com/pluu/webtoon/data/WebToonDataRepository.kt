@@ -13,6 +13,7 @@ import com.pluu.webtoon.model.Toon
 import com.pluu.webtoon.model.ToonId
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.WeekPosition
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class WebToonDataRepository @Inject constructor(
@@ -24,10 +25,10 @@ class WebToonDataRepository @Inject constructor(
         id: String
     ): Boolean = localRepository.isFavorite(serviceName, id)
 
-    override suspend fun getReadEpisode(
-        serviceName: String,
-        id: String
-    ): List<Episode> = localRepository.getReadEpisode(serviceName, id)
+    override fun getReadEpisode(
+        serviceName: String
+        , id: String
+    ): Flow<List<Episode>> = localRepository.getReadEpisode(serviceName, id)
 
     override suspend fun addFavorite(item: Toon) {
         localRepository.addFavorite(item)

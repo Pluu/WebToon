@@ -53,6 +53,11 @@ object Dep {
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
         }
 
+        object Paging {
+            const val runtime = "androidx.paging:paging-runtime:3.1.0"
+            const val compose = "androidx.paging:paging-compose:1.0.0-alpha14"
+        }
+
         object Compose {
             const val version = "1.2.0-alpha01"
 
