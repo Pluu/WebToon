@@ -69,7 +69,7 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${AndroidX.lifecycle.lifecycleVersion}"
 
             const val materialAdapter = "com.google.android.material:compose-theme-adapter:1.1.3"
