@@ -26,7 +26,7 @@ import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.utils.applyAgent
 
 @Composable
-fun DetailContentUi(
+internal fun DetailContentUi(
     modifier: Modifier = Modifier,
     items: List<DetailView>,
     onClick: () -> Unit

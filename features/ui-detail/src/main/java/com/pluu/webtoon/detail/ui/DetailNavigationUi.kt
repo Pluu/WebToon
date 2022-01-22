@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.pluu.compose.runtime.rememberMutableStateOf
 
 @Composable
-fun DetailNavigationUi(
+internal fun DetailNavigationUi(
     modifier: Modifier = Modifier,
     buttonBackgroundColor: Color = MaterialTheme.colors.primary,
     isPrevEnabled: Boolean,
@@ -89,7 +89,7 @@ fun DetailNavigationUi(
 
 @Preview
 @Composable
-fun PreviewDetailNavigationUi() {
+private fun PreviewDetailNavigationUi() {
     DetailNavigationUi(
         modifier = Modifier.height(48.dp),
         isPrevEnabled = true,

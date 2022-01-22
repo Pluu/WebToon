@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DetailTopUi(
+internal fun DetailTopUi(
     modifier: Modifier = Modifier,
     title: String,
     subTitle: String,
@@ -60,7 +60,7 @@ fun DetailTopUi(
 
 @Preview
 @Composable
-fun PreviewDetailTopUi() {
+private fun PreviewDetailTopUi() {
     DetailTopUi(
         title = "타이틀",
         subTitle = "서브 타이틀",

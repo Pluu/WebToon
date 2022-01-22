@@ -23,7 +23,7 @@ import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.FeatureColor
 
 @Composable
-fun DetailScreen(
+internal fun DetailScreen(
     featureColor: FeatureColor,
     uiStateElement: UiState<ElementEvent>,
     onUiEvent: (DetailUiEvent) -> Unit
@@ -111,7 +111,7 @@ private fun DetailScreen(
 
 @Preview(name = "Loading", heightDp = 340)
 @Composable
-fun PreviewDetailScreen_Loading() {
+private fun PreviewDetailScreen_Loading() {
     ProvideWindowInsets {
         DetailScreen(
             uiStateElement = UiState(loading = true),
@@ -125,7 +125,7 @@ fun PreviewDetailScreen_Loading() {
 
 @Preview(name = "Show", heightDp = 340)
 @Composable
-fun PreviewDetailScreen_Show() {
+private fun PreviewDetailScreen_Show() {
     ProvideWindowInsets {
         DetailScreen(
             uiStateElement = UiState(
