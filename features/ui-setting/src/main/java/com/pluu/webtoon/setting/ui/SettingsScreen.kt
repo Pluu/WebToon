@@ -31,7 +31,7 @@ import com.pluu.compose.preference.rememberPreferenceState
 import com.pluu.webtoon.model.KeyContract
 
 @Composable
-fun SettingsScreen(
+internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     onOpenSourceClicked: () -> Unit
@@ -137,7 +137,7 @@ private fun getPreItems(
     showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
-fun PreviewSettingContentUi() {
+private fun PreviewSettingContentUi() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current)
     ProvideWindowInsets {
         ProvidePreference(sharedPreferences) {

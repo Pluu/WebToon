@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.pluu.webtoon.setting.model.LicenseModel
 
 @Composable
-fun LicenseItemUi(
+internal fun LicenseItemUi(
     modifier: Modifier = Modifier,
     item: LicenseModel,
     onClicked: (item: LicenseModel) -> Unit
@@ -38,7 +38,7 @@ fun LicenseItemUi(
     showBackground = true, backgroundColor = 0xFFF
 )
 @Composable
-fun PreviewLicenseItemUi() {
+private fun PreviewLicenseItemUi() {
     Box {
         val sample = LicenseModel("Test Title", "")
         LicenseItemUi(item = sample, onClicked = {})

@@ -25,7 +25,7 @@ import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
 
 @Composable
-fun LicenseScreen(
+internal fun LicenseScreen(
     modifier: Modifier = Modifier,
     list: List<LicenseModel>,
     onBackPressed: () -> Unit,
@@ -81,7 +81,7 @@ private fun LicenseContentUi(
 
 @Preview(widthDp = 340, heightDp = 640)
 @Composable
-fun PreviewLicenseHomeUi() {
+private fun PreviewLicenseHomeUi() {
     ProvideWindowInsets {
         LicenseScreen(
             list = licenseModels,
