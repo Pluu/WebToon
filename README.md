@@ -34,6 +34,7 @@ Dependencies
   - Fragment
   - Hilt
   - Lifecycle
+  - Paging
   - Palette
   - Preference
   - Recyclerview
