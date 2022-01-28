@@ -12,7 +12,7 @@ object Dep {
 
     object AndroidX {
         object activity {
-            const val activityVersion = "1.4.0"
+            const val activityVersion = "1.5.0-alpha01"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -22,17 +22,17 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.4.1"
-        const val coreKtx = "androidx.core:core-ktx:1.7.0"
+        const val coreKtx = "androidx.core:core-ktx:1.8.0-alpha03"
         const val splashScreen = "androidx.core:core-splashscreen:1.0.0-beta01"
 
         object fragment {
-            private const val fragmentVersion = "1.4.0"
+            private const val fragmentVersion = "1.5.0-alpha01"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object lifecycle {
-            const val lifecycleVersion = "2.4.0"
+            const val lifecycleVersion = "2.5.0-alpha01"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
@@ -49,8 +49,8 @@ object Dep {
             const val browser = "androidx.browser:browser:1.4.0"
             const val material = "com.google.android.material:material:1.5.0"
             const val palette = "androidx.palette:palette:1.0.0"
-            const val preference = "androidx.preference:preference:1.1.1"
-            const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
+            const val preference = "androidx.preference:preference:1.2.0-alpha02"
+            const val recyclerview = "androidx.recyclerview:recyclerview:1.3.0-alpha01"
         }
 
         object Paging {
@@ -59,7 +59,7 @@ object Dep {
         }
 
         object Compose {
-            const val version = "1.2.0-alpha01"
+            const val version = "1.2.0-alpha02"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
@@ -80,7 +80,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.22.0-rc"
+        private const val version = "0.24.1-alpha"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
         const val pagerIndicators = "com.google.accompanist:accompanist-pager-indicators:$version"

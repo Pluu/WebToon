@@ -9,7 +9,8 @@ tasks.withType<KotlinCompile> {
             // Enable experimental coroutines APIs, including Flow
 //          "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
 //          "-Xopt-in=kotlinx.coroutines.FlowPreview",
-            "-Xopt-in=kotlin.Experimental"
+            "-Xopt-in=kotlin.Experimental",
+            "-Xjvm-default=enable"
         )
 
         // Set JVM target
