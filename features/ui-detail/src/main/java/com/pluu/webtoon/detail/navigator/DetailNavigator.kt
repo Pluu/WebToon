@@ -1,9 +1,7 @@
 package com.pluu.webtoon.detail.navigator
 
 import android.content.Context
-import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
-import com.pluu.utils.buildIntent
+import com.pluu.utils.startActivity
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.DetailActivity
 import com.pluu.webtoon.model.EpisodeInfo
@@ -14,14 +12,12 @@ import javax.inject.Inject
 class DetailNavigatorImpl @Inject constructor() : DetailNavigator {
     override fun openDetail(
         context: Context,
-        launcher: ActivityResultLauncher<Intent>,
         item: EpisodeInfo,
         palletColor: PalletColor
     ) {
-        val intent = context.buildIntent<DetailActivity>(
+        context.startActivity<DetailActivity>(
             Const.EXTRA_EPISODE to item,
             Const.EXTRA_PALLET to palletColor
         )
-        launcher.launch(intent)
     }
 }

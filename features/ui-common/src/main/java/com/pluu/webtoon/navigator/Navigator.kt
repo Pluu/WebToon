@@ -27,7 +27,6 @@ interface DetailNavigator {
     /** Episode 에서 Detail 화면 선택 */
     fun openDetail(
         context: Context,
-        launcher: ActivityResultLauncher<Intent>,
         item: EpisodeInfo,
         palletColor: PalletColor
     )

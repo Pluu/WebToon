@@ -31,7 +31,6 @@ internal class BaseSampleNavigator : WeeklyNavigator, EpisodeNavigator, DetailNa
 
     override fun openDetail(
         context: Context,
-        launcher: ActivityResultLauncher<Intent>,
         item: EpisodeInfo,
         palletColor: PalletColor
     ) {

@@ -10,7 +10,6 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.getRequiredSerializableExtra
-import com.pluu.utils.result.registerForActivityResult
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
@@ -47,9 +46,6 @@ class EpisodesActivity : ComponentActivity() {
 
     @Inject
     lateinit var browserNavigator: BrowserNavigator
-
-    private val openDetailLauncher = registerForActivityResult {
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +108,6 @@ class EpisodesActivity : ComponentActivity() {
             LandingInfo.Detail -> {
                 detailNavigator.openDetail(
                     context = this,
-                    launcher = openDetailLauncher,
                     item = item,
                     palletColor = palletColor
                 )
