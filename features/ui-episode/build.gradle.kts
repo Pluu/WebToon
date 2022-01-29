@@ -26,9 +26,6 @@ dependencies {
     implementation(Dep.AndroidX.Paging.runtime)
     implementation(Dep.AndroidX.Paging.compose)
 
-    // Android UI
-    implementation(Dep.AndroidX.UI.material)
-
     // Compose
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
@@ -38,6 +35,7 @@ dependencies {
 
     implementation(Dep.Coil.compose)
     implementation(Dep.Accompanist.insets)
+    implementation(Dep.Accompanist.systemUi)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

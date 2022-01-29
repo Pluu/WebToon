@@ -1,21 +1,20 @@
 package com.pluu.webtoon.episode.ui.compose
 
 import androidx.compose.foundation.background
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.primarySurface
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 
@@ -23,17 +22,18 @@ import com.google.accompanist.insets.statusBarsPadding
 internal fun EpisodeTopUi(
     modifier: Modifier = Modifier,
     title: String,
-    backgroundColor: Color = MaterialTheme.colors.primarySurface,
+    backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
     isFavorite: Boolean,
     onBackPressed: () -> Unit,
     onFavoriteClicked: (isFavorite: Boolean) -> Unit
 ) {
-    TopAppBar(
+    SmallTopAppBar(
         modifier = modifier
             .background(color = backgroundColor)
             .statusBarsPadding(),
-        contentColor = Color.White,
-        backgroundColor = backgroundColor,
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = backgroundColor
+        ),
         title = {
             Text(text = title)
         },
@@ -45,7 +45,6 @@ internal fun EpisodeTopUi(
                 )
             }
         },
-        elevation = 0.dp,
         actions = {
             IconButton(onClick = {
                 onFavoriteClicked(isFavorite)

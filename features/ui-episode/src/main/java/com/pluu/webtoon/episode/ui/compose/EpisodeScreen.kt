@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -26,7 +28,6 @@ import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.compose.ui.res.colorAttribute
 import com.pluu.utils.ThemeHelper
-import com.pluu.utils.getThemeColor
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -69,6 +70,7 @@ internal fun EpisodeScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EpisodeScreen(
     modifier: Modifier = Modifier,
@@ -129,8 +131,7 @@ private fun animateBgColor(
         label = "BgColor Animation"
     ) { state ->
         when (state) {
-            ColorTransitionState.START -> context.getThemeColor(androidx.appcompat.R.attr.colorPrimary)
-                .toColor()
+            ColorTransitionState.START -> MaterialTheme.colorScheme.primary
             ColorTransitionState.END -> palletColor.darkVibrantColor.toColor()
         }
     }

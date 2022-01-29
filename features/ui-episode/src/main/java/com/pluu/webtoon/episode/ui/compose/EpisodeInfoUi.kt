@@ -2,11 +2,11 @@ package com.pluu.webtoon.episode.ui.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,8 +24,8 @@ internal fun EpisodeInfoUi(
     modifier: Modifier = Modifier,
     name: String,
     rate: Double,
-    infoTextColor: Color = MaterialTheme.colors.onSurface,
-    buttonBackgroundColor: Color = MaterialTheme.colors.primary,
+    infoTextColor: Color = MaterialTheme.colorScheme.onSurface,
+    buttonBackgroundColor: Color = MaterialTheme.colorScheme.primary,
     onFirstClicked: () -> Unit
 ) {
     Row(modifier = modifier) {
@@ -82,19 +82,6 @@ private fun PreviewEpisodeInfoUi() {
     EpisodeInfoUi(
         name = "타이틀",
         rate = 1.1,
-        onFirstClicked = {}
-    )
-}
-
-@Preview(
-    widthDp = 320,
-    showBackground = true, backgroundColor = 0xFFF
-)
-@Composable
-private fun PreviewEpisodeInfoEmptyRateUi() {
-    EpisodeInfoUi(
-        name = "타이틀",
-        rate = 0.0,
         onFirstClicked = {}
     )
 }

@@ -5,9 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.toast
@@ -52,7 +55,12 @@ class EpisodesActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         activityComposeView {
-            ProvideWindowInsets {
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setSystemBarsColor(Color.Transparent)
+            }
+
+            ProvideWindowInsets(false) {
                 EpisodeUi(
                     viewModel = viewModel,
                     webToonItem = webToonItem,

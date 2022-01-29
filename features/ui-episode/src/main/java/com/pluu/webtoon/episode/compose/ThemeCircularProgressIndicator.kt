@@ -3,19 +3,19 @@ package com.pluu.webtoon.episode.compose
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.pluu.compose.ui.CircularProgressIndicator
 
 @Composable
 fun ThemeCircularProgressIndicator(
     modifier: Modifier = Modifier,
     circleSize: Dp,
-    strokeWidth: Dp = ProgressIndicatorDefaults.StrokeWidth,
+    strokeWidth: Dp = 4.0.dp,
     contentPadding: PaddingValues = PaddingValues()
 ) {
     val circleColors = remember {
