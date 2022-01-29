@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -41,9 +42,11 @@ class IntroActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         activityComposeView {
             val systemUiController = rememberSystemUiController()
+            val useDarkIcons = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent)
+                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
             }
+
             val bgColor = MaterialTheme.colorScheme.background
 
             ProvideWindowInsets(false) {

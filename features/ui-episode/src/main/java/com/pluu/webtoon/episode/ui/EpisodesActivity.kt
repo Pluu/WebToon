@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
@@ -56,8 +57,9 @@ class EpisodesActivity : ComponentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
+            val useDarkIcons = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent)
+                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
             }
 
             ProvideWindowInsets(false) {

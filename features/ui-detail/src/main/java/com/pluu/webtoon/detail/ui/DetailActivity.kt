@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -61,8 +62,9 @@ class DetailActivity : FragmentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
+            val useDarkIcons = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent)
+                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
             }
 
             ProvideWindowInsets {

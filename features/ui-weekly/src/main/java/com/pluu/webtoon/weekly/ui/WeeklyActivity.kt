@@ -2,6 +2,7 @@ package com.pluu.webtoon.weekly.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -52,8 +53,9 @@ class WeeklyActivity : FragmentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
+            val useDarkIcons = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent)
+                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
             }
 
             ProvideWindowInsets(false) {
