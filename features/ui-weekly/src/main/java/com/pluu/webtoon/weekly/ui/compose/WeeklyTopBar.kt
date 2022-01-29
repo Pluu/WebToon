@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun WeeklyTopBar(
@@ -102,7 +102,7 @@ internal fun DayOfWeekUi(
 @Preview
 @Composable
 private fun PreviewWeeklyTopBar() {
-    ProvideWindowInsets {
+    AppTheme {
         WeeklyTopBar(
             bgColor = Color.DarkGray,
             title = "Test Title",
@@ -115,11 +115,13 @@ private fun PreviewWeeklyTopBar() {
 @Preview
 @Composable
 private fun PreviewDayOfWeekUi() {
-    DayOfWeekUi(
-        selectedTabIndex = 2,
-        pagerState = rememberPagerState(),
-        titles = (0..10).map { "$it" }.toTypedArray(),
-        indicatorColor = Color.Red,
-        onTabSelected = {}
-    )
+    AppTheme {
+        DayOfWeekUi(
+            selectedTabIndex = 2,
+            pagerState = rememberPagerState(),
+            titles = (0..10).map { "$it" }.toTypedArray(),
+            indicatorColor = Color.Red,
+            onTabSelected = {}
+        )
+    }
 }

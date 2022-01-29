@@ -1,6 +1,7 @@
 package com.pluu.webtoon.detail.ui.compose
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +36,8 @@ internal fun InitTopUi(
 ) {
     var size by rememberMutableStateOf(Size.Zero)
     val offset by animateDpAsState(
-        if (showNavigation) 0.dp else -size.height.dp
+        targetValue = if (showNavigation) 0.dp else -size.height.dp,
+        animationSpec = tween(animationDuration)
     )
 
     Column(modifier = modifier) {
@@ -74,7 +76,8 @@ internal fun InitBottomUi(
 ) {
     var size by rememberMutableStateOf(Size.Zero)
     val offset by animateDpAsState(
-        if (showNavigation) 0.dp else size.height.dp
+        targetValue = if (showNavigation) 0.dp else size.height.dp,
+        animationSpec = tween(animationDuration)
     )
 
     val isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not()
@@ -117,3 +120,5 @@ internal fun InitContentUi(
         )
     }
 }
+
+private val animationDuration = 350

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun DetailTopUi(
@@ -60,10 +61,12 @@ internal fun DetailTopUi(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewDetailTopUi() {
-    DetailTopUi(
-        title = "타이틀",
-        subTitle = "서브 타이틀",
-        onShared = {},
-        onBackPressed = {}
-    )
+    AppTheme {
+        DetailTopUi(
+            title = "타이틀",
+            subTitle = "서브 타이틀",
+            onShared = {},
+            onBackPressed = {}
+        )
+    }
 }

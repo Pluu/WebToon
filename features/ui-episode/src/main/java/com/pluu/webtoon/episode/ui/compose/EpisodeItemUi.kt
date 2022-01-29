@@ -33,6 +33,7 @@ import coil.compose.rememberImagePainter
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.utils.applyAgent
 
 @OptIn(ExperimentalCoilApi::class)
@@ -156,9 +157,11 @@ private fun PreviewEpisodeItemUi() {
         title = "Title",
         image = ""
     )
-    EpisodeItemUi(
-        item = item,
-        isRead = true,
-        onClicked = {}
-    )
+    AppTheme {
+        EpisodeItemUi(
+            item = item,
+            isRead = true,
+            onClicked = {}
+        )
+    }
 }
