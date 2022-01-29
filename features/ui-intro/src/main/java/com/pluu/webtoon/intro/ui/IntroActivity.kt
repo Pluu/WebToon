@@ -19,6 +19,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.webtoon.navigator.WeeklyNavigator
+import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -42,27 +43,28 @@ class IntroActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         activityComposeView {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = isSystemInDarkTheme()
+            val isDarkTheme = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
+                systemUiController.setSystemBarsColor(Color.Transparent, !isDarkTheme)
             }
 
-            val bgColor = MaterialTheme.colorScheme.background
+            WebToonTheme {
+                val bgColor = MaterialTheme.colorScheme.background
+                ProvideWindowInsets(false) {
+                    val isNextMove by viewModel.observe.collectAsState(false)
+                    IntroScreen(
+                        modifier = Modifier
+                            .background(bgColor)
+                            .statusBarsPadding()
+                            .navigationBarsPadding(),
+                        isLoading = !isNextMove
+                    )
 
-            ProvideWindowInsets(false) {
-                val isNextMove by viewModel.observe.collectAsState(false)
-                IntroScreen(
-                    modifier = Modifier
-                        .background(bgColor)
-                        .statusBarsPadding()
-                        .navigationBarsPadding(),
-                    isLoading = !isNextMove
-                )
-
-                if (isNextMove) {
-                    LaunchedEffect(true) {
-                        delay(500L)
-                        moveMainScreen()
+                    if (isNextMove) {
+                        LaunchedEffect(true) {
+                            delay(500L)
+                            moveMainScreen()
+                        }
                     }
                 }
             }
