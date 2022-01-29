@@ -18,9 +18,10 @@ fun ProvidePreference(
     val rememberPreferences = remember {
         PreferenceCompose(preferences)
     }
-    CompositionLocalProvider(LocalPreference provides rememberPreferences) {
-        content()
-    }
+    CompositionLocalProvider(
+        LocalPreference provides rememberPreferences,
+        content = content
+    )
 }
 
 class PreferenceCompose(

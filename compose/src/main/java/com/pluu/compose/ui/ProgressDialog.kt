@@ -4,19 +4,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -26,8 +23,8 @@ fun ProgressDialog(
     modifier: Modifier = Modifier,
     title: String? = null,
     onDismiss: () -> Unit = { },
-    shape: Shape = MaterialTheme.shapes.medium,
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    shape: Shape = RectangleShape,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = contentColorFor(backgroundColor),
 ) {
     ListDialogContent(
@@ -49,8 +46,8 @@ private fun ListDialogContent(
     modifier: Modifier = Modifier,
     title: (@Composable () -> Unit)? = null,
     onDismiss: () -> Unit,
-    shape: Shape = MaterialTheme.shapes.medium,
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    shape: Shape = RectangleShape,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = contentColorFor(backgroundColor),
 ) {
     Dialog(onDismissRequest = onDismiss) {
@@ -63,14 +60,11 @@ private fun ListDialogContent(
             Row {
                 CircularProgressIndicator(
                     modifier = modifier.size(48.dp),
-                    color = MaterialTheme.colors.secondary
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 if (title != null) {
                     Box(modifier = TitlePadding.align(Alignment.CenterVertically)) {
-                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                            val textStyle = MaterialTheme.typography.subtitle1
-                            ProvideTextStyle(textStyle, title)
-                        }
+                        title()
                     }
                 }
             }

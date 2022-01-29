@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -131,8 +131,8 @@ private fun ContentPreference(
             Text(
                 text = title,
                 maxLines = 1,
-                color = MaterialTheme.colors.onSurface,
-                style = MaterialTheme.typography.subtitle1,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.titleMedium,
                 fontSize = 16.sp,
                 overflow = TextOverflow.Ellipsis
             )
@@ -140,8 +140,8 @@ private fun ContentPreference(
                 Spacer(Modifier.height(2.dp))
                 Text(
                     text = summary,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.75f),
-                    style = MaterialTheme.typography.subtitle2
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                    style = MaterialTheme.typography.titleSmall
                 )
             }
         }

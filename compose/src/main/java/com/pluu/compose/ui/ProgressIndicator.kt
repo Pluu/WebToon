@@ -30,8 +30,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.progressSemantics
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProgressIndicatorDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -63,8 +62,8 @@ import kotlin.math.max
 @Composable
 fun CircularProgressIndicator(
     modifier: Modifier = Modifier,
-    colors: List<Color> = listOf(MaterialTheme.colors.primary),
-    strokeWidth: Dp = ProgressIndicatorDefaults.StrokeWidth
+    colors: List<Color> = listOf(MaterialTheme.colorScheme.primary),
+    strokeWidth: Dp = 4.0.dp
 ) {
     val stroke = with(LocalDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Square)
