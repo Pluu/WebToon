@@ -30,10 +30,10 @@ internal fun EpisodeTopUi(
 ) {
     SmallTopAppBar(
         modifier = modifier
-            .background(color = backgroundColor)
+            .background(backgroundColor)
             .statusBarsPadding(),
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = backgroundColor
+            containerColor = Color.Transparent
         ),
         title = {
             Text(text = title)

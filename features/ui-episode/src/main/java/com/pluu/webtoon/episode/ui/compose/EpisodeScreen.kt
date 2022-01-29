@@ -3,7 +3,6 @@ package com.pluu.webtoon.episode.ui.compose
 import android.content.res.Configuration
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
@@ -16,19 +15,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.graphics.toColor
-import com.pluu.compose.ui.res.colorAttribute
-import com.pluu.utils.ThemeHelper
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -56,15 +51,21 @@ internal fun EpisodeScreen(
         transitionState = transitionState,
         label = null
     )
-    val featureBgColor by animateBgColor(palletColor, transition)
-    val featureTextColor by animateTextColor(palletColor, transition)
+    val featureBgColor by transition.animateColor(
+        transitionSpec = { tween(durationMillis = 1000) },
+        label = "BgColor Animation"
+    ) { state ->
+        when (state) {
+            ColorTransitionState.START -> MaterialTheme.colorScheme.primaryContainer
+            ColorTransitionState.END -> palletColor.darkVibrantColor.toColor()
+        }
+    }
 
     EpisodeScreen(
         modifier = modifier,
         webToonItem = webToonItem,
         isFavorite = isFavorite,
         featureBgColor = featureBgColor,
-        featureTextColor = featureTextColor,
         isFirstLoded = isFirstLoded,
         updateFavoriteAction = updateFavoriteAction,
         eventAction = eventAction,
@@ -79,7 +80,6 @@ private fun EpisodeScreen(
     webToonItem: ToonInfoWithFavorite,
     isFavorite: Boolean,
     featureBgColor: Color,
-    featureTextColor: Color,
     isFirstLoded: Boolean,
     updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit,
@@ -89,6 +89,7 @@ private fun EpisodeScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             EpisodeTopUi(
+                modifier = Modifier,
                 title = webToonItem.info.title,
                 isFavorite = isFavorite,
                 backgroundColor = featureBgColor,
@@ -122,43 +123,6 @@ private fun EpisodeScreen(
     }
 }
 
-@Composable
-private fun animateBgColor(
-    palletColor: PalletColor,
-    transition: Transition<ColorTransitionState>
-): State<Color> {
-    return transition.animateColor(
-        transitionSpec = { tween(durationMillis = 1000) },
-        label = "BgColor Animation"
-    ) { state ->
-        when (state) {
-            ColorTransitionState.START -> MaterialTheme.colorScheme.primary
-            ColorTransitionState.END -> palletColor.darkVibrantColor.toColor()
-        }
-    }
-}
-
-@Composable
-private fun animateTextColor(
-    palletColor: PalletColor,
-    transition: Transition<ColorTransitionState>
-): State<Color> {
-    val context = LocalContext.current
-    return transition.animateColor(
-        transitionSpec = { tween(durationMillis = 1000) },
-        label = "TextColor Animation"
-    ) { state ->
-        when (state) {
-            ColorTransitionState.START -> colorAttribute(android.R.attr.textColorPrimary).toColor()
-            ColorTransitionState.END -> if (ThemeHelper.isLightTheme(context)) {
-                palletColor.darkMutedColor.toColor()
-            } else {
-                palletColor.lightMutedColor.toColor()
-            }
-        }
-    }
-}
-
 @Preview(
     heightDp = 480,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -181,10 +145,9 @@ private fun PreviewEpisodeScreen() {
             ),
             isFavorite = true,
             featureBgColor = Color.Black,
-            featureTextColor = Color.Black,
+            isFirstLoded = true,
             updateFavoriteAction = {},
-            eventAction = {},
-            isFirstLoded = true
+            eventAction = {}
         ) { }
     }
 }

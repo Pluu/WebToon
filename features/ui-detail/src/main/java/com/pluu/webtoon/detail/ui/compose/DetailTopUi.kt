@@ -1,6 +1,7 @@
 package com.pluu.webtoon.detail.ui.compose
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -27,9 +28,9 @@ internal fun DetailTopUi(
     onShared: () -> Unit
 ) {
     SmallTopAppBar(
-        modifier = modifier,
+        modifier = modifier.background(backgroundColor),
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = backgroundColor
+            containerColor = Color.Transparent
         ),
         title = {
             Column {
