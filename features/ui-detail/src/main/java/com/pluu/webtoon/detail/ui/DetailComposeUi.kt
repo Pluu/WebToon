@@ -1,25 +1,28 @@
 package com.pluu.webtoon.detail.ui
 
-import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.ui.state.UiState
 
 @Composable
@@ -31,7 +34,10 @@ internal fun InitTopUi(
     onBackPressed: () -> Unit,
     onSharedPressed: () -> Unit
 ) {
-    val animateOffset by animateDpAsState(if (showNavigation) 0.dp else -topAppBarSize)
+    var size by rememberMutableStateOf(Size.Zero)
+    val offset by animateDpAsState(
+        if (showNavigation) 0.dp else -size.height.dp
+    )
 
     Column(modifier = modifier) {
         Divider(
@@ -43,8 +49,12 @@ internal fun InitTopUi(
         )
         DetailTopUi(
             modifier = Modifier
-                .height(topAppBarSize)
-                .offset(y = animateOffset),
+                .onGloballyPositioned { container ->
+                    if (size == Size.Zero) {
+                        size = container.size.toSize()
+                    }
+                }
+                .offset(y = offset),
             title = uiStateElement.data?.title.orEmpty(),
             subTitle = uiStateElement.data?.webToonTitle.orEmpty(),
             backgroundColor = featureColor,
@@ -63,13 +73,10 @@ internal fun InitBottomUi(
     onPrevClicked: () -> Unit,
     onNextClicked: () -> Unit,
 ) {
-    val transition = updateTransition(
-        targetState = showNavigation,
-        label = null
+    var size by rememberMutableStateOf(Size.Zero)
+    val offset by animateDpAsState(
+        if (showNavigation) 0.dp else size.height.dp
     )
-    val offsetY by transition.animateDp(label = "Y-OffSet Animation") {
-        if (it) 0.dp else bottomBarSize
-    }
 
     val isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not()
     val isNextEnabled = uiStateElement.data?.nextEpisodeId.isNullOrEmpty().not()
@@ -77,9 +84,14 @@ internal fun InitBottomUi(
     DetailNavigationUi(
         modifier = modifier
             .navigationBarsPadding()
-            .height(bottomBarSize)
-            .offset(y = offsetY),
-        buttonBackgroundColor = featureColor,
+            .height(48.dp)
+            .onGloballyPositioned { container ->
+                if (size == Size.Zero) {
+                    size = container.size.toSize()
+                }
+            }
+            .offset(y = offset),
+        buttonBgColor = featureColor,
         isPrevEnabled = isPrevEnabled,
         onPrevClicked = onPrevClicked,
         isNextEnabled = isNextEnabled,
@@ -97,7 +109,7 @@ internal fun InitContentUi(
         Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = MaterialTheme.colors.secondary
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     } else {
@@ -108,6 +120,3 @@ internal fun InitContentUi(
         )
     }
 }
-
-private val topAppBarSize = 60.dp
-private val bottomBarSize = 48.dp

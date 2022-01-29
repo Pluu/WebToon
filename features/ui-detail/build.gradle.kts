@@ -27,6 +27,7 @@ dependencies {
 
     implementation(Dep.Coil.compose)
     implementation(Dep.Accompanist.insets)
+    implementation(Dep.Accompanist.systemUi)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

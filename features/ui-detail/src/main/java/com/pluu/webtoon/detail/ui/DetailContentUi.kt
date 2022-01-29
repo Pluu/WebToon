@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
@@ -87,7 +87,7 @@ private fun AdjustDetailImage(
         is ImagePainter.State.Loading -> {
             CircularProgressIndicator(
                 modifier = modifier.size(60.dp),
-                color = MaterialTheme.colors.secondary
+                color = MaterialTheme.colorScheme.secondary
             )
         }
         else -> {}

@@ -1,18 +1,20 @@
 package com.pluu.webtoon.detail.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -22,11 +24,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluu.compose.runtime.rememberMutableStateOf
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun DetailNavigationUi(
     modifier: Modifier = Modifier,
-    buttonBackgroundColor: Color = MaterialTheme.colors.primary,
+    buttonBgColor: Color = MaterialTheme.colorScheme.primary,
     isPrevEnabled: Boolean,
     onPrevClicked: () -> Unit,
     isNextEnabled: Boolean,
@@ -35,14 +38,11 @@ internal fun DetailNavigationUi(
     var buttonEnabled by rememberMutableStateOf(false to false)
 
     Row(modifier = modifier) {
-        Button(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
-            shape = RoundedCornerShape(0.dp),
-            enabled = isPrevEnabled,
-            onClick = onPrevClicked
+        BottomNavigationButton(
+            modifier = Modifier.weight(1f),
+            buttonBgColor = buttonBgColor,
+            isEnable = isPrevEnabled,
+            onClicked = onPrevClicked
         ) {
             Icon(
                 imageVector = Icons.Default.KeyboardArrowLeft,
@@ -57,14 +57,11 @@ internal fun DetailNavigationUi(
                     .wrapContentWidth()
             )
         }
-        Button(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
-            shape = RoundedCornerShape(0.dp),
-            enabled = isNextEnabled,
-            onClick = onNextClicked
+        BottomNavigationButton(
+            modifier = Modifier.weight(1f),
+            buttonBgColor = buttonBgColor,
+            isEnable = isNextEnabled,
+            onClicked = onNextClicked
         ) {
             Text(
                 text = "다음 화",
@@ -87,14 +84,38 @@ internal fun DetailNavigationUi(
     }
 }
 
-@Preview
+@Composable
+private fun BottomNavigationButton(
+    modifier: Modifier,
+    buttonBgColor: Color,
+    isEnable: Boolean,
+    onClicked: () -> Unit,
+    content: @Composable RowScope.() -> Unit
+) {
+    Button(
+        modifier = modifier.fillMaxHeight(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = buttonBgColor,
+            disabledContainerColor = Color.Black
+        ),
+        shape = RoundedCornerShape(0.dp),
+        enabled = isEnable,
+        onClick = onClicked,
+        content = content
+    )
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewDetailNavigationUi() {
-    DetailNavigationUi(
-        modifier = Modifier.height(48.dp),
-        isPrevEnabled = true,
-        onPrevClicked = {},
-        isNextEnabled = true,
-        onNextClicked = {}
-    )
+    AppTheme {
+        DetailNavigationUi(
+            modifier = Modifier.height(48.dp),
+            buttonBgColor = Color.Red,
+            isPrevEnabled = false,
+            onPrevClicked = {},
+            isNextEnabled = true,
+            onNextClicked = {}
+        )
+    }
 }

@@ -5,13 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
@@ -36,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by pluu on 2017-05-09.
  */
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : FragmentActivity() {
 
     private val viewModel by viewModels<DetailViewModel>()
 
@@ -57,6 +60,11 @@ class DetailActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         activityComposeView {
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setSystemBarsColor(Color.Transparent)
+            }
+
             ProvideWindowInsets {
                 var loadingDialog by rememberMutableStateOf(false)
                 val event by viewModel.event.observeAsState()

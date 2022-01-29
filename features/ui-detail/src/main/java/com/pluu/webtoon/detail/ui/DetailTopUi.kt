@@ -1,21 +1,19 @@
 package com.pluu.webtoon.detail.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.primarySurface
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -23,14 +21,15 @@ internal fun DetailTopUi(
     modifier: Modifier = Modifier,
     title: String,
     subTitle: String,
-    backgroundColor: Color = MaterialTheme.colors.primarySurface,
+    backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
     onBackPressed: () -> Unit,
     onShared: () -> Unit
 ) {
-    TopAppBar(
-        modifier = modifier.background(color = backgroundColor),
-        contentColor = Color.White,
-        backgroundColor = backgroundColor,
+    SmallTopAppBar(
+        modifier = modifier,
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = backgroundColor
+        ),
         title = {
             Column {
                 Text(text = title, fontSize = 22.sp, maxLines = 1)
@@ -45,7 +44,6 @@ internal fun DetailTopUi(
                 )
             }
         },
-        elevation = 0.dp,
         actions = {
             IconButton(onClick = onShared) {
                 Icon(
