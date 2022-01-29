@@ -125,7 +125,6 @@ private fun animateBgColor(
     palletColor: PalletColor,
     transition: Transition<ColorTransitionState>
 ): State<Color> {
-    val context = LocalContext.current
     return transition.animateColor(
         transitionSpec = { tween(durationMillis = 1000) },
         label = "BgColor Animation"
