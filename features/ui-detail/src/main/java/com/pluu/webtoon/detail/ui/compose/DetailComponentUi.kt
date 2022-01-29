@@ -1,4 +1,4 @@
-package com.pluu.webtoon.detail.ui
+package com.pluu.webtoon.detail.ui.compose
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
@@ -24,6 +24,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.ui.state.UiState
+import com.pluu.webtoon.detail.ui.ElementEvent
 
 @Composable
 internal fun InitTopUi(

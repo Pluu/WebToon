@@ -1,4 +1,4 @@
-package com.pluu.webtoon.detail.ui
+package com.pluu.webtoon.detail.ui.compose
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row

@@ -1,5 +1,6 @@
-package com.pluu.webtoon.detail.ui
+package com.pluu.webtoon.detail.ui.compose
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -48,7 +49,6 @@ internal fun DetailTopUi(
             IconButton(onClick = onShared) {
                 Icon(
                     imageVector = Icons.Default.Share,
-                    tint = Color.White,
                     contentDescription = null
                 )
             }
@@ -56,7 +56,7 @@ internal fun DetailTopUi(
     )
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewDetailTopUi() {
     DetailTopUi(

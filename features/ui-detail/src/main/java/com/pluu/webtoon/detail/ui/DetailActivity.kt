@@ -5,28 +5,23 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.pluu.compose.runtime.rememberMutableStateOf
-import com.pluu.compose.ui.ProgressDialog
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.core.utils.lazyNone
-import com.pluu.ui.state.UiState
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.utils.getThemeColor
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.model.FeatureColor
 import com.pluu.webtoon.detail.model.getMessage
+import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.model.ShareItem
+import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,54 +57,32 @@ class DetailActivity : FragmentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = isSystemInDarkTheme()
+            val isDarkTheme = true
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
+                systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = !isDarkTheme)
             }
 
-            ProvideWindowInsets {
-                var loadingDialog by rememberMutableStateOf(false)
-                val event by viewModel.event.observeAsState()
-                val elementUiState by viewModel.elementUiState.observeAsState(
-                    UiState(loading = true)
-                )
-
-                when (val eventOnScope = event ?: return@ProvideWindowInsets) {
-                    DetailEvent.START -> {
-                        loadingDialog = true
-                    }
-                    DetailEvent.LOADED -> {
-                        loadingDialog = false
-                    }
-                    is DetailEvent.ERROR -> {
-                        loadingDialog = false
-                        showError(eventOnScope)
-                    }
-                    is DetailEvent.SHARE -> {
-                        showShare(eventOnScope.item)
-                    }
-                }
-
-                if (loadingDialog) {
-                    ProgressDialog(title = "Loading ...")
-                }
-
-                DetailScreen(
-                    featureColor = featureColor,
-                    uiStateElement = elementUiState
-                ) { uiEvent ->
-                    when (uiEvent) {
-                        DetailUiEvent.OnBackPressed -> {
-                            finish()
-                        }
-                        DetailUiEvent.OnNextPressed -> {
-                            viewModel.moveNext()
-                        }
-                        DetailUiEvent.OnPrevPressed -> {
-                            viewModel.movePrev()
-                        }
-                        DetailUiEvent.OnSharedPressed -> {
-                            viewModel.requestShare()
+            WebToonTheme(useDarkColors = isDarkTheme) {
+                ProvideWindowInsets {
+                    DetailUi(
+                        viewModel = viewModel,
+                        featureColor = featureColor,
+                        errorAction = ::showError,
+                        shareAction = ::showShare
+                    ) { uiEvent ->
+                        when (uiEvent) {
+                            DetailUiEvent.OnBackPressed -> {
+                                finish()
+                            }
+                            DetailUiEvent.OnNextPressed -> {
+                                viewModel.moveNext()
+                            }
+                            DetailUiEvent.OnPrevPressed -> {
+                                viewModel.movePrev()
+                            }
+                            DetailUiEvent.OnSharedPressed -> {
+                                viewModel.requestShare()
+                            }
                         }
                     }
                 }

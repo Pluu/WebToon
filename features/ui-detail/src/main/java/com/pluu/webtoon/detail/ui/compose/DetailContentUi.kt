@@ -1,4 +1,4 @@
-package com.pluu.webtoon.detail.ui
+package com.pluu.webtoon.detail.ui.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures

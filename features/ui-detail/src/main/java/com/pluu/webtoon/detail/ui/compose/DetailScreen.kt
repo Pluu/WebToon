@@ -1,4 +1,4 @@
-package com.pluu.webtoon.detail.ui
+package com.pluu.webtoon.detail.ui.compose
 
 import android.content.res.Configuration
 import androidx.compose.animation.animateColor
@@ -21,6 +21,8 @@ import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.FeatureColor
+import com.pluu.webtoon.detail.ui.DetailUiEvent
+import com.pluu.webtoon.detail.ui.ElementEvent
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
