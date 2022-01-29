@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="immersive_sys_ui">@android:color/transparent</color>
+    <color name="nav_bar">@color/immersive_sys_ui</color>
+    <bool name="use_light_nav_bar">false</bool>
+</resources>
