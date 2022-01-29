@@ -49,7 +49,6 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.browser)
-    implementation(Dep.AndroidX.UI.material)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)

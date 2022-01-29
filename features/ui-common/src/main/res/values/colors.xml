@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="indigo_500">#3F51B5</color>
-    <color name="indigo_900">#1A237E</color>
-    <color name="light_blue_a700">#0091EA</color>
-    <color name="red_500">#F44336</color>
-
-    <!-- Base -->
-    <color name="theme_primary">@color/indigo_500</color>
-    <color name="theme_primary_variant">@color/indigo_900</color>
+    <color name="progress_accent_color">#F44336</color>
 </resources>

@@ -59,7 +59,7 @@ internal fun IntroScreen(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
-                    color = colorResource(id = com.pluu.webtoon.ui_common.R.color.red_500),
+                    color = colorResource(id = com.pluu.webtoon.ui_common.R.color.progress_accent_color),
                     strokeWidth = 4.0.dp * 1.5f
                 )
             }
