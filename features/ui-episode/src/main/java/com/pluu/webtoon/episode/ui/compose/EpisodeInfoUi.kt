@@ -3,15 +3,19 @@ package com.pluu.webtoon.episode.ui.compose
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,51 +30,55 @@ internal fun EpisodeInfoUi(
     modifier: Modifier = Modifier,
     name: String,
     rate: Double,
-    infoTextColor: Color = MaterialTheme.colorScheme.onSurface,
-    buttonBackgroundColor: Color = MaterialTheme.colorScheme.primary,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     onFirstClicked: () -> Unit
 ) {
-    Row(modifier = modifier) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically)
-        ) {
-            Text(
-                text = name,
-                fontSize = 22.sp,
-                maxLines = 1,
-                fontWeight = FontWeight.Bold,
-                color = infoTextColor,
-                overflow = TextOverflow.Ellipsis
-            )
-            if (rate != 0.0) {
+    CompositionLocalProvider(
+        LocalContentColor provides contentColorFor(backgroundColor),
+    ) {
+        Row(modifier = modifier) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically)
+            ) {
                 Text(
-                    text = "평점 : %.2f".format(rate),
+                    text = name,
+                    fontSize = 22.sp,
                     maxLines = 1,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis
+                )
+                if (rate != 0.0) {
+                    Text(
+                        text = "평점 : %.2f".format(rate),
+                        maxLines = 1,
+                        fontSize = 14.sp,
+                    )
+                }
+            }
+            OutlinedButton(
+                modifier = Modifier.weight(1f),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = contentColorFor(backgroundColor)
+                ),
+                border = ButtonDefaults.outlinedButtonBorder.copy(
+                    brush = SolidColor(contentColorFor(backgroundColor))
+                ),
+                onClick = onFirstClicked
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_looks_one_white_36),
+                    contentDescription = null
+                )
+                Text(
+                    text = "첫화보기",
                     fontSize = 14.sp,
-                    color = infoTextColor
+                    maxLines = 1,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center
                 )
             }
-        }
-        Button(
-            modifier = Modifier.weight(1f),
-            colors = ButtonDefaults.buttonColors(buttonBackgroundColor),
-            onClick = onFirstClicked
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_looks_one_white_36),
-                tint = Color.White,
-                contentDescription = null
-            )
-            Text(
-                text = "첫화보기",
-                fontSize = 14.sp,
-                maxLines = 1,
-                color = Color.White,
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
-            )
         }
     }
 }
@@ -87,5 +95,6 @@ private fun PreviewEpisodeInfoUi() {
             rate = 1.1,
             onFirstClicked = {}
         )
+
     }
 }

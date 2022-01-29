@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
@@ -23,6 +22,7 @@ import com.pluu.webtoon.model.LandingInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.navigator.DetailNavigator
+import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.ui.model.PalletColor
@@ -57,20 +57,22 @@ class EpisodesActivity : ComponentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = isSystemInDarkTheme()
+            val isDarkTheme = true
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
+                systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = !isDarkTheme)
             }
 
-            ProvideWindowInsets(false) {
-                EpisodeUi(
-                    viewModel = viewModel,
-                    webToonItem = webToonItem,
-                    palletColor = palletColor,
-                    eventAction = ::handleAction,
-                    navigationAction = ::moveDetailPage,
-                    savedAction = ::savedResult
-                )
+            WebToonTheme(useDarkColors = isDarkTheme) {
+                ProvideWindowInsets(false) {
+                    EpisodeUi(
+                        viewModel = viewModel,
+                        webToonItem = webToonItem,
+                        palletColor = palletColor,
+                        eventAction = ::handleAction,
+                        navigationAction = ::moveDetailPage,
+                        savedAction = ::savedResult
+                    )
+                }
             }
         }
     }

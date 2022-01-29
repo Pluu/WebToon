@@ -6,6 +6,7 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -99,16 +100,16 @@ private fun EpisodeScreen(
         bottomBar = {
             Box(
                 modifier = Modifier
+                    .background(featureBgColor)
                     .navigationBarsPadding()
                     .height(62.dp)
-                    .padding(3.dp)
+                    .padding(horizontal = 8.dp, vertical = 2.dp)
             ) {
                 if (isFirstLoded) {
                     EpisodeInfoUi(
                         name = webToonItem.info.writer,
                         rate = webToonItem.info.rate,
-                        infoTextColor = featureTextColor,
-                        buttonBackgroundColor = featureBgColor,
+                        backgroundColor = Color.White,
                         onFirstClicked = {
                             eventAction(EpisodeUiEvent.OnShowFirst)
                         }

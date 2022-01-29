@@ -3,6 +3,7 @@ package com.pluu.webtoon.ui.compose
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
 import androidx.compose.ui.platform.ComposeView
@@ -10,18 +11,18 @@ import androidx.fragment.app.Fragment
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun ComponentActivity.activityComposeView(
-    noinline content: @Composable () -> Unit
+fun ComponentActivity.activityComposeView(
+    content: @Composable () -> Unit
 ) {
     setContent {
-        AppTheme(content = content)
+        content()
     }
 }
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun Fragment.fragmentComposeView(
+fun Fragment.fragmentComposeView(
     parent: CompositionContext? = null,
-    noinline content: @Composable () -> Unit
+    content: @Composable () -> Unit
 ) = ComposeView(requireContext()).apply {
     setParentCompositionContext(parent)
     layoutParams = ViewGroup.LayoutParams(
@@ -29,6 +30,14 @@ inline fun Fragment.fragmentComposeView(
         ViewGroup.LayoutParams.MATCH_PARENT
     )
     setContent {
-        AppTheme(content = content)
+        content()
     }
+}
+
+@Composable
+fun WebToonTheme(
+    useDarkColors: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    AppTheme(useDarkTheme = useDarkColors, content = content)
 }

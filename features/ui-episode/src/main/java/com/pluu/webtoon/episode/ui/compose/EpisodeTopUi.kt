@@ -1,5 +1,6 @@
 package com.pluu.webtoon.episode.ui.compose
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -15,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun EpisodeTopUi(
@@ -58,7 +59,6 @@ internal fun EpisodeTopUi(
                 } else {
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
-                        tint = Color.White,
                         contentDescription = null
                     )
                 }
@@ -67,10 +67,10 @@ internal fun EpisodeTopUi(
     )
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewEpisodeTopUi() {
-    ProvideWindowInsets {
+    AppTheme {
         EpisodeTopUi(
             title = "테스트",
             isFavorite = true,
