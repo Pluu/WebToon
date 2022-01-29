@@ -1,26 +1,25 @@
 package com.pluu.webtoon.setting.ui
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.primarySurface
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.pluu.compose.ambient.LocalPreference
 import com.pluu.compose.ambient.ProvidePreference
@@ -29,6 +28,7 @@ import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
 import com.pluu.webtoon.model.KeyContract
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun SettingsScreen(
@@ -40,10 +40,8 @@ internal fun SettingsScreen(
     val items: List<ListPreferenceItem<String>> = remember { getPreItems(context).toMutableList() }
 
     Column(modifier = modifier.fillMaxSize()) {
-        TopAppBar(
-            title = {
-                Text(text = "설정")
-            },
+        SmallTopAppBar(
+            title = { Text(text = "설정") },
             navigationIcon = {
                 IconButton(onClick = onBackPressed) {
                     Icon(
@@ -53,10 +51,11 @@ internal fun SettingsScreen(
                 }
             },
             modifier = modifier
-                .background(MaterialTheme.colors.primarySurface)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
                 .statusBarsPadding(),
-            backgroundColor = MaterialTheme.colors.primarySurface,
-            elevation = 0.dp
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            )
         )
         Column(modifier = Modifier.fillMaxSize()) {
             DefaultWebtoonUi(items)
@@ -134,12 +133,12 @@ private fun getPreItems(
 
 @Preview(
     heightDp = 240,
-    showBackground = true, backgroundColor = 0xFFF
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewSettingContentUi() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current)
-    ProvideWindowInsets {
+    AppTheme {
         ProvidePreference(sharedPreferences) {
             SettingsScreen(
                 onBackPressed = {},

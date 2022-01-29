@@ -15,7 +15,6 @@ dependencies {
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.fragment.ktx)
 
     // Android UI
     implementation(Dep.AndroidX.UI.preference)
@@ -26,6 +25,7 @@ dependencies {
     implementation(Dep.AndroidX.Compose.tooling)
 
     implementation(Dep.Accompanist.insets)
+    implementation(Dep.Accompanist.systemUi)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)
