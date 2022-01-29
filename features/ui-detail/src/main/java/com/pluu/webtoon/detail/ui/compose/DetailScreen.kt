@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
@@ -89,7 +88,6 @@ private fun DetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
-                .navigationBarsPadding()
         ) {
             onToggleNavigation()
         }

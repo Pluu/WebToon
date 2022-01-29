@@ -4,7 +4,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -20,7 +19,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.zIndex
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.ui.state.UiState
@@ -84,8 +82,6 @@ internal fun InitBottomUi(
 
     DetailNavigationUi(
         modifier = modifier
-            .navigationBarsPadding()
-            .height(48.dp)
             .onGloballyPositioned { container ->
                 if (size == Size.Zero) {
                     size = container.size.toSize()

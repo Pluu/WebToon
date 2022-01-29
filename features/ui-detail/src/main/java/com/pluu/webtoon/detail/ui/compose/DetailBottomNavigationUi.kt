@@ -1,20 +1,21 @@
 package com.pluu.webtoon.detail.ui.compose
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.navigationBarsPadding
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
@@ -92,17 +94,19 @@ private fun BottomNavigationButton(
     onClicked: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
-    Button(
-        modifier = modifier.fillMaxHeight(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = buttonBgColor,
-            disabledContainerColor = Color.Black
-        ),
-        shape = RoundedCornerShape(0.dp),
-        enabled = isEnable,
-        onClick = onClicked,
-        content = content
-    )
+    Column(
+        modifier = modifier
+            .background(if (isEnable) buttonBgColor else Color.Gray)
+    ) {
+        TextButton(
+            modifier = Modifier.height(48.dp),
+            shape = RoundedCornerShape(0.dp),
+            enabled = isEnable,
+            onClick = onClicked,
+            content = content
+        )
+        Spacer(modifier = Modifier.navigationBarsPadding())
+    }
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)

@@ -15,7 +15,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.getRequiredSerializableExtra
-import com.pluu.utils.getThemeColor
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.model.FeatureColor
 import com.pluu.webtoon.detail.model.getMessage
@@ -45,7 +44,7 @@ class DetailActivity : FragmentActivity() {
 
     private val featureColor by lazyNone {
         FeatureColor(
-            themeColor = getThemeColor(androidx.appcompat.R.attr.colorPrimary).toColor(),
+            themeColor = palletColor.darkMutedColor.toColor(),
             webToonColor = palletColor.darkVibrantColor.toColor()
         )
     }
