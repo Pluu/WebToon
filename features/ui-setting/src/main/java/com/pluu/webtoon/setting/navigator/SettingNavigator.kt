@@ -7,7 +7,7 @@ import com.pluu.webtoon.setting.ui.LicenseActivity
 import com.pluu.webtoon.setting.ui.SettingsActivity
 import javax.inject.Inject
 
-class SettingNavigatorImpl @Inject constructor() : SettingNavigator {
+internal class SettingNavigatorImpl @Inject constructor() : SettingNavigator {
     override fun openSetting(context: Context) {
         context.startActivity<SettingsActivity>()
     }

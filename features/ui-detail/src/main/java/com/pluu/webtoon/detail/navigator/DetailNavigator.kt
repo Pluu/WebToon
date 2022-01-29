@@ -9,7 +9,7 @@ import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.model.PalletColor
 import javax.inject.Inject
 
-class DetailNavigatorImpl @Inject constructor() : DetailNavigator {
+internal class DetailNavigatorImpl @Inject constructor() : DetailNavigator {
     override fun openDetail(
         context: Context,
         item: EpisodeInfo,

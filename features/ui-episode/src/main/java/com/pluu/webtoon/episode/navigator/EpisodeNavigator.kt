@@ -11,7 +11,7 @@ import com.pluu.webtoon.navigator.EpisodeNavigator
 import com.pluu.webtoon.ui.model.PalletColor
 import javax.inject.Inject
 
-class EpisodeNavigatorImpl @Inject constructor() : EpisodeNavigator {
+internal class EpisodeNavigatorImpl @Inject constructor() : EpisodeNavigator {
     override fun openEpisode(
         context: Context,
         launcher: ActivityResultLauncher<Intent>,
