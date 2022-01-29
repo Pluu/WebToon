@@ -8,9 +8,9 @@ fun FragmentActivity.setFragmentResultListener(
     requestKey: String,
     listener: (resultKey: String, bundle: Bundle) -> Unit
 ) {
-    supportFragmentManager.setFragmentResultListener(requestKey, this,
-        { _requestKey, bundle -> listener.invoke(_requestKey, bundle) }
-    )
+    supportFragmentManager.setFragmentResultListener(requestKey, this) { _requestKey, bundle ->
+        listener.invoke(_requestKey, bundle)
+    }
 }
 
 fun FragmentActivity.setFragmentResult(
