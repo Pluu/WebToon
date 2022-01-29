@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -29,8 +30,9 @@ class SettingsActivity : ComponentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
+            val useDarkIcons = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent)
+                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
             }
 
             ProvideWindowInsets {
