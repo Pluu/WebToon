@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
@@ -87,7 +87,7 @@ private fun AdjustDetailImage(
         is ImagePainter.State.Loading -> {
             CircularProgressIndicator(
                 modifier = modifier.size(60.dp),
-                color = MaterialTheme.colorScheme.secondary
+                color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
             )
         }
         else -> {}
