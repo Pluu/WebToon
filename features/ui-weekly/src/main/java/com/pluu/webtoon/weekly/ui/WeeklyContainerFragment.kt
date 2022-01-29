@@ -18,6 +18,7 @@ import com.pluu.webtoon.ui.compose.fragmentComposeView
 import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.weekly.event.ThemeEvent
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
+import com.pluu.webtoon.weekly.ui.compose.WeeklyContainerScreen
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.Locale

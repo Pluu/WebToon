@@ -22,10 +22,12 @@ import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.navigator.SettingNavigator
+import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.getCoreType
 import com.pluu.webtoon.weekly.model.toUiType
+import com.pluu.webtoon.weekly.ui.compose.WeeklyScreen
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -53,43 +55,44 @@ class WeeklyActivity : FragmentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = isSystemInDarkTheme()
+            val isDarkTheme = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
+                systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = false)
             }
 
-            ProvideWindowInsets(false) {
-                var naviItem by rememberMutableStateOf(session.navi.toUiType())
-
-                val contentView = remember {
-                    FragmentContainerView(this).apply {
-                        id = containerViewId
-                        replaceMainContainer(WeeklyContainerFragment.newInstance())
-                    }
-                }
-
-                WeeklyScreen(
-                    naviItem = naviItem,
-                    onEventAction = { event ->
-                        when (event) {
-                            is WeeklyMenuEvent.OnMenuClicked -> {
-                                if (naviItem != event.item) {
-                                    Timber.d(event.item.name)
-                                    session.navi = event.item.getCoreType()
-                                    naviItem = event.item
-                                    replaceMainContainer(WeeklyContainerFragment.newInstance())
-                                }
-                            }
-                            WeeklyMenuEvent.OnSettingClicked -> {
-                                settingNavigator.openSetting(this)
-                            }
+            WebToonTheme(useDarkColors = isDarkTheme) {
+                ProvideWindowInsets(false) {
+                    var naviItem by rememberMutableStateOf(session.navi.toUiType())
+                    val contentView = remember {
+                        FragmentContainerView(this).apply {
+                            id = containerViewId
+                            replaceMainContainer(WeeklyContainerFragment.newInstance())
                         }
                     }
-                ) { innerPadding ->
-                    AndroidView(
-                        modifier = Modifier.padding(innerPadding),
-                        factory = { contentView }
-                    )
+
+                    WeeklyScreen(
+                        naviItem = naviItem,
+                        onEventAction = { event ->
+                            when (event) {
+                                is WeeklyMenuEvent.OnMenuClicked -> {
+                                    if (naviItem != event.item) {
+                                        Timber.d(event.item.name)
+                                        session.navi = event.item.getCoreType()
+                                        naviItem = event.item
+                                        replaceMainContainer(WeeklyContainerFragment.newInstance())
+                                    }
+                                }
+                                WeeklyMenuEvent.OnSettingClicked -> {
+                                    settingNavigator.openSetting(this)
+                                }
+                            }
+                        }
+                    ) { innerPadding ->
+                        AndroidView(
+                            modifier = Modifier.padding(innerPadding),
+                            factory = { contentView }
+                        )
+                    }
                 }
             }
         }

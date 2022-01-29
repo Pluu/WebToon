@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui
+package com.pluu.webtoon.weekly.ui.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +11,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.pluu.compose.ui.graphics.toColor
 import com.pluu.webtoon.model.WeekPosition
 import com.pluu.webtoon.weekly.provider.NaviColorProvider
+import com.pluu.webtoon.weekly.ui.WeeklyViewModelFactory
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)

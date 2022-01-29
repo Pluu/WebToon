@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui
+package com.pluu.webtoon.weekly.ui.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentSize
@@ -21,6 +21,8 @@ import com.pluu.webtoon.ui.compose.rememberLauncherForActivityResult
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.event.WeeklyEvent
 import com.pluu.webtoon.weekly.image.PalletDarkCalculator
+import com.pluu.webtoon.weekly.ui.WeeklyViewModel
+import com.pluu.webtoon.weekly.ui.WeeklyViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

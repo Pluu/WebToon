@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui
+package com.pluu.webtoon.weekly.ui.compose
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
