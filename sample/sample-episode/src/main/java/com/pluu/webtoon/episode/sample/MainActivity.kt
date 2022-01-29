@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         val palletColor = PalletColor(
-            darkVibrantColor = Color.DKGRAY,
+            darkVibrantColor = 0xFF17438F.toInt(),
             darkMutedColor = Color.LTGRAY,
             lightMutedColor = Color.WHITE
         )
