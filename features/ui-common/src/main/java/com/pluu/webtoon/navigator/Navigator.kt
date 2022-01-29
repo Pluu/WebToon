@@ -34,8 +34,6 @@ interface DetailNavigator {
 
 interface SettingNavigator {
     fun openSetting(context: Context)
-
-    fun openLicense(context: Context)
 }
 
 interface BrowserNavigator {

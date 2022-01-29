@@ -41,10 +41,6 @@ internal class BaseSampleNavigator : WeeklyNavigator, EpisodeNavigator, DetailNa
         context.toast("Show Setting activity")
     }
 
-    override fun openLicense(context: Context) {
-        context.toast("Show License activity")
-    }
-
     override fun openBrowser(context: Context, toolbarColor: Int, url: String) {
         context.toast("Show Browser activity")
     }
