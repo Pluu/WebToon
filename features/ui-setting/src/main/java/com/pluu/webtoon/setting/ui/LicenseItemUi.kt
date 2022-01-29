@@ -1,5 +1,6 @@
 package com.pluu.webtoon.setting.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluu.webtoon.setting.model.LicenseModel
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun LicenseItemUi(
@@ -35,13 +37,15 @@ internal fun LicenseItemUi(
 
 @Preview(
     widthDp = 240,
-    showBackground = true, backgroundColor = 0xFFF
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewLicenseItemUi() {
-    Box {
-        val sample = LicenseModel("Test Title", "")
-        LicenseItemUi(item = sample, onClicked = {})
+    AppTheme {
+        Box {
+            val sample = LicenseModel("Test Title", "")
+            LicenseItemUi(item = sample, onClicked = {})
+        }
     }
 }
 

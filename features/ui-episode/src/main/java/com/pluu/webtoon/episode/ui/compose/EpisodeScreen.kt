@@ -1,5 +1,6 @@
 package com.pluu.webtoon.episode.ui.compose
 
+import android.content.res.Configuration
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Transition
@@ -22,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.graphics.toColor
@@ -31,6 +31,7 @@ import com.pluu.utils.ThemeHelper
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.ui.model.PalletColor
 
 @Composable
@@ -157,10 +158,13 @@ private fun animateTextColor(
     }
 }
 
-@Preview(heightDp = 480)
+@Preview(
+    heightDp = 480,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun PreviewEpisodeScreen() {
-    ProvideWindowInsets {
+    AppTheme {
         EpisodeScreen(
             webToonItem = ToonInfoWithFavorite(
                 ToonInfo(

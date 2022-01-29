@@ -69,7 +69,10 @@ internal fun IntroScreen(
     }
 }
 
-@Preview(widthDp = 320, heightDp = 480, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(
+    widthDp = 320, heightDp = 480,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun PreviewIntroUi() {
     AppTheme {

@@ -1,5 +1,6 @@
 package com.pluu.webtoon.weekly.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsHeight
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun WeeklyListUi(
@@ -56,12 +58,14 @@ internal fun WeeklyEmptyUi() {
 @Preview("EmptyView", widthDp = 100, heightDp = 100)
 @Composable
 private fun PreviewWeeklyEmptyUi() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        WeeklyEmptyUi()
+    AppTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center)
+        ) {
+            WeeklyEmptyUi()
+        }
     }
 }
 
@@ -77,15 +81,17 @@ internal fun WeeklyLoadingUi(
 
 @Preview(
     widthDp = 100, heightDp = 100,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewWeeklyLoadingUi() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        WeeklyLoadingUi()
+    AppTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center)
+        ) {
+            WeeklyLoadingUi()
+        }
     }
 }

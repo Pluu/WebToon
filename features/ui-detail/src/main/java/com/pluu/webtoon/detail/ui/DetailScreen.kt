@@ -1,5 +1,6 @@
 package com.pluu.webtoon.detail.ui
 
+import android.content.res.Configuration
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
@@ -14,13 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.FeatureColor
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun DetailScreen(
@@ -109,10 +110,13 @@ private fun DetailScreen(
     }
 }
 
-@Preview(name = "Loading", heightDp = 340)
+@Preview(
+    name = "Loading", heightDp = 340,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun PreviewDetailScreen_Loading() {
-    ProvideWindowInsets {
+    AppTheme {
         DetailScreen(
             uiStateElement = UiState(loading = true),
             isShowNavigation = true,
@@ -123,10 +127,13 @@ private fun PreviewDetailScreen_Loading() {
     }
 }
 
-@Preview(name = "Show", heightDp = 340)
+@Preview(
+    name = "Show", heightDp = 340,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun PreviewDetailScreen_Show() {
-    ProvideWindowInsets {
+    AppTheme {
         DetailScreen(
             uiStateElement = UiState(
                 data = ElementEvent(

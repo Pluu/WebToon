@@ -1,5 +1,6 @@
 package com.pluu.webtoon.episode.ui.compose
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.pluu.webtoon.episode.R
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun EpisodeInfoUi(
@@ -75,13 +77,15 @@ internal fun EpisodeInfoUi(
 
 @Preview(
     widthDp = 320,
-    showBackground = true, backgroundColor = 0xFFF
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewEpisodeInfoUi() {
-    EpisodeInfoUi(
-        name = "타이틀",
-        rate = 1.1,
-        onFirstClicked = {}
-    )
+    AppTheme {
+        EpisodeInfoUi(
+            name = "타이틀",
+            rate = 1.1,
+            onFirstClicked = {}
+        )
+    }
 }
