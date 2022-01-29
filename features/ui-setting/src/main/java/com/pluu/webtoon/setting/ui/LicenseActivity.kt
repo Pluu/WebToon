@@ -14,6 +14,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.setting.licenseModels
 import com.pluu.webtoon.setting.model.LicenseModel
+import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,20 +35,22 @@ class LicenseActivity : ComponentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = isSystemInDarkTheme()
+            val isDarkTheme = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
+                systemUiController.setSystemBarsColor(Color.Transparent, !isDarkTheme)
             }
 
-            val themeColor = MaterialTheme.colorScheme.primary.toArgb()
-            ProvideWindowInsets {
-                LicenseScreen(
-                    list = licenseModels,
-                    onBackPressed = { finish() },
-                    onClicked = {
-                        showDetailLicense(it, themeColor)
-                    }
-                )
+            WebToonTheme(isDarkTheme) {
+                val themeColor = MaterialTheme.colorScheme.primary.toArgb()
+                ProvideWindowInsets {
+                    LicenseScreen(
+                        list = licenseModels,
+                        onBackPressed = { finish() },
+                        onClicked = {
+                            showDetailLicense(it, themeColor)
+                        }
+                    )
+                }
             }
         }
     }

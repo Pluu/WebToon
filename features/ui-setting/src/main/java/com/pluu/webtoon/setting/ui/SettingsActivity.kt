@@ -14,6 +14,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.ambient.ProvidePreference
 import com.pluu.utils.startActivity
+import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,18 +31,20 @@ class SettingsActivity : ComponentActivity() {
 
         activityComposeView {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = isSystemInDarkTheme()
+            val isDarkTheme = isSystemInDarkTheme()
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, !useDarkIcons)
+                systemUiController.setSystemBarsColor(Color.Transparent, !isDarkTheme)
             }
 
-            ProvideWindowInsets {
-                ProvidePreference(sharedPreferences) {
-                    SettingsScreen(
-                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
-                        onBackPressed = ::finish,
-                        onOpenSourceClicked = ::openLicense
-                    )
+            WebToonTheme(isDarkTheme) {
+                ProvideWindowInsets {
+                    ProvidePreference(sharedPreferences) {
+                        SettingsScreen(
+                            modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                            onBackPressed = ::finish,
+                            onOpenSourceClicked = ::openLicense
+                        )
+                    }
                 }
             }
         }
