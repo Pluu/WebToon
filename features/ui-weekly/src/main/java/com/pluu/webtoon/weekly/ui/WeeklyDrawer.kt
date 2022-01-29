@@ -1,5 +1,6 @@
 package com.pluu.webtoon.weekly.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,10 +15,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,9 +28,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.ServiceConst
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
@@ -48,6 +49,7 @@ internal fun WeeklyDrawer(
         modifier = modifier
             .fillMaxSize()
             .navigationBarsPadding()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Text(
             title,
@@ -72,7 +74,7 @@ internal fun WeeklyDrawer(
                 color = if (isSelected) {
                     accentColor
                 } else {
-                    MaterialTheme.colors.onSurface
+                    MaterialTheme.colorScheme.onBackground
                 },
                 fontSize = 14.sp,
                 modifier = Modifier
@@ -99,14 +101,14 @@ internal fun WeeklyDrawer(
         ) {
             Icon(
                 imageVector = Icons.Default.Settings,
-                tint = MaterialTheme.colors.onSurface,
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.align(Alignment.CenterVertically),
                 contentDescription = null
             )
             Spacer(Modifier.width(32.dp))
             Text(
                 text = "설정",
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.align(Alignment.CenterVertically)
@@ -117,11 +119,11 @@ internal fun WeeklyDrawer(
 
 @Preview(
     widthDp = 320, heightDp = 450,
-    showBackground = true, backgroundColor = 0xFFF
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewWeeklyDrawer() {
-    ProvideWindowInsets {
+    AppTheme {
         WeeklyDrawer(
             title = "Sample",
             bgColor = Color(0xFFB22416),

@@ -17,7 +17,6 @@ dependencies {
     implementation(projects.uiWeekly)
 
     implementation(Dep.AndroidX.appcompat)
-    implementation(Dep.AndroidX.UI.material)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

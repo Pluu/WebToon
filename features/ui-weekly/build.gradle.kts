@@ -34,6 +34,7 @@ dependencies {
     implementation(Dep.Accompanist.insets)
     implementation(Dep.Accompanist.pager)
     implementation(Dep.Accompanist.pagerIndicators)
+    implementation(Dep.Accompanist.systemUi)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

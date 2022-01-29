@@ -1,5 +1,6 @@
 package com.pluu.webtoon.weekly.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,10 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +42,7 @@ import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.utils.applyAgent
 import com.pluu.webtoon.weekly.R
 
@@ -65,6 +67,7 @@ internal fun WeeklyItemUi(
             .fillMaxWidth()
             .padding(2.dp)
             .height(100.dp),
+        backgroundColor = MaterialTheme.colorScheme.surface,
         onClick = { onClicked(item) }
     ) {
         val backgroundModifier = when (painter.state) {
@@ -90,7 +93,7 @@ internal fun WeeklyItemUi(
                 is ImagePainter.State.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
-                        color = MaterialTheme.colors.secondary
+                        color = MaterialTheme.colorScheme.secondary
                     )
                 }
                 is ImagePainter.State.Error -> {
@@ -265,7 +268,7 @@ private fun WeeklyStatusUi(
     }
 }
 
-class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
+internal class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
     override val values = sequenceOf(
         ToonInfoWithFavorite(
             ToonInfo(
@@ -293,24 +296,28 @@ class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFavorite> {
 @Preview(
     group = "Weekly Component",
     widthDp = 240,
-    showBackground = true, backgroundColor = 0xFFFFFFFF
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewWeeklyItemUi(
     @PreviewParameter(FakeWeeklyItemProvider::class) item: ToonInfoWithFavorite,
 ) {
-    WeeklyItemUi(
-        item = item.info,
-        isFavorite = item.isFavorite,
-        onClicked = { }
-    )
+    AppTheme {
+        WeeklyItemUi(
+            item = item.info,
+            isFavorite = item.isFavorite,
+            onClicked = { }
+        )
+    }
 }
 
 @Preview(
     "Weekly Status Component",
-    showBackground = true, backgroundColor = 0xFFFFFFFF
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewWeeklyStatusUi() {
-    WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
+    AppTheme {
+        WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
+    }
 }

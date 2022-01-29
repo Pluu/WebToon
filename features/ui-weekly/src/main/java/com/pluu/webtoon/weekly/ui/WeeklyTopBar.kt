@@ -5,14 +5,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,24 +29,29 @@ import com.google.accompanist.pager.rememberPagerState
 @Composable
 internal fun WeeklyTopBar(
     modifier: Modifier = Modifier,
-    backgroundColor: Color,
+    bgColor: Color,
     title: String,
     onDrawerClicked: () -> Unit
 ) {
-    TopAppBar(
+    SmallTopAppBar(
         modifier = modifier
-            .background(color = backgroundColor)
+            .background(color = bgColor)
             .statusBarsPadding(),
-        contentColor = Color.White,
-        backgroundColor = backgroundColor,
-        elevation = 0.dp,
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = bgColor
+        ),
         title = {
-            Text(text = title)
+            Text(
+                text = title,
+                color = Color.White,
+                style = MaterialTheme.typography.headlineSmall
+            )
         },
         navigationIcon = {
             IconButton(onClick = onDrawerClicked) {
                 Icon(
                     Icons.Filled.Menu,
+                    tint = Color.White,
                     contentDescription = null
                 )
             }
@@ -72,7 +78,7 @@ internal fun DayOfWeekUi(
             )
         },
         divider = {},
-        backgroundColor = MaterialTheme.colors.background,
+        backgroundColor = MaterialTheme.colorScheme.background,
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp),
@@ -80,7 +86,12 @@ internal fun DayOfWeekUi(
     ) {
         titles.forEachIndexed { index, title ->
             Tab(
-                text = { Text(title) },
+                text = {
+                    Text(
+                        text = title,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
                 selected = index == selectedTabIndex,
                 onClick = { onTabSelected(index) }
             )
@@ -93,7 +104,7 @@ internal fun DayOfWeekUi(
 private fun PreviewWeeklyTopBar() {
     ProvideWindowInsets {
         WeeklyTopBar(
-            backgroundColor = Color.DarkGray,
+            bgColor = Color.DarkGray,
             title = "Test Title",
             onDrawerClicked = {}
         )

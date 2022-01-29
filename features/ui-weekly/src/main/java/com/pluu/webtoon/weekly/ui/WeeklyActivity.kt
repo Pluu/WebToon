@@ -3,10 +3,12 @@ package com.pluu.webtoon.weekly.ui
 import android.os.Bundle
 import android.view.View
 import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.CurrentSession
@@ -48,6 +51,11 @@ class WeeklyActivity : FragmentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         activityComposeView {
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setSystemBarsColor(Color.Transparent)
+            }
+
             ProvideWindowInsets(false) {
                 var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
