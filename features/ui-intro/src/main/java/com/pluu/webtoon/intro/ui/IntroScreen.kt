@@ -1,24 +1,27 @@
 package com.pluu.webtoon.intro.ui
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProgressIndicatorDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 internal fun IntroScreen(
@@ -43,7 +46,7 @@ internal fun IntroScreen(
                 } else {
                     "다됐어... 이제 갈거야..."
                 },
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
             )
@@ -56,8 +59,8 @@ internal fun IntroScreen(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
-                    color = MaterialTheme.colors.secondary,
-                    strokeWidth = ProgressIndicatorDefaults.StrokeWidth * 1.5f
+                    color = colorResource(id = com.pluu.webtoon.ui_common.R.color.red_500),
+                    strokeWidth = 4.0.dp * 1.5f
                 )
             }
 
@@ -66,11 +69,13 @@ internal fun IntroScreen(
     }
 }
 
-@Preview(
-    widthDp = 320,
-    heightDp = 640
-)
+@Preview(widthDp = 320, heightDp = 480, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewIntroUi() {
-    IntroScreen(isLoading = true)
+    AppTheme {
+        IntroScreen(
+            isLoading = true,
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+        )
+    }
 }

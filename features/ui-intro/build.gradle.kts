@@ -20,6 +20,9 @@ dependencies {
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
 
+    implementation(Dep.Accompanist.insets)
+    implementation(Dep.Accompanist.systemUi)
+
     // Hilt
     implementation(Dep.Dagger.Hilt.android)
     kapt(Dep.Dagger.Hilt.compiler)
