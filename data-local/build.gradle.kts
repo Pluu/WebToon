@@ -7,15 +7,6 @@ plugins {
 
 android {
     defaultConfig {
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                )
-            }
-        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -50,6 +41,12 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+    arg("room.expandProjection", "true")
 }
 
 //apply(from = "../publish_local.gradle")

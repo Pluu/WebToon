@@ -2,7 +2,6 @@ package com.pluu.webtoon.data.local
 
 import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -10,11 +9,12 @@ import com.pluu.webtoon.data.local.common.SqliteDatabaseTestHelper
 import com.pluu.webtoon.data.local.common.SqliteTestDbOpenHelper
 import com.pluu.webtoon.data.local.dao.RoomDao
 import com.pluu.webtoon.data.local.db.AppDatabase
-import com.pluu.webtoon.data.local.db.migration.migration_1_2
 import com.pluu.webtoon.data.local.model.DBEpisode
 import com.pluu.webtoon.data.local.model.DBToon
 import com.pluu.webtoon.model.ToonId
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -24,17 +24,25 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @Suppress("ClassName", "PrivatePropertyName")
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class Migartion1_2Test {
 
     private val TEST_DB_NAME = "test-db"
 
     @get:Rule
-    var migrationHelper = MigrationTestHelper(
+    var helper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        AppDatabase::class.java.canonicalName,
-        FrameworkSQLiteOpenHelperFactory()
+        AppDatabase::class.java,
+        listOf(
+            AppDatabase.AutoMigration_1_2()
+        )
     )
+
+    private val db = Room.databaseBuilder(
+        ApplicationProvider.getApplicationContext(),
+        AppDatabase::class.java, TEST_DB_NAME
+    ).build()
 
     private lateinit var mSqliteTestDbHelper: SqliteTestDbOpenHelper
 
@@ -51,6 +59,7 @@ class Migartion1_2Test {
     @After
     @Throws(Exception::class)
     fun tearDown() {
+        helper.closeWhenFinished(db)
         SqliteDatabaseTestHelper.clearDatabase(mSqliteTestDbHelper)
     }
 
@@ -63,15 +72,9 @@ class Migartion1_2Test {
             mSqliteTestDbHelper
         )
 
-        migrationHelper.runMigrationsAndValidate(
-            TEST_DB_NAME,
-            2,
-            true,
-            migration_1_2
-        )
+        helper.runMigrationsAndValidate(TEST_DB_NAME, 2, true)
 
-        val db = getMigratedRoomDatabase()
-        runBlocking {
+        runTest {
             assertTrue(db.roomDao().isFavorite(toon.service, toon.toonId))
             assertFalse(db.roomDao().isFavorite(toon.service, "123"))
         }
@@ -87,15 +90,9 @@ class Migartion1_2Test {
             mSqliteTestDbHelper
         )
 
-        migrationHelper.runMigrationsAndValidate(
-            TEST_DB_NAME,
-            2,
-            true,
-            migration_1_2
-        )
+        helper.runMigrationsAndValidate(TEST_DB_NAME, 2, true)
 
-        val db = getMigratedRoomDatabase()
-        runBlocking {
+        runTest {
             assertTrue(db.roomDao().isReaded(episode.service, episode.toonId, episode.episodeId))
             assertFalse(db.roomDao().isReaded(episode.service, episode.toonId, "123"))
         }
@@ -106,20 +103,9 @@ class Migartion1_2Test {
         toonId: ToonId,
         episodeId: String
     ): Boolean {
-        return getEpisode(serviceId, toonId).any {
+        val list = getEpisode(serviceId, toonId).first()
+        return list.any {
             serviceId == it.service && toonId == it.toonId && episodeId == it.episodeId
         }
     }
-
-    private fun getMigratedRoomDatabase(): AppDatabase {
-        val database = Room.databaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            AppDatabase::class.java, TEST_DB_NAME
-        ).addMigrations(migration_1_2)
-            .build()
-        // close the database and release any stream resources when the test finishes
-        migrationHelper.closeWhenFinished(database)
-        return database
-    }
-
 }
