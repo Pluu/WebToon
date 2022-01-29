@@ -7,24 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.google.android.material.composethemeadapter.MdcTheme
-
-@Suppress("NOTHING_TO_INLINE")
-@Composable
-inline fun WebToonSetup(noinline content: @Composable () -> Unit) {
-    MdcTheme {
-        content()
-    }
-}
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun ComponentActivity.activityComposeView(
     noinline content: @Composable () -> Unit
 ) {
     setContent {
-        WebToonSetup {
-            content()
-        }
+        AppTheme(content = content)
     }
 }
 
@@ -39,8 +29,6 @@ inline fun Fragment.fragmentComposeView(
         ViewGroup.LayoutParams.MATCH_PARENT
     )
     setContent {
-        WebToonSetup {
-            content()
-        }
+        AppTheme(content = content)
     }
 }
