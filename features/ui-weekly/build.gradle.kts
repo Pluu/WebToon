@@ -15,10 +15,8 @@ dependencies {
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
-
-    // Android UI
+    implementation(Dep.AndroidX.Hilt.compose)
     implementation(Dep.AndroidX.UI.palette)
 
     // Compose

@@ -1,6 +1,7 @@
 package com.pluu.webtoon.weekly.ui.compose
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,42 +11,24 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pluu.utils.getSerializable
 import com.pluu.utils.toast
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.model.WeekPosition
 import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
 import com.pluu.webtoon.ui.compose.rememberLauncherForActivityResult
 import com.pluu.webtoon.ui.model.FavoriteResult
 import com.pluu.webtoon.weekly.event.WeeklyEvent
 import com.pluu.webtoon.weekly.image.PalletDarkCalculator
-import com.pluu.webtoon.weekly.ui.WeeklyViewModel
-import com.pluu.webtoon.weekly.ui.WeeklyViewModelFactory
+import com.pluu.webtoon.weekly.ui.WeeklyDayViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun WeeklyHomeUi(
+internal fun WeeklyDayUi(
     modifier: Modifier = Modifier,
-    viewModelFactory: WeeklyViewModelFactory,
-    weekPosition: WeekPosition,
-) {
-    WeeklyHomeUi(
-        modifier = modifier,
-        viewModel = viewModel(
-            key = weekPosition.toString(),
-            factory = WeeklyViewModel.provideFactory(viewModelFactory, weekPosition)
-        )
-    )
-}
-
-@Composable
-private fun WeeklyHomeUi(
-    modifier: Modifier = Modifier,
-    viewModel: WeeklyViewModel
+    viewModel: WeeklyDayViewModel
 ) {
     val list by viewModel.listEvent.observeAsState(null)
     val event by viewModel.event.observeAsState()
@@ -73,8 +56,8 @@ private fun WeeklyHomeUi(
         }
     }
 
-    WeeklyHomeUi(
-        modifier = modifier,
+    WeeklyDayUi(
+        modifier = modifier.fillMaxSize(),
         items = list,
     ) { item ->
         if (item.info.isLock) {
@@ -96,7 +79,7 @@ private fun WeeklyHomeUi(
 }
 
 @Composable
-private fun WeeklyHomeUi(
+private fun WeeklyDayUi(
     modifier: Modifier = Modifier,
     items: List<ToonInfoWithFavorite>?,
     onClick: (ToonInfoWithFavorite) -> Unit

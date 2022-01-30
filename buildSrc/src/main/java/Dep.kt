@@ -57,6 +57,10 @@ object Dep {
             const val compose = "androidx.paging:paging-compose:1.0.0-alpha14"
         }
 
+        object Hilt {
+            const val compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+        }
+
         object Compose {
             const val version = "1.2.0-alpha02"
 

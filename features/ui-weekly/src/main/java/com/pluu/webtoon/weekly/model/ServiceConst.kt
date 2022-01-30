@@ -1,8 +1,7 @@
 package com.pluu.webtoon.weekly.model
 
-import androidx.annotation.ColorRes
+import androidx.compose.ui.graphics.Color
 import com.pluu.webtoon.model.NAV_ITEM
-import com.pluu.webtoon.weekly.R
 
 /**
  * Service Const Class
@@ -20,13 +19,13 @@ object ServiceConst {
 
 @Suppress("ClassName")
 enum class UI_NAV_ITEM(
-    @ColorRes val color: Int = 0,
-    @ColorRes val bgColor: Int = 0
+    val color: Color,
+    val bgColor: Color
 ) {
-    NAVER(R.color.naver_color, R.color.naver_color_variant),
-    DAUM(R.color.daum_color, R.color.daum_color_variant),
-    KTOON(R.color.olleh_color, R.color.olleh_color_variant),
-    KAKAOPAGE(R.color.kakao_color, R.color.kakao_color_variant)
+    NAVER(Color(0xFF2D8400), Color(0xFF246900)),
+    DAUM(Color(0xFF608EFC), Color(0xFF4C71C9)),
+    KTOON(Color(0xFFDF2E1C), Color(0xFFB22416)),
+    KAKAOPAGE(Color(0xFF3F3035), Color(0xFF32262A))
 }
 
 fun UI_NAV_ITEM.getCoreType(): NAV_ITEM = when (this) {
