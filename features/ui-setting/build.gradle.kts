@@ -14,11 +14,10 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
+    // AndroidX
     implementation(Dep.AndroidX.coreKtx)
-
-    // Android UI
-    implementation(Dep.AndroidX.UI.preference)
     implementation(Dep.AndroidX.Hilt.compose)
+    implementation(Dep.AndroidX.UI.preference)
 
     // Compose
     implementation(Dep.AndroidX.Compose.activity)

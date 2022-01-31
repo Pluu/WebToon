@@ -57,7 +57,6 @@ dependencies {
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
 
-
     implementation(Dep.Coil.compose)
     implementation(Dep.Accompanist.insets)
     implementation(Dep.Accompanist.systemUi)
