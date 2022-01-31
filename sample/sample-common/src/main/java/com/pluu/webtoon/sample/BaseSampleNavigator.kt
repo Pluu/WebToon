@@ -1,8 +1,6 @@
 package com.pluu.webtoon.sample
 
 import android.content.Context
-import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
 import com.pluu.utils.toast
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -22,7 +20,6 @@ internal class BaseSampleNavigator : WeeklyNavigator, EpisodeNavigator, DetailNa
 
     override fun openEpisode(
         context: Context,
-        launcher: ActivityResultLauncher<Intent>,
         item: ToonInfoWithFavorite,
         palletColor: PalletColor
     ) {

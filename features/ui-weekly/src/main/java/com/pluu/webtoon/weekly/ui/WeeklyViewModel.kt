@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class WeeklyViewModel @Inject constructor(
+internal class WeeklyViewModel @Inject constructor(
     private val getWebToonTabsUseCase: GetWebToonTabsUseCase
 ) : ViewModel() {
     fun getTabs(): Array<String> = getWebToonTabsUseCase()

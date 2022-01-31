@@ -1,8 +1,6 @@
 package com.pluu.webtoon.navigator
 
 import android.content.Context
-import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.ColorInt
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -17,7 +15,6 @@ interface EpisodeNavigator {
     /** Weekly 에서 Episode 화면 선택 */
     fun openEpisode(
         context: Context,
-        launcher: ActivityResultLauncher<Intent>,
         item: ToonInfoWithFavorite,
         palletColor: PalletColor
     )

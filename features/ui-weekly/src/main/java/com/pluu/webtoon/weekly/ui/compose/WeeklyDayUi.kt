@@ -11,13 +11,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.pluu.utils.getSerializable
 import com.pluu.utils.toast
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.ui.compose.navigator.LocalEpisodeNavigator
-import com.pluu.webtoon.ui.compose.rememberLauncherForActivityResult
-import com.pluu.webtoon.ui.model.FavoriteResult
+import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.event.WeeklyEvent
 import com.pluu.webtoon.weekly.image.PalletDarkCalculator
 import com.pluu.webtoon.weekly.ui.WeeklyDayViewModel
@@ -28,22 +24,15 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun WeeklyDayUi(
     modifier: Modifier = Modifier,
-    viewModel: WeeklyDayViewModel
+    viewModel: WeeklyDayViewModel,
+    openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit
 ) {
     val list by viewModel.listEvent.observeAsState(null)
     val event by viewModel.event.observeAsState()
 
     val context = LocalContext.current
-    val episodeNavigator = LocalEpisodeNavigator.current
     val palletCalculator = PalletDarkCalculator(LocalContext.current)
     val coroutineScope = rememberCoroutineScope()
-
-    val openEpisodeLauncher = rememberLauncherForActivityResult { activityResult ->
-        val favorite = activityResult.data
-            ?.getSerializable<FavoriteResult>(Const.EXTRA_FAVORITE_EPISODE)
-            ?: return@rememberLauncherForActivityResult
-        viewModel.updatedFavorite(favorite)
-    }
 
     LaunchedEffect(event) {
         when (val safeEvent = event ?: return@LaunchedEffect) {
@@ -67,12 +56,7 @@ internal fun WeeklyDayUi(
                 val palletColor = async(Dispatchers.Default) {
                     palletCalculator.calculateSwatchesInImage(item.info.image)
                 }
-                episodeNavigator.openEpisode(
-                    context = context,
-                    launcher = openEpisodeLauncher,
-                    item = item,
-                    palletColor = palletColor.await()
-                )
+                openEpisode(item, palletColor.await())
             }
         }
     }

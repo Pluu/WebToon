@@ -49,11 +49,18 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.browser)
+    implementation(Dep.AndroidX.Navigation.compose)
+    implementation(Dep.AndroidX.Hilt.compose)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
+
+
+    implementation(Dep.Coil.compose)
+    implementation(Dep.Accompanist.insets)
+    implementation(Dep.Accompanist.systemUi)
 
     // OkHttp
     implementation(Dep.OkHttp.loggingInterceptor)

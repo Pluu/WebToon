@@ -36,7 +36,7 @@ internal fun WeeklyListUi(
         }) { index, item ->
             WeeklyItemUi(
                 item = item.info,
-                isFavorite = item.isFavorite,
+                isFavorite = item.isFavorite, // TODO: 에피소드에서 즐겨찾기 후 동기화 안되는 이슈
                 onClicked = { onClicked.invoke(item) }
             )
 

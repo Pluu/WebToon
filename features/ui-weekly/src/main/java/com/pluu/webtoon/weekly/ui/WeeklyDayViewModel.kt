@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class WeeklyDayViewModel @AssistedInject constructor(
+internal class WeeklyDayViewModel @AssistedInject constructor(
     @Assisted val weekPosition: Int,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
@@ -101,9 +101,9 @@ class WeeklyDayViewModel @AssistedInject constructor(
             ToonInfoWithFavorite(it, favoriteMap.contains(it.id))
         }
     }
-}
 
-@AssistedFactory
-interface WeeklyDayViewModelFactory {
-    fun create(weekPosition: Int): WeeklyDayViewModel
+    @AssistedFactory
+    interface Factory {
+        fun create(weekPosition: Int): WeeklyDayViewModel
+    }
 }

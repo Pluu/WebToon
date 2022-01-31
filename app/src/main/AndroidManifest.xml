@@ -12,6 +12,11 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/BaseMaterialAppTheme"
-        android:usesCleartextTraffic="true" />
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.NavigationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseMaterialAppTheme.Immersive" />
+    </application>
 
 </manifest>

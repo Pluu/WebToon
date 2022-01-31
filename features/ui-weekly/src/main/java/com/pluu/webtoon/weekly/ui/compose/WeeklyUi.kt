@@ -1,5 +1,6 @@
 package com.pluu.webtoon.weekly.ui.compose
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,37 +11,37 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.pluu.webtoon.model.WeekPosition
+import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.ui.model.PalletColor
+import com.pluu.webtoon.weekly.di.ViewModelFactoryProvider
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
-import com.pluu.webtoon.weekly.ui.WeeklyDayViewModel
-import com.pluu.webtoon.weekly.ui.WeeklyDayViewModelFactory
 import com.pluu.webtoon.weekly.ui.WeeklyViewModel
-import com.pluu.webtoon.weekly.utils.viewModelProviderFactoryOf
+import com.pluu.webtoon.weekly.utils.viewModelOf
+import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
-internal fun WeeklyUi(
+fun WeeklyUi(
     naviItem: UI_NAV_ITEM,
-    tabViewModel: WeeklyViewModel = hiltViewModel(), // TODO: 변경되지 않는 이슈
-    dayViewModelFactory: WeeklyDayViewModelFactory,
     onNavigateToMenu: (UI_NAV_ITEM) -> Unit,
-    onNavigateToSetting: () -> Unit
+    openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit,
+    openSetting: () -> Unit
 ) {
-    val todayTabPosition =
+    val selectedTabIndex =
         (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7
-
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val pagerState = rememberPagerState(selectedTabIndex)
     val coroutineScope = rememberCoroutineScope()
+    val viewModel: WeeklyViewModel = hiltViewModel()
 
     BackHandler(drawerState.isOpen) {
         coroutineScope.launch {
@@ -56,63 +57,47 @@ internal fun WeeklyUi(
                     onNavigateToMenu(event.item)
                 }
                 WeeklyMenuEvent.OnSettingClicked -> {
-                    onNavigateToSetting()
+                    openSetting()
                 }
             }
         },
         drawerState = drawerState,
     ) { innerPadding ->
-        WeeklyUi(
-            modifier = Modifier.padding(innerPadding),
-            titles = tabViewModel.getTabs(),
-            selectedTabIndex = todayTabPosition,
-            viewModelFactory = { weekPosition ->
-                viewModel(
-                    key = "${naviItem.name}_${weekPosition}",
-                    factory = viewModelProviderFactoryOf {
-                        dayViewModelFactory.create(weekPosition.value)
-                    }
-                )
-            },
-            featureColor = naviItem.color
-        )
-    }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-private fun WeeklyUi(
-    modifier: Modifier = Modifier,
-    titles: Array<String>,
-    selectedTabIndex: Int,
-    viewModelFactory: @Composable (WeekPosition) -> WeeklyDayViewModel,
-    featureColor: Color
-) {
-    Column(modifier = modifier.fillMaxSize()) {
-        val coroutineScope = rememberCoroutineScope()
-
-        val pagerState = rememberPagerState(selectedTabIndex)
-
-        DayOfWeekUi(
-            selectedTabIndex = pagerState.currentPage,
-            pagerState = pagerState,
-            titles = titles,
-            indicatorColor = featureColor
-        ) { index ->
-            coroutineScope.launch {
-                pagerState.animateScrollToPage(index)
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
+            DayOfWeekUi(
+                selectedTabIndex = pagerState.currentPage,
+                pagerState = pagerState,
+                titles = viewModel.getTabs(),
+                indicatorColor = naviItem.color
+            ) { index ->
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(index)
+                }
             }
-        }
-        HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
-            count = titles.size,
-            state = pagerState,
-            key = { it }
-        ) { page ->
-            val weekPosition = WeekPosition(page)
-            WeeklyDayUi(
-                viewModel = viewModelFactory(weekPosition)
-            )
+
+            HorizontalPager(
+                modifier = Modifier.fillMaxSize(),
+                count = viewModel.getTabs().size,
+                state = pagerState,
+                key = { it }
+            ) { page ->
+                val factory = EntryPointAccessors.fromActivity(
+                    LocalContext.current as Activity,
+                    ViewModelFactoryProvider::class.java
+                ).weeklyViewModelFactory()
+
+                val dayViewModel = viewModelOf("${naviItem.name}_${page}") {
+                    factory.create(page)
+                }
+                WeeklyDayUi(
+                    viewModel = dayViewModel,
+                    openEpisode = openEpisode
+                )
+            }
         }
     }
 }

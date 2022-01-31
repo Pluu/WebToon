@@ -1,9 +1,7 @@
 package com.pluu.webtoon.episode.navigator
 
 import android.content.Context
-import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
-import com.pluu.utils.buildIntent
+import com.pluu.utils.startActivity
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.ui.EpisodesActivity
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -14,14 +12,12 @@ import javax.inject.Inject
 internal class EpisodeNavigatorImpl @Inject constructor() : EpisodeNavigator {
     override fun openEpisode(
         context: Context,
-        launcher: ActivityResultLauncher<Intent>,
         item: ToonInfoWithFavorite,
         palletColor: PalletColor
     ) {
-        val intent = context.buildIntent<EpisodesActivity>(
+        context.startActivity<EpisodesActivity>(
             Const.EXTRA_EPISODE to item,
             Const.EXTRA_PALLET to palletColor
         )
-        launcher.launch(intent)
     }
 }
