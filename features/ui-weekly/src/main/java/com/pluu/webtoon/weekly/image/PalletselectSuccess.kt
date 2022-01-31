@@ -1,7 +1,7 @@
 package com.pluu.webtoon.weekly.image
 
 import android.graphics.Bitmap
-import android.graphics.Color
+import androidx.compose.ui.graphics.Color
 import androidx.palette.graphics.Palette
 import com.pluu.webtoon.ui.model.PalletColor
 import kotlinx.coroutines.Dispatchers
@@ -11,9 +11,9 @@ suspend fun suspendLoadDarkColor(bitmap: Bitmap): PalletColor {
     return withContext(Dispatchers.Default) {
         val p = Palette.from(bitmap).generate()
         PalletColor(
-            p.getDarkVibrantColor(Color.BLACK),
-            p.getDarkMutedColor(Color.BLACK),
-            Color.WHITE
+            Color(p.getDarkVibrantColor(android.graphics.Color.BLACK)),
+            Color(p.getDarkMutedColor(android.graphics.Color.BLACK)),
+            Color.White
         )
     }
 }

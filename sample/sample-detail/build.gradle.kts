@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.uiDetail)
 
     implementation(Dep.AndroidX.appcompat)
+    implementation(Dep.AndroidX.Compose.ui)
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)

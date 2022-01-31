@@ -1,10 +1,10 @@
 package com.pluu.webtoon.ui.model
 
-import androidx.annotation.ColorInt
+import androidx.compose.ui.graphics.Color
 import java.io.Serializable
 
 data class PalletColor(
-    @ColorInt val darkVibrantColor: Int,
-    @ColorInt val darkMutedColor: Int,
-    @ColorInt val lightMutedColor: Int
+    val darkVibrantColor: Color,
+    val darkMutedColor: Color,
+    val lightMutedColor: Color
 ) : Serializable

@@ -2,8 +2,8 @@ package com.pluu.webtoon.weekly.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.Drawable
+import androidx.compose.ui.graphics.Color
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.utils.LoadedState
 import com.pluu.webtoon.utils.preLoadImage
@@ -40,5 +40,5 @@ class PalletDarkCalculator(
         return suspendLoadDarkColor(this)
     }
 
-    private fun defaultPalletColor() = PalletColor(Color.BLACK, Color.BLACK, Color.WHITE)
+    private fun defaultPalletColor() = PalletColor(Color.Black, Color.Black, Color.White)
 }

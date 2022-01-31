@@ -1,14 +1,21 @@
 package com.pluu.webtoon.episode.sample
 
-import android.graphics.Color
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.pluu.utils.startActivity
-import com.pluu.webtoon.Const
-import com.pluu.webtoon.episode.ui.EpisodesActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.pluu.utils.toast
+import com.pluu.webtoon.episode.ui.compose.EpisodeUi
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.model.PalletColor
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +31,9 @@ class MainActivity : AppCompatActivity() {
             )
         )
         val palletColor = PalletColor(
-            darkVibrantColor = 0xFF17438F.toInt(),
-            darkMutedColor = Color.LTGRAY,
-            lightMutedColor = Color.WHITE
+            darkVibrantColor = Color(0xFF17438F),
+            darkMutedColor = Color.Gray,
+            lightMutedColor = Color.White
         )
 
         startActivity<EpisodesActivity>(

@@ -1,8 +1,8 @@
 package com.pluu.webtoon.detail.sample
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
 import com.pluu.utils.startActivity
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.DetailActivity
@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         )
 
         val palletColor = PalletColor(
-            darkVibrantColor = 0xFF17438F.toInt(),
-            darkMutedColor = Color.GRAY,
-            lightMutedColor = Color.WHITE
+            darkVibrantColor = Color(0xFF17438F),
+            darkMutedColor = Color.Gray,
+            lightMutedColor = Color.White
         )
 
         startActivity<DetailActivity>(

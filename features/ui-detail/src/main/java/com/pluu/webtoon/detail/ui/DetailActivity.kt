@@ -12,7 +12,6 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.pluu.compose.ui.graphics.toColor
 import com.pluu.core.utils.lazyNone
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.webtoon.Const
@@ -44,8 +43,8 @@ class DetailActivity : FragmentActivity() {
 
     private val featureColor by lazyNone {
         FeatureColor(
-            themeColor = palletColor.darkMutedColor.toColor(),
-            webToonColor = palletColor.darkVibrantColor.toColor()
+            themeColor = palletColor.darkMutedColor,
+            webToonColor = palletColor.darkVibrantColor
         )
     }
 
