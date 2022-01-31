@@ -2,17 +2,18 @@ package com.pluu.webtoon.ui
 
 import android.os.Bundle
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.navigator.EpisodeNavigator
-import com.pluu.webtoon.navigator.SettingNavigator
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,9 +29,6 @@ class NavigationActivity : FragmentActivity() {
 
     @Inject
     lateinit var episodeNavigator: EpisodeNavigator
-
-    @Inject
-    lateinit var settingNavigator: SettingNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,17 +50,18 @@ class NavigationActivity : FragmentActivity() {
         }
 
         WebToonTheme(isDarkTheme) {
+            val themeColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
             ProvideWindowInsets {
                 AppNavigation(
                     session = session,
                     bundleSaver = { key, data ->
                         dataSaver[key] = data
                     },
+                    openBrowser = { url ->
+                        browserNavigator.openBrowser(this, themeColor, url)
+                    },
                     openEpisode = { item, color ->
                         episodeNavigator.openEpisode(this, item, color)
-                    },
-                    openSetting = {
-                        settingNavigator.openSetting(this)
                     }
                 )
             }

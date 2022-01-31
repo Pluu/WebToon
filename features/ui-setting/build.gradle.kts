@@ -18,11 +18,13 @@ dependencies {
 
     // Android UI
     implementation(Dep.AndroidX.UI.preference)
+    implementation(Dep.AndroidX.Hilt.compose)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.ui)
+    implementation(Dep.AndroidX.Compose.activity)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
+    implementation(Dep.AndroidX.Compose.ui)
 
     implementation(Dep.Accompanist.insets)
     implementation(Dep.Accompanist.systemUi)

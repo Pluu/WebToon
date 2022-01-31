@@ -1,15 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pluu.webtoon.setting">
-
-    <application>
-        <activity
-            android:name=".ui.SettingsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme.Immersive" />
-        <activity
-            android:name=".ui.LicenseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme.Immersive" />
-    </application>
-</manifest>
+<manifest package="com.pluu.webtoon.setting" />

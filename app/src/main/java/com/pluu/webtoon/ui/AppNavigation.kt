@@ -16,7 +16,10 @@ import androidx.navigation.compose.rememberNavController
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.setting.ui.LicenseUi
+import com.pluu.webtoon.setting.ui.SettingsUi
 import com.pluu.webtoon.ui.model.PalletColor
+import com.pluu.webtoon.utils.safeNavigate
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import com.pluu.webtoon.weekly.model.toUiType
 import com.pluu.webtoon.weekly.ui.compose.WeeklyUi
@@ -45,8 +48,8 @@ internal fun AppNavigation(
     navController: NavHostController = rememberNavController(),
     session: CurrentSession,
     bundleSaver: (key: String, data: Bundle) -> Unit,
-    openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit,
-    openSetting: () -> Unit
+    openBrowser: (url: String) -> Unit,
+    openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit
 ) {
     var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
@@ -55,7 +58,9 @@ internal fun AppNavigation(
         startDestination = Screen.Weekly.route,
         modifier = modifier
     ) {
-        installWeeklyScreen(naviItem, openEpisode, openSetting)
+        installWeeklyScreen(navController, naviItem, openEpisode)
+        installSettingScreen(navController)
+        installLicenseScreen(navController, openBrowser)
     }
 
     DisposableEffect(navController) {
@@ -71,9 +76,9 @@ internal fun AppNavigation(
 }
 
 private fun NavGraphBuilder.installWeeklyScreen(
+    navController: NavHostController,
     naviItem: UI_NAV_ITEM,
-    openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit,
-    openSetting: () -> Unit
+    openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit
 ) {
     composable(Screen.Weekly.route) {
         WeeklyUi(
@@ -86,7 +91,34 @@ private fun NavGraphBuilder.installWeeklyScreen(
                 openEpisode(item, color)
             },
             openSetting = {
-                openSetting()
+                navController.safeNavigate(Screen.Setting.route)
+            }
+        )
+    }
+}
+
+private fun NavGraphBuilder.installSettingScreen(
+    navController: NavHostController
+) {
+    composable(Screen.Setting.route) {
+        SettingsUi(
+            closeCurrent = navController::navigateUp,
+            openLicense = {
+                navController.safeNavigate(Screen.License.route)
+            }
+        )
+    }
+}
+
+private fun NavGraphBuilder.installLicenseScreen(
+    navController: NavHostController,
+    openBrowser: (url: String) -> Unit
+) {
+    composable(Screen.License.route) {
+        LicenseUi(
+            closeCurrent = navController::navigateUp,
+            openBrowser = { url ->
+                openBrowser(url)
             }
         )
     }
