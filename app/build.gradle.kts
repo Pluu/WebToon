@@ -65,8 +65,8 @@ dependencies {
 
     // kotlin
     implementation(Dep.Kotlin.stdlibJvm)
-    implementation(Dep.Kotlin.coroutines.core)
-    implementation(Dep.Kotlin.coroutines.android)
+    implementation(Dep.Kotlin.Coroutines.core)
+    implementation(Dep.Kotlin.Coroutines.android)
 
     implementation(Dep.timber)
 //    implementation(Dep.leakCanary)

@@ -7,7 +7,7 @@ dependencies {
     implementation(projects.model)
 
     implementation(Dep.Kotlin.stdlibJvm)
-    implementation(Dep.Kotlin.coroutines.core)
+    implementation(Dep.Kotlin.Coroutines.core)
     implementation(Dep.Dagger.dagger)
 
     testImplementation(Dep.Test.junit)

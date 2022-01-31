@@ -9,7 +9,7 @@ dependencies {
     implementation(Dep.Kotlin.stdlibJvm)
 
     // Android UI
-    implementation(Dep.AndroidX.fragment.fragment)
+    implementation(Dep.AndroidX.Fragment.fragment)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)

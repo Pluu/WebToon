@@ -21,7 +21,7 @@ dependencies {
     implementation(Dep.OkHttp.loggingInterceptor)
 
     // Kotlin
-    implementation(Dep.Kotlin.coroutines.android)
+    implementation(Dep.Kotlin.Coroutines.android)
 
     api(Dep.timber)
 }

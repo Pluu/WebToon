@@ -11,13 +11,13 @@ object Dep {
     }
 
     object AndroidX {
-        object activity {
+        object Activity {
             const val activityVersion = "1.5.0-alpha01"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
 
-        object arch {
+        object Arch {
             const val testing = "androidx.arch.core:core-testing:2.1.0"
         }
 
@@ -25,19 +25,19 @@ object Dep {
         const val coreKtx = "androidx.core:core-ktx:1.8.0-alpha03"
         const val splashScreen = "androidx.core:core-splashscreen:1.0.0-beta01"
 
-        object fragment {
+        object Fragment {
             private const val fragmentVersion = "1.5.0-alpha01"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
-        object lifecycle {
+        object Lifecycle {
             const val lifecycleVersion = "2.5.0-alpha01"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
 
-        object room {
+        object Room {
             private const val roomVersion = "2.4.1"
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"
@@ -76,9 +76,9 @@ object Dep {
             const val animation = "androidx.compose.animation:animation:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
 
-            const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
+            const val activity = "androidx.activity:activity-compose:${AndroidX.Activity.activityVersion}"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${AndroidX.lifecycle.lifecycleVersion}"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${AndroidX.Lifecycle.lifecycleVersion}"
         }
 
         const val viewBinding =
@@ -108,7 +108,7 @@ object Dep {
         const val version = "1.6.10"
         const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
-        object coroutines {
+        object Coroutines {
             private const val coroutinesVersion = "1.6.0"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
             const val android =

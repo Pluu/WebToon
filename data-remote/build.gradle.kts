@@ -13,7 +13,7 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.serialization)
-    implementation(Dep.Kotlin.coroutines.core)
+    implementation(Dep.Kotlin.Coroutines.core)
 
     // Jsoup
     implementation(Dep.jsoup)
