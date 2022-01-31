@@ -13,7 +13,6 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.navigator.BrowserNavigator
-import com.pluu.webtoon.navigator.DetailNavigator
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,9 +25,6 @@ class NavigationActivity : FragmentActivity() {
 
     @Inject
     lateinit var browserNavigator: BrowserNavigator
-
-    @Inject
-    lateinit var detailNavigator: DetailNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,14 +55,10 @@ class NavigationActivity : FragmentActivity() {
                     },
                     bundleGetter = { key ->
                         dataSaver[key]
-                    },
-                    openBrowser = { url ->
-                        browserNavigator.openBrowser(this, themeColor, url)
-                    },
-                    openDetail = { item, color ->
-                        detailNavigator.openDetail(this, item, color)
                     }
-                )
+                ) { url ->
+                    browserNavigator.openBrowser(this, themeColor, url)
+                }
             }
         }
     }

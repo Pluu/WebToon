@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.webtoon.Const
+import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.model.EpisodeInfo
@@ -55,8 +56,7 @@ internal fun AppNavigation(
     session: CurrentSession,
     bundleSaver: (key: String, data: Bundle) -> Unit,
     bundleGetter: (key: String) -> Bundle?,
-    openBrowser: (url: String) -> Unit,
-    openDetail: (EpisodeInfo, PalletColor) -> Unit
+    openBrowser: (url: String) -> Unit
 ) {
     var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
@@ -66,7 +66,8 @@ internal fun AppNavigation(
         modifier = modifier
     ) {
         installWeeklyScreen(navController, naviItem, bundleSaver)
-        installEpisodeScreen(navController, bundleSaver, bundleGetter, openDetail)
+        installEpisodeScreen(navController, bundleSaver, bundleGetter)
+        installDetailScreen(navController, bundleGetter)
         installSettingScreen(navController)
         installLicenseScreen(navController, openBrowser)
     }
@@ -116,8 +117,7 @@ private fun NavGraphBuilder.installWeeklyScreen(
 private fun NavGraphBuilder.installEpisodeScreen(
     navController: NavHostController,
     bundleSaver: (key: String, data: Bundle) -> Unit,
-    bundleGetter: (key: String) -> Bundle?,
-    openDetail: (EpisodeInfo, PalletColor) -> Unit
+    bundleGetter: (key: String) -> Bundle?
 ) {
     composable(Screen.Episode.route) {
         // Read, Bundle data
@@ -142,8 +142,30 @@ private fun NavGraphBuilder.installEpisodeScreen(
                         Screen.Detail.ARG_EPISODE to episode
                     )
                 )
-                openDetail(episode, color)
+                navController.safeNavigate(Screen.Detail.route)
             },
+            closeCurrent = navController::navigateUp
+        )
+    }
+}
+
+private fun NavGraphBuilder.installDetailScreen(
+    navController: NavHostController,
+    bundleGetter: (key: String) -> Bundle?
+) {
+    composable(Screen.Detail.route) {
+        // Read, Bundle data
+        val arguments = requireNotNull(bundleGetter(Screen.Detail.route))
+        val color: PalletColor = arguments.getRequiredSerializableExtra(Screen.Detail.ARG_COLOR)
+        val episode: EpisodeInfo = arguments.getRequiredSerializableExtra(Screen.Detail.ARG_EPISODE)
+
+        // ViewModel에 전달할 SavedHandle 정보
+        navController.provideLocalSavedHandle {
+            putSerializable(Const.EXTRA_EPISODE, episode)
+        }
+        // Navigate
+        DetailUi(
+            palletColor = color,
             closeCurrent = navController::navigateUp
         )
     }
