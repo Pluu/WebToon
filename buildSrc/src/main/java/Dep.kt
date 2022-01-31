@@ -74,6 +74,7 @@ object Dep {
             const val tooling = "androidx.compose.ui:ui-tooling:${version}"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
+            const val foundation = "androidx.compose.foundation:foundation:$version"
 
             const val activity = "androidx.activity:activity-compose:${AndroidX.activity.activityVersion}"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
