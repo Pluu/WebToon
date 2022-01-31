@@ -95,6 +95,5 @@ private fun PreviewEpisodeInfoUi() {
             rate = 1.1,
             onFirstClicked = {}
         )
-
     }
 }

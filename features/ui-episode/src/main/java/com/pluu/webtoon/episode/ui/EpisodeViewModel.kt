@@ -9,6 +9,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.flatMap
+import androidx.paging.insertSeparators
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.usecase.AddFavoriteUseCase
@@ -56,7 +58,16 @@ class EpisodeViewModel @Inject constructor(
         PagingConfig(20)
     ) {
         EpisodeDataSource(id, getEpisodeUseCase)
-    }.flow.cachedIn(viewModelScope)
+    }.flow.map { data ->
+        data.insertSeparators { before, after ->
+            if (before == null) {
+                firstEpisode = after?.first
+            }
+            null
+        }.flatMap {
+            it.episodes
+        }
+    }.cachedIn(viewModelScope)
 
     val readIdSet: StateFlow<Set<EpisodeId>> = readEpisodeListUseCase(type, id)
         .map { list ->
@@ -85,6 +96,5 @@ class EpisodeViewModel @Inject constructor(
 
 @Suppress("ClassName")
 sealed class EpisodeEvent {
-    class FIRST(val firstEpisode: EpisodeInfo) : EpisodeEvent()
     class UPDATE_FAVORITE(val id: String, val isFavorite: Boolean) : EpisodeEvent()
 }

@@ -25,6 +25,7 @@ dependencies {
     implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.Paging.runtime)
     implementation(Dep.AndroidX.Paging.compose)
+    implementation(Dep.AndroidX.Hilt.compose)
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)

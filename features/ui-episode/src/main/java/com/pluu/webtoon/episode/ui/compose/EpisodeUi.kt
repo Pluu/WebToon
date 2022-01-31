@@ -11,12 +11,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.pluu.compose.ui.toast
+import com.pluu.utils.toast
 import com.pluu.webtoon.episode.compose.ThemeCircularProgressIndicator
 import com.pluu.webtoon.episode.compose.itemsInGrid
 import com.pluu.webtoon.episode.ui.EpisodeEvent
@@ -28,13 +31,62 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.ui_common.R
 
 @Composable
+fun EpisodeUi(
+    webToonItem: ToonInfoWithFavorite,
+    palletColor: PalletColor,
+    openDetail: (EpisodeInfo) -> Unit,
+    closeCurrent: () -> Unit
+) {
+    EpisodeUi(
+        viewModel = hiltViewModel(),
+        webToonItem = webToonItem,
+        palletColor = palletColor,
+        openDetail = openDetail,
+        closeCurrent = closeCurrent
+    )
+}
+
+@Composable
 internal fun EpisodeUi(
     viewModel: EpisodeViewModel,
     webToonItem: ToonInfoWithFavorite,
     palletColor: PalletColor,
-    eventAction: (EpisodeUiEvent) -> Unit,
-    navigationAction: (EpisodeInfo) -> Unit,
-    savedAction: (EpisodeEvent.UPDATE_FAVORITE) -> Unit
+    openDetail: (EpisodeInfo) -> Unit,
+    closeCurrent: () -> Unit
+) {
+    val context = LocalContext.current
+
+    EpisodeUi(
+        viewModel = viewModel,
+        webToonItem = webToonItem,
+        palletColor = palletColor,
+        eventAction = { event ->
+            when (event) {
+                EpisodeUiEvent.OnBackPressed -> {
+                    closeCurrent()
+                }
+                is EpisodeUiEvent.OnShowDetail -> {
+                    openDetail(event.item)
+                }
+                EpisodeUiEvent.OnShowFirst -> {
+                    val firstInfo = viewModel.requestFirst()
+                    if (firstInfo == null) {
+                        context.toast(R.string.unknown_fail)
+                    } else {
+                        openDetail(firstInfo)
+                    }
+                }
+            }
+        }
+    )
+}
+
+@Composable
+internal fun EpisodeUi(
+    viewModel: EpisodeViewModel,
+    webToonItem: ToonInfoWithFavorite,
+    palletColor: PalletColor,
+    eventAction: (EpisodeUiEvent) -> Unit
 ) {
     val event by viewModel.event.observeAsState(null)
 
@@ -45,12 +97,8 @@ internal fun EpisodeUi(
     val isFavorite by viewModel.favorite.observeAsState(false)
 
     when (val _event = event) {
-        is EpisodeEvent.FIRST -> {
-            navigationAction(_event.firstEpisode)
-        }
         is EpisodeEvent.UPDATE_FAVORITE -> {
             toast(if (_event.isFavorite) "즐겨찾기 추가" else "즐겨찾기 제거")
-            savedAction(_event)
         }
         else -> {}
     }
