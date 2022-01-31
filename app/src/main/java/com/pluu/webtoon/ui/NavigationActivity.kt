@@ -5,16 +5,21 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.compose.activityComposeView
+import com.pluu.webtoon.weekly.model.toCoreType
+import com.pluu.webtoon.weekly.model.toUiType
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -47,18 +52,25 @@ class NavigationActivity : FragmentActivity() {
 
         WebToonTheme(isDarkTheme) {
             val themeColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
+            var naviItem by rememberMutableStateOf(session.navi.toUiType())
+
             ProvideWindowInsets {
                 AppNavigation(
-                    session = session,
+                    naviItem = naviItem,
                     bundleSaver = { key, data ->
                         dataSaver[key] = data
                     },
                     bundleGetter = { key ->
                         dataSaver[key]
+                    },
+                    openBrowser = { url ->
+                        browserNavigator.openBrowser(this, themeColor, url)
+                    },
+                    updateNaviItem = { item ->
+                        session.navi = item.toCoreType()
+                        naviItem = item
                     }
-                ) { url ->
-                    browserNavigator.openBrowser(this, themeColor, url)
-                }
+                )
             }
         }
     }

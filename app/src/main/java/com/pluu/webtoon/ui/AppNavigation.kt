@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
@@ -14,12 +12,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
-import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.setting.ui.LicenseUi
@@ -28,7 +24,6 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.utils.provideLocalSavedHandle
 import com.pluu.webtoon.utils.safeNavigate
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
-import com.pluu.webtoon.weekly.model.toUiType
 import com.pluu.webtoon.weekly.ui.compose.WeeklyUi
 import timber.log.Timber
 
@@ -53,19 +48,18 @@ sealed class Screen(val route: String) {
 internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    session: CurrentSession,
+    naviItem: UI_NAV_ITEM,
     bundleSaver: (key: String, data: Bundle) -> Unit,
     bundleGetter: (key: String) -> Bundle?,
-    openBrowser: (url: String) -> Unit
+    openBrowser: (url: String) -> Unit,
+    updateNaviItem: (UI_NAV_ITEM) -> Unit
 ) {
-    var naviItem by rememberMutableStateOf(session.navi.toUiType())
-
     NavHost(
         navController = navController,
         startDestination = Screen.Weekly.route,
         modifier = modifier
     ) {
-        installWeeklyScreen(navController, naviItem, bundleSaver)
+        installWeeklyScreen(navController, naviItem, bundleSaver, updateNaviItem)
         installEpisodeScreen(navController, bundleSaver, bundleGetter)
         installDetailScreen(navController, bundleGetter)
         installSettingScreen(navController)
@@ -87,14 +81,14 @@ internal fun AppNavigation(
 private fun NavGraphBuilder.installWeeklyScreen(
     navController: NavHostController,
     naviItem: UI_NAV_ITEM,
-    bundleSaver: (key: String, data: Bundle) -> Unit
+    bundleSaver: (key: String, data: Bundle) -> Unit,
+    updateNaviItem: (UI_NAV_ITEM) -> Unit
 ) {
     composable(Screen.Weekly.route) {
         WeeklyUi(
             naviItem = naviItem,
-            onNavigateToMenu = {
-                // TODO: reopen webtoon
-//                    navController.navigate(route = "Episode")
+            onNavigateToMenu = { item ->
+                updateNaviItem(item)
             },
             openEpisode = { item, color ->
                 // Save, Bundle data

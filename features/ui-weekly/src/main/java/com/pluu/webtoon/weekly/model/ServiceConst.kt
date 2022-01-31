@@ -28,7 +28,7 @@ enum class UI_NAV_ITEM(
     KAKAOPAGE(Color(0xFF3F3035), Color(0xFF32262A))
 }
 
-fun UI_NAV_ITEM.getCoreType(): NAV_ITEM = when (this) {
+fun UI_NAV_ITEM.toCoreType(): NAV_ITEM = when (this) {
     UI_NAV_ITEM.NAVER -> NAV_ITEM.NAVER
     UI_NAV_ITEM.DAUM -> NAV_ITEM.DAUM
     UI_NAV_ITEM.KTOON -> NAV_ITEM.KTOON
