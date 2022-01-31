@@ -1,11 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pluu.webtoon.detail">
-
-    <application>
-        <activity
-            android:name=".ui.DetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseMaterialAppTheme.Immersive" />
-    </application>
-</manifest>
+<manifest package="com.pluu.webtoon.detail" />
