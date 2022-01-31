@@ -42,11 +42,6 @@ dependencies {
     implementation(projects.uiDetail)
     implementation(projects.uiSetting)
 
-    implementation(Dep.Kotlin.stdlibJvm)
-
-    implementation(Dep.AndroidX.activity.ktx)
-    implementation(Dep.AndroidX.lifecycle.viewModelKtx)
-
     // Android UI
     implementation(Dep.AndroidX.UI.browser)
     implementation(Dep.AndroidX.Navigation.compose)
@@ -69,6 +64,7 @@ dependencies {
     kapt(Dep.Dagger.Hilt.compiler)
 
     // kotlin
+    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.coroutines.core)
     implementation(Dep.Kotlin.coroutines.android)
 

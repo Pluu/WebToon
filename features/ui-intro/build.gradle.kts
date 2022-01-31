@@ -5,14 +5,12 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 dependencies {
-    implementation(projects.coreAndroid)
     implementation(projects.uiCommon)
     implementation(projects.compose)
 
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.activity.ktx)
     implementation(Dep.AndroidX.splashScreen)
 
     // Compose

@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.coreAndroid)
     api(projects.model)
 
     implementation(Dep.Kotlin.stdlibJvm)

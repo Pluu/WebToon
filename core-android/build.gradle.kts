@@ -8,7 +8,7 @@ dependencies {
     implementation(Dep.AndroidX.activity.ktx)
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.fragment.ktx)
+    implementation(Dep.AndroidX.fragment.fragment)
     compileOnly(Dep.AndroidX.viewBinding)
 
     implementation(Dep.AndroidX.UI.recyclerview)

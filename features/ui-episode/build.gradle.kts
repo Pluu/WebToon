@@ -20,9 +20,7 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlibJvm)
 
-    implementation(Dep.AndroidX.activity.ktx)
     implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.fragment.ktx)
     implementation(Dep.AndroidX.Paging.runtime)
     implementation(Dep.AndroidX.Paging.compose)
     implementation(Dep.AndroidX.Hilt.compose)
