@@ -2,6 +2,7 @@ package com.pluu.webtoon.intro.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -14,7 +15,6 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.webtoon.navigator.WeeklyNavigator
 import com.pluu.webtoon.ui.compose.WebToonTheme
-import com.pluu.webtoon.ui.compose.activityComposeView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class IntroActivity : ComponentActivity() {
         installSplashScreen()
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        activityComposeView {
+        setContent {
             val systemUiController = rememberSystemUiController()
             val isDarkTheme = isSystemInDarkTheme()
             SideEffect {

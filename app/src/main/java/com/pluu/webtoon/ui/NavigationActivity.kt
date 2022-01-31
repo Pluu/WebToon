@@ -1,6 +1,7 @@
 package com.pluu.webtoon.ui
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -17,7 +18,6 @@ import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.ui.compose.WebToonTheme
-import com.pluu.webtoon.ui.compose.activityComposeView
 import com.pluu.webtoon.weekly.model.toCoreType
 import com.pluu.webtoon.weekly.model.toUiType
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ class NavigationActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityComposeView {
+        setContent {
             WebToonContent()
         }
     }

@@ -16,6 +16,7 @@ dependencies {
     implementation(Dep.AndroidX.splashScreen)
 
     // Compose
+    implementation(Dep.AndroidX.Compose.activity)
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
     implementation(Dep.AndroidX.Compose.tooling)
