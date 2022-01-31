@@ -25,7 +25,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
+internal class DetailViewModel @Inject constructor(
     handle: SavedStateHandle,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
@@ -129,14 +129,14 @@ class DetailViewModel @Inject constructor(
     }
 }
 
-sealed class DetailEvent {
+internal sealed class DetailEvent {
     object START : DetailEvent()
     object LOADED : DetailEvent()
     class ERROR(val errorType: ERROR_TYPE) : DetailEvent()
     class SHARE(val item: ShareItem) : DetailEvent()
 }
 
-class ElementEvent(
+internal class ElementEvent(
     val title: String,
     val webToonTitle: String,
     val prevEpisodeId: String?,

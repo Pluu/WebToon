@@ -7,7 +7,7 @@ import com.pluu.webtoon.model.EpisodeResult
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.ToonId
 
-class EpisodeDataSource(
+internal class EpisodeDataSource(
     private val id: ToonId,
     private val getEpisodeUseCase: GetEpisodeUseCase
 ) : PagingSource<Int, EpisodeResult>() {

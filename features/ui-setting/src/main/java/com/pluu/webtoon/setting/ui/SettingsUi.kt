@@ -12,7 +12,19 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsUi(
-    viewModel: SettingsViewModel = hiltViewModel(),
+    closeCurrent: () -> Unit,
+    openLicense: () -> Unit
+) {
+    SettingsUi(
+        viewModel = hiltViewModel(),
+        closeCurrent = closeCurrent,
+        openLicense = openLicense
+    )
+}
+
+@Composable
+private fun SettingsUi(
+    viewModel: SettingsViewModel,
     closeCurrent: () -> Unit,
     openLicense: () -> Unit
 ) {

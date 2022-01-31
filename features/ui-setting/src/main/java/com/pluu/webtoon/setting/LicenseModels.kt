@@ -2,7 +2,7 @@ package com.pluu.webtoon.setting
 
 import com.pluu.webtoon.setting.model.LicenseModel
 
-val licenseModels = listOf(
+internal val licenseModels = listOf(
     LicenseModel(
         "AndroidX Libraries",
         "https://developer.android.com/jetpack/androidx/versions"

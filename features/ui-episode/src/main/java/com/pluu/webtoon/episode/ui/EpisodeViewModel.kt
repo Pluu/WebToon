@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 /** EpisodeInfo ViewModel */
 @HiltViewModel
-class EpisodeViewModel @Inject constructor(
+internal class EpisodeViewModel @Inject constructor(
     handle: SavedStateHandle,
     private val type: NAV_ITEM,
     private val dispatchers: AppCoroutineDispatchers,
@@ -95,6 +95,6 @@ class EpisodeViewModel @Inject constructor(
 }
 
 @Suppress("ClassName")
-sealed class EpisodeEvent {
+internal sealed class EpisodeEvent {
     class UPDATE_FAVORITE(val id: String, val isFavorite: Boolean) : EpisodeEvent()
 }
