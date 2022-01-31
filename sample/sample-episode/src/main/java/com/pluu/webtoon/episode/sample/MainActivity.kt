@@ -10,6 +10,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.utils.toast
+import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -17,10 +18,29 @@ import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        setContent {
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setSystemBarsColor(Color.Transparent, false)
+            }
+
+            WebToonTheme(true) {
+                ProvideWindowInsets {
+                    Sample()
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun Sample() {
         val item = ToonInfoWithFavorite(
             info = ToonInfo(
                 id = "648419",
@@ -36,10 +56,17 @@ class MainActivity : AppCompatActivity() {
             lightMutedColor = Color.White
         )
 
-        startActivity<EpisodesActivity>(
-            Const.EXTRA_EPISODE to item,
-            Const.EXTRA_PALLET to palletColor
+        // Put, Episode Information
+        // Extra information saved here is included in SavedStateHandle of ViewModel.
+        intent.putExtra(Const.EXTRA_EPISODE, item)
+
+        EpisodeUi(
+            webToonItem = item,
+            palletColor = palletColor,
+            openDetail = {
+                toast("Show Detail activity")
+            },
+            closeCurrent = ::finish
         )
-        finish()
     }
 }
