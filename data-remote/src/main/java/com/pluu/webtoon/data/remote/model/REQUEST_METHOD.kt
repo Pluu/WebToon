@@ -1,6 +1,6 @@
 package com.pluu.webtoon.data.remote.model
 
 @Suppress("ClassName")
-enum class REQUEST_METHOD {
+internal enum class REQUEST_METHOD {
     POST, GET
 }

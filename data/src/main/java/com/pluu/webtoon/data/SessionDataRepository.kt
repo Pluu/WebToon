@@ -5,7 +5,7 @@ import com.pluu.webtoon.data.repository.SessionRepository
 import com.pluu.webtoon.model.NAV_ITEM
 import javax.inject.Inject
 
-class SessionDataRepository @Inject constructor(
+internal class SessionDataRepository @Inject constructor(
     private val localRepository: LocalRepository
 ) : SessionRepository {
     override fun getDefaultWebToon(): NAV_ITEM {

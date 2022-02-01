@@ -23,7 +23,7 @@ import com.pluu.webtoon.data.local.model.DBToon
     ],
     exportSchema = true
 )
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun roomDao(): RoomDao
 
     @DeleteColumn(tableName = "DBToon", columnName = "id")

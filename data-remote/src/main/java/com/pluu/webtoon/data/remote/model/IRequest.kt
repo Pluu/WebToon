@@ -8,7 +8,7 @@ import okhttp3.Request
  * Request Interface
  * Created by pluu on 2017-04-19.
  */
-data class IRequest(
+internal data class IRequest(
     /**
      * http 통신방법.
      * @return httpMethod. GET, POST, PUT, DELETE 등등.
@@ -35,7 +35,7 @@ data class IRequest(
 )
 
 @Throws(Exception::class)
-fun IRequest.buildRequestApi(): Request {
+internal fun IRequest.buildRequestApi(): Request {
     val builder = Request.Builder().apply {
         for ((key, value) in this@buildRequestApi.headers) {
             addHeader(key, value)

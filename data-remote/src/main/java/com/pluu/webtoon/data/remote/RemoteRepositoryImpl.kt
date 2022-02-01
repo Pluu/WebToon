@@ -15,7 +15,7 @@ import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.WeekPosition
 import javax.inject.Inject
 
-class RemoteRepositoryImpl @Inject constructor(
+internal class RemoteRepositoryImpl @Inject constructor(
     private val weeklyApi: WeeklyApi,
     private val episodeApi: EpisodeApi,
     private val detailApi: DetailApi,

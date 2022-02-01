@@ -6,7 +6,7 @@ import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.ToonId
 
 @Entity(primaryKeys = ["service", "toonId", "episodeId"])
-data class DBEpisode(
+internal data class DBEpisode(
     @ColumnInfo
     val service: String,
     @ColumnInfo

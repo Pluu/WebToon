@@ -5,7 +5,7 @@ import androidx.room.Entity
 import com.pluu.webtoon.model.ToonId
 
 @Entity(primaryKeys = ["service", "toonId"])
-data class DBToon(
+internal data class DBToon(
     @ColumnInfo
     val service: String,
     @ColumnInfo

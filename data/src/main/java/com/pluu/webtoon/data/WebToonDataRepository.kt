@@ -16,7 +16,7 @@ import com.pluu.webtoon.model.WeekPosition
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class WebToonDataRepository @Inject constructor(
+internal class WebToonDataRepository @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val localRepository: LocalRepository
 ) : WebToonRepository {

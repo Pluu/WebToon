@@ -16,7 +16,7 @@ import kotlin.coroutines.resumeWithException
  * - 실제 Request 하는 로직
  * Created by pluu on 2017-05-02.
  */
-class NetworkTask(
+internal class NetworkTask(
     private val client: OkHttpClient
 ) {
     @Throws(Exception::class)

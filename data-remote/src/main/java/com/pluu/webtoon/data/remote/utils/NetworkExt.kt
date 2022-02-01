@@ -6,17 +6,17 @@ import com.pluu.webtoon.data.remote.network.NetworkResult
 import com.pluu.webtoon.model.Result
 import org.json.JSONObject
 
-val networkFailedException: Exception
+internal val networkFailedException: Exception
     get() = IllegalStateException("Network Not Success")
 
-fun <T : Any> NetworkResult.safeApi(convert: (String) -> T): Result<T> = safeAPi(this, convert)
+internal fun <T : Any> NetworkResult.safeApi(convert: (String) -> T): Result<T> = safeAPi(this, convert)
 
-inline fun NetworkResult.mapJson(): Result<JSONObject> =
+internal inline fun NetworkResult.mapJson(): Result<JSONObject> =
     safeAPi(this) { response ->
         JSONObject(response)
     }
 
-fun <T : Any> safeAPi(result: NetworkResult, convert: (String) -> T): Result<T> {
+internal fun <T : Any> safeAPi(result: NetworkResult, convert: (String) -> T): Result<T> {
     return when (result) {
         is NetworkResult.Success -> {
             runCatching {

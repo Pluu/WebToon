@@ -26,6 +26,6 @@ internal class NetworkUseCase @Inject constructor(
         NetworkTask(okHttpClient)
 }
 
-interface INetworkUseCase {
+internal interface INetworkUseCase {
     suspend fun requestApi(request: IRequest): NetworkResult
 }

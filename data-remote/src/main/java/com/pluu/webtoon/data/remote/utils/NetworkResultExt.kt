@@ -7,6 +7,6 @@ import com.pluu.webtoon.model.Result
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-inline fun NetworkResult.mapDocument(): Result<Document> = safeAPi(this) { response ->
+internal inline fun NetworkResult.mapDocument(): Result<Document> = safeAPi(this) { response ->
     Jsoup.parse(response)
 }

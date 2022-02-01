@@ -9,7 +9,7 @@ import com.pluu.webtoon.model.ToonId
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.WeekPosition
 
-interface WeeklyApi {
+internal interface WeeklyApi {
 
     val currentTabs: Array<String>
 
@@ -17,7 +17,7 @@ interface WeeklyApi {
     suspend operator fun invoke(param: WeekPosition): Result<List<ToonInfo>>
 }
 
-interface EpisodeApi {
+internal interface EpisodeApi {
     suspend operator fun invoke(param: Param): Result<EpisodeResult>
 
     class Param(
@@ -26,7 +26,7 @@ interface EpisodeApi {
     )
 }
 
-interface DetailApi {
+internal interface DetailApi {
     suspend operator fun invoke(param: Param): DetailResult
 
     class Param(
@@ -36,7 +36,7 @@ interface DetailApi {
     )
 }
 
-interface ShareApi {
+internal interface ShareApi {
     operator fun invoke(param: Param): ShareItem
 
     class Param(

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 /** DB Implementation of AndroidX Room */
 @Dao
-interface RoomDao {
+internal interface RoomDao {
     @Query("SELECT COUNT(*) FROM DBToon WHERE service = :serviceName AND toonId = :id")
     suspend fun isFavorite(serviceName: String, id: String): Boolean
 

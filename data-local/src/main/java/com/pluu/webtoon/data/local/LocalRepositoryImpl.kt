@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class LocalRepositoryImpl @Inject constructor(
+internal class LocalRepositoryImpl @Inject constructor(
     private val roomDao: RoomDao,
     private val prefConfig: PrefConfig
 ) : LocalRepository {
