@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -56,38 +58,6 @@ internal fun EpisodeUi(
 ) {
     val context = LocalContext.current
 
-    EpisodeUi(
-        viewModel = viewModel,
-        webToonItem = webToonItem,
-        palletColor = palletColor,
-        eventAction = { event ->
-            when (event) {
-                EpisodeUiEvent.OnBackPressed -> {
-                    closeCurrent()
-                }
-                is EpisodeUiEvent.OnShowDetail -> {
-                    openDetail(event.item)
-                }
-                EpisodeUiEvent.OnShowFirst -> {
-                    val firstInfo = viewModel.requestFirst()
-                    if (firstInfo == null) {
-                        context.toast(R.string.unknown_fail)
-                    } else {
-                        openDetail(firstInfo)
-                    }
-                }
-            }
-        }
-    )
-}
-
-@Composable
-internal fun EpisodeUi(
-    viewModel: EpisodeViewModel,
-    webToonItem: ToonInfoWithFavorite,
-    palletColor: PalletColor,
-    eventAction: (EpisodeUiEvent) -> Unit
-) {
     val event by viewModel.event.observeAsState(null)
 
     val readIdSet by viewModel.readIdSet.collectAsState()
@@ -105,21 +75,38 @@ internal fun EpisodeUi(
 
     if (episodeList.loadState.refresh is LoadState.Error) {
         toast(stringResource(R.string.network_fail))
-        eventAction(EpisodeUiEvent.OnBackPressed)
+        closeCurrent()
         return
     }
 
     EpisodeUi(
-        webToonItem,
-        palletColor,
-        episodeList,
-        episodeList.itemSnapshotList.isNotEmpty(),
-        isFavorite,
-        readIdSet,
+        webToonItem = webToonItem,
+        palletColor = palletColor,
+        episodeList = episodeList,
+        isFirstLoaded = episodeList.itemSnapshotList.isNotEmpty(),
+        isFavorite = isFavorite,
+        readIdSet = readIdSet,
         updateFavoriteAction = { value ->
             viewModel.favorite(value)
         },
-        eventAction
+        eventAction = { action ->
+            when (action) {
+                EpisodeUiEvent.OnBackPressed -> {
+                    closeCurrent()
+                }
+                is EpisodeUiEvent.OnShowDetail -> {
+                    openDetail(action.item)
+                }
+                EpisodeUiEvent.OnShowFirst -> {
+                    val firstInfo = viewModel.requestFirst()
+                    if (firstInfo == null) {
+                        context.toast(R.string.unknown_fail)
+                    } else {
+                        openDetail(firstInfo)
+                    }
+                }
+            }
+        }
     )
 }
 
@@ -128,26 +115,33 @@ private fun EpisodeUi(
     webToonItem: ToonInfoWithFavorite,
     palletColor: PalletColor,
     episodeList: LazyPagingItems<EpisodeInfo>,
-    isFirstLoded: Boolean,
+    isFirstLoaded: Boolean,
     isFavorite: Boolean,
     readIdSet: Set<EpisodeId>,
     updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit
 ) {
+    val lazyListState = rememberLazyListState()
+
     EpisodeScreen(
         webToonItem = webToonItem,
         isFavorite = isFavorite,
         palletColor = palletColor,
-        isFirstLoded = isFirstLoded,
+        isFirstLoded = isFirstLoaded,
         updateFavoriteAction = updateFavoriteAction,
         eventAction = eventAction
     ) { innerPadding ->
-        EpisodeLoadingUi(
-            modifier = Modifier.padding(innerPadding),
-            episodeList = episodeList
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         ) {
+            if (episodeList.loadState.refresh == LoadState.Loading) {
+                EpisodeLoadingUi()
+            }
             EpisodeGridContent(
                 items = episodeList,
+                lazyListState = lazyListState,
                 readIdSet = readIdSet,
                 onEpisodeClicked = { item -> eventAction(EpisodeUiEvent.OnShowDetail(item)) }
             )
@@ -159,10 +153,14 @@ private fun EpisodeUi(
 private fun EpisodeGridContent(
     modifier: Modifier = Modifier,
     items: LazyPagingItems<EpisodeInfo>,
+    lazyListState: LazyListState,
     readIdSet: Set<EpisodeId>,
     onEpisodeClicked: (EpisodeInfo) -> Unit
 ) {
-    LazyColumn(modifier = modifier.fillMaxSize()) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        state = lazyListState,
+    ) {
         itemsInGrid(
             items = items,
             columns = 2
