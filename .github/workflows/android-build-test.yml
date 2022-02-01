@@ -16,25 +16,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
-      - uses: actions/cache@v2
+      - uses: gradle/gradle-build-action@v2
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'buildSrc/src/**/*.kt', '**/gradle.properties', 'gradle/**') }}
-      - uses: eskatos/gradle-command-action@v1
-        with:
-          gradle-version: '7.3.3'
+          gradle-version: 7.3.3
           arguments: assembleDebug
-          wrapper-cache-enabled: true
-          dependencies-cache-key: |
-            **/*.gradle
-            **/*.gradle.kts
-            buildSrc/src/**/*.kt
-            **/gradle.properties
-            gradle/**
-          dependencies-cache-exact: true
-          configuration-cache-key: |
-            **/gradle.properties
-            gradle/dependency-locks/**
-          configuration-cache-exact: true
