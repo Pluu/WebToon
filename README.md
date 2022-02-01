@@ -34,17 +34,20 @@ Dependencies
   - Fragment
   - Hilt
   - Lifecycle
+  - Navigation
+  - SplashScreen
   - Paging
   - Palette
   - Preference
   - Recyclerview
   - Room
   - ViewPager2
-- Accompnist
+- Accompanist
   - Insets
   - Pager
+  - System UI Controller
 - Dagger
-  - Dagger2
+  - Dagger
   - Dagger Hilt
 - Coil
 - Jsoup
@@ -52,6 +55,7 @@ Dependencies
 - Kotlin
   - Kotlin
   - Coroutines
+  - Serialization
 - Material Component for Android
 - Okhttp
 - Timber

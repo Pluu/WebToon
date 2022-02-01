@@ -4,8 +4,20 @@ import com.pluu.webtoon.setting.model.LicenseModel
 
 internal val licenseModels = listOf(
     LicenseModel(
+        "Accompanist Libraries",
+        "https://github.com/google/accompanist/blob/main/LICENSE"
+    ),
+    LicenseModel(
         "AndroidX Libraries",
         "https://developer.android.com/jetpack/androidx/versions"
+    ),
+    LicenseModel(
+        "Coil",
+        "https://github.com/coil-kt/coil/blob/main/LICENSE.txt"
+    ),
+    LicenseModel(
+        "Dagger",
+        "https://github.com/google/dagger/blob/master/LICENSE.txt"
     ),
     LicenseModel(
         "Kotlin",
@@ -16,16 +28,16 @@ internal val licenseModels = listOf(
         "https://github.com/Kotlin/kotlinx.coroutines/blob/master/LICENSE.txt"
     ),
     LicenseModel(
+        "Kotlin Serialization",
+        "https://github.com/Kotlin/kotlinx.serialization/blob/master/LICENSE.txt"
+    ),
+    LicenseModel(
         "Jsoup",
         "https://github.com/jhy/jsoup/blob/master/LICENSE"
     ),
     LicenseModel(
-        "Coil",
-        "https://github.com/coil-kt/coil/blob/main/LICENSE.txt"
-    ),
-    LicenseModel(
-        "LeakCanary by Square",
-        "https://github.com/square/leakcanary/blob/master/LICENSE.txt"
+        "Material Component for Android",
+        "https://github.com/material-components/material-components-android/blob/master/LICENSE"
     ),
     LicenseModel(
         "OkHttp by Square",

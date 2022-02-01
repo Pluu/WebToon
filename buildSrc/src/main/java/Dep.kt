@@ -5,7 +5,6 @@ object Dep {
         const val androidStudioGradlePluginVersion = "7.2.0-beta01"
         const val android = "com.android.tools.build:gradle:$androidStudioGradlePluginVersion"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
-        const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.2.0"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
     }
@@ -107,7 +106,6 @@ object Dep {
 
     object Kotlin {
         const val version = "1.6.10"
-        const val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object Coroutines {
             private const val coroutinesVersion = "1.6.0"
@@ -135,7 +133,6 @@ object Dep {
     }
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
-    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
 
     object Test {
         const val junit = "junit:junit:4.13.2"

@@ -68,7 +68,6 @@ dependencies {
     implementation(Dep.Kotlin.Coroutines.android)
 
     implementation(Dep.timber)
-//    implementation(Dep.leakCanary)
     implementation(Dep.Coil.core)
 
     testImplementation(Dep.Test.junit)
