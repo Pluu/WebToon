@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
     testImplementation(Dep.Test.junit)
 }
 

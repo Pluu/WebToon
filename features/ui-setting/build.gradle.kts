@@ -11,8 +11,6 @@ dependencies {
     implementation(projects.domain)
     implementation(projects.compose)
 
-    implementation(Dep.Kotlin.stdlibJvm)
-
     // AndroidX
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.Hilt.compose)

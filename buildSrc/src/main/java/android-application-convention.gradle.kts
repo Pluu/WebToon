@@ -3,7 +3,7 @@ import com.android.build.gradle.BaseExtension
 plugins {
     id("com.android.application")
     id("base-android-convention")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     id("base-kotlin-convention")
 }
 

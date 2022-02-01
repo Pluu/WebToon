@@ -3,8 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
-
     implementation(Dep.AndroidX.Activity.ktx)
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.coreKtx)

@@ -20,7 +20,6 @@ dependencies {
     implementation(projects.model)
     implementation(projects.data)
 
-    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.Coroutines.android)
 
     implementation(Dep.AndroidX.Room.runtime)

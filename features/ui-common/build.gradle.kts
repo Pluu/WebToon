@@ -6,8 +6,6 @@ plugins {
 dependencies {
     api(projects.model)
 
-    implementation(Dep.Kotlin.stdlibJvm)
-
     // Android UI
     implementation(Dep.AndroidX.Fragment.fragment)
 

@@ -4,8 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation(Dep.Kotlin.stdlibJvm)
-
     // AndroidX
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.UI.preference)

@@ -8,8 +8,6 @@ dependencies {
     implementation(projects.uiCommon)
     implementation(projects.compose)
 
-    implementation(Dep.Kotlin.stdlibJvm)
-
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.splashScreen)
 

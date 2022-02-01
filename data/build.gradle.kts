@@ -10,7 +10,6 @@ dependencies {
     implementation(projects.domain)
     implementation(projects.model)
 
-    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.Coroutines.core)
 
     // Dagger Hilt

@@ -18,8 +18,6 @@ dependencies {
     implementation(projects.uiCommon)
     implementation(projects.compose)
 
-    implementation(Dep.Kotlin.stdlibJvm)
-
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.Paging.runtime)
     implementation(Dep.AndroidX.Paging.compose)

@@ -64,7 +64,6 @@ dependencies {
     kapt(Dep.Dagger.Hilt.compiler)
 
     // kotlin
-    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.Coroutines.core)
     implementation(Dep.Kotlin.Coroutines.android)
 

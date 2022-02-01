@@ -11,7 +11,6 @@ dependencies {
     implementation(projects.model)
     implementation(projects.data)
 
-    implementation(Dep.Kotlin.stdlibJvm)
     implementation(Dep.Kotlin.serialization)
     implementation(Dep.Kotlin.Coroutines.core)
 
