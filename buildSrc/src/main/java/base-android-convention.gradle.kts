@@ -10,9 +10,9 @@ configure<BaseExtension> {
         versionName = "1.0"
         multiDexEnabled = true
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
-
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(

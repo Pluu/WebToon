@@ -13,7 +13,6 @@ android {
         applicationId = "com.pluu.webtoon"
         versionCode = 70
         versionName = "1.7.3"
-        vectorDrawables.useSupportLibrary = true
     }
 
     lint {
