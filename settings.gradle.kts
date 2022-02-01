@@ -30,13 +30,18 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
-        mavenCentral()
+        google {
+            content {
+                includeGroupByRegex("com.android.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         maven("https://plugins.gradle.org/m2/") {
             content {
                 includeGroup("org.jlleitschuh.gradle")
             }
         }
+        mavenCentral()
     }
 }
 
