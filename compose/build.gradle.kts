@@ -10,5 +10,6 @@ dependencies {
 
     // Compose
     implementation(Dep.AndroidX.Compose.material)
-    implementation(Dep.AndroidX.Compose.tooling)
+    implementation(Dep.AndroidX.Compose.toolingPreview)
+    debugImplementation(Dep.AndroidX.Compose.tooling)
 }
