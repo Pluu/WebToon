@@ -29,4 +29,10 @@ configure<BaseExtension> {
             proguardFiles(file("proguard-rules.pro"))
         }
     }
+
+    packagingOptions {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
+    }
 }
