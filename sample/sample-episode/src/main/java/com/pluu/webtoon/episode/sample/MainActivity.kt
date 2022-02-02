@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
 
         // Put, Episode Information
         // Extra information saved here is included in SavedStateHandle of ViewModel.
-        intent.putExtra(Const.EXTRA_EPISODE, item)
+        intent.putExtra(Const.EXTRA_TOON, item)
 
         EpisodeUi(
             webToonItem = item,
