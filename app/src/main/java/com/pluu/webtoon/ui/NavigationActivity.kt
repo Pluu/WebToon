@@ -7,11 +7,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
@@ -46,10 +46,6 @@ class NavigationActivity : FragmentActivity() {
             systemUiController.setSystemBarsColor(Color.Transparent, !isDarkTheme)
         }
 
-        val dataSaver = rememberSaveable {
-            mutableMapOf<String, Bundle>()
-        }
-
         WebToonTheme(isDarkTheme) {
             val themeColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
             var naviItem by rememberMutableStateOf(session.navi.toUiType())
@@ -57,12 +53,6 @@ class NavigationActivity : FragmentActivity() {
             ProvideWindowInsets {
                 AppNavigation(
                     naviItem = naviItem,
-                    bundleSaver = { key, data ->
-                        dataSaver[key] = data
-                    },
-                    bundleGetter = { key ->
-                        dataSaver[key]
-                    },
                     openBrowser = { url ->
                         browserNavigator.openBrowser(this, themeColor, url)
                     },

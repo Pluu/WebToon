@@ -1,30 +1,34 @@
 package com.pluu.webtoon.utils
 
-import android.os.Bundle
-import androidx.navigation.NavHostController
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import timber.log.Timber
 
-fun NavHostController.safeNavigate(
+///////////////////////////////////////////////////////////////////////////
+// 소스 참고 : https://gist.github.com/Aidanvii7/46f9f014ba4dc58a2ac10625b198769d
+///////////////////////////////////////////////////////////////////////////
+
+fun NavController.navigateWithArgument(
     route: String,
+    args: List<Pair<String, Any>>? = null,
     navOptions: NavOptions? = null,
-    navigatorExtras: Navigator.Extras? = null
+    navigatorExtras: Navigator.Extras? = null,
 ) {
     if (currentDestination?.route == route) {
         Timber.tag("Logger").d("Skip Navigate ${currentDestination?.route}")
         return
     }
     navigate(route, navOptions, navigatorExtras)
-}
 
-fun NavHostController.provideLocalSavedHandle(
-    action: Bundle.() -> Unit
-) {
+    if (args == null || args.isEmpty()) {
+        return
+    }
     val bundle = backQueue.lastOrNull()?.arguments
     if (bundle != null) {
-        bundle.action()
+        bundle.putAll(bundleOf(*args.toTypedArray()))
     } else {
-        Timber.e("The last argument of NavBackStackEntry is null.")
+        Timber.w("The last argument of NavBackStackEntry is null.")
     }
 }

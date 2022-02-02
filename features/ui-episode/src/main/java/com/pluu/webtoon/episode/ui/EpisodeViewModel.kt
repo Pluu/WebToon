@@ -43,7 +43,7 @@ internal class EpisodeViewModel @Inject constructor(
     private val delFavoriteUseCase: RemoveFavoriteUseCase
 ) : ViewModel() {
 
-    private val item = handle.get<ToonInfoWithFavorite>(Const.EXTRA_EPISODE)!!
+    private val item = handle.get<ToonInfoWithFavorite>(Const.EXTRA_TOON)!!
     private val id = item.id
 
     private val _event = MutableLiveData<EpisodeEvent>()

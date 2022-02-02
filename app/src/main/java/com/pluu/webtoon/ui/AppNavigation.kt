@@ -1,44 +1,34 @@
 package com.pluu.webtoon.ui
 
-import android.os.Bundle
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
-import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
-import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.setting.ui.LicenseUi
 import com.pluu.webtoon.setting.ui.SettingsUi
 import com.pluu.webtoon.ui.model.PalletColor
-import com.pluu.webtoon.utils.provideLocalSavedHandle
-import com.pluu.webtoon.utils.safeNavigate
+import com.pluu.webtoon.utils.navigateWithArgument
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import com.pluu.webtoon.weekly.ui.compose.WeeklyUi
 import timber.log.Timber
 
 sealed class Screen(val route: String) {
     object Weekly : Screen("weekly")
-    object Episode : Screen("episode") {
-        const val ARG_TOON: String = "item"
-        const val ARG_COLOR: String = "color"
-    }
-
-    object Detail : Screen("detail") {
-        const val ARG_COLOR: String = "color"
-        const val ARG_EPISODE: String = "episode"
-    }
-
+    object Episode : Screen("episode")
+    object Detail : Screen("detail")
     object Setting : Screen("setting")
     object License : Screen("license")
 }
@@ -49,8 +39,6 @@ internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     naviItem: UI_NAV_ITEM,
-    bundleSaver: (key: String, data: Bundle) -> Unit,
-    bundleGetter: (key: String) -> Bundle?,
     openBrowser: (url: String) -> Unit,
     updateNaviItem: (UI_NAV_ITEM) -> Unit
 ) {
@@ -59,9 +47,9 @@ internal fun AppNavigation(
         startDestination = Screen.Weekly.route,
         modifier = modifier
     ) {
-        installWeeklyScreen(navController, naviItem, bundleSaver, updateNaviItem)
-        installEpisodeScreen(navController, bundleSaver, bundleGetter)
-        installDetailScreen(navController, bundleGetter)
+        installWeeklyScreen(navController, naviItem, updateNaviItem)
+        installEpisodeScreen(navController)
+        installDetailScreen(navController)
         installSettingScreen(navController)
         installLicenseScreen(navController, openBrowser)
     }
@@ -81,7 +69,6 @@ internal fun AppNavigation(
 private fun NavGraphBuilder.installWeeklyScreen(
     navController: NavHostController,
     naviItem: UI_NAV_ITEM,
-    bundleSaver: (key: String, data: Bundle) -> Unit,
     updateNaviItem: (UI_NAV_ITEM) -> Unit
 ) {
     composable(Screen.Weekly.route) {
@@ -91,52 +78,50 @@ private fun NavGraphBuilder.installWeeklyScreen(
                 updateNaviItem(item)
             },
             openEpisode = { item, color ->
-                // Save, Bundle data
-                bundleSaver(
-                    Screen.Episode.route,
-                    bundleOf(
-                        Screen.Episode.ARG_TOON to item,
-                        Screen.Episode.ARG_COLOR to color
+                navController.navigateWithArgument(
+                    route = Screen.Episode.route,
+                    args = listOf(
+                        Const.EXTRA_TOON to item,
+                        Const.EXTRA_PALLET to color
                     )
                 )
-                navController.safeNavigate(Screen.Episode.route)
             },
             openSetting = {
-                navController.safeNavigate(Screen.Setting.route)
+                navController.navigateWithArgument(Screen.Setting.route)
             }
         )
     }
 }
 
 private fun NavGraphBuilder.installEpisodeScreen(
-    navController: NavHostController,
-    bundleSaver: (key: String, data: Bundle) -> Unit,
-    bundleGetter: (key: String) -> Bundle?
+    navController: NavHostController
 ) {
-    composable(Screen.Episode.route) {
+    composable(
+        Screen.Episode.route,
+        arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+                defaultValue = "123"
+            }
+        )
+    ) { entry ->
         // Read, Bundle data
-        val arguments = requireNotNull(bundleGetter(Screen.Episode.route))
+        val arguments = requireNotNull(entry.arguments)
         val toon: ToonInfoWithFavorite =
-            arguments.getRequiredSerializableExtra(Screen.Episode.ARG_TOON)
-        val color: PalletColor = arguments.getRequiredSerializableExtra(Screen.Episode.ARG_COLOR)
-        // ViewModel에 전달할 SavedHandle 정보
-        navController.provideLocalSavedHandle {
-            putSerializable(Const.EXTRA_EPISODE, toon)
-        }
+            arguments.getRequiredSerializableExtra(Const.EXTRA_TOON)
+        val color: PalletColor = arguments.getRequiredSerializableExtra(Const.EXTRA_PALLET)
         // Navigate
         EpisodeUi(
             webToonItem = toon,
             palletColor = color,
             openDetail = { episode ->
-                // Save, Bundle data
-                bundleSaver(
-                    Screen.Detail.route,
-                    bundleOf(
-                        Screen.Detail.ARG_COLOR to color,
-                        Screen.Detail.ARG_EPISODE to episode
+                navController.navigateWithArgument(
+                    route = Screen.Detail.route,
+                    args = listOf(
+                        Const.EXTRA_EPISODE to episode,
+                        Const.EXTRA_PALLET to color
                     )
                 )
-                navController.safeNavigate(Screen.Detail.route)
             },
             closeCurrent = navController::navigateUp
         )
@@ -144,19 +129,13 @@ private fun NavGraphBuilder.installEpisodeScreen(
 }
 
 private fun NavGraphBuilder.installDetailScreen(
-    navController: NavHostController,
-    bundleGetter: (key: String) -> Bundle?
+    navController: NavHostController
 ) {
-    composable(Screen.Detail.route) {
+    composable(Screen.Detail.route) { entry ->
         // Read, Bundle data
-        val arguments = requireNotNull(bundleGetter(Screen.Detail.route))
-        val color: PalletColor = arguments.getRequiredSerializableExtra(Screen.Detail.ARG_COLOR)
-        val episode: EpisodeInfo = arguments.getRequiredSerializableExtra(Screen.Detail.ARG_EPISODE)
+        val arguments = requireNotNull(entry.arguments)
+        val color: PalletColor = arguments.getRequiredSerializableExtra(Const.EXTRA_PALLET)
 
-        // ViewModel에 전달할 SavedHandle 정보
-        navController.provideLocalSavedHandle {
-            putSerializable(Const.EXTRA_EPISODE, episode)
-        }
         // Navigate
         DetailUi(
             palletColor = color,
@@ -172,7 +151,7 @@ private fun NavGraphBuilder.installSettingScreen(
         SettingsUi(
             closeCurrent = navController::navigateUp,
             openLicense = {
-                navController.safeNavigate(Screen.License.route)
+                navController.navigateWithArgument(Screen.License.route)
             }
         )
     }
