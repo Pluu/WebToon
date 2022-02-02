@@ -7,11 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.pluu.utils.getRequiredSerializableExtra
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
@@ -96,15 +94,7 @@ private fun NavGraphBuilder.installWeeklyScreen(
 private fun NavGraphBuilder.installEpisodeScreen(
     navController: NavHostController
 ) {
-    composable(
-        Screen.Episode.route,
-        arguments = listOf(
-            navArgument("id") {
-                type = NavType.StringType
-                defaultValue = "123"
-            }
-        )
-    ) { entry ->
+    composable(Screen.Episode.route) { entry ->
         // Read, Bundle data
         val arguments = requireNotNull(entry.arguments)
         val toon: ToonInfoWithFavorite =
