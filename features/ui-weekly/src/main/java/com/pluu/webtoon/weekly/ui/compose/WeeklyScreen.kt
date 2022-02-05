@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
@@ -33,7 +34,7 @@ internal fun WeeklyScreen(
         drawerContent = {
             WeeklyDrawer(
                 title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
-                bgColor = naviItem.bgColor,
+                backgroundColor = naviItem.bgColor,
                 accentColor = naviItem.color,
                 menus = UI_NAV_ITEM.values().iterator(),
                 selectedMenu = naviItem
@@ -50,7 +51,8 @@ internal fun WeeklyScreen(
             topBar = {
                 WeeklyTopBar(
                     title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
-                    bgColor = naviItem.bgColor
+                    backgroundColor = naviItem.bgColor,
+                    contentColor = Color.White
                 ) {
                     coroutineScope.launch {
                         drawerState.open()
@@ -64,8 +66,12 @@ internal fun WeeklyScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    widthDp = 320, heightDp = 480,
+    widthDp = 320, heightDp = 320,
     uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    widthDp = 320, heightDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
 private fun PreviewWeeklyScreen() {

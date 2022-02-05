@@ -12,10 +12,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -31,7 +33,8 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 @Composable
 internal fun DetailNavigationUi(
     modifier: Modifier = Modifier,
-    buttonBgColor: Color = MaterialTheme.colorScheme.primary,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     isPrevEnabled: Boolean,
     onPrevClicked: () -> Unit,
     isNextEnabled: Boolean,
@@ -42,18 +45,17 @@ internal fun DetailNavigationUi(
     Row(modifier = modifier) {
         BottomNavigationButton(
             modifier = Modifier.weight(1f),
-            buttonBgColor = buttonBgColor,
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
             isEnable = isPrevEnabled,
             onClicked = onPrevClicked
         ) {
             Icon(
                 imageVector = Icons.Default.KeyboardArrowLeft,
-                tint = Color.White,
                 contentDescription = null
             )
             Text(
                 text = "이전 화",
-                color = Color.White,
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentWidth()
@@ -61,20 +63,19 @@ internal fun DetailNavigationUi(
         }
         BottomNavigationButton(
             modifier = Modifier.weight(1f),
-            buttonBgColor = buttonBgColor,
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
             isEnable = isNextEnabled,
             onClicked = onNextClicked
         ) {
             Text(
                 text = "다음 화",
-                color = Color.White,
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentWidth()
             )
             Icon(
                 imageVector = Icons.Default.KeyboardArrowRight,
-                tint = Color.White,
                 contentDescription = null
             )
         }
@@ -89,33 +90,46 @@ internal fun DetailNavigationUi(
 @Composable
 private fun BottomNavigationButton(
     modifier: Modifier,
-    buttonBgColor: Color,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     isEnable: Boolean,
     onClicked: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
     Column(
         modifier = modifier
-            .background(if (isEnable) buttonBgColor else Color.Gray)
+            .background(if (isEnable) backgroundColor else Color.Gray)
     ) {
         TextButton(
             modifier = Modifier.height(48.dp),
             shape = RoundedCornerShape(0.dp),
             enabled = isEnable,
             onClick = onClicked,
+            colors = ButtonDefaults.textButtonColors(
+                contentColor = contentColor,
+                disabledContentColor = contentColor.copy(alpha = 0.38f)
+            ),
             content = content
         )
         Spacer(modifier = Modifier.navigationBarsPadding())
     }
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(
+    name = "Dark Theme",
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    name = "Light Theme",
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
 private fun PreviewDetailNavigationUi() {
     AppTheme {
         DetailNavigationUi(
             modifier = Modifier.height(48.dp),
-            buttonBgColor = Color.Red,
             isPrevEnabled = false,
             onPrevClicked = {},
             isNextEnabled = true,

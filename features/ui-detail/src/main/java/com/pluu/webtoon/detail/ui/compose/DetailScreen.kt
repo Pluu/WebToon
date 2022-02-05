@@ -7,6 +7,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -66,7 +68,8 @@ internal fun DetailScreen(
     DetailScreen(
         uiStateElement = uiStateElement,
         isShowNavigation = showNavigation,
-        featureColor = featureColorValue,
+        backgroundColor = featureColorValue,
+        contentColor = Color.White,
         onToggleNavigation = {
             showNavigation = showNavigation.not()
         },
@@ -78,7 +81,8 @@ internal fun DetailScreen(
 private fun DetailScreen(
     uiStateElement: UiState<ElementEvent>,
     isShowNavigation: Boolean,
-    featureColor: Color,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     onToggleNavigation: () -> Unit,
     onUiEvent: (DetailUiEvent) -> Unit
 ) {
@@ -92,7 +96,8 @@ private fun DetailScreen(
             onToggleNavigation()
         }
         InitTopUi(
-            featureColor = featureColor,
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
             uiStateElement = uiStateElement,
             showNavigation = isShowNavigation,
             modifier = Modifier.align(Alignment.TopCenter),
@@ -100,7 +105,8 @@ private fun DetailScreen(
             onSharedPressed = { onUiEvent(DetailUiEvent.OnSharedPressed) }
         )
         InitBottomUi(
-            featureColor = featureColor,
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
             uiStateElement = uiStateElement,
             showNavigation = isShowNavigation,
             modifier = Modifier.align(Alignment.BottomCenter),
@@ -120,7 +126,6 @@ private fun PreviewDetailScreen_Loading() {
         DetailScreen(
             uiStateElement = UiState(loading = true),
             isShowNavigation = true,
-            featureColor = Color.Black,
             onToggleNavigation = {},
             onUiEvent = {}
         )
@@ -130,6 +135,10 @@ private fun PreviewDetailScreen_Loading() {
 @Preview(
     name = "Show", heightDp = 340,
     uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    name = "Show", heightDp = 340,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
 private fun PreviewDetailScreen_Show() {
@@ -145,7 +154,6 @@ private fun PreviewDetailScreen_Show() {
                 )
             ),
             isShowNavigation = true,
-            featureColor = Color.Black,
             onToggleNavigation = {},
             onUiEvent = {}
         )

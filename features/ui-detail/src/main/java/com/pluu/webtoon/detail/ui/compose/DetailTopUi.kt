@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,14 +25,18 @@ internal fun DetailTopUi(
     modifier: Modifier = Modifier,
     title: String,
     subTitle: String,
-    backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     onBackPressed: () -> Unit,
     onShared: () -> Unit
 ) {
     SmallTopAppBar(
         modifier = modifier.background(backgroundColor),
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.Transparent
+            containerColor = Color.Transparent,
+            titleContentColor = contentColor,
+            navigationIconContentColor = contentColor,
+            actionIconContentColor = contentColor
         ),
         title = {
             Column {
@@ -58,7 +63,14 @@ internal fun DetailTopUi(
     )
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(
+    name = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    name = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
 private fun PreviewDetailTopUi() {
     AppTheme {

@@ -53,7 +53,7 @@ class IntroActivity : ComponentActivity() {
     private fun IntroContent() {
         IntroUi(
             viewModel = viewModel,
-            bgColor = MaterialTheme.colorScheme.background,
+            backgroundColor = MaterialTheme.colorScheme.background,
             onNavigateToMain = ::moveMainScreen
         )
     }

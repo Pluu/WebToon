@@ -15,14 +15,14 @@ import kotlinx.coroutines.delay
 @Composable
 fun IntroUi(
     viewModel: IntroViewModel,
-    bgColor: Color = MaterialTheme.colorScheme.background,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
     onNavigateToMain: () -> Unit
 ) {
     val isNextMove by viewModel.observe.collectAsState(false)
 
     IntroScreen(
         modifier = Modifier
-            .background(bgColor)
+            .background(backgroundColor)
             .statusBarsPadding()
             .navigationBarsPadding(),
         isLoading = !isNextMove

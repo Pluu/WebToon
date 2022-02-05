@@ -127,7 +127,7 @@ private fun EpisodeUi(
         webToonItem = webToonItem,
         isFavorite = isFavorite,
         palletColor = palletColor,
-        isFirstLoded = isFirstLoaded,
+        isFirstLoaded = isFirstLoaded,
         updateFavoriteAction = updateFavoriteAction,
         eventAction = eventAction
     ) { innerPadding ->

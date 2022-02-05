@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,7 +36,7 @@ internal fun EpisodeScreen(
     webToonItem: ToonInfoWithFavorite,
     isFavorite: Boolean,
     palletColor: PalletColor,
-    isFirstLoded: Boolean,
+    isFirstLoaded: Boolean,
     updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit,
     content: @Composable (PaddingValues) -> Unit
@@ -65,7 +66,7 @@ internal fun EpisodeScreen(
         webToonItem = webToonItem,
         isFavorite = isFavorite,
         featureBgColor = featureBgColor,
-        isFirstLoded = isFirstLoded,
+        isFirstLoaded = isFirstLoaded,
         updateFavoriteAction = updateFavoriteAction,
         eventAction = eventAction,
         content = content
@@ -79,7 +80,7 @@ private fun EpisodeScreen(
     webToonItem: ToonInfoWithFavorite,
     isFavorite: Boolean,
     featureBgColor: Color,
-    isFirstLoded: Boolean,
+    isFirstLoaded: Boolean,
     updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit,
     content: @Composable (PaddingValues) -> Unit
@@ -92,6 +93,7 @@ private fun EpisodeScreen(
                 title = webToonItem.info.title,
                 isFavorite = isFavorite,
                 backgroundColor = featureBgColor,
+                contentColor = Color.White,
                 onBackPressed = { eventAction(EpisodeUiEvent.OnBackPressed) }
             ) { currentFavorite ->
                 updateFavoriteAction(currentFavorite.not())
@@ -100,16 +102,18 @@ private fun EpisodeScreen(
         bottomBar = {
             Box(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .background(featureBgColor)
                     .navigationBarsPadding()
                     .height(62.dp)
                     .padding(horizontal = 8.dp, vertical = 2.dp)
             ) {
-                if (isFirstLoded) {
+                if (isFirstLoaded) {
                     EpisodeInfoUi(
                         name = webToonItem.info.writer,
                         rate = webToonItem.info.rate,
-                        backgroundColor = Color.White,
+                        backgroundColor = Color.Transparent,
+                        contentColor = Color.White,
                         onFirstClicked = {
                             eventAction(EpisodeUiEvent.OnShowFirst)
                         }
@@ -123,7 +127,7 @@ private fun EpisodeScreen(
 }
 
 @Preview(
-    heightDp = 480,
+    heightDp = 320,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -144,7 +148,7 @@ private fun PreviewEpisodeScreen() {
             ),
             isFavorite = true,
             featureBgColor = Color.Black,
-            isFirstLoded = true,
+            isFirstLoaded = true,
             updateFavoriteAction = {},
             eventAction = {}
         ) { }

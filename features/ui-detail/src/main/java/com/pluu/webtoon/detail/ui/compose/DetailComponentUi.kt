@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -28,7 +30,8 @@ import com.pluu.webtoon.detail.ui.ElementEvent
 @Composable
 internal fun InitTopUi(
     modifier: Modifier = Modifier,
-    featureColor: Color,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     uiStateElement: UiState<ElementEvent>,
     showNavigation: Boolean,
     onBackPressed: () -> Unit,
@@ -45,7 +48,7 @@ internal fun InitTopUi(
             modifier = Modifier
                 .statusBarsHeight()
                 .zIndex(1f),
-            color = featureColor,
+            color = backgroundColor,
             thickness = 0.dp
         )
         DetailTopUi(
@@ -58,7 +61,8 @@ internal fun InitTopUi(
                 .offset(y = offset),
             title = uiStateElement.data?.title.orEmpty(),
             subTitle = uiStateElement.data?.webToonTitle.orEmpty(),
-            backgroundColor = featureColor,
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
             onBackPressed = onBackPressed,
             onShared = onSharedPressed
         )
@@ -68,7 +72,8 @@ internal fun InitTopUi(
 @Composable
 internal fun InitBottomUi(
     modifier: Modifier = Modifier,
-    featureColor: Color,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     uiStateElement: UiState<ElementEvent>,
     showNavigation: Boolean,
     onPrevClicked: () -> Unit,
@@ -91,7 +96,8 @@ internal fun InitBottomUi(
                 }
             }
             .offset(y = offset),
-        buttonBgColor = featureColor,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
         isPrevEnabled = isPrevEnabled,
         onPrevClicked = onPrevClicked,
         isNextEnabled = isNextEnabled,

@@ -1,8 +1,10 @@
 package com.pluu.webtoon.episode.ui.compose
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -31,12 +33,17 @@ internal fun EpisodeInfoUi(
     name: String,
     rate: Double,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     onFirstClicked: () -> Unit
 ) {
-    CompositionLocalProvider(
-        LocalContentColor provides contentColorFor(backgroundColor),
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(backgroundColor)
     ) {
-        Row(modifier = modifier) {
+        CompositionLocalProvider(
+            LocalContentColor provides contentColor
+        ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -57,35 +64,41 @@ internal fun EpisodeInfoUi(
                     )
                 }
             }
-            OutlinedButton(
+        }
+        OutlinedButton(
+            modifier = Modifier.weight(1f),
+            colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = contentColor
+            ),
+            border = ButtonDefaults.outlinedButtonBorder.copy(
+                brush = SolidColor(contentColor)
+            ),
+            onClick = onFirstClicked
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_looks_one_white_36),
+                contentDescription = null
+            )
+            Text(
+                text = "첫화보기",
+                fontSize = 14.sp,
+                maxLines = 1,
                 modifier = Modifier.weight(1f),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = contentColorFor(backgroundColor)
-                ),
-                border = ButtonDefaults.outlinedButtonBorder.copy(
-                    brush = SolidColor(contentColorFor(backgroundColor))
-                ),
-                onClick = onFirstClicked
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_looks_one_white_36),
-                    contentDescription = null
-                )
-                Text(
-                    text = "첫화보기",
-                    fontSize = 14.sp,
-                    maxLines = 1,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
-                )
-            }
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
 
 @Preview(
+    name = "Dark Theme",
     widthDp = 320,
     uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    name = "Light Theme",
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
 private fun PreviewEpisodeInfoUi() {

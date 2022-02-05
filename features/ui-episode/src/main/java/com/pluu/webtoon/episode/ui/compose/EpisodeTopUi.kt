@@ -12,10 +12,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.google.accompanist.insets.statusBarsPadding
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
@@ -23,7 +26,8 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 internal fun EpisodeTopUi(
     modifier: Modifier = Modifier,
     title: String,
-    backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     isFavorite: Boolean,
     onBackPressed: () -> Unit,
     onFavoriteClicked: (isFavorite: Boolean) -> Unit
@@ -33,7 +37,10 @@ internal fun EpisodeTopUi(
             .background(backgroundColor)
             .statusBarsPadding(),
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.Transparent
+            containerColor = Color.Transparent,
+            navigationIconContentColor = contentColor,
+            titleContentColor = contentColor,
+            actionIconContentColor = contentColor
         ),
         title = {
             Text(text = title)
@@ -67,13 +74,30 @@ internal fun EpisodeTopUi(
     )
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+internal class PreviewItemProvider : PreviewParameterProvider<Boolean> {
+    override val values = sequenceOf(
+        true,
+        false
+    )
+    override val count: Int = values.count()
+}
+
+@Preview(
+    name = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    name = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
-private fun PreviewEpisodeTopUi() {
+private fun PreviewEpisodeTopUi(
+    @PreviewParameter(PreviewItemProvider::class) isFavorite: Boolean,
+) {
     AppTheme {
         EpisodeTopUi(
             title = "테스트",
-            isFavorite = true,
+            isFavorite = isFavorite,
             onFavoriteClicked = {},
             onBackPressed = {}
         )
