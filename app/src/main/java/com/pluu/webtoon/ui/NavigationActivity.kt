@@ -10,8 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
@@ -33,6 +33,8 @@ class NavigationActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             WebToonContent()
         }
