@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 
 @Composable
-fun ImageInCircle(
+internal fun ImageInCircle(
     modifier: Modifier = Modifier,
     painter: Painter,
     circleColor: Color
