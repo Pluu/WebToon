@@ -65,7 +65,7 @@ internal fun AppNavigation(
 }
 
 private fun NavGraphBuilder.installWeeklyScreen(
-    navController: NavHostController,
+    navController: NavController,
     naviItem: UI_NAV_ITEM,
     updateNaviItem: (UI_NAV_ITEM) -> Unit
 ) {
@@ -92,7 +92,7 @@ private fun NavGraphBuilder.installWeeklyScreen(
 }
 
 private fun NavGraphBuilder.installEpisodeScreen(
-    navController: NavHostController
+    navController: NavController
 ) {
     composable(Screen.Episode.route) { entry ->
         // Read, Bundle data
@@ -119,7 +119,7 @@ private fun NavGraphBuilder.installEpisodeScreen(
 }
 
 private fun NavGraphBuilder.installDetailScreen(
-    navController: NavHostController
+    navController: NavController
 ) {
     composable(Screen.Detail.route) { entry ->
         // Read, Bundle data
@@ -135,7 +135,7 @@ private fun NavGraphBuilder.installDetailScreen(
 }
 
 private fun NavGraphBuilder.installSettingScreen(
-    navController: NavHostController
+    navController: NavController
 ) {
     composable(Screen.Setting.route) {
         SettingsUi(
@@ -148,7 +148,7 @@ private fun NavGraphBuilder.installSettingScreen(
 }
 
 private fun NavGraphBuilder.installLicenseScreen(
-    navController: NavHostController,
+    navController: NavController,
     openBrowser: (url: String) -> Unit
 ) {
     composable(Screen.License.route) {
