@@ -5,12 +5,16 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -19,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
 import com.google.accompanist.insets.statusBarsPadding
 import com.pluu.compose.ambient.LocalPreference
@@ -30,6 +35,7 @@ import com.pluu.compose.preference.rememberPreferenceState
 import com.pluu.webtoon.model.KeyContract
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
@@ -39,26 +45,31 @@ internal fun SettingsScreen(
     val context: Context = LocalContext.current
     val items: List<ListPreferenceItem<String>> = remember { getPreItems(context).toMutableList() }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        SmallTopAppBar(
-            title = { Text(text = "설정") },
-            navigationIcon = {
-                IconButton(onClick = onBackPressed) {
-                    Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = null
-                    )
-                }
-            },
-            modifier = modifier
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .statusBarsPadding(),
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+    Scaffold(
+        topBar = {
+            SmallTopAppBar(
+                title = { Text(text = "설정") },
+                navigationIcon = {
+                    IconButton(onClick = onBackPressed) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .statusBarsPadding(),
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
             )
-        )
-        Column(modifier = Modifier.fillMaxSize()) {
+        },
+        modifier = modifier.fillMaxWidth()
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
             DefaultWebtoonUi(items)
+            Divider(modifier = Modifier.padding(horizontal = 16.dp))
             OpenSourceUi(onClick = onOpenSourceClicked)
         }
     }

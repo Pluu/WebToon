@@ -27,7 +27,7 @@ internal fun LicenseItemUi(
         text = item.title,
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .height(60.dp)
             .clickable(onClick = { onClicked.invoke(item) })
             .padding(horizontal = 16.dp)
             .wrapContentSize(align = Alignment.CenterStart),

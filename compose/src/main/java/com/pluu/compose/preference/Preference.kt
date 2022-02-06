@@ -38,12 +38,16 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 fun Preference(
     modifier: Modifier = Modifier,
     title: String,
-    summary: String? = null
+    summary: String? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor)
 ) {
     ContentPreference(
         modifier = modifier,
         title = title,
-        summary = summary
+        summary = summary,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor
     )
 }
 
@@ -52,12 +56,16 @@ fun Preference(
     modifier: Modifier = Modifier,
     imageVector: ImageVector? = null,
     title: String,
-    summary: String? = null
+    summary: String? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor)
 ) {
     ContentPreference(
         modifier = modifier,
         title = title,
-        summary = summary
+        summary = summary,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor
     ) {
         if (imageVector != null) {
             Image(
@@ -74,11 +82,16 @@ fun Preference(
     modifier: Modifier = Modifier,
     bitmap: ImageBitmap? = null,
     title: String,
-    summary: String? = null
+    summary: String? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor)
 ) {
     ContentPreference(
         modifier = modifier,
-        title = title, summary = summary
+        title = title,
+        summary = summary,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor
     ) {
         if (bitmap != null) {
             Image(
@@ -95,12 +108,16 @@ fun Preference(
     modifier: Modifier = Modifier,
     painter: Painter? = null,
     title: String,
-    summary: String? = null
+    summary: String? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor)
 ) {
     ContentPreference(
         modifier = modifier,
         title = title,
-        summary = summary
+        summary = summary,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor
     ) {
         if (painter != null) {
             Image(
@@ -117,7 +134,7 @@ private fun ContentPreference(
     modifier: Modifier = Modifier,
     title: String,
     summary: String? = null,
-    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = contentColorFor(backgroundColor),
     content: @Composable (() -> Unit)? = null
 ) {

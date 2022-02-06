@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -36,6 +39,8 @@ fun <T> ListPreference(
     preferenceState: PreferenceState<T>,
     title: String,
     painter: Painter? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
     var showDialog by rememberMutableStateOf(false)
@@ -60,7 +65,9 @@ fun <T> ListPreference(
         }),
         title = title,
         summary = preferenceState.summary,
-        painter = painter
+        painter = painter,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor
     )
 }
 
@@ -71,6 +78,8 @@ fun <T> ListPreference(
     preferenceState: PreferenceState<T>,
     title: String,
     imageVector: ImageVector? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
     var showDialog by rememberMutableStateOf(false)
@@ -95,7 +104,9 @@ fun <T> ListPreference(
         }),
         title = title,
         summary = preferenceState.summary,
-        imageVector = imageVector
+        imageVector = imageVector,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor
     )
 }
 
@@ -106,6 +117,8 @@ fun <T> ListPreference(
     preferenceState: PreferenceState<T>,
     title: String,
     bitmap: ImageBitmap? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
     onSelected: (key: String, item: ListPreferenceItem<T>) -> Unit = { _, _ -> }
 ) {
     var showDialog by rememberMutableStateOf(false)
@@ -130,7 +143,9 @@ fun <T> ListPreference(
         }),
         title = title,
         summary = preferenceState.summary,
-        bitmap = bitmap
+        bitmap = bitmap,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor
     )
 }
 
