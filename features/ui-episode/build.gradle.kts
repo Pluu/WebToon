@@ -25,9 +25,6 @@ dependencies {
 
     // Compose
     implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.material)
-    implementation(Dep.AndroidX.Compose.toolingPreview)
-    debugImplementation(Dep.AndroidX.Compose.tooling)
     implementation(Dep.AndroidX.Compose.livedata)
     implementation(Dep.AndroidX.Compose.constraintLayout)
 
