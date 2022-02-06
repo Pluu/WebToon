@@ -1,5 +1,6 @@
 package com.pluu.compose.preference
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.preference.PreferenceManager
 import com.pluu.compose.R
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ListDialog
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 data class ListPreferenceItem<T>(
     val entry: String,
@@ -162,7 +164,15 @@ private fun <LPT, T : ListPreferenceItem<LPT>> ShowAlertDialog(
     }
 }
 
-@Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
+@Preview(
+    name = "Light Theme",
+    widthDp = 320
+)
+@Preview(
+    name = "Dark Theme",
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 fun PreviewListPreference() {
     val preferenceState = PreferenceState(
@@ -173,12 +183,14 @@ fun PreviewListPreference() {
         onValueChange = { _, _ -> }
     )
 
-    ListPreference(
-        items = (0..20).map {
-            ListPreferenceItem(it.toString(), "Context ${it + 1}")
-        },
-        preferenceState = preferenceState,
-        title = "Title",
-        painter = painterResource(R.drawable.ic_baseline_android_24)
-    )
+    AppTheme {
+        ListPreference(
+            items = (0..20).map {
+                ListPreferenceItem(it.toString(), "Context ${it + 1}")
+            },
+            preferenceState = preferenceState,
+            title = "Title",
+            painter = painterResource(R.drawable.ic_baseline_android_24)
+        )
+    }
 }

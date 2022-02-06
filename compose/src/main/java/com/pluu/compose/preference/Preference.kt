@@ -2,6 +2,7 @@ package com.pluu.compose.preference
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pluu.compose.R
 import com.pluu.compose.preference.tokens.PreferenceTokens
+import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 fun Preference(
@@ -97,7 +99,8 @@ fun Preference(
 ) {
     ContentPreference(
         modifier = modifier,
-        title = title, summary = summary
+        title = title,
+        summary = summary
     ) {
         if (painter != null) {
             Image(
@@ -114,10 +117,13 @@ private fun ContentPreference(
     modifier: Modifier = Modifier,
     title: String,
     summary: String? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    contentColor: Color = contentColorFor(backgroundColor),
     content: @Composable (() -> Unit)? = null
 ) {
     Row(
         modifier = modifier
+            .background(backgroundColor)
             .sizeIn(minHeight = PreferenceTokens.PreferenceMinHeight)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -135,7 +141,7 @@ private fun ContentPreference(
             Text(
                 text = title,
                 maxLines = 1,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = contentColor,
                 style = MaterialTheme.typography.titleMedium,
                 fontSize = 16.sp,
                 overflow = TextOverflow.Ellipsis
@@ -144,15 +150,13 @@ private fun ContentPreference(
                 Spacer(Modifier.height(2.dp))
                 Text(
                     text = summary,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                    color = contentColor.copy(alpha = 0.75f),
                     style = MaterialTheme.typography.titleSmall
                 )
             }
         }
     }
 }
-
-private val ImageSize = Modifier.size(26.dp)
 
 @Preview(
     name = "Light Theme",
@@ -165,9 +169,17 @@ private val ImageSize = Modifier.size(26.dp)
 )
 @Composable
 fun PreviewPreference() {
-    Preference(
-        painter = painterResource(R.drawable.ic_baseline_android_24),
-        title = "Title blablabla blablabla blablabla blablabla",
-        summary = "Summary blablabla blablabla blablabla blablabla blablabla"
-    )
+    AppTheme {
+        Column {
+            Preference(
+                title = "Title"
+            )
+            Divider(color = Color.Gray)
+            Preference(
+                painter = painterResource(R.drawable.ic_baseline_android_24),
+                title = "Title blablabla blablabla blablabla blablabla",
+                summary = "Summary blablabla blablabla"
+            )
+        }
+    }
 }

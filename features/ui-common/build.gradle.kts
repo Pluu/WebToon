@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
     api(projects.model)
+    api(projects.uiTheme)
 
     // Android UI
     implementation(Dep.AndroidX.Fragment.fragment)
