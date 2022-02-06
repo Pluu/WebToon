@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/Pluu/WebToon.svg?style=svg)](https://circleci.com/gh/Pluu/WebToon)
+![workflow](https://github.com/Pluu/WebToon/actions/workflows/android-build-test.yml/badge.svg)
 
 # Warning
 
