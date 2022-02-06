@@ -13,11 +13,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pluu.compose.R
+import com.pluu.compose.preference.tokens.PreferenceTokens
 
 @Composable
 fun Preference(
@@ -56,7 +60,7 @@ fun Preference(
         if (imageVector != null) {
             Image(
                 imageVector = imageVector,
-                modifier = ImageSize,
+                modifier = Modifier.size(PreferenceTokens.ImageSize),
                 contentDescription = null
             )
         }
@@ -77,7 +81,7 @@ fun Preference(
         if (bitmap != null) {
             Image(
                 bitmap = bitmap,
-                modifier = ImageSize,
+                modifier = Modifier.size(PreferenceTokens.ImageSize),
                 contentDescription = null
             )
         }
@@ -98,7 +102,7 @@ fun Preference(
         if (painter != null) {
             Image(
                 painter = painter,
-                modifier = ImageSize,
+                modifier = Modifier.size(PreferenceTokens.ImageSize),
                 contentDescription = null
             )
         }
@@ -114,20 +118,19 @@ private fun ContentPreference(
 ) {
     Row(
         modifier = modifier
-            .sizeIn(minHeight = 48.dp)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .wrapContentHeight()
+            .sizeIn(minHeight = PreferenceTokens.PreferenceMinHeight)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
-            Modifier.width(52.dp)
+            Modifier
+                .width(PreferenceTokens.LeftImageContainerSize)
                 .wrapContentHeight()
-                .align(Alignment.CenterVertically)
         ) {
             content?.invoke()
         }
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(vertical = 6.dp)
         ) {
             Text(
                 text = title,
