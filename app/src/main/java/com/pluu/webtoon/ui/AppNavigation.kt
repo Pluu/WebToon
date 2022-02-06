@@ -1,9 +1,12 @@
 package com.pluu.webtoon.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -15,6 +18,8 @@ import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import com.pluu.webtoon.navigation.customtabs.chromeCustomTabs
+import com.pluu.webtoon.navigation.customtabs.navigateChromeCustomTabs
 import com.pluu.webtoon.setting.ui.LicenseUi
 import com.pluu.webtoon.setting.ui.SettingsUi
 import com.pluu.webtoon.ui.model.PalletColor
@@ -37,7 +42,7 @@ internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     naviItem: UI_NAV_ITEM,
-    openBrowser: (url: String) -> Unit,
+    themeColor: Color = MaterialTheme.colorScheme.primary,
     updateNaviItem: (UI_NAV_ITEM) -> Unit
 ) {
     NavHost(
@@ -49,7 +54,8 @@ internal fun AppNavigation(
         installEpisodeScreen(navController)
         installDetailScreen(navController)
         installSettingScreen(navController)
-        installLicenseScreen(navController, openBrowser)
+        installLicenseScreen(navController, themeColor)
+        chromeCustomTabs()
     }
 
     DisposableEffect(navController) {
@@ -149,13 +155,18 @@ private fun NavGraphBuilder.installSettingScreen(
 
 private fun NavGraphBuilder.installLicenseScreen(
     navController: NavController,
-    openBrowser: (url: String) -> Unit
+    themeColor: Color
 ) {
     composable(Screen.License.route) {
         LicenseUi(
             closeCurrent = navController::navigateUp,
             openBrowser = { url ->
-                openBrowser(url)
+                navController.navigateChromeCustomTabs(
+                    url = url,
+                    extraBuilder = {
+                        setToolbarColor(themeColor.toArgb())
+                    }
+                )
             }
         )
     }

@@ -1,6 +1,5 @@
 package com.pluu.webtoon.sample.di
 
-import com.pluu.webtoon.navigator.BrowserNavigator
 import com.pluu.webtoon.navigator.WeeklyNavigator
 import com.pluu.webtoon.sample.BaseSampleNavigator
 import dagger.Binds
@@ -23,7 +22,4 @@ internal object NavigatorModule {
 internal abstract class NavigatorModuleBinds {
     @Binds
     abstract fun bindsWeeklyNavigator(navigator: BaseSampleNavigator): WeeklyNavigator
-
-    @Binds
-    abstract fun bindsBrowserNavigator(navigator: BaseSampleNavigator): BrowserNavigator
 }
