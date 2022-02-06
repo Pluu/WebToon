@@ -133,12 +133,11 @@ private fun PreviewDetailScreen_Loading() {
 }
 
 @Preview(
-    name = "Show", heightDp = 340,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    name = "Show", heightDp = 340
 )
 @Preview(
-    name = "Show", heightDp = 340,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Show (Dark)", heightDp = 340,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewDetailScreen_Show() {

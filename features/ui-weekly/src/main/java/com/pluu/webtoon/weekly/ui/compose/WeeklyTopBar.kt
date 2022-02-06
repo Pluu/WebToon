@@ -120,8 +120,11 @@ private fun PreviewWeeklyTopBar() {
 }
 
 @ExperimentalPagerApi
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Light Theme")
+@Preview(
+    name = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun PreviewDayOfWeekUi() {
     AppTheme {

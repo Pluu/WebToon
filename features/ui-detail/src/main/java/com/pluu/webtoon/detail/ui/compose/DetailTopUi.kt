@@ -63,13 +63,10 @@ internal fun DetailTopUi(
     )
 }
 
+@Preview(name = "Light Theme")
 @Preview(
     name = "Dark Theme",
     uiMode = Configuration.UI_MODE_NIGHT_YES
-)
-@Preview(
-    name = "Light Theme",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
 private fun PreviewDetailTopUi() {

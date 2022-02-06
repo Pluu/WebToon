@@ -91,14 +91,13 @@ internal fun EpisodeInfoUi(
 }
 
 @Preview(
+    name = "Light Theme",
+    widthDp = 320
+)
+@Preview(
     name = "Dark Theme",
     widthDp = 320,
     uiMode = Configuration.UI_MODE_NIGHT_YES
-)
-@Preview(
-    name = "Light Theme",
-    widthDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
 private fun PreviewEpisodeInfoUi() {

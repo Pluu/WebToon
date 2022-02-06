@@ -66,12 +66,11 @@ internal fun WeeklyScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    widthDp = 320, heightDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    widthDp = 320, heightDp = 320
 )
 @Preview(
     widthDp = 320, heightDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun PreviewWeeklyScreen() {

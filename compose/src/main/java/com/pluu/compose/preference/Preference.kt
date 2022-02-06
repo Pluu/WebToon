@@ -1,5 +1,6 @@
 package com.pluu.compose.preference
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -150,7 +151,15 @@ private fun ContentPreference(
 
 private val ImageSize = Modifier.size(26.dp)
 
-@Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
+@Preview(
+    name = "Light Theme",
+    widthDp = 320
+)
+@Preview(
+    name = "Dark Theme",
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 fun PreviewPreference() {
     Preference(
