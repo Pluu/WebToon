@@ -53,6 +53,7 @@ class MainActivity : ComponentActivity() {
         val palletColor = PalletColor(
             darkVibrantColor = Color(0xFF17438F),
             darkMutedColor = Color.Gray,
+            lightVibrantColor = Color.White,
             lightMutedColor = Color.White
         )
 

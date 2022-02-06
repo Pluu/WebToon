@@ -6,5 +6,6 @@ import java.io.Serializable
 data class PalletColor(
     val darkVibrantColor: Color,
     val darkMutedColor: Color,
-    val lightMutedColor: Color
+    val lightVibrantColor: Color,
+    val lightMutedColor: Color,
 ) : Serializable
