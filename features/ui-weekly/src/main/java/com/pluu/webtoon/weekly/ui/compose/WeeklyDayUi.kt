@@ -39,9 +39,6 @@ internal fun WeeklyDayUi(
             is WeeklyEvent.ErrorEvent -> {
                 context.toast(safeEvent.message)
             }
-            is WeeklyEvent.UpdatedFavorite -> {
-                viewModel.updateFavorite(safeEvent.result.id, safeEvent.result.isFavorite)
-            }
         }
     }
 

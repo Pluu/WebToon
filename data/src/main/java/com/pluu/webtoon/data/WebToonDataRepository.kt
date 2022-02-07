@@ -20,10 +20,9 @@ internal class WebToonDataRepository @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val localRepository: LocalRepository
 ) : WebToonRepository {
-    override suspend fun isFavorite(
-        serviceName: String,
-        id: String
-    ): Boolean = localRepository.isFavorite(serviceName, id)
+    override fun getFavorites(
+        serviceName: String
+    ): Flow<Set<ToonId>> = localRepository.getFavorites(serviceName)
 
     override fun getReadEpisode(
         serviceName: String

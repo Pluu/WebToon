@@ -3,10 +3,11 @@ package com.pluu.webtoon.data.repository
 import com.pluu.webtoon.model.Episode
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Toon
+import com.pluu.webtoon.model.ToonId
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
-    suspend fun isFavorite(serviceName: String, id: String): Boolean
+    fun getFavorites(serviceName: String): Flow<Set<ToonId>>
 
     fun getReadEpisode(serviceName: String, id: String): Flow<List<Episode>>
 

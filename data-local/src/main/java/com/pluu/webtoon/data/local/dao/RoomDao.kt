@@ -8,13 +8,14 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.pluu.webtoon.data.local.model.DBEpisode
 import com.pluu.webtoon.data.local.model.DBToon
+import com.pluu.webtoon.model.ToonId
 import kotlinx.coroutines.flow.Flow
 
 /** DB Implementation of AndroidX Room */
 @Dao
 internal interface RoomDao {
-    @Query("SELECT COUNT(*) FROM DBToon WHERE service = :serviceName AND toonId = :id")
-    suspend fun isFavorite(serviceName: String, id: String): Boolean
+    @Query("SELECT toonId FROM DBToon WHERE service = :serviceName")
+    fun getFavorites(serviceName: String): Flow<List<ToonId>>
 
     @Query("SELECT * FROM DBEpisode WHERE service = :serviceName AND toonId = :id")
     fun getEpisode(serviceName: String, id: String): Flow<List<DBEpisode>>

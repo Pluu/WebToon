@@ -8,6 +8,7 @@ import com.pluu.webtoon.data.repository.LocalRepository
 import com.pluu.webtoon.model.Episode
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.Toon
+import com.pluu.webtoon.model.ToonId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -16,10 +17,12 @@ internal class LocalRepositoryImpl @Inject constructor(
     private val roomDao: RoomDao,
     private val prefConfig: PrefConfig
 ) : LocalRepository {
-    override suspend fun isFavorite(
-        serviceName: String,
-        id: String
-    ): Boolean = roomDao.isFavorite(serviceName, id)
+    override fun getFavorites(
+        serviceName: String
+    ): Flow<Set<ToonId>> = roomDao.getFavorites(serviceName)
+        .map {
+            it.toSet()
+        }
 
     override fun getReadEpisode(
         serviceName: String,

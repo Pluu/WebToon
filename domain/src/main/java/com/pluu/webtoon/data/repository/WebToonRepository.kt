@@ -13,7 +13,7 @@ import com.pluu.webtoon.model.WeekPosition
 import kotlinx.coroutines.flow.Flow
 
 interface WebToonRepository {
-    suspend fun isFavorite(serviceName: String, id: String): Boolean
+    fun getFavorites(serviceName: String): Flow<Set<ToonId>>
 
     fun getReadEpisode(serviceName: String, id: String): Flow<List<Episode>>
 
