@@ -11,7 +11,7 @@ object Dep {
 
     object AndroidX {
         object Activity {
-            const val activityVersion = "1.5.0-alpha01"
+            const val activityVersion = "1.5.0-alpha02"
             const val activity = "androidx.activity:activity:$activityVersion"
             const val ktx = "androidx.activity:activity-ktx:$activityVersion"
         }
@@ -21,17 +21,17 @@ object Dep {
         }
 
         const val appcompat = "androidx.appcompat:appcompat:1.4.1"
-        const val coreKtx = "androidx.core:core-ktx:1.8.0-alpha03"
+        const val coreKtx = "androidx.core:core-ktx:1.8.0-alpha04"
         const val splashScreen = "androidx.core:core-splashscreen:1.0.0-beta01"
 
         object Fragment {
-            private const val fragmentVersion = "1.5.0-alpha01"
+            private const val fragmentVersion = "1.5.0-alpha02"
             const val fragment = "androidx.fragment:fragment:$fragmentVersion"
             const val ktx = "androidx.fragment:fragment-ktx:$fragmentVersion"
         }
 
         object Lifecycle {
-            const val lifecycleVersion = "2.5.0-alpha01"
+            const val lifecycleVersion = "2.5.0-alpha02"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
             const val runtimeTesting = "androidx.lifecycle:lifecycle-runtime-testing:$lifecycleVersion"
         }
@@ -47,7 +47,7 @@ object Dep {
         object UI {
             const val browser = "androidx.browser:browser:1.4.0"
             const val palette = "androidx.palette:palette:1.0.0"
-            const val preference = "androidx.preference:preference:1.2.0-alpha02"
+            const val preference = "androidx.preference:preference:1.2.0"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.3.0-alpha01"
         }
 
@@ -61,15 +61,15 @@ object Dep {
         }
 
         object Navigation {
-            const val compose = "androidx.navigation:navigation-compose:2.5.0-alpha01"
+            const val compose = "androidx.navigation:navigation-compose:2.5.0-alpha02"
         }
 
         object Compose {
-            const val version = "1.2.0-alpha02"
+            const val version = "1.2.0-alpha03"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val ui = "androidx.compose.ui:ui:${version}"
-            const val material = "androidx.compose.material3:material3:1.0.0-alpha04"
+            const val material = "androidx.compose.material3:material3:1.0.0-alpha05"
             const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
             const val animation = "androidx.compose.animation:animation:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"

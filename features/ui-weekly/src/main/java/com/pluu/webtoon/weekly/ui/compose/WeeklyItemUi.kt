@@ -3,6 +3,7 @@ package com.pluu.webtoon.weekly.ui.compose
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,7 +47,7 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.utils.applyAgent
 import com.pluu.webtoon.weekly.R
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 internal fun WeeklyItemUi(
     modifier: Modifier = Modifier,
@@ -67,9 +67,8 @@ internal fun WeeklyItemUi(
         modifier = modifier
             .fillMaxWidth()
             .padding(2.dp)
-            .height(100.dp),
-        backgroundColor = MaterialTheme.colorScheme.surface,
-        onClick = { onClicked(item) }
+            .height(100.dp)
+            .clickable { onClicked(item) }
     ) {
         val backgroundModifier = when (painter.state) {
             is ImagePainter.State.Success -> {
