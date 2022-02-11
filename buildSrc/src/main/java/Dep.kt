@@ -49,6 +49,7 @@ object Dep {
             const val palette = "androidx.palette:palette:1.0.0"
             const val preference = "androidx.preference:preference:1.2.0"
             const val recyclerview = "androidx.recyclerview:recyclerview:1.3.0-alpha01"
+            const val window = "androidx.window:window:1.0.0"
         }
 
         object Paging {
