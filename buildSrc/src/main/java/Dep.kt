@@ -87,7 +87,7 @@ object Dep {
     }
 
     object Accompanist {
-        private const val version = "0.24.1-alpha"
+        private const val version = "0.24.2-alpha"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
         const val pagerIndicators = "com.google.accompanist:accompanist-pager-indicators:$version"
@@ -95,7 +95,7 @@ object Dep {
     }
 
     object Dagger {
-        const val version = "2.40.5"
+        const val version = "2.41"
         const val dagger = "com.google.dagger:dagger:$version"
         const val compiler = "com.google.dagger:dagger-compiler:$version"
 
