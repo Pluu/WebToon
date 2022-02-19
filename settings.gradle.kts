@@ -6,9 +6,27 @@ pluginManagement {
 
     repositories {
         gradlePluginPortal()
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("androidx.*")
+                includeGroup("android.arch.lifecycle")
+                includeGroup("android.arch.core")
+                includeGroup("com.google.firebase")
+                includeGroup("com.google.android.gms")
+                includeGroup("com.google.android.material")
+                includeGroup("com.google.gms")
+                includeGroup("zipflinger")
+            }
+        }
+        maven("https://plugins.gradle.org/m2/") {
+            content {
+                includeGroup("org.jlleitschuh.gradle")
+            }
+        }
         mavenCentral()
     }
+
     plugins {
         id("com.android.application") version agpVersion
         id("com.android.library") version agpVersion
@@ -32,8 +50,15 @@ dependencyResolutionManagement {
     repositories {
         google {
             content {
-                includeGroupByRegex("com.android.*")
+                includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("androidx.*")
+                includeGroup("android.arch.lifecycle")
+                includeGroup("android.arch.core")
+                includeGroup("com.google.firebase")
+                includeGroup("com.google.android.gms")
+                includeGroup("com.google.android.material")
+                includeGroup("com.google.gms")
+                includeGroup("zipflinger")
             }
         }
         maven("https://plugins.gradle.org/m2/") {
