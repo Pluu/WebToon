@@ -7,7 +7,7 @@ repositories {
         content {
             includeGroupByRegex("com\\.android.*")
             includeGroupByRegex("androidx.*")
-            includeGroupByRegex("com.google.testing.platform")
+            includeGroup("com.google.testing.platform")
         }
     }
     mavenCentral()
