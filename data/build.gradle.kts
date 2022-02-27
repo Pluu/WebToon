@@ -10,13 +10,13 @@ dependencies {
     implementation(projects.domain)
     implementation(projects.model)
 
-    implementation(Dep.Kotlin.Coroutines.core)
+    implementation(libs.kotlin.coroutine.core)
 
     // Dagger Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
-    testImplementation(Dep.Test.junit)
+    testImplementation(libs.junit)
 }
 
 kapt {

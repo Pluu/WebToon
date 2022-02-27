@@ -20,22 +20,22 @@ dependencies {
     implementation(projects.model)
     implementation(projects.data)
 
-    implementation(Dep.Kotlin.Coroutines.android)
+    implementation(libs.kotlin.coroutine.android)
 
-    implementation(Dep.AndroidX.Room.runtime)
-    ksp(Dep.AndroidX.Room.compiler)
-    implementation(Dep.AndroidX.Room.ktx)
-    implementation(Dep.AndroidX.UI.preference)
+    implementation(libs.androidX.room.runtime)
+    ksp(libs.androidX.room.compiler)
+    implementation(libs.androidX.room.ktx)
+    implementation(libs.androidX.preference)
 
     // Dagger Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
-    testImplementation(Dep.Test.junit)
-    androidTestImplementation(Dep.AndroidX.Room.testing)
-    androidTestImplementation(Dep.Test.androidJunit)
-    androidTestImplementation(Dep.Test.espressoCore)
-    androidTestImplementation(Dep.Kotlin.Coroutines.test)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidX.room.testing)
+    androidTestImplementation(libs.androidX.test.junit)
+    androidTestImplementation(libs.androidX.test.espresso)
+    androidTestImplementation(libs.kotlin.coroutine.test)
 }
 
 kapt {

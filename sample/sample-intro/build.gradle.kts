@@ -17,8 +17,8 @@ dependencies {
     implementation(projects.uiIntro)
 
     // Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 }
 
 kapt {

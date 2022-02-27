@@ -11,21 +11,21 @@ dependencies {
     implementation(projects.model)
     implementation(projects.data)
 
-    implementation(Dep.Kotlin.serialization)
-    implementation(Dep.Kotlin.Coroutines.core)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.kotlin.coroutine.core)
 
     // Jsoup
-    implementation(Dep.jsoup)
+    implementation(libs.jsoup)
 
     // OkHttp
-    implementation(Dep.OkHttp.core)
-    implementation(Dep.OkHttp.loggingInterceptor)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.loggingInterceptor)
 
     // Dagger Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
-    testImplementation(Dep.Test.junit)
+    testImplementation(libs.junit)
 }
 
 kapt {

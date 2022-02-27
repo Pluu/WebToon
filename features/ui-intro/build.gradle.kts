@@ -1,26 +1,35 @@
 plugins {
     id("android-library-convention")
-    id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
+
+android {
+    buildFeatures.compose = true
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
+}
+
 dependencies {
     implementation(projects.uiCommon)
     implementation(projects.compose)
 
-    implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.splashScreen)
+    implementation(libs.androidX.core.ktx)
+    implementation(libs.androidX.splashScreen)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.activity)
-    implementation(Dep.AndroidX.Compose.ui)
+    implementation(libs.bundles.androidX.compose)
+    debugImplementation(libs.androidX.compose.tooling)
+    implementation(libs.androidX.activity.compose)
 
-    implementation(Dep.Accompanist.insets)
-    implementation(Dep.Accompanist.systemUi)
+    implementation(libs.accompanist.insets)
+    implementation(libs.accompanist.systemUi)
 
     // Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 }
 
 kapt {

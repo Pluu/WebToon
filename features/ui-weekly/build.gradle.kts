@@ -1,8 +1,15 @@
 plugins {
     id("android-library-convention")
-    id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+}
+
+android {
+    buildFeatures.compose = true
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
 }
 
 dependencies {
@@ -12,32 +19,32 @@ dependencies {
     implementation(projects.uiCommon)
     implementation(projects.compose)
 
-    implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.Lifecycle.viewModelKtx)
-    implementation(Dep.AndroidX.Hilt.compose)
-    implementation(Dep.AndroidX.UI.palette)
+    implementation(libs.androidX.core.ktx)
+    implementation(libs.androidX.lifecycle.viewModel)
+    implementation(libs.androidX.hilt.navigation.compose)
+    implementation(libs.androidX.palette)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.livedata)
-    implementation(Dep.AndroidX.Compose.activity)
-    implementation(Dep.AndroidX.Compose.constraintLayout)
-    implementation(Dep.AndroidX.Compose.viewModel)
+    implementation(libs.bundles.androidX.compose)
+    debugImplementation(libs.androidX.compose.tooling)
+    implementation(libs.androidX.activity.compose)
+    implementation(libs.androidX.constraintlayout.compose)
+    implementation(libs.androidX.lifecycle.viewModel.compose)
 
-    implementation(Dep.Coil.compose)
-    implementation(Dep.Accompanist.insets)
-    implementation(Dep.Accompanist.pager)
-    implementation(Dep.Accompanist.pagerIndicators)
-    implementation(Dep.Accompanist.systemUi)
+    implementation(libs.coil.compose)
+    implementation(libs.accompanist.insets)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pagerIndicators)
+    implementation(libs.accompanist.systemUi)
 
     // Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
     // Coil
-    implementation(Dep.Coil.core)
+    implementation(libs.coil.core)
 
-    implementation(Dep.timber)
+    implementation(libs.timber)
 }
 
 kapt {

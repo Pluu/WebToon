@@ -1,4 +1,17 @@
 plugins {
     id("android-library-convention")
-    id("android-compose-convention")
+}
+
+android {
+    buildFeatures.compose = true
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
+}
+
+dependencies {
+    // Compose
+    implementation(libs.bundles.androidX.compose)
+    debugImplementation(libs.androidX.compose.tooling)
 }

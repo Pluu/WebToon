@@ -2,7 +2,6 @@
 
 plugins {
     id("android-application-convention")
-    id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 //    id("org.jlleitschuh.gradle.ktlint")
@@ -20,6 +19,12 @@ android {
         disable.add("ContentDescription")
 //        isAbortOnError = false
         xmlReport = true
+    }
+
+    buildFeatures.compose = true
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     useLibrary("android.test.mock")
@@ -42,34 +47,35 @@ dependencies {
     implementation(projects.uiSetting)
 
     // Android UI
-    implementation(Dep.AndroidX.UI.browser)
-    implementation(Dep.AndroidX.Navigation.compose)
-    implementation(Dep.AndroidX.Hilt.compose)
+    implementation(libs.androidX.browser)
+    implementation(libs.androidX.navigation.compose)
+    implementation(libs.androidX.hilt.navigation.compose)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.ui)
+    implementation(libs.bundles.androidX.compose)
+    debugImplementation(libs.androidX.compose.tooling)
 
-    implementation(Dep.Coil.compose)
-    implementation(Dep.Accompanist.insets)
-    implementation(Dep.Accompanist.systemUi)
+    implementation(libs.coil.compose)
+    implementation(libs.accompanist.insets)
+    implementation(libs.accompanist.systemUi)
 
     // OkHttp
-    implementation(Dep.OkHttp.loggingInterceptor)
+    implementation(libs.okhttp.loggingInterceptor)
 
     // Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
     // kotlin
-    implementation(Dep.Kotlin.Coroutines.core)
-    implementation(Dep.Kotlin.Coroutines.android)
+    implementation(libs.kotlin.coroutine.core)
+    implementation(libs.kotlin.coroutine.android)
 
-    implementation(Dep.timber)
-    implementation(Dep.Coil.core)
+    implementation(libs.timber)
+    implementation(libs.coil.core)
 
-    testImplementation(Dep.Test.junit)
-    testImplementation(Dep.Test.assertJ)
-    testImplementation(Dep.Test.mockito)
+    testImplementation(libs.junit)
+    testImplementation(libs.assertJ)
+    testImplementation(libs.mockito)
 }
 
 kapt {

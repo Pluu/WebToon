@@ -1,13 +1,15 @@
 plugins {
     id("android-library-convention")
-    id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    buildFeatures {
-        viewBinding = true
+    buildFeatures.viewBinding = true
+    buildFeatures.compose = true
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 }
 
@@ -18,25 +20,25 @@ dependencies {
     implementation(projects.uiCommon)
     implementation(projects.compose)
 
-    implementation(Dep.AndroidX.coreKtx)
-    implementation(Dep.AndroidX.Paging.runtime)
-    implementation(Dep.AndroidX.Paging.compose)
-    implementation(Dep.AndroidX.Hilt.compose)
+    implementation(libs.androidX.core.ktx)
+    implementation(libs.androidX.paging.runtime)
+    implementation(libs.androidX.paging.compose)
+    implementation(libs.androidX.hilt.navigation.compose)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.livedata)
-    implementation(Dep.AndroidX.Compose.constraintLayout)
+    implementation(libs.bundles.androidX.compose)
+    debugImplementation(libs.androidX.compose.tooling)
+    implementation(libs.androidX.constraintlayout.compose)
 
-    implementation(Dep.Coil.compose)
-    implementation(Dep.Accompanist.insets)
-    implementation(Dep.Accompanist.systemUi)
+    implementation(libs.coil.compose)
+    implementation(libs.accompanist.insets)
+    implementation(libs.accompanist.systemUi)
 
     // Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
-    implementation(Dep.timber)
+    implementation(libs.timber)
 }
 
 kapt {

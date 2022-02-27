@@ -14,16 +14,16 @@ dependencies {
     api(projects.uiCommon)
 
     // Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
     // OkHttp
-    implementation(Dep.OkHttp.loggingInterceptor)
+    implementation(libs.okhttp.loggingInterceptor)
 
     // Kotlin
-    implementation(Dep.Kotlin.Coroutines.android)
+    implementation(libs.kotlin.coroutine.android)
 
-    api(Dep.timber)
+    api(libs.timber)
 }
 
 kapt {

@@ -1,6 +1,5 @@
 plugins {
     id("android-application-convention")
-    id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -11,6 +10,12 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
+    buildFeatures.compose = true
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
 }
 
 dependencies {
@@ -18,17 +23,16 @@ dependencies {
     implementation(projects.uiDetail)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.foundation)
-    implementation(Dep.AndroidX.Compose.runtime)
-    implementation(Dep.AndroidX.Compose.activity)
+    implementation(libs.bundles.androidX.compose)
+    debugImplementation(libs.androidX.compose.tooling)
+    implementation(libs.androidX.activity.compose)
 
-    implementation(Dep.Accompanist.insets)
-    implementation(Dep.Accompanist.systemUi)
+    implementation(libs.accompanist.insets)
+    implementation(libs.accompanist.systemUi)
 
     // Hilt
-    implementation(Dep.Dagger.Hilt.android)
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 }
 
 kapt {

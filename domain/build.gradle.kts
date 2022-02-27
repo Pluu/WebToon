@@ -6,10 +6,10 @@ dependencies {
     implementation(projects.core)
     implementation(projects.model)
 
-    implementation(Dep.Kotlin.Coroutines.core)
-    implementation(Dep.Dagger.dagger)
+    implementation(libs.kotlin.coroutine.core)
+    implementation(libs.dagger)
 
-    testImplementation(Dep.Test.junit)
+    testImplementation(libs.junit)
 }
 
 

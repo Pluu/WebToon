@@ -1,6 +1,13 @@
 plugins {
     id("android-library-convention")
-    id("android-compose-convention")
+}
+
+android {
+    buildFeatures.compose = true
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
 }
 
 dependencies {
@@ -8,12 +15,13 @@ dependencies {
     api(projects.uiTheme)
 
     // Android UI
-    implementation(Dep.AndroidX.Fragment.fragment)
+    implementation(libs.androidX.fragment)
 
     // Compose
-    implementation(Dep.AndroidX.Compose.ui)
-    implementation(Dep.AndroidX.Compose.activity)
+    implementation(libs.bundles.androidX.compose)
+    debugImplementation(libs.androidX.compose.tooling)
+    implementation(libs.androidX.activity.compose)
 
     // Coil
-    implementation(Dep.Coil.core)
+    implementation(libs.coil.core)
 }
