@@ -1,7 +1,7 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    val agpVersion = "7.2.0-beta02"
+    val agpVersion = "7.2.0-beta03"
     val kotlinVersion = "1.6.10"
 
     repositories {
