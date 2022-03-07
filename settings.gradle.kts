@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -33,7 +35,7 @@ pluginManagement {
         id("org.jetbrains.kotlin.android") version kotlinVersion
         id("org.jetbrains.kotlin.jvm") version kotlinVersion
         id("org.jetbrains.kotlin.kapt") version kotlinVersion
-        id("com.google.devtools.ksp") version "${kotlinVersion}-1.0.2"
+        id("com.google.devtools.ksp") version "${kotlinVersion}-1.0.4"
     }
     resolutionStrategy {
         eachPlugin {
