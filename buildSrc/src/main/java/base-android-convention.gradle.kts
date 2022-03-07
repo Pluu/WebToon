@@ -11,6 +11,7 @@ configure<BaseExtension> {
         multiDexEnabled = true
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        resourceConfigurations.addAll(listOf("en", "ko"))
     }
     buildTypes {
         getByName("release") {
