@@ -8,7 +8,6 @@ configure<BaseExtension> {
         setTargetSdkVersion(ProjectConfigurations.targetSdk)
         versionCode = 1
         versionName = "1.0"
-        multiDexEnabled = true
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations.addAll(listOf("en", "ko"))
