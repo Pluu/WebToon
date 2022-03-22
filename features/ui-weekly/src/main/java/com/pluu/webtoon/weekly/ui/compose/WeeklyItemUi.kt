@@ -295,6 +295,10 @@ internal class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFav
 
 @Preview(
     group = "Weekly Component",
+    widthDp = 240
+)
+@Preview(
+    group = "Weekly Component",
     widthDp = 240,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
