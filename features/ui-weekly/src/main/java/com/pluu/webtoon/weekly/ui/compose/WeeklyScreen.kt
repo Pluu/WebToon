@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.NavigationDrawer
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
+import com.pluu.webtoon.ui_common.R
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import kotlinx.coroutines.launch
@@ -29,11 +30,10 @@ internal fun WeeklyScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    NavigationDrawer(
-        modifier = modifier,
+    ModalNavigationDrawer(
         drawerContent = {
             WeeklyDrawer(
-                title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
+                title = stringResource(R.string.app_name),
                 backgroundColor = naviItem.bgColor,
                 accentColor = naviItem.color,
                 menus = UI_NAV_ITEM.values().iterator(),
@@ -45,12 +45,13 @@ internal fun WeeklyScreen(
                 }
             }
         },
+        modifier = modifier,
         drawerState = drawerState
     ) {
         Scaffold(
             topBar = {
                 WeeklyTopBar(
-                    title = stringResource(com.pluu.webtoon.ui_common.R.string.app_name),
+                    title = stringResource(R.string.app_name),
                     backgroundColor = naviItem.bgColor,
                     contentColor = Color.White
                 ) {
