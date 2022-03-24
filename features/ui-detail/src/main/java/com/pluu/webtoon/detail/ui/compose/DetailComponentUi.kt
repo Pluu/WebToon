@@ -4,8 +4,11 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +25,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.zIndex
-import com.google.accompanist.insets.statusBarsHeight
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.ui.ElementEvent
@@ -45,8 +47,7 @@ internal fun InitTopUi(
 
     Column(modifier = modifier) {
         Divider(
-            modifier = Modifier
-                .statusBarsHeight()
+            modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars)
                 .zIndex(1f),
             color = backgroundColor,
             thickness = 0.dp

@@ -4,8 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
@@ -20,8 +26,6 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-import com.google.accompanist.insets.navigationBarsHeight
-import com.google.accompanist.insets.statusBarsHeight
 import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.utils.applyAgent
 
@@ -43,7 +47,11 @@ internal fun DetailContentUi(
                 key = { _, item -> item.url }
             ) { index, item ->
                 if (index == 0) {
-                    Spacer(Modifier.statusBarsHeight(48.dp))
+                    Spacer(
+                        Modifier.windowInsetsTopHeight(
+                            WindowInsets.statusBars.add(WindowInsets(top = 41.dp))
+                        )
+                    )
                 }
 
                 AdjustDetailImage(
@@ -57,8 +65,12 @@ internal fun DetailContentUi(
                     cachedRatioMap[detailItem.url] = size.width / size.height
                 }
 
-                if (items.size - 1 == index) {
-                    Spacer(Modifier.navigationBarsHeight(48.dp))
+                if (index == items.lastIndex) {
+                    Spacer(
+                        Modifier.windowInsetsBottomHeight(
+                            WindowInsets.navigationBars.add(WindowInsets(bottom = 48.dp))
+                        )
+                    )
                 }
             }
         }

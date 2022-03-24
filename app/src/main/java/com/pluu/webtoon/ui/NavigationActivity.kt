@@ -10,7 +10,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.model.CurrentSession
@@ -47,16 +46,14 @@ class NavigationActivity : FragmentActivity() {
             var naviItem by rememberMutableStateOf(session.navi.toUiType())
             val navController = rememberNavController()
 
-            ProvideWindowInsets {
-                AppNavigation(
-                    navController = navController,
-                    naviItem = naviItem,
-                    updateNaviItem = { item ->
-                        session.navi = item.toCoreType()
-                        naviItem = item
-                    }
-                )
-            }
+            AppNavigation(
+                navController = navController,
+                naviItem = naviItem,
+                updateNaviItem = { item ->
+                    session.navi = item.toCoreType()
+                    naviItem = item
+                }
+            )
         }
     }
 }

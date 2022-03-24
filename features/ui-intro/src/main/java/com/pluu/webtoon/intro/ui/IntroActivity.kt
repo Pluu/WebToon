@@ -11,7 +11,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.webtoon.navigator.WeeklyNavigator
 import com.pluu.webtoon.ui.compose.WebToonTheme
@@ -42,9 +41,7 @@ class IntroActivity : ComponentActivity() {
             }
 
             WebToonTheme {
-                ProvideWindowInsets(false) {
-                    IntroContent()
-                }
+                IntroContent()
             }
         }
     }

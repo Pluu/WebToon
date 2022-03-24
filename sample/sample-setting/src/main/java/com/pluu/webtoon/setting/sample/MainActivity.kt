@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.utils.toast
 import com.pluu.webtoon.setting.ui.LicenseUi
@@ -35,9 +34,7 @@ class MainActivity : ComponentActivity() {
             }
 
             WebToonTheme(isDarkTheme) {
-                ProvideWindowInsets {
-                    Sample()
-                }
+                Sample()
             }
         }
     }

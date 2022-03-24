@@ -56,7 +56,6 @@ androidX-viewBinding = { module = "androidx.databinding:viewbinding", version.re
 androidX-window = "androidx.window:window:1.0.0"
 # 3rd-party
 ## Accompanist
-accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-systemUi = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }

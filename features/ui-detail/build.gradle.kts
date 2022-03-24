@@ -27,7 +27,6 @@ dependencies {
     debugImplementation(libs.androidX.compose.tooling)
 
     implementation(libs.coil.compose)
-    implementation(libs.accompanist.insets)
     implementation(libs.accompanist.systemUi)
 
     // Hilt

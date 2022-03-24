@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.utils.toast
 import com.pluu.webtoon.ui.compose.WebToonTheme
@@ -30,9 +29,7 @@ class MainActivity : ComponentActivity() {
             }
 
             WebToonTheme(isSystemInDarkTheme()) {
-                ProvideWindowInsets {
-                    Sample()
-                }
+                Sample()
             }
         }
     }
