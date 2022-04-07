@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/BaseMaterialAppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:theme">
+        tools:replace="android:theme"
+        tools:targetApi="m">
         <activity
             android:name=".MainActivity"
             android:exported="true">
