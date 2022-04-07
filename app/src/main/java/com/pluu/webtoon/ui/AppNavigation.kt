@@ -1,6 +1,5 @@
 package com.pluu.webtoon.ui
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,7 +35,6 @@ sealed class Screen(val route: String) {
     object License : Screen("license")
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun AppNavigation(
     modifier: Modifier = Modifier,

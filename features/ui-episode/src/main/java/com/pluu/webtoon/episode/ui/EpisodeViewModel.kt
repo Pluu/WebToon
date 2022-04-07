@@ -72,7 +72,7 @@ internal class EpisodeViewModel @Inject constructor(
     val readIdSet: StateFlow<Set<EpisodeId>> = readEpisodeListUseCase(type, id)
         .map { list ->
             list.asSequence()
-                .mapNotNull { it.episodeId }
+                .map { it.episodeId }
                 .distinct()
                 .toSet()
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptySet())
