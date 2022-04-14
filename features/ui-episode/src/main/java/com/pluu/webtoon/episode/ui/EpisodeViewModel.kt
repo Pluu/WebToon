@@ -9,7 +9,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.flatMap
 import androidx.paging.insertSeparators
 import com.pluu.utils.AppCoroutineDispatchers
 import com.pluu.webtoon.Const
@@ -61,11 +60,9 @@ internal class EpisodeViewModel @Inject constructor(
     }.flow.map { data ->
         data.insertSeparators { before, after ->
             if (before == null) {
-                firstEpisode = after?.first
+                firstEpisode = after
             }
             null
-        }.flatMap {
-            it.episodes
         }
     }.cachedIn(viewModelScope)
 
