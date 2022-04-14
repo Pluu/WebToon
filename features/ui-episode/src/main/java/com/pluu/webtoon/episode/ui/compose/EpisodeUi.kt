@@ -4,9 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,7 +24,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.pluu.compose.ui.toast
 import com.pluu.utils.toast
 import com.pluu.webtoon.episode.compose.ThemeCircularProgressIndicator
-import com.pluu.webtoon.episode.compose.itemsInGrid
 import com.pluu.webtoon.episode.ui.EpisodeEvent
 import com.pluu.webtoon.episode.ui.EpisodeViewModel
 import com.pluu.webtoon.model.EpisodeId
@@ -121,7 +121,7 @@ private fun EpisodeUi(
     updateFavoriteAction: (Boolean) -> Unit,
     eventAction: (EpisodeUiEvent) -> Unit
 ) {
-    val lazyListState = rememberLazyListState()
+    val lazyGridState = rememberLazyGridState()
 
     EpisodeScreen(
         webToonItem = webToonItem,
@@ -141,7 +141,7 @@ private fun EpisodeUi(
             }
             EpisodeGridContent(
                 items = episodeList,
-                lazyListState = lazyListState,
+                lazyGridState = lazyGridState,
                 readIdSet = readIdSet,
                 onEpisodeClicked = { item -> eventAction(EpisodeUiEvent.OnShowDetail(item)) }
             )
@@ -153,21 +153,19 @@ private fun EpisodeUi(
 private fun EpisodeGridContent(
     modifier: Modifier = Modifier,
     items: LazyPagingItems<EpisodeInfo>,
-    lazyListState: LazyListState,
+    lazyGridState: LazyGridState,
     readIdSet: Set<EpisodeId>,
     onEpisodeClicked: (EpisodeInfo) -> Unit
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
-        state = lazyListState,
+        state = lazyGridState,
     ) {
-        itemsInGrid(
-            items = items,
-            columns = 2
-        ) { item ->
+        items(items.itemCount) { index ->
             EpisodeItemUi(
-                item = item,
-                isRead = readIdSet.contains(item.id),
+                item = items[index]!!,
+                isRead = readIdSet.contains(items[index]!!.id),
                 onClicked = onEpisodeClicked
             )
         }
