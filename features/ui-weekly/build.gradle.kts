@@ -28,7 +28,7 @@ dependencies {
 
     // Compose
     implementation(libs.bundles.androidX.compose)
-    debugImplementation(libs.androidX.compose.tooling)
+    debugImplementation(libs.bundles.androidX.compose.preview)
     implementation(libs.androidX.activity.compose)
     implementation(libs.androidX.constraintlayout.compose)
     implementation(libs.androidX.lifecycle.viewModel.compose)

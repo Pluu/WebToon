@@ -33,6 +33,7 @@ androidX-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.
 androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
+androidX-customview-poolingcontainer = "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 androidX-browser = "androidx.browser:browser:1.4.0"
 androidX-fragment = "androidx.fragment:fragment:1.5.0-beta01"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
@@ -89,4 +90,9 @@ androidX-compose = [
     "androidX-compose-material",
     "androidX-compose-runtime",
     "androidX-compose-toolingPreview"
+]
+
+androidX-compose-preview = [
+    "androidX-compose-tooling",
+    "androidX-customview-poolingcontainer"
 ]
