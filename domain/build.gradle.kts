@@ -2,6 +2,10 @@ plugins {
     id("android-library-convention")
 }
 
+android {
+    namespace = "com.pluu.webtoon.domain"
+}
+
 dependencies {
     implementation(projects.core)
     implementation(projects.model)

@@ -5,6 +5,10 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+android {
+    namespace = "com.pluu.webtoon.data.remote"
+}
+
 dependencies {
     implementation(projects.core)
     implementation(projects.coreAndroid)

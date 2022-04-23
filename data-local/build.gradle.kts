@@ -6,6 +6,8 @@ plugins {
 }
 
 android {
+    namespace = "com.pluu.webtoon.data.local"
+
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

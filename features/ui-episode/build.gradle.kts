@@ -5,6 +5,8 @@ plugins {
 }
 
 android {
+    namespace = "com.pluu.webtoon.episode"
+
     buildFeatures.viewBinding = true
     buildFeatures.compose = true
 

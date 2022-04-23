@@ -2,6 +2,10 @@ plugins {
     id("android-library-convention")
 }
 
+android {
+    namespace = "com.pluu.webtoon.core"
+}
+
 dependencies {
     implementation(libs.androidX.activity.ktx)
     implementation(libs.androidX.appcompat)

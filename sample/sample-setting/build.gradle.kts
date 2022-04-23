@@ -5,6 +5,8 @@ plugins {
 }
 
 android {
+    namespace = "com.pluu.webtoon.setting.sample"
+
     defaultConfig {
         applicationId = "com.pluu.webtoon.setting.sample"
         versionCode = 1

@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+    namespace = "com.pluu.compose"
+
     buildFeatures.compose = true
 
     composeOptions {

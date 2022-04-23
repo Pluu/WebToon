@@ -5,6 +5,8 @@ plugins {
 }
 
 android {
+    namespace = "com.pluu.webtoon.setting"
+
     buildFeatures.compose = true
 
     composeOptions {

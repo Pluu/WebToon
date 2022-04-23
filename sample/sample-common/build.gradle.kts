@@ -4,6 +4,10 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+android {
+    namespace = "com.pluu.webtoon.sample"
+}
+
 dependencies {
     api(projects.core)
     api(projects.coreAndroid)

@@ -8,6 +8,8 @@ plugins {
 }
 
 android {
+    namespace = "com.pluu.webtoon"
+
     defaultConfig {
         applicationId = "com.pluu.webtoon"
         versionCode = 70

@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+    namespace = "com.pluu.webtoon.ui.compose.theme"
+
     buildFeatures.compose = true
 
     composeOptions {
