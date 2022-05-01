@@ -6,7 +6,7 @@ tasks.withType<KotlinCompile> {
             "-Xskip-prerelease-check",
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlin.Experimental",
-            "-Xjvm-default=enable"
+            "-Xjvm-default=all"
         )
 
         // Set JVM target
