@@ -4,7 +4,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     val agpVersion = "7.3.0-beta01"
-    val kotlinVersion = "1.6.20"
+    val kotlinVersion = "1.6.21"
 
     repositories {
         gradlePluginPortal()
