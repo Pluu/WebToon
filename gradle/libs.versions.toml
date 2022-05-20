@@ -3,37 +3,39 @@ androidStudioGradlePlugin = "7.3.0-beta01"
 
 # AndroiX
 activity = "1.5.0-rc01"
-compose = "1.2.0-beta01"
+compose = "1.2.0-beta02"
 lifecycle = "2.5.0-rc01"
 room = "2.4.2"
 
 # 3rd-party
-accompanist = "0.24.8-beta"
+accompanist = "0.24.9-beta"
 coil = "1.4.0"
 dagger = "2.42"
 kotlin = "1.6.21"
+ksp = "1.6.21-1.0.5"
 kotlin-coroutine = "1.6.1"
 okhttp = "4.9.3"
 
 [libraries]
-android-pluginGradle = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
+plugin-androidGradle = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 # AndroidX
 androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.1.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.4.1"
-androidX-core-ktx = "androidx.core:core-ktx:1.8.0-rc01"
+androidX-core-ktx = "androidx.core:core-ktx:1.8.0-rc02"
 androidX-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 androidX-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 androidX-compose-liveData = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
-androidX-compose-material = "androidx.compose.material3:material3:1.0.0-alpha10"
+androidX-compose-material = "androidx.compose.material3:material3:1.0.0-alpha12"
 androidX-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 androidX-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
-androidX-customview-poolingcontainer = "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
+androidX-customview-poolingcontainer = "androidx.customview:customview-poolingcontainer:1.0.0-beta01"
 androidX-browser = "androidx.browser:browser:1.4.0"
 androidX-fragment = "androidx.fragment:fragment:1.5.0-rc01"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
@@ -81,6 +83,7 @@ timber = "com.jakewharton.timber:timber:5.0.1"
 junit = "junit:junit:4.13.2"
 assertJ = "org.assertj:assertj-core:3.22.0"
 mockito = "org.mockito:mockito-core:4.3.1"
+javapoet = "com.squareup:javapoet:1.13.0"
 
 [bundles]
 androidX-compose = [
@@ -96,3 +99,11 @@ androidX-compose-preview = [
     "androidX-compose-tooling",
     "androidX-customview-poolingcontainer"
 ]
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "androidStudioGradlePlugin" }
+androidLibrary = { id = "com.android.library", version.ref = "androidStudioGradlePlugin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
