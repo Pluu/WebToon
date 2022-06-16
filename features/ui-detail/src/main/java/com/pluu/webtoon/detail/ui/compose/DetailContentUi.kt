@@ -21,11 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.utils.applyAgent
 
@@ -77,26 +78,25 @@ internal fun DetailContentUi(
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun AdjustDetailImage(
     item: DetailView,
     modifier: Modifier = Modifier,
     onSuccess: (DetailView, Size) -> Unit
 ) {
-    val painter = rememberImagePainter(
-        data = item.url,
-        builder = {
-            applyAgent()
-            crossfade(true)
-        }
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(item.url)
+            .applyAgent()
+            .crossfade(true)
+            .build()
     )
 
     when (val state = painter.state) {
-        is ImagePainter.State.Success -> {
+        is AsyncImagePainter.State.Success -> {
             onSuccess(item, state.painter.intrinsicSize)
         }
-        is ImagePainter.State.Loading -> {
+        is AsyncImagePainter.State.Loading -> {
             CircularProgressIndicator(
                 modifier = modifier.size(60.dp),
                 color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)

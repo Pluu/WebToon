@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.pluu.webtoon.weekly.ui.compose
 
 import android.content.res.Configuration
@@ -23,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,9 +39,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.graphics.toColorInt
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
@@ -47,7 +50,6 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.utils.applyAgent
 import com.pluu.webtoon.weekly.R
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 internal fun WeeklyItemUi(
     modifier: Modifier = Modifier,
@@ -55,12 +57,12 @@ internal fun WeeklyItemUi(
     isFavorite: Boolean,
     onClicked: (ToonInfo) -> Unit
 ) {
-    val painter = rememberImagePainter(
-        data = item.image,
-        builder = {
-            applyAgent()
-            crossfade(true)
-        }
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(item.image)
+            .applyAgent()
+            .crossfade(true)
+            .build()
     )
 
     Card(
@@ -71,7 +73,7 @@ internal fun WeeklyItemUi(
             .clickable { onClicked(item) }
     ) {
         val backgroundModifier = when (painter.state) {
-            is ImagePainter.State.Success -> {
+            is AsyncImagePainter.State.Success -> {
                 if (item.backgroundColor.isNotEmpty()) {
                     Modifier.background(color = Color(item.backgroundColor.toColorInt()))
                 } else {
@@ -90,13 +92,13 @@ internal fun WeeklyItemUi(
             )
 
             when (painter.state) {
-                is ImagePainter.State.Loading -> {
+                is AsyncImagePainter.State.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
                         color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
                     )
                 }
-                is ImagePainter.State.Error -> {
+                is AsyncImagePainter.State.Error -> {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
                         painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),

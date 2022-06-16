@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,16 +28,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.utils.applyAgent
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 internal fun EpisodeItemUi(
     modifier: Modifier = Modifier,
@@ -44,12 +44,12 @@ internal fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
-    val painter = rememberImagePainter(
-        data = item.image,
-        builder = {
-            applyAgent()
-            crossfade(true)
-        }
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(item.image)
+            .applyAgent()
+            .crossfade(true)
+            .build()
     )
 
     Surface(
@@ -70,13 +70,13 @@ internal fun EpisodeItemUi(
             )
 
             when (painter.state) {
-                is ImagePainter.State.Loading -> {
+                is AsyncImagePainter.State.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
                         color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
                     )
                 }
-                is ImagePainter.State.Error -> {
+                is AsyncImagePainter.State.Error -> {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
                         painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
