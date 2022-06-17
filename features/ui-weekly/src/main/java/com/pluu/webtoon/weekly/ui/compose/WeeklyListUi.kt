@@ -3,14 +3,15 @@ package com.pluu.webtoon.weekly.ui.compose
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,20 +30,18 @@ internal fun WeeklyListUi(
     onClicked: (ToonInfoWithFavorite) -> Unit
 ) {
     LazyColumn(
-        modifier = modifier.padding(horizontal = 3.dp)
+        modifier = modifier.padding(horizontal = 3.dp),
+        contentPadding = WindowInsets.navigationBars.asPaddingValues()
     ) {
-        itemsIndexed(items, key = { _, item ->
-            item.id
-        }) { index, item ->
+        items(
+            items = items,
+            key = { item -> item.id }
+        ) { item ->
             WeeklyItemUi(
                 item = item.info,
                 isFavorite = item.isFavorite, // TODO: 에피소드에서 즐겨찾기 후 동기화 안되는 이슈
                 onClicked = { onClicked.invoke(item) }
             )
-
-            if (index == items.lastIndex) {
-                Spacer(modifier = Modifier.navigationBarsPadding())
-            }
         }
     }
 }

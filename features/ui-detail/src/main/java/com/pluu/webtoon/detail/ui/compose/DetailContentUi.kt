@@ -3,17 +3,14 @@ package com.pluu.webtoon.detail.ui.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
@@ -39,22 +36,22 @@ internal fun DetailContentUi(
     val cachedRatioMap = remember { mutableStateMapOf<String, Float>() }
 
     BoxWithConstraints {
-        LazyColumn(modifier = modifier
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = { onClick() })
-            }
+        LazyColumn(
+            modifier = modifier
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = { onClick() })
+                },
+            contentPadding = WindowInsets.safeContent.add(
+                WindowInsets(
+                    top = 41.dp,
+                    bottom = 48.dp
+                )
+            ).asPaddingValues()
         ) {
-            itemsIndexed(items,
-                key = { _, item -> item.url }
-            ) { index, item ->
-                if (index == 0) {
-                    Spacer(
-                        Modifier.windowInsetsTopHeight(
-                            WindowInsets.statusBars.add(WindowInsets(top = 41.dp))
-                        )
-                    )
-                }
-
+            items(
+                items = items,
+                key = { item -> item.url }
+            ) { item ->
                 AdjustDetailImage(
                     item = item,
                     modifier = if (cachedRatioMap.contains(item.url)) {
@@ -64,14 +61,6 @@ internal fun DetailContentUi(
                     }
                 ) { detailItem, size ->
                     cachedRatioMap[detailItem.url] = size.width / size.height
-                }
-
-                if (index == items.lastIndex) {
-                    Spacer(
-                        Modifier.windowInsetsBottomHeight(
-                            WindowInsets.navigationBars.add(WindowInsets(bottom = 48.dp))
-                        )
-                    )
                 }
             }
         }
