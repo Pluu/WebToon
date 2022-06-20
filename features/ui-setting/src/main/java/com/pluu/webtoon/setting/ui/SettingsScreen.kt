@@ -68,7 +68,7 @@ internal fun SettingsScreen(
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             DefaultWebtoonUi(items)
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = (0.5).dp)
             OpenSourceUi(onClick = onOpenSourceClicked)
         }
     }
