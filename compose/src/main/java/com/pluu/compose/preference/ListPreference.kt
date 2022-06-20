@@ -1,6 +1,5 @@
 package com.pluu.compose.preference
 
-import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,12 +18,12 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
 import com.pluu.compose.R
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ListDialog
+import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 data class ListPreferenceItem<T>(
@@ -179,15 +178,7 @@ private fun <LPT, T : ListPreferenceItem<LPT>> ShowAlertDialog(
     }
 }
 
-@Preview(
-    name = "Light Theme",
-    widthDp = 320
-)
-@Preview(
-    name = "Dark Theme",
-    widthDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightWrapPreview
 @Composable
 fun PreviewListPreference() {
     val preferenceState = PreferenceState(

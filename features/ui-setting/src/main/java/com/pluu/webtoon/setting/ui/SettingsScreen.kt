@@ -1,7 +1,6 @@
 package com.pluu.webtoon.setting.ui
 
 import android.content.Context
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
 import com.pluu.compose.ambient.LocalPreference
@@ -32,6 +30,7 @@ import com.pluu.compose.preference.ListPreference
 import com.pluu.compose.preference.ListPreferenceItem
 import com.pluu.compose.preference.Preference
 import com.pluu.compose.preference.rememberPreferenceState
+import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.model.KeyContract
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
@@ -142,10 +141,7 @@ private fun getPreItems(
     )
 )
 
-@Preview(
-    heightDp = 240,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightPreview
 @Composable
 private fun PreviewSettingContentUi() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current)

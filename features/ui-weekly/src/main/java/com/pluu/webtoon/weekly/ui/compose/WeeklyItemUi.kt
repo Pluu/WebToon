@@ -43,6 +43,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.pluu.compose.foundation.backgroundCorner
+import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -295,15 +296,7 @@ internal class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFav
     override val count: Int = values.count()
 }
 
-@Preview(
-    group = "Weekly Component",
-    widthDp = 240
-)
-@Preview(
-    group = "Weekly Component",
-    widthDp = 240,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightWrapPreview
 @Composable
 private fun PreviewWeeklyItemUi(
     @PreviewParameter(FakeWeeklyItemProvider::class) item: ToonInfoWithFavorite,
@@ -317,6 +310,7 @@ private fun PreviewWeeklyItemUi(
     }
 }
 
+@Preview("Weekly Status Component")
 @Preview(
     "Weekly Status Component",
     uiMode = Configuration.UI_MODE_NIGHT_YES

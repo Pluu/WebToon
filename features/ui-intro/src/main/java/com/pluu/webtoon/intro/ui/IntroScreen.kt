@@ -1,6 +1,5 @@
 package com.pluu.webtoon.intro.ui
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
@@ -69,10 +68,7 @@ internal fun IntroScreen(
     }
 }
 
-@Preview(
-    widthDp = 320, heightDp = 480,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightPreview
 @Composable
 private fun PreviewIntroUi() {
     AppTheme {

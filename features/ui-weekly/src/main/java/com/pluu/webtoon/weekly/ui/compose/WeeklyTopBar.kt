@@ -1,6 +1,5 @@
 package com.pluu.webtoon.weekly.ui.compose
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,11 +19,11 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
@@ -108,7 +107,7 @@ internal fun DayOfWeekUi(
     }
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@DayNightWrapPreview
 @Composable
 private fun PreviewWeeklyTopBar() {
     AppTheme {
@@ -120,11 +119,7 @@ private fun PreviewWeeklyTopBar() {
 }
 
 @ExperimentalPagerApi
-@Preview(name = "Light Theme")
-@Preview(
-    name = "Dark Theme",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightWrapPreview
 @Composable
 private fun PreviewDayOfWeekUi() {
     AppTheme {

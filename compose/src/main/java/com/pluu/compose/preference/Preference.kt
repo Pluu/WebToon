@@ -1,6 +1,5 @@
 package com.pluu.compose.preference
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,11 +26,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pluu.compose.R
 import com.pluu.compose.preference.tokens.PreferenceTokens
+import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
@@ -175,15 +174,7 @@ private fun ContentPreference(
     }
 }
 
-@Preview(
-    name = "Light Theme",
-    widthDp = 320
-)
-@Preview(
-    name = "Dark Theme",
-    widthDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightWrapPreview
 @Composable
 fun PreviewPreference() {
     AppTheme {

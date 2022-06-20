@@ -1,6 +1,5 @@
 package com.pluu.webtoon.episode.ui.compose
 
-import android.content.res.Configuration
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
@@ -21,9 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluu.compose.transition.ColorTransitionState
+import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -126,10 +125,7 @@ private fun EpisodeScreen(
     }
 }
 
-@Preview(
-    heightDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightPreview
 @Composable
 private fun PreviewEpisodeScreen() {
     AppTheme {

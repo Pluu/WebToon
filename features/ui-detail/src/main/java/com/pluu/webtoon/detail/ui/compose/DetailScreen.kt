@@ -1,6 +1,5 @@
 package com.pluu.webtoon.detail.ui.compose
 
-import android.content.res.Configuration
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
@@ -17,9 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
+import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.FeatureColor
 import com.pluu.webtoon.detail.ui.DetailUiEvent
@@ -116,10 +115,7 @@ private fun DetailScreen(
     }
 }
 
-@Preview(
-    name = "Loading", heightDp = 340,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightPreview
 @Composable
 private fun PreviewDetailScreen_Loading() {
     AppTheme {
@@ -132,13 +128,7 @@ private fun PreviewDetailScreen_Loading() {
     }
 }
 
-@Preview(
-    name = "Show", heightDp = 340
-)
-@Preview(
-    name = "Show (Dark)", heightDp = 340,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightPreview
 @Composable
 private fun PreviewDetailScreen_Show() {
     AppTheme {

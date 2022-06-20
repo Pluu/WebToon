@@ -1,6 +1,5 @@
 package com.pluu.webtoon.weekly.ui.compose
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -27,9 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.ServiceConst
@@ -117,10 +116,7 @@ internal fun WeeklyDrawer(
     }
 }
 
-@Preview(
-    widthDp = 320, heightDp = 450,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightPreview
 @Composable
 private fun PreviewWeeklyDrawer() {
     AppTheme {

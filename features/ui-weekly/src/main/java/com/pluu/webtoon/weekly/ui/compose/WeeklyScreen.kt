@@ -1,6 +1,5 @@
 package com.pluu.webtoon.weekly.ui.compose
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
@@ -12,7 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.ui_common.R
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
@@ -66,13 +65,7 @@ internal fun WeeklyScreen(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    widthDp = 320, heightDp = 320
-)
-@Preview(
-    widthDp = 320, heightDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@DayNightPreview
 @Composable
 private fun PreviewWeeklyScreen() {
     AppTheme {
