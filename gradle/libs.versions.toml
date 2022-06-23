@@ -3,12 +3,12 @@ androidStudioGradlePlugin = "7.3.0-beta04"
 
 # AndroiX
 activity = "1.5.0-rc01"
-compose = "1.2.0-rc01"
+compose = "1.2.0-rc02"
 lifecycle = "2.5.0-rc02"
 room = "2.4.2"
 
 # 3rd-party
-accompanist = "0.24.11-rc"
+accompanist = "0.24.12-rc"
 coil = "2.1.0"
 dagger = "2.42"
 kotlin = "1.6.21"
