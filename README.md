@@ -39,7 +39,6 @@ Dependencies
   - Paging
   - Palette
   - Preference
-  - Recyclerview
   - Room
   - ViewPager2
 - Accompanist
