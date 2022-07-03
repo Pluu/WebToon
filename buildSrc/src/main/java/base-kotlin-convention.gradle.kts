@@ -4,8 +4,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xskip-prerelease-check",
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xopt-in=kotlin.Experimental",
             "-Xjvm-default=all"
         )
 
