@@ -8,6 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import javax.inject.Singleton
 
+@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal object LoggerModule {

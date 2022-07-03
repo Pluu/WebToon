@@ -15,6 +15,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal object LocalDataModule {
@@ -31,6 +32,7 @@ internal object LocalDataModule {
     ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 }
 
+@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class LocalDataBindsModule {

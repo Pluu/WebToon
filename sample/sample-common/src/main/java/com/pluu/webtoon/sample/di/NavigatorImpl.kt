@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal object NavigatorModule {
@@ -17,6 +18,7 @@ internal object NavigatorModule {
     fun provideSampleNavigator(): BaseSampleNavigator = BaseSampleNavigator()
 }
 
+@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class NavigatorModuleBinds {

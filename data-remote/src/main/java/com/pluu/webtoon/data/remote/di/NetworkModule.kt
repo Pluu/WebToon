@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
 
+@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal object NetworkModule {
@@ -23,6 +24,7 @@ internal object NetworkModule {
         .build()
 }
 
+@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class NetworkModuleBinds {
