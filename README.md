@@ -40,9 +40,7 @@ Dependencies
   - Palette
   - Preference
   - Room
-  - ViewPager2
 - Accompanist
-  - Insets
   - Pager
   - System UI Controller
 - Dagger
