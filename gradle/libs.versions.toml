@@ -57,7 +57,6 @@ androidX-splashScreen = "androidx.core:core-splashscreen:1.0.0-rc01"
 androidX-test-junit = "androidx.test.ext:junit:1.1.3"
 androidX-test-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 androidX-viewBinding = { module = "androidx.databinding:viewbinding", version.ref = "androidStudioGradlePlugin" }
-androidX-window = "androidx.window:window:1.0.0"
 # 3rd-party
 ## Accompanist
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
