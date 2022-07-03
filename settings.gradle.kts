@@ -18,6 +18,7 @@ pluginManagement {
                 includeGroup("com.google.android.gms")
                 includeGroup("com.google.android.material")
                 includeGroup("com.google.gms")
+                includeGroup("com.google.testing.platform")
                 includeGroup("zipflinger")
             }
         }
@@ -60,6 +61,7 @@ dependencyResolutionManagement {
                 includeGroup("com.google.android.gms")
                 includeGroup("com.google.android.material")
                 includeGroup("com.google.gms")
+                includeGroup("com.google.testing.platform")
                 includeGroup("zipflinger")
             }
         }

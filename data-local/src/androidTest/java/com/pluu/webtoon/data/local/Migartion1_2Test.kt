@@ -75,8 +75,9 @@ class Migartion1_2Test {
         helper.runMigrationsAndValidate(TEST_DB_NAME, 2, true)
 
         runTest {
-            assertTrue(db.roomDao().isFavorite(toon.service, toon.toonId))
-            assertFalse(db.roomDao().isFavorite(toon.service, "123"))
+            val list = db.roomDao().getFavorites(toon.service).first()
+            assertTrue(list.contains(toon.toonId))
+            assertFalse(list.contains("123"))
         }
     }
 
