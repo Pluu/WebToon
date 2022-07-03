@@ -22,7 +22,7 @@ fun rememberNavController(
     vararg navigators: Navigator<out NavDestination>
 ): NavHostController {
     val context = LocalContext.current
-    return rememberSaveable(inputs = navigators, saver = NavControllerSaver(context)) {
+    return rememberSaveable(inputs = navigators, saver = navControllerSaver(context)) {
         createNavController(context)
     }.apply {
         for (navigator in navigators) {
@@ -38,7 +38,7 @@ private fun createNavController(context: Context) =
         navigatorProvider.addNavigator(ChromeCustomTabsNavigator(context))
     }
 
-private fun NavControllerSaver(
+private fun navControllerSaver(
     context: Context
 ): Saver<NavHostController, *> = Saver(
     save = { it.saveState() },
