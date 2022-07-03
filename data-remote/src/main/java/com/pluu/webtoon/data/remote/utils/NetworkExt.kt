@@ -9,8 +9,6 @@ import org.json.JSONObject
 internal val networkFailedException: Exception
     get() = IllegalStateException("Network Not Success")
 
-internal fun <T : Any> NetworkResult.safeApi(convert: (String) -> T): Result<T> = safeAPi(this, convert)
-
 internal inline fun NetworkResult.mapJson(): Result<JSONObject> =
     safeAPi(this) { response ->
         JSONObject(response)
