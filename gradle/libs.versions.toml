@@ -3,8 +3,8 @@ androidStudioGradlePlugin = "7.3.0-beta04"
 
 # AndroiX
 activity = "1.5.0"
-compose = "1.2.0-rc02"
-composeCompiler = "1.2.0-rc02"
+compose = "1.2.0-rc03"
+composeCompiler = "1.2.0"
 lifecycle = "2.6.0-alpha01"
 room = "2.5.0-alpha02"
 
@@ -12,8 +12,8 @@ room = "2.5.0-alpha02"
 accompanist = "0.24.12-rc"
 coil = "2.1.0"
 dagger = "2.42"
-kotlin = "1.6.21"
-ksp = "1.6.21-1.0.6"
+kotlin = "1.7.0"
+ksp = "1.7.0-1.0.6"
 kotlin-coroutine = "1.6.3"
 okhttp = "4.9.3"
 
