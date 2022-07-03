@@ -1,8 +1,6 @@
 package com.pluu.webtoon
 
 import android.app.Application
-import coil.ImageLoader
-import coil.ImageLoaderFactory
 import com.pluu.utils.ThemeHelper
 import com.pluu.utils.ThemeType
 import com.pluu.webtoon.utils.log.ComponentLogger
@@ -16,7 +14,7 @@ import javax.inject.Inject
  * Created by pluu on 2015-03-17.
  */
 @HiltAndroidApp
-class AppController : Application(), ImageLoaderFactory {
+class AppController : Application() {
 
     @Inject
     lateinit var componentLogger: ComponentLogger
@@ -31,11 +29,5 @@ class AppController : Application(), ImageLoaderFactory {
 
         // Init Theme
         ThemeHelper.applyTheme(ThemeType.DEFAULT)
-    }
-
-    override fun newImageLoader(): ImageLoader {
-        return ImageLoader.Builder(applicationContext)
-            .okHttpClient(okHttpClient)
-            .build()
     }
 }
