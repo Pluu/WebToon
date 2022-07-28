@@ -12,8 +12,8 @@ android {
 
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        versionCode = 70
-        versionName = "1.7.3"
+        versionCode = 71
+        versionName = "1.7.4"
     }
 
     lint {
