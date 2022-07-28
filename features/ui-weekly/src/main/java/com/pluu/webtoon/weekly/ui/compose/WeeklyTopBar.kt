@@ -4,15 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.ScrollableTabRow
-import androidx.compose.material.Tab
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
@@ -21,11 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WeeklyTopBar(
     modifier: Modifier = Modifier,
@@ -61,48 +62,40 @@ internal fun WeeklyTopBar(
     )
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun DayOfWeekUi(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = contentColorFor(backgroundColor),
-    pagerState: PagerState,
     titles: Array<String>,
     indicatorColor: Color,
     onTabSelected: (Int) -> Unit
 ) {
-    // TODO: ScrollableTabRow은 M2 기반이므로 추후 수정
-    Surface(
-        color = backgroundColor,
-        modifier = modifier.fillMaxWidth()
+    ScrollableTabRow(
+        selectedTabIndex = selectedTabIndex,
+        containerColor = backgroundColor,
+        contentColor = contentColor,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                modifier = Modifier.tabIndicatorOffset(
+                    tabPositions[selectedTabIndex]
+                ),
+                color = indicatorColor
+            )
+        },
+        divider = {},
+        modifier = modifier
+            .fillMaxWidth()
+            .height(56.dp),
+        edgePadding = 0.dp
     ) {
-        ScrollableTabRow(
-            selectedTabIndex = selectedTabIndex,
-            backgroundColor = backgroundColor,
-            contentColor = indicatorColor,
-//        indicator = { tabPositions ->
-//            TabRowDefaults.Indicator(
-//                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-//                color = indicatorColor
-//            )
-//        },
-            divider = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            edgePadding = 0.dp
-        ) {
-            titles.forEachIndexed { index, title ->
-                Tab(
-                    text = {
-                        Text(text = title)
-                    },
-                    selected = index == selectedTabIndex,
-                    onClick = { onTabSelected(index) }
-                )
-            }
+        titles.forEachIndexed { index, title ->
+            Tab(
+                text = { Text(text = title) },
+                selected = index == selectedTabIndex,
+                onClick = { onTabSelected(index) }
+            )
         }
     }
 }
@@ -125,11 +118,9 @@ private fun PreviewDayOfWeekUi() {
     AppTheme {
         DayOfWeekUi(
             selectedTabIndex = 2,
-            pagerState = rememberPagerState(),
             backgroundColor = MaterialTheme.colorScheme.surface,
-            indicatorColor = Color.Red,
             titles = (0..10).map { "$it" }.toTypedArray(),
-            onTabSelected = {}
-        )
+            indicatorColor = Color.Red
+        ) {}
     }
 }

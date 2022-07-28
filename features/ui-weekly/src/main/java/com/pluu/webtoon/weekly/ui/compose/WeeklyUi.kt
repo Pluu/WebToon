@@ -66,7 +66,6 @@ fun WeeklyUi(
         ) {
             DayOfWeekUi(
                 selectedTabIndex = pagerState.currentPage,
-                pagerState = pagerState,
                 titles = viewModel.getTabs(),
                 indicatorColor = naviItem.color
             ) { index ->
