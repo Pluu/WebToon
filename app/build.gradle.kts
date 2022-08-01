@@ -1,7 +1,8 @@
 //import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    id("android-application-convention")
+    id("pluu.android.application")
+    id("pluu.android.application.compose")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 //    id("org.jlleitschuh.gradle.ktlint")
@@ -21,12 +22,6 @@ android {
         disable.add("ContentDescription")
 //        isAbortOnError = false
         xmlReport = true
-    }
-
-    buildFeatures.compose = true
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     useLibrary("android.test.mock")

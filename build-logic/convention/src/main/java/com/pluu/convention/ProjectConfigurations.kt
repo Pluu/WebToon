@@ -1,3 +1,5 @@
+package com.pluu.convention
+
 import org.gradle.api.JavaVersion
 
 object ProjectConfigurations {

@@ -6,6 +6,8 @@ pluginManagement {
     val agpVersion = "7.3.0-beta05"
     val kotlinVersion = "1.7.10"
 
+    includeBuild("build-logic")
+
     repositories {
         gradlePluginPortal()
         google {

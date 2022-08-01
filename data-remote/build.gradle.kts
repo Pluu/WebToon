@@ -1,6 +1,6 @@
 plugins {
     kotlin("plugin.serialization")
-    id("android-library-convention")
+    id("pluu.android.library")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }

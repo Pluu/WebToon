@@ -1,5 +1,6 @@
 plugins {
-    id("android-application-convention")
+    id("pluu.android.application")
+    id("pluu.android.application.compose")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -11,12 +12,6 @@ android {
         applicationId = "com.pluu.webtoon.episode.sample"
         versionCode = 1
         versionName = "1.0"
-    }
-
-    buildFeatures.compose = true
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 

@@ -1,17 +1,12 @@
 plugins {
-    id("android-library-convention")
+    id("pluu.android.library")
+    id("pluu.android.library.compose")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
 
 android {
     namespace = "com.pluu.webtoon.detail"
-
-    buildFeatures.compose = true
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
 }
 
 dependencies {

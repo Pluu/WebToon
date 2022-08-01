@@ -1,5 +1,5 @@
 plugins {
-    id("android-application-convention")
+    id("pluu.android.application")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }

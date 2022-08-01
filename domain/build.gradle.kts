@@ -1,5 +1,5 @@
 plugins {
-    id("android-library-convention")
+    id("pluu.android.library")
 }
 
 android {

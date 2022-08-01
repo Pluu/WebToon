@@ -1,15 +1,10 @@
 plugins {
-    id("android-library-convention")
+    id("pluu.android.library")
+    id("pluu.android.library.compose")
 }
 
 android {
     namespace = "com.pluu.webtoon.ui.compose.theme"
-
-    buildFeatures.compose = true
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
 }
 
 dependencies {
