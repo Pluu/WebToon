@@ -20,8 +20,6 @@ dependencies {
     implementation(projects.uiEpisode)
 
     // Compose
-    implementation(libs.bundles.androidX.compose)
-    debugImplementation(libs.bundles.androidX.compose.preview)
     implementation(libs.androidX.activity.compose)
 
     implementation(libs.accompanist.systemUi)

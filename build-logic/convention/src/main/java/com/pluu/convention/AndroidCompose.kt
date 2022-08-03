@@ -1,7 +1,10 @@
 import com.android.build.api.dsl.CommonExtension
+import com.pluu.convention.debugImplementation
+import com.pluu.convention.implementation
 import com.pluu.convention.kotlinOptions
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import java.io.File
 
@@ -24,6 +27,11 @@ internal fun Project.configureAndroidCompose(
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + buildComposeMetricsParameters()
         }
+    }
+
+    dependencies {
+        implementation(libs.findBundle("androidX-compose"))
+        debugImplementation(libs.findBundle("androidX-compose-preview"))
     }
 }
 

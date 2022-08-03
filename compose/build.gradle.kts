@@ -13,8 +13,4 @@ dependencies {
     // AndroidX
     implementation(libs.androidX.core.ktx)
     implementation(libs.androidX.preference)
-
-    // Compose
-    implementation(libs.bundles.androidX.compose)
-    debugImplementation(libs.bundles.androidX.compose.preview)
 }

@@ -22,8 +22,6 @@ dependencies {
     implementation(libs.androidX.palette)
 
     // Compose
-    implementation(libs.bundles.androidX.compose)
-    debugImplementation(libs.bundles.androidX.compose.preview)
     implementation(libs.androidX.activity.compose)
     implementation(libs.androidX.constraintlayout.compose)
     implementation(libs.androidX.lifecycle.viewModel.compose)

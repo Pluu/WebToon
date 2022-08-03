@@ -24,8 +24,6 @@ dependencies {
     implementation(libs.androidX.hilt.navigation.compose)
 
     // Compose
-    implementation(libs.bundles.androidX.compose)
-    debugImplementation(libs.bundles.androidX.compose.preview)
     implementation(libs.androidX.constraintlayout.compose)
 
     implementation(libs.coil.compose)
