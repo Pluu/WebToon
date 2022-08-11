@@ -6,6 +6,7 @@ import org.gradle.api.Action
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
@@ -61,6 +62,12 @@ internal fun Project.`kapt`(
     configure: Action<KaptExtension>
 ) {
     (this as ExtensionAware).extensions.configure("kapt", configure)
+}
+
+internal fun Project.`java`(
+    configure: Action<JavaPluginExtension>
+) {
+    (this as ExtensionAware).extensions.configure("java", configure)
 }
 
 internal fun CommonExtension<*, *, *, *>.kotlinOptions(
