@@ -57,10 +57,14 @@ internal fun Project.configureKotlin(
     }
 }
 
-internal fun Project.`kapt`(configure: Action<KaptExtension>) {
+internal fun Project.`kapt`(
+    configure: Action<KaptExtension>
+) {
     (this as ExtensionAware).extensions.configure("kapt", configure)
 }
 
-internal fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
+internal fun CommonExtension<*, *, *, *>.kotlinOptions(
+    block: KotlinJvmOptions.() -> Unit
+) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }

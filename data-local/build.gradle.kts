@@ -1,8 +1,7 @@
 plugins {
     id("pluu.android.library")
+    id("pluu.android.hilt")
     id("com.google.devtools.ksp")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -29,19 +28,11 @@ dependencies {
     implementation(libs.androidX.room.ktx)
     implementation(libs.androidX.preference)
 
-    // Dagger Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidX.room.testing)
     androidTestImplementation(libs.androidX.test.junit)
     androidTestImplementation(libs.androidX.test.espresso)
     androidTestImplementation(libs.kotlin.coroutine.test)
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 ksp {

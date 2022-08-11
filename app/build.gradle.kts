@@ -3,8 +3,7 @@
 plugins {
     id("pluu.android.application")
     id("pluu.android.application.compose")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("pluu.android.hilt")
 //    id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -55,10 +54,6 @@ dependencies {
     // OkHttp
     implementation(libs.okhttp.loggingInterceptor)
 
-    // Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-
     // kotlin
     implementation(libs.kotlin.coroutine.core)
     implementation(libs.kotlin.coroutine.android)
@@ -73,7 +68,6 @@ dependencies {
 
 kapt {
     useBuildCache = true
-    correctErrorTypes = true
 }
 
 //ktlint {

@@ -1,8 +1,7 @@
 plugins {
     id("pluu.android.library")
     id("pluu.android.library.compose")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("pluu.android.hilt")
 }
 
 android {
@@ -20,12 +19,4 @@ dependencies {
     implementation(libs.androidX.activity.compose)
 
     implementation(libs.accompanist.systemUi)
-
-    // Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-}
-
-kapt {
-    correctErrorTypes = true
 }

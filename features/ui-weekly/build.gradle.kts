@@ -1,8 +1,7 @@
 plugins {
     id("pluu.android.library")
     id("pluu.android.library.compose")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("pluu.android.hilt")
 }
 
 android {
@@ -31,16 +30,8 @@ dependencies {
     implementation(libs.accompanist.pagerIndicators)
     implementation(libs.accompanist.systemUi)
 
-    // Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-
     // Coil
     implementation(libs.coil.core)
 
     implementation(libs.timber)
-}
-
-kapt {
-    correctErrorTypes = true
 }

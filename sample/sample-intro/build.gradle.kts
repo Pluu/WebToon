@@ -1,7 +1,6 @@
 plugins {
     id("pluu.android.application")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("pluu.android.hilt")
 }
 
 android {
@@ -17,16 +16,4 @@ android {
 dependencies {
     implementation(projects.sampleCommon)
     implementation(projects.uiIntro)
-
-    // Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-}
-
-kapt {
-    correctErrorTypes = true
-}
-
-hilt {
-    enableAggregatingTask = true
 }

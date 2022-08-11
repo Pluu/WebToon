@@ -1,8 +1,11 @@
 import com.pluu.convention.implementation
 import com.pluu.convention.kapt
+import dagger.hilt.android.plugin.HiltExtension
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
@@ -25,6 +28,16 @@ class AndroidHiltConventionPlugin : Plugin<Project> {
             kapt {
                 correctErrorTypes = true
             }
+
+            hilt {
+                enableAggregatingTask = true
+            }
         }
     }
+}
+
+private fun Project.`hilt`(
+    configure: Action<HiltExtension>
+) {
+    (this as ExtensionAware).extensions.configure("hilt", configure)
 }

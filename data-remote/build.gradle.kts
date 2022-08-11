@@ -1,8 +1,7 @@
 plugins {
     kotlin("plugin.serialization")
     id("pluu.android.library")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("pluu.android.hilt")
 }
 
 android {
@@ -25,15 +24,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.loggingInterceptor)
 
-    // Dagger Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-
     testImplementation(libs.junit)
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 //apply(from = "../publish_local.gradle")

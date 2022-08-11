@@ -1,8 +1,7 @@
 plugins {
     id("pluu.android.library")
+    id("pluu.android.hilt")
     id("com.google.devtools.ksp")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -16,15 +15,7 @@ dependencies {
 
     implementation(libs.kotlin.coroutine.core)
 
-    // Dagger Hilt
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
-
     testImplementation(libs.junit)
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 //apply(from = "../publish_local.gradle")
