@@ -20,6 +20,7 @@ okhttp = "4.9.3"
 [libraries]
 plugin-androidGradle = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-hilt = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "dagger" }
 
 # AndroidX
 androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }

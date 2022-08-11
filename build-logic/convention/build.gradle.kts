@@ -10,6 +10,7 @@ java {
 dependencies {
     implementation(libs.plugin.androidGradle)
     implementation(libs.plugin.kotlin)
+    implementation(libs.plugin.hilt)
 }
 
 gradlePlugin {
@@ -29,6 +30,10 @@ gradlePlugin {
         register("androidLibraryCompose") {
             id = "pluu.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidHilt") {
+            id = "pluu.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
         }
     }
 }

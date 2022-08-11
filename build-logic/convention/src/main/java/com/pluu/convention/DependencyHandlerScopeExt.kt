@@ -11,3 +11,7 @@ internal fun <T : Any> DependencyHandlerScope.implementation(dependencyNotation:
 internal fun <T : Any> DependencyHandlerScope.debugImplementation(dependencyNotation: Optional<Provider<T>>) {
     dependencies.add("debugImplementation", dependencyNotation.get())
 }
+
+internal fun <T : Any> DependencyHandlerScope.kapt(dependencyNotation: Optional<Provider<T>>) {
+    dependencies.add("kapt", dependencyNotation.get())
+}
