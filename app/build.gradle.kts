@@ -16,13 +16,6 @@ android {
         versionName = "1.7.4"
     }
 
-    lint {
-        checkOnly.add("Interoperability")
-        disable.add("ContentDescription")
-//        isAbortOnError = false
-        xmlReport = true
-    }
-
     useLibrary("android.test.mock")
 }
 

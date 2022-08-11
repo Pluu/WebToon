@@ -39,6 +39,12 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         excludes.add("/META-INF/{AL2.0,LGPL2.1}")
                     }
                 }
+
+                lint {
+                    checkOnly.add("Interoperability")
+                    disable.add("ContentDescription")
+                    abortOnError = false
+                }
             }
         }
     }
