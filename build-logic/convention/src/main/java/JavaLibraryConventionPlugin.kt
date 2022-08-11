@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 import com.pluu.convention.java
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "UnstableApiUsage")
+
 import com.android.build.gradle.LibraryExtension
 import com.pluu.convention.configureAndroid
 import com.pluu.convention.configureKotlin

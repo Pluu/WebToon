@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 import com.pluu.convention.implementation
 import com.pluu.convention.kapt
 import dagger.hilt.android.plugin.HiltExtension

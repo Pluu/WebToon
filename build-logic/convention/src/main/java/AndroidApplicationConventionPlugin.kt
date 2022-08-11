@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage", "unused")
+
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.pluu.convention.configureAndroid
 import com.pluu.convention.configureKotlin

@@ -1,3 +1,5 @@
+@file:Suppress("RemoveRedundantBackticks")
+
 package com.pluu.convention
 
 import com.android.build.api.dsl.CommonExtension
