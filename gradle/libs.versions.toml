@@ -36,6 +36,7 @@ androidX-compose-runtime = { module = "androidx.compose.runtime:runtime", versio
 androidX-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 androidX-customview-poolingcontainer = "androidx.customview:customview-poolingcontainer:1.0.0"
 androidX-browser = "androidx.browser:browser:1.4.0"
@@ -97,6 +98,7 @@ androidX-compose = [
 
 androidX-compose-preview = [
     "androidX-compose-tooling",
+    "androidX-compose-uiTestManifest",
     "androidX-customview-poolingcontainer"
 ]
 
