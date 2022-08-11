@@ -17,6 +17,12 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlin(this)
+
+                lint {
+                    checkOnly.add("Interoperability")
+                    disable.add("ContentDescription")
+                    abortOnError = false
+                }
             }
         }
     }
