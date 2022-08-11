@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import java.io.Serializable
 
+@Suppress("DEPRECATION")
 inline fun <reified T : Serializable> Intent.getRequiredSerializable(
     name: String
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -14,6 +15,7 @@ inline fun <reified T : Serializable> Intent.getRequiredSerializable(
     getSerializableExtra(name) as T
 }
 
+@Suppress("DEPRECATION")
 inline fun <reified T : Parcelable> Intent.getRequiredParcelableExtra(
     name: String
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -22,6 +24,7 @@ inline fun <reified T : Parcelable> Intent.getRequiredParcelableExtra(
     requireNotNull(getParcelableExtra(name)) as T
 }
 
+@Suppress("DEPRECATION")
 inline fun <reified T : Serializable> Bundle.getRequiredSerializableExtra(
     name: String
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -30,6 +33,7 @@ inline fun <reified T : Serializable> Bundle.getRequiredSerializableExtra(
     getSerializable(name) as T
 }
 
+@Suppress("DEPRECATION")
 inline fun <reified T : Parcelable> Bundle.getRequiredParcelableExtra(
     name: String
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
