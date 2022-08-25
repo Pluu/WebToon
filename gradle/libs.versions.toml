@@ -18,10 +18,6 @@ kotlin-coroutine = "1.6.4"
 okhttp = "4.10.0"
 
 [libraries]
-plugin-androidGradle = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-hilt = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "dagger" }
-
 # AndroidX
 androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
@@ -86,6 +82,11 @@ assertJ = "org.assertj:assertj-core:3.23.1"
 mockito = "org.mockito:mockito-core:4.6.1"
 javapoet = "com.squareup:javapoet:1.13.0"
 
+# Dependencies of the included build-logic
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "dagger" }
+
 [bundles]
 androidX-compose = [
     "androidX-compose-animation",
@@ -103,9 +104,11 @@ androidX-compose-preview = [
 ]
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "androidStudioGradlePlugin" }
-androidLibrary = { id = "com.android.library", version.ref = "androidStudioGradlePlugin" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "androidStudioGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidStudioGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -31,15 +31,6 @@ pluginManagement {
         }
         mavenCentral()
     }
-
-    plugins {
-        id("com.android.application") version agpVersion
-        id("com.android.library") version agpVersion
-        id("org.jetbrains.kotlin.android") version kotlinVersion
-        id("org.jetbrains.kotlin.jvm") version kotlinVersion
-        id("org.jetbrains.kotlin.kapt") version kotlinVersion
-        id("com.google.devtools.ksp") version "${kotlinVersion}-1.0.6"
-    }
     resolutionStrategy {
         eachPlugin {
             when (val id = requested.id.id) {

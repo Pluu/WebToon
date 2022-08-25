@@ -2,15 +2,17 @@ plugins {
     `kotlin-dsl`
 }
 
+group = "com.pluu.webtoon.buildlogic"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
-    implementation(libs.plugin.androidGradle)
-    implementation(libs.plugin.kotlin)
-    implementation(libs.plugin.hilt)
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.hilt.gradlePlugin)
 }
 
 gradlePlugin {
