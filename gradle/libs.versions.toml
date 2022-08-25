@@ -10,7 +10,7 @@ room = "2.5.0-alpha02"
 
 # 3rd-party
 accompanist = "0.26.1-alpha"
-coil = "2.1.0"
+coil = "2.2.0"
 dagger = "2.43.2"
 kotlin = "1.7.10"
 ksp = "1.7.10-1.0.6"
