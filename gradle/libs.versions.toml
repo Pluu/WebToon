@@ -15,7 +15,7 @@ dagger = "2.43.2"
 kotlin = "1.7.10"
 ksp = "1.7.10-1.0.6"
 kotlin-coroutine = "1.6.4"
-okhttp = "4.9.3"
+okhttp = "4.10.0"
 
 [libraries]
 plugin-androidGradle = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
