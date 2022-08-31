@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 /** Intro ViewModel */
 @HiltViewModel
-class IntroViewModel @Inject constructor() : ViewModel() {
+internal class IntroViewModel @Inject constructor() : ViewModel() {
     private val _initLoading = MutableStateFlow(false)
     val observe: StateFlow<Boolean> get() = _initLoading
 

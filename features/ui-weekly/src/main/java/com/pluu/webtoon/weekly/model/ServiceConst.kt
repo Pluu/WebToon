@@ -7,7 +7,7 @@ import com.pluu.webtoon.model.NAV_ITEM
  * Service Const Class
  * Created by pluu on 2015-11-01.
  */
-object ServiceConst {
+internal object ServiceConst {
     // titles for nav drawer items (indices must correspond to the above)
     val NAV_DRAWER_TITLE_RES_ID = intArrayOf(
         com.pluu.webtoon.ui_common.R.string.title_naver,

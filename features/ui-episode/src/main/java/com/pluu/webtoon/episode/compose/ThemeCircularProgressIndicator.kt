@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.pluu.compose.ui.CircularProgressIndicator
 
 @Composable
-fun ThemeCircularProgressIndicator(
+internal fun ThemeCircularProgressIndicator(
     modifier: Modifier = Modifier,
     circleSize: Dp,
     strokeWidth: Dp = 4.0.dp,

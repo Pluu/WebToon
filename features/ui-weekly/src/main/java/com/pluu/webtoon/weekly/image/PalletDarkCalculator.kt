@@ -12,7 +12,7 @@ import com.pluu.webtoon.utils.toLoaderBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class PalletDarkCalculator(
+internal class PalletDarkCalculator(
     private val context: Context
 ) {
     suspend fun calculateSwatchesInImage(

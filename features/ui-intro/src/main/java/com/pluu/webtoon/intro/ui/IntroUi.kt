@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.delay
 
 @Composable
-fun IntroUi(
+internal fun IntroUi(
     modifier: Modifier = Modifier,
     viewModel: IntroViewModel,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
