@@ -1,6 +1,5 @@
 package com.pluu.webtoon.detail.ui.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -9,8 +8,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -31,20 +30,14 @@ internal fun DetailTopUi(
     onBackPressed: () -> Unit,
     onShared: () -> Unit
 ) {
-    SmallTopAppBar(
-        modifier = modifier.background(backgroundColor),
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.Transparent,
-            titleContentColor = contentColor,
-            navigationIconContentColor = contentColor,
-            actionIconContentColor = contentColor
-        ),
+    TopAppBar(
         title = {
             Column {
                 Text(text = title, fontSize = 22.sp, maxLines = 1)
                 Text(text = subTitle, fontSize = 14.sp, maxLines = 1)
             }
         },
+        modifier = modifier,
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
                 Icon(
@@ -60,7 +53,13 @@ internal fun DetailTopUi(
                     contentDescription = null
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = backgroundColor,
+            titleContentColor = contentColor,
+            navigationIconContentColor = contentColor,
+            actionIconContentColor = contentColor
+        )
     )
 }
 

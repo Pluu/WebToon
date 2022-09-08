@@ -1,7 +1,5 @@
 package com.pluu.webtoon.episode.ui.compose
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -10,8 +8,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -33,19 +31,9 @@ internal fun EpisodeTopUi(
     onBackPressed: () -> Unit,
     onFavoriteClicked: (isFavorite: Boolean) -> Unit
 ) {
-    SmallTopAppBar(
-        modifier = modifier
-            .background(backgroundColor)
-            .statusBarsPadding(),
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.Transparent,
-            navigationIconContentColor = contentColor,
-            titleContentColor = contentColor,
-            actionIconContentColor = contentColor
-        ),
-        title = {
-            Text(text = title)
-        },
+    TopAppBar(
+        title = { Text(text = title) },
+        modifier = modifier,
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
                 Icon(
@@ -55,9 +43,7 @@ internal fun EpisodeTopUi(
             }
         },
         actions = {
-            IconButton(onClick = {
-                onFavoriteClicked(isFavorite)
-            }) {
+            IconButton(onClick = { onFavoriteClicked(isFavorite) }) {
                 if (isFavorite) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
@@ -71,7 +57,13 @@ internal fun EpisodeTopUi(
                     )
                 }
             }
-        }
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = backgroundColor,
+            navigationIconContentColor = contentColor,
+            titleContentColor = contentColor,
+            actionIconContentColor = contentColor
+        )
     )
 }
 

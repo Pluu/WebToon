@@ -4,11 +4,8 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -47,8 +44,7 @@ internal fun InitTopUi(
 
     Column(modifier = modifier) {
         Divider(
-            modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars)
-                .zIndex(1f),
+            modifier = Modifier.zIndex(1f),
             color = backgroundColor,
             thickness = 0.dp
         )

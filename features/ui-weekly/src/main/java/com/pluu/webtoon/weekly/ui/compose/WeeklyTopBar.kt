@@ -1,9 +1,7 @@
 package com.pluu.webtoon.weekly.ui.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,11 +9,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -35,22 +33,14 @@ internal fun WeeklyTopBar(
     title: String,
     onDrawerClicked: () -> Unit
 ) {
-    SmallTopAppBar(
-        modifier = modifier
-            .background(backgroundColor)
-            .statusBarsPadding(),
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.Transparent,
-            navigationIconContentColor = contentColor,
-            titleContentColor = contentColor,
-            actionIconContentColor = contentColor
-        ),
+    TopAppBar(
         title = {
             Text(
                 text = title,
                 style = MaterialTheme.typography.headlineSmall
             )
         },
+        modifier = modifier,
         navigationIcon = {
             IconButton(onClick = onDrawerClicked) {
                 Icon(
@@ -58,7 +48,13 @@ internal fun WeeklyTopBar(
                     contentDescription = null
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = backgroundColor,
+            navigationIconContentColor = contentColor,
+            titleContentColor = contentColor,
+            actionIconContentColor = contentColor
+        )
     )
 }
 
