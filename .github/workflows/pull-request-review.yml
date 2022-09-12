@@ -3,6 +3,12 @@ name: pull request review
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches:
+      - develop
+    paths-ignore:
+      - docs/**
+      - README.md
+      - LICENSE
 
 jobs:
   danger:
@@ -38,6 +44,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.5
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: Run Lint
         run: ./gradlew lintDebug
