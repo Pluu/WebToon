@@ -23,6 +23,7 @@ dependencies {
 
     implementation(libs.kotlin.coroutine.android)
 
+    implementation(libs.androidX.fragment.ktx)
     implementation(libs.androidX.room.runtime)
     ksp(libs.androidX.room.compiler)
     implementation(libs.androidX.room.ktx)

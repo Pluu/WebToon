@@ -12,7 +12,7 @@ dependencies {
     api(projects.uiTheme)
 
     // Android UI
-    implementation(libs.androidX.fragment)
+    implementation(libs.androidX.fragment.ktx)
 
     // Compose
     implementation(libs.androidX.activity.compose)

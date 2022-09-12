@@ -12,5 +12,6 @@ dependencies {
 
     // AndroidX
     implementation(libs.androidX.core.ktx)
+    implementation(libs.androidX.fragment.ktx)
     implementation(libs.androidX.preference)
 }

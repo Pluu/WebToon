@@ -10,7 +10,7 @@ dependencies {
     implementation(libs.androidX.activity.ktx)
     implementation(libs.androidX.appcompat)
     implementation(libs.androidX.core.ktx)
-    implementation(libs.androidX.fragment)
+    implementation(libs.androidX.fragment.ktx)
     compileOnly(libs.androidX.viewBinding)
 
     testImplementation(libs.androidX.arch.coreTesting)

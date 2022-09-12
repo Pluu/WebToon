@@ -36,7 +36,7 @@ androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manife
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 androidX-customview-poolingcontainer = "androidx.customview:customview-poolingcontainer:1.0.0"
 androidX-browser = "androidx.browser:browser:1.4.0"
-androidX-fragment = "androidx.fragment:fragment:1.5.2"
+androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.5.2"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
