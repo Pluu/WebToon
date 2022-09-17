@@ -12,12 +12,6 @@ warn("a large PR") if git.lines_of_code > 300
 warn "This PR does not have any assignees yet." unless github.pr_json["assignee"]
 
 # --------------------
-# ktlint
-# --------------------
-# checkstyle_format.base_path = Dir.pwd
-# checkstyle_format.report "app/build/reports/ktlint/ktlint-#{ENV['APP_BUILD_TYPE'].downcase}.xml"
-
-# --------------------
 # Android Lint
 # --------------------
 Dir["*/build/reports/lint-results*.xml"].each do |file|

@@ -48,7 +48,6 @@ Dependencies
   - Dagger Hilt
 - Coil
 - Jsoup
-- ktlint
 - Kotlin
   - Kotlin
   - Coroutines

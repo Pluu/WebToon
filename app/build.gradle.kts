@@ -1,10 +1,7 @@
-//import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-
 plugins {
     id("pluu.android.application")
     id("pluu.android.application.compose")
     id("pluu.android.hilt")
-//    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -62,19 +59,3 @@ dependencies {
 kapt {
     useBuildCache = true
 }
-
-//ktlint {
-//    debug.set(true)
-//    verbose.set(true)
-//    android.set(true)
-//    outputToConsole.set(true)
-//    outputColorName.set("RED")
-//    ignoreFailures.set(true)
-//    reporters {
-//        reporter(ReporterType.CHECKSTYLE)
-//    }
-//    filter {
-//        exclude("**/generated/**")
-//        include("**/kotlin/**")
-//    }
-//}

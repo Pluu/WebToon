@@ -23,11 +23,6 @@ pluginManagement {
                 includeGroup("zipflinger")
             }
         }
-        maven("https://plugins.gradle.org/m2/") {
-            content {
-                includeGroup("org.jlleitschuh.gradle")
-            }
-        }
         mavenCentral()
     }
     resolutionStrategy {
@@ -54,11 +49,6 @@ dependencyResolutionManagement {
                 includeGroup("com.google.gms")
                 includeGroup("com.google.testing.platform")
                 includeGroup("zipflinger")
-            }
-        }
-        maven("https://plugins.gradle.org/m2/") {
-            content {
-                includeGroup("org.jlleitschuh.gradle")
             }
         }
         mavenCentral()
