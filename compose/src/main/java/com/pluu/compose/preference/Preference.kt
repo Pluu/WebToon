@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import com.pluu.compose.R
 import com.pluu.compose.preference.tokens.PreferenceTokens
 import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
-import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
 fun Preference(
@@ -177,17 +176,15 @@ private fun ContentPreference(
 @DayNightWrapPreview
 @Composable
 fun PreviewPreference() {
-    AppTheme {
-        Column {
-            Preference(
-                title = "Title"
-            )
-            Divider(color = Color.Gray)
-            Preference(
-                painter = painterResource(R.drawable.ic_baseline_android_24),
-                title = "Title blablabla blablabla blablabla blablabla",
-                summary = "Summary blablabla blablabla"
-            )
-        }
+    Column {
+        Preference(
+            title = "Title"
+        )
+        Divider(color = Color.Gray)
+        Preference(
+            painter = painterResource(R.drawable.ic_baseline_android_24),
+            title = "Title blablabla blablabla blablabla blablabla",
+            summary = "Summary blablabla blablabla"
+        )
     }
 }

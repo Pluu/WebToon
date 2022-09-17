@@ -8,8 +8,6 @@ android {
 }
 
 dependencies {
-    debugImplementation(projects.uiTheme)
-
     // AndroidX
     implementation(libs.androidX.core.ktx)
     implementation(libs.androidX.fragment.ktx)

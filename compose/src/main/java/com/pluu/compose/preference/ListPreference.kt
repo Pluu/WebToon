@@ -24,7 +24,6 @@ import com.pluu.compose.R
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.ListDialog
 import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
-import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 data class ListPreferenceItem<T>(
     val entry: String,
@@ -189,14 +188,12 @@ fun PreviewListPreference() {
         onValueChange = { _, _ -> }
     )
 
-    AppTheme {
-        ListPreference(
-            items = (0..20).map {
-                ListPreferenceItem(it.toString(), "Context ${it + 1}")
-            },
-            preferenceState = preferenceState,
-            title = "Title",
-            painter = painterResource(R.drawable.ic_baseline_android_24)
-        )
-    }
+    ListPreference(
+        items = (0..20).map {
+            ListPreferenceItem(it.toString(), "Context ${it + 1}")
+        },
+        preferenceState = preferenceState,
+        title = "Title",
+        painter = painterResource(R.drawable.ic_baseline_android_24)
+    )
 }
