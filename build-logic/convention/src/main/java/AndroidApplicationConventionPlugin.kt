@@ -30,9 +30,19 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 }
 
                 buildTypes {
-                    getByName("debug") {
+                    debug {
                         signingConfig = signingConfigs.getByName("debug")
                         applicationIdSuffix = ".debug"
+                    }
+
+                    release {
+                        postprocessing {
+                            isRemoveUnusedCode = true
+                            isRemoveUnusedResources = true
+                            isOptimizeCode = true
+                            isObfuscate = true
+                            proguardFile("proguard-rules.pro")
+                        }
                     }
                 }
 
