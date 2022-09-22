@@ -10,11 +10,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 @Composable
 inline fun rememberImageAsset(
     initValues: ImageBitmap? = null,
-    init: @DisallowComposableCalls () -> ImageBitmap?
+    crossinline init: @DisallowComposableCalls () -> ImageBitmap?
 ) = remember(initValues) { mutableStateOf(init()) }
 
 @Composable
 inline fun rememberDrawable(
     initValues: Drawable? = null,
-    init: @DisallowComposableCalls () -> Drawable?
+    crossinline init: @DisallowComposableCalls () -> Drawable?
 ) = remember(initValues) { mutableStateOf(init()) }
