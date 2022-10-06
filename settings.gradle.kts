@@ -3,8 +3,6 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    val kotlinVersion = "1.7.10"
-
     includeBuild("build-logic")
 
     repositories {
@@ -24,13 +22,6 @@ pluginManagement {
             }
         }
         mavenCentral()
-    }
-    resolutionStrategy {
-        eachPlugin {
-            when (val id = requested.id.id) {
-                "org.jetbrains.kotlin.plugin.serialization" -> useModule("${id}:${id}.gradle.plugin:${kotlinVersion}")
-            }
-        }
     }
 }
 
