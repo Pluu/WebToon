@@ -80,7 +80,6 @@ timber = "com.jakewharton.timber:timber:5.0.1"
 junit = "junit:junit:4.13.2"
 assertJ = "org.assertj:assertj-core:3.23.1"
 mockito = "org.mockito:mockito-core:4.8.0"
-javapoet = "com.squareup:javapoet:1.13.0"
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
