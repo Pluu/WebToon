@@ -9,7 +9,7 @@ lifecycle = "2.6.0-alpha02"
 room = "2.5.0-beta01"
 
 # 3rd-party
-accompanist = "0.26.4-beta"
+accompanist = "0.26.5-rc"
 coil = "2.2.2"
 dagger = "2.44"
 kotlin = "1.7.20"
