@@ -72,7 +72,7 @@ kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 ## etc
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-jsoup = "org.jsoup:jsoup:1.15.2"
+jsoup = "org.jsoup:jsoup:1.15.3"
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 timber = "com.jakewharton.timber:timber:5.0.1"
