@@ -5,6 +5,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.api.dsl.CommonExtension
+import com.pluu.convention.api
 import com.pluu.convention.debugImplementation
 import com.pluu.convention.implementation
 import com.pluu.convention.kotlinOptions
@@ -36,6 +37,7 @@ internal fun Project.configureAndroidCompose(
     }
 
     dependencies {
+        api(platform(libs.findLibrary("androidX-compose-bom").get()))
         implementation(libs.findBundle("androidX-compose"))
         debugImplementation(libs.findBundle("androidX-compose-preview"))
     }

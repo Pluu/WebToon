@@ -12,4 +12,5 @@ dependencies {
     implementation(libs.androidX.core.ktx)
     implementation(libs.androidX.fragment.ktx)
     implementation(libs.androidX.preference)
+    api(platform(libs.androidX.compose.bom))
 }
