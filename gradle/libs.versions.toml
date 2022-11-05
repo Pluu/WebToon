@@ -28,7 +28,7 @@ androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = 
 androidX-compose-animation = { module = "androidx.compose.animation:animation" }
 androidX-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidX-compose-liveData = { module = "androidx.compose.runtime:runtime-livedata" }
-androidX-compose-material = "androidx.compose.material3:material3:1.0.0"
+androidX-compose-material = { module = "androidx.compose.material3:material3" }
 androidX-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidX-compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
