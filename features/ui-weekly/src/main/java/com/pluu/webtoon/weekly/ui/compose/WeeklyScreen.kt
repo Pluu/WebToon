@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
@@ -34,7 +35,11 @@ internal fun WeeklyScreen(
 
     ModalNavigationDrawer(
         drawerContent = {
-            ModalDrawerSheet(Modifier.width(320.dp)) {
+            ModalDrawerSheet(
+                Modifier.width(320.dp),
+                drawerContainerColor = naviItem.bgColor,
+                drawerContentColor = MaterialTheme.colorScheme.background
+            ) {
                 WeeklyDrawer(
                     title = stringResource(R.string.app_name),
                     backgroundColor = naviItem.bgColor,
