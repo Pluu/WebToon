@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.compose)
 
     implementation(libs.androidX.core.ktx)
-    implementation(libs.androidX.splashScreen)
+    implementation(libs.androidX.core.splashScreen)
 
     // Compose
     implementation(libs.androidX.activity.compose)

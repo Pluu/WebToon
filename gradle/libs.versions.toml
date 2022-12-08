@@ -25,6 +25,7 @@ androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.1.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.6.0-rc01"
 androidX-browser = "androidx.browser:browser:1.4.0"
 androidX-core-ktx = "androidx.core:core-ktx:1.9.0"
+androidX-core-splashScreen = "androidx.core:core-splashscreen:1.0.0"
 androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 androidX-compose-animation = { module = "androidx.compose.animation:animation" }
 androidX-compose-foundation = { module = "androidx.compose.foundation:foundation" }
@@ -50,7 +51,6 @@ androidX-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidX-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidX-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidX-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
-androidX-splashScreen = "androidx.core:core-splashscreen:1.0.0"
 androidX-test-junit = "androidx.test.ext:junit:1.1.3"
 androidX-test-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 androidX-viewBinding = { module = "androidx.databinding:viewbinding", version.ref = "androidStudioGradlePlugin" }
