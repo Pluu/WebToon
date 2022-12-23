@@ -5,14 +5,9 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.android.build.api.dsl.CommonExtension
-import com.pluu.convention.api
-import com.pluu.convention.debugImplementation
-import com.pluu.convention.implementation
-import com.pluu.convention.kotlinOptions
+import com.pluu.convention.*
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import java.io.File
 
 /**
@@ -21,7 +16,7 @@ import java.io.File
 internal fun Project.configureAndroidCompose(
     commonExtension: CommonExtension<*, *, *, *>,
 ) {
-    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+    val libs = findVersionCatalog()
 
     commonExtension.apply {
         buildFeatures.compose = true
