@@ -1,49 +1,23 @@
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage", "UNCHECKED_CAST")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     includeBuild("build-logic")
 
+    apply("repositories.gradle.kts")
     repositories {
         gradlePluginPortal()
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("androidx.*")
-                includeGroup("android.arch.lifecycle")
-                includeGroup("android.arch.core")
-                includeGroup("com.google.firebase")
-                includeGroup("com.google.android.gms")
-                includeGroup("com.google.android.material")
-                includeGroup("com.google.gms")
-                includeGroup("com.google.testing.platform")
-                includeGroup("zipflinger")
-            }
-        }
-        mavenCentral()
+        val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.() -> Unit
+        configureSharedRepositories(this)
     }
 }
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("androidx.*")
-                includeGroup("android.arch.lifecycle")
-                includeGroup("android.arch.core")
-                includeGroup("com.google.firebase")
-                includeGroup("com.google.android.gms")
-                includeGroup("com.google.android.material")
-                includeGroup("com.google.gms")
-                includeGroup("com.google.testing.platform")
-                includeGroup("zipflinger")
-            }
-        }
-        mavenCentral()
-    }
+    apply("repositories.gradle.kts")
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.() -> Unit
+    configureSharedRepositories(repositories)
 }
 
 rootProject.name = "WebToon"
