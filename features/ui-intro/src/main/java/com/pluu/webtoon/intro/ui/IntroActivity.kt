@@ -2,6 +2,7 @@ package com.pluu.webtoon.intro.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -44,6 +45,10 @@ class IntroActivity : ComponentActivity() {
                 IntroContent()
             }
         }
+
+        onBackPressedDispatcher.addCallback(this) {
+            // Do Nothing
+        }
     }
 
     @Composable
@@ -53,10 +58,6 @@ class IntroActivity : ComponentActivity() {
             backgroundColor = MaterialTheme.colorScheme.background,
             onNavigateToMain = ::moveMainScreen
         )
-    }
-
-    override fun onBackPressed() {
-        // Do Nothing
     }
 
     private fun moveMainScreen() {
