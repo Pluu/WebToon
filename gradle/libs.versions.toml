@@ -11,7 +11,7 @@ room = "2.5.0"
 # 3rd-party
 accompanist = "0.28.0"
 coil = "2.2.2"
-dagger = "2.44.2"
+dagger = "2.45"
 kotlin = "1.8.10"
 ksp = "1.8.10-1.0.9"
 kotlin-coroutine = "1.6.4"
