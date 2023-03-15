@@ -5,12 +5,12 @@ package com.pluu.convention
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.Action
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 /**
@@ -18,11 +18,11 @@ import org.jetbrains.kotlin.gradle.plugin.KaptExtension
  */
 internal fun Project.configureAndroid() {
     extensions.configure<BaseExtension> {
-        compileSdkVersion(ProjectConfigurations.compileSdk)
+        compileSdkVersion(Const.compileSdk)
 
         defaultConfig {
-            minSdk = ProjectConfigurations.minSdk
-            targetSdk = ProjectConfigurations.targetSdk
+            minSdk = Const.minSdk
+            targetSdk = Const.targetSdk
 
             testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
@@ -30,8 +30,8 @@ internal fun Project.configureAndroid() {
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = Const.JAVA_VERSION
+            targetCompatibility = Const.JAVA_VERSION
         }
     }
 }
@@ -45,8 +45,9 @@ internal fun Project.configureKotlin(
             "-Xjvm-default=all"
         )
 
-        // Set JVM target to 1.8
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        // Set JVM target
+        jvmTarget = Const.JAVA_VERSION.toString()
+        allWarningsAsErrors = true
     }
 }
 
@@ -62,8 +63,14 @@ internal fun Project.`java`(
     (this as ExtensionAware).extensions.configure("java", configure)
 }
 
-internal fun CommonExtension<*, *, *, *>.kotlinOptions(
-    block: KotlinJvmOptions.() -> Unit
+internal fun Project.`kotlin`(
+    configure: Action<KotlinJvmProjectExtension>
 ) {
-    (this as ExtensionAware).extensions.configure("kotlinOptions", block)
+    (this as ExtensionAware).extensions.configure("kotlin", configure)
+}
+
+internal fun CommonExtension<*, *, *, *>.kotlinOptions(
+    configure: KotlinJvmOptions.() -> Unit
+) {
+    (this as ExtensionAware).extensions.configure("kotlinOptions", configure)
 }

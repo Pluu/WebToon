@@ -1,7 +1,8 @@
 @file:Suppress("unused")
 
+import com.pluu.convention.Const
 import com.pluu.convention.java
-import org.gradle.api.JavaVersion
+import com.pluu.convention.kotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -14,8 +15,12 @@ class JavaLibraryConventionPlugin : Plugin<Project> {
             }
 
             java {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = Const.JAVA_VERSION
+                targetCompatibility = Const.JAVA_VERSION
+            }
+
+            kotlin {
+                jvmToolchain(Const.JDK_VERSION)
             }
         }
     }
