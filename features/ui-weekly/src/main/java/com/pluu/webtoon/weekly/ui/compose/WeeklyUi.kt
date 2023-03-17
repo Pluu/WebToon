@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.DrawerValue
@@ -51,18 +50,15 @@ fun WeeklyUi(
                 is WeeklyMenuEvent.OnMenuClicked -> {
                     onNavigateToMenu(event.item)
                 }
+
                 WeeklyMenuEvent.OnSettingClicked -> {
                     openSetting()
                 }
             }
         },
         drawerState = drawerState,
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
+    ) { _ ->
+        Column(modifier = Modifier.fillMaxSize()) {
             DayOfWeekUi(
                 selectedTabIndex = pagerState.currentPage,
                 titles = viewModel.getTabs(),
