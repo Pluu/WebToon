@@ -42,7 +42,9 @@ internal fun Project.configureKotlin(
     commonExtension.kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xskip-prerelease-check",
-            "-Xjvm-default=all"
+            "-Xjvm-default=all",
+            // Enable experimental coroutines APIs, including Flow
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         )
 
         // Set JVM target
