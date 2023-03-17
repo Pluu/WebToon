@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -22,7 +21,6 @@ import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WeeklyScreen(
     modifier: Modifier = Modifier,
@@ -74,7 +72,6 @@ internal fun WeeklyScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @DayNightPreview
 @Composable
 private fun PreviewWeeklyScreen() {
