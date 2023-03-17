@@ -58,8 +58,6 @@ androidX-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 androidX-viewBinding = { module = "androidx.databinding:viewbinding", version.ref = "androidStudioGradlePlugin" }
 # 3rd-party
 ## Accompanist
-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
-accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-systemUi = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 ## Dagger
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }

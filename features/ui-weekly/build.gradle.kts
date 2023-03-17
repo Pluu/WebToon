@@ -26,8 +26,6 @@ dependencies {
     implementation(libs.androidX.lifecycle.viewModel.compose)
 
     implementation(libs.coil.compose)
-    implementation(libs.accompanist.pager)
-    implementation(libs.accompanist.pagerIndicators)
     implementation(libs.accompanist.systemUi)
 
     // Coil
