@@ -11,7 +11,7 @@ lifecycle = "2.6.0"
 room = "2.5.0"
 
 # 3rd-party
-accompanist = "0.28.0"
+accompanist = "0.29.2-rc"
 coil = "2.2.2"
 dagger = "2.45"
 kotlin = "1.8.10"
