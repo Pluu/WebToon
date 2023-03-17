@@ -21,7 +21,7 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: 'zulu'
           java-version: '17'
           cache: 'gradle'
 
@@ -44,6 +44,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
+          gradle-home-cache-cleanup: true
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
