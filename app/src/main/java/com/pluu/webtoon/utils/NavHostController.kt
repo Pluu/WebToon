@@ -22,7 +22,7 @@ fun NavController.navigateWithArgument(
     }
     navigate(route, navOptions, navigatorExtras)
 
-    if (args == null || args.isEmpty()) {
+    if (args.isNullOrEmpty()) {
         return
     }
     val bundle = backQueue.lastOrNull()?.arguments

@@ -2,16 +2,16 @@
 androidStudioGradlePlugin = "8.0.0-beta05"
 
 # AndroiX
-activity = "1.7.0-rc01"
-compose = "1.4.0-rc01"
-compose-material3 = "1.1.0-alpha08"
-#compose-bom = "2023.01.00"
-composeCompiler = "1.4.2"
-lifecycle = "2.6.0"
-room = "2.5.0"
+activity = "1.7.0"
+compose = "1.4.0"
+compose-material3 = "1.1.0-beta01"
+#compose-bom = "2023.03.00"
+composeCompiler = "1.4.4"
+lifecycle = "2.6.1"
+room = "2.5.1"
 
 # 3rd-party
-accompanist = "0.29.2-rc"
+accompanist = "0.30.0"
 coil = "2.2.2"
 dagger = "2.45"
 kotlin = "1.8.10"
@@ -23,7 +23,7 @@ okhttp = "4.10.0"
 # AndroidX
 androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
-androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.1.0"
+androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.6.1"
 androidX-browser = "androidx.browser:browser:1.5.0"
 androidX-core-ktx = "androidx.core:core-ktx:1.10.0-rc01"
@@ -39,7 +39,7 @@ androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-pre
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.5.5"
+androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.5.6"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
