@@ -12,7 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pluu.utils.getRequiredSerializableExtra
+import com.pluu.utils.extraNotNullSerializable
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
@@ -101,9 +101,8 @@ private fun NavGraphBuilder.installEpisodeScreen(
     composable(Screen.Episode.route) { entry ->
         // Read, Bundle data
         val arguments = requireNotNull(entry.arguments)
-        val toon: ToonInfoWithFavorite =
-            arguments.getRequiredSerializableExtra(Const.EXTRA_TOON)
-        val color: PalletColor = arguments.getRequiredSerializableExtra(Const.EXTRA_PALLET)
+        val toon = arguments.extraNotNullSerializable<ToonInfoWithFavorite>(Const.EXTRA_TOON)
+        val color = arguments.extraNotNullSerializable<PalletColor>(Const.EXTRA_PALLET)
         // Navigate
         EpisodeUi(
             webToonItem = toon,
@@ -128,7 +127,7 @@ private fun NavGraphBuilder.installDetailScreen(
     composable(Screen.Detail.route) { entry ->
         // Read, Bundle data
         val arguments = requireNotNull(entry.arguments)
-        val color: PalletColor = arguments.getRequiredSerializableExtra(Const.EXTRA_PALLET)
+        val color: PalletColor = arguments.extraNotNullSerializable(Const.EXTRA_PALLET)
 
         // Navigate
         DetailUi(
