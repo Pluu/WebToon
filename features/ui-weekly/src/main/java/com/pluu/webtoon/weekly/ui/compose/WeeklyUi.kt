@@ -26,10 +26,28 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WeeklyUi(
     naviItem: UI_NAV_ITEM,
+    onNavigateToMenu: (UI_NAV_ITEM) -> Unit,
+    openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit,
+    openSetting: () -> Unit
+) {
+    val viewModel: WeeklyViewModel = hiltViewModel()
+    WeeklyUi(
+        naviItem = naviItem,
+        tabs = viewModel.getTabs(),
+        onNavigateToMenu = onNavigateToMenu,
+        openEpisode = openEpisode,
+        openSetting = openSetting,
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+internal fun WeeklyUi(
+    naviItem: UI_NAV_ITEM,
+    tabs: List<String>,
     onNavigateToMenu: (UI_NAV_ITEM) -> Unit,
     openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit,
     openSetting: () -> Unit
@@ -39,7 +57,6 @@ fun WeeklyUi(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val pagerState = rememberPagerState(selectedTabIndex)
     val coroutineScope = rememberCoroutineScope()
-    val viewModel: WeeklyViewModel = hiltViewModel()
 
     BackHandler(drawerState.isOpen) {
         coroutineScope.launch {
@@ -73,7 +90,7 @@ fun WeeklyUi(
         ) {
             DayOfWeekUi(
                 selectedTabIndex = pagerState.currentPage,
-                titles = viewModel.getTabs(),
+                titles = tabs,
                 indicatorColor = naviItem.color
             ) { index ->
                 coroutineScope.launch {
@@ -82,7 +99,7 @@ fun WeeklyUi(
             }
 
             HorizontalPager(
-                pageCount = viewModel.getTabs().size,
+                pageCount = tabs.size,
                 modifier = Modifier.fillMaxSize(),
                 state = pagerState,
                 key = { it }
