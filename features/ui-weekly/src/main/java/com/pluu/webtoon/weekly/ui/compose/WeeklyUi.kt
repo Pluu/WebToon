@@ -3,7 +3,10 @@ package com.pluu.webtoon.weekly.ui.compose
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.DrawerValue
@@ -11,6 +14,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
@@ -57,8 +61,16 @@ fun WeeklyUi(
             }
         },
         drawerState = drawerState,
-    ) { _ ->
-        Column(modifier = Modifier.fillMaxSize()) {
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(
+                    start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+                    top = innerPadding.calculateTopPadding(),
+                    end = innerPadding.calculateEndPadding(LocalLayoutDirection.current)
+                )
+                .fillMaxSize()
+        ) {
             DayOfWeekUi(
                 selectedTabIndex = pagerState.currentPage,
                 titles = viewModel.getTabs(),
