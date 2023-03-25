@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetWebToonTabsUseCase @Inject constructor(
     private val repository: WebToonRepository
 ) {
-    operator fun invoke(): Array<String> {
+    operator fun invoke(): List<String> {
         return repository.getWebToonTabs()
     }
 }

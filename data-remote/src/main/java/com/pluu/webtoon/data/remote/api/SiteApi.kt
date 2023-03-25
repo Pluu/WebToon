@@ -11,7 +11,7 @@ import com.pluu.webtoon.model.WeekPosition
 
 internal interface WeeklyApi {
 
-    val currentTabs: Array<String>
+    val currentTabs: List<String>
 
     @Throws(Exception::class)
     suspend operator fun invoke(param: WeekPosition): Result<List<ToonInfo>>

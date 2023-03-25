@@ -9,5 +9,5 @@ import javax.inject.Inject
 internal class WeeklyViewModel @Inject constructor(
     private val getWebToonTabsUseCase: GetWebToonTabsUseCase
 ) : ViewModel() {
-    fun getTabs(): Array<String> = getWebToonTabsUseCase()
+    fun getTabs(): List<String> = getWebToonTabsUseCase()
 }

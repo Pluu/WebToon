@@ -66,7 +66,7 @@ internal class WebToonDataRepository @Inject constructor(
         return remoteRepository.getShareItem(toonId, episodeId, episodeTitle, detailTitle)
     }
 
-    override fun getWebToonTabs(): Array<String> {
+    override fun getWebToonTabs(): List<String> {
         return remoteRepository.getWebToonTabs()
     }
 }

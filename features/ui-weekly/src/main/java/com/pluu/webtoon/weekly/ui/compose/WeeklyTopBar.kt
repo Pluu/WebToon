@@ -63,7 +63,7 @@ internal fun DayOfWeekUi(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = contentColorFor(backgroundColor),
-    titles: Array<String>,
+    titles: List<String>,
     indicatorColor: Color,
     onTabSelected: (Int) -> Unit
 ) {
@@ -113,7 +113,7 @@ private fun PreviewDayOfWeekUi() {
         DayOfWeekUi(
             selectedTabIndex = 2,
             backgroundColor = MaterialTheme.colorScheme.surface,
-            titles = (0..10).map { "$it" }.toTypedArray(),
+            titles = (0..10).map { "$it" },
             indicatorColor = Color.Red
         ) {}
     }

@@ -20,7 +20,7 @@ internal class KToonWeekApi @Inject constructor(
     private val networkUseCase: INetworkUseCase
 ) : WeeklyApi, INetworkUseCase by networkUseCase {
 
-    override val currentTabs = arrayOf("월", "화", "수", "목", "금", "토", "일")
+    override val currentTabs = listOf("월", "화", "수", "목", "금", "토", "일")
 
     override suspend fun invoke(param: WeekPosition): Result<List<ToonInfo>> {
         ///////////////////////////////////////////////////////////////////////////

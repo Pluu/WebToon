@@ -40,5 +40,5 @@ interface WebToonRepository {
         detailTitle: String,
     ): ShareItem
 
-    fun getWebToonTabs(): Array<String>
+    fun getWebToonTabs(): List<String>
 }
