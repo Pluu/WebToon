@@ -11,19 +11,18 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -36,9 +35,9 @@ fun <T> ListDialog(
     items: List<T>,
     key: ((index: Int, item: T) -> Any)? = null,
     onDismiss: () -> Unit,
-    shape: Shape = RectangleShape,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
+    shape: Shape = AlertDialogDefaults.shape,
+    containerColor: Color = AlertDialogDefaults.containerColor,
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
     properties: DialogProperties = DialogProperties(),
     itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
@@ -49,8 +48,8 @@ fun <T> ListDialog(
         Surface(
             modifier = modifier,
             shape = shape,
-            color = backgroundColor,
-            contentColor = contentColor
+            color = containerColor,
+            tonalElevation = tonalElevation,
         ) {
             ListDialogContent(
                 title = title,
