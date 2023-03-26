@@ -2,6 +2,7 @@ package com.pluu.webtoon.weekly.ui.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +18,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,8 +41,6 @@ import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 internal fun WeeklyDrawer(
     modifier: Modifier = Modifier,
     title: String,
-    backgroundColor: Color,
-    accentColor: Color,
     menus: Iterator<UI_NAV_ITEM>,
     selectedMenu: UI_NAV_ITEM,
     onEventAction: (WeeklyMenuEvent) -> Unit
@@ -57,7 +58,7 @@ internal fun WeeklyDrawer(
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = backgroundColor)
+                .background(color = selectedMenu.bgColor)
                 .statusBarsPadding()
                 .sizeIn(minHeight = 56.dp)
                 .padding(horizontal = 16.dp)
@@ -71,17 +72,20 @@ internal fun WeeklyDrawer(
             Text(
                 stringResource(ServiceConst.NAV_DRAWER_TITLE_RES_ID[index]),
                 color = if (isSelected) {
-                    accentColor
+                    selectedMenu.color
                 } else {
                     MaterialTheme.colorScheme.onBackground
                 },
                 fontSize = 14.sp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .sizeIn(minHeight = 48.dp)
-                    .clickable {
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(color = selectedMenu.color)
+                    ) {
                         onEventAction(WeeklyMenuEvent.OnMenuClicked(item))
                     }
+                    .sizeIn(minHeight = 48.dp)
                     .padding(horizontal = 16.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
             )
@@ -92,11 +96,15 @@ internal fun WeeklyDrawer(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .sizeIn(minHeight = 48.dp)
-                .clickable {
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(color = selectedMenu.color)
+                ) {
                     onEventAction(WeeklyMenuEvent.OnSettingClicked)
                 }
-                .padding(horizontal = 16.dp)
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Default.Settings,
@@ -104,13 +112,12 @@ internal fun WeeklyDrawer(
                 modifier = Modifier.align(Alignment.CenterVertically),
                 contentDescription = null
             )
-            Spacer(Modifier.width(32.dp))
+            Spacer(Modifier.width(16.dp))
             Text(
                 text = "설정",
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.CenterVertically)
+                fontWeight = FontWeight.Bold
             )
         }
     }
@@ -122,8 +129,6 @@ private fun PreviewWeeklyDrawer() {
     AppTheme {
         WeeklyDrawer(
             title = "Sample",
-            backgroundColor = Color(0xFFB22416),
-            accentColor = Color(0xFFDF2E1C),
             menus = UI_NAV_ITEM.values().iterator(),
             selectedMenu = UI_NAV_ITEM.NAVER,
             onEventAction = {}

@@ -40,8 +40,6 @@ internal fun WeeklyScreen(
             ) {
                 WeeklyDrawer(
                     title = stringResource(R.string.app_name),
-                    backgroundColor = naviItem.bgColor,
-                    accentColor = naviItem.color,
                     menus = UI_NAV_ITEM.values().iterator(),
                     selectedMenu = naviItem
                 ) { event ->
