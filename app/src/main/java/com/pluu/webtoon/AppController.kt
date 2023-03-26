@@ -1,8 +1,6 @@
 package com.pluu.webtoon
 
 import android.app.Application
-import com.pluu.utils.ThemeHelper
-import com.pluu.utils.ThemeType
 import com.pluu.webtoon.utils.log.ComponentLogger
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -22,8 +20,5 @@ class AppController : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         componentLogger.initialize(this)
-
-        // Init Theme
-        ThemeHelper.applyTheme(ThemeType.DEFAULT)
     }
 }
