@@ -3,7 +3,7 @@ package com.pluu.compose.ui.tooling.preview
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview
 
-private const val width = 320
+private const val width = 280
 private const val height = 340
 
 @Preview(
