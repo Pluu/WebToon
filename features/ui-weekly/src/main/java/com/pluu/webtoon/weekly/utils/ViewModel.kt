@@ -34,31 +34,14 @@ internal fun createWeeklyDayViewModel(
         ViewModelFactoryProvider::class.java
     ).weeklyViewModelFactory()
 
-    return viewModelOf(key) {
-        factory.create(position)
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-@Composable
-internal inline fun <reified T : ViewModel> viewModelOf(
-    key: String? = null,
-    crossinline viewModelInstanceCreator: () -> T
-): T = viewModel(
-    modelClass = T::class.java,
-    key = key,
-    factory = object : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return viewModelInstanceCreator() as T
+    return viewModel(
+        modelClass = WeeklyDayViewModel::class.java,
+        key = key,
+        factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return factory.create(position) as T
+            }
         }
-    }
-)
-
-@Suppress("UNCHECKED_CAST")
-inline fun <reified T : ViewModel> viewModelProviderFactoryOf(
-    crossinline assistedFactory: () -> T,
-): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return assistedFactory() as T
-    }
+    )
 }
