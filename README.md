@@ -41,7 +41,6 @@ Dependencies
   - Preference
   - Room
 - Accompanist
-  - Pager
   - System UI Controller
 - Dagger
   - Dagger
