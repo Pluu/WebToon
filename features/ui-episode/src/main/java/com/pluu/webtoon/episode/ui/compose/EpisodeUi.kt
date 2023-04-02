@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -58,19 +59,20 @@ internal fun EpisodeUi(
 ) {
     val context = LocalContext.current
 
-    val event by viewModel.event.observeAsState(null)
-
     val readIdSet by viewModel.readIdSet.collectAsStateWithLifecycle()
 
     val episodeList = viewModel.episodePage.collectAsLazyPagingItems()
 
     val isFavorite by viewModel.favorite.observeAsState(false)
 
-    when (val _event = event) {
-        is EpisodeEvent.UPDATE_FAVORITE -> {
-            toast(if (_event.isFavorite) "즐겨찾기 추가" else "즐겨찾기 제거")
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                is EpisodeEvent.UPDATE_FAVORITE -> {
+                    context.toast(if (event.isFavorite) "즐겨찾기 추가" else "즐겨찾기 제거")
+                }
+            }
         }
-        else -> {}
     }
 
     if (episodeList.loadState.refresh is LoadState.Error) {

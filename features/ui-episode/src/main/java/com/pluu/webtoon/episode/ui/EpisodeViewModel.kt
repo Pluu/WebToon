@@ -22,8 +22,10 @@ import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -45,8 +47,8 @@ internal class EpisodeViewModel @Inject constructor(
     private val item = handle.get<ToonInfoWithFavorite>(Const.EXTRA_TOON)!!
     private val id = item.id
 
-    private val _event = MutableLiveData<EpisodeEvent>()
-    val event: LiveData<EpisodeEvent> get() = _event
+    private val _event = MutableSharedFlow<EpisodeEvent>()
+    val event: Flow<EpisodeEvent> = _event.asSharedFlow()
 
     private val _favorite = MutableLiveData(item.isFavorite)
     val favorite: LiveData<Boolean> get() = _favorite
@@ -85,7 +87,7 @@ internal class EpisodeViewModel @Inject constructor(
             }
             withContext(dispatchers.main) {
                 _favorite.value = isFavorite
-                _event.value = EpisodeEvent.UPDATE_FAVORITE(id, isFavorite)
+                _event.emit(EpisodeEvent.UPDATE_FAVORITE(id, isFavorite))
             }
         }
     }
