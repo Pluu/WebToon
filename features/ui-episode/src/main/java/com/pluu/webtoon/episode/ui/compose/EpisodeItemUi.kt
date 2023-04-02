@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -72,6 +77,7 @@ internal fun EpisodeItemUi(
                     color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
                 )
             }
+
             is AsyncImagePainter.State.Error -> {
                 Image(
                     modifier = Modifier.align(Alignment.Center),
@@ -79,6 +85,7 @@ internal fun EpisodeItemUi(
                     contentDescription = null
                 )
             }
+
             else -> {}
         }
 
@@ -147,20 +154,58 @@ private fun EpisodeItemUiOverlayUi(
     }
 }
 
+// first : 로그인 여부, second : 읽음 여부
+internal class PreviewEpisodeItemProvider : PreviewParameterProvider<Pair<Boolean, Boolean>> {
+    override val values = sequenceOf(
+        true to true,
+        true to false,
+        false to true,
+        false to false
+    )
+    override val count: Int = values.count()
+}
+
 @Preview
 @Composable
-private fun PreviewEpisodeItemUi() {
+private fun PreviewEpisodeItemUi(
+    @PreviewParameter(PreviewEpisodeItemProvider::class) values: Pair<Boolean, Boolean>,
+) {
     val item = EpisodeInfo(
         id = "0",
         toonId = "0",
         title = "Title",
-        image = ""
+        image = "",
+        isLoginNeed = values.first
     )
     AppTheme {
         EpisodeItemUi(
+            modifier = Modifier
+                .width(280.dp)
+                .heightIn(min = 150.dp),
             item = item,
-            isRead = true,
+            isRead = values.second,
             onClicked = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewEpisodeItemUiOverlayUi() {
+    val item = EpisodeInfo(
+        id = "0",
+        toonId = "0",
+        title = "Title",
+        image = "",
+        isLoginNeed = true
+    )
+    AppTheme {
+        EpisodeItemUiOverlayUi(
+            modifier = Modifier
+                .width(200.dp)
+                .wrapContentHeight(unbounded = true),
+            item = item,
+            isRead = true
         )
     }
 }
