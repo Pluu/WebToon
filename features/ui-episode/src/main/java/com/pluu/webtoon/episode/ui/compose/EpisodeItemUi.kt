@@ -93,7 +93,7 @@ private fun EpisodeItemUiOverlayUi(
     isRead: Boolean
 ) {
     ConstraintLayout(modifier = modifier.fillMaxSize()) {
-        val (title, read, space, lock) = createRefs()
+        val (title, read, lock) = createRefs()
 
         Text(
             text = item.title,
@@ -110,7 +110,11 @@ private fun EpisodeItemUiOverlayUi(
                 .constrainAs(title) {
                     width = Dimension.fillToConstraints
                     centerHorizontallyTo(parent)
-                    bottom.linkTo(parent.bottom)
+                    linkTo(
+                        top = lock.bottom,
+                        bottom = parent.bottom,
+                        bias = 1f
+                    )
                 }
         )
 
@@ -134,7 +138,7 @@ private fun EpisodeItemUiOverlayUi(
                 modifier = Modifier
                     .padding(5.dp)
                     .constrainAs(lock) {
-                        top.linkTo(space.bottom)
+                        top.linkTo(read.bottom)
                         end.linkTo(parent.end)
                     }
             )
