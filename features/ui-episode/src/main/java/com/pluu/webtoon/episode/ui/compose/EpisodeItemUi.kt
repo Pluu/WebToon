@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -52,42 +51,38 @@ internal fun EpisodeItemUi(
             .build()
     )
 
-    Surface(
+    Box(
         modifier = modifier
             .padding(all = 2.dp)
+            .fillMaxWidth()
+            .height(100.dp)
             .clickable { onClicked(item) }
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        ) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painter,
-                contentScale = ContentScale.Crop,
-                contentDescription = null,
-            )
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painter,
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+        )
 
-            when (painter.state) {
-                is AsyncImagePainter.State.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
-                    )
-                }
-                is AsyncImagePainter.State.Error -> {
-                    Image(
-                        modifier = Modifier.align(Alignment.Center),
-                        painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
-                        contentDescription = null
-                    )
-                }
-                else -> {}
+        when (painter.state) {
+            is AsyncImagePainter.State.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
+                )
             }
-
-            EpisodeItemUiOverlayUi(item = item, isRead = isRead)
+            is AsyncImagePainter.State.Error -> {
+                Image(
+                    modifier = Modifier.align(Alignment.Center),
+                    painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
+                    contentDescription = null
+                )
+            }
+            else -> {}
         }
+
+        EpisodeItemUiOverlayUi(item = item, isRead = isRead)
     }
 }
 
