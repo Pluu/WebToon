@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 
 @Composable
@@ -19,7 +19,7 @@ internal fun IntroUi(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     onNavigateToMain: () -> Unit
 ) {
-    val isNextMove by viewModel.observe.collectAsState(false)
+    val isNextMove by viewModel.observe.collectAsStateWithLifecycle(initialValue = false)
 
     IntroScreen(
         modifier = modifier
