@@ -32,8 +32,8 @@ fun DetailUi(
     val context = LocalContext.current
     var errorType: ERROR_TYPE? by rememberMutableStateOf(null)
     DetailUi(
-        hiltViewModel(),
-        FeatureColor(
+        viewModel = hiltViewModel(),
+        featureColor = FeatureColor(
             themeColor = palletColor.darkMutedColor,
             webToonColor = palletColor.darkVibrantColor
         ),
@@ -95,13 +95,16 @@ internal fun DetailUi(
         DetailEvent.START -> {
             loadingDialog = true
         }
+
         DetailEvent.LOADED -> {
             loadingDialog = false
         }
+
         is DetailEvent.ERROR -> {
             loadingDialog = false
             errorAction(eventOnScope)
         }
+
         is DetailEvent.SHARE -> {
             shareAction(eventOnScope.item)
         }
