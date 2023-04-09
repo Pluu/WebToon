@@ -17,11 +17,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
@@ -91,16 +90,16 @@ private fun DetailScreen(
     onToggleNavigation: () -> Unit,
     onUiEvent: (DetailUiEvent) -> Unit
 ) {
-    var topSize by rememberMutableStateOf(Size.Zero)
+    var topSize by rememberMutableStateOf(IntSize.Zero)
     val topOffset by animateDpAsState(
         targetValue = if (isShowNavigation) 0.dp else -topSize.height.dp,
-        animationSpec = tween(350)
+        animationSpec = tween(animationDuration)
     )
 
-    var bottomSize by rememberMutableStateOf(Size.Zero)
+    var bottomSize by rememberMutableStateOf(IntSize.Zero)
     val bottomOffset by animateDpAsState(
         targetValue = if (isShowNavigation) 0.dp else bottomSize.height.dp,
-        animationSpec = tween(350)
+        animationSpec = tween(animationDuration)
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -115,11 +114,7 @@ private fun DetailScreen(
         InitTopUi(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .onGloballyPositioned { container ->
-                    if (topSize == Size.Zero) {
-                        topSize = container.size.toSize()
-                    }
-                }
+                .onSizeChanged { size -> topSize = size }
                 .offset(y = topOffset.value.dp),
             backgroundColor = backgroundColor,
             contentColor = contentColor,
@@ -130,11 +125,7 @@ private fun DetailScreen(
         InitBottomUi(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .onGloballyPositioned { container ->
-                    if (bottomSize == Size.Zero) {
-                        bottomSize = container.size.toSize()
-                    }
-                }
+                .onSizeChanged { size -> bottomSize = size }
                 .offset(y = bottomOffset.value.dp),
             backgroundColor = backgroundColor,
             contentColor = contentColor,
@@ -177,3 +168,5 @@ private fun PreviewDetailScreen_Show() {
         )
     }
 }
+
+private const val animationDuration = 350

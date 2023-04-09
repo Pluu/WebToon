@@ -77,5 +77,3 @@ internal fun InitContentUi(
         )
     }
 }
-
-private const val animationDuration = 350
