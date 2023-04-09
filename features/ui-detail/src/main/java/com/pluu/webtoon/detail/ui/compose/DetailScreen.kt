@@ -2,10 +2,12 @@ package com.pluu.webtoon.detail.ui.compose
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -15,7 +17,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
@@ -85,6 +91,18 @@ private fun DetailScreen(
     onToggleNavigation: () -> Unit,
     onUiEvent: (DetailUiEvent) -> Unit
 ) {
+    var topSize by rememberMutableStateOf(Size.Zero)
+    val topOffset by animateDpAsState(
+        targetValue = if (isShowNavigation) 0.dp else -topSize.height.dp,
+        animationSpec = tween(350)
+    )
+
+    var bottomSize by rememberMutableStateOf(Size.Zero)
+    val bottomOffset by animateDpAsState(
+        targetValue = if (isShowNavigation) 0.dp else bottomSize.height.dp,
+        animationSpec = tween(350)
+    )
+
     Box(modifier = Modifier.fillMaxSize()) {
         InitContentUi(
             uiStateElement = uiStateElement,
@@ -95,23 +113,34 @@ private fun DetailScreen(
             onToggleNavigation()
         }
         InitTopUi(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .onGloballyPositioned { container ->
+                    if (topSize == Size.Zero) {
+                        topSize = container.size.toSize()
+                    }
+                }
+                .offset(y = topOffset.value.dp),
             backgroundColor = backgroundColor,
             contentColor = contentColor,
             uiStateElement = uiStateElement,
-            showNavigation = isShowNavigation,
-            modifier = Modifier.align(Alignment.TopCenter),
             onBackPressed = { onUiEvent(DetailUiEvent.OnBackPressed) },
             onSharedPressed = { onUiEvent(DetailUiEvent.OnSharedPressed) }
         )
         InitBottomUi(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .onGloballyPositioned { container ->
+                    if (bottomSize == Size.Zero) {
+                        bottomSize = container.size.toSize()
+                    }
+                }
+                .offset(y = bottomOffset.value.dp),
             backgroundColor = backgroundColor,
             contentColor = contentColor,
             uiStateElement = uiStateElement,
-            showNavigation = isShowNavigation,
-            modifier = Modifier.align(Alignment.BottomCenter),
-            onPrevClicked = { onUiEvent(DetailUiEvent.OnPrevPressed) },
-            onNextClicked = { onUiEvent(DetailUiEvent.OnNextPressed) }
-        )
+            onPrevClicked = { onUiEvent(DetailUiEvent.OnPrevPressed) }
+        ) { onUiEvent(DetailUiEvent.OnNextPressed) }
     }
 }
 
