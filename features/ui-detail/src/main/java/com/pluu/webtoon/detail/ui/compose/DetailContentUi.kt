@@ -3,11 +3,8 @@ package com.pluu.webtoon.detail.ui.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,6 +27,7 @@ import com.pluu.webtoon.utils.applyAgent
 @Composable
 internal fun DetailContentUi(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     items: List<DetailView>,
     onClick: () -> Unit
 ) {
@@ -41,12 +39,7 @@ internal fun DetailContentUi(
                 .pointerInput(Unit) {
                     detectTapGestures(onTap = { onClick() })
                 },
-            contentPadding = WindowInsets.safeContent.add(
-                WindowInsets(
-                    top = 41.dp,
-                    bottom = 48.dp
-                )
-            ).asPaddingValues()
+            contentPadding = contentPadding
         ) {
             items(
                 items = items,
@@ -85,12 +78,14 @@ private fun AdjustDetailImage(
         is AsyncImagePainter.State.Success -> {
             onSuccess(item, state.painter.intrinsicSize)
         }
+
         is AsyncImagePainter.State.Loading -> {
             CircularProgressIndicator(
                 modifier = modifier.size(60.dp),
                 color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
             )
         }
+
         else -> {}
     }
 
