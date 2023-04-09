@@ -6,8 +6,12 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -104,7 +108,15 @@ private fun DetailScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         InitContentUi(
             uiStateElement = uiStateElement,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = WindowInsets.safeDrawing
+                .add(
+                    WindowInsets(
+                        top = topSize.height,
+                        bottom = bottomSize.height
+                    )
+                )
+                .asPaddingValues(),
         ) {
             onToggleNavigation()
         }
