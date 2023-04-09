@@ -12,11 +12,13 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
@@ -35,6 +37,10 @@ fun WeeklyUi(
     openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit,
     openSetting: () -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.statusBarDarkContentEnabled = false
+    }
     val viewModel: WeeklyViewModel = hiltViewModel()
     WeeklyUi(
         naviItem = naviItem,
