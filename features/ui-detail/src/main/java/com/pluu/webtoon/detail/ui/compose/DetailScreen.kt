@@ -8,7 +8,6 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -105,9 +104,7 @@ private fun DetailScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         InitContentUi(
             uiStateElement = uiStateElement,
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
+            modifier = Modifier.fillMaxSize()
         ) {
             onToggleNavigation()
         }
