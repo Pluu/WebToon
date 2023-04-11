@@ -1,16 +1,17 @@
 package com.pluu.webtoon.detail.ui.compose
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -23,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
@@ -94,16 +94,7 @@ private fun DetailScreen(
     onUiEvent: (DetailUiEvent) -> Unit
 ) {
     var topSize by rememberMutableStateOf(IntSize.Zero)
-    val topOffset by animateDpAsState(
-        targetValue = if (isShowNavigation) 0.dp else -topSize.height.dp,
-        animationSpec = tween(animationDuration)
-    )
-
     var bottomSize by rememberMutableStateOf(IntSize.Zero)
-    val bottomOffset by animateDpAsState(
-        targetValue = if (isShowNavigation) 0.dp else bottomSize.height.dp,
-        animationSpec = tween(animationDuration)
-    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         InitContentUi(
@@ -120,27 +111,47 @@ private fun DetailScreen(
         ) {
             onToggleNavigation()
         }
-        InitTopUi(
+
+        AnimatedVisibility(
+            isShowNavigation,
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .onSizeChanged { size -> topSize = size }
-                .offset(y = topOffset.value.dp),
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
-            uiStateElement = uiStateElement,
-            onBackPressed = { onUiEvent(DetailUiEvent.OnBackPressed) },
-            onSharedPressed = { onUiEvent(DetailUiEvent.OnSharedPressed) }
-        )
-        InitBottomUi(
+                .onSizeChanged { size -> topSize = size },
+            enter = slideInVertically(tween(animationDuration)) { fullHeight ->
+                -fullHeight
+            },
+            exit = slideOutVertically(tween(animationDuration)) { fullHeight ->
+                -fullHeight
+            },
+        ) {
+            InitTopUi(
+                backgroundColor = backgroundColor,
+                contentColor = contentColor,
+                uiStateElement = uiStateElement,
+                onBackPressed = { onUiEvent(DetailUiEvent.OnBackPressed) },
+                onSharedPressed = { onUiEvent(DetailUiEvent.OnSharedPressed) }
+            )
+        }
+
+        AnimatedVisibility(
+            isShowNavigation,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .onSizeChanged { size -> bottomSize = size }
-                .offset(y = bottomOffset.value.dp),
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
-            uiStateElement = uiStateElement,
-            onPrevClicked = { onUiEvent(DetailUiEvent.OnPrevPressed) }
-        ) { onUiEvent(DetailUiEvent.OnNextPressed) }
+                .onSizeChanged { size -> bottomSize = size },
+            enter = slideInVertically(tween(animationDuration)) { fullHeight ->
+                fullHeight
+            },
+            exit = slideOutVertically(tween(animationDuration)) { fullHeight ->
+                fullHeight
+            },
+        ) {
+            InitBottomUi(
+                backgroundColor = backgroundColor,
+                contentColor = contentColor,
+                uiStateElement = uiStateElement,
+                onPrevClicked = { onUiEvent(DetailUiEvent.OnPrevPressed) }
+            ) { onUiEvent(DetailUiEvent.OnNextPressed) }
+        }
     }
 }
 
