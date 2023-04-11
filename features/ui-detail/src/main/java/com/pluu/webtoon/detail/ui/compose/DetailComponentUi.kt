@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -15,11 +16,10 @@ import androidx.compose.ui.unit.dp
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.ui.ElementEvent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun InitTopUi(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
     uiStateElement: UiState<ElementEvent>,
     onBackPressed: () -> Unit,
     onSharedPressed: () -> Unit
@@ -28,8 +28,6 @@ internal fun InitTopUi(
         modifier = modifier,
         title = uiStateElement.data?.title.orEmpty(),
         subTitle = uiStateElement.data?.webToonTitle.orEmpty(),
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
         onBackPressed = onBackPressed,
         onShared = onSharedPressed
     )

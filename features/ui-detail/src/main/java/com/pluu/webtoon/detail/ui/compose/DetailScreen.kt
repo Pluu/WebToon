@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -20,7 +19,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -124,9 +125,12 @@ private fun DetailScreen(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .onSizeChanged { size -> topSize = size }
-                .offset(y = topOffset.value.dp),
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
+                .graphicsLayer {
+                    this.translationY = topOffset.value
+                }
+                .drawBehind {
+                    drawRect(color = backgroundColor)
+                },
             uiStateElement = uiStateElement,
             onBackPressed = { onUiEvent(DetailUiEvent.OnBackPressed) },
             onSharedPressed = { onUiEvent(DetailUiEvent.OnSharedPressed) }
@@ -135,7 +139,9 @@ private fun DetailScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .onSizeChanged { size -> bottomSize = size }
-                .offset(y = bottomOffset.value.dp),
+                .graphicsLayer {
+                    this.translationY = bottomOffset.value
+                },
             backgroundColor = backgroundColor,
             contentColor = contentColor,
             uiStateElement = uiStateElement,
