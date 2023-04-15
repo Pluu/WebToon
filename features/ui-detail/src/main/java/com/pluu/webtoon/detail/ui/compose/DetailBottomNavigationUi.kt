@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -71,6 +69,7 @@ internal fun DetailBottomNavigationUi(
                 imageVector = Icons.Default.KeyboardArrowRight,
                 contentDescription = null
             )
+
         }
     }
 
@@ -105,7 +104,7 @@ private fun BottomNavigationButton(
             ),
             content = content
         )
-        Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+        Spacer(modifier = Modifier.navigationBarsPadding())
     }
 }
 
