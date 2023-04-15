@@ -7,11 +7,9 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,8 +23,6 @@ internal fun DetailTopUi(
     modifier: Modifier = Modifier,
     title: String,
     subTitle: String,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
     onBackPressed: () -> Unit,
     onShared: () -> Unit
 ) {
@@ -55,10 +51,10 @@ internal fun DetailTopUi(
             }
         },
         colors = topAppBarColors(
-            containerColor = backgroundColor,
-            navigationIconContentColor = contentColor,
-            titleContentColor = contentColor,
-            actionIconContentColor = contentColor
+            containerColor = Color.Transparent,
+            navigationIconContentColor = Color.White,
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
         )
     )
 }
@@ -70,8 +66,7 @@ private fun PreviewDetailTopUi() {
         DetailTopUi(
             title = "타이틀",
             subTitle = "서브 타이틀",
-            onShared = {},
             onBackPressed = {}
-        )
+        ) {}
     }
 }

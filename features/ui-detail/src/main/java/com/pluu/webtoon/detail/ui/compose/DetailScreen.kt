@@ -2,11 +2,11 @@ package com.pluu.webtoon.detail.ui.compose
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -25,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import com.pluu.compose.runtime.rememberMutableStateOf
-import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.FeatureColor
@@ -41,42 +39,28 @@ internal fun DetailScreen(
 ) {
     var showNavigation by rememberMutableStateOf(true)
     var isFirstShow by rememberMutableStateOf(true)
-
-    val transitionState by rememberMutableStateOf(featureColor) {
-        MutableTransitionState(
-            if (isFirstShow) {
-                ColorTransitionState.START
-            } else {
-                ColorTransitionState.END
-            }
-        )
-    }
-
     val transition = updateTransition(
-        targetState = transitionState,
+        targetState = isFirstShow,
         label = null
     )
-
     val featureColorValue: Color by transition.animateColor(
         transitionSpec = { tween(durationMillis = 750) },
         label = "Color Animation",
     ) { state ->
-        when (state.targetState) {
-            ColorTransitionState.START -> featureColor.themeColor
-            ColorTransitionState.END -> featureColor.webToonColor
+        when (state) {
+            true -> featureColor.themeColor
+            false -> featureColor.webToonColor
         }
     }
 
     SideEffect {
         isFirstShow = false
-        transitionState.targetState = ColorTransitionState.END
     }
 
     DetailScreen(
         uiStateElement = uiStateElement,
-        isShowNavigation = showNavigation,
+        isShowNavigation = true,
         backgroundColor = featureColorValue,
-        contentColor = Color.White,
         onToggleNavigation = {
             showNavigation = showNavigation.not()
         },
@@ -89,7 +73,6 @@ private fun DetailScreen(
     uiStateElement: UiState<ElementEvent>,
     isShowNavigation: Boolean,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
     onToggleNavigation: () -> Unit,
     onUiEvent: (DetailUiEvent) -> Unit
 ) {
@@ -124,12 +107,16 @@ private fun DetailScreen(
                 -fullHeight
             },
         ) {
-            InitTopUi(
-                backgroundColor = backgroundColor,
-                contentColor = contentColor,
-                uiStateElement = uiStateElement,
-                onBackPressed = { onUiEvent(DetailUiEvent.OnBackPressed) },
-                onSharedPressed = { onUiEvent(DetailUiEvent.OnSharedPressed) }
+            DetailTopUi(
+                modifier = Modifier.background(backgroundColor),
+                title = uiStateElement.data?.title.orEmpty(),
+                subTitle = uiStateElement.data?.webToonTitle.orEmpty(),
+                onBackPressed = {
+                    onUiEvent(DetailUiEvent.OnBackPressed)
+                },
+                onShared = {
+                    onUiEvent(DetailUiEvent.OnSharedPressed)
+                }
             )
         }
 
@@ -145,12 +132,17 @@ private fun DetailScreen(
                 fullHeight
             },
         ) {
-            InitBottomUi(
-                backgroundColor = backgroundColor,
-                contentColor = contentColor,
-                uiStateElement = uiStateElement,
-                onPrevClicked = { onUiEvent(DetailUiEvent.OnPrevPressed) }
-            ) { onUiEvent(DetailUiEvent.OnNextPressed) }
+            DetailNavigationUi(
+                modifier = Modifier.background(backgroundColor),
+                isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not(),
+                onPrevClicked = {
+                    onUiEvent(DetailUiEvent.OnPrevPressed)
+                },
+                isNextEnabled = uiStateElement.data?.nextEpisodeId.isNullOrEmpty().not(),
+                onNextClicked = {
+                    onUiEvent(DetailUiEvent.OnNextPressed)
+                }
+            )
         }
     }
 }
@@ -162,9 +154,8 @@ private fun PreviewDetailScreen_Loading() {
         DetailScreen(
             uiStateElement = UiState(loading = true),
             isShowNavigation = true,
-            onToggleNavigation = {},
-            onUiEvent = {}
-        )
+            onToggleNavigation = {}
+        ) {}
     }
 }
 
@@ -183,9 +174,8 @@ private fun PreviewDetailScreen_Show() {
                 )
             ),
             isShowNavigation = true,
-            onToggleNavigation = {},
-            onUiEvent = {}
-        )
+            onToggleNavigation = {}
+        ) {}
     }
 }
 

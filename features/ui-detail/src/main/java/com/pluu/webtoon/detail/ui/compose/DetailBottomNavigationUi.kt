@@ -16,10 +16,8 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -34,8 +32,6 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 @Composable
 internal fun DetailNavigationUi(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
     isPrevEnabled: Boolean,
     onPrevClicked: () -> Unit,
     isNextEnabled: Boolean,
@@ -46,8 +42,6 @@ internal fun DetailNavigationUi(
     Row(modifier = modifier) {
         BottomNavigationButton(
             modifier = Modifier.weight(1f),
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
             isEnable = isPrevEnabled,
             onClicked = onPrevClicked
         ) {
@@ -64,8 +58,6 @@ internal fun DetailNavigationUi(
         }
         BottomNavigationButton(
             modifier = Modifier.weight(1f),
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
             isEnable = isNextEnabled,
             onClicked = onNextClicked
         ) {
@@ -91,15 +83,16 @@ internal fun DetailNavigationUi(
 @Composable
 private fun BottomNavigationButton(
     modifier: Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
     isEnable: Boolean,
     onClicked: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
     Column(
-        modifier = modifier
-            .background(if (isEnable) backgroundColor else Color.Gray)
+        modifier = if (isEnable) {
+            modifier
+        } else {
+            modifier.then(Modifier.background(Color.Gray))
+        }
     ) {
         TextButton(
             modifier = Modifier.height(48.dp),
@@ -107,8 +100,8 @@ private fun BottomNavigationButton(
             enabled = isEnable,
             onClick = onClicked,
             colors = ButtonDefaults.textButtonColors(
-                contentColor = contentColor,
-                disabledContentColor = contentColor.copy(alpha = 0.38f)
+                contentColor = Color.White,
+                disabledContentColor = Color.White.copy(alpha = 0.38f)
             ),
             content = content
         )
