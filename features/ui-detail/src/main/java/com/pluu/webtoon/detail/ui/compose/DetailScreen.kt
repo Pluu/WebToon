@@ -59,7 +59,7 @@ internal fun DetailScreen(
 
     DetailScreen(
         uiStateElement = uiStateElement,
-        isShowNavigation = true,
+        isShowNavigation = showNavigation,
         backgroundColor = featureColorValue,
         onToggleNavigation = {
             showNavigation = showNavigation.not()
@@ -132,7 +132,7 @@ private fun DetailScreen(
                 fullHeight
             },
         ) {
-            DetailNavigationUi(
+            DetailBottomNavigationUi(
                 modifier = Modifier.background(backgroundColor),
                 isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not(),
                 onPrevClicked = {

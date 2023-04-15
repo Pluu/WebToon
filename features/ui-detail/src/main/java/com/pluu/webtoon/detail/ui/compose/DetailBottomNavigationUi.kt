@@ -30,7 +30,7 @@ import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable
-internal fun DetailNavigationUi(
+internal fun DetailBottomNavigationUi(
     modifier: Modifier = Modifier,
     isPrevEnabled: Boolean,
     onPrevClicked: () -> Unit,
@@ -113,7 +113,7 @@ private fun BottomNavigationButton(
 @Composable
 private fun PreviewDetailNavigationUi() {
     AppTheme {
-        DetailNavigationUi(
+        DetailBottomNavigationUi(
             modifier = Modifier.height(48.dp),
             isPrevEnabled = false,
             onPrevClicked = {},
