@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package com.pluu.webtoon.utils
 
 import coil.request.ImageRequest
