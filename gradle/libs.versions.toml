@@ -98,7 +98,7 @@ androidX-compose = [
     "androidX-lifecycle-runtime-compose"
 ]
 
-androidX-compose-preview = [
+androidX-compose-debug = [
     "androidX-compose-tooling",
     "androidX-compose-uiTestManifest"
 ]

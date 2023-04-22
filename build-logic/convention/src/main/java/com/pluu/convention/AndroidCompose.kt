@@ -35,7 +35,7 @@ internal fun Project.configureAndroidCompose(
         // Disabling to work with Alpha
 //        api(platform(libs.findLibrary("androidX-compose-bom").get()))
         implementation(libs.findBundle("androidX-compose"))
-        debugImplementation(libs.findBundle("androidX-compose-preview"))
+        debugImplementation(libs.findBundle("androidX-compose-debug"))
     }
 }
 
