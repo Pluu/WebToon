@@ -1,4 +1,4 @@
-@file:Suppress("unused", "UnstableApiUsage")
+@file:Suppress("unused")
 
 import com.android.build.gradle.LibraryExtension
 import com.pluu.convention.configureAndroid

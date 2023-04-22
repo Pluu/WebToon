@@ -9,7 +9,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal object NavigatorModule {
