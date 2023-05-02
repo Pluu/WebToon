@@ -9,9 +9,11 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Configure base Kotlin with Android options
@@ -36,20 +38,20 @@ internal fun Project.configureAndroid() {
     }
 }
 
-internal fun Project.configureKotlin(
-    commonExtension: CommonExtension<*, *, *, *>
-) {
-    commonExtension.kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xskip-prerelease-check",
-            "-Xjvm-default=all",
-            // Enable experimental coroutines APIs, including Flow
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-        )
+internal fun Project.configureKotlin() {
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            // Set JVM target
+            jvmTarget = Const.JAVA_VERSION.toString()
+//            allWarningsAsErrors = true
 
-        // Set JVM target
-        jvmTarget = Const.JAVA_VERSION.toString()
-        allWarningsAsErrors = true
+            freeCompilerArgs = freeCompilerArgs + listOf(
+                "-Xskip-prerelease-check",
+                "-Xjvm-default=all",
+                // Enable experimental coroutines APIs, including Flow
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            )
+        }
     }
 }
 
@@ -71,7 +73,7 @@ internal fun Project.`kotlin`(
     (this as ExtensionAware).extensions.configure("kotlin", configure)
 }
 
-internal fun CommonExtension<*, *, *, *>.kotlinOptions(
+internal fun CommonExtension<*, *, *, *, *>.kotlinOptions(
     configure: KotlinJvmOptions.() -> Unit
 ) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", configure)

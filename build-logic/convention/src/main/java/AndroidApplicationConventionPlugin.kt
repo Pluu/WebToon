@@ -18,7 +18,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             configureAndroid()
 
             extensions.configure<BaseAppModuleExtension> {
-                configureKotlin(this)
+                configureKotlin()
 
                 signingConfigs {
                     getByName("debug") {

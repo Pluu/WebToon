@@ -18,7 +18,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             configureAndroid()
 
             extensions.configure<LibraryExtension> {
-                configureKotlin(this)
+                configureKotlin()
 
                 lint {
                     checkOnly.add("Interoperability")
