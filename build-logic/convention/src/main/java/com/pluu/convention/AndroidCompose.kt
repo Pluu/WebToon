@@ -2,10 +2,11 @@
 // origin : https://github.com/android/nowinandroid/blob/main/build-logic/convention/src/main/kotlin/com/google/samples/apps/nowinandroid/AndroidCompose.kt
 ///////////////////////////////////////////////////////////////////////////
 
-@file:Suppress("UnstableApiUsage")
-
 import com.android.build.api.dsl.CommonExtension
-import com.pluu.convention.*
+import com.pluu.convention.debugImplementation
+import com.pluu.convention.findVersionCatalog
+import com.pluu.convention.implementation
+import com.pluu.convention.kotlinOptions
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import java.io.File

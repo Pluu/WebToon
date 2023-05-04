@@ -7,7 +7,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal object SessionModule {

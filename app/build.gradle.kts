@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 plugins {
     id("pluu.android.application")
     id("pluu.android.application.compose")
