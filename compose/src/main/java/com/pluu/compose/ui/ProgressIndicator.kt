@@ -26,11 +26,11 @@ import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -49,27 +49,36 @@ import kotlin.math.abs
 import kotlin.math.max
 
 ///////////////////////////////////////////////////////////////////////////
-// Origin : https://cs.android.com/androidx/platform/frameworks/support/+/androidx-master-dev:compose/material/material/src/commonMain/kotlin/androidx/compose/material/ProgressIndicator.kt
+// Origin : https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ProgressIndicator.kt
 ///////////////////////////////////////////////////////////////////////////
 
 /**
- * An indeterminate circular progress indicator that represents continual progress without a defined
- * start or end point.
+ * Indeterminate <a href="https://material.io/components/progress-indicators#circular-progress-indicators" class="external" target="_blank">Material Design circular progress indicator</a>.
  *
+ * Progress indicators express an unspecified wait time or display the length of a process.
+ *
+ * ![Circular progress indicator image](https://developer.android.com/images/reference/androidx/compose/material/circular-progress-indicator.png)
+ *
+ * @param modifier the [Modifier] to be applied to this progress indicator
  * @param colors The color of the progress indicator.
- * @param strokeWidth The stroke width for the progress indicator.
+ * @param strokeWidth stroke width of this progress indicator
+ * @param trackColor color of the track behind the indicator, visible when the progress has not
+ * reached the area of the overall indicator yet
+ * @param strokeCap stroke cap to use for the ends of this progress indicator
  */
 @Composable
 fun CircularProgressIndicator(
     modifier: Modifier = Modifier,
     colors: List<Color> = listOf(MaterialTheme.colorScheme.primary),
-    strokeWidth: Dp = 4.0.dp
+    strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth,
+    trackColor: Color = ProgressIndicatorDefaults.circularTrackColor,
+    strokeCap: StrokeCap = ProgressIndicatorDefaults.CircularIndeterminateStrokeCap,
 ) {
     val stroke = with(LocalDensity.current) {
-        Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Square)
+        Stroke(width = strokeWidth.toPx(), cap = strokeCap)
     }
 
-    val transition = rememberInfiniteTransition()
+    val transition = rememberInfiniteTransition(label = "")
     // The current rotation around the circle, so we know where to start the rotation from
     val currentRotation by transition.animateValue(
         0,
@@ -80,7 +89,7 @@ fun CircularProgressIndicator(
                 durationMillis = RotationDuration * RotationsPerCycle,
                 easing = LinearEasing
             )
-        )
+        ), label = ""
     )
     // How far forward (degrees) the base point should be from the start point
     val baseRotation by transition.animateFloat(
@@ -91,7 +100,7 @@ fun CircularProgressIndicator(
                 durationMillis = RotationDuration,
                 easing = LinearEasing
             )
-        )
+        ), label = ""
     )
     // How far forward (degrees) both the head and tail should be from the base point
     val endAngle by transition.animateFloat(
@@ -103,7 +112,7 @@ fun CircularProgressIndicator(
                 0f at 0 with CircularEasing
                 JumpRotationAngle at HeadAndTailAnimationDuration
             }
-        )
+        ), label = ""
     )
 
     val startAngle by transition.animateFloat(
@@ -115,7 +124,7 @@ fun CircularProgressIndicator(
                 0f at HeadAndTailDelayDuration with CircularEasing
                 JumpRotationAngle at durationMillis
             }
-        )
+        ), label = ""
     )
 
     // Select color Index
@@ -126,8 +135,8 @@ fun CircularProgressIndicator(
         modifier
             .progressSemantics()
             .size(CircularIndicatorDiameter)
-            .focusable()
     ) {
+        drawCircularIndicatorBackground(trackColor, stroke)
 
         val currentRotationAngleOffset = (currentRotation * RotationAngleOffset) % 360f
 
@@ -141,8 +150,13 @@ fun CircularProgressIndicator(
             colorIndex = (colorIndex + 1) % colors.size
             prevAngleOffset = currentRotationAngleOffset
         }
-
-        drawIndeterminateCircularIndicator(startAngle + offset, strokeWidth, sweep, colors[colorIndex], stroke)
+        drawIndeterminateCircularIndicator(
+            startAngle + offset,
+            strokeWidth,
+            sweep,
+            colors[colorIndex],
+            stroke
+        )
     }
 }
 
@@ -167,6 +181,11 @@ private fun DrawScope.drawCircularIndicator(
     )
 }
 
+private fun DrawScope.drawCircularIndicatorBackground(
+    color: Color,
+    stroke: Stroke
+) = drawCircularIndicator(0f, 360f, color, stroke)
+
 private fun DrawScope.drawIndeterminateCircularIndicator(
     startAngle: Float,
     strokeWidth: Dp,
@@ -174,15 +193,18 @@ private fun DrawScope.drawIndeterminateCircularIndicator(
     color: Color,
     stroke: Stroke
 ) {
-    // Length of arc is angle * radius
-    // Angle (radians) is length / radius
-    // The length should be the same as the stroke width for calculating the min angle
-    val squareStrokeCapOffset =
+    val strokeCapOffset = if (stroke.cap == StrokeCap.Butt) {
+        0f
+    } else {
+        // Length of arc is angle * radius
+        // Angle (radians) is length / radius
+        // The length should be the same as the stroke width for calculating the min angle
         (180.0 / PI).toFloat() * (strokeWidth / (CircularIndicatorDiameter / 2)) / 2f
+    }
 
-    // Adding a square stroke cap draws half the stroke width behind the start point, so we want to
+    // Adding a stroke cap draws half the stroke width behind the start point, so we want to
     // move it forward by that amount so the arc visually appears in the correct place
-    val adjustedStartAngle = startAngle + squareStrokeCapOffset
+    val adjustedStartAngle = startAngle + strokeCapOffset
 
     // When the start and end angles are in the same place, we still want to draw a small sweep, so
     // the stroke caps get added on both ends and we draw the correct minimum length arc
@@ -239,7 +261,7 @@ fun PreviewCircularProgressIndicator() {
     CircularProgressIndicator(
         colors = list,
         modifier = Modifier
-            .size(36.dp)
+            .size(100.dp)
             .padding(4.dp)
     )
 }
