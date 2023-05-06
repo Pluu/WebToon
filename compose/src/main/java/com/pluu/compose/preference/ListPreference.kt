@@ -158,7 +158,7 @@ private fun <LPT, T : ListPreferenceItem<LPT>> ShowAlertDialog(
         title = {
             Text(text = title)
         },
-        onDismiss = onDismiss,
+        onDismissRequest = onDismiss,
         items = items,
         key = { _, item -> item.entry }
     ) { _, item ->
