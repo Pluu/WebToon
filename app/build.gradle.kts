@@ -41,9 +41,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.accompanist.systemUi)
 
-    // OkHttp
-    implementation(libs.okhttp.loggingInterceptor)
-
     // kotlin
     implementation(libs.kotlin.coroutine.core)
     implementation(libs.kotlin.coroutine.android)

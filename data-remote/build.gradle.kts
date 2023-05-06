@@ -24,6 +24,8 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.loggingInterceptor)
 
+    implementation(libs.timber)
+
     testImplementation(libs.junit)
 }
 
