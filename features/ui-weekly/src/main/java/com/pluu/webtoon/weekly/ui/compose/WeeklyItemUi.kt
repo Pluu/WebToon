@@ -129,9 +129,9 @@ internal fun WeeklyItemOverlayUi(
         ) = createRefs()
 
         val isUpdate = item.status == Status.UPDATE
-        val isAdultLimit = item.isAdult
+        val isLocked = item.isLocked
         val isBreak = item.status == Status.BREAK
-        val isStatusShow = isUpdate || isAdultLimit || isBreak
+        val isStatusShow = isUpdate || isLocked || isBreak
 
         Text(
             text = item.title,
@@ -178,7 +178,7 @@ internal fun WeeklyItemOverlayUi(
                     end.linkTo(parent.end)
                 },
                 isUpdate = isUpdate,
-                isAdultLimit = isAdultLimit,
+                isLocked = isLocked,
                 isRest = isBreak
             )
         }
@@ -224,7 +224,7 @@ private fun WeeklyItemFavoriteUi(
 private fun WeeklyStatusUi(
     modifier: Modifier = Modifier,
     isUpdate: Boolean,
-    isAdultLimit: Boolean,
+    isLocked: Boolean,
     isRest: Boolean
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.End) {
@@ -237,7 +237,7 @@ private fun WeeklyStatusUi(
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }
-        if (isAdultLimit) {
+        if (isLocked) {
             Text(
                 text = "19", color = Color.White,
                 modifier = Modifier
@@ -258,7 +258,7 @@ private fun WeeklyStatusUi(
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        top = if (isUpdate or isAdultLimit) {
+                        top = if (isUpdate or isLocked) {
                             3.dp
                         } else {
                             0.dp
@@ -289,7 +289,7 @@ internal class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFav
                 image = "",
                 updateDate = "1234.56.78",
                 status = Status.BREAK,
-                isAdult = true
+                isLocked = true
             ), true
         )
     )
@@ -318,6 +318,6 @@ private fun PreviewWeeklyItemUi(
 @Composable
 private fun PreviewWeeklyStatusUi() {
     AppTheme {
-        WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
+        WeeklyStatusUi(isUpdate = true, isLocked = true, isRest = true)
     }
 }

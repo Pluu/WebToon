@@ -135,7 +135,7 @@ private fun PreviewEpisodeScreen() {
                     image = "",
                     updateDate = "1234.56.78",
                     status = Status.BREAK,
-                    isAdult = true,
+                    isLocked = true,
                     writer = "테스터",
                     rate = 1.1
                 ), true
