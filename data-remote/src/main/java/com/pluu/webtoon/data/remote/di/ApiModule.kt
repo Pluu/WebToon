@@ -59,12 +59,13 @@ internal object ApiModule {
     @Provides
     fun provideDetailApi(
         naviItem: NAV_ITEM,
-        networkUseCase: INetworkUseCase
+        networkUseCase: INetworkUseCase,
+        resourceLoader: ResourceLoader
     ): DetailApi = when (naviItem) {
         NAV_ITEM.NAVER -> NaverDetailApi(networkUseCase)
         NAV_ITEM.DAUM -> DaumDetailApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonDetailApi(networkUseCase)
-        NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(networkUseCase)
+        NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(networkUseCase, resourceLoader)
     }
 
     @Provides
