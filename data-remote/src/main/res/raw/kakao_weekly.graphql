@@ -1,0 +1,45 @@
+query staticLandingDayOfWeekSection($sectionId: ID!, $param: StaticLandingDayOfWeekParamInput!) {
+  staticLandingDayOfWeekSection(sectionId: $sectionId, param: $param) {
+    ...Section
+  }
+}
+
+fragment Section on Section {
+  id
+  type
+  ... on StaticLandingDayOfWeekSection {
+    isEnd
+    totalCount
+    param {
+      categoryUid
+      dayTab {
+        name
+        param
+      }
+      page
+      size
+    }
+  }
+  groups {
+    ...Group
+  }
+}
+
+fragment Group on Group {
+  id
+  items {
+    ...Item
+  }
+}
+
+fragment Item on Item {
+  id
+  ...CardViewItem
+}
+
+fragment CardViewItem on CardViewItem {
+  title
+  thumbnail
+  titleImage
+  ageGrade
+}
