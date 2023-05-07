@@ -70,7 +70,8 @@ internal class KakaoWeekApi @Inject constructor(
             id = id,
             title = json.optString("title"),
             image = "https:${json.optString("thumbnail")}",
-            status = Status.NONE
+            status = Status.NONE,
+            isLocked = json.getString("ageGrade") != "All"
         )
     }
 
