@@ -46,7 +46,7 @@ internal fun WeeklyDayUi(
         modifier = modifier.fillMaxSize(),
         items = list,
     ) { item ->
-        if (item.info.isLock) {
+        if (item.info.isLocked) {
             context.toast(com.pluu.webtoon.ui_common.R.string.msg_not_support)
         } else {
             coroutineScope.launch {
