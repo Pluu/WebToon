@@ -2,7 +2,6 @@
 
 package com.pluu.webtoon.weekly.ui.compose
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -81,6 +80,7 @@ internal fun WeeklyItemUi(
                     Modifier
                 }
             }
+
             else -> Modifier
         }
 
@@ -99,6 +99,7 @@ internal fun WeeklyItemUi(
                         color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
                     )
                 }
+
                 is AsyncImagePainter.State.Error -> {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
@@ -238,18 +239,10 @@ private fun WeeklyStatusUi(
             )
         }
         if (isLocked) {
-            Text(
-                text = "19", color = Color.White,
-                modifier = Modifier
-                    .padding(
-                        top = if (isUpdate) {
-                            3.dp
-                        } else {
-                            0.dp
-                        }
-                    )
-                    .backgroundCorner(color = Color.Red, size = 4.dp)
-                    .padding(horizontal = 6.dp, vertical = 2.dp)
+            Image(
+                painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_lock_white_24),
+                contentDescription = null,
+                modifier = Modifier.padding(4.dp)
             )
         }
         if (isRest) {
@@ -311,10 +304,6 @@ private fun PreviewWeeklyItemUi(
 }
 
 @Preview("Weekly Status Component")
-@Preview(
-    "Weekly Status Component",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
 @Composable
 private fun PreviewWeeklyStatusUi() {
     AppTheme {
