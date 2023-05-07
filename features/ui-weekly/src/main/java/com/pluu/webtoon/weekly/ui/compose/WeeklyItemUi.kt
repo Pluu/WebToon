@@ -2,7 +2,6 @@
 
 package com.pluu.webtoon.weekly.ui.compose
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -81,6 +80,7 @@ internal fun WeeklyItemUi(
                     Modifier
                 }
             }
+
             else -> Modifier
         }
 
@@ -99,6 +99,7 @@ internal fun WeeklyItemUi(
                         color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
                     )
                 }
+
                 is AsyncImagePainter.State.Error -> {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
@@ -129,9 +130,9 @@ internal fun WeeklyItemOverlayUi(
         ) = createRefs()
 
         val isUpdate = item.status == Status.UPDATE
-        val isAdultLimit = item.isAdult
+        val isLocked = item.isLocked
         val isBreak = item.status == Status.BREAK
-        val isStatusShow = isUpdate || isAdultLimit || isBreak
+        val isStatusShow = isUpdate || isLocked || isBreak
 
         Text(
             text = item.title,
@@ -178,7 +179,7 @@ internal fun WeeklyItemOverlayUi(
                     end.linkTo(parent.end)
                 },
                 isUpdate = isUpdate,
-                isAdultLimit = isAdultLimit,
+                isLocked = isLocked,
                 isRest = isBreak
             )
         }
@@ -224,7 +225,7 @@ private fun WeeklyItemFavoriteUi(
 private fun WeeklyStatusUi(
     modifier: Modifier = Modifier,
     isUpdate: Boolean,
-    isAdultLimit: Boolean,
+    isLocked: Boolean,
     isRest: Boolean
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.End) {
@@ -237,19 +238,11 @@ private fun WeeklyStatusUi(
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }
-        if (isAdultLimit) {
-            Text(
-                text = "19", color = Color.White,
-                modifier = Modifier
-                    .padding(
-                        top = if (isUpdate) {
-                            3.dp
-                        } else {
-                            0.dp
-                        }
-                    )
-                    .backgroundCorner(color = Color.Red, size = 4.dp)
-                    .padding(horizontal = 6.dp, vertical = 2.dp)
+        if (isLocked) {
+            Image(
+                painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_lock_white_24),
+                contentDescription = null,
+                modifier = Modifier.padding(4.dp)
             )
         }
         if (isRest) {
@@ -258,7 +251,7 @@ private fun WeeklyStatusUi(
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        top = if (isUpdate or isAdultLimit) {
+                        top = if (isUpdate or isLocked) {
                             3.dp
                         } else {
                             0.dp
@@ -289,7 +282,7 @@ internal class FakeWeeklyItemProvider : PreviewParameterProvider<ToonInfoWithFav
                 image = "",
                 updateDate = "1234.56.78",
                 status = Status.BREAK,
-                isAdult = true
+                isLocked = true
             ), true
         )
     )
@@ -311,13 +304,9 @@ private fun PreviewWeeklyItemUi(
 }
 
 @Preview("Weekly Status Component")
-@Preview(
-    "Weekly Status Component",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
 @Composable
 private fun PreviewWeeklyStatusUi() {
     AppTheme {
-        WeeklyStatusUi(isUpdate = true, isAdultLimit = true, isRest = true)
+        WeeklyStatusUi(isUpdate = true, isLocked = true, isRest = true)
     }
 }

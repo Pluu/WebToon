@@ -82,7 +82,7 @@ internal class DaumWeekApi @Inject constructor(
                 content.optBoolean("rest") -> Status.BREAK // 휴재
                 else -> Status.NONE
             },
-            isAdult = content.optBoolean("adult")
+            isLocked = content.optBoolean("adult")
         )
     }
 

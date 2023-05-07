@@ -69,7 +69,7 @@ internal class NaverWeekApi @Inject constructor(
                 info.select("span[class=bullet break]").isNotEmpty() -> Status.BREAK // 휴재
                 else -> Status.NONE
             },
-            isAdult = !element.select("em[class=badge badge_adult]").isEmpty(),
+            isLocked = !element.select("em[class=badge badge_adult]").isEmpty(),
             writer = info.select(".author").first()?.text().orEmpty(),
             rate = element.select(".txt_score").text().toDoubleOrNull() ?: 0.0,
             updateDate = element.select("span[class=if1]").text()

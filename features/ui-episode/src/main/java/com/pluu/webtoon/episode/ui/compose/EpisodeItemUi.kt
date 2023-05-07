@@ -140,7 +140,7 @@ private fun EpisodeItemUiOverlayUi(
 
         if (item.isLock) {
             ImageInCircle(
-                painter = painterResource(R.drawable.ic_lock_white_24),
+                painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_lock_white_24),
                 circleColor = Color(0xCC222222),
                 modifier = Modifier
                     .padding(5.dp)

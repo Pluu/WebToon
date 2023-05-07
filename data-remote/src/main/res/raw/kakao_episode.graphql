@@ -1,0 +1,42 @@
+query contentHomeProductList($after: String, $before: String, $first: Int, $last: Int, $seriesId: Long!, $boughtOnly: Boolean, $sortType: String) {
+  contentHomeProductList(
+    seriesId: $seriesId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    boughtOnly: $boughtOnly
+    sortType: $sortType
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      endCursor
+      hasPreviousPage
+      startCursor
+      __typename
+    }
+    edges {
+      node {
+        ...SingleListViewItem
+      }
+    }
+  }
+}
+
+fragment SingleListViewItem on SingleListViewItem {
+  row2
+  row3
+  single {
+    productId
+    ageGrade
+    isFree
+    thumbnail
+    title
+    slideType
+    operatorProperty {
+      isTextViewer
+    }
+  }
+  purchaseInfoText
+}

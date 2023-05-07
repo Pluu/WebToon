@@ -1,0 +1,64 @@
+query viewerInfo($seriesId: Long!, $productId: Long!) {
+  viewerInfo(seriesId: $seriesId, productId: $productId) {
+    item {
+      ...SingleFragment
+    }
+    prevItem {
+      ...NearItemFragment
+    }
+    nextItem {
+      ...NearItemFragment
+    }
+    viewerData {
+      ...ImageViewerData
+    }
+  }
+}
+
+fragment SingleFragment on Single {
+  id
+  productId
+  seriesId
+  title
+  thumbnail
+  isFree
+  ageGrade
+  state
+  slideType
+  lastReleasedDate
+  size
+  pageCount
+  isHidden
+  remainText
+  isWaitfreeBlocked
+  saleState
+}
+
+fragment NearItemFragment on NearItem {
+  productId
+}
+
+
+fragment ImageViewerData on ImageViewerData {
+  imageDownloadData {
+    ...ImageDownloadData
+  }
+}
+
+fragment ImageDownloadData on ImageDownloadData {
+  files {
+    ...ImageDownloadFile
+  }
+  totalCount
+  totalSize
+  viewDirection
+  gapBetweenImages
+  readType
+}
+
+fragment ImageDownloadFile on ImageDownloadFile {
+  no
+  secureUrl
+  width
+  height
+}

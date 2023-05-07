@@ -11,10 +11,8 @@ data class ToonInfo(
     val rate: Double = 0.0,
     val updateDate: String = "",
     val status: Status = Status.NONE,
-    val isAdult: Boolean = false
-) : Serializable {
-    var isLock: Boolean = false
-}
+    val isLocked: Boolean = false
+) : Serializable
 
 data class ToonInfoWithFavorite(
     val info: ToonInfo,

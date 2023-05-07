@@ -66,7 +66,7 @@ internal class KToonWeekApi @Inject constructor(
                 info.select(".ico_break").isNotEmpty() -> Status.BREAK // 휴재
                 else -> Status.NONE
             },
-            isAdult = info.select("ico_adult").isNotEmpty()
+            isLocked = info.select("ico_adult").isNotEmpty()
         )
     }
 

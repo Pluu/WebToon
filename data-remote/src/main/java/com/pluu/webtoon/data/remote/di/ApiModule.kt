@@ -21,6 +21,7 @@ import com.pluu.webtoon.data.remote.api.site.naver.NaverDetailShare
 import com.pluu.webtoon.data.remote.api.site.naver.NaverEpisodeApi
 import com.pluu.webtoon.data.remote.api.site.naver.NaverWeekApi
 import com.pluu.webtoon.data.remote.network.INetworkUseCase
+import com.pluu.webtoon.data.remote.utils.ResourceLoader
 import com.pluu.webtoon.model.NAV_ITEM
 import dagger.Module
 import dagger.Provides
@@ -34,34 +35,37 @@ internal object ApiModule {
     @Provides
     fun provideWeeklyApi(
         naviItem: NAV_ITEM,
-        networkUseCase: INetworkUseCase
+        networkUseCase: INetworkUseCase,
+        resourceLoader: ResourceLoader
     ): WeeklyApi = when (naviItem) {
         NAV_ITEM.NAVER -> NaverWeekApi(networkUseCase)
         NAV_ITEM.DAUM -> DaumWeekApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonWeekApi(networkUseCase)
-        NAV_ITEM.KAKAOPAGE -> KakaoWeekApi(networkUseCase)
+        NAV_ITEM.KAKAOPAGE -> KakaoWeekApi(networkUseCase, resourceLoader)
     }
 
     @Provides
     fun provideEpisodeApi(
         naviItem: NAV_ITEM,
-        networkUseCase: INetworkUseCase
+        networkUseCase: INetworkUseCase,
+        resourceLoader: ResourceLoader
     ): EpisodeApi = when (naviItem) {
         NAV_ITEM.NAVER -> NaverEpisodeApi(networkUseCase)
         NAV_ITEM.DAUM -> DaumEpisodeApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonEpisodeApi(networkUseCase)
-        NAV_ITEM.KAKAOPAGE -> KakaoEpisodeApi(networkUseCase)
+        NAV_ITEM.KAKAOPAGE -> KakaoEpisodeApi(networkUseCase, resourceLoader)
     }
 
     @Provides
     fun provideDetailApi(
         naviItem: NAV_ITEM,
-        networkUseCase: INetworkUseCase
+        networkUseCase: INetworkUseCase,
+        resourceLoader: ResourceLoader
     ): DetailApi = when (naviItem) {
         NAV_ITEM.NAVER -> NaverDetailApi(networkUseCase)
         NAV_ITEM.DAUM -> DaumDetailApi(networkUseCase)
         NAV_ITEM.KTOON -> KToonDetailApi(networkUseCase)
-        NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(networkUseCase)
+        NAV_ITEM.KAKAOPAGE -> KakaoDetailApi(networkUseCase, resourceLoader)
     }
 
     @Provides

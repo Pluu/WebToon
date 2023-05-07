@@ -1,18 +1,19 @@
 package com.pluu.webtoon.data.remote.api.site.kakao
 
 import com.pluu.utils.asSequence
-import com.pluu.utils.orEmpty
+import com.pluu.webtoon.data.remote.R
 import com.pluu.webtoon.data.remote.api.DetailApi
 import com.pluu.webtoon.data.remote.model.IRequest
 import com.pluu.webtoon.data.remote.model.REQUEST_METHOD
 import com.pluu.webtoon.data.remote.network.INetworkUseCase
+import com.pluu.webtoon.data.remote.utils.ResourceLoader
 import com.pluu.webtoon.data.remote.utils.mapJson
 import com.pluu.webtoon.model.DetailResult
 import com.pluu.webtoon.model.DetailView
-import com.pluu.webtoon.model.successOr
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import com.pluu.webtoon.model.ERROR_TYPE
+import com.pluu.webtoon.model.Result
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -21,99 +22,78 @@ import javax.inject.Inject
  * Created by pluu on 2017-04-25.
  */
 internal class KakaoDetailApi @Inject constructor(
-    private val networkUseCase: INetworkUseCase
+    private val networkUseCase: INetworkUseCase,
+    private val resourceLoader: ResourceLoader
 ) : DetailApi, INetworkUseCase by networkUseCase {
 
     override suspend fun invoke(param: DetailApi.Param): DetailResult {
-        val id = param.episodeId
-
-        return withContext(Dispatchers.Default) {
-            val jsonDeferred = async {
-                getData(param.episodeId).orEmpty()
-            }
-            val prevDeferred = async {
-                getMoreData(param.toonId, id, isPrev = true).orEmpty()
-            }
-            val nextDeferred = async {
-                getMoreData(param.toonId, id, isPrev = false).orEmpty()
-            }
-
-            DetailResult.Detail(
-                webtoonId = param.toonId,
-                episodeId = id,
-                title = param.episodeTitle
-            ).apply {
-                list = getImages(jsonDeferred.await())
-                prevLink = prevDeferred.await()
-                nextLink = nextDeferred.await()
-            }
-        }
-    }
-
-    @Throws
-    private suspend fun getData(id: String): JSONObject? {
-        return requestApi(createApi(id))
-            .mapJson()
-            .successOr(null)
-    }
-
-    private fun getImages(json: JSONObject): List<DetailView> {
-        val memberInfo: JSONObject? =
-            json.optJSONObject("downloadData")?.optJSONObject("members")
-        return memberInfo?.optString("sAtsServerUrl")?.takeIf { it.isNotEmpty() }?.let { host ->
-            memberInfo.optJSONArray("files")
-                ?.asSequence()
-                ?.map { DetailView("$host${it.optString("secureUrl")}") }
-                ?.toList()
-        }.orEmpty()
-    }
-
-    private suspend fun getMoreData(toonId: String, episodeId: String, isPrev: Boolean): String? {
-        return runCatching {
-            getMoreResponse(isPrev, toonId, episodeId)
-                ?.optJSONObject("item")?.takeIf {
-                    it.optString("hidden", "N") == "N"
-                }?.optString("pid")
-                ?.replace("[^\\d]".toRegex(), "")
-        }.getOrNull()
-    }
-
-    private suspend fun getMoreResponse(
-        isPrev: Boolean,
-        toonId: String,
-        episodeId: String
-    ): JSONObject? {
-        val request = IRequest(
-            method = REQUEST_METHOD.POST,
-            url = if (isPrev) {
-                "https://api2-page.kakao.com/api/v5/inven/get_prev_item"
-            } else {
-                "https://api2-page.kakao.com/api/v5/inven/get_next_item"
-            },
-            params = mapOf(
-                "seriesPid" to toonId,
-                "singlePid" to episodeId
-            )
-        )
-
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
 
-        return requestApi(request)
+        val responseData = requestApi(createApi(param.toonId, param.episodeId))
             .mapJson()
-            .successOr(null)
+            .let { result ->
+                when (result) {
+                    is Result.Success -> result.data.getJSONObject("data")
+                        .getJSONObject("viewerInfo")
+
+                    is Result.Error -> return DetailResult.ErrorResult(
+                        ERROR_TYPE.DEFAULT_ERROR(
+                            result.throwable
+                        )
+                    )
+                }
+            }
+
+        ///////////////////////////////////////////////////////////////////////////
+        // Parse Data
+        ///////////////////////////////////////////////////////////////////////////
+
+        return DetailResult.Detail(
+            webtoonId = param.toonId,
+            episodeId = param.episodeId,
+            title = param.episodeTitle
+        ).apply {
+            list = getImages(responseData)
+            prevLink = responseData.optJSONObject("prevItem")?.optString("productId")
+            nextLink = responseData.optJSONObject("nextItem")?.optString("productId")
+        }
     }
 
-    private fun createApi(id: String): IRequest =
+    private fun getImages(json: JSONObject): List<DetailView> {
+        return json.optJSONObject("viewerData")
+            ?.optJSONObject("imageDownloadData")
+            ?.optJSONArray("files")
+            ?.asSequence().orEmpty()
+            .map { item ->
+                DetailView(item.getString("secureUrl"))
+            }.toList()
+    }
+
+    private fun createApi(toonId: String, episodeId: String): IRequest =
         IRequest(
             method = REQUEST_METHOD.POST,
-            url = "https://api2-page.kakao.com/api/v1/inven/get_download_data/web",
-            params = mapOf(
-                "productId" to id
-            ),
-            headers = mapOf(
-                "User-Agent" to "Mozilla/5.0"
+            url = "https://page.kakao.com/graphql",
+            params = generateApiParams(
+                seriesId = toonId,
+                productId = episodeId
             )
         )
+
+    private fun generateApiParams(
+        seriesId: String,
+        productId: String
+    ): Map<String, String> {
+        val query = resourceLoader.readRawResource(R.raw.kakao_detail)
+        val variables = buildJsonObject {
+            put("seriesId", seriesId)
+            put("productId", productId)
+        }.toString()
+
+        return mapOf(
+            "query" to query,
+            "variables" to variables
+        )
+    }
 }
