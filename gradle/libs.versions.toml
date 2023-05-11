@@ -16,7 +16,7 @@ coil = "2.3.0"
 dagger = "2.46"
 kotlin = "1.8.21"
 ksp = "1.8.21-1.0.11"
-kotlin-coroutine = "1.6.4"
+kotlin-coroutine = "1.7.0"
 okhttp = "4.11.0"
 
 [libraries]
