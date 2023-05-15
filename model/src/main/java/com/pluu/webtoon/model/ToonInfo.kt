@@ -18,5 +18,5 @@ data class ToonInfoWithFavorite(
     val info: ToonInfo,
     val isFavorite: Boolean = false
 ) : Serializable {
-    val id = info.id
+    val id: String = info.id
 }

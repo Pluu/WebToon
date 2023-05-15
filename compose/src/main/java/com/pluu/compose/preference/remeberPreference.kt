@@ -15,7 +15,7 @@ class PreferenceState<T>(
     private val onValueChange: (receiver: PreferenceState<T>, item: T) -> Unit
 ) {
     private var entryValue by mutableStateOf(initialValue)
-    var summary by mutableStateOf(initialSummary)
+    var summary: String by mutableStateOf(initialSummary)
 
     fun updateEntryValue(value: T) {
         preferences.edit {

@@ -30,27 +30,27 @@ class PreferenceCompose(
     fun getValue(
         key: String,
         defaultValue: Boolean = false
-    ) = preferences.getBoolean(key, defaultValue)
+    ): Boolean = preferences.getBoolean(key, defaultValue)
 
     fun getValue(
         key: String,
         defaultValue: String = ""
-    ) = preferences.getString(key, defaultValue)!!
+    ): String = preferences.getString(key, defaultValue)!!
 
     fun getValue(
         key: String,
         defaultValue: Float = 0f
-    ) = preferences.getFloat(key, defaultValue)
+    ): Float = preferences.getFloat(key, defaultValue)
 
     fun getValue(
         key: String,
         defaultValue: Int = 0
-    ) = preferences.getInt(key, defaultValue)
+    ): Int = preferences.getInt(key, defaultValue)
 
     fun getValue(
         key: String,
         defaultValue: Long = 0L
-    ) = preferences.getLong(key, defaultValue)
+    ): Long = preferences.getLong(key, defaultValue)
 
     fun getValue(
         key: String,

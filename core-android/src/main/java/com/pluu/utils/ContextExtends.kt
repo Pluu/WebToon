@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
-fun Context.getCompatColor(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
+fun Context.getCompatColor(@ColorRes resId: Int): Int = ContextCompat.getColor(this, resId)
 
 fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
     toast(getString(resId), duration)

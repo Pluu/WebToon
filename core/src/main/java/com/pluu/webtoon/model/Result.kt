@@ -16,7 +16,7 @@ sealed class Result<out R> {
 /**
  * `true` if [Result] is of type [Success] & holds non-null [Success.data].
  */
-val Result<*>.succeeded
+val Result<*>.succeeded: Boolean
     get() = this is Result.Success && data != null
 
 fun <T> Result<T>.successOr(fallback: T): T {

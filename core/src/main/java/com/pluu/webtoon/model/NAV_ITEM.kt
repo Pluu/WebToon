@@ -8,6 +8,6 @@ enum class NAV_ITEM {
     KAKAOPAGE;
 
     companion object {
-        fun getDefault() = NAVER
+        fun getDefault(): NAV_ITEM = NAVER
     }
 }

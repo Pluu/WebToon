@@ -22,7 +22,7 @@ class ChromeCustomTabsNavigator(
     private val context: Context
 ) : Navigator<ChromeCustomTabsNavigator.Destination>() {
 
-    override fun createDestination() = Destination(this)
+    override fun createDestination(): Destination = Destination(this)
 
     override fun navigate(
         destination: Destination,
@@ -42,7 +42,7 @@ class ChromeCustomTabsNavigator(
         return null // Do not add to the back stack, managed by Chrome Custom Tabs
     }
 
-    override fun popBackStack() = true // Managed by Chrome Custom Tabs
+    override fun popBackStack(): Boolean = true // Managed by Chrome Custom Tabs
 
     private fun CustomTabsIntent.Builder.buildCustomTabsIntent(
         extras: Extras

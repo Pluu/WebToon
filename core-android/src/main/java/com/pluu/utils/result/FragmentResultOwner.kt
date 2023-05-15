@@ -16,10 +16,10 @@ fun FragmentActivity.setFragmentResultListener(
 fun FragmentActivity.setFragmentResult(
     requestKey: String,
     result: Bundle = Bundle()
-) = supportFragmentManager.setFragmentResult(requestKey, result)
+): Unit = supportFragmentManager.setFragmentResult(requestKey, result)
 
 
 fun Fragment.setFragmentResult(
     requestKey: String,
     result: Bundle = Bundle()
-) = parentFragmentManager.setFragmentResult(requestKey, result)
+): Unit = parentFragmentManager.setFragmentResult(requestKey, result)

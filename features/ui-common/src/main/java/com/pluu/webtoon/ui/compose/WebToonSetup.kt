@@ -13,7 +13,7 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 fun Fragment.fragmentComposeView(
     parent: CompositionContext? = null,
     content: @Composable () -> Unit
-) = ComposeView(requireContext()).apply {
+): ComposeView = ComposeView(requireContext()).apply {
     setParentCompositionContext(parent)
     layoutParams = ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,

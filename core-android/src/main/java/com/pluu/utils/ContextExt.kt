@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 
 inline fun <reified T : Activity> Context.buildIntent(
     vararg argument: Pair<String, Any?>
-) = Intent(this, T::class.java).apply {
+): Intent = Intent(this, T::class.java).apply {
     putExtras(bundleOf(*argument))
 }
 

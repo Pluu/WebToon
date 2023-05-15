@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.Dp
 fun Modifier.backgroundCorner(
     color: Color,
     size: Dp
-) = this.then(
+): Modifier = this.then(
     background(
         color = color,
         shape = RoundedCornerShape(size)
