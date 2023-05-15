@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio
 
@@ -23,6 +22,9 @@ output.json
 # IntelliJ
 *.iml
 .idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
 
 # Keystore files
 *.jks
@@ -124,15 +126,6 @@ obj/
 .idea/gradle.xml
 .idea/jarRepositories.xml
 .idea/navEditor.xml
-
-# OS-specific files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
 
 # Legacy Eclipse project files
 .classpath
