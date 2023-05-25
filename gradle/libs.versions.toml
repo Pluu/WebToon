@@ -16,7 +16,7 @@ coil = "2.4.0"
 dagger = "2.46.1"
 kotlin = "1.8.21"
 ksp = "1.8.21-1.0.11"
-kotlin-coroutine = "1.7.0"
+kotlin-coroutine = "1.7.1"
 okhttp = "4.11.0"
 
 [libraries]
@@ -69,7 +69,7 @@ dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref
 kotlin-coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutine" }
 kotlin-coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutine" }
 kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutine" }
-kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 ## etc
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
