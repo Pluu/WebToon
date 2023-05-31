@@ -63,7 +63,9 @@ internal fun WeeklyUi(
     val selectedTabIndex =
         (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val pagerState = rememberPagerState(selectedTabIndex)
+    val pagerState = rememberPagerState(initialPage = selectedTabIndex) {
+        tabs.size
+    }
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(drawerState.isOpen) {
@@ -107,7 +109,6 @@ internal fun WeeklyUi(
             }
 
             HorizontalPager(
-                pageCount = tabs.size,
                 modifier = Modifier.fillMaxSize(),
                 state = pagerState,
                 key = { it }
