@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.compose.ui.graphics.Color
 import androidx.palette.graphics.Palette
+import com.pluu.webtoon.ui.compose.toLong
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.utils.LoadedState
 import com.pluu.webtoon.utils.preLoadImage
@@ -43,13 +44,18 @@ internal class PalletDarkCalculator(
         return withContext(Dispatchers.Default) {
             val p = Palette.from(this@convertPallet).generate()
             PalletColor(
-                Color(p.getDarkVibrantColor(android.graphics.Color.BLACK)),
-                Color(p.getDarkMutedColor(android.graphics.Color.BLACK)),
-                Color(p.getLightVibrantColor(android.graphics.Color.WHITE)),
-                Color(p.getLightMutedColor(android.graphics.Color.WHITE))
+                p.getDarkVibrantColor(android.graphics.Color.BLACK).toLong(),
+                p.getDarkMutedColor(android.graphics.Color.BLACK).toLong(),
+                p.getLightVibrantColor(android.graphics.Color.WHITE).toLong(),
+                p.getLightMutedColor(android.graphics.Color.WHITE).toLong()
             )
         }
     }
 
-    private fun defaultPalletColor() = PalletColor(Color.Black, Color.Black, Color.White, Color.White)
+    private fun defaultPalletColor() = PalletColor(
+        Color.Black.toLong(),
+        Color.Black.toLong(),
+        Color.White.toLong(),
+        Color.White.toLong()
+    )
 }

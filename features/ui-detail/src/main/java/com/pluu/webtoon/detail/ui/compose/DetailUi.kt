@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
@@ -34,8 +35,8 @@ fun DetailUi(
     DetailUi(
         viewModel = hiltViewModel(),
         featureColor = FeatureColor(
-            themeColor = palletColor.darkMutedColor,
-            webToonColor = palletColor.darkVibrantColor
+            themeColor = Color(palletColor.darkMutedColor),
+            webToonColor = Color(palletColor.darkVibrantColor)
         ),
         closeCurrent = { closeCurrent() },
         shareAction = { item ->

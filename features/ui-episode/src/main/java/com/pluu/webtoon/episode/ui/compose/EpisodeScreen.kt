@@ -55,7 +55,7 @@ internal fun EpisodeScreen(
     ) { state ->
         when (state) {
             ColorTransitionState.START -> MaterialTheme.colorScheme.primaryContainer
-            ColorTransitionState.END -> palletColor.darkVibrantColor
+            ColorTransitionState.END -> Color(palletColor.darkVibrantColor)
         }
     }
 

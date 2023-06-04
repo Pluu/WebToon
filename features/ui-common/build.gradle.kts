@@ -1,6 +1,7 @@
 plugins {
     id("pluu.android.library")
     id("pluu.android.library.compose")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -10,6 +11,8 @@ android {
 dependencies {
     api(projects.model)
     api(projects.uiTheme)
+
+    implementation(libs.kotlin.serialization)
 
     // Android UI
     implementation(libs.androidX.fragment.ktx)

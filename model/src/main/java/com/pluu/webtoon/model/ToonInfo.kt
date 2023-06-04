@@ -1,7 +1,10 @@
 package com.pluu.webtoon.model
 
+import com.pluu.webtoon.model.utils.parseNavigationValue
+import com.pluu.webtoon.model.utils.toNavigationValue
 import java.io.Serializable
 
+@kotlinx.serialization.Serializable
 data class ToonInfo(
     val id: String,
     val title: String,
@@ -14,9 +17,18 @@ data class ToonInfo(
     val isLocked: Boolean = false
 ) : Serializable
 
+@kotlinx.serialization.Serializable
 data class ToonInfoWithFavorite(
     val info: ToonInfo,
     val isFavorite: Boolean = false
 ) : Serializable {
     val id: String = info.id
+
+    companion object {
+        fun toNavigationValue(value: ToonInfoWithFavorite): String =
+            value.toNavigationValue()
+
+        fun parseNavigationValue(value: String): ToonInfoWithFavorite =
+            value.parseNavigationValue()
+    }
 }

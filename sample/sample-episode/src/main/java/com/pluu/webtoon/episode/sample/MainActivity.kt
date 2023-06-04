@@ -14,6 +14,7 @@ import com.pluu.webtoon.episode.ui.compose.EpisodeUi
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.WebToonTheme
+import com.pluu.webtoon.ui.compose.toLong
 import com.pluu.webtoon.ui.model.PalletColor
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,10 +49,10 @@ class MainActivity : ComponentActivity() {
             )
         )
         val palletColor = PalletColor(
-            darkVibrantColor = Color(0xFF17438F),
-            darkMutedColor = Color.Gray,
-            lightVibrantColor = Color.White,
-            lightMutedColor = Color.White
+            darkVibrantColor = 0xFF17438F,
+            darkMutedColor = Color.Gray.toLong(),
+            lightVibrantColor = Color.White.toLong(),
+            lightMutedColor = Color.White.toLong()
         )
 
         // Put, Episode Information

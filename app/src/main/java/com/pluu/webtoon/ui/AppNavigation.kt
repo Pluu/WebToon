@@ -12,17 +12,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.pluu.utils.extraNotNullSerializable
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
+import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.navigation.customtabs.chromeCustomTabs
 import com.pluu.webtoon.navigation.customtabs.navigateChromeCustomTabs
 import com.pluu.webtoon.setting.ui.LicenseUi
 import com.pluu.webtoon.setting.ui.SettingsUi
 import com.pluu.webtoon.ui.model.PalletColor
-import com.pluu.webtoon.utils.navigateWithArgument
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import com.pluu.webtoon.weekly.ui.compose.WeeklyUi
 import timber.log.Timber
@@ -80,16 +81,15 @@ private fun NavGraphBuilder.installWeeklyScreen(
                 updateNaviItem(item)
             },
             openEpisode = { item, color ->
-                navController.navigateWithArgument(
-                    route = Screen.Episode.route,
-                    args = listOf(
-                        Const.EXTRA_TOON to item,
-                        Const.EXTRA_PALLET to color
-                    )
+                val toonItem = ToonInfoWithFavorite.toNavigationValue(item)
+                val palletColor = PalletColor.toNavigationValue(color)
+
+                navController.navigate(
+                    "${Screen.Episode.route}/${toonItem}/${palletColor}"
                 )
             },
             openSetting = {
-                navController.navigateWithArgument(Screen.Setting.route)
+                navController.navigate(Screen.Setting.route)
             }
         )
     }
@@ -98,7 +98,23 @@ private fun NavGraphBuilder.installWeeklyScreen(
 private fun NavGraphBuilder.installEpisodeScreen(
     navController: NavController
 ) {
-    composable(Screen.Episode.route) { entry ->
+    composable(
+        route = Screen.Episode.route + "/{${Const.EXTRA_TOON}}/{${Const.EXTRA_PALLET}}",
+        arguments = listOf(
+            navArgument(Const.EXTRA_TOON) {
+                type = SerializableType(
+                    type = ToonInfoWithFavorite::class.java,
+                    parser = ToonInfoWithFavorite::parseNavigationValue
+                )
+            },
+            navArgument(Const.EXTRA_PALLET) {
+                type = SerializableType(
+                    type = PalletColor::class.java,
+                    parser = PalletColor::parseNavigationValue
+                )
+            }
+        )
+    ) { entry ->
         // Read, Bundle data
         val arguments = requireNotNull(entry.arguments)
         val toon = arguments.extraNotNullSerializable<ToonInfoWithFavorite>(Const.EXTRA_TOON)
@@ -108,13 +124,9 @@ private fun NavGraphBuilder.installEpisodeScreen(
             webToonItem = toon,
             palletColor = color,
             openDetail = { episode ->
-                navController.navigateWithArgument(
-                    route = Screen.Detail.route,
-                    args = listOf(
-                        Const.EXTRA_EPISODE to episode,
-                        Const.EXTRA_PALLET to color
-                    )
-                )
+                val episodeItem = EpisodeInfo.toNavigationValue(episode)
+                val palletColor = PalletColor.toNavigationValue(color)
+                navController.navigate("${Screen.Detail.route}/${episodeItem}/${palletColor}")
             },
             closeCurrent = navController::navigateUp
         )
@@ -124,7 +136,23 @@ private fun NavGraphBuilder.installEpisodeScreen(
 private fun NavGraphBuilder.installDetailScreen(
     navController: NavController
 ) {
-    composable(Screen.Detail.route) { entry ->
+    composable(
+        route = Screen.Detail.route + "/{${Const.EXTRA_EPISODE}}/{${Const.EXTRA_PALLET}}",
+        arguments = listOf(
+            navArgument(Const.EXTRA_EPISODE) {
+                type = SerializableType(
+                    type = EpisodeInfo::class.java,
+                    parser = EpisodeInfo::parseNavigationValue
+                )
+            },
+            navArgument(Const.EXTRA_PALLET) {
+                type = SerializableType(
+                    type = PalletColor::class.java,
+                    parser = PalletColor::parseNavigationValue
+                )
+            }
+        )
+    ) { entry ->
         // Read, Bundle data
         val arguments = requireNotNull(entry.arguments)
         val color: PalletColor = arguments.extraNotNullSerializable(Const.EXTRA_PALLET)
@@ -144,7 +172,7 @@ private fun NavGraphBuilder.installSettingScreen(
         SettingsUi(
             closeCurrent = navController::navigateUp,
             openLicense = {
-                navController.navigateWithArgument(Screen.License.route)
+                navController.navigate(Screen.License.route)
             }
         )
     }
