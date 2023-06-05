@@ -72,7 +72,7 @@ internal fun DayOfWeekUi(
         containerColor = backgroundColor,
         contentColor = contentColor,
         indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
+            TabRowDefaults.SecondaryIndicator(
                 modifier = Modifier.tabIndicatorOffset(
                     tabPositions[selectedTabIndex]
                 ),
