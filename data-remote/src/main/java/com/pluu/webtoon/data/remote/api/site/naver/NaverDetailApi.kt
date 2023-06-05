@@ -12,7 +12,6 @@ import com.pluu.webtoon.model.ERROR_TYPE
 import com.pluu.webtoon.model.Result
 import com.pluu.webtoon.model.successOr
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.json.JSONObject
 import org.jsoup.nodes.Document
