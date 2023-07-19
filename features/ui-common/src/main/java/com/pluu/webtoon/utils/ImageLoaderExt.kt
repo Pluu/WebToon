@@ -37,7 +37,7 @@ suspend fun preLoadImage(
 }
 
 sealed class LoadedState {
-    object Loading : LoadedState()
+    data object Loading : LoadedState()
     class Success(val drawable: Drawable) : LoadedState()
     class Error(val throwable: Throwable) : LoadedState()
 }

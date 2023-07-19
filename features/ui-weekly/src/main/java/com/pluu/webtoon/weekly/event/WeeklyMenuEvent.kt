@@ -4,7 +4,7 @@ import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 
 internal sealed class WeeklyMenuEvent {
     class OnMenuClicked(val item: UI_NAV_ITEM) : WeeklyMenuEvent()
-    object OnSettingClicked : WeeklyMenuEvent()
+    data object OnSettingClicked : WeeklyMenuEvent()
 }
 
 internal sealed class WeeklyEvent {

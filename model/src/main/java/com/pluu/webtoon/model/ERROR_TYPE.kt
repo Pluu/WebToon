@@ -7,13 +7,13 @@ package com.pluu.webtoon.model
 @Suppress("ClassName")
 sealed class ERROR_TYPE {
     // 성인 인증
-    object ADULT_CERTIFY : ERROR_TYPE()
+    data object ADULT_CERTIFY : ERROR_TYPE()
 
     // 코인 필요
-    object COIN_NEED : ERROR_TYPE()
+    data object COIN_NEED : ERROR_TYPE()
 
     // 지원 불가 웹툰 타입
-    object NOT_SUPPORT : ERROR_TYPE()
+    data object NOT_SUPPORT : ERROR_TYPE()
 
     // 기본 에러
     class DEFAULT_ERROR(val throwable: Throwable? = null) : ERROR_TYPE()

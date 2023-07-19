@@ -29,11 +29,11 @@ import com.pluu.webtoon.weekly.ui.compose.WeeklyUi
 import timber.log.Timber
 
 sealed class Screen(val route: String) {
-    object Weekly : Screen("weekly")
-    object Episode : Screen("episode")
-    object Detail : Screen("detail")
-    object Setting : Screen("setting")
-    object License : Screen("license")
+    data object Weekly : Screen("weekly")
+    data object Episode : Screen("episode")
+    data object Detail : Screen("detail")
+    data object Setting : Screen("setting")
+    data object License : Screen("license")
 }
 
 @Composable

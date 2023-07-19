@@ -32,7 +32,7 @@ data class EpisodeInfo(
 
 @kotlinx.serialization.Serializable
 sealed class LandingInfo : Serializable {
-    object Detail : LandingInfo()
+    data object Detail : LandingInfo()
 
     data class Browser(
         val url: String

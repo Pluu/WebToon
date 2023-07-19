@@ -130,8 +130,8 @@ internal class DetailViewModel @Inject constructor(
 }
 
 internal sealed class DetailEvent {
-    object START : DetailEvent()
-    object LOADED : DetailEvent()
+    data object START : DetailEvent()
+    data object LOADED : DetailEvent()
     class ERROR(val errorType: ERROR_TYPE) : DetailEvent()
     class SHARE(val item: ShareItem) : DetailEvent()
 }

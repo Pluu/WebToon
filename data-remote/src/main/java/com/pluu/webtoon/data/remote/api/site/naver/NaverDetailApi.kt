@@ -270,7 +270,7 @@ private sealed class TypeResult {
         val next: String? = null
     ) : TypeResult()
 
-    object NotSupport : TypeResult()
+    data object NotSupport : TypeResult()
 }
 
 @Serializable
