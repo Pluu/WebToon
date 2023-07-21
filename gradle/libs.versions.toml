@@ -16,7 +16,7 @@ accompanist = "0.31.5-beta"
 coil = "2.4.0"
 dagger = "2.46.1"
 kotlin = "1.9.0"
-ksp = "1.9.0-1.0.11"
+ksp = "1.9.0-1.0.12"
 kotlin-coroutine = "1.7.2"
 okhttp = "4.11.0"
 
