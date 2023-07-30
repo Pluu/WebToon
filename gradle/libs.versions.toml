@@ -3,13 +3,13 @@ androidStudioGradlePlugin = "8.1.0"
 
 # AndroiX
 activity = "1.7.2"
-compose = "1.5.0-beta03"
-compose-material3 = "1.2.0-alpha02" # 1.2.0-alpha03 부터 Compose 1.6.0-alpha01 종속성
+compose = "1.5.0-beta03" # 1.5.0-rc01 부터 Target 34
+compose-material3 = "1.2.0-alpha02" # 1.2.0-alpha03 부터 Target 34
 #compose-bom = "2023.05.00"
-composeCompiler = "1.5.0"
+composeCompiler = "1.5.1"
 lifecycle = "2.6.1"
 room = "2.5.2"
-paging = "3.2.0-rc01"
+paging = "3.2.0"
 
 # 3rd-party
 accompanist = "0.31.5-beta"
@@ -39,8 +39,8 @@ androidX-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.
 androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
-androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10"
-androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.6.0"
+androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10" # 1.1.0-alpha11 부터 Target 34
+androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.6.1"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -50,7 +50,7 @@ androidX-navigation-compose = "androidx.navigation:navigation-compose:2.6.0"
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
-androidX-preference = "androidx.preference:preference:1.2.0"
+androidX-preference = "androidx.preference:preference:1.2.1"
 androidX-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidX-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidX-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
