@@ -8,5 +8,5 @@ plugins {
 apply(from = "${rootDir}/gradle/jetifier_disable.gradle.kts")
 
 task("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    delete(layout.buildDirectory)
 }
