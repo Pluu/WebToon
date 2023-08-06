@@ -40,7 +40,7 @@ internal fun WeeklyScreen(
             ) {
                 WeeklyDrawer(
                     title = stringResource(R.string.app_name),
-                    menus = UI_NAV_ITEM.values().iterator(),
+                    menus = UI_NAV_ITEM.entries.iterator(),
                     selectedMenu = naviItem
                 ) { event ->
                     onEventAction(event)

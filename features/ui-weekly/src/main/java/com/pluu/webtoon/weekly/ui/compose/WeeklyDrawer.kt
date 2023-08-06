@@ -129,7 +129,7 @@ private fun PreviewWeeklyDrawer() {
     AppTheme {
         WeeklyDrawer(
             title = "Sample",
-            menus = UI_NAV_ITEM.values().iterator(),
+            menus = UI_NAV_ITEM.entries.iterator(),
             selectedMenu = UI_NAV_ITEM.NAVER,
             onEventAction = {}
         )
