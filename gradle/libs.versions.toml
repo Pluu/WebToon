@@ -14,7 +14,7 @@ paging = "3.2.0"
 # 3rd-party
 accompanist = "0.31.5-beta"
 coil = "2.4.0"
-dagger = "2.46.1"
+dagger = "2.47"
 kotlin = "1.9.0"
 ksp = "1.9.0-1.0.12"
 kotlin-coroutine = "1.7.3"
