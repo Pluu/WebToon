@@ -16,7 +16,7 @@ accompanist = "0.31.6-rc" # 0.31.6-rc 부터 Target 34
 coil = "2.4.0"
 dagger = "2.47"
 kotlin = "1.9.0"
-ksp = "1.9.0-1.0.12"
+ksp = "1.9.0-1.0.13"
 kotlin-coroutine = "1.7.3"
 okhttp = "4.11.0"
 
