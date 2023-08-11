@@ -15,8 +15,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -109,7 +109,7 @@ private fun <T> ListDialogContent(
                     }
                 }
             }
-            Divider()
+            HorizontalDivider()
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed(
                     items = items,
@@ -167,6 +167,6 @@ fun PreviewListDialogContent() {
                 .sizeIn(minHeight = 48.dp)
                 .wrapContentHeight()
         )
-        Divider(color = Color.LightGray)
+        HorizontalDivider(color = Color.LightGray)
     }
 }

@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
@@ -180,7 +180,7 @@ fun PreviewPreference() {
         Preference(
             title = "Title"
         )
-        Divider(color = Color.Gray)
+        HorizontalDivider(color = Color.Gray)
         Preference(
             painter = painterResource(R.drawable.ic_baseline_android_24),
             title = "Title blablabla blablabla blablabla blablabla",
