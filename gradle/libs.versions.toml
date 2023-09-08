@@ -1,5 +1,5 @@
 [versions]
-androidStudioGradlePlugin = "8.2.0-beta01"
+androidStudioGradlePlugin = "8.2.0-beta03"
 
 # AndroiX
 activity = "1.7.2"
@@ -14,7 +14,7 @@ paging = "3.2.0"
 # 3rd-party
 accompanist = "0.32.0"
 coil = "2.4.0"
-dagger = "2.47"
+dagger = "2.48"
 kotlin = "1.9.10"
 ksp = "1.9.10-1.0.13"
 kotlin-coroutine = "1.7.3"
