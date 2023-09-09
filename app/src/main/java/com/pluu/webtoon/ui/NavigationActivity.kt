@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.model.CurrentSession
-import com.pluu.webtoon.navigation.customtabs.rememberNavController
+import com.pluu.webtoon.navigation.customtabs.rememberWebToonNavController
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.weekly.model.toCoreType
 import com.pluu.webtoon.weekly.model.toUiType
@@ -45,7 +45,7 @@ class NavigationActivity : FragmentActivity() {
 
         WebToonTheme(isDarkTheme) {
             var naviItem by rememberMutableStateOf(session.navi.toUiType())
-            val navController = rememberNavController()
+            val navController = rememberWebToonNavController()
 
             AppNavigation(
                 navController = navController,
