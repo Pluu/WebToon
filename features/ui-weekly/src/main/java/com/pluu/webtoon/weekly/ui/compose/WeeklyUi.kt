@@ -42,9 +42,13 @@ fun WeeklyUi(
         systemUiController.statusBarDarkContentEnabled = false
     }
     val viewModel: WeeklyViewModel = hiltViewModel()
+    val selectedTabIndex =
+        (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7
+
     WeeklyUi(
         naviItem = naviItem,
         tabs = viewModel.getTabs(),
+        selectedTabIndex = selectedTabIndex,
         onNavigateToMenu = onNavigateToMenu,
         openEpisode = openEpisode,
         openSetting = openSetting,
@@ -56,16 +60,16 @@ fun WeeklyUi(
 internal fun WeeklyUi(
     naviItem: UI_NAV_ITEM,
     tabs: List<String>,
+    selectedTabIndex: Int,
     onNavigateToMenu: (UI_NAV_ITEM) -> Unit,
     openEpisode: (ToonInfoWithFavorite, PalletColor) -> Unit,
     openSetting: () -> Unit
 ) {
-    val selectedTabIndex =
-        (Calendar.getInstance(Locale.getDefault()).get(Calendar.DAY_OF_WEEK) + 5) % 7
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val pagerState = rememberPagerState(initialPage = selectedTabIndex) {
-        tabs.size
-    }
+    val pagerState = rememberPagerState(
+        initialPage = selectedTabIndex,
+        pageCount = { tabs.size }
+    )
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(drawerState.isOpen) {
