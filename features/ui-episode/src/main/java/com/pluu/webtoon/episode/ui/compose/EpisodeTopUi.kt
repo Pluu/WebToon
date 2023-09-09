@@ -1,7 +1,7 @@
 package com.pluu.webtoon.episode.ui.compose
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,7 +37,7 @@ internal fun EpisodeTopUi(
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
                 Icon(
-                    Icons.Filled.ArrowBack,
+                    Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null
                 )
             }
