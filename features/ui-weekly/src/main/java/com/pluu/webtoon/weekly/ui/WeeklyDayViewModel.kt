@@ -78,9 +78,4 @@ internal class WeeklyDayViewModel @Inject constructor(
     ): List<ToonInfo> = withContext(dispatchers.computation) {
         getWeeklyUseCase(weekPosition).successOr(emptyList())
     }
-
-//    @AssistedFactory
-//    interface Factory {
-//        fun create(weekPosition: Int): WeeklyDayViewModel
-//    }
 }
