@@ -185,15 +185,10 @@ internal fun WeeklyItemOverlayUi(
         }
 
         if (item.updateDate.isNotBlank()) {
-            Text(
+            WeeklyStatusBadge(
                 text = item.updateDate,
-                color = Color.White,
+                backgroundColor = Color(0x66000000),
                 modifier = Modifier
-                    .background(
-                        color = Color(0x66000000),
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .padding(horizontal = 6.dp, vertical = 2.dp)
                     .constrainAs(regDate) {
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
@@ -233,15 +228,9 @@ private fun WeeklyStatusUi(
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.End) {
         if (isUpdate) {
-            Text(
+            WeeklyStatusBadge(
                 text = "UP",
-                color = Color.White,
-                modifier = Modifier
-                    .background(
-                        color = Color.Red,
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                backgroundColor = Color.Red
             )
         }
         if (isLocked) {
@@ -252,9 +241,9 @@ private fun WeeklyStatusUi(
             )
         }
         if (isRest) {
-            Text(
+            WeeklyStatusBadge(
                 text = "휴재",
-                color = Color.White,
+                backgroundColor = Color(0x66000000),
                 modifier = Modifier
                     .padding(
                         top = if (isUpdate or isLocked) {
@@ -263,11 +252,6 @@ private fun WeeklyStatusUi(
                             0.dp
                         }
                     )
-                    .background(
-                        color = Color(0x66000000),
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }
     }
