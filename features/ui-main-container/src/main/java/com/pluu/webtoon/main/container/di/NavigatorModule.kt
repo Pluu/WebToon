@@ -1,7 +1,7 @@
 package com.pluu.webtoon.main.container.di
 
-import com.pluu.webtoon.main.container.navigation.WeeklyNavigatorImpl
-import com.pluu.webtoon.navigator.WeeklyNavigator
+import com.pluu.webtoon.main.container.navigation.MainContainerNavigatorImpl
+import com.pluu.webtoon.navigator.MainContainerNavigator
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 internal abstract class NavigatorModule {
     @Binds
-    abstract fun provideWeeklyNavigator(
-        navigator: WeeklyNavigatorImpl
-    ): WeeklyNavigator
+    abstract fun provideMainContainerNavigator(
+        navigator: MainContainerNavigatorImpl
+    ): MainContainerNavigator
 }

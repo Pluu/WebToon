@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.pluu.webtoon.navigator.WeeklyNavigator
+import com.pluu.webtoon.navigator.MainContainerNavigator
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class IntroActivity : ComponentActivity() {
     private val viewModel by viewModels<IntroViewModel>()
 
     @Inject
-    lateinit var weeklyNavigator: WeeklyNavigator
+    lateinit var mainNavigator: MainContainerNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class IntroActivity : ComponentActivity() {
     }
 
     private fun moveMainScreen() {
-        weeklyNavigator.openWeekly(this)
+        mainNavigator.openWebToonContainer(this)
         finish()
     }
 }
