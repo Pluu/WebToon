@@ -1,4 +1,4 @@
-package com.pluu.webtoon.detail.ui.compose
+package com.pluu.webtoon.detail.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
@@ -27,8 +27,9 @@ import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.FeatureColor
-import com.pluu.webtoon.detail.ui.DetailUiEvent
-import com.pluu.webtoon.detail.ui.ElementEvent
+import com.pluu.webtoon.detail.ui.compose.DetailBottomNavigationUi
+import com.pluu.webtoon.detail.ui.compose.DetailTopUi
+import com.pluu.webtoon.detail.ui.compose.InitContentUi
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
 @Composable

@@ -19,6 +19,7 @@ import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.model.FeatureColor
 import com.pluu.webtoon.detail.model.getMessage
 import com.pluu.webtoon.detail.ui.DetailEvent
+import com.pluu.webtoon.detail.ui.DetailScreen
 import com.pluu.webtoon.detail.ui.DetailUiEvent
 import com.pluu.webtoon.detail.ui.DetailViewModel
 import com.pluu.webtoon.model.ERROR_TYPE
