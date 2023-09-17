@@ -1,6 +1,7 @@
 package com.pluu.webtoon.navigation.customtabs
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
@@ -11,10 +12,10 @@ import androidx.navigation.navOptions
 import java.net.URLEncoder
 
 @Composable
-fun rememberWebToonNavController(
-    navController: NavHostController = rememberNavController()
-): NavHostController = navController.apply {
-    navigatorProvider.addNavigator(ChromeCustomTabsNavigator(context))
+fun rememberWebToonNavController(): NavHostController {
+    val context = LocalContext.current
+    val chromeNavigator = ChromeCustomTabsNavigator(context)
+    return rememberNavController(chromeNavigator)
 }
 
 fun NavController.navigateChromeCustomTabs(

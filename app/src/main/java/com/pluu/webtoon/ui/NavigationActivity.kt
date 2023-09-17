@@ -38,6 +38,8 @@ class NavigationActivity : FragmentActivity() {
     private fun WebToonContent() {
         val systemUiController = rememberSystemUiController()
         val isDarkTheme = isSystemInDarkTheme() // TODO: 화면마다 아이콘 노출 수정
+        val navController = rememberWebToonNavController()
+
         SideEffect {
             systemUiController.setSystemBarsColor(Color.Transparent, false)
             systemUiController.setNavigationBarColor(Color.Transparent, false)
@@ -45,7 +47,6 @@ class NavigationActivity : FragmentActivity() {
 
         WebToonTheme(isDarkTheme) {
             var naviItem by rememberMutableStateOf(session.navi.toUiType())
-            val navController = rememberWebToonNavController()
 
             AppNavigation(
                 navController = navController,
