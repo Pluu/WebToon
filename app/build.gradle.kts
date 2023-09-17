@@ -27,6 +27,7 @@ dependencies {
     implementation(projects.compose)
     implementation(projects.uiCommon)
     implementation(projects.uiIntro)
+    implementation(projects.uiMainContainer)
     implementation(projects.uiWeekly)
     implementation(projects.uiEpisode)
     implementation(projects.uiDetail)
