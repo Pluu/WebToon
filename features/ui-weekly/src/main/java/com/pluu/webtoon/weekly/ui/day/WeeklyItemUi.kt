@@ -41,7 +41,6 @@ import androidx.core.graphics.toColorInt
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.pluu.compose.foundation.backgroundCorner
 import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
@@ -107,6 +106,7 @@ internal fun WeeklyItemUi(
                         contentDescription = null
                     )
                 }
+
                 else -> {}
             }
 
@@ -189,7 +189,10 @@ internal fun WeeklyItemOverlayUi(
                 text = item.updateDate,
                 color = Color.White,
                 modifier = Modifier
-                    .backgroundCorner(color = Color(0x66000000), size = 4.dp)
+                    .background(
+                        color = Color(0x66000000),
+                        shape = RoundedCornerShape(4.dp)
+                    )
                     .padding(horizontal = 6.dp, vertical = 2.dp)
                     .constrainAs(regDate) {
                         end.linkTo(parent.end)
@@ -234,7 +237,10 @@ private fun WeeklyStatusUi(
                 text = "UP",
                 color = Color.White,
                 modifier = Modifier
-                    .backgroundCorner(color = Color.Red, size = 4.dp)
+                    .background(
+                        color = Color.Red,
+                        shape = RoundedCornerShape(4.dp)
+                    )
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }
@@ -257,7 +263,10 @@ private fun WeeklyStatusUi(
                             0.dp
                         }
                     )
-                    .backgroundCorner(color = Color(0x66000000), size = 4.dp)
+                    .background(
+                        color = Color(0x66000000),
+                        shape = RoundedCornerShape(4.dp)
+                    )
                     .padding(horizontal = 6.dp, vertical = 2.dp)
             )
         }
