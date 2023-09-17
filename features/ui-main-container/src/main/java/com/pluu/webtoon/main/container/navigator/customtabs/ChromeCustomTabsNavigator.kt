@@ -1,4 +1,4 @@
-package com.pluu.webtoon.navigation.customtabs
+package com.pluu.webtoon.main.container.navigator.customtabs
 
 ///////////////////////////////////////////////////////////////////////////
 // 참고 소스 : https://github.com/androidx/androidx/blob/androidx-main/navigation/navigation-fragment/src/main/java/androidx/navigation/fragment/FragmentNavigator.kt

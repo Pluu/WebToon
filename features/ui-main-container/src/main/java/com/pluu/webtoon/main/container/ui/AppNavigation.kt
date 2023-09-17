@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.main.container.ui
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -17,10 +17,10 @@ import com.pluu.utils.extraNotNullSerializable
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
+import com.pluu.webtoon.main.container.navigator.customtabs.chromeCustomTabs
+import com.pluu.webtoon.main.container.navigator.customtabs.navigateChromeCustomTabs
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
-import com.pluu.webtoon.navigation.customtabs.chromeCustomTabs
-import com.pluu.webtoon.navigation.customtabs.navigateChromeCustomTabs
 import com.pluu.webtoon.setting.ui.LicenseUi
 import com.pluu.webtoon.setting.ui.SettingsUi
 import com.pluu.webtoon.ui.model.PalletColor

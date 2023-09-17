@@ -1,4 +1,4 @@
-package com.pluu.webtoon.navigation.customtabs
+package com.pluu.webtoon.main.container.navigator.customtabs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext

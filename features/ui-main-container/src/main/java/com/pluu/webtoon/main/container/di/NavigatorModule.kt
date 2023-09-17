@@ -1,7 +1,7 @@
-package com.pluu.webtoon.di
+package com.pluu.webtoon.main.container.di
 
+import com.pluu.webtoon.main.container.navigation.WeeklyNavigatorImpl
 import com.pluu.webtoon.navigator.WeeklyNavigator
-import com.pluu.webtoon.navigator.WeeklyNavigatorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

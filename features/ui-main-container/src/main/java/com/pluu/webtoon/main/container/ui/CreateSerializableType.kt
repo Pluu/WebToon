@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.main.container.ui
 
 import androidx.navigation.NavType
 

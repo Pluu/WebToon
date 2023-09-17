@@ -28,10 +28,6 @@ dependencies {
     implementation(projects.uiCommon)
     implementation(projects.uiIntro)
     implementation(projects.uiMainContainer)
-    implementation(projects.uiWeekly)
-    implementation(projects.uiEpisode)
-    implementation(projects.uiDetail)
-    implementation(projects.uiSetting)
 
     // Android UI
     implementation(libs.androidX.browser)

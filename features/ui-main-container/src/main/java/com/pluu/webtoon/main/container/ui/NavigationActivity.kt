@@ -1,4 +1,4 @@
-package com.pluu.webtoon.ui
+package com.pluu.webtoon.main.container.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -12,8 +12,8 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
+import com.pluu.webtoon.main.container.navigator.customtabs.rememberWebToonNavController
 import com.pluu.webtoon.model.CurrentSession
-import com.pluu.webtoon.navigation.customtabs.rememberWebToonNavController
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.weekly.model.toCoreType
 import com.pluu.webtoon.weekly.model.toUiType

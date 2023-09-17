@@ -1,11 +1,11 @@
-package com.pluu.webtoon.navigation.customtabs
+package com.pluu.webtoon.main.container.navigator.customtabs
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.get
 import androidx.navigation.navArgument
-import com.pluu.webtoon.navigation.customtabs.ChromeCustomTabsNavigator.Companion.KEY_ROUTE
-import com.pluu.webtoon.navigation.customtabs.ChromeCustomTabsNavigator.Companion.KEY_URL
+import com.pluu.webtoon.main.container.navigator.customtabs.ChromeCustomTabsNavigator.Companion.KEY_ROUTE
+import com.pluu.webtoon.main.container.navigator.customtabs.ChromeCustomTabsNavigator.Companion.KEY_URL
 
 fun NavGraphBuilder.chromeCustomTabs() {
     addDestination(
