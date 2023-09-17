@@ -12,7 +12,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.utils.toast
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
-import com.pluu.webtoon.weekly.ui.compose.WeeklyUi
+import com.pluu.webtoon.weekly.ui.weekly.WeeklyUi
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

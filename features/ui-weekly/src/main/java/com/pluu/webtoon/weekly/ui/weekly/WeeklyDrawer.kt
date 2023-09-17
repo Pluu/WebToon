@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui.compose
+package com.pluu.webtoon.weekly.ui.weekly
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

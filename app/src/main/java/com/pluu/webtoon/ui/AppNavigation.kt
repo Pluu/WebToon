@@ -25,7 +25,7 @@ import com.pluu.webtoon.setting.ui.LicenseUi
 import com.pluu.webtoon.setting.ui.SettingsUi
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
-import com.pluu.webtoon.weekly.ui.compose.WeeklyUi
+import com.pluu.webtoon.weekly.ui.weekly.WeeklyUi
 import timber.log.Timber
 
 sealed class Screen(val route: String) {

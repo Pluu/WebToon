@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui.compose
+package com.pluu.webtoon.weekly.ui.weekly
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,7 +24,8 @@ import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
-import com.pluu.webtoon.weekly.ui.WeeklyViewModel
+import com.pluu.webtoon.weekly.ui.WeeklyScreen
+import com.pluu.webtoon.weekly.ui.day.WeeklyDayUi
 import com.pluu.webtoon.weekly.utils.hiltViewModelWithAdditional
 import kotlinx.coroutines.launch
 import java.util.Calendar

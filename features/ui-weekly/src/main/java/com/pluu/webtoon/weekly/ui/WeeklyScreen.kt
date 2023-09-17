@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui.compose
+package com.pluu.webtoon.weekly.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.width
@@ -19,6 +19,8 @@ import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.ui_common.R
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
+import com.pluu.webtoon.weekly.ui.weekly.WeeklyDrawer
+import com.pluu.webtoon.weekly.ui.weekly.WeeklyTopBar
 import kotlinx.coroutines.launch
 
 @Composable

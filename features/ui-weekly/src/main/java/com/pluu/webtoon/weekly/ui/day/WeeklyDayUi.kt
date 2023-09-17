@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui.compose
+package com.pluu.webtoon.weekly.ui.day
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -33,7 +33,6 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.ui_common.R
 import com.pluu.webtoon.weekly.event.WeeklyEvent
 import com.pluu.webtoon.weekly.image.PalletDarkCalculator
-import com.pluu.webtoon.weekly.ui.WeeklyDayViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -64,7 +63,7 @@ internal fun WeeklyDayUi(
         items = list,
     ) { item ->
         if (item.info.isLocked) {
-            context.toast(com.pluu.webtoon.ui_common.R.string.msg_not_support)
+            context.toast(R.string.msg_not_support)
         } else {
             coroutineScope.launch {
                 val palletColor = async(Dispatchers.Default) {

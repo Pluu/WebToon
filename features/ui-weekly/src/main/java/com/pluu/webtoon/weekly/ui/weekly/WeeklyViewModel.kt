@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui
+package com.pluu.webtoon.weekly.ui.weekly
 
 import androidx.lifecycle.ViewModel
 import com.pluu.webtoon.domain.usecase.site.GetWebToonTabsUseCase

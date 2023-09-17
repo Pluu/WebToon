@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.pluu.webtoon.weekly.ui.compose
+package com.pluu.webtoon.weekly.ui.day
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

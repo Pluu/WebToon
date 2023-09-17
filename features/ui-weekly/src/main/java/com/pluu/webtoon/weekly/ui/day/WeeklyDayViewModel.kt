@@ -1,4 +1,4 @@
-package com.pluu.webtoon.weekly.ui
+package com.pluu.webtoon.weekly.ui.day
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
