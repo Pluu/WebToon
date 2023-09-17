@@ -1,4 +1,4 @@
-package com.pluu.webtoon.episode.ui.compose
+package com.pluu.webtoon.episode.ui
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pluu.compose.transition.ColorTransitionState
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
+import com.pluu.webtoon.episode.ui.compose.EpisodeInfoUi
+import com.pluu.webtoon.episode.ui.compose.EpisodeTopUi
 import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
