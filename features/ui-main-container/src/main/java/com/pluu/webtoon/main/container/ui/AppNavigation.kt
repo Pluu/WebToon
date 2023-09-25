@@ -1,5 +1,7 @@
 package com.pluu.webtoon.main.container.ui
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -47,7 +49,13 @@ internal fun AppNavigation(
     NavHost(
         navController = navController,
         startDestination = Screen.Weekly.route,
-        modifier = modifier
+        modifier = modifier,
+        enterTransition = {
+            EnterTransition.None
+        },
+        exitTransition = {
+            ExitTransition.None
+        }
     ) {
         installWeeklyScreen(navController, naviItem, updateNaviItem)
         installEpisodeScreen(navController)
