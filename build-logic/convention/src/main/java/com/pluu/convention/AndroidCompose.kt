@@ -16,8 +16,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 internal fun Project.configureAndroidCompose(
     commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
-    val libs = findVersionCatalog()
-
     commonExtension.apply {
         buildFeatures.compose = true
 
