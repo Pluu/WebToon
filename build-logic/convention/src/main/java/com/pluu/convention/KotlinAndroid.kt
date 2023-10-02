@@ -46,10 +46,10 @@ internal fun Project.configureKotlin() {
 //            allWarningsAsErrors = true
 
             freeCompilerArgs = freeCompilerArgs + listOf(
-                "-Xskip-prerelease-check",
-                "-Xjvm-default=all",
+                "-opt-in=kotlin.RequiresOptIn",
                 // Enable experimental coroutines APIs, including Flow
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.coroutines.FlowPreview",
             )
         }
     }
