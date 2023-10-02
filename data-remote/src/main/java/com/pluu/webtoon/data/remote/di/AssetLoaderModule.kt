@@ -9,7 +9,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Suppress("unused")
 @InstallIn(SingletonComponent::class)
 @Module
 internal object AssetLoaderModule {

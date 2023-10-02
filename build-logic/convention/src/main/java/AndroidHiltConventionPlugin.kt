@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 import com.pluu.convention.findVersionCatalog
 import com.pluu.convention.implementation
 import com.pluu.convention.kapt

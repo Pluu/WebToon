@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 import com.pluu.convention.Const
 import com.pluu.convention.java
 import com.pluu.convention.kotlin

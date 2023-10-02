@@ -1,4 +1,4 @@
-@file:Suppress("UnstableApiUsage", "unused")
+@file:Suppress("UnstableApiUsage")
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.pluu.convention.configureAndroid
