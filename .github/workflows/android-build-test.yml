@@ -18,7 +18,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v3.13.0
         with:
           distribution: 'zulu'
           java-version: '17'
