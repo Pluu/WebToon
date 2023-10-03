@@ -7,6 +7,9 @@ dependencyResolutionManagement {
     val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.() -> Unit
     configureSharedRepositories(repositories)
 
+    repositories {
+        gradlePluginPortal()
+    }
     versionCatalogs {
         create("libs") {
             from(files("../gradle/libs.versions.toml"))
