@@ -85,10 +85,11 @@ private fun EpisodeScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             EpisodeTopUi(
-                modifier = Modifier,
+                modifier = Modifier
+                    .background(featureBgColor),
                 title = webToonItem.info.title,
                 isFavorite = isFavorite,
-                backgroundColor = featureBgColor,
+                backgroundColor = Color.Transparent,
                 contentColor = Color.White,
                 onBackPressed = { eventAction(EpisodeUiEvent.OnBackPressed) }
             ) { currentFavorite ->
