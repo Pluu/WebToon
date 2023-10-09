@@ -2,10 +2,10 @@
 androidStudioGradlePlugin = "8.2.0-beta06"
 
 # AndroiX
-activity = "1.8.0-rc01"
-compose = "1.6.0-alpha06"
-compose-material3 = "1.2.0-alpha08"
-#compose-bom = "2023.09.00"
+activity = "1.8.0"
+compose = "1.6.0-alpha07"
+compose-material3 = "1.2.0-alpha09"
+#compose-bom = "2023.10.00"
 composeCompiler = "1.5.3"
 lifecycle = "2.6.2"
 room = "2.6.0-rc01"
@@ -39,14 +39,14 @@ androidX-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.
 androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
-androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha12"
+androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13"
 androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.6.1"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.3"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.4"
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
