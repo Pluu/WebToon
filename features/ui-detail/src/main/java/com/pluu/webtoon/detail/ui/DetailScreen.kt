@@ -2,7 +2,6 @@ package com.pluu.webtoon.detail.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -45,7 +44,6 @@ internal fun DetailScreen(
         label = null
     )
     val featureColorValue: Color by transition.animateColor(
-        transitionSpec = { tween(durationMillis = 750) },
         label = "Color Animation",
     ) { state ->
         when (state) {
@@ -101,10 +99,10 @@ private fun DetailScreen(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .onSizeChanged { size -> topSize = size },
-            enter = slideInVertically(tween(animationDuration)) { fullHeight ->
+            enter = slideInVertically { fullHeight ->
                 -fullHeight
             },
-            exit = slideOutVertically(tween(animationDuration)) { fullHeight ->
+            exit = slideOutVertically { fullHeight ->
                 -fullHeight
             },
         ) {
@@ -126,10 +124,10 @@ private fun DetailScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .onSizeChanged { size -> bottomSize = size },
-            enter = slideInVertically(tween(animationDuration)) { fullHeight ->
+            enter = slideInVertically { fullHeight ->
                 fullHeight
             },
-            exit = slideOutVertically(tween(animationDuration)) { fullHeight ->
+            exit = slideOutVertically { fullHeight ->
                 fullHeight
             },
         ) {
@@ -179,5 +177,3 @@ private fun PreviewDetailScreen_Show() {
         ) {}
     }
 }
-
-private const val animationDuration = 350

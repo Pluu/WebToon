@@ -2,7 +2,6 @@ package com.pluu.webtoon.episode.ui
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -52,7 +51,6 @@ internal fun EpisodeScreen(
         label = null
     )
     val featureBgColor by transition.animateColor(
-        transitionSpec = { tween(durationMillis = 1000) },
         label = "BgColor Animation"
     ) { state ->
         when (state) {
