@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -54,7 +53,7 @@ internal fun EpisodeScreen(
         label = "BgColor Animation"
     ) { state ->
         when (state) {
-            ColorTransitionState.START -> MaterialTheme.colorScheme.primaryContainer
+            ColorTransitionState.START -> Color(palletColor.darkMutedColor)
             ColorTransitionState.END -> Color(palletColor.darkVibrantColor)
         }
     }
