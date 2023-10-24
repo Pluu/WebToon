@@ -12,7 +12,6 @@ room = "2.6.0"
 paging = "3.2.1"
 
 # 3rd-party
-accompanist = "0.32.0"
 coil = "2.4.0"
 dagger = "2.48.1"
 kotlin = "1.9.10"
@@ -60,8 +59,6 @@ androidX-test-junit = "androidx.test.ext:junit:1.1.5"
 androidX-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 androidX-viewBinding = { module = "androidx.databinding:viewbinding", version.ref = "androidStudioGradlePlugin" }
 # 3rd-party
-## Accompanist
-accompanist-systemUi = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 ## Dagger
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }

@@ -26,8 +26,5 @@ dependencies {
     implementation(libs.androidX.navigation.compose)
     implementation(libs.androidX.hilt.navigation.compose)
 
-    // Compose
-    implementation(libs.accompanist.systemUi)
-
     implementation(libs.timber)
 }

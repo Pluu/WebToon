@@ -17,6 +17,4 @@ dependencies {
 
     // Compose
     implementation(libs.androidX.activity.compose)
-
-    implementation(libs.accompanist.systemUi)
 }

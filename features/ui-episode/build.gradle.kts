@@ -26,7 +26,6 @@ dependencies {
     implementation(libs.androidX.constraintlayout.compose)
 
     implementation(libs.coil.compose)
-    implementation(libs.accompanist.systemUi)
 
     implementation(libs.timber)
 }
