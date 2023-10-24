@@ -1,14 +1,10 @@
 package com.pluu.webtoon.ui.compose.theme
 
-import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
 
 private val LightThemeColors = lightColorScheme(
 
@@ -72,21 +68,12 @@ fun AppTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (!useDarkTheme) {
-        LightThemeColors
-    } else {
-        DarkThemeColors
-    }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = useDarkTheme
-        }
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = if (!useDarkTheme) {
+            LightThemeColors
+        } else {
+            DarkThemeColors
+        },
         typography = AppTypography,
         content = content
     )

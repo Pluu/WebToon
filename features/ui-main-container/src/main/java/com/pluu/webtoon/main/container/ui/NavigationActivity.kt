@@ -1,16 +1,12 @@
 package com.pluu.webtoon.main.container.ui
 
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
-import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.webtoon.main.container.navigator.customtabs.rememberWebToonNavController
 import com.pluu.webtoon.model.CurrentSession
@@ -27,7 +23,6 @@ class NavigationActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             WebToonContent()
@@ -36,16 +31,10 @@ class NavigationActivity : FragmentActivity() {
 
     @Composable
     private fun WebToonContent() {
-        val systemUiController = rememberSystemUiController()
-        val isDarkTheme = isSystemInDarkTheme() // TODO: 화면마다 아이콘 노출 수정
         val navController = rememberWebToonNavController()
-
-        SideEffect {
-            systemUiController.setSystemBarsColor(Color.Transparent, false)
-            systemUiController.setNavigationBarColor(Color.Transparent, false)
-        }
-
-        WebToonTheme(isDarkTheme) {
+        WebToonTheme(
+            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+        ) {
             var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
             AppNavigation(

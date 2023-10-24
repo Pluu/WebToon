@@ -2,14 +2,11 @@ package com.pluu.webtoon.setting.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pluu.compose.ambient.ProvidePreference
 import kotlinx.coroutines.launch
 
@@ -18,12 +15,13 @@ fun SettingsUi(
     closeCurrent: () -> Unit,
     openLicense: () -> Unit
 ) {
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isSystemInDarkTheme()
-
-    SideEffect {
-        systemUiController.statusBarDarkContentEnabled = useDarkIcons
-    }
+    // TODO: 실제 UI 테마에 맞게 컬러 처리
+//    val systemUiController = rememberSystemUiController()
+//    val useDarkIcons = !isSystemInDarkTheme()
+//
+//    SideEffect {
+//        systemUiController.statusBarDarkContentEnabled = useDarkIcons
+//    }
     SettingsUi(
         viewModel = hiltViewModel(),
         closeCurrent = closeCurrent,
