@@ -1,8 +1,10 @@
 package com.pluu.webtoon.main.container.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -23,19 +25,40 @@ class NavigationActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(
+                Color.TRANSPARENT
+            )
+        )
 
         setContent {
-            WebToonContent()
+            WebToonContent {
+                updateTheme(it)
+            }
         }
     }
 
+    private fun updateTheme(it: Boolean) {
+        enableEdgeToEdge(
+            statusBarStyle = if (it) {
+                SystemBarStyle.dark(
+                    Color.TRANSPARENT
+                )
+            } else {
+                SystemBarStyle.light(
+                    Color.TRANSPARENT,
+                    Color.TRANSPARENT
+                )
+            }
+        )
+    }
+
     @Composable
-    private fun WebToonContent() {
-        // TODO: Navigation 변경시에 StatusBar 컬러 변경 필요
+    private fun WebToonContent(
+        updateTheme: (Boolean) -> Unit
+    ) {
         val navController = rememberWebToonNavController()
-        WebToonTheme(
-            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
-        ) {
+        WebToonTheme {
             var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
             AppNavigation(
@@ -44,7 +67,8 @@ class NavigationActivity : FragmentActivity() {
                 updateNaviItem = { item ->
                     session.navi = item.toCoreType()
                     naviItem = item
-                }
+                },
+                updateTheme = updateTheme
             )
         }
     }

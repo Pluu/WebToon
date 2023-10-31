@@ -44,7 +44,8 @@ internal fun AppNavigation(
     navController: NavHostController = rememberNavController(),
     naviItem: UI_NAV_ITEM,
     themeColor: Color = MaterialTheme.colorScheme.primary,
-    updateNaviItem: (UI_NAV_ITEM) -> Unit
+    updateNaviItem: (UI_NAV_ITEM) -> Unit,
+    updateTheme: (Boolean) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -68,6 +69,14 @@ internal fun AppNavigation(
     DisposableEffect(navController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
             Timber.tag("Logger").d("[Destination] ${destination.route}")
+            updateTheme(
+                when (destination.route) {
+                    Screen.Setting.route,
+                    Screen.License.route -> false
+
+                    else -> true
+                }
+            )
         }
         navController.addOnDestinationChangedListener(listener)
 
