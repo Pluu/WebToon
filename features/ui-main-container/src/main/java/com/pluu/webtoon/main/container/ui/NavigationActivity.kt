@@ -31,6 +31,7 @@ class NavigationActivity : FragmentActivity() {
 
     @Composable
     private fun WebToonContent() {
+        // TODO: Navigation 변경시에 StatusBar 컬러 변경 필요
         val navController = rememberWebToonNavController()
         WebToonTheme(
             statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
