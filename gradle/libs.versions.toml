@@ -25,7 +25,7 @@ androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.6.1"
-androidX-browser = "androidx.browser:browser:1.7.0-beta01"
+androidX-browser = "androidx.browser:browser:1.7.0-rc01"
 androidX-core-ktx = "androidx.core:core-ktx:1.12.0"
 androidX-core-splashScreen = "androidx.core:core-splashscreen:1.0.1"
 #androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -40,13 +40,13 @@ androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-pre
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13"
-androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.6.1"
-androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.6.2"
+androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.1.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.4"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.5"
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
