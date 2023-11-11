@@ -12,7 +12,7 @@ room = "2.6.0"
 paging = "3.2.1"
 
 # 3rd-party
-coil = "2.4.0"
+coil = "2.5.0"
 dagger = "2.48.1"
 kotlin = "1.9.20"
 ksp = "1.9.20-1.0.14"
