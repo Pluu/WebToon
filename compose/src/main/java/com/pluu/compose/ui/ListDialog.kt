@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
@@ -43,16 +43,16 @@ fun <T> ListDialog(
     items: List<T>,
     key: ((index: Int, item: T) -> Any)? = null,
     onDismissRequest: () -> Unit,
-    shape: Shape = AlertDialogDefaults.shape,
+    shape: Shape = MaterialTheme.shapes.large,
     containerColor: Color = AlertDialogDefaults.containerColor,
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
     properties: DialogProperties = DialogProperties(),
     itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
-    AlertDialog(
-        modifier = modifier,
+    BasicAlertDialog(
         onDismissRequest = onDismissRequest,
+        modifier = modifier,
         properties = properties
     ) {
         ListDialogContent(
