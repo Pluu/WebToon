@@ -1,7 +1,6 @@
 package com.pluu.webtoon.weekly.ui.weekly
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -50,7 +49,6 @@ fun WeeklyUi(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun WeeklyUi(
     naviItem: UI_NAV_ITEM,

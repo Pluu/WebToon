@@ -4,7 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +19,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.pluu.compose.ui.tooling.preview.DayNightWrapPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EpisodeTopUi(
     modifier: Modifier = Modifier,
