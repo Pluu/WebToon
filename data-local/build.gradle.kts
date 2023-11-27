@@ -41,5 +41,3 @@ ksp {
     arg("room.incremental", "true")
     arg("room.expandProjection", "true")
 }
-
-//apply(from = "../publish_local.gradle")
