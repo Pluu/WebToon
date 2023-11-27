@@ -18,7 +18,6 @@ fun FragmentActivity.setFragmentResult(
     result: Bundle = Bundle()
 ): Unit = supportFragmentManager.setFragmentResult(requestKey, result)
 
-
 fun Fragment.setFragmentResult(
     requestKey: String,
     result: Bundle = Bundle()

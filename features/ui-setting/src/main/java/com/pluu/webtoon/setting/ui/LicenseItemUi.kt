@@ -44,5 +44,3 @@ private fun PreviewLicenseItemUi() {
         }
     }
 }
-
-
