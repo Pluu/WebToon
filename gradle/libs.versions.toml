@@ -13,7 +13,7 @@ paging = "3.2.1"
 
 # 3rd-party
 coil = "2.5.0"
-dagger = "2.49"
+dagger = "2.50"
 kotlin = "1.9.22"
 ksp = "1.9.22-1.0.16"
 kotlin-coroutine = "1.7.3"
