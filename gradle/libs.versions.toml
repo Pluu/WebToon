@@ -3,9 +3,9 @@ androidStudioGradlePlugin = "8.2.1"
 
 # AndroiX
 activity = "1.8.2"
-compose = "1.6.0-rc01"
-compose-material3 = "1.2.0-beta02"
-#compose-bom = "2023.10.00"
+compose = "1.6.0"
+compose-material3 = "1.2.0-rc01"
+#compose-bom = "2024.01.00"
 composeCompiler = "1.5.8"
 lifecycle = "2.7.0"
 room = "2.6.1"
