@@ -15,6 +15,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+typealias AGPCommonExtension = CommonExtension<*, *, *, *, *, *>
+
 /**
  * Configure base Kotlin with Android options
  */
@@ -73,7 +75,7 @@ internal fun Project.`kotlin`(
     (this as ExtensionAware).extensions.configure("kotlin", configure)
 }
 
-internal fun CommonExtension<*, *, *, *, *>.kotlinOptions(
+internal fun AGPCommonExtension.kotlinOptions(
     configure: KotlinJvmOptions.() -> Unit
 ) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", configure)
