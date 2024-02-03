@@ -20,8 +20,7 @@ import com.pluu.webtoon.data.local.model.DBToon
             to = 2,
             spec = AppDatabase.AutoMigration_1_2::class
         )
-    ],
-    exportSchema = true
+    ]
 )
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun roomDao(): RoomDao
