@@ -3,10 +3,10 @@ androidStudioGradlePlugin = "8.3.0-rc01"
 
 # AndroiX
 activity = "1.8.2"
-compose = "1.6.0"
-compose-material3 = "1.2.0-rc01"
-#compose-bom = "2024.01.00"
-composeCompiler = "1.5.8"
+compose = "1.6.1"
+compose-material3 = "1.2.0"
+#compose-bom = "2024.02.00"
+composeCompiler = "1.5.9"
 lifecycle = "2.7.0"
 room = "2.6.1"
 paging = "3.2.1"
@@ -46,7 +46,7 @@ androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-run
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.6"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.7"
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
