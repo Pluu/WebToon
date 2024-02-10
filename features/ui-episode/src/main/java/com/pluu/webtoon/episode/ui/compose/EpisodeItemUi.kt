@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +40,7 @@ import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.ui.compose.theme.AppTheme
+import com.pluu.webtoon.ui.compose.theme.md_theme_light_primary
 import com.pluu.webtoon.utils.applyAgent
 
 @Composable
@@ -63,12 +65,20 @@ internal fun EpisodeItemUi(
             .height(100.dp)
             .clickable { onClicked(item) }
     ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painter,
-            contentScale = ContentScale.Crop,
-            contentDescription = null,
-        )
+        if (LocalInspectionMode.current) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(md_theme_light_primary)
+            )
+        } else {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painter,
+                contentScale = ContentScale.Crop,
+                contentDescription = null,
+            )
+        }
 
         when (painter.state) {
             is AsyncImagePainter.State.Loading -> {
@@ -203,6 +213,7 @@ private fun PreviewEpisodeItemUiOverlayUi() {
         EpisodeItemUiOverlayUi(
             modifier = Modifier
                 .width(200.dp)
+                .background(md_theme_light_primary)
                 .wrapContentHeight(unbounded = true),
             item = item,
             isRead = true

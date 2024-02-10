@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +44,7 @@ import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.theme.AppTheme
+import com.pluu.webtoon.ui.compose.theme.md_theme_light_primary
 import com.pluu.webtoon.utils.applyAgent
 import com.pluu.webtoon.weekly.R
 
@@ -81,12 +83,20 @@ internal fun WeeklyItemUi(
         }
 
         Box(modifier = backgroundModifier) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painter,
-                contentScale = ContentScale.Crop,
-                contentDescription = null,
-            )
+            if (LocalInspectionMode.current) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(md_theme_light_primary)
+                )
+            } else {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painter,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
+                )
+            }
 
             when (painter.state) {
                 is AsyncImagePainter.State.Loading -> {
