@@ -3,10 +3,10 @@ androidStudioGradlePlugin = "8.3.0-rc02"
 
 # AndroiX
 activity = "1.8.2"
-compose = "1.6.1"
+compose = "1.6.2"
 compose-material3 = "1.2.0"
-#compose-bom = "2024.02.00"
-composeCompiler = "1.5.9"
+#compose-bom = "2024.02.01"
+composeCompiler = "1.5.10"
 lifecycle = "2.7.0"
 room = "2.6.1"
 paging = "3.2.1"
@@ -41,7 +41,7 @@ androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compos
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13"
 androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.6.2"
-androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.1.0"
+androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.2.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
