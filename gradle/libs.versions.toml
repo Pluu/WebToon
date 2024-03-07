@@ -3,9 +3,9 @@ androidStudioGradlePlugin = "8.3.0"
 
 # AndroiX
 activity = "1.8.2"
-compose = "1.6.2"
-compose-material3 = "1.2.0"
-#compose-bom = "2024.02.01"
+compose = "1.6.3"
+compose-material3 = "1.2.1"
+#compose-bom = "2024.02.02"
 composeCompiler = "1.5.10"
 lifecycle = "2.7.0"
 room = "2.6.1"
@@ -25,7 +25,7 @@ androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.6.1"
-androidX-browser = "androidx.browser:browser:1.7.0"
+androidX-browser = "androidx.browser:browser:1.8.0"
 androidX-core-ktx = "androidx.core:core-ktx:1.12.0"
 androidX-core-splashScreen = "androidx.core:core-splashscreen:1.0.1"
 #androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
