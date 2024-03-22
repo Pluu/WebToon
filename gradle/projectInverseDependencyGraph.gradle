@@ -1,0 +1,69 @@
+// Origin : https://github.com/JakeWharton/SdkSearch/blob/master/gradle/projectDependencyGraph.gradle
+tasks.register('projectInverseDependencyGraph') {
+    doLast {
+        def inverseGraph = inverseGenerateGraph()
+
+        println("[All graph]")
+        inverseGraph.forEach { key, value ->
+            println "${key.name}"
+            println "> ${value.join(", ")}"
+        }
+
+        // find module
+        if (project.hasProperty("findModule")) {
+            def findModule = project.property("findModule")
+            println ""
+            println "==============="
+            println "Find '[${findModule}]' module"
+
+            List<Project> checkModule = inverseGraph.find {
+                findModule == it.key.name
+            }.value.collectNested {
+                inverseGraph[it]
+            }.flatten().toSet().sort()
+
+            checkModule.forEach {
+                println "> ${it}"
+            }
+            println "==============="
+            println ""
+        }
+    }
+}
+
+def inverseGenerateGraph() {
+    def rootProjects = []
+    def queue = [rootProject]
+    while (!queue.isEmpty()) {
+        def project = queue.remove(0)
+        rootProjects.add(project)
+        queue.addAll(project.childProjects.values())
+    }
+
+    def projects = new LinkedHashSet<Project>()
+    def dependencies = new LinkedHashMap<Project, List<Project>>()
+
+    queue = [rootProject]
+    while (!queue.isEmpty()) {
+        def project = queue.remove(0)
+        queue.addAll(project.childProjects.values())
+        project.configurations.configureEach { config ->
+            config.dependencies
+                    .withType(ProjectDependency)
+                    .collect { it.dependencyProject }
+                    .each { dependency ->
+                        projects.add(project)
+                        projects.add(dependency)
+                        rootProjects.remove(dependency)
+
+                        def value = dependencies.computeIfAbsent(dependency) { new ArrayList<Project>() }
+                        if (config.name.toLowerCase().endsWith('implementation')) {
+                            value.add(project)
+                        }
+                    }
+        }
+    }
+
+    projects = projects.sort { it.path }
+    return dependencies.findAll { !it.value.isEmpty() }
+}

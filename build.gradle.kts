@@ -7,6 +7,7 @@ plugins {
 }
 
 apply(from = "${rootDir}/gradle/jetifier_disable.gradle.kts")
+apply(from = "${rootDir}/gradle/projectInverseDependencyGraph.gradle")
 
 task("clean", Delete::class) {
     delete(layout.buildDirectory)
