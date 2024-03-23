@@ -1,12 +1,13 @@
 import com.pluu.convention.Const
 import com.pluu.convention.java
-import com.pluu.convention.kotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 class JavaLibraryConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             with(pluginManager) {
                 apply("java-library")
                 apply("org.jetbrains.kotlin.jvm")
@@ -17,8 +18,15 @@ class JavaLibraryConventionPlugin : Plugin<Project> {
                 targetCompatibility = Const.JAVA_VERSION
             }
 
-            kotlin {
-                jvmToolchain(Const.JDK_VERSION)
+        }
+
+        project.plugins.forEach { plugin ->
+            if (plugin is KotlinBasePluginWrapper) {
+                project.afterEvaluate {
+                    project.tasks.withType(KotlinJvmCompile::class.java).configureEach {
+                        kotlinOptions.jvmTarget = Const.JAVA_VERSION.majorVersion
+                    }
+                }
             }
         }
     }
