@@ -18,10 +18,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -81,7 +81,7 @@ internal fun WeeklyDrawer(
                     .fillMaxWidth()
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(color = selectedMenu.color)
+                        indication = ripple(color = selectedMenu.color)
                     ) {
                         onEventAction(WeeklyMenuEvent.OnMenuClicked(item))
                     }
@@ -98,7 +98,7 @@ internal fun WeeklyDrawer(
                 .fillMaxWidth()
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
-                    indication = rememberRipple(color = selectedMenu.color)
+                    indication = ripple(color = selectedMenu.color)
                 ) {
                     onEventAction(WeeklyMenuEvent.OnSettingClicked)
                 }
