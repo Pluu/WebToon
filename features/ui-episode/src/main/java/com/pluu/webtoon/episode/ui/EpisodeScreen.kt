@@ -2,7 +2,7 @@ package com.pluu.webtoon.episode.ui
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,7 +45,7 @@ internal fun EpisodeScreen(
         }
     }
 
-    val transition = updateTransition(
+    val transition = rememberTransition(
         transitionState = transitionState,
         label = null
     )

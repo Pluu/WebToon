@@ -71,7 +71,7 @@ fun CircularProgressIndicator(
     modifier: Modifier = Modifier,
     colors: List<Color> = listOf(MaterialTheme.colorScheme.primary),
     strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth,
-    trackColor: Color = ProgressIndicatorDefaults.circularTrackColor,
+    trackColor: Color = ProgressIndicatorDefaults.circularIndeterminateTrackColor,
     strokeCap: StrokeCap = ProgressIndicatorDefaults.CircularIndeterminateStrokeCap,
 ) {
     val stroke = with(LocalDensity.current) {
