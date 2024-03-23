@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +43,6 @@ import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.ui.compose.theme.AppTheme
-import com.pluu.webtoon.ui.compose.theme.md_theme_light_primary
 import com.pluu.webtoon.utils.applyAgent
 
 @Composable
@@ -50,12 +52,18 @@ internal fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
+    var isLoading by remember { mutableStateOf(true) }
+    var isError by remember { mutableStateOf(false) }
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(item.image)
             .applyAgent()
             .crossfade(true)
-            .build()
+            .build(),
+        onState = { state ->
+            isLoading = state is AsyncImagePainter.State.Loading
+            isError = state is AsyncImagePainter.State.Error
+        }
     )
 
     Box(
@@ -65,13 +73,7 @@ internal fun EpisodeItemUi(
             .height(100.dp)
             .clickable { onClicked(item) }
     ) {
-        if (LocalInspectionMode.current) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(md_theme_light_primary)
-            )
-        } else {
+        if (isError.not() && !LocalInspectionMode.current) {
             Image(
                 modifier = Modifier.fillMaxSize(),
                 painter = painter,
@@ -79,24 +81,18 @@ internal fun EpisodeItemUi(
                 contentDescription = null,
             )
         }
-
-        when (painter.state) {
-            is AsyncImagePainter.State.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
-                )
-            }
-
-            is AsyncImagePainter.State.Error -> {
-                Image(
-                    modifier = Modifier.align(Alignment.Center),
-                    painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
-                    contentDescription = null
-                )
-            }
-
-            else -> {}
+        if (isLoading || LocalInspectionMode.current) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
+            )
+        }
+        if (isError) {
+            Image(
+                modifier = Modifier.align(Alignment.Center),
+                painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
+                contentDescription = null
+            )
         }
 
         EpisodeItemUiOverlayUi(item = item, isRead = isRead)
@@ -190,33 +186,11 @@ private fun PreviewEpisodeItemUi(
     AppTheme {
         EpisodeItemUi(
             modifier = Modifier
-                .width(280.dp)
+                .width(200.dp)
                 .heightIn(min = 150.dp),
             item = item,
             isRead = values.second,
             onClicked = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewEpisodeItemUiOverlayUi() {
-    val item = EpisodeInfo(
-        id = "0",
-        toonId = "0",
-        title = "Title",
-        image = "",
-        isLoginNeed = true
-    )
-    AppTheme {
-        EpisodeItemUiOverlayUi(
-            modifier = Modifier
-                .width(200.dp)
-                .background(md_theme_light_primary)
-                .wrapContentHeight(unbounded = true),
-            item = item,
-            isRead = true
         )
     }
 }
