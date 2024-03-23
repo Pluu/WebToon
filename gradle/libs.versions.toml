@@ -112,4 +112,4 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-cacheFixPlugin = { id = "org.gradle.android.cache-fix", version = "2.7.3" }
+cacheFixPlugin = { id = "org.gradle.android.cache-fix", version = "3.0.1" }
