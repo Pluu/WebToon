@@ -51,7 +51,7 @@ class IntroActivity : ComponentActivity() {
 
     @Composable
     private fun IntroContent() {
-        IntroUi(
+        IntroScreen(
             viewModel = viewModel,
             backgroundColor = MaterialTheme.colorScheme.background,
             onNavigateToMain = ::moveMainScreen

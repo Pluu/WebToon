@@ -7,19 +7,50 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
+import kotlinx.coroutines.delay
+
+@Composable
+internal fun IntroScreen(
+    modifier: Modifier = Modifier,
+    viewModel: IntroViewModel,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    onNavigateToMain: () -> Unit
+) {
+    val isNextMove by viewModel.observe.collectAsStateWithLifecycle(initialValue = false)
+
+    IntroScreen(
+        modifier = modifier
+            .background(backgroundColor)
+            .statusBarsPadding()
+            .navigationBarsPadding(),
+        isLoading = !isNextMove
+    )
+
+    if (isNextMove) {
+        LaunchedEffect(true) {
+            delay(500L)
+            onNavigateToMain()
+        }
+    }
+}
 
 @Composable
 internal fun IntroScreen(
