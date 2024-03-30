@@ -45,7 +45,7 @@ internal fun EpisodeTopUi(
                 if (isFavorite) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
-                        tint = Color(0xFFF44336),
+                        tint = com.pluu.webtoon.ui.compose.theme.themeRed,
                         contentDescription = null
                     )
                 } else {

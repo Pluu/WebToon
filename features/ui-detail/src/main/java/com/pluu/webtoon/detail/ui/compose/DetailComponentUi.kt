@@ -7,7 +7,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.pluu.ui.state.UiState
 import com.pluu.webtoon.detail.ui.ElementEvent
@@ -23,7 +22,7 @@ internal fun InitContentUi(
         Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
+                color = com.pluu.webtoon.ui.compose.theme.themeRed
             )
         }
     } else {

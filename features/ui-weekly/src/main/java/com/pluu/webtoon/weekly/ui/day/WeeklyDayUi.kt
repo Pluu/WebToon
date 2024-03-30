@@ -160,7 +160,7 @@ internal fun WeeklyLoadingUi(
 ) {
     CircularProgressIndicator(
         modifier = modifier.size(60.dp),
-        color = colorResource(R.color.progress_accent_color)
+        color = com.pluu.webtoon.ui.compose.theme.themeRed
     )
 }
 

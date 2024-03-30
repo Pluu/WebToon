@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,7 +57,7 @@ internal fun IntroScreen(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
-                    color = colorResource(id = com.pluu.webtoon.ui_common.R.color.progress_accent_color),
+                    color = com.pluu.webtoon.ui.compose.theme.themeRed,
                     strokeWidth = 4.0.dp * 1.5f
                 )
             }

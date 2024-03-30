@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -90,7 +89,7 @@ internal fun WeeklyItemUi(
             if (isLoading || LocalInspectionMode.current) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
-                    color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
+                    color = com.pluu.webtoon.ui.compose.theme.themeRed
                 )
             }
             if (isError) {
@@ -204,7 +203,7 @@ private fun WeeklyItemFavoriteUi(
 ) {
     Image(
         painter = painterResource(R.drawable.ic_favorite_black_36),
-        colorFilter = ColorFilter.tint(Color(0xFFF44336)),
+        colorFilter = ColorFilter.tint(com.pluu.webtoon.ui.compose.theme.themeRed),
         modifier = modifier,
         contentDescription = null
     )

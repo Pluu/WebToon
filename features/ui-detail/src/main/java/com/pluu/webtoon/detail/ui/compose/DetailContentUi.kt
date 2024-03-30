@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -82,7 +81,7 @@ private fun AdjustDetailImage(
         is AsyncImagePainter.State.Loading -> {
             CircularProgressIndicator(
                 modifier = modifier.size(60.dp),
-                color = colorResource(com.pluu.webtoon.ui_common.R.color.progress_accent_color)
+                color = com.pluu.webtoon.ui.compose.theme.themeRed
             )
         }
 
