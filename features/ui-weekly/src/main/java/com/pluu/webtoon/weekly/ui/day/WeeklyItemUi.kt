@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -225,9 +226,10 @@ private fun WeeklyStatusUi(
         }
         if (isLocked) {
             Image(
+                modifier = Modifier.padding(4.dp),
                 painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_lock_white_24),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                 contentDescription = null,
-                modifier = Modifier.padding(4.dp)
             )
         }
         if (isRest) {
