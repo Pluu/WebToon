@@ -98,9 +98,11 @@ internal fun EpisodeUi(
                 EpisodeUiEvent.OnBackPressed -> {
                     closeCurrent()
                 }
+
                 is EpisodeUiEvent.OnShowDetail -> {
                     openDetail(action.item)
                 }
+
                 EpisodeUiEvent.OnShowFirst -> {
                     val firstInfo = viewModel.requestFirst()
                     if (firstInfo == null) {
@@ -166,7 +168,10 @@ private fun EpisodeGridContent(
         modifier = modifier.fillMaxSize(),
         state = lazyGridState,
     ) {
-        items(items.itemCount) { index ->
+        items(
+            count = items.itemCount,
+            key = { index -> items[index]?.id ?: index }
+        ) { index ->
             EpisodeItemUi(
                 item = items[index]!!,
                 isRead = readIdSet.contains(items[index]!!.id),
