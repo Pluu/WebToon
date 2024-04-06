@@ -15,7 +15,7 @@ paging = "3.3.0-beta01"
 coil = "2.6.0"
 dagger = "2.51"
 kotlin = "1.9.23"
-ksp = "1.9.23-1.0.19"
+ksp = "1.9.23-1.0.20"
 kotlin-coroutine = "1.8.0"
 okhttp = "4.12.0"
 
@@ -46,7 +46,7 @@ androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-run
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.7"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.8.0-alpha06"
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
