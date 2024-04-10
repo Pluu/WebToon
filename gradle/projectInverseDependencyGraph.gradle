@@ -19,7 +19,7 @@ tasks.register('projectInverseDependencyGraph') {
             List<Project> checkModule = inverseGraph.find {
                 findModule == it.key.name
             }.value.collectNested {
-                inverseGraph[it]
+                inverseGraph[it] ?: []
             }.flatten().toSet().sort()
 
             checkModule.forEach {
