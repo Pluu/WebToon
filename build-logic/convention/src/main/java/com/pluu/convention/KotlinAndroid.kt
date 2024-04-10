@@ -10,8 +10,8 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -70,7 +70,7 @@ internal fun Project.`java`(
 }
 
 internal fun Project.`kotlin`(
-    configure: Action<KotlinJvmProjectExtension>
+    configure: Action<KotlinAndroidProjectExtension>
 ) {
     (this as ExtensionAware).extensions.configure("kotlin", configure)
 }
