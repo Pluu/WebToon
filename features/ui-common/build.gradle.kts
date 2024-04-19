@@ -20,6 +20,6 @@ dependencies {
     // Compose
     implementation(libs.androidX.activity.compose)
 
-    // Coil
-    implementation(libs.coil.core)
+    // Image Loader
+    implementation(libs.landscapist)
 }

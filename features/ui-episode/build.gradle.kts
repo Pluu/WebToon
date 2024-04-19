@@ -25,7 +25,8 @@ dependencies {
     // Compose
     implementation(libs.androidX.constraintlayout.compose)
 
-    implementation(libs.coil.compose)
+    // Image Loader
+    implementation(libs.landscapist)
 
     implementation(libs.timber)
 }

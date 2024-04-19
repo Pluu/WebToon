@@ -14,16 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,14 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.ui.compose.theme.AppTheme
-import com.pluu.webtoon.utils.applyAgent
+import com.pluu.webtoon.ui.compose.theme.themeRed
+import com.pluu.webtoon.utils.glideUrl
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 internal fun EpisodeItemUi(
@@ -51,20 +45,6 @@ internal fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
-    var isLoading by remember { mutableStateOf(true) }
-    var isError by remember { mutableStateOf(false) }
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(item.image)
-            .applyAgent()
-            .crossfade(true)
-            .build(),
-        onState = { state ->
-            isLoading = state is AsyncImagePainter.State.Loading
-            isError = state is AsyncImagePainter.State.Error
-        }
-    )
-
     Box(
         modifier = modifier
             .padding(all = 2.dp)
@@ -72,28 +52,29 @@ internal fun EpisodeItemUi(
             .height(100.dp)
             .clickable { onClicked(item) }
     ) {
-        if (isError.not() && !LocalInspectionMode.current) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painter,
+        GlideImage(
+            imageModel = {
+                item.image.glideUrl()
+            },
+            modifier = Modifier.fillMaxSize(),
+            imageOptions = ImageOptions(
                 contentScale = ContentScale.Crop,
-                contentDescription = null,
-            )
-        }
-        if (isLoading || LocalInspectionMode.current) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-                color = com.pluu.webtoon.ui.compose.theme.themeRed
-            )
-        }
-        if (isError) {
-            Image(
-                modifier = Modifier.align(Alignment.Center),
-                painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
-                contentDescription = null
-            )
-        }
-
+                alignment = Alignment.Center
+            ),
+            loading = {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = themeRed
+                )
+            },
+            failure = {
+                Image(
+                    modifier = Modifier.align(Alignment.Center),
+                    painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
+                    contentDescription = null
+                )
+            }
+        )
         EpisodeItemUiOverlayUi(item = item, isRead = isRead)
     }
 }

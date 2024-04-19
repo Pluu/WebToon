@@ -17,9 +17,8 @@ dependencies {
 
     implementation(libs.androidX.lifecycle.viewModel)
     implementation(libs.androidX.hilt.navigation.compose)
-
-    // Compose
-    implementation(libs.coil.compose)
+    // Image Loader
+    implementation(libs.landscapist)
 
     implementation(libs.timber)
 }

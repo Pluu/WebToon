@@ -4,10 +4,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import coil.imageLoader
-import coil.request.ErrorResult
-import coil.request.ImageRequest
-import coil.request.SuccessResult
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.PreloadTarget
+import com.bumptech.glide.request.target.Target
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 fun Drawable.toLoaderBitmap(): Bitmap? {
     return when (this) {
@@ -19,21 +22,49 @@ fun Drawable.toLoaderBitmap(): Bitmap? {
 suspend fun preLoadImage(
     context: Context,
     imageUrl: String
-): LoadedState {
-    val request = ImageRequest.Builder(context)
-        .applyAgent()
-        .data(imageUrl)
-        .allowHardware(false)
-        .build()
+): LoadedState = suspendCancellableCoroutine { cont ->
+    val requestManager = Glide.with(context)
+    val target = PreloadTarget.obtain<Drawable>(
+        requestManager,
+        PreloadTarget.SIZE_ORIGINAL,
+        PreloadTarget.SIZE_ORIGINAL
+    )
 
-    return when (val result = context.imageLoader.execute(request)) {
-        is SuccessResult -> {
-            LoadedState.Success(result.drawable)
-        }
-        is ErrorResult -> {
-            LoadedState.Error(result.throwable)
-        }
-    }
+    requestManager
+        .load(imageUrl.glideUrl())
+        .addListener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable>,
+                isFirstResource: Boolean
+            ): Boolean {
+                if (cont.isCompleted) {
+                    return false
+                }
+                cont.resume(LoadedState.Error(e ?: IllegalStateException("Unknown Exception"))) {
+                    requestManager.clear(target)
+                }
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable,
+                model: Any,
+                target: Target<Drawable>?,
+                dataSource: DataSource,
+                isFirstResource: Boolean
+            ): Boolean {
+                if (cont.isCompleted) {
+                    return false
+                }
+                cont.resume(LoadedState.Success(resource)) {
+                    requestManager.clear(target)
+                }
+                return false
+            }
+        })
+        .into(target)
 }
 
 sealed class LoadedState {
