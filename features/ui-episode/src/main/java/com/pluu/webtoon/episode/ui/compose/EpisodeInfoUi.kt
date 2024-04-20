@@ -69,7 +69,7 @@ internal fun EpisodeInfoUi(
             colors = ButtonDefaults.outlinedButtonColors(
                 contentColor = contentColor
             ),
-            border = ButtonDefaults.outlinedButtonBorder.copy(
+            border = ButtonDefaults.outlinedButtonBorder(true).copy(
                 brush = SolidColor(contentColor)
             ),
             onClick = onFirstClicked
