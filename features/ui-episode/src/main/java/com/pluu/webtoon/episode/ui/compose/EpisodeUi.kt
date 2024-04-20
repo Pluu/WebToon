@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -14,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.pluu.compose.ui.toast
 import com.pluu.utils.toast
 import com.pluu.webtoon.episode.compose.ThemeCircularProgressIndicator
@@ -82,9 +83,8 @@ private fun EpisodeUi(
         }
     }
 
-    if (episodeList.loadState.refresh is LoadState.Error) {
+    if (episodeList.loadState.append is LoadState.Error) {
         toast(stringResource(R.string.network_fail))
-        closeCurrent()
         return
     }
 
@@ -181,7 +181,7 @@ private fun EpisodeGridContent(
     ) {
         items(
             count = items.itemCount,
-            key = { index -> items[index]?.id ?: index }
+            key = items.itemKey { it.id }
         ) { index ->
             EpisodeItemUi(
                 item = items[index]!!,
@@ -193,15 +193,13 @@ private fun EpisodeGridContent(
         // 추가 로딩시에 노출하는 Footer Loading
         if (items.loadState.append == LoadState.Loading) {
             item {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    ThemeCircularProgressIndicator(
-                        modifier = Modifier.padding(12.dp),
-                        circleSize = 32.dp
-                    )
-                }
+                ThemeCircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp)
+                        .wrapContentSize(),
+                    circleSize = 32.dp
+                )
             }
         }
     }

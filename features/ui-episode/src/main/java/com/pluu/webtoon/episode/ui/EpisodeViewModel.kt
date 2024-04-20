@@ -60,11 +60,15 @@ internal class EpisodeViewModel @Inject constructor(
     ) {
         EpisodeDataSource(id, getEpisodeUseCase)
     }.flow.map { data ->
-        data.insertSeparators { before, after ->
-            if (before == null) {
-                firstEpisode = after
+        if (firstEpisode == null) {
+            data.insertSeparators { before, after ->
+                if (before == null) {
+                    firstEpisode = after
+                }
+                null
             }
-            null
+        } else {
+            data
         }
     }.cachedIn(viewModelScope)
 
