@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -38,6 +39,7 @@ import com.pluu.webtoon.model.Status
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.theme.AppTheme
+import com.pluu.webtoon.ui.compose.theme.themeRed
 import com.pluu.webtoon.utils.glideUrl
 import com.pluu.webtoon.weekly.R
 import com.skydoves.landscapist.ImageOptions
@@ -57,7 +59,7 @@ internal fun WeeklyItemUi(
             .height(100.dp)
             .clickable { onClicked(item) }
     ) {
-        Box {
+        Box(modifier = Modifier.fillMaxSize()) {
             GlideImage(
                 imageModel = {
                     item.image.glideUrl()
@@ -67,10 +69,13 @@ internal fun WeeklyItemUi(
                     contentScale = ContentScale.Crop,
                     alignment = Alignment.Center
                 ),
+                previewPlaceholder = painterResource(id = com.pluu.compose.R.drawable.ic_baseline_android_24),
                 loading = {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = com.pluu.webtoon.ui.compose.theme.themeRed
+                        modifier = Modifier
+                            .matchParentSize()
+                            .wrapContentSize(),
+                        color = themeRed
                     )
                 },
                 failure = {
