@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
@@ -57,6 +58,7 @@ internal fun WeeklyItemUi(
             .fillMaxWidth()
             .padding(2.dp)
             .height(100.dp)
+            .clip(MaterialTheme.shapes.medium)
             .clickable { onClicked(item) }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
