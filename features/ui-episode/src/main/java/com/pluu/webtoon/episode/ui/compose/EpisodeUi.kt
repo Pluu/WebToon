@@ -1,6 +1,8 @@
 package com.pluu.webtoon.episode.ui.compose
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,12 +39,14 @@ import com.pluu.webtoon.ui_common.R
 
 @Composable
 fun EpisodeUi(
+    modifier: Modifier = Modifier,
     webToonItem: ToonInfoWithFavorite,
     palletColor: PalletColor,
     openDetail: (EpisodeInfo) -> Unit,
     closeCurrent: () -> Unit
 ) {
     EpisodeUi(
+        modifier = modifier.fillMaxSize(),
         viewModel = hiltViewModel(),
         webToonItem = webToonItem,
         palletColor = palletColor,
@@ -52,7 +56,8 @@ fun EpisodeUi(
 }
 
 @Composable
-internal fun EpisodeUi(
+private fun EpisodeUi(
+    modifier: Modifier = Modifier,
     viewModel: EpisodeViewModel,
     webToonItem: ToonInfoWithFavorite,
     palletColor: PalletColor,
@@ -84,6 +89,7 @@ internal fun EpisodeUi(
     }
 
     EpisodeUi(
+        modifier = modifier,
         webToonItem = webToonItem,
         palletColor = palletColor,
         episodeList = episodeList,
@@ -118,6 +124,7 @@ internal fun EpisodeUi(
 
 @Composable
 private fun EpisodeUi(
+    modifier: Modifier = Modifier,
     webToonItem: ToonInfoWithFavorite,
     palletColor: PalletColor,
     episodeList: LazyPagingItems<EpisodeInfo>,
@@ -130,6 +137,7 @@ private fun EpisodeUi(
     val lazyGridState = rememberLazyGridState()
 
     EpisodeScreen(
+        modifier = modifier,
         webToonItem = webToonItem,
         isFavorite = isFavorite,
         palletColor = palletColor,
@@ -159,14 +167,17 @@ private fun EpisodeUi(
 private fun EpisodeGridContent(
     modifier: Modifier = Modifier,
     items: LazyPagingItems<EpisodeInfo>,
-    lazyGridState: LazyGridState,
-    readIdSet: Set<EpisodeId>,
+    lazyGridState: LazyGridState = rememberLazyGridState(),
+    readIdSet: Set<EpisodeId> = emptySet(),
     onEpisodeClicked: (EpisodeInfo) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
         state = lazyGridState,
+        contentPadding = PaddingValues(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(
             count = items.itemCount,

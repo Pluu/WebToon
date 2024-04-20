@@ -5,18 +5,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,37 +46,38 @@ internal fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
-    Box(
+    Card(
         modifier = modifier
-            .padding(all = 2.dp)
-            .fillMaxWidth()
             .height(100.dp)
             .clickable { onClicked(item) }
     ) {
-        GlideImage(
-            imageModel = {
-                item.image.glideUrl()
-            },
-            modifier = Modifier.fillMaxSize(),
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.Center
-            ),
-            loading = {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = themeRed
-                )
-            },
-            failure = {
-                Image(
-                    modifier = Modifier.align(Alignment.Center),
-                    painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
-                    contentDescription = null
-                )
-            }
-        )
-        EpisodeItemUiOverlayUi(item = item, isRead = isRead)
+        Box {
+            GlideImage(
+                imageModel = { item.image.glideUrl() },
+                modifier = Modifier.fillMaxSize(),
+                imageOptions = ImageOptions(
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center
+                ),
+                previewPlaceholder = painterResource(id = com.pluu.compose.R.drawable.ic_baseline_android_24),
+                loading = {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .wrapContentSize(),
+                        color = themeRed
+                    )
+                },
+                failure = {
+                    Image(
+                        painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                        contentDescription = null
+                    )
+                }
+            )
+            EpisodeItemUiOverlayUi(item = item, isRead = isRead)
+        }
     }
 }
 
@@ -151,7 +153,7 @@ internal class PreviewEpisodeItemProvider : PreviewParameterProvider<Pair<Boolea
     override val count: Int = values.count()
 }
 
-@Preview
+@Preview(widthDp = 200, heightDp = 200)
 @Composable
 private fun PreviewEpisodeItemUi(
     @PreviewParameter(PreviewEpisodeItemProvider::class) values: Pair<Boolean, Boolean>,
@@ -165,9 +167,6 @@ private fun PreviewEpisodeItemUi(
     )
     AppTheme {
         EpisodeItemUi(
-            modifier = Modifier
-                .width(200.dp)
-                .heightIn(min = 150.dp),
             item = item,
             isRead = values.second,
             onClicked = {}
