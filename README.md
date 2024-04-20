@@ -45,7 +45,7 @@ Dependencies
 - Dagger
   - Dagger
   - Dagger Hilt
-- Coil
+- [Landscapist](https://github.com/skydoves/landscapist)
 - Jsoup
 - Kotlin
   - Kotlin

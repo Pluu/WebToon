@@ -12,8 +12,8 @@ internal val licenseModels = listOf(
         "https://developer.android.com/jetpack/androidx/versions"
     ),
     LicenseModel(
-        "Coil",
-        "https://github.com/coil-kt/coil/blob/main/LICENSE.txt"
+        "Landscapist",
+        "https://github.com/skydoves/landscapist"
     ),
     LicenseModel(
         "Dagger",
