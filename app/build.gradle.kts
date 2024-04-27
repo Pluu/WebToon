@@ -13,6 +13,12 @@ android {
     }
 
     useLibrary("android.test.mock")
+
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
 }
 
 dependencies {
