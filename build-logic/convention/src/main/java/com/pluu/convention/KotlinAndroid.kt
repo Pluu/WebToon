@@ -12,7 +12,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 typealias AGPCommonExtension = CommonExtension<*, *, *, *, *, *>
@@ -55,12 +54,6 @@ internal fun Project.configureKotlin() {
             )
         }
     }
-}
-
-internal fun Project.`kapt`(
-    configure: Action<KaptExtension>
-) {
-    (this as ExtensionAware).extensions.configure("kapt", configure)
 }
 
 internal fun Project.`java`(

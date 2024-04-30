@@ -35,7 +35,3 @@ dependencies {
 
     implementation(libs.timber)
 }
-
-kapt {
-    useBuildCache = true
-}

@@ -13,9 +13,9 @@ internal fun <T> DependencyHandler.debugImplementation(
     dependencyNotation: Optional<Provider<T>>
 ): Dependency? = add("debugImplementation", dependencyNotation.get())
 
-internal fun <T> DependencyHandler.kapt(
+internal fun <T> DependencyHandler.ksp(
     dependencyNotation: Optional<Provider<T>>
-): Dependency? = add("kapt", dependencyNotation.get())
+): Dependency? = add("ksp", dependencyNotation.get())
 
 internal fun <T> DependencyHandler.api(
     dependencyNotation: Provider<T>
