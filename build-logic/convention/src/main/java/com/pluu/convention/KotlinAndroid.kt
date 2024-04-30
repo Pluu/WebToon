@@ -10,7 +10,6 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -41,16 +40,18 @@ internal fun Project.configureAndroid() {
 
 internal fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
+        compilerOptions {
             // Set JVM target
-            jvmTarget = Const.JAVA_VERSION.toString()
+            jvmTarget.set(Const.JVM_TARGET)
 //            allWarningsAsErrors = true
 
-            freeCompilerArgs = freeCompilerArgs + listOf(
-                "-opt-in=kotlin.RequiresOptIn",
-                // Enable experimental coroutines APIs, including Flow
-                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-opt-in=kotlinx.coroutines.FlowPreview",
+            freeCompilerArgs.addAll(
+                listOf(
+                    "-opt-in=kotlin.RequiresOptIn",
+                    // Enable experimental coroutines APIs, including Flow
+                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-opt-in=kotlinx.coroutines.FlowPreview",
+                )
             )
         }
     }
@@ -66,10 +67,4 @@ internal fun Project.`kotlin`(
     configure: Action<KotlinAndroidProjectExtension>
 ) {
     (this as ExtensionAware).extensions.configure("kotlin", configure)
-}
-
-internal fun AGPCommonExtension.kotlinOptions(
-    configure: KotlinJvmOptions.() -> Unit
-) {
-    (this as ExtensionAware).extensions.configure("kotlinOptions", configure)
 }

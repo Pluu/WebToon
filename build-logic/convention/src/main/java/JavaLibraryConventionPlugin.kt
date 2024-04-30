@@ -24,7 +24,7 @@ class JavaLibraryConventionPlugin : Plugin<Project> {
             if (plugin is KotlinBasePluginWrapper) {
                 project.afterEvaluate {
                     project.tasks.withType(KotlinJvmCompile::class.java).configureEach {
-                        kotlinOptions.jvmTarget = Const.JAVA_VERSION.majorVersion
+                        compilerOptions.jvmTarget.set(Const.JVM_TARGET)
                     }
                 }
             }
