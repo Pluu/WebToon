@@ -5,8 +5,10 @@ package com.pluu.convention
 ///////////////////////////////////////////////////////////////////////////
 
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
@@ -17,12 +19,9 @@ internal fun Project.configureAndroidCompose(
 ) {
     commonExtension.apply {
         buildFeatures.compose = true
-
-        composeOptions {
-            kotlinCompilerExtensionVersion =
-                libs.findVersion("composeCompiler").get().toString()
-        }
     }
+
+    configureComposeCompiler()
 
     dependencies {
         // Disabling to work with Alpha
@@ -39,6 +38,12 @@ internal fun Project.configureAndroidCompose(
                         "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
                     )
         }
+    }
+}
+
+private fun Project.configureComposeCompiler() {
+    extensions.configure<ComposeCompilerGradlePluginExtension> {
+        enableStrongSkippingMode.set(true)
     }
 }
 
