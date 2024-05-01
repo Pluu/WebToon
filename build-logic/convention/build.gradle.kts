@@ -51,5 +51,9 @@ gradlePlugin {
             id = "pluu.java.library"
             implementationClass = "JavaLibraryConventionPlugin"
         }
+        register("buildTime") {
+            id = "pluu.buildTime"
+            implementationClass = "buildTime.BuildTimingPlugin"
+        }
     }
 }
