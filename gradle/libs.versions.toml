@@ -11,7 +11,7 @@ room = "2.6.1"
 paging = "3.3.0-rc01"
 
 # 3rd-party
-dagger = "2.51"
+dagger = "2.51.1"
 kotlin = "2.0.0-RC2"
 ksp = "2.0.0-RC2-1.0.20"
 kotlin-coroutine = "1.8.0"
