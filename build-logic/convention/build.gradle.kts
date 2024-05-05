@@ -51,5 +51,13 @@ gradlePlugin {
             id = "pluu.java.library"
             implementationClass = "JavaLibraryConventionPlugin"
         }
+        register("androidVersionCatalogsLoader") {
+            id = "versions.loader"
+            implementationClass = "artifacts.AndroidVersionCatalogsLoaderPlugin"
+        }
+        register("androidVersionCatalogsChecker") {
+            id = "versions.checker"
+            implementationClass = "artifacts.AndroidVersionCatalogsCheckerPlugin"
+        }
     }
 }
