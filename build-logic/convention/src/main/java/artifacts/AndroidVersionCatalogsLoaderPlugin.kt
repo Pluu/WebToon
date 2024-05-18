@@ -8,7 +8,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.extra
 import java.io.File
-import java.lang.System.getProperty
 
 class AndroidVersionCatalogsLoaderPlugin : Plugin<Project> {
     private val modules: MutableMap<String, String> = mutableMapOf()
@@ -71,15 +70,10 @@ internal class TomlLoader(
     }
 
     private fun Project.loadVersionsLine(line: String) {
-        val result = VERSION_PATTERN.matchEntire(line)
+        val result = VERSION_PATTERN.find(line)
         if (result != null) {
             val name = result.groups["NAME"]!!.value
-            // some versions are overridden by gradle/versions_catalog.gradle
-            val version = when (name) {
-                in "android-gradle" -> getProperty("androidGradlePluginVersion")
-                in "buildconfig" -> getProperty("buildConfigPluginVersion")
-                else -> result.groups["VERSION"]!!.value
-            }
+            val version = result.groups["VERSION"]!!.value
             versions[name] = version
         }
     }
