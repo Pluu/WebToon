@@ -12,8 +12,8 @@ paging = "3.3.0"
 
 # 3rd-party
 dagger = "2.51.1"
-kotlin = "2.0.0-RC3"
-ksp = "2.0.0-RC3-1.0.20"
+kotlin = "2.0.0"
+ksp = "2.0.0-1.0.21"
 kotlin-coroutine = "1.8.0"
 okhttp = "4.12.0"
 
