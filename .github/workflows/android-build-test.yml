@@ -30,6 +30,7 @@ jobs:
             ~/.gradle/caches/modules-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
+            ~/.gradle/wrapper
           key: gradle-${{ hashFiles('checksum.txt') }}
 
       - name: Setup Gradle
