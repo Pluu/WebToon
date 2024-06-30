@@ -28,7 +28,7 @@ internal class NetworkTask(
                     if (response.isSuccessful) {
                         continuation.resume(
                             NetworkResult.Success(response.body?.string().orEmpty())
-                        ) {
+                        ) { _, _, _ ->
                             call.cancel()
                         }
                     } else {
