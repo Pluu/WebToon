@@ -15,7 +15,7 @@ class AndroidVersionCatalogsLoaderPlugin : Plugin<Project> {
         with(target) {
             for (filename in VERSION_CATALOGS_FILES) {
                 val loader = TomlLoader(file(filename), modules)
-                loader.load(this)
+                loader.load()
             }
             extra[MODULE_EXTRA] = modules
         }
@@ -46,7 +46,7 @@ internal class TomlLoader(
 
     private var state: State = State.NONE
 
-    fun load(project: Project) {
+    fun load() {
         file.inputStream().use {
             it.reader().forEachLine { line ->
                 val trimmed = line.trim()
@@ -60,7 +60,7 @@ internal class TomlLoader(
                             else -> State.NONE
                         }
                     } else if (state == State.VERSIONS) {
-                        project.loadVersionsLine(trimmed)
+                        loadVersionsLine(trimmed)
                     } else if (state == State.LIBRARIES) {
                         loadLibrariesLine(trimmed)
                     }
@@ -69,7 +69,7 @@ internal class TomlLoader(
         }
     }
 
-    private fun Project.loadVersionsLine(line: String) {
+    private fun loadVersionsLine(line: String) {
         val result = VERSION_PATTERN.find(line)
         if (result != null) {
             val name = result.groups["NAME"]!!.value
