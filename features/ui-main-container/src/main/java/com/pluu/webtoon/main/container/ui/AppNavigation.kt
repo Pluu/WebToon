@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.pluu.utils.extraNotNullSerializable
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
@@ -28,13 +29,20 @@ import com.pluu.webtoon.setting.ui.SettingsUi
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import com.pluu.webtoon.weekly.ui.weekly.WeeklyUi
+import kotlinx.serialization.Serializable
 import timber.log.Timber
 
+@Serializable
 sealed class Screen(val route: String) {
+    @Serializable
     data object Weekly : Screen("weekly")
     data object Episode : Screen("episode")
     data object Detail : Screen("detail")
+
+    @Serializable
     data object Setting : Screen("setting")
+
+    @Serializable
     data object License : Screen("license")
 }
 
@@ -49,7 +57,7 @@ internal fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Weekly.route,
+        startDestination = Screen.Weekly,
         modifier = modifier,
         enterTransition = {
             EnterTransition.None
@@ -71,8 +79,8 @@ internal fun AppNavigation(
             Timber.tag("Logger").d("[Destination] ${destination.route}")
             updateTheme(
                 when (destination.route) {
-                    Screen.Setting.route,
-                    Screen.License.route -> false
+                    Screen.Setting::class.java.canonicalName,
+                    Screen.License::class.java.canonicalName -> false
 
                     else -> true
                 }
@@ -91,7 +99,7 @@ private fun NavGraphBuilder.installWeeklyScreen(
     naviItem: UI_NAV_ITEM,
     updateNaviItem: (UI_NAV_ITEM) -> Unit
 ) {
-    composable(Screen.Weekly.route) {
+    composable<Screen.Weekly> {
         WeeklyUi(
             naviItem = naviItem,
             onNavigateToMenu = { item ->
@@ -106,7 +114,7 @@ private fun NavGraphBuilder.installWeeklyScreen(
                 )
             },
             openSetting = {
-                navController.navigate(Screen.Setting.route)
+                navController.navigate(Screen.Setting)
             }
         )
     }
@@ -171,9 +179,7 @@ private fun NavGraphBuilder.installDetailScreen(
         )
     ) { entry ->
         // Read, Bundle data
-        val arguments = requireNotNull(entry.arguments)
-        val color: PalletColor = arguments.extraNotNullSerializable(Const.EXTRA_PALLET)
-
+        val color = entry.toRoute<PalletColor>()
         // Navigate
         DetailUi(
             palletColor = color,
@@ -185,11 +191,11 @@ private fun NavGraphBuilder.installDetailScreen(
 private fun NavGraphBuilder.installSettingScreen(
     navController: NavController
 ) {
-    composable(Screen.Setting.route) {
+    composable<Screen.Setting> {
         SettingsUi(
             closeCurrent = navController::navigateUp,
             openLicense = {
-                navController.navigate(Screen.License.route)
+                navController.navigate(Screen.License)
             }
         )
     }
@@ -199,7 +205,7 @@ private fun NavGraphBuilder.installLicenseScreen(
     navController: NavController,
     themeColor: Color
 ) {
-    composable(Screen.License.route) {
+    composable<Screen.License> {
         LicenseUi(
             closeCurrent = navController::navigateUp,
             openBrowser = { url ->

@@ -2,6 +2,7 @@ plugins {
     id("pluu.android.library")
     id("pluu.android.library.compose")
     id("pluu.android.hilt")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -27,4 +28,5 @@ dependencies {
     implementation(libs.androidX.hilt.navigation.compose)
 
     implementation(libs.timber)
+    implementation(libs.kotlin.serialization)
 }
