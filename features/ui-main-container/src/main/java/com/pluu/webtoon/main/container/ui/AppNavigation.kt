@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.toRoute
 import com.pluu.utils.extraNotNullSerializable
 import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
@@ -179,7 +178,9 @@ private fun NavGraphBuilder.installDetailScreen(
         )
     ) { entry ->
         // Read, Bundle data
-        val color = entry.toRoute<PalletColor>()
+        val arguments = requireNotNull(entry.arguments)
+        val color: PalletColor = arguments.extraNotNullSerializable(Const.EXTRA_PALLET)
+
         // Navigate
         DetailUi(
             palletColor = color,
