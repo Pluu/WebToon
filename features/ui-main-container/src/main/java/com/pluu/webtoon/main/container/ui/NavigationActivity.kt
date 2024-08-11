@@ -38,17 +38,12 @@ class NavigationActivity : FragmentActivity() {
         }
     }
 
-    private fun updateTheme(it: Boolean) {
+    private fun updateTheme(isForceDark: Boolean) {
         enableEdgeToEdge(
-            statusBarStyle = if (it) {
-                SystemBarStyle.dark(
-                    Color.TRANSPARENT
-                )
+            statusBarStyle = if (isForceDark) {
+                SystemBarStyle.dark(Color.TRANSPARENT)
             } else {
-                SystemBarStyle.light(
-                    Color.TRANSPARENT,
-                    Color.TRANSPARENT
-                )
+                SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
             }
         )
     }

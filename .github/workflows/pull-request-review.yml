@@ -31,6 +31,7 @@ jobs:
             ~/.gradle/caches/modules-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
+            ~/.gradle/wrapper
           key: gradle-${{ hashFiles('checksum.txt') }}
 
       - name: Setup Ruby
@@ -40,7 +41,7 @@ jobs:
           bundler-cache: true
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: current
           gradle-home-cache-cleanup: true

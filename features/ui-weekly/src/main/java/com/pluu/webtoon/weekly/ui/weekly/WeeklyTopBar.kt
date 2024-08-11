@@ -10,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
@@ -69,11 +68,9 @@ internal fun DayOfWeekUi(
         selectedTabIndex = selectedTabIndex,
         containerColor = backgroundColor,
         contentColor = contentColor,
-        indicator = { tabPositions ->
+        indicator = {
             TabRowDefaults.SecondaryIndicator(
-                modifier = Modifier.tabIndicatorOffset(
-                    tabPositions[selectedTabIndex]
-                ),
+                modifier = Modifier.tabIndicatorOffset(selectedTabIndex),
                 color = indicatorColor
             )
         },

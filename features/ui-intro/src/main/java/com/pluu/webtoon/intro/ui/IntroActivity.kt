@@ -1,13 +1,10 @@
 package com.pluu.webtoon.intro.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
-import androidx.activity.addCallback
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -22,37 +19,27 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class IntroActivity : ComponentActivity() {
-    private val viewModel by viewModels<IntroViewModel>()
-
     @Inject
     lateinit var mainNavigator: MainContainerNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(
-                Color.TRANSPARENT,
-                Color.TRANSPARENT
-            )
-        )
+        enableEdgeToEdge()
 
         setContent {
             WebToonTheme {
                 IntroContent()
             }
         }
-
-        onBackPressedDispatcher.addCallback(this) {
-            // Do Nothing
-        }
     }
 
     @Composable
     private fun IntroContent() {
+        BackHandler {
+            // Do Nothing
+        }
         IntroScreen(
-            viewModel = viewModel,
             backgroundColor = MaterialTheme.colorScheme.background,
             onNavigateToMain = ::moveMainScreen
         )

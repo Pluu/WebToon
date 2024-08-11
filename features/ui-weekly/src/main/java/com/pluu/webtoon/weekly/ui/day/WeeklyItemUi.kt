@@ -191,7 +191,7 @@ private fun WeeklyItemFavoriteUi(
 ) {
     Image(
         painter = painterResource(R.drawable.ic_favorite_black_36),
-        colorFilter = ColorFilter.tint(com.pluu.webtoon.ui.compose.theme.themeRed),
+        colorFilter = ColorFilter.tint(themeRed),
         modifier = modifier,
         contentDescription = null
     )

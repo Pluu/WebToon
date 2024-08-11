@@ -16,13 +16,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 import kotlinx.coroutines.delay
@@ -30,24 +32,27 @@ import kotlinx.coroutines.delay
 @Composable
 internal fun IntroScreen(
     modifier: Modifier = Modifier,
-    viewModel: IntroViewModel,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     onNavigateToMain: () -> Unit
 ) {
-    val isNextMove by viewModel.observe.collectAsStateWithLifecycle(initialValue = false)
+    var isLoading by rememberMutableStateOf(true)
+    val navigationToMain by rememberUpdatedState(onNavigateToMain)
 
     IntroScreen(
         modifier = modifier
             .background(backgroundColor)
             .statusBarsPadding()
             .navigationBarsPadding(),
-        isLoading = !isNextMove
+        isLoading = isLoading
     )
 
-    if (isNextMove) {
-        LaunchedEffect(true) {
+    LaunchedEffect(isLoading) {
+        if (isLoading) {
+            delay(1_000L)
+            isLoading = false
+        } else {
             delay(500L)
-            onNavigateToMain()
+            navigationToMain()
         }
     }
 }

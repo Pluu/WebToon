@@ -43,15 +43,12 @@ internal fun Project.configureKotlin() {
         compilerOptions {
             // Set JVM target
             jvmTarget.set(Const.JVM_TARGET)
-//            allWarningsAsErrors = true
+//            allWarningsAsErrors.set(true)
 
-            freeCompilerArgs.addAll(
-                listOf(
-                    "-opt-in=kotlin.RequiresOptIn",
-                    // Enable experimental coroutines APIs, including Flow
-                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-opt-in=kotlinx.coroutines.FlowPreview",
-                )
+            optIn.addAll(
+                "kotlin.RequiresOptIn",
+                "kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "kotlinx.coroutines.FlowPreview",
             )
         }
     }
