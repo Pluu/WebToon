@@ -14,6 +14,7 @@ import org.gradle.api.services.ServiceReference
 import org.gradle.api.tasks.Input
 import java.io.File
 import kotlin.jvm.optionals.getOrNull
+import kotlin.random.Random
 
 class BuildFinishedFlowAction : FlowAction<BuildFinishedFlowAction.Parameters> {
     interface Parameters : FlowParameters {
@@ -95,6 +96,7 @@ class BuildFinishedFlowAction : FlowAction<BuildFinishedFlowAction.Parameters> {
         val result = buildString {
             appendLine("[")
             tasks.entries.forEach { (key, value) ->
+                val color = generateRandomColor()
                 append(
                     buildString {
                         append("{")
@@ -104,17 +106,18 @@ class BuildFinishedFlowAction : FlowAction<BuildFinishedFlowAction.Parameters> {
                         append("times: [")
                         appendLine()
                         value.forEach { timeline ->
+                            val duration = timeline.startTime + timeline.duration.inWholeMilliseconds
                             if (timeline.isCached) {
                                 append(
-                                    "{ \"label\": \"${timeline.name}\", \"color\": \"#999999\", \"starting_time\": ${
+                                    "{ \"tooltip_label\": \"${timeline.name}(${timeline.duration.inWholeMilliseconds}ms)\", \"color\": \"$color\", \"starting_time\": ${
                                         timeline.startTime
-                                    }, \"ending_time\": ${timeline.endTime} },"
+                                    }, \"ending_time\": $duration },"
                                 )
                             } else {
                                 append(
-                                    "{ \"label\": \"${timeline.name}\", \"starting_time\": ${
+                                    "{ \"tooltip_label\": \"${timeline.name}(${timeline.duration.inWholeMilliseconds}ms)\", \"starting_time\": ${
                                         timeline.startTime
-                                    }, \"ending_time\": ${timeline.endTime} },"
+                                    }, \"ending_time\": $duration },"
                                 )
                             }
                             appendLine()
@@ -133,10 +136,18 @@ class BuildFinishedFlowAction : FlowAction<BuildFinishedFlowAction.Parameters> {
         val maxLabelWidth = tasks.keys.maxOf { it.length }.times(10) ?: 128
 
         return renderedTemplate
+            .replace("%root-project-name%", "Webtoon")
             .replace("%timelines%", result)
             .replace("%beginning%", buildStartTime.toString())
             .replace("%ending%", buildFinishTime.toString())
 //            .replace("%datetime%", DateTimeUtils.formatToDateTime(createdAt))
             .replace("%max-label-width%", "${maxLabelWidth}")
+    }
+
+    private fun generateRandomColor(): String {
+        val r = Integer.toHexString(Random.nextInt(255))
+        val g = Integer.toHexString(Random.nextInt(255))
+        val b = Integer.toHexString(Random.nextInt(255))
+        return "#$r$g$b"
     }
 }

@@ -11,6 +11,7 @@ import org.gradle.tooling.events.OperationCompletionListener
 import org.gradle.tooling.events.SuccessResult
 import org.gradle.tooling.events.task.TaskFinishEvent
 import org.gradle.tooling.events.task.TaskSuccessResult
+import kotlin.time.Duration.Companion.milliseconds
 
 abstract class BuildTaskService :
     BuildService<BuildServiceParameters.None>,
@@ -32,7 +33,7 @@ abstract class BuildTaskService :
                     MeasuredTask(
                         name = event.descriptor?.name.toString(),
                         startTime = event.result.startTime,
-                        endTime = event.result.endTime,
+                        duration = (event.result.endTime - event.result.startTime).milliseconds,
                         state = when {
                             result.isFromCache -> IS_FROM_CACHE
                             result.isUpToDate -> UP_TO_DATE
