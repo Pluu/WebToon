@@ -14,9 +14,6 @@ dependencies {
 
     implementation(libs.kotlin.serialization)
 
-    // Android UI
-    implementation(libs.androidX.fragment.ktx)
-
     // Compose
     implementation(libs.androidX.activity.compose)
 
