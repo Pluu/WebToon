@@ -23,16 +23,6 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Cache Gradle and wrapper
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches/modules-*
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/build-cache-*
-            ~/.gradle/wrapper
-          key: gradle-${{ hashFiles('checksum.txt') }}
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
