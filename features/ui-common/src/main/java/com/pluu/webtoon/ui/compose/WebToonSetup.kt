@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.pluu.webtoon.ui.compose
 
 import androidx.compose.foundation.isSystemInDarkTheme
