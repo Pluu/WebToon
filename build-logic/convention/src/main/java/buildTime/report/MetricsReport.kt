@@ -1,6 +1,5 @@
 package buildTime.report
 
-import buildTime.InMemoryReport
 import buildTime.buildScan.initialization.BuildInitializationService
 import buildTime.lifecycle.BuildTaskService
 import buildTime.model.ExecutionData
@@ -11,14 +10,11 @@ import java.text.DecimalFormat
 import kotlin.random.Random
 
 interface MetricsReport {
-    val report: InMemoryReport
-
     fun onExecutionFinished(executedTasks: Collection<MeasuredTaskInfo>)
 }
 
 class MetricsReportImpl(
     private val params: BuildTaskService.Params,
-    override val report: InMemoryReport
 ) : MetricsReport {
 
     override fun onExecutionFinished(executedTasks: Collection<MeasuredTaskInfo>) {
@@ -32,8 +28,6 @@ class MetricsReportImpl(
             configurationPhaseDuration = 0,
             requestedTasks = emptyList()
         )
-
-        InMemoryReport.setExecutionData(executionData)
 
         val html = getMetricRender(
             BuildInitializationService.STARTED_AT,

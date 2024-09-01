@@ -1,6 +1,5 @@
 package buildTime.lifecycle
 
-import buildTime.InMemoryReport
 import buildTime.model.MeasuredTaskInfo
 import buildTime.model.MeasuredTaskInfo.State.EXECUTED
 import buildTime.model.MeasuredTaskInfo.State.INCREMENTAL
@@ -31,7 +30,7 @@ abstract class BuildTaskService : BuildService<BuildTaskService.Params>,
         val outputPath: Property<String>
     }
 
-    private val report: MetricsReport = MetricsReportImpl(parameters, InMemoryReport)
+    private val report: MetricsReport = MetricsReportImpl(parameters)
 
     private val measuredTaskInfos = ConcurrentLinkedQueue<MeasuredTaskInfo>()
 

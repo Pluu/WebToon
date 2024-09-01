@@ -1,6 +1,5 @@
 package buildTime.buildScan
 
-import buildTime.InMemoryReport
 import buildTime.MeasureBuildTimeConfig
 import buildTime.buildScan.initialization.BuildInitializationService
 import buildTime.lifecycle.BuildTaskService
@@ -16,10 +15,6 @@ object BuildScanner {
         config: MeasureBuildTimeConfig,
         registry: BuildEventsListenerRegistry,
     ) {
-        InMemoryReport.setBuildData(
-            BuildDataProvider.provide(config.project, ">>>>")
-        )
-
         setupInitializationService(config.project)
         setupExecutionService(config.project, registry, config)
     }
