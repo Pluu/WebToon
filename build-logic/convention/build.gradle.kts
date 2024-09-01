@@ -23,6 +23,8 @@ dependencies {
     compileOnly(libs.compose.compiler.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.hilt.gradlePlugin)
+
+    implementation(libs.kotlin.coroutine.jvm)
 }
 
 gradlePlugin {
