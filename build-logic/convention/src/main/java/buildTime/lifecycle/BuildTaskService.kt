@@ -2,6 +2,7 @@ package buildTime.lifecycle
 
 import buildTime.model.MeasuredTask
 import buildTime.model.MeasuredTask.State.EXECUTED
+import buildTime.model.MeasuredTask.State.INCREMENTAL
 import buildTime.model.MeasuredTask.State.IS_FROM_CACHE
 import buildTime.model.MeasuredTask.State.UP_TO_DATE
 import org.gradle.api.services.BuildService
@@ -37,6 +38,7 @@ abstract class BuildTaskService :
                         state = when {
                             result.isFromCache -> IS_FROM_CACHE
                             result.isUpToDate -> UP_TO_DATE
+                            result.isIncremental -> INCREMENTAL
                             else -> EXECUTED
                         }
                     )
