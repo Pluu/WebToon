@@ -35,7 +35,7 @@ class MetricsReportImpl(
             executedTasks
         )
 
-        File(params.outputPath.get(), "metrics_report.html").writeText(html)
+        File("metrics_report.html").writeText(html)
     }
 
     private fun getMetricRender(
