@@ -36,18 +36,19 @@ class MetricsReportImpl(
             startedAt = BuildInitializationService.STARTED_AT,
             initializedAt = BuildInitializationService.INITIALIZED_AT,
             configuredAt = BuildConfigurationService.CONFIGURED_AT,
+            finishedAt = System.currentTimeMillis(),
+
             buildTime = buildPhaseDuration + configurationTime,
             failed = executedTasks.none { it.isSuccessful },
             failure = executedTasks.mapNotNull { it.failures }.joinToString(),
             executedTasks = executedTasks.toList(),
-            buildFinishedTimestamp = System.currentTimeMillis(),
             configurationPhaseDuration = configurationTime,
             requestedTasks = emptyList()
         )
 
         val html = getMetricRender(
-            BuildInitializationService.STARTED_AT,
-            executionData.buildFinishedTimestamp,
+            executionData.startedAt,
+            executionData.finishedAt,
             executedTasks
         )
 

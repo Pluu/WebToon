@@ -17,15 +17,28 @@ data class ExecutionData(
     val startedAt: Long,
     val initializedAt: Long,
     val configuredAt: Long,
+    val finishedAt: Long,
 
     val buildTime: Long,
     val failed: Boolean,
     val failure: String?,
     val executedTasks: List<MeasuredTaskInfo>,
     val requestedTasks: List<String>,
-    val buildFinishedTimestamp: Long,
     val configurationPhaseDuration: Long,
 ) {
+    fun getTotalDuration(): Duration {
+        var remainingDuration = 0L
+        val lastExecutedTask = executedTasks.maxByOrNull { it.finishedAt }
+        if (lastExecutedTask != null) {
+            if (finishedAt > lastExecutedTask.finishedAt) {
+                remainingDuration = finishedAt - lastExecutedTask.finishedAt
+            }
+        }
+
+        return getInitializationDuration() + getConfigurationDuration() +
+                Duration.ofMillis(remainingDuration)
+    }
+
     fun getInitializationDuration(): Duration {
         if (initializedAt < startedAt) return Duration.ofMillis(0)
         return Duration.ofMillis(initializedAt - startedAt)

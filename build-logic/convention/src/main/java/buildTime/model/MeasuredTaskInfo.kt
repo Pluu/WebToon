@@ -9,6 +9,7 @@ data class MeasuredTaskInfo(
     val name: String,
     val duration: Duration,
     val startTime: Long,
+    val finishedAt: Long,
     val state: State,
 ) {
     val isCached: Boolean = when (state) {

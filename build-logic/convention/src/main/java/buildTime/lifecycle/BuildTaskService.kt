@@ -62,6 +62,7 @@ abstract class BuildTaskService : BuildService<BuildTaskService.Params>,
                         failures = failures,
                         name = event.descriptor?.name.toString(),
                         startTime = event.result.startTime,
+                        finishedAt = event.result.endTime,
                         duration = (event.result.endTime - event.result.startTime).milliseconds,
                         state = when {
                             result.isFromCache -> IS_FROM_CACHE
