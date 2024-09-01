@@ -1,10 +1,10 @@
 package buildTime.lifecycle
 
-import buildTime.model.MeasuredTask
-import buildTime.model.MeasuredTask.State.EXECUTED
-import buildTime.model.MeasuredTask.State.INCREMENTAL
-import buildTime.model.MeasuredTask.State.IS_FROM_CACHE
-import buildTime.model.MeasuredTask.State.UP_TO_DATE
+import buildTime.model.MeasuredTaskInfo
+import buildTime.model.MeasuredTaskInfo.State.EXECUTED
+import buildTime.model.MeasuredTaskInfo.State.INCREMENTAL
+import buildTime.model.MeasuredTaskInfo.State.IS_FROM_CACHE
+import buildTime.model.MeasuredTaskInfo.State.UP_TO_DATE
 import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
 import org.gradle.tooling.events.FinishEvent
@@ -18,10 +18,10 @@ abstract class BuildTaskService :
     BuildService<BuildServiceParameters.None>,
     OperationCompletionListener {
 
-    private val measuredTasks = mutableListOf<MeasuredTask>()
+    private val measuredTaskInfos = mutableListOf<MeasuredTaskInfo>()
 
-    val tasks: List<MeasuredTask>
-        get() = measuredTasks
+    val taskInfos: List<MeasuredTaskInfo>
+        get() = measuredTaskInfos
 
     val buildStartTime: Long = System.currentTimeMillis()
 
@@ -30,8 +30,8 @@ abstract class BuildTaskService :
             if (event.result is SuccessResult) {
                 val result = event.result as TaskSuccessResult
 
-                measuredTasks.add(
-                    MeasuredTask(
+                measuredTaskInfos.add(
+                    MeasuredTaskInfo(
                         name = event.descriptor?.name.toString(),
                         startTime = event.result.startTime,
                         duration = (event.result.endTime - event.result.startTime).milliseconds,

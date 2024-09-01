@@ -2,7 +2,7 @@ package buildTime.lifecycle
 
 import buildTime.InMemoryReport
 import buildTime.model.ExecutionData
-import buildTime.model.MeasuredTask
+import buildTime.model.MeasuredTaskInfo
 import buildTime.report.html.HtmlUtils
 import org.gradle.StartParameter
 import org.gradle.api.flow.BuildWorkResult
@@ -55,7 +55,7 @@ class BuildFinishedFlowAction : FlowAction<BuildFinishedFlowAction.Parameters> {
             buildTime = buildPhaseDuration + configurationTime,
             failed = result.failure.isPresent,
             failure = result.failure.getOrNull()?.message,
-            executedTasks = parameters.buildTaskService.get().tasks,
+            executedTasks = parameters.buildTaskService.get().taskInfos,
             buildFinishedTimestamp = finish,
             configurationPhaseDuration = configurationTime,
             requestedTasks = parameters.startParameter.get().taskNames.toList()
@@ -67,7 +67,7 @@ class BuildFinishedFlowAction : FlowAction<BuildFinishedFlowAction.Parameters> {
         val html = getMetricRender(
             buildStart,
             finish,
-            parameters.buildTaskService.get().tasks
+            parameters.buildTaskService.get().taskInfos
         )
 
 //        println(">>> + ${html}")
@@ -86,7 +86,7 @@ class BuildFinishedFlowAction : FlowAction<BuildFinishedFlowAction.Parameters> {
     private fun getMetricRender(
         buildStartTime: Long,
         buildFinishTime: Long,
-        tasks: List<MeasuredTask>
+        tasks: List<MeasuredTaskInfo>
     ): String {
         val renderedTemplate = HtmlUtils.getTemplate("modules-timeline-metric-template")
 

@@ -2,7 +2,7 @@ package buildTime.model
 
 import kotlin.time.Duration
 
-data class MeasuredTask(
+data class MeasuredTaskInfo(
     val name: String,
     val duration: Duration,
     val startTime: Long,
