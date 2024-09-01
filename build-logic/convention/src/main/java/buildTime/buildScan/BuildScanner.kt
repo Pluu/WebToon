@@ -1,9 +1,9 @@
 package buildTime.buildScan
 
 import buildTime.MeasureBuildTimeConfig
+import buildTime.buildScan.configuration.BuildConfigurationService
 import buildTime.buildScan.initialization.BuildInitializationService
 import buildTime.lifecycle.BuildTaskService
-import buildTime.providers.BuildDataProvider
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.internal.GradleInternal
@@ -16,6 +16,7 @@ object BuildScanner {
         registry: BuildEventsListenerRegistry,
     ) {
         setupInitializationService(config.project)
+        setupConfigurationService(config.project)
         setupExecutionService(config.project, registry, config)
     }
 
@@ -27,6 +28,10 @@ object BuildScanner {
         (project.gradle as GradleInternal).rootProject {
             BuildInitializationService.assignInitializedAt()
         }
+    }
+
+    private fun setupConfigurationService(project: Project) {
+        project.gradle.addBuildListener(BuildConfigurationService())
     }
 
     private fun setupExecutionService(
