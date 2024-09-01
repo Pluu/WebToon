@@ -1,5 +1,6 @@
 package buildTime.report
 
+import buildTime.buildScan.configuration.BuildConfigurationService
 import buildTime.buildScan.initialization.BuildInitializationService
 import buildTime.lifecycle.BuildTaskService
 import buildTime.model.ExecutionData
@@ -17,15 +18,30 @@ class MetricsReportImpl(
     private val params: BuildTaskService.Params,
 ) : MetricsReport {
 
+    init {
+        BuildInitializationService.assignStartedAt()
+        BuildInitializationService.assignInitializedAt()
+        BuildConfigurationService.assignConfiguredAt()
+    }
+
     override fun onExecutionFinished(executedTasks: Collection<MeasuredTaskInfo>) {
-        // TODO: 데이터 갱신
+        val init = BuildInitializationService.INITIALIZED_AT
+        val buildStart = BuildInitializationService.STARTED_AT
+        val finish = System.currentTimeMillis()
+        val buildPhaseDuration = finish - buildStart
+        val configurationTime = buildStart - init
+
         val executionData = ExecutionData(
-            buildTime = 0 /*buildPhaseDuration + configurationTime*/,
+            createdAt = System.currentTimeMillis(),
+            startedAt = BuildInitializationService.STARTED_AT,
+            initializedAt = BuildInitializationService.INITIALIZED_AT,
+            configuredAt = BuildConfigurationService.CONFIGURED_AT,
+            buildTime = buildPhaseDuration + configurationTime,
             failed = executedTasks.none { it.isSuccessful },
             failure = executedTasks.mapNotNull { it.failures }.joinToString(),
             executedTasks = executedTasks.toList(),
             buildFinishedTimestamp = System.currentTimeMillis(),
-            configurationPhaseDuration = 0,
+            configurationPhaseDuration = configurationTime,
             requestedTasks = emptyList()
         )
 

@@ -60,5 +60,11 @@ class BuildInitializationService(
                 INITIALIZED_AT = System.currentTimeMillis()
             }
         }
+
+        fun assignStartedAt() {
+            if (STARTED_AT == 0L) {
+                STARTED_AT = System.currentTimeMillis()
+            }
+        }
     }
 }
