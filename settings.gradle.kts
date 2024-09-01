@@ -8,16 +8,13 @@ pluginManagement {
     apply("repositories.gradle.kts")
     repositories {
         gradlePluginPortal()
-        val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.() -> Unit
-        configureSharedRepositories(this)
+        (extra["repos"] as (RepositoryHandler) -> Unit)(this)
     }
 }
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    apply("repositories.gradle.kts")
-    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.() -> Unit
-    configureSharedRepositories(repositories)
+    (extra["repos"] as (RepositoryHandler) -> Unit)(repositories)
 }
 
 rootProject.name = "WebToon"

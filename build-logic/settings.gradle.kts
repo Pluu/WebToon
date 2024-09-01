@@ -4,8 +4,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 dependencyResolutionManagement {
     apply("${settingsDir.parent}/repositories.gradle.kts")
-    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.() -> Unit
-    configureSharedRepositories(repositories)
+    (extra["repos"] as (RepositoryHandler) -> Unit)(repositories)
 
     repositories {
         gradlePluginPortal()

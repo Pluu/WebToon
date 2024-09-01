@@ -1,5 +1,5 @@
-val configureSharedRepositories : RepositoryHandler.() -> Unit = {
-    google {
+fun configureSharedRepositories(handler: RepositoryHandler) {
+    handler.google {
         content {
             includeGroupByRegex("com\\.android.*")
             includeGroupByRegex("androidx.*")
@@ -13,7 +13,7 @@ val configureSharedRepositories : RepositoryHandler.() -> Unit = {
             includeGroup("zipflinger")
         }
     }
-    mavenCentral()
+    handler.mavenCentral()
 }
 
-extra["configureSharedRepositories"] = configureSharedRepositories
+extra["repos"] = ::configureSharedRepositories
