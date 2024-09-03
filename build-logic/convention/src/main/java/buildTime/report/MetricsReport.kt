@@ -2,12 +2,16 @@ package buildTime.report
 
 import buildTime.buildScan.configuration.BuildConfigurationService
 import buildTime.buildScan.initialization.BuildInitializationService
+import buildTime.extenstions.toTimeStamp
 import buildTime.lifecycle.BuildTaskService
 import buildTime.model.ExecutionData
 import buildTime.model.MeasuredTaskInfo
+import buildTime.model.Module
 import buildTime.report.html.HtmlUtils
 import java.io.File
-import java.text.DecimalFormat
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import kotlin.io.path.Path
 import kotlin.random.Random
 
 interface MetricsReport {
@@ -39,66 +43,55 @@ class MetricsReportImpl(
             finishedAt = System.currentTimeMillis(),
 
             buildTime = buildPhaseDuration + configurationTime,
-            failed = executedTasks.none { it.isSuccessful },
-            failure = executedTasks.mapNotNull { it.failures }.joinToString(),
+            isSuccessful = executedTasks.all { it.isSuccessful },
+            failure = executedTasks.mapNotNull { it.failures }.flatten(),
             executedTasks = executedTasks.toList(),
             configurationPhaseDuration = configurationTime,
             requestedTasks = emptyList()
         )
 
         val html = getMetricRender(
-            executionData.startedAt,
-            executionData.finishedAt,
-            executedTasks
+            executionData,
+            params.modules.get()
         )
 
-        File("metrics_report.html").writeText(html)
+        saveReport(html)
     }
 
     private fun getMetricRender(
-        buildStartTime: Long,
-        buildFinishTime: Long,
-        tasks: Collection<MeasuredTaskInfo>
+        buildData: ExecutionData,
+        modules: Set<Module>
     ): String {
         val renderedTemplate = HtmlUtils.getTemplate("modules-timeline-metric-template")
 
-        val tasks = tasks.groupBy {
-            it.name.substringBeforeLast(":")
+        val groupingTasks = modules.map {
+            it to buildData.executedTasks.filter { task ->
+                task.path.startsWith(it.path)
+            }
         }
-        val df = DecimalFormat("#,###")
-
         val result = buildString {
             appendLine("[")
-            tasks.entries.forEach { (key, value) ->
+
+            groupingTasks.forEach {
                 val color = generateRandomColor()
                 append(
                     buildString {
                         append("{")
                         appendLine()
-                        append("label: \"${key}\",")
+                        append("label: \"${it.first.path.substringAfterLast(":")}\",")
                         appendLine()
                         append("times: [")
                         appendLine()
-                        value.forEach { timeline ->
+                        it.second.forEach { timeline ->
                             val duration =
                                 timeline.startTime + timeline.duration.inWholeMilliseconds
-                            if (timeline.isCached) {
-                                append(
-                                    "{ \"tooltip_label\": \"${timeline.name}(${
-                                        df.format(timeline.duration.inWholeMilliseconds)
-                                    }ms)\", \"color\": \"$color\", \"starting_time\": ${
-                                        timeline.startTime
-                                    }, \"ending_time\": $duration },"
-                                )
-                            } else {
-                                append(
-                                    "{ \"tooltip_label\": \"${timeline.name}(${
-                                        df.format(timeline.duration.inWholeMilliseconds)
-                                    }ms)\", \"starting_time\": ${
-                                        timeline.startTime
-                                    }, \"ending_time\": $duration },"
-                                )
-                            }
+                            append(
+                                "{ \"tooltip_label\": \"${timeline.name}(${
+                                    timeline.duration.toTimeStamp()
+                                })\", \"color\": \"$color\", \"starting_time\": ${
+                                    timeline.startTime
+                                }, \"ending_time\": $duration },"
+                            )
                             appendLine()
                         }
                         append("]")
@@ -112,13 +105,32 @@ class MetricsReportImpl(
             append("]")
         }
 
-        val maxLabelWidth = tasks.keys.maxOf { it.length }.times(10) ?: 128
+        val maxLabelWidth = groupingTasks.maxOf { it.first.path.length }.times(10) ?: 128
+
+        val timeInfo = if (buildData.isSuccessful) {
+            """
+        Process duration
+        <ul>
+            <li>Initialization : ${buildData.getInitializationDuration().toTimeStamp()}</li>
+            <li>Configuration : ${buildData.getConfigurationDuration().toTimeStamp()}</li>
+            <li>Build execution : ${buildData.getBuildExecutionDuration().toTimeStamp()}</li>
+            <li>Total : ${buildData.getTotalDuration().toTimeStamp()}</li>
+        </ul>
+        """.trimIndent()
+        } else {
+            ""
+        }
 
         return renderedTemplate
             .replace("%root-project-name%", "Webtoon")
             .replace("%timelines%", result)
-            .replace("%beginning%", buildStartTime.toString())
-            .replace("%ending%", buildFinishTime.toString())
+            .replace("%timeinfo%", timeInfo)
+            .replace(
+                "%beginning%",
+                (buildData.executedTasks.minOfOrNull { it.startTime } ?: 0).toString())
+            .replace(
+                "%ending%",
+                (buildData.executedTasks.maxOfOrNull { it.finishedAt } ?: 0).toString())
 //            .replace("%datetime%", DateTimeUtils.formatToDateTime(createdAt))
             .replace("%max-label-width%", "${maxLabelWidth}")
     }
@@ -128,5 +140,36 @@ class MetricsReportImpl(
         val g = Integer.toHexString(Random.nextInt(255))
         val b = Integer.toHexString(Random.nextInt(255))
         return "#$r$g$b"
+    }
+
+    private fun saveReport(html: String) {
+        val outputPath = params.outputPath.get()
+
+        val outputResPat = Path("$outputPath/res")
+        if (!Files.isDirectory(outputResPat)) {
+            Files.createDirectory(outputResPat)
+        }
+
+        listOf(
+            "chart.js",
+            "d3.js",
+            "functions.js",
+            "jetbrainsmono-regular.ttf",
+            "jquery.js",
+            "mermaid.js",
+            "opensans-regular.ttf",
+            "panzoom.js",
+            "plugin-logo.png",
+            "styles.css",
+            "timeline.js",
+        ).forEach { resource ->
+            Files.copy(
+                javaClass.getResourceAsStream("/res/${resource}"),
+                Path("$outputPath/res/${resource}"),
+                StandardCopyOption.REPLACE_EXISTING
+            )
+        }
+
+        File(outputPath, "metrics_report.html").writeText(html)
     }
 }

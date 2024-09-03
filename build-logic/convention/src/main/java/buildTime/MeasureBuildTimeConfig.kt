@@ -9,5 +9,5 @@ abstract class MeasureBuildTimeConfig(val project: Project) {
      */
     var enable: Boolean = false
 
-    var outputPath: String = project.rootProject.path
+    var outputPath: String = project.rootProject.buildDir.path
 }

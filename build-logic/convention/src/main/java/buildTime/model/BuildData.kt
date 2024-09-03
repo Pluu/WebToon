@@ -1,16 +1,8 @@
 package buildTime.model
 
-import java.time.Duration
-
-data class BuildData(
-    val user: String,
-    val gradleVersion: String,
-    val operatingSystem: String,
-    val environment: Environment,
-    val isConfigurationCache: Boolean,
-    val includedBuildsNames: List<String>,
-    val architecture: String,
-)
+import org.gradle.tooling.Failure
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 data class ExecutionData(
     val createdAt: Long,
@@ -18,40 +10,30 @@ data class ExecutionData(
     val initializedAt: Long,
     val configuredAt: Long,
     val finishedAt: Long,
-
     val buildTime: Long,
-    val failed: Boolean,
-    val failure: String?,
+    val isSuccessful: Boolean,
+    val failure: List<Failure>,
     val executedTasks: List<MeasuredTaskInfo>,
     val requestedTasks: List<String>,
-    val configurationPhaseDuration: Long,
+    val configurationPhaseDuration: Long
 ) {
     fun getTotalDuration(): Duration {
-        var remainingDuration = 0L
-        val lastExecutedTask = executedTasks.maxByOrNull { it.finishedAt }
-        if (lastExecutedTask != null) {
-            if (finishedAt > lastExecutedTask.finishedAt) {
-                remainingDuration = finishedAt - lastExecutedTask.finishedAt
-            }
-        }
-
-        return getInitializationDuration() + getConfigurationDuration() +
-                Duration.ofMillis(remainingDuration)
+        return getInitializationDuration() + getConfigurationDuration() + getBuildExecutionDuration()
     }
 
     fun getInitializationDuration(): Duration {
-        if (initializedAt < startedAt) return Duration.ofMillis(0)
-        return Duration.ofMillis(initializedAt - startedAt)
+        if (initializedAt < startedAt) return 0.milliseconds
+        return (initializedAt - startedAt).milliseconds
     }
 
     fun getConfigurationDuration(): Duration {
-        if (configuredAt < initializedAt) return Duration.ofMillis(0)
-        return Duration.ofMillis(configuredAt - initializedAt)
+        if (configuredAt < initializedAt) return 0.milliseconds
+        return (configuredAt - initializedAt).milliseconds
     }
-}
 
-enum class Environment {
-    IDE,
-    CI,
-    CMD
+    fun getBuildExecutionDuration(): Duration {
+        val firstStartTask = executedTasks.minOfOrNull { it.startTime } ?: 0
+        val lastExecutedTask = executedTasks.maxOfOrNull { it.finishedAt } ?: 0
+        return (lastExecutedTask - firstStartTask).milliseconds
+    }
 }

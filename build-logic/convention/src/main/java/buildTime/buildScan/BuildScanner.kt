@@ -4,6 +4,7 @@ import buildTime.MeasureBuildTimeConfig
 import buildTime.buildScan.configuration.BuildConfigurationService
 import buildTime.buildScan.initialization.BuildInitializationService
 import buildTime.lifecycle.BuildTaskService
+import buildTime.model.Module.Companion.toModule
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.internal.GradleInternal
@@ -40,14 +41,18 @@ object BuildScanner {
         config: MeasureBuildTimeConfig,
     ) {
         project.gradle.projectsEvaluated {
+            val subprojects = project.subprojects
+            val modules = subprojects.map { it.toModule() }
+
             val buildTaskService = project.gradle.sharedServices.registerIfAbsent(
                 BuildTaskService::class.java.simpleName,
                 BuildTaskService::class.java,
                 object : Action<BuildServiceSpec<BuildTaskService.Params>> {
                     override fun execute(spec: BuildServiceSpec<BuildTaskService.Params>) {
                         with(spec.parameters) {
-                            enabled.set(config.enable)
-                            outputPath.set(config.outputPath)
+                            this.enabled.set(config.enable)
+                            this.outputPath.set(config.outputPath)
+                            this.modules.set(modules)
                         }
                     }
                 }
