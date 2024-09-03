@@ -41,7 +41,6 @@ class MetricsReportImpl(
             initializedAt = BuildInitializationService.INITIALIZED_AT,
             configuredAt = BuildConfigurationService.CONFIGURED_AT,
             finishedAt = System.currentTimeMillis(),
-
             buildTime = buildPhaseDuration + configurationTime,
             isSuccessful = executedTasks.all { it.isSuccessful },
             failure = executedTasks.mapNotNull { it.failures }.flatten(),
