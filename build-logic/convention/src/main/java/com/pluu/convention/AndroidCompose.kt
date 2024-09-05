@@ -45,7 +45,8 @@ internal fun Project.configureAndroidCompose(
 
 private fun Project.configureComposeCompiler() {
     extensions.configure<ComposeCompilerGradlePluginExtension> {
-        enableStrongSkippingMode.set(true)
+        // StrongSkipping은 기본 활성화 상태
+//        featureFlags.add(ComposeFeatureFlag.StrongSkipping)
     }
 }
 
