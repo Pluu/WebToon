@@ -3,7 +3,7 @@ androidStudioGradlePlugin = "8.6.0"
 
 # AndroiX
 activity = "1.9.2"
-compose = "1.7.0"
+compose = "1.7.1"
 compose-material3 = "1.3.0"
 #compose-bom = "2024.06.00"
 lifecycle = "2.8.5"
