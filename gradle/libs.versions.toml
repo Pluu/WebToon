@@ -4,7 +4,7 @@ androidStudioGradlePlugin = "8.6.1"
 # AndroiX
 activity = "1.9.2"
 compose-bom = "2024.09.02"
-lifecycle = "2.8.6"
+lifecycle = "2.9.0-alpha03"
 room = "2.6.1"
 paging = "3.3.2"
 
@@ -24,7 +24,7 @@ androidX-appcompat = "androidx.appcompat:appcompat:1.7.0"
 androidX-browser = "androidx.browser:browser:1.8.0"
 androidX-core-ktx = "androidx.core:core-ktx:1.13.1"
 androidX-core-splashScreen = "androidx.core:core-splashscreen:1.0.1"
-androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+androidX-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "compose-bom" }
 androidX-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidX-compose-liveData = { module = "androidx.compose.runtime:runtime-livedata" }
 androidX-compose-material3 = { module = "androidx.compose.material3:material3" }
