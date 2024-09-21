@@ -54,3 +54,18 @@ Dependencies
 - Material Component for Android
 - Okhttp
 - Timber
+
+## Compose compiler metrics
+
+다음 명령을 실행하여 compiler metrics을 가져와 분석합니다
+
+```bash
+./gradlew assembleRelease -PenableComposeCompilerMetrics=true -PenableComposeCompilerReports=true
+```
+
+각 파일들은 아래 경로에 추가됩니다.
+
+- Compose Compiler Metrics : [build/compose-metrics](build/compose-metrics)
+- Compose Compiler Reports : [build/compose-reports](build/compose-reports)
+
+compiler metrics 작성에 대한 상세 내용은 [Jetpack Compose Stability Explained](https://medium.com/androiddevelopers/jetpack-compose-stability-explained-79c10db270c8) 참고.
