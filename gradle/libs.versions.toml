@@ -65,7 +65,7 @@ kotlin-coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutine" }
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3"
 ## etc
-landscapist = "com.github.skydoves:landscapist-glide:2.3.8"
+landscapist = "com.github.skydoves:landscapist-glide:2.4.0"
 jsoup = "org.jsoup:jsoup:1.17.2"
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
