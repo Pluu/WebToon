@@ -42,7 +42,9 @@ suspend fun preLoadImage(
                 if (cont.isCompleted) {
                     return false
                 }
-                cont.resume(LoadedState.Error(e ?: IllegalStateException("Unknown Exception"))) {
+                cont.resume(
+                    LoadedState.Error(e ?: IllegalStateException("Unknown Exception"))
+                ) { _, _, _ ->
                     requestManager.clear(target)
                 }
                 return false
@@ -58,7 +60,9 @@ suspend fun preLoadImage(
                 if (cont.isCompleted) {
                     return false
                 }
-                cont.resume(LoadedState.Success(resource)) {
+                cont.resume(
+                    LoadedState.Success(resource)
+                ) { _, _, _ ->
                     requestManager.clear(target)
                 }
                 return false
