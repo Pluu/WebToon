@@ -1,7 +1,6 @@
 plugins {
     id("pluu.android.library")
     id("pluu.android.hilt")
-    alias(libs.plugins.ksp)
 }
 
 android {
