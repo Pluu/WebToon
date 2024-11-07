@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,10 +38,8 @@ import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 import com.pluu.webtoon.ui.compose.theme.themeRed
-import com.pluu.webtoon.utils.glideUrl
+import com.pluu.webtoon.utils.ToonImage
 import com.pluu.webtoon.weekly.R
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 internal fun WeeklyItemUi(
@@ -62,31 +57,12 @@ internal fun WeeklyItemUi(
             .clickable { onClicked(item) }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            GlideImage(
-                imageModel = {
-                    item.image.glideUrl()
-                },
+            ToonImage(
+                imageUrl = { item.image },
                 modifier = Modifier.fillMaxSize(),
-                imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
-                ),
-                previewPlaceholder = painterResource(id = com.pluu.compose.R.drawable.ic_baseline_android_24),
-                loading = {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .wrapContentSize(),
-                        color = themeRed
-                    )
-                },
-                failure = {
-                    Image(
-                        modifier = Modifier.align(Alignment.Center),
-                        painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
-                        contentDescription = null
-                    )
-                }
+                previewPlaceholder = painterResource(
+                    id = com.pluu.compose.R.drawable.ic_baseline_android_24
+                )
             )
             WeeklyItemOverlayUi(
                 item = item,

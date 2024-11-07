@@ -21,9 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.pluu.webtoon.model.DetailView
 import com.pluu.webtoon.ui.compose.theme.themeRed
 import com.pluu.webtoon.ui_common.R
-import com.pluu.webtoon.utils.glideUrl
-import com.skydoves.landscapist.glide.GlideImage
-import com.skydoves.landscapist.glide.GlideImageState
+import com.pluu.webtoon.utils.ToonImage
+import com.skydoves.landscapist.coil.CoilImageState
 
 @Composable
 internal fun DetailContentUi(
@@ -67,8 +66,8 @@ private fun AdjustDetailImage(
     modifier: Modifier = Modifier,
     onSuccess: (DetailView, Size) -> Unit
 ) {
-    GlideImage(
-        imageModel = { item.url.glideUrl() },
+    ToonImage(
+        imageUrl = { item.url },
         modifier = modifier,
         loading = {
             CircularProgressIndicator(
@@ -84,7 +83,7 @@ private fun AdjustDetailImage(
             )
         },
         onImageStateChanged = {
-            if (it is GlideImageState.Success) {
+            if (it is CoilImageState.Success) {
                 val bitmap = it.imageBitmap!!
                 onSuccess(item, Size(bitmap.width.toFloat(), bitmap.height.toFloat()))
             }

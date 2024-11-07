@@ -4,13 +4,15 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.PreloadTarget
-import com.bumptech.glide.request.target.Target
+import coil.imageLoader
+import coil.request.ImageRequest
+import coil.size.Size
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 fun Drawable.toLoaderBitmap(): Bitmap? {
     return when (this) {
@@ -23,52 +25,24 @@ suspend fun preLoadImage(
     context: Context,
     imageUrl: String
 ): LoadedState = suspendCancellableCoroutine { cont ->
-    val requestManager = Glide.with(context)
-    val target = PreloadTarget.obtain<Drawable>(
-        requestManager,
-        PreloadTarget.SIZE_ORIGINAL,
-        PreloadTarget.SIZE_ORIGINAL
-    )
-
-    requestManager
-        .load(imageUrl.glideUrl())
-        .addListener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable>,
-                isFirstResource: Boolean
-            ): Boolean {
-                if (cont.isCompleted) {
-                    return false
-                }
-                cont.resume(
-                    LoadedState.Error(e ?: IllegalStateException("Unknown Exception"))
-                ) { _, _, _ ->
-                    requestManager.clear(target)
-                }
-                return false
-            }
-
-            override fun onResourceReady(
-                resource: Drawable,
-                model: Any,
-                target: Target<Drawable>?,
-                dataSource: DataSource,
-                isFirstResource: Boolean
-            ): Boolean {
-                if (cont.isCompleted) {
-                    return false
-                }
-                cont.resume(
-                    LoadedState.Success(resource)
-                ) { _, _, _ ->
-                    requestManager.clear(target)
-                }
-                return false
-            }
-        })
-        .into(target)
+    CoroutineScope(Dispatchers.IO).launch(
+        CoroutineExceptionHandler { _, t ->
+            cont.resume(LoadedState.Error(t))
+        }
+    ) {
+        val request = ImageRequest.Builder(context)
+            .data(imageUrl)
+            .headers(userAgentHeader)
+            .size(Size.ORIGINAL)
+            .allowHardware(false) // Disable hardware bitmaps.
+            .build()
+        val drawable = context.imageLoader.execute(request).drawable
+        if (drawable != null) {
+            cont.resume(LoadedState.Success(drawable))
+        } else {
+            cont.resume(LoadedState.Error(IllegalStateException("Unknown Exception")))
+        }
+    }
 }
 
 sealed class LoadedState {

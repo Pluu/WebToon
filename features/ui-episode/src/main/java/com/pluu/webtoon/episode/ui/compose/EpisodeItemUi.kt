@@ -1,6 +1,5 @@
 package com.pluu.webtoon.episode.ui.compose
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -9,18 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,10 +31,7 @@ import com.pluu.webtoon.episode.R
 import com.pluu.webtoon.episode.compose.ImageInCircle
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.ui.compose.theme.AppTheme
-import com.pluu.webtoon.ui.compose.theme.themeRed
-import com.pluu.webtoon.utils.glideUrl
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
+import com.pluu.webtoon.utils.ToonImage
 
 @Composable
 internal fun EpisodeItemUi(
@@ -48,6 +40,7 @@ internal fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
+    val context = LocalContext.current
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -56,29 +49,10 @@ internal fun EpisodeItemUi(
             .clickable { onClicked(item) }
     ) {
         Box {
-            GlideImage(
-                imageModel = { item.image.glideUrl() },
+            ToonImage(
+                imageUrl = { item.image },
                 modifier = Modifier.fillMaxSize(),
-                imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
-                ),
-                previewPlaceholder = painterResource(id = com.pluu.compose.R.drawable.ic_baseline_android_24),
-                loading = {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .wrapContentSize(),
-                        color = themeRed
-                    )
-                },
-                failure = {
-                    Image(
-                        painter = painterResource(com.pluu.webtoon.ui_common.R.drawable.ic_sentiment_very_dissatisfied_48),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
-                        contentDescription = null
-                    )
-                }
+                previewPlaceholder = painterResource(id = com.pluu.compose.R.drawable.ic_baseline_android_24)
             )
             EpisodeItemUiOverlayUi(item = item, isRead = isRead)
         }
