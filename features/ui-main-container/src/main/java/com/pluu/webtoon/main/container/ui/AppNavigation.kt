@@ -14,10 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.navigation.toRoute
-import com.pluu.utils.extraNotNullSerializable
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
 import com.pluu.webtoon.main.container.navigator.customtabs.chromeCustomTabs
@@ -35,22 +32,27 @@ import timber.log.Timber
 import kotlin.reflect.typeOf
 
 @Serializable
-sealed class Screen(val route: String) : java.io.Serializable {
+sealed interface Screen{
     @Serializable
-    data object Weekly : Screen("weekly")
-    data object Episode : Screen("episode")
+    data object Weekly : Screen
+
+    @Serializable
+    data class Episode(
+        val toonInfo: ToonInfoWithFavorite,
+        val color: PalletColor
+    ) : Screen
 
     @Serializable
     data class Detail(
         val episode: EpisodeInfo,
         val color: PalletColor
-    ) : Screen("detail")
+    ) : Screen
 
     @Serializable
-    data object Setting : Screen("setting")
+    data object Setting : Screen
 
     @Serializable
-    data object License : Screen("license")
+    data object License : Screen
 }
 
 @Composable
@@ -113,12 +115,7 @@ private fun NavGraphBuilder.installWeeklyScreen(
                 updateNaviItem(item)
             },
             openEpisode = { item, color ->
-                val toonItem = ToonInfoWithFavorite.toNavigationValue(item)
-                val palletColor = PalletColor.toNavigationValue(color)
-
-                navController.navigate(
-                    "${Screen.Episode.route}/${toonItem}/${palletColor}"
-                )
+                navController.navigate(Screen.Episode(toonInfo = item, color = color))
             },
             openSetting = {
                 navController.navigate(Screen.Setting)
@@ -130,27 +127,16 @@ private fun NavGraphBuilder.installWeeklyScreen(
 private fun NavGraphBuilder.installEpisodeScreen(
     navController: NavController
 ) {
-    composable(
-        route = Screen.Episode.route + "/{${Const.EXTRA_TOON}}/{${Const.EXTRA_PALLET}}",
-        arguments = listOf(
-            navArgument(Const.EXTRA_TOON) {
-                type = SerializableType(
-                    type = ToonInfoWithFavorite::class.java,
-                    parser = ToonInfoWithFavorite::parseNavigationValue
-                )
-            },
-            navArgument(Const.EXTRA_PALLET) {
-                type = SerializableType(
-                    type = PalletColor::class.java,
-                    parser = PalletColor::parseNavigationValue
-                )
-            }
+    composable<Screen.Episode>(
+        typeMap = mapOf(
+            typeOf<ToonInfoWithFavorite>() to navType<ToonInfoWithFavorite>(),
+            typeOf<PalletColor>() to navType<PalletColor>(),
         )
     ) { entry ->
         // Read, Bundle data
-        val arguments = requireNotNull(entry.arguments)
-        val toon = arguments.extraNotNullSerializable<ToonInfoWithFavorite>(Const.EXTRA_TOON)
-        val color = arguments.extraNotNullSerializable<PalletColor>(Const.EXTRA_PALLET)
+        val episode = entry.toRoute<Screen.Episode>()
+        val toon = episode.toonInfo
+        val color = episode.color
         // Navigate
         EpisodeUi(
             webToonItem = toon,
