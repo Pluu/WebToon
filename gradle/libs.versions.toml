@@ -35,6 +35,8 @@ androidX-compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidX-compose-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui" }
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidX-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
+androidX-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0"
 androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.8.5"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.2.0"
@@ -98,6 +100,11 @@ androidX-compose = [
 androidX-compose-debug = [
     "androidX-compose-tooling",
     "androidX-compose-uiTestManifest"
+]
+
+androidX-compose-ui-test = [
+    "androidX-compose-ui-test",
+    "androidX-compose-ui-test-junit4"
 ]
 
 [plugins]

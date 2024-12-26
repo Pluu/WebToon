@@ -26,7 +26,7 @@ internal fun Project.configureAndroid() {
             minSdk = Const.minSdk
             targetSdk = Const.targetSdk
 
-            testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
             resourceConfigurations.addAll(listOf("en", "ko"))
         }

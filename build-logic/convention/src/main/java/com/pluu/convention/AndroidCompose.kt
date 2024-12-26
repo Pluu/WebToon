@@ -23,10 +23,14 @@ internal fun Project.configureAndroidCompose(
     }
 
     dependencies {
+        val bom = libs.findLibrary("androidX-compose-bom").get()
         // Disabling to work with Alpha
-        api(platform(libs.findLibrary("androidX-compose-bom").get()))
+        api(platform(bom))
         implementation(libs.findBundle("androidX-compose"))
         debugImplementation(libs.findBundle("androidX-compose-debug"))
+
+        "androidTestImplementation"(platform(bom))
+        "androidTestImplementation"(libs.findBundle("androidX-compose-ui-test").get())
     }
 
     tasks.withType<KotlinCompile>().configureEach {
