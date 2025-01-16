@@ -2,8 +2,8 @@
 androidStudioGradlePlugin = "8.8.0"
 
 # AndroiX
-activity = "1.9.3"
-compose-bom = "2024.12.01"
+activity = "1.10.0"
+compose-bom = "2025.01.00"
 lifecycle = "2.9.0-alpha08"
 room = "2.6.1"
 paging = "3.3.5"
