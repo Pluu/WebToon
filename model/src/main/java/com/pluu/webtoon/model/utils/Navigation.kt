@@ -1,6 +1,5 @@
 package com.pluu.webtoon.model.utils
 
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.net.URLEncoder
 
