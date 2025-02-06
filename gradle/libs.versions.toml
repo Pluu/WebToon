@@ -1,5 +1,5 @@
 [versions]
-androidStudioGradlePlugin = "8.8.0"
+androidStudioGradlePlugin = "8.9.0-rc01"
 
 # AndroiX
 activity = "1.10.0"
