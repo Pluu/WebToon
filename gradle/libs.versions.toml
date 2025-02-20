@@ -1,5 +1,5 @@
 [versions]
-androidStudioGradlePlugin = "8.9.0-rc01"
+agp = "8.9.0-rc02"
 
 # AndroiX
 activity = "1.10.0"
@@ -55,7 +55,7 @@ androidX-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidX-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 androidX-test-junit = "androidx.test.ext:junit:1.2.1"
 androidX-test-espresso = "androidx.test.espresso:espresso-core:3.6.1"
-androidX-viewBinding = { module = "androidx.databinding:viewbinding", version.ref = "androidStudioGradlePlugin" }
+androidX-viewBinding = { module = "androidx.databinding:viewbinding", version.ref = "agp" }
 # 3rd-party
 ## Dagger
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
@@ -79,7 +79,7 @@ assertJ = "org.assertj:assertj-core:3.27.3"
 mockito = "org.mockito:mockito-core:5.15.2"
 
 # Dependencies of the included build-logic
-android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "dagger" }
 compose-compiler-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
@@ -108,8 +108,8 @@ androidX-compose-ui-test = [
 ]
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "androidStudioGradlePlugin" }
-android-library = { id = "com.android.library", version.ref = "androidStudioGradlePlugin" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
