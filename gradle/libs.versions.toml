@@ -2,7 +2,7 @@
 agp = "8.9.0-rc02"
 
 # AndroiX
-activity = "1.10.0"
+activity = "1.10.1"
 compose-bom = "2025.02.00"
 lifecycle = "2.9.0-alpha10"
 room = "2.6.1"
@@ -37,7 +37,7 @@ androidX-compose-ui = { module = "androidx.compose.ui:ui" }
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidX-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidX-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0"
+androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.1"
 androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.8.6"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.2.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
