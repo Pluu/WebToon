@@ -7,8 +7,8 @@ pluginManagement {
 
     apply("repositories.gradle.kts")
     repositories {
-        gradlePluginPortal()
         (extra["repos"] as (RepositoryHandler) -> Unit)(this)
+        gradlePluginPortal()
     }
 }
 

@@ -2,7 +2,7 @@ fun configureSharedRepositories(handler: RepositoryHandler) {
     handler.google {
         content {
             includeGroupByRegex("com\\.android.*")
-            includeGroupByRegex("com\\.google\\.android\\..*")
+            includeGroupByRegex("com\\.google.*")
             includeGroupByRegex("androidx.*")
             includeGroup("android.arch.lifecycle")
             includeGroup("android.arch.core")
