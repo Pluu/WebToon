@@ -1,5 +1,5 @@
-fun configureSharedRepositories(handler: RepositoryHandler) {
-    handler.google {
+fun RepositoryHandler.configureSharedRepositories() {
+    google {
         content {
             includeGroupByRegex("com\\.android.*")
             includeGroupByRegex("com\\.google.*")
@@ -14,7 +14,18 @@ fun configureSharedRepositories(handler: RepositoryHandler) {
             includeGroup("zipflinger")
         }
     }
-    handler.mavenCentral()
+    mavenCentral()
 }
 
-extra["repos"] = ::configureSharedRepositories
+
+pluginManagement.repositories.configureSharedRepositories()
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories.configureSharedRepositories()
+}

@@ -1,14 +1,8 @@
-@file:Suppress("UnstableApiUsage", "UNCHECKED_CAST")
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-dependencyResolutionManagement {
-    apply("${settingsDir.parent}/repositories.gradle.kts")
-    (extra["repos"] as (RepositoryHandler) -> Unit)(repositories)
+apply(from = rootDir.toPath().parent.resolve("repositories.gradle.kts"))
 
-    repositories {
-        gradlePluginPortal()
-    }
+dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             from(files("../gradle/libs.versions.toml"))

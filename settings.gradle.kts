@@ -1,22 +1,10 @@
-@file:Suppress("UnstableApiUsage", "UNCHECKED_CAST")
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+apply(from = rootDir.toPath().resolve("repositories.gradle.kts"))
 
 pluginManagement {
     includeBuild("build-logic")
-
-    apply("repositories.gradle.kts")
-    repositories {
-        (extra["repos"] as (RepositoryHandler) -> Unit)(this)
-        gradlePluginPortal()
-    }
 }
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    (extra["repos"] as (RepositoryHandler) -> Unit)(repositories)
-}
-
 rootProject.name = "WebToon"
 
 fun includeProject(moduleName: String, rootFolderName: String = "") {
