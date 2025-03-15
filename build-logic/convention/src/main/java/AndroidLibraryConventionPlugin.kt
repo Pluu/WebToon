@@ -1,9 +1,9 @@
-import com.android.build.gradle.LibraryExtension
+import com.android.build.gradle.BasePlugin
 import com.pluu.convention.configureAndroid
 import com.pluu.convention.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
 
 @Suppress("unused")
 class AndroidLibraryConventionPlugin : Plugin<Project> {
@@ -14,16 +14,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
 
-            configureAndroid()
-
-            extensions.configure<LibraryExtension> {
+            plugins.withType<BasePlugin>().configureEach {
+                configureAndroid()
                 configureKotlin()
-
-                lint {
-                    checkOnly.add("Interoperability")
-                    disable.add("ContentDescription")
-                    abortOnError = false
-                }
             }
         }
     }

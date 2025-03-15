@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
  * Configure Compose-specific options
  */
 internal fun Project.configureAndroidCompose(
-    commonExtension: AGPCommonExtension,
+    commonExtension: AndroidExtension,
 ) {
     commonExtension.apply {
         buildFeatures.compose = true
