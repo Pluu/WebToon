@@ -18,7 +18,6 @@ class JavaLibraryConventionPlugin : Plugin<Project> {
                 sourceCompatibility = Const.JAVA_VERSION
                 targetCompatibility = Const.JAVA_VERSION
             }
-
         }
 
         project.plugins.forEach { plugin ->
