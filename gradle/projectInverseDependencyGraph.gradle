@@ -5,19 +5,19 @@ tasks.register('projectInverseDependencyGraph') {
 
         println("[All graph]")
         inverseGraph.forEach { key, value ->
-            println "${key.name}"
+            println "${key}"
             println "> ${value.join(", ")}"
         }
 
         // find module
         if (project.hasProperty("findModule")) {
-            def findModule = project.property("findModule")
+            def findModule = ":" + project.property("findModule")
             println ""
             println "==============="
             println "Find '[${findModule}]' module"
 
             List<Project> checkModule = inverseGraph.find {
-                findModule == it.key.name
+                findModule == it.key
             }.value.collectNested {
                 inverseGraph[it] ?: []
             }.flatten().toSet().sort()
@@ -31,17 +31,17 @@ tasks.register('projectInverseDependencyGraph') {
     }
 }
 
-def inverseGenerateGraph() {
+private LinkedHashMap<String, List<String>> inverseGenerateGraph() {
     def rootProjects = []
     def queue = [rootProject]
     while (!queue.isEmpty()) {
         def project = queue.remove(0)
-        rootProjects.add(project)
+        rootProjects.add(project.path)
         queue.addAll(project.childProjects.values())
     }
 
-    def projects = new LinkedHashSet<Project>()
-    def dependencies = new LinkedHashMap<Project, List<Project>>()
+    def projects = new LinkedHashSet<String>()
+    def dependencies = new LinkedHashMap<String, List<String>>()
 
     queue = [rootProject]
     while (!queue.isEmpty()) {
@@ -50,20 +50,20 @@ def inverseGenerateGraph() {
         project.configurations.configureEach { config ->
             config.dependencies
                     .withType(ProjectDependency)
-                    .collect { it.dependencyProject }
+                    .collect { it.path }
                     .each { dependency ->
-                        projects.add(project)
+                        projects.add(project.path)
                         projects.add(dependency)
                         rootProjects.remove(dependency)
 
-                        def value = dependencies.computeIfAbsent(dependency) { new ArrayList<Project>() }
+                        def value = dependencies.computeIfAbsent(dependency) { new ArrayList<String>() }
                         if (config.name.toLowerCase().endsWith('implementation')) {
-                            value.add(project)
+                            value.add(project.path)
                         }
                     }
         }
     }
 
-    projects = projects.sort { it.path }
+    projects = projects.sort { it }
     return dependencies.findAll { !it.value.isEmpty() }
 }
