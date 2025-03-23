@@ -45,13 +45,8 @@ internal fun EpisodeScreen(
         }
     }
 
-    val transition = rememberTransition(
-        transitionState = transitionState,
-        label = null
-    )
-    val featureBgColor by transition.animateColor(
-        label = "BgColor Animation"
-    ) { state ->
+    val transition = rememberTransition(transitionState)
+    val featureBgColor by transition.animateColor { state ->
         when (state) {
             ColorTransitionState.START -> Color(palletColor.darkMutedColor)
             ColorTransitionState.END -> Color(palletColor.darkVibrantColor)

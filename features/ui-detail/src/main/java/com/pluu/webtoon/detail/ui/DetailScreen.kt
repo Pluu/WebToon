@@ -39,13 +39,8 @@ internal fun DetailScreen(
 ) {
     var showNavigation by rememberMutableStateOf(true)
     var isFirstShow by rememberMutableStateOf(true)
-    val transition = updateTransition(
-        targetState = isFirstShow,
-        label = null
-    )
-    val featureColorValue: Color by transition.animateColor(
-        label = "Color Animation",
-    ) { state ->
+    val transition = updateTransition(isFirstShow)
+    val featureColorValue: Color by transition.animateColor { state ->
         when (state) {
             true -> featureColor.themeColor
             false -> featureColor.webToonColor
