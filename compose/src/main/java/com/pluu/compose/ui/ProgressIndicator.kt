@@ -49,7 +49,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 ///////////////////////////////////////////////////////////////////////////
-// Origin : https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ProgressIndicator.kt
+// Origin : https://github.com/androidx/androidx/blob/androidx-main/compose/material/material/src/commonMain/kotlin/androidx/compose/material/ProgressIndicator.kt
 ///////////////////////////////////////////////////////////////////////////
 
 /**
@@ -62,8 +62,8 @@ import kotlin.math.max
  * @param modifier the [Modifier] to be applied to this progress indicator
  * @param colors The color of the progress indicator.
  * @param strokeWidth stroke width of this progress indicator
- * @param trackColor color of the track behind the indicator, visible when the progress has not
- * reached the area of the overall indicator yet
+ * @param backgroundColor The color of the background behind the indicator, visible when the
+ *   progress has not reached that area of the overall indicator yet.
  * @param strokeCap stroke cap to use for the ends of this progress indicator
  */
 @Composable
@@ -71,14 +71,14 @@ fun CircularProgressIndicator(
     modifier: Modifier = Modifier,
     colors: List<Color> = listOf(MaterialTheme.colorScheme.primary),
     strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth,
-    trackColor: Color = ProgressIndicatorDefaults.circularIndeterminateTrackColor,
+    backgroundColor: Color = Color.Transparent,
     strokeCap: StrokeCap = ProgressIndicatorDefaults.CircularIndeterminateStrokeCap,
 ) {
     val stroke = with(LocalDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = strokeCap)
     }
 
-    val transition = rememberInfiniteTransition(label = "")
+    val transition = rememberInfiniteTransition()
     // The current rotation around the circle, so we know where to start the rotation from
     val currentRotation by transition.animateValue(
         0,
@@ -89,7 +89,7 @@ fun CircularProgressIndicator(
                 durationMillis = RotationDuration * RotationsPerCycle,
                 easing = LinearEasing
             )
-        ), label = ""
+        )
     )
     // How far forward (degrees) the base point should be from the start point
     val baseRotation by transition.animateFloat(
@@ -100,7 +100,7 @@ fun CircularProgressIndicator(
                 durationMillis = RotationDuration,
                 easing = LinearEasing
             )
-        ), label = ""
+        )
     )
     // How far forward (degrees) both the head and tail should be from the base point
     val endAngle by transition.animateFloat(
@@ -112,7 +112,7 @@ fun CircularProgressIndicator(
                 0f at 0 using CircularEasing
                 JumpRotationAngle at HeadAndTailAnimationDuration
             }
-        ), label = ""
+        )
     )
 
     val startAngle by transition.animateFloat(
@@ -124,7 +124,7 @@ fun CircularProgressIndicator(
                 0f at HeadAndTailDelayDuration using CircularEasing
                 JumpRotationAngle at durationMillis
             }
-        ), label = ""
+        )
     )
 
     // Select color Index
@@ -136,7 +136,7 @@ fun CircularProgressIndicator(
             .progressSemantics()
             .size(CircularIndicatorDiameter)
     ) {
-        drawCircularIndicatorBackground(trackColor, stroke)
+        drawCircularIndicatorBackground(backgroundColor, stroke)
 
         val currentRotationAngleOffset = (currentRotation * RotationAngleOffset) % 360f
 
