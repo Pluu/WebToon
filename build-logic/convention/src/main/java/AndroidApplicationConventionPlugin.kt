@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BasePlugin
 import com.pluu.convention.configureAndroid
