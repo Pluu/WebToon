@@ -9,7 +9,7 @@ room = "2.6.1"
 paging = "3.3.6"
 
 # 3rd-party
-dagger = "2.56"
+dagger = "2.56.1"
 kotlin = "2.1.20"
 ksp = "2.1.20-1.0.31"
 kotlin-coroutine = "1.10.1"
