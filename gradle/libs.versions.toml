@@ -5,13 +5,13 @@ agp = "8.10.0-rc01"
 activity = "1.10.1"
 compose-bom = "2025.03.01"
 lifecycle = "2.9.0-alpha13"
-room = "2.6.1"
+room = "2.7.0-rc03"
 paging = "3.3.6"
 
 # 3rd-party
 dagger = "2.56.1"
 kotlin = "2.1.20"
-ksp = "2.1.20-1.0.32"
+ksp = "2.1.20-2.0.0"
 kotlin-coroutine = "1.10.1"
 okhttp = "4.12.0"
 
