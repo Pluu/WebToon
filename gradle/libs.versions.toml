@@ -3,9 +3,10 @@ agp = "8.10.0-rc03"
 
 # AndroiX
 activity = "1.10.1"
-compose-bom = "2025.04.00"
-lifecycle = "2.9.0-beta01"
-room = "2.7.0"
+## https://developer.android.com/develop/ui/compose/bom/bom-mapping
+compose-bom = "2025.04.01"
+lifecycle = "2.9.0-rc01"
+room = "2.7.1"
 paging = "3.3.6"
 
 # 3rd-party
@@ -44,7 +45,7 @@ androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-run
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.9.0-beta01"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.9.0-rc01"
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
