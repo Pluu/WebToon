@@ -13,7 +13,7 @@ paging = "3.3.6"
 dagger = "2.56.2"
 kotlin = "2.1.20"
 ksp = "2.1.20-2.0.1"
-kotlin-coroutine = "1.10.1"
+kotlin-coroutine = "1.10.2"
 okhttp = "4.12.0"
 
 [libraries]
@@ -67,7 +67,7 @@ dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref
 kotlin-coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutine" }
 kotlin-coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutine" }
 kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutine" }
-kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0"
+kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1"
 ## etc
 landscapist = "com.github.skydoves:landscapist-coil:2.4.7"
 jsoup = "org.jsoup:jsoup:1.19.1"
