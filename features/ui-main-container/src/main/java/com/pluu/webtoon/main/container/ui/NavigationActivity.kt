@@ -26,9 +26,8 @@ class NavigationActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(
-                Color.TRANSPARENT
-            )
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT)
         )
 
         setContent {
@@ -41,6 +40,11 @@ class NavigationActivity : FragmentActivity() {
     private fun updateTheme(isForceDark: Boolean) {
         enableEdgeToEdge(
             statusBarStyle = if (isForceDark) {
+                SystemBarStyle.dark(Color.TRANSPARENT)
+            } else {
+                SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
+            },
+            navigationBarStyle = if (isForceDark) {
                 SystemBarStyle.dark(Color.TRANSPARENT)
             } else {
                 SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
