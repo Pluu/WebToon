@@ -4,8 +4,8 @@ agp = "8.11.0-rc01"
 # AndroiX
 activity = "1.11.0-rc01"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2025.05.01"
-lifecycle = "2.9.0"
+compose-bom = "2025.06.00"
+lifecycle = "2.9.1"
 room = "2.7.1"
 paging = "3.3.6"
 
@@ -21,7 +21,7 @@ okhttp = "4.12.0"
 androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
-androidX-appcompat = "androidx.appcompat:appcompat:1.7.0"
+androidX-appcompat = "androidx.appcompat:appcompat:1.7.1"
 androidX-browser = "androidx.browser:browser:1.8.0"
 androidX-core-ktx = "androidx.core:core-ktx:1.16.0"
 androidX-core-splashScreen = "androidx.core:core-splashscreen:1.0.1"
@@ -39,7 +39,7 @@ androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manife
 androidX-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidX-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.1"
-androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.8.7"
+androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.8.8"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.2.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
