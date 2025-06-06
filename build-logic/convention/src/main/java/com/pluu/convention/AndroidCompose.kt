@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /**
  * Configure Compose-specific options
  */
+@Suppress("UnstableApiUsage")
 internal fun Project.configureAndroidCompose(
     commonExtension: AndroidExtension,
 ) {

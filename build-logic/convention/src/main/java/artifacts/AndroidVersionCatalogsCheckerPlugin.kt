@@ -10,7 +10,6 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.extra
 import org.gradle.util.internal.VersionNumber
 
-@Suppress("unused")
 class AndroidVersionCatalogsCheckerPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {

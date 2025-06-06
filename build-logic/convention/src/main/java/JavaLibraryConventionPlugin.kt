@@ -5,7 +5,6 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-@Suppress("unused")
 class JavaLibraryConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
