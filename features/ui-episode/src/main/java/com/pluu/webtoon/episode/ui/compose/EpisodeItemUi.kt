@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,7 +39,6 @@ internal fun EpisodeItemUi(
     isRead: Boolean,
     onClicked: (EpisodeInfo) -> Unit
 ) {
-    val context = LocalContext.current
     Card(
         modifier = modifier
             .fillMaxWidth()
