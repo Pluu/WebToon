@@ -14,7 +14,7 @@ dagger = "2.57"
 kotlin = "2.2.0"
 ksp = "2.2.0-2.0.2"
 kotlin-coroutine = "1.10.2"
-okhttp = "4.12.0"
+okhttp = "5.1.0"
 
 [libraries]
 # AndroidX
