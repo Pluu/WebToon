@@ -56,13 +56,15 @@ internal fun Project.configureApplication() {
  */
 internal fun Project.configureAndroid() {
     android {
-        compileSdk = Const.compileSdk
-
         defaultConfig {
             minSdk = Const.minSdk
 
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
+        }
+
+        compileSdk {
+            version = release(Const.compileSdk)
         }
 
         compileOptions {
