@@ -39,13 +39,10 @@ internal fun Project.configureApplication() {
             }
 
             release {
-                postprocessing {
-                    isRemoveUnusedCode = true
-                    isRemoveUnusedResources = true
-                    isOptimizeCode = true
-                    isObfuscate = true
-                    proguardFile("proguard-rules.pro")
-                }
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
             }
         }
     }
