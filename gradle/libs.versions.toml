@@ -76,8 +76,8 @@ okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor
 timber = "com.jakewharton.timber:timber:5.0.1"
 
 junit = "junit:junit:4.13.2"
-assertJ = "org.assertj:assertj-core:3.27.3"
-mockito = "org.mockito:mockito-core:5.18.0"
+assertJ = "org.assertj:assertj-core:3.27.4"
+mockito = "org.mockito:mockito-core:5.19.0"
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
