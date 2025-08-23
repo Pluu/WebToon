@@ -5,6 +5,11 @@ apply(from = rootDir.toPath().resolve("repositories.gradle.kts"))
 pluginManagement {
     includeBuild("build-logic")
 }
+
+plugins {
+    id("com.gradle.develocity").version("4.1.1")
+}
+
 rootProject.name = "WebToon"
 
 fun includeProject(moduleName: String, rootFolderName: String = "") {
