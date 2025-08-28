@@ -2,12 +2,12 @@
 agp = "8.13.0-rc01"
 
 # AndroiX
-activity = "1.11.0-rc01"
+activity = "1.12.0-alpha07"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2025.08.00"
-lifecycle = "2.9.2"
-room = "2.7.2"
-paging = "3.3.6"
+compose-bom = "2025.08.01"
+lifecycle = "2.10.0-alpha03"
+room = "2.8.0-rc02"
+paging = "3.4.0-alpha03"
 
 # 3rd-party
 dagger = "2.57.1"
@@ -22,7 +22,7 @@ androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.7.1"
-androidX-browser = "androidx.browser:browser:1.9.0"
+androidX-browser = "androidx.browser:browser:1.10.0-alpha01"
 androidX-core-ktx = "androidx.core:core-ktx:1.17.0"
 androidX-core-splashScreen = "androidx.core:core-splashscreen:1.2.0-rc01"
 androidX-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "compose-bom" }
@@ -40,7 +40,7 @@ androidX-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidX-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.1"
 androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.8.9"
-androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.2.0"
+androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.3.0-rc01"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
