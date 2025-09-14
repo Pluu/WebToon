@@ -70,7 +70,7 @@ kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-tes
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
 ## etc
 landscapist = "com.github.skydoves:landscapist-coil:2.5.2"
-jsoup = "org.jsoup:jsoup:1.21.1"
+jsoup = "org.jsoup:jsoup:1.21.2"
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 timber = "com.jakewharton.timber:timber:5.0.1"
