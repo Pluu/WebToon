@@ -12,6 +12,13 @@ plugins {
 
 rootProject.name = "WebToon"
 
+// https://docs.gradle.com/develocity/gradle-plugin/current/#using_build_scans
+develocity {
+    buildScan {
+        publishing.onlyIf { false }
+    }
+}
+
 fun includeProject(moduleName: String, rootFolderName: String = "") {
     settings.include(moduleName)
 
