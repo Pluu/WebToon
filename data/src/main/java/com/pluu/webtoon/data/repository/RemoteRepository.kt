@@ -12,7 +12,11 @@ import com.pluu.webtoon.model.WeekPosition
 interface RemoteRepository {
     suspend fun getWeekly(weekPosition: WeekPosition): Result<List<ToonInfo>>
 
-    suspend fun getEpisodes(toonId: String, page: Int): Result<EpisodeResult>
+    suspend fun getEpisodes(
+        toonId: String,
+        toonTitle: String,
+        page: Int
+    ): Result<EpisodeResult>
 
     suspend fun getDetail(
         toonId: String,

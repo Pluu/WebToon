@@ -121,6 +121,10 @@ private fun getPreItems(
         context.getString(com.pluu.webtoon.ui_common.R.string.title_naver_key)
     ),
     ListPreferenceItem(
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_kakao_page),
+        context.getString(com.pluu.webtoon.ui_common.R.string.title_kakao_page_key)
+    ),
+    ListPreferenceItem(
         context.getString(com.pluu.webtoon.ui_common.R.string.title_daum),
         context.getString(com.pluu.webtoon.ui_common.R.string.title_daum_key)
     ),
@@ -128,10 +132,6 @@ private fun getPreItems(
         context.getString(com.pluu.webtoon.ui_common.R.string.title_olleh),
         context.getString(com.pluu.webtoon.ui_common.R.string.title_olleh_key)
     ),
-    ListPreferenceItem(
-        context.getString(com.pluu.webtoon.ui_common.R.string.title_kakao_page),
-        context.getString(com.pluu.webtoon.ui_common.R.string.title_kakao_page_key)
-    )
 )
 
 @DayNightPreview

@@ -39,18 +39,20 @@ internal class NaverEpisodeApi @Inject constructor(
         // Parse Data
         ///////////////////////////////////////////////////////////////////////////
 
-        val episodePage = EpisodeResult(parseList(param.toonId, responseData))
+        val episodePage = EpisodeResult(
+            parseList(param, responseData)
+        )
         episodePage.nextLink = parsePage(responseData)
         episodePage.first = episodePage.episodes.firstOrNull()?.copy(id = "1")
         return Result.Success(episodePage)
     }
 
-    private fun parseList(toonId: String, doc: Document): List<EpisodeInfo> {
+    private fun parseList(param: EpisodeApi.Param, doc: Document): List<EpisodeInfo> {
         val pattern = "(?<=no=)\\d+".toRegex()
-        return doc.select("li[data-title-id=$toonId] a")
+        return doc.select("li[data-title-id=${param.toonId}] a")
             .mapNotNull { element ->
                 pattern.find(element.attr("href"))?.let { matchResult ->
-                    createEpisode(matchResult.value, element, toonId)
+                    createEpisode(matchResult.value, element, param)
                 }
             }
     }
@@ -58,13 +60,14 @@ internal class NaverEpisodeApi @Inject constructor(
     private fun createEpisode(
         episodeId: String,
         element: Element,
-        toonId: String
+        param: EpisodeApi.Param
     ): EpisodeInfo {
         val info = element.select(".info")
         return EpisodeInfo(
             id = episodeId,
-            toonId = toonId,
+            toonId = param.toonId,
             title = element.select(".name").text(),
+            toonTitle = param.toonTitle,
             image = element.select("img").first()?.attr("src").orEmpty(),
             rate = info.select("detail score").text(),
             status = when {

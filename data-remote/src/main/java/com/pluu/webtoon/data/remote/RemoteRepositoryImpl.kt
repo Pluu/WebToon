@@ -29,8 +29,12 @@ internal class RemoteRepositoryImpl @Inject constructor(
         return weeklyApi.currentTabs
     }
 
-    override suspend fun getEpisodes(toonId: String, page: Int): Result<EpisodeResult> {
-        return episodeApi(EpisodeApi.Param(toonId, page))
+    override suspend fun getEpisodes(
+        toonId: String,
+        toonTitle: String,
+        page: Int
+    ): Result<EpisodeResult> {
+        return episodeApi(EpisodeApi.Param(toonId, toonTitle, page))
     }
 
     override suspend fun getDetail(

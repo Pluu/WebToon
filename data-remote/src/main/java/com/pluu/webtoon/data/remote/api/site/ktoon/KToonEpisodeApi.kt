@@ -45,30 +45,31 @@ internal class KToonEpisodeApi @Inject constructor(
         ///////////////////////////////////////////////////////////////////////////
 
         val array: JSONArray = responseData.optJSONArray("response").orEmpty()
-        val episodePage = EpisodeResult(parseList(param.toonId, array))
+        val episodePage = EpisodeResult(parseList(param, array))
         episodePage.nextLink = EPISODE_URL.takeIf { array.length() >= PAGE_SIZE }
         if (param.page == 0) {
-            episodePage.first = getFirstEpisode(param.toonId)
+            episodePage.first = getFirstEpisode(param)
         }
         return Result.Success(episodePage)
     }
 
-    private fun parseList(toonId: String, array: JSONArray): List<EpisodeInfo> =
+    private fun parseList(param: EpisodeApi.Param, array: JSONArray): List<EpisodeInfo> =
         array.asSequence()
             .map {
-                createEpisode(toonId, it)
+                createEpisode(param, it)
             }.toList()
 
-    private fun createEpisode(toonId: String, it: JSONObject): EpisodeInfo {
+    private fun createEpisode(param: EpisodeApi.Param, it: JSONObject): EpisodeInfo {
         return EpisodeInfo(
             id = it.optString("timesseq"),
-            toonId = toonId,
+            toonId = param.toonId,
             title = it.optString("timestitle"),
+            toonTitle = param.toonTitle,
             image = it.optString("thumbpath")
         )
     }
 
-    private suspend fun getFirstEpisode(toonId: String): EpisodeInfo? {
+    private suspend fun getFirstEpisode(param: EpisodeApi.Param): EpisodeInfo? {
         ///////////////////////////////////////////////////////////////////////////
         // API
         ///////////////////////////////////////////////////////////////////////////
@@ -76,7 +77,7 @@ internal class KToonEpisodeApi @Inject constructor(
             method = REQUEST_METHOD.POST,
             url = EPISODE_URL,
             params = mapOf(
-                "worksseq" to toonId,
+                "worksseq" to param.toonId,
                 "sorting" to "seq",
                 "turmCnt" to 1.toString()
             )
@@ -99,7 +100,7 @@ internal class KToonEpisodeApi @Inject constructor(
             .optJSONArray("response")
             ?.optJSONObject(0) ?: return null
 
-        return createEpisode(toonId, firstJson)
+        return createEpisode(param, firstJson)
     }
 
     private fun createApi(id: String, pageNo: Int): IRequest =

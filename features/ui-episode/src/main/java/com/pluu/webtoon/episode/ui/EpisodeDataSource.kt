@@ -9,6 +9,7 @@ import com.pluu.webtoon.model.ToonId
 
 internal class EpisodeDataSource(
     private val id: ToonId,
+    private val toonTitle: String,
     private val getEpisodeUseCase: GetEpisodeUseCase
 ) : PagingSource<Int, EpisodeInfo>() {
     private val INIT_PAGE = 0
@@ -16,10 +17,11 @@ internal class EpisodeDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EpisodeInfo> {
         return try {
             val page = params.key ?: INIT_PAGE
-            when (val result = getEpisodeUseCase(id, page)) {
+            when (val result = getEpisodeUseCase(id, toonTitle, page)) {
                 is Result.Error -> {
                     LoadResult.Error(result.throwable)
                 }
+
                 is Result.Success -> {
                     LoadResult.Page(
                         data = result.data.episodes,

@@ -51,7 +51,7 @@ internal class KakaoEpisodeApi @Inject constructor(
         val list = content.getJSONArray("edges")
             .asSequence()
             .map { json ->
-                parseList(param.toonId, json.getJSONObject("node"))
+                parseList(param.toonId, param.toonTitle, json.getJSONObject("node"))
             }.toList()
 
         val episodePage = EpisodeResult(list)
@@ -70,12 +70,13 @@ internal class KakaoEpisodeApi @Inject constructor(
         return Result.Success(episodePage)
     }
 
-    private fun parseList(toonId: String, json: JSONObject): EpisodeInfo {
+    private fun parseList(toonId: String, toonTitle: String, json: JSONObject): EpisodeInfo {
         val single = json.getJSONObject("single")
         return EpisodeInfo(
             id = single.getString("productId"),
             toonId = toonId,
             title = single.getString("title"),
+            toonTitle = toonTitle,
             image = "https:${single.getString("thumbnail")}",
             updateDate = json.getJSONArray("row2").getString(0),
             isLoginNeed = single.optBoolean("isFree", false).not()

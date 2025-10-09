@@ -58,7 +58,7 @@ internal class EpisodeViewModel @Inject constructor(
     val episodePage: Flow<PagingData<EpisodeInfo>> = Pager(
         PagingConfig(20)
     ) {
-        EpisodeDataSource(id, getEpisodeUseCase)
+        EpisodeDataSource(id, item.title, getEpisodeUseCase)
     }.flow.map { data ->
         if (firstEpisode == null) {
             data.insertSeparators { before, after ->

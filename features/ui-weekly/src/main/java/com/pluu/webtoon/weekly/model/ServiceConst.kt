@@ -11,9 +11,9 @@ internal object ServiceConst {
     // titles for nav drawer items (indices must correspond to the above)
     val NAV_DRAWER_TITLE_RES_ID = intArrayOf(
         com.pluu.webtoon.ui_common.R.string.title_naver,
+        com.pluu.webtoon.ui_common.R.string.title_kakao_page,
         com.pluu.webtoon.ui_common.R.string.title_daum,
         com.pluu.webtoon.ui_common.R.string.title_olleh,
-        com.pluu.webtoon.ui_common.R.string.title_kakao_page
     )
 }
 
@@ -23,9 +23,9 @@ enum class UI_NAV_ITEM(
     val bgColor: Color
 ) {
     NAVER(Color(0xFF2D8400), Color(0xFF246900)),
+    KAKAOPAGE(Color(0xFF3F3035), Color(0xFF32262A)),
     DAUM(Color(0xFF608EFC), Color(0xFF4C71C9)),
     KTOON(Color(0xFFDF2E1C), Color(0xFFB22416)),
-    KAKAOPAGE(Color(0xFF3F3035), Color(0xFF32262A))
 }
 
 fun UI_NAV_ITEM.toCoreType(): NAV_ITEM = when (this) {

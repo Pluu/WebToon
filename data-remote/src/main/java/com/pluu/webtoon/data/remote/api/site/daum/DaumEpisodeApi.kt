@@ -45,7 +45,7 @@ internal class DaumEpisodeApi @Inject constructor(
             .optJSONObject("data")
             ?.optJSONArray("episodes")
         val episodes = if (data != null) {
-            parseList(param.toonId, data)
+            parseList(param, data)
         } else {
             emptyList()
         }
@@ -76,15 +76,16 @@ internal class DaumEpisodeApi @Inject constructor(
             (param.page + 1).toString()
         }
 
-    private fun parseList(toonId: String, data: JSONArray): List<EpisodeInfo> =
+    private fun parseList(param: EpisodeApi.Param, data: JSONArray): List<EpisodeInfo> =
         data.asSequence()
             .map {
                 val id = it.optString("id")
                 val seoId = it.getString("seoId")
                 EpisodeInfo(
                     id = id,
-                    toonId = toonId,
+                    toonId = param.toonTitle,
                     title = it.optString("title"),
+                    toonTitle = param.toonTitle,
                     image = it.getJSONObject("asset").getString("thumbnailImage") + ".webp",
                     updateDate = it.optString("serialStartDateTime"),
                     isLoginNeed = when {

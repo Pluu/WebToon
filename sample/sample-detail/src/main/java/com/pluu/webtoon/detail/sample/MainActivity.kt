@@ -32,7 +32,8 @@ class MainActivity : ComponentActivity() {
             id = "1",
             toonId = "648419",
             title = "Test Detail",
-            image = ""
+            image = "",
+            toonTitle = "Toon Title",
         )
 
         val palletColor = PalletColor(

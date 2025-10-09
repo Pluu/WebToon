@@ -25,8 +25,8 @@ internal class WebToonDataRepository @Inject constructor(
     ): Flow<Set<ToonId>> = localRepository.getFavorites(serviceName)
 
     override fun getReadEpisode(
-        serviceName: String
-        , id: String
+        serviceName: String,
+        id: String
     ): Flow<List<Episode>> = localRepository.getReadEpisode(serviceName, id)
 
     override suspend fun addFavorite(item: Toon) {
@@ -45,8 +45,12 @@ internal class WebToonDataRepository @Inject constructor(
         return remoteRepository.getWeekly(weekPosition)
     }
 
-    override suspend fun getEpisodes(toonId: String, page: Int): Result<EpisodeResult> {
-        return remoteRepository.getEpisodes(toonId, page)
+    override suspend fun getEpisodes(
+        toonId: String,
+        toonTitle: String,
+        page: Int
+    ): Result<EpisodeResult> {
+        return remoteRepository.getEpisodes(toonId, toonTitle, page)
     }
 
     override suspend fun getDetail(

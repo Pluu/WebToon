@@ -25,7 +25,11 @@ interface WebToonRepository {
 
     suspend fun getWeekly(weekPosition: WeekPosition): Result<List<ToonInfo>>
 
-    suspend fun getEpisodes(toonId: String, page: Int): Result<EpisodeResult>
+    suspend fun getEpisodes(
+        toonId: String,
+        toonTitle: String,
+        page: Int
+    ): Result<EpisodeResult>
 
     suspend fun getDetail(
         toonId: ToonId,

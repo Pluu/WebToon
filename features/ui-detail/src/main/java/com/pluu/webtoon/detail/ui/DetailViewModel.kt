@@ -77,7 +77,7 @@ internal class DetailViewModel @Inject constructor(
 
                     element = ElementEvent(
                         title = result.title,
-                        webToonTitle = episode.title,
+                        webToonTitle = episode.toonTitle,
                         prevEpisodeId = result.prevLink,
                         nextEpisodeId = result.nextLink,
                         list = result.list.filter {

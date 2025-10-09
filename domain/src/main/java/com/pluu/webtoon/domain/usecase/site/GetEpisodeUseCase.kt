@@ -9,7 +9,11 @@ import javax.inject.Inject
 class GetEpisodeUseCase @Inject constructor(
     private val repository: WebToonRepository
 ) {
-    suspend operator fun invoke(toonId: ToonId, page: Int): Result<EpisodeResult> {
-        return repository.getEpisodes(toonId, page)
+    suspend operator fun invoke(
+        toonId: ToonId,
+        toonTitle: String,
+        page: Int
+    ): Result<EpisodeResult> {
+        return repository.getEpisodes(toonId, toonTitle, page)
     }
 }

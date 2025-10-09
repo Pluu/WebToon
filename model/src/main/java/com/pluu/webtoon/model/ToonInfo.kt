@@ -22,7 +22,8 @@ data class ToonInfoWithFavorite(
     val info: ToonInfo,
     val isFavorite: Boolean = false
 ) : Serializable {
-    val id: String = info.id
+    val id: String get() = info.id
+    val title: String get() = info.title
 
     companion object {
         fun toNavigationValue(value: ToonInfoWithFavorite): String =

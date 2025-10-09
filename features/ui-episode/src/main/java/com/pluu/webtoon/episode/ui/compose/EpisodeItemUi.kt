@@ -138,6 +138,7 @@ private fun PreviewEpisodeItemUi(
         id = "0",
         toonId = "0",
         title = "Title",
+        toonTitle = "",
         image = "",
         isLoginNeed = values.first
     )

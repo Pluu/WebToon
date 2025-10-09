@@ -22,6 +22,7 @@ internal interface EpisodeApi {
 
     class Param(
         val toonId: ToonId,
+        val toonTitle: String,
         val page: Int
     )
 }
