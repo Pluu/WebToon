@@ -53,7 +53,7 @@ internal class KakaoDetailApi @Inject constructor(
         return DetailResult.Detail(
             webtoonId = param.toonId,
             episodeId = param.episodeId,
-            title = param.episodeTitle
+            title = responseData.optJSONObject("item")?.optString("title") ?: param.episodeTitle
         ).apply {
             list = getImages(responseData)
             prevLink = responseData.optJSONObject("prevItem")?.optString("productId")
