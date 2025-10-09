@@ -1,45 +1,624 @@
-query staticLandingDayOfWeekSection($sectionId: ID!, $param: StaticLandingDayOfWeekParamInput!) {
-  staticLandingDayOfWeekSection(sectionId: $sectionId, param: $param) {
-    ...Section
+query staticLandingDayOfWeekLayout($queryInput: StaticLandingDayOfWeekParamInput!) {
+  staticLandingDayOfWeekLayout(input: $queryInput) {
+    ...Layout
   }
 }
-
-fragment Section on Section {
+    
+    fragment Layout on Layout {
   id
   type
+  sections {
+    ...Section
+  }
+  screenUid
+}
+    
+
+    fragment Section on Section {
+  id
+  uid
+  type
+  title
+  ... on RecommendSection {
+    isRecommendArea
+    isRecommendedItems
+  }
+  ... on DependOnLoggedInSection {
+    loggedInTitle
+    loggedInScheme
+  }
+  ... on SchemeSection {
+    scheme
+  }
+  ... on MetaInfoTypeSection {
+    metaInfoType
+  }
+  ... on TabSection {
+    sectionMainTabList {
+      uid
+      title
+      isSelected
+      scheme
+      additionalString
+      subTabList {
+        uid
+        title
+        isSelected
+        groupId
+      }
+    }
+  }
+  ... on ThemeKeywordSection {
+    themeKeywordList {
+      uid
+      title
+      scheme
+    }
+  }
   ... on StaticLandingDayOfWeekSection {
     isEnd
     totalCount
     param {
       categoryUid
+      businessModel {
+        name
+        param
+      }
+      subcategory {
+        name
+        param
+      }
       dayTab {
         name
         param
       }
       page
       size
+      screenUid
     }
+  }
+  ... on StaticLandingTodayNewSection {
+    totalCount
+    param {
+      categoryUid
+      subcategory {
+        name
+        param
+      }
+      screenUid
+    }
+    viewType
+  }
+  ... on StaticLandingTodayUpSection {
+    isEnd
+    totalCount
+    param {
+      categoryUid
+      subcategory {
+        name
+        param
+      }
+      page
+    }
+    categoryTabList {
+      name
+      param
+    }
+    subcategoryList {
+      name
+      param
+    }
+  }
+  ... on StaticLandingRankingSection {
+    isEnd
+    rankingTime
+    totalCount
+    param {
+      categoryUid
+      subcategory {
+        name
+        param
+      }
+      rankingType {
+        name
+        param
+      }
+      page
+      screenUid
+    }
+    categoryTabList {
+      name
+      param
+    }
+    subcategoryList {
+      name
+      param
+    }
+    rankingTypeList {
+      name
+      param
+    }
+    displayAd {
+      ...DisplayAd
+    }
+    withOperationArea
+    viewType
+  }
+  ... on StaticLandingGenreSection {
+    isEnd
+    totalCount
+    param {
+      categoryUid
+      subcategory {
+        name
+        param
+      }
+      sortType {
+        name
+        param
+      }
+      page
+      isComplete
+      screenUid
+    }
+    subcategoryList {
+      name
+      param
+    }
+    sortTypeList {
+      name
+      param
+    }
+    displayAd {
+      ...DisplayAd
+    }
+  }
+  ... on StaticLandingFreeSeriesSection {
+    isEnd
+    totalCount
+    param {
+      categoryUid
+      tab {
+        name
+        param
+      }
+      page
+      screenUid
+    }
+    tabList {
+      name
+      param
+    }
+  }
+  ... on StaticLandingEventSection {
+    isEnd
+    totalCount
+    param {
+      categoryUid
+      page
+    }
+    categoryTabList {
+      name
+      param
+    }
+  }
+  ... on StaticLandingOriginalSection {
+    isEnd
+    totalCount
+    originalCount
+    param {
+      categoryUid
+      subcategory {
+        name
+        param
+      }
+      sortType {
+        name
+        param
+      }
+      isComplete
+      page
+      screenUid
+    }
+    subcategoryList {
+      name
+      param
+    }
+    sortTypeList {
+      name
+      param
+    }
+    recommendItemList {
+      ...Item
+    }
+  }
+  ... on HelixThemeSection {
+    subtitle
+    isRecommendArea
   }
   groups {
     ...Group
   }
 }
+    
 
-fragment Group on Group {
+    fragment PromotionBannerItem on PromotionBannerItem {
+  title
+  scheme
+  leftImage
+  rightImage
+  eventLog {
+    ...EventLogFragment
+  }
+}
+    
+
+    fragment EventLogFragment on EventLog {
+  fromGraphql
+  click {
+    layer1
+    layer2
+    setnum
+    ordnum
+    copy
+    imp_id
+    imp_provider
+  }
+  eventMeta {
+    id
+    name
+    subcategory
+    category
+    series
+    provider
+    series_id
+    type
+  }
+  viewimp_contents {
+    type
+    name
+    id
+    imp_area_ordnum
+    imp_id
+    imp_provider
+    imp_type
+    layer1
+    layer2
+  }
+  customProps {
+    landing_path
+    view_type
+    helix_id
+    helix_yn
+    helix_seed
+    content_cnt
+    event_series_id
+    event_ticket_type
+    play_url
+    banner_uid
+  }
+}
+    
+
+    fragment DisplayAd on DisplayAd {
+  sectionUid
+  bannerUid
+  treviUid
+  momentUid
+}
+    
+
+    fragment Item on Item {
   id
+  type
+  ...BannerItem
+  ...OnAirItem
+  ...CardViewItem
+  ...CleanViewItem
+  ... on DisplayAdItem {
+    displayAd {
+      ...DisplayAd
+    }
+  }
+  ...PosterViewItem
+  ...StrategyViewItem
+  ...RankingListViewItem
+  ...NormalListViewItem
+  ...MoreItem
+  ...EventBannerItem
+  ...PromotionBannerItem
+  ...LineBannerItem
+}
+    
+
+    fragment BannerItem on BannerItem {
+  bannerType
+  bannerViewType
+  thumbnail
+  videoUrl
+  badgeList
+  statusBadge
+  titleImage
+  title
+  altText
+  metaList
+  caption
+  scheme
+  seriesId
+  eventLog {
+    ...EventLogFragment
+  }
+  discountRate
+  discountRateText
+  backgroundColor
+  characterImage
+}
+    
+
+    fragment OnAirItem on OnAirItem {
+  thumbnail
+  videoUrl
+  titleImage
+  title
+  subtitleList
+  caption
+  scheme
+}
+    
+
+    fragment CardViewItem on CardViewItem {
+  title
+  altText
+  thumbnail
+  scheme
+  badgeList
+  ageGradeBadge
+  statusBadge
+  ageGrade
+  selfCensorship
+  subtitleList
+  caption
+  rank
+  rankVariation
+  isEventBanner
+  categoryType
+  discountRate
+  discountRateText
+  backgroundColor
+  isBook
+  isLegacy
+  eventLog {
+    ...EventLogFragment
+  }
+}
+    
+
+    fragment CleanViewItem on CleanViewItem {
+  id
+  type
+  showPlayerIcon
+  scheme
+  title
+  thumbnail
+  badgeList
+  ageGradeBadge
+  statusBadge
+  subtitleList
+  rank
+  ageGrade
+  selfCensorship
+  eventLog {
+    ...EventLogFragment
+  }
+  discountRate
+  discountRateText
+}
+    
+
+    fragment PosterViewItem on PosterViewItem {
+  id
+  type
+  showPlayerIcon
+  scheme
+  title
+  altText
+  thumbnail
+  badgeList
+  labelBadgeList
+  ageGradeBadge
+  statusBadge
+  subtitleList
+  rank
+  rankVariation
+  ageGrade
+  selfCensorship
+  eventLog {
+    ...EventLogFragment
+  }
+  seriesId
+  showDimmedThumbnail
+  discountRate
+  discountRateText
+}
+    
+
+    fragment StrategyViewItem on StrategyViewItem {
+  id
+  title
+  count
+  scheme
+}
+    
+
+    fragment RankingListViewItem on RankingListViewItem {
+  title
+  thumbnail
+  badgeList
+  ageGradeBadge
+  statusBadge
+  ageGrade
+  selfCensorship
+  metaList
+  descriptionList
+  scheme
+  rank
+  eventLog {
+    ...EventLogFragment
+  }
+  discountRate
+  discountRateText
+}
+    
+
+    fragment NormalListViewItem on NormalListViewItem {
+  id
+  type
+  altText
+  ticketUid
+  thumbnail
+  badgeList
+  ageGradeBadge
+  statusBadge
+  ageGrade
+  isAlaramOn
+  row1
+  row2
+  row3 {
+    id
+    metaList
+  }
+  row4
+  row5
+  scheme
+  continueScheme
+  nextProductScheme
+  continueData {
+    ...ContinueInfoFragment
+  }
+  seriesId
+  isCheckMode
+  isChecked
+  isReceived
+  isHelixGift
+  price
+  discountPrice
+  discountRate
+  discountRateText
+  showPlayerIcon
+  rank
+  isSingle
+  singleSlideType
+  ageGrade
+  selfCensorship
+  eventLog {
+    ...EventLogFragment
+  }
+  giftEventLog {
+    ...EventLogFragment
+  }
+}
+    
+
+    fragment ContinueInfoFragment on ContinueInfo {
+  title
+  isFree
+  productId
+  lastReadProductId
+  scheme
+  continueProductType
+  hasNewSingle
+  hasUnreadSingle
+}
+    
+
+    fragment MoreItem on MoreItem {
+  id
+  scheme
+  title
+}
+    
+
+    fragment EventBannerItem on EventBannerItem {
+  bannerType
+  thumbnail
+  videoUrl
+  titleImage
+  title
+  subtitleList
+  caption
+  scheme
+  eventLog {
+    ...EventLogFragment
+  }
+}
+    
+
+    fragment LineBannerItem on LineBannerItem {
+  title
+  scheme
+  subTitle
+  bgColor
+  rightImage
+  eventLog {
+    ...EventLogFragment
+  }
+}
+    
+
+    fragment Group on Group {
+  id
+  ... on ListViewGroup {
+    meta {
+      title
+      count
+    }
+  }
+  ... on CardViewGroup {
+    meta {
+      title
+      count
+    }
+  }
+  ... on PosterViewGroup {
+    meta {
+      title
+      count
+    }
+  }
+  type
+  dataKey
+  groups {
+    ...GroupInGroup
+  }
   items {
     ...Item
   }
 }
+    
 
-fragment Item on Item {
+    fragment GroupInGroup on Group {
   id
-  ...CardViewItem
-}
-
-fragment CardViewItem on CardViewItem {
-  title
-  thumbnail
-  titleImage
-  ageGrade
+  type
+  dataKey
+  items {
+    ...Item
+  }
+  ... on ListViewGroup {
+    meta {
+      title
+      count
+    }
+  }
+  ... on CardViewGroup {
+    meta {
+      title
+      count
+    }
+  }
+  ... on PosterViewGroup {
+    meta {
+      title
+      count
+    }
+  }
 }

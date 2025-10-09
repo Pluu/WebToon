@@ -74,7 +74,7 @@ internal class KakaoDetailApi @Inject constructor(
     private fun createApi(toonId: String, episodeId: String): IRequest =
         IRequest(
             method = REQUEST_METHOD.POST,
-            url = "https://page.kakao.com/graphql",
+            url = "https://page.kakao.com/graphql/",
             params = generateApiParams(
                 seriesId = toonId,
                 productId = episodeId

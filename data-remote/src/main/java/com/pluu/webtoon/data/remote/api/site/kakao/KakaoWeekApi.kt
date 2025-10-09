@@ -53,9 +53,11 @@ internal class KakaoWeekApi @Inject constructor(
 
     private fun parse(data: JSONObject): List<ToonInfo> {
         return data.optJSONObject("data")
-            ?.optJSONObject("staticLandingDayOfWeekSection")
-            ?.optJSONArray("groups")?.asSequence().orEmpty()
+            ?.optJSONObject("staticLandingDayOfWeekLayout")
+            ?.optJSONArray("sections")?.asSequence().orEmpty()
             .flatMap {
+                it.optJSONArray("groups")?.asSequence().orEmpty()
+            }.flatMap {
                 it.optJSONArray("items")
                     ?.asSequence().orEmpty()
                     .mapNotNull { item ->
@@ -78,7 +80,7 @@ internal class KakaoWeekApi @Inject constructor(
     private fun createApi(currentPos: WeekPosition): IRequest =
         IRequest(
             method = REQUEST_METHOD.POST,
-            url = "https://page.kakao.com/graphql",
+            url = "https://page.kakao.com/graphql/",
             params = generateApiParams(
                 dayTabUid = (currentPos.value + 1).toString(),
                 pageNo = 1
@@ -93,12 +95,13 @@ internal class KakaoWeekApi @Inject constructor(
     ): Map<String, String> {
         val query = resourceLoader.readRawResource(R.raw.kakao_weekly)
         val variables = buildJsonObject {
-            put("sectionId", "static-landing-DayOfWeek-section-Layout-10-0-A-1-52")
-            put("param", buildJsonObject {
+            put("queryInput", buildJsonObject {
                 put("categoryUid", 10)
-                put("screenUid", 52)
+                put("subcategoryUid", "0")
+                put("bmType", "P")
                 put("dayTabUid", dayTabUid)
-                put("page", pageNo)
+                put("type", "Layout")
+                put("screenUid", 52)
             })
         }.toString()
 

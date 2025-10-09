@@ -93,7 +93,7 @@ internal class KakaoEpisodeApi @Inject constructor(
     private fun createApi(id: String, page: Int): IRequest =
         IRequest(
             method = REQUEST_METHOD.POST,
-            url = "https://page.kakao.com/graphql",
+            url = "https://page.kakao.com/graphql/",
             params = generateApiParams(
                 seriesId = id,
                 pageNo = page

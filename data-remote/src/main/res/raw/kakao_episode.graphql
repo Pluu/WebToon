@@ -14,9 +14,9 @@ query contentHomeProductList($after: String, $before: String, $first: Int, $last
       endCursor
       hasPreviousPage
       startCursor
-      __typename
     }
     edges {
+      cursor
       node {
         ...SingleListViewItem
       }
@@ -24,12 +24,25 @@ query contentHomeProductList($after: String, $before: String, $first: Int, $last
   }
 }
 
-fragment SingleListViewItem on SingleListViewItem {
+    fragment SingleListViewItem on SingleListViewItem {
+  id
+  type
+  thumbnail
+  showPlayerIcon
+  isCheckMode
+  isChecked
+  scheme
+  row1
   row2
-  row3
+  row3 {
+    badgeList
+    text
+    priceList
+  }
   single {
     productId
     ageGrade
+    id
     isFree
     thumbnail
     title
@@ -38,5 +51,7 @@ fragment SingleListViewItem on SingleListViewItem {
       isTextViewer
     }
   }
-  purchaseInfoText
+  isViewed
+  discountRate
+  discountRateText
 }
