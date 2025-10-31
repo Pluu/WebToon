@@ -2,11 +2,11 @@
 agp = "8.13.0"
 
 # AndroiX
-activity = "1.12.0-alpha09"
+activity = "1.12.0-beta01"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2025.10.00"
-lifecycle = "2.10.0-alpha05"
-room = "2.8.2"
+compose-bom = "2025.10.01"
+lifecycle = "2.10.0-beta01"
+room = "2.8.3"
 paging = "3.4.0-alpha04"
 
 # 3rd-party
