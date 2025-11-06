@@ -2,10 +2,10 @@
 agp = "8.13.0"
 
 # AndroiX
-activity = "1.12.0-beta01"
+activity = "1.12.0-rc01"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2025.10.01"
-lifecycle = "2.10.0-beta01"
+compose-bom = "2025.11.00"
+lifecycle = "2.10.0-rc01"
 room = "2.8.3"
 paging = "3.4.0-alpha04"
 
@@ -24,7 +24,7 @@ androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.7.1"
 androidX-browser = "androidx.browser:browser:1.10.0-alpha02"
 androidX-core-ktx = "androidx.core:core-ktx:1.17.0"
-androidX-core-splashScreen = "androidx.core:core-splashscreen:1.2.0-rc01"
+androidX-core-splashScreen = "androidx.core:core-splashscreen:1.2.0"
 androidX-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "compose-bom" }
 androidX-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidX-compose-liveData = { module = "androidx.compose.runtime:runtime-livedata" }
@@ -45,7 +45,7 @@ androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-run
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.9.5"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.9.6"
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
