@@ -117,4 +117,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-cacheFixPlugin = { id = "org.gradle.android.cache-fix", version = "3.0.1" }
+cacheFixPlugin = { id = "org.gradle.android.cache-fix", version = "3.0.2" }
