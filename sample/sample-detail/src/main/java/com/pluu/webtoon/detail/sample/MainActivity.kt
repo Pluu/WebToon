@@ -48,6 +48,7 @@ class MainActivity : ComponentActivity() {
         intent.putExtra(Const.EXTRA_EPISODE, item)
 
         DetailUi(
+            episodeInfo = item,
             palletColor = palletColor,
             closeCurrent = ::finish
         )

@@ -23,18 +23,22 @@ import com.pluu.webtoon.detail.ui.DetailScreen
 import com.pluu.webtoon.detail.ui.DetailUiEvent
 import com.pluu.webtoon.detail.ui.DetailViewModel
 import com.pluu.webtoon.model.ERROR_TYPE
+import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.ui.model.PalletColor
 
 @Composable
 fun DetailUi(
+    episodeInfo: EpisodeInfo,
     palletColor: PalletColor,
     closeCurrent: () -> Unit
 ) {
     val context = LocalContext.current
     var errorType: ERROR_TYPE? by rememberMutableStateOf(null)
     DetailUi(
-        viewModel = hiltViewModel(),
+        viewModel = hiltViewModel<DetailViewModel, DetailViewModel.Factory> { factory ->
+            factory.create(episodeInfo)
+        },
         featureColor = FeatureColor(
             themeColor = Color(palletColor.darkMutedColor),
             webToonColor = Color(palletColor.darkVibrantColor)

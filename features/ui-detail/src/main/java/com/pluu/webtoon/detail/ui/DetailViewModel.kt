@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.ui.state.UiState
 import com.pluu.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.usecase.ReadUseCase
 import com.pluu.webtoon.domain.usecase.site.GetDetailUseCase
 import com.pluu.webtoon.domain.usecase.site.GetShareUseCase
@@ -18,24 +17,24 @@ import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.ShareItem
 import com.pluu.webtoon.model.getLogMessage
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 
-@HiltViewModel
-internal class DetailViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = DetailViewModel.Factory::class)
+internal class DetailViewModel @AssistedInject constructor(
     handle: SavedStateHandle,
     private val type: NAV_ITEM,
+    @Assisted private val episode: EpisodeInfo,
     private val dispatchers: AppCoroutineDispatchers,
     private val getDetailUseCase: GetDetailUseCase,
     private val readUseCase: ReadUseCase,
     private val getShareUseCase: GetShareUseCase
 ) : ViewModel() {
-
-    private val episode = handle.get<EpisodeInfo>(Const.EXTRA_EPISODE)!!
-
     private val _event = MutableLiveData<DetailEvent>()
     val event: LiveData<DetailEvent> get() = _event
 
@@ -87,6 +86,7 @@ internal class DetailViewModel @Inject constructor(
 
                     _elementUiState.value = UiState(data = element)
                 }
+
                 is DetailResult.ErrorResult -> {
                     error = DetailEvent.ERROR(result.errorType)
                     Timber.e(result.errorType.getLogMessage())
@@ -126,6 +126,11 @@ internal class DetailViewModel @Inject constructor(
                 detailTitle = item.title
             )
         )
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(episode: EpisodeInfo): DetailViewModel
     }
 }
 
