@@ -198,6 +198,7 @@ private fun EntryProviderScope<Any>.installLicenseScreen(
         LicenseUi(
             closeCurrent = onBack,
             openBrowser = { url ->
+                // TODO: License
 //                navController.navigateChromeCustomTabs(
 //                    url = url,
 //                    extraBuilder = {
