@@ -15,7 +15,7 @@ dependencies {
     implementation(projects.uiCommon)
     implementation(projects.compose)
 
-    implementation(libs.androidX.lifecycle.viewModel)
+    implementation(libs.androidX.lifecycle.viewmodel.navigation3)
     implementation(libs.androidX.hilt.navigation.compose)
     // Image Loader
     implementation(libs.landscapist)

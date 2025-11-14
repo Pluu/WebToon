@@ -8,6 +8,7 @@ compose-bom = "2025.11.00"
 lifecycle = "2.10.0-rc01"
 room = "2.8.3"
 paging = "3.4.0-alpha04"
+nav3Core = "1.0.0-rc01"
 
 # 3rd-party
 dagger = "2.57.2"
@@ -43,9 +44,10 @@ androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.8.9"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.3.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
-androidX-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidX-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
 androidX-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.9.6"
+androidX-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidX-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 androidX-palette = "androidx.palette:palette:1.0.0"
 androidX-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
@@ -86,6 +88,11 @@ hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-p
 compose-compiler-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
+androidX-navigation = [
+    "androidX-navigation3-runtime",
+    "androidX-navigation3-ui"
+]
+
 androidX-compose = [
     "androidX-compose-foundation",
     "androidX-compose-liveData",

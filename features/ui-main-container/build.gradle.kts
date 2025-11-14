@@ -24,8 +24,9 @@ dependencies {
 
     // Android UI
     implementation(libs.androidX.browser)
-    implementation(libs.androidX.navigation.compose)
+    implementation(libs.bundles.androidX.navigation)
     implementation(libs.androidX.hilt.navigation.compose)
+    implementation(libs.androidX.lifecycle.viewmodel.navigation3)
 
     implementation(libs.timber)
     implementation(libs.kotlin.serialization)

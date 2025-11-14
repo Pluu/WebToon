@@ -16,7 +16,7 @@ dependencies {
     implementation(projects.compose)
 
     implementation(libs.androidX.core.ktx)
-    implementation(libs.androidX.lifecycle.viewModel)
+    implementation(libs.androidX.lifecycle.viewmodel.navigation3)
     implementation(libs.androidX.hilt.navigation.compose)
     implementation(libs.androidX.palette)
 
