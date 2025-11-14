@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.fragment.app.FragmentActivity
 import com.pluu.compose.runtime.rememberMutableStateOf
-import com.pluu.webtoon.main.container.navigator.customtabs.rememberWebToonNavController
 import com.pluu.webtoon.model.CurrentSession
 import com.pluu.webtoon.ui.compose.WebToonTheme
 import com.pluu.webtoon.weekly.model.toCoreType
@@ -56,12 +55,10 @@ class NavigationActivity : FragmentActivity() {
     private fun WebToonContent(
         updateTheme: (Boolean) -> Unit
     ) {
-        val navController = rememberWebToonNavController()
         WebToonTheme {
             var naviItem by rememberMutableStateOf(session.navi.toUiType())
 
             AppNavigation(
-                navController = navController,
                 naviItem = naviItem,
                 updateNaviItem = { item ->
                     session.navi = item.toCoreType()

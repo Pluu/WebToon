@@ -14,16 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.core.os.bundleOf
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.event.WeeklyMenuEvent
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import com.pluu.webtoon.weekly.ui.WeeklyScreen
 import com.pluu.webtoon.weekly.ui.day.WeeklyDayUi
-import com.pluu.webtoon.weekly.utils.hiltViewModelWithAdditional
+import com.pluu.webtoon.weekly.ui.day.WeeklyDayViewModel
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
@@ -111,10 +109,11 @@ internal fun WeeklyUi(
                 key = { it }
             ) { page ->
                 WeeklyDayUi(
-                    viewModel = hiltViewModelWithAdditional(
+                    viewModel = hiltViewModel<WeeklyDayViewModel, WeeklyDayViewModel.Factory>(
                         key = "${naviItem.name}_${page}",
-                        additionalExtras = bundleOf(Const.EXTRA_WEEKLY_POSITION to page)
-                    ),
+                    ) { factory ->
+                        factory.create(page)
+                    },
                     openEpisode = openEpisode
                 )
             }

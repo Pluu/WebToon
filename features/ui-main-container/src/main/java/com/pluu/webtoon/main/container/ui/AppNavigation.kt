@@ -1,25 +1,18 @@
 package com.pluu.webtoon.main.container.ui
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
-import com.pluu.webtoon.main.container.navigator.customtabs.chromeCustomTabs
-import com.pluu.webtoon.main.container.navigator.customtabs.navigateChromeCustomTabs
-import com.pluu.webtoon.main.container.utils.navType
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.setting.ui.LicenseUi
@@ -28,11 +21,9 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import com.pluu.webtoon.weekly.ui.weekly.WeeklyUi
 import kotlinx.serialization.Serializable
-import timber.log.Timber
-import kotlin.reflect.typeOf
 
 @Serializable
-sealed interface Screen{
+sealed interface Screen {
     @Serializable
     data object Weekly : Screen
 
@@ -58,83 +49,108 @@ sealed interface Screen{
 @Composable
 internal fun AppNavigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
     naviItem: UI_NAV_ITEM,
     themeColor: Color = MaterialTheme.colorScheme.primary,
     updateNaviItem: (UI_NAV_ITEM) -> Unit,
     updateTheme: (Boolean) -> Unit
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Weekly,
+    val backStack = remember { mutableStateListOf<Any>(Screen.Weekly) }
+    NavDisplay(
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator()
+        ),
         modifier = modifier,
-        enterTransition = {
-            EnterTransition.None
-        },
-        exitTransition = {
-            ExitTransition.None
-        }
-    ) {
-        installWeeklyScreen(navController, naviItem, updateNaviItem)
-        installEpisodeScreen(navController)
-        installDetailScreen(navController)
-        installSettingScreen(navController)
-        installLicenseScreen(navController, themeColor)
-        chromeCustomTabs()
-    }
-
-    DisposableEffect(navController) {
-        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            Timber.tag("Logger").d("[Destination] ${destination.route}")
-            updateTheme(
-                when (destination.route) {
-                    Screen.Setting::class.java.canonicalName,
-                    Screen.License::class.java.canonicalName -> false
-
-                    else -> true
+        entryProvider = entryProvider {
+            installWeeklyScreen(
+                naviItem = naviItem,
+                updateNaviItem = updateNaviItem,
+                onOpenEpisode = backStack::add,
+                onOpenSetting = {
+                    backStack.add(Screen.Setting)
+                },
+            )
+            installEpisodeScreen(
+                onBack = {
+                    backStack.removeLastOrNull()
+                },
+                onOpenDetail = backStack::add
+            )
+            installDetailScreen(
+                onBack = {
+                    backStack.removeLastOrNull()
                 }
             )
-        }
-        navController.addOnDestinationChangedListener(listener)
+            installSettingScreen(
+                onBack = {
+                    backStack.removeLastOrNull()
+                },
+                onOpenLicense = {
+                    backStack.add(Screen.License)
+                }
+            )
+            installLicenseScreen(
+                themeColor = themeColor,
+                onBack = {
+                    backStack.removeLastOrNull()
+                },
+                onOpenLicense = {
 
-        onDispose {
-            navController.removeOnDestinationChangedListener(listener)
+                },
+            )
+//            chromeCustomTabs()
         }
-    }
+    )
+
+    // TODO: 테마 업데이트 대응
+//    DisposableEffect(navController) {
+//        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+//            Timber.tag("Logger").d("[Destination] ${destination.route}")
+//            updateTheme(
+//                when (destination.route) {
+//                    Screen.Setting::class.java.canonicalName,
+//                    Screen.License::class.java.canonicalName -> false
+//
+//                    else -> true
+//                }
+//            )
+//        }
+//        navController.addOnDestinationChangedListener(listener)
+//
+//        onDispose {
+//            navController.removeOnDestinationChangedListener(listener)
+//        }
+//    }
 }
 
-private fun NavGraphBuilder.installWeeklyScreen(
-    navController: NavController,
+@Composable
+private fun EntryProviderScope<Any>.installWeeklyScreen(
     naviItem: UI_NAV_ITEM,
-    updateNaviItem: (UI_NAV_ITEM) -> Unit
+    updateNaviItem: (UI_NAV_ITEM) -> Unit,
+    onOpenEpisode: (Screen.Episode) -> Unit,
+    onOpenSetting: () -> Unit
 ) {
-    composable<Screen.Weekly> {
+    entry<Screen.Weekly> {
         WeeklyUi(
             naviItem = naviItem,
             onNavigateToMenu = { item ->
                 updateNaviItem(item)
             },
             openEpisode = { item, color ->
-                navController.navigate(Screen.Episode(toonInfo = item, color = color))
+                onOpenEpisode(Screen.Episode(toonInfo = item, color = color))
             },
-            openSetting = {
-                navController.navigate(Screen.Setting)
-            }
+            openSetting = onOpenSetting
         )
     }
 }
 
-private fun NavGraphBuilder.installEpisodeScreen(
-    navController: NavController
+private fun EntryProviderScope<Any>.installEpisodeScreen(
+    onBack: () -> Unit,
+    onOpenDetail: (Screen.Detail) -> Unit
 ) {
-    composable<Screen.Episode>(
-        typeMap = mapOf(
-            typeOf<ToonInfoWithFavorite>() to navType<ToonInfoWithFavorite>(),
-            typeOf<PalletColor>() to navType<PalletColor>(),
-        )
-    ) { entry ->
-        // Read, Bundle data
-        val episode = entry.toRoute<Screen.Episode>()
+    entry<Screen.Episode> { episode ->
         val toon = episode.toonInfo
         val color = episode.color
         // Navigate
@@ -142,59 +158,52 @@ private fun NavGraphBuilder.installEpisodeScreen(
             webToonItem = toon,
             palletColor = color,
             openDetail = { episode ->
-                navController.navigate(Screen.Detail(episode, color))
+                onOpenDetail(Screen.Detail(episode, color))
             },
-            closeCurrent = navController::navigateUp
+            closeCurrent = onBack
         )
     }
 }
 
-private fun NavGraphBuilder.installDetailScreen(
-    navController: NavController
+private fun EntryProviderScope<Any>.installDetailScreen(
+    onBack: () -> Unit
 ) {
-    composable<Screen.Detail>(
-        typeMap = mapOf(
-            typeOf<EpisodeInfo>() to navType<EpisodeInfo>(),
-            typeOf<PalletColor>() to navType<PalletColor>(),
-        )
-    ) { entry ->
-        // Read, Bundle data
-        val detail = entry.toRoute<Screen.Detail>()
-        // Navigate
+    entry<Screen.Detail> { detail ->
         DetailUi(
+            episodeInfo = detail.episode,
             palletColor = detail.color,
-            closeCurrent = navController::navigateUp
+            closeCurrent = onBack
         )
     }
 }
 
-private fun NavGraphBuilder.installSettingScreen(
-    navController: NavController
+private fun EntryProviderScope<Any>.installSettingScreen(
+    onBack: () -> Unit,
+    onOpenLicense: () -> Unit
 ) {
-    composable<Screen.Setting> {
+    entry<Screen.Setting> {
         SettingsUi(
-            closeCurrent = navController::navigateUp,
-            openLicense = {
-                navController.navigate(Screen.License)
-            }
+            closeCurrent = onBack,
+            openLicense = onOpenLicense
         )
     }
 }
 
-private fun NavGraphBuilder.installLicenseScreen(
-    navController: NavController,
-    themeColor: Color
+private fun EntryProviderScope<Any>.installLicenseScreen(
+    themeColor: Color,
+    onBack: () -> Unit,
+    onOpenLicense: () -> Unit
 ) {
-    composable<Screen.License> {
+    entry<Screen.License> {
         LicenseUi(
-            closeCurrent = navController::navigateUp,
+            closeCurrent = onBack,
             openBrowser = { url ->
-                navController.navigateChromeCustomTabs(
-                    url = url,
-                    extraBuilder = {
-                        setToolbarColor(themeColor.toArgb())
-                    }
-                )
+//                navController.navigateChromeCustomTabs(
+//                    url = url,
+//                    extraBuilder = {
+//                        setToolbarColor(themeColor.toArgb())
+//                    }
+//                )
             }
         )
     }

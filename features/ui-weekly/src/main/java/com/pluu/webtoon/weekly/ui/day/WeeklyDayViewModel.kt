@@ -2,11 +2,9 @@ package com.pluu.webtoon.weekly.ui.day
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.usecase.GetFavoritesUseCase
 import com.pluu.webtoon.domain.usecase.site.GetWeeklyUseCase
 import com.pluu.webtoon.model.NAV_ITEM
@@ -16,6 +14,9 @@ import com.pluu.webtoon.model.ToonInfoWithFavorite
 import com.pluu.webtoon.model.WeekPosition
 import com.pluu.webtoon.model.successOr
 import com.pluu.webtoon.weekly.event.WeeklyEvent
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +25,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 
-@HiltViewModel
-internal class WeeklyDayViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+@HiltViewModel(assistedFactory = WeeklyDayViewModel.Factory::class)
+internal class WeeklyDayViewModel @AssistedInject constructor(
     type: NAV_ITEM,
+    @Assisted private val weekPosition: Int,
     private val dispatchers: AppCoroutineDispatchers,
     private val getWeeklyUseCase: GetWeeklyUseCase,
     getFavoritesUseCase: GetFavoritesUseCase
@@ -47,8 +47,6 @@ internal class WeeklyDayViewModel @Inject constructor(
         Timber.e(t)
         _event.value = WeeklyEvent.ErrorEvent(t.localizedMessage ?: "Unknown Message")
     }
-
-    private val weekPosition : Int = savedStateHandle.get<Int>(Const.EXTRA_WEEKLY_POSITION)!!
 
     private val toonList: Flow<List<ToonInfo>> = flow {
         emit(getWeekLoad(WeekPosition(weekPosition)))
@@ -77,5 +75,10 @@ internal class WeeklyDayViewModel @Inject constructor(
         weekPosition: WeekPosition
     ): List<ToonInfo> = withContext(dispatchers.computation) {
         getWeeklyUseCase(weekPosition).successOr(emptyList())
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(page: Int): WeeklyDayViewModel
     }
 }
