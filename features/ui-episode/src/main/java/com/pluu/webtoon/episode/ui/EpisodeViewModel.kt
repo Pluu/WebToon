@@ -2,7 +2,6 @@ package com.pluu.webtoon.episode.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -36,7 +35,6 @@ import kotlinx.coroutines.withContext
 /** EpisodeInfo ViewModel */
 @HiltViewModel(assistedFactory = EpisodeViewModel.Factory::class)
 internal class EpisodeViewModel @AssistedInject constructor(
-    handle: SavedStateHandle,
     private val type: NAV_ITEM,
     @Assisted private val item :ToonInfoWithFavorite,
     private val dispatchers: AppCoroutineDispatchers,

@@ -2,7 +2,6 @@ package com.pluu.webtoon.detail.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pluu.ui.state.UiState
@@ -27,7 +26,6 @@ import timber.log.Timber
 
 @HiltViewModel(assistedFactory = DetailViewModel.Factory::class)
 internal class DetailViewModel @AssistedInject constructor(
-    handle: SavedStateHandle,
     private val type: NAV_ITEM,
     @Assisted private val episode: EpisodeInfo,
     private val dispatchers: AppCoroutineDispatchers,
