@@ -49,7 +49,9 @@ fun EpisodeUi(
 ) {
     EpisodeUi(
         modifier = modifier.fillMaxSize(),
-        viewModel = hiltViewModel(),
+        viewModel = hiltViewModel<EpisodeViewModel, EpisodeViewModel.Factory> { factory ->
+            factory.create(webToonItem)
+        },
         webToonItem = webToonItem,
         palletColor = palletColor,
         openDetail = openDetail,

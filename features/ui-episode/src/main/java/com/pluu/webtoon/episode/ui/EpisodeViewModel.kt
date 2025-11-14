@@ -11,7 +11,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import com.pluu.utils.AppCoroutineDispatchers
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.domain.usecase.AddFavoriteUseCase
 import com.pluu.webtoon.domain.usecase.ReadEpisodeListUseCase
 import com.pluu.webtoon.domain.usecase.RemoveFavoriteUseCase
@@ -20,6 +19,9 @@ import com.pluu.webtoon.model.EpisodeId
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.model.NAV_ITEM
 import com.pluu.webtoon.model.ToonInfoWithFavorite
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,13 +32,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 /** EpisodeInfo ViewModel */
-@HiltViewModel
-internal class EpisodeViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = EpisodeViewModel.Factory::class)
+internal class EpisodeViewModel @AssistedInject constructor(
     handle: SavedStateHandle,
     private val type: NAV_ITEM,
+    @Assisted private val item :ToonInfoWithFavorite,
     private val dispatchers: AppCoroutineDispatchers,
     private val getEpisodeUseCase: GetEpisodeUseCase,
     readEpisodeListUseCase: ReadEpisodeListUseCase,
@@ -44,7 +46,6 @@ internal class EpisodeViewModel @Inject constructor(
     private val delFavoriteUseCase: RemoveFavoriteUseCase
 ) : ViewModel() {
 
-    private val item = handle.get<ToonInfoWithFavorite>(Const.EXTRA_TOON)!!
     private val id = item.id
 
     private val _event = MutableSharedFlow<EpisodeEvent>()
@@ -94,6 +95,11 @@ internal class EpisodeViewModel @Inject constructor(
                 _event.emit(EpisodeEvent.UPDATE_FAVORITE(id, isFavorite))
             }
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(toonInfo: ToonInfoWithFavorite): EpisodeViewModel
     }
 }
 
