@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.detail.ui.compose.DetailUi
 import com.pluu.webtoon.model.EpisodeInfo
 import com.pluu.webtoon.ui.compose.WebToonTheme
@@ -30,7 +29,7 @@ class MainActivity : ComponentActivity() {
     fun Sample() {
         val item = EpisodeInfo(
             id = "1",
-            toonId = "648419",
+            toonId = "734348",
             title = "Test Detail",
             image = "",
             toonTitle = "Toon Title",
@@ -42,10 +41,6 @@ class MainActivity : ComponentActivity() {
             lightVibrantColor = Color.White.toLong(),
             lightMutedColor = Color.White.toLong()
         )
-
-        // Put, Episode Information
-        // Extra information saved here is included in SavedStateHandle of ViewModel.
-        intent.putExtra(Const.EXTRA_EPISODE, item)
 
         DetailUi(
             episodeInfo = item,

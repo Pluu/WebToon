@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.pluu.utils.toast
-import com.pluu.webtoon.Const
 import com.pluu.webtoon.episode.ui.compose.EpisodeUi
 import com.pluu.webtoon.model.ToonInfo
 import com.pluu.webtoon.model.ToonInfoWithFavorite
@@ -45,10 +44,6 @@ class MainActivity : ComponentActivity() {
             lightVibrantColor = Color.White.toLong(),
             lightMutedColor = Color.White.toLong()
         )
-
-        // Put, Episode Information
-        // Extra information saved here is included in SavedStateHandle of ViewModel.
-        intent.putExtra(Const.EXTRA_TOON, item)
 
         EpisodeUi(
             webToonItem = item,
