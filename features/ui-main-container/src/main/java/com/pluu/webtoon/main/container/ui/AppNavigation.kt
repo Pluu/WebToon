@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
@@ -26,6 +27,7 @@ import com.pluu.webtoon.ui.model.PalletColor
 import com.pluu.webtoon.weekly.model.UI_NAV_ITEM
 import com.pluu.webtoon.weekly.ui.weekly.WeeklyUi
 import kotlinx.serialization.Serializable
+import timber.log.Timber
 
 @Serializable
 sealed interface Screen {
@@ -67,7 +69,8 @@ internal fun AppNavigation(
         onBack = { backStack.removeLastOrNull() },
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
-            rememberViewModelStoreNavEntryDecorator()
+            rememberViewModelStoreNavEntryDecorator(),
+            themeNavEntryDecorator(updateTheme)
         ),
         modifier = modifier,
         entryProvider = entryProvider {
@@ -115,26 +118,22 @@ internal fun AppNavigation(
             )
         }
     )
+}
 
-    // TODO: 테마 업데이트 대응
-//    DisposableEffect(navController) {
-//        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-//            Timber.tag("Logger").d("[Destination] ${destination.route}")
-//            updateTheme(
-//                when (destination.route) {
-//                    Screen.Setting::class.java.canonicalName,
-//                    Screen.License::class.java.canonicalName -> false
-//
-//                    else -> true
-//                }
-//            )
-//        }
-//        navController.addOnDestinationChangedListener(listener)
-//
-//        onDispose {
-//            navController.removeOnDestinationChangedListener(listener)
-//        }
-//    }
+@Composable
+internal fun themeNavEntryDecorator(
+    updateTheme: (Boolean) -> Unit
+) = NavEntryDecorator<Any> { entry ->
+    Timber.tag("Logger").d("[Destination] $entry")
+    updateTheme(
+        when (entry.contentKey) {
+            Screen.Setting::class.java.simpleName,
+            Screen.License::class.java.simpleName -> false
+
+            else -> true
+        }
+    )
+    entry.Content()
 }
 
 @Composable
