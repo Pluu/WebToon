@@ -1,11 +1,16 @@
 package com.pluu.webtoon.main.container.ui
 
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.entryProvider
@@ -55,6 +60,8 @@ internal fun AppNavigation(
     updateTheme: (Boolean) -> Unit
 ) {
     val backStack = remember { mutableStateListOf<Any>(Screen.Weekly) }
+    val context = LocalContext.current
+
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
@@ -92,15 +99,20 @@ internal fun AppNavigation(
                 }
             )
             installLicenseScreen(
-                themeColor = themeColor,
                 onBack = {
                     backStack.removeLastOrNull()
                 },
-                onOpenLicense = {
+                onOpenLicense = { url ->
+                    val colorSchemeParams = CustomTabColorSchemeParams.Builder()
+                        .setToolbarColor(themeColor.toArgb())
+                        .build()
 
-                },
+                    val intent = CustomTabsIntent.Builder()
+                        .setDefaultColorSchemeParams(colorSchemeParams)
+                        .build()
+                    intent.launchUrl(context, url.toUri())
+                }
             )
-//            chromeCustomTabs()
         }
     )
 
@@ -190,22 +202,13 @@ private fun EntryProviderScope<Any>.installSettingScreen(
 }
 
 private fun EntryProviderScope<Any>.installLicenseScreen(
-    themeColor: Color,
     onBack: () -> Unit,
-    onOpenLicense: () -> Unit
+    onOpenLicense: (String) -> Unit
 ) {
     entry<Screen.License> {
         LicenseUi(
             closeCurrent = onBack,
-            openBrowser = { url ->
-                // TODO: License
-//                navController.navigateChromeCustomTabs(
-//                    url = url,
-//                    extraBuilder = {
-//                        setToolbarColor(themeColor.toArgb())
-//                    }
-//                )
-            }
+            openBrowser = onOpenLicense
         )
     }
 }
