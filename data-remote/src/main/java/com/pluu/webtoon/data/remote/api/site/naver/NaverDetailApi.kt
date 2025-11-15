@@ -257,7 +257,7 @@ internal class NaverDetailApi @Inject constructor(
 
     companion object {
         val detailCreate = { toonId: String, episodeId: String ->
-            "http://m.comic.naver.com/webtoon/detail.nhn?titleId=$toonId&no=$episodeId"
+            "https://m.comic.naver.com/webtoon/detail.nhn?titleId=$toonId&no=$episodeId"
         }
     }
 
