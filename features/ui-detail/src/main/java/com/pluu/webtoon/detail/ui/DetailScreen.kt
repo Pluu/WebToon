@@ -1,8 +1,7 @@
 package com.pluu.webtoon.detail.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -39,13 +38,12 @@ internal fun DetailScreen(
 ) {
     var showNavigation by rememberMutableStateOf(true)
     var isFirstShow by rememberMutableStateOf(true)
-    val transition = updateTransition(isFirstShow)
-    val featureColorValue: Color by transition.animateColor { state ->
-        when (state) {
+    val featureColorValue: Color by animateColorAsState(
+        targetValue = when (isFirstShow) {
             true -> featureColor.themeColor
             false -> featureColor.webToonColor
         }
-    }
+    )
 
     SideEffect {
         isFirstShow = false
