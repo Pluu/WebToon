@@ -17,7 +17,6 @@ fun RepositoryHandler.configureSharedRepositories() {
     mavenCentral()
 }
 
-
 pluginManagement.repositories.configureSharedRepositories()
 pluginManagement {
     repositories {
