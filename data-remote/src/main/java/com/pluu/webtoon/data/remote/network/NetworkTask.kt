@@ -27,7 +27,7 @@ internal class NetworkTask(
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
                         continuation.resume(
-                            NetworkResult.Success(response.body?.string().orEmpty())
+                            NetworkResult.Success(response.body.string())
                         ) { _, _, _ ->
                             call.cancel()
                         }
