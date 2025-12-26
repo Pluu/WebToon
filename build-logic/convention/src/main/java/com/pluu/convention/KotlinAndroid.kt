@@ -3,18 +3,20 @@
 package com.pluu.convention
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("UnstableApiUsage")
-internal fun Project.configureApplication() {
-    extensions.configure<ApplicationExtension> {
+internal fun Project.configureApplication(
+    applicationExtension: ApplicationExtension
+) {
+    applicationExtension.apply {
         defaultConfig {
             targetSdk = Const.targetSdk
         }
@@ -51,31 +53,33 @@ internal fun Project.configureApplication() {
 /**
  * Configure base Kotlin with Android options
  */
-internal fun Project.configureAndroid() {
-    android {
-        defaultConfig {
+internal fun Project.configureAndroid(
+    commonExtension: CommonExtension
+) {
+    commonExtension.apply {
+        compileSdk = Const.compileSdk
+
+        defaultConfig.apply {
             minSdk = Const.minSdk
 
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
         }
 
-        compileSdk {
-            version = release(Const.compileSdk)
-        }
+        compileSdk = Const.compileSdk
 
-        compileOptions {
+        compileOptions.apply {
             sourceCompatibility = Const.JAVA_VERSION
             targetCompatibility = Const.JAVA_VERSION
         }
 
-        packaging {
+        packaging.apply {
             resources {
                 excludes.add("/META-INF/{AL2.0,LGPL2.1}")
             }
         }
 
-        lint {
+        lint.apply {
             checkOnly.add("Interoperability")
             disable.add("ContentDescription")
             abortOnError = false

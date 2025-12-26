@@ -1,9 +1,10 @@
-import com.android.build.gradle.BasePlugin
+
+import com.android.build.api.dsl.LibraryExtension
 import com.pluu.convention.configureAndroid
 import com.pluu.convention.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.withType
+import org.gradle.kotlin.dsl.configure
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -13,8 +14,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
 
-            plugins.withType<BasePlugin>().configureEach {
-                configureAndroid()
+            extensions.configure<LibraryExtension> {
+                configureAndroid(this)
                 configureKotlin()
             }
         }

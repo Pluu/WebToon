@@ -1,11 +1,10 @@
-import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.BasePlugin
+import com.android.build.api.dsl.ApplicationExtension
 import com.pluu.convention.configureAndroid
 import com.pluu.convention.configureApplication
 import com.pluu.convention.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.withType
+import org.gradle.kotlin.dsl.configure
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -15,12 +14,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
 
-            plugins.withType<BasePlugin>().configureEach {
-                configureAndroid()
+            extensions.configure<ApplicationExtension> {
+                configureApplication(this)
+                configureAndroid(this)
                 configureKotlin()
-            }
-            plugins.withType<AppPlugin>().configureEach {
-                configureApplication()
             }
         }
     }

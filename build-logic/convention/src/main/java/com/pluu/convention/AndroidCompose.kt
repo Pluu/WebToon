@@ -4,6 +4,7 @@ package com.pluu.convention
 // origin : https://github.com/android/nowinandroid/blob/main/build-logic/convention/src/main/kotlin/com/google/samples/apps/nowinandroid/AndroidCompose.kt
 ///////////////////////////////////////////////////////////////////////////
 
+import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
@@ -17,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
  */
 @Suppress("UnstableApiUsage")
 internal fun Project.configureAndroidCompose(
-    commonExtension: AndroidExtension,
+    commonExtension: CommonExtension,
 ) {
     commonExtension.apply {
         buildFeatures.compose = true
