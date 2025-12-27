@@ -1,4 +1,5 @@
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+
+import com.android.build.api.dsl.ApplicationExtension
 import com.pluu.convention.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -11,7 +12,7 @@ class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.plugin.compose")
             }
-            val extension = extensions.getByType<BaseAppModuleExtension>()
+            val extension = extensions.getByType<ApplicationExtension>()
             configureAndroidCompose(extension)
         }
     }
