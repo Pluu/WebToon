@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.0-rc03"
+agp = "9.0.0"
 
 # AndroiX
 activity = "1.12.2"
