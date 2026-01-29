@@ -4,10 +4,10 @@ agp = "9.0.0"
 # AndroiX
 activity = "1.12.2"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2026.01.00"
+compose-bom = "2026.01.01"
 lifecycle = "2.10.0"
 room = "2.8.4"
-paging = "3.4.0-rc01"
+paging = "3.4.0"
 nav3Core = "1.0.0"
 
 # 3rd-party
