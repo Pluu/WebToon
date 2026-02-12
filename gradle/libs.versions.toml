@@ -11,7 +11,7 @@ paging = "3.4.1"
 nav3Core = "1.0.1"
 
 # 3rd-party
-dagger = "2.59"
+dagger = "2.59.1"
 kotlin = "2.3.0"
 ksp = "2.3.5"
 kotlin-coroutine = "1.10.2"
