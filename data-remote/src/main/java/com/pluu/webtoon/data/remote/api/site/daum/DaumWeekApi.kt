@@ -71,9 +71,9 @@ internal class DaumWeekApi @Inject constructor(
                 ?.asSequence().orEmpty()
                 .filterNot {
                     it.optString("type") == "PUBLISHER"
-                }.map {
+                }.joinToString {
                     it.optString("name")
-                }.joinToString(),
+                },
             updateDate = content.getString("lastEpisodePublicationDateTime")
                 .substring(0, 10)
                 .replace("-", "."),
