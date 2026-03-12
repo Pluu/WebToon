@@ -2,13 +2,13 @@
 agp = "9.1.0"
 
 # AndroiX
-activity = "1.13.0-rc01"
+activity = "1.13.0"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2026.02.01"
-lifecycle = "2.11.0-alpha01"
+compose-bom = "2026.03.00"
+lifecycle = "2.11.0-alpha02"
 room = "2.8.4"
-paging = "3.4.1"
-nav3Core = "1.1.0-alpha05"
+paging = "3.5.0-alpha01"
+nav3Core = "1.1.0-beta01"
 
 # 3rd-party
 dagger = "2.59.2"
@@ -23,8 +23,8 @@ androidX-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.7.1"
-androidX-browser = "androidx.browser:browser:1.10.0-alpha03"
-androidX-core-ktx = "androidx.core:core-ktx:1.18.0-rc01"
+androidX-browser = "androidx.browser:browser:1.10.0-rc01"
+androidX-core-ktx = "androidx.core:core-ktx:1.18.0"
 androidX-core-splashScreen = "androidx.core:core-splashscreen:1.2.0"
 androidX-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "compose-bom" }
 androidX-compose-foundation = { module = "androidx.compose.foundation:foundation" }
