@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 inline fun <reified T : Activity> Context.buildIntent(
     vararg argument: Pair<String, Any?>
 ): Intent = Intent(this, T::class.java).apply {
+    @Suppress("DEPRECATION")
     putExtras(bundleOf(*argument))
 }
 
