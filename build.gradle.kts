@@ -16,15 +16,6 @@ subprojects {
     project.apply {
         plugin("versions.checker")
     }
-
-    // TODO: https://github.com/google/dagger/issues/5001
-    configurations.configureEach {
-        resolutionStrategy.eachDependency {
-            if (requested.name.startsWith("kotlin-metadata-jvm")) {
-                useVersion(libs.versions.kotlin.asProvider().get())
-            }
-        }
-    }
 }
 
 tasks.register("clean", Delete::class) {
