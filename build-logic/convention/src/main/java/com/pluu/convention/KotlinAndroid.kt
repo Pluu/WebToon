@@ -57,7 +57,9 @@ internal fun Project.configureAndroid(
     commonExtension: CommonExtension
 ) {
     commonExtension.apply {
-        compileSdk = Const.compileSdk
+        compileSdk {
+            version = release(Const.compileSdk)
+        }
 
         defaultConfig.apply {
             minSdk = Const.minSdk
@@ -65,8 +67,6 @@ internal fun Project.configureAndroid(
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
         }
-
-        compileSdk = Const.compileSdk
 
         compileOptions.apply {
             sourceCompatibility = Const.JAVA_VERSION
