@@ -58,7 +58,9 @@ internal fun Project.configureAndroid(
 ) {
     commonExtension.apply {
         compileSdk {
-            version = release(Const.compileSdk)
+            version = release(Const.compileSdk) {
+                minorApiLevel = Const.compileSdkMinorApiLevel
+            }
         }
 
         defaultConfig.apply {

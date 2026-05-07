@@ -4,7 +4,8 @@ import org.gradle.api.JavaVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 object Const {
-    const val compileSdk = 36
+    const val compileSdk = 37
+    const val compileSdkMinorApiLevel = 0
     const val minSdk = 23
     const val targetSdk = 36
     val JAVA_VERSION = JavaVersion.VERSION_11
