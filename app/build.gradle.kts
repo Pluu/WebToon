@@ -23,15 +23,10 @@ android {
 
 dependencies {
     implementation(projects.coreAndroid)
-    implementation(projects.data)
     implementation(projects.dataLocal)
     implementation(projects.dataRemote)
     implementation(projects.uiIntro)
     implementation(projects.uiMainContainer)
-
-    // kotlin
-    implementation(libs.kotlin.coroutine.core)
-    implementation(libs.kotlin.coroutine.android)
 
     implementation(libs.timber)
 }
