@@ -1,13 +1,12 @@
 package com.pluu.webtoon.episode.ui.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.style.contentPadding
+import androidx.compose.foundation.style.fillWidth
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -41,10 +40,12 @@ internal fun EpisodeItemUi(
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .clip(MaterialTheme.shapes.medium)
             .clickable { onClicked(item) }
+            .styleable {
+                fillWidth()
+                height(100.dp)
+            }
+            .clip(MaterialTheme.shapes.medium)
     ) {
         Box {
             ToonImage(
@@ -75,9 +76,11 @@ private fun EpisodeItemUiOverlayUi(
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .background(Color(0x66000000))
-                .sizeIn(minHeight = 20.dp)
-                .padding(horizontal = 6.dp, vertical = 2.dp)
+                .styleable {
+                    background(Color(0x66000000))
+                    minHeight(20.dp)
+                    contentPadding(horizontal = 6.dp, vertical = 2.dp)
+                }
                 .constrainAs(title) {
                     width = Dimension.fillToConstraints
                     centerHorizontallyTo(parent)

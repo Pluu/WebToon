@@ -4,13 +4,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -100,7 +100,10 @@ private fun DetailScreen(
             },
         ) {
             DetailTopUi(
-                modifier = Modifier.background(backgroundColor),
+                modifier = Modifier
+                    .styleable {
+                        background(backgroundColor)
+                    },
                 title = uiStateElement.data?.title.orEmpty(),
                 subTitle = uiStateElement.data?.webToonTitle.orEmpty(),
                 onBackPressed = {
@@ -125,7 +128,10 @@ private fun DetailScreen(
             },
         ) {
             DetailBottomNavigationUi(
-                modifier = Modifier.background(backgroundColor),
+                modifier = Modifier
+                    .styleable {
+                        background(backgroundColor)
+                    },
                 isPrevEnabled = uiStateElement.data?.prevEpisodeId.isNullOrEmpty().not(),
                 onPrevClicked = {
                     onUiEvent(DetailUiEvent.OnPrevPressed)

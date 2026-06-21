@@ -28,6 +28,7 @@ import com.pluu.compose.runtime.rememberMutableStateOf
 import com.pluu.compose.ui.tooling.preview.DayNightPreview
 import com.pluu.webtoon.ui.compose.theme.AppTheme
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 internal fun IntroScreen(
@@ -48,10 +49,10 @@ internal fun IntroScreen(
 
     LaunchedEffect(isLoading) {
         if (isLoading) {
-            delay(1_000L)
+            delay(1.seconds)
             isLoading = false
         } else {
-            delay(500L)
+            delay(0.5.seconds)
             navigationToMain()
         }
     }

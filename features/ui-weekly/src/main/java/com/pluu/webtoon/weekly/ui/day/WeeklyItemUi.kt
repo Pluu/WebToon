@@ -1,7 +1,6 @@
 package com.pluu.webtoon.weekly.ui.day
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.style.contentPadding
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -97,15 +98,6 @@ internal fun WeeklyItemOverlayUi(
             textAlign = TextAlign.Start,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .background(
-                    color = Color(0x66000000),
-                    shape = if (isStatusShow) {
-                        RoundedCornerShape(bottomEnd = 4.dp)
-                    } else {
-                        RectangleShape
-                    }
-                )
-                .padding(horizontal = 6.dp, vertical = 2.dp)
                 .wrapContentWidth(align = Alignment.Start)
                 .constrainAs(title) {
                     width = Dimension.fillToConstraints
@@ -123,6 +115,17 @@ internal fun WeeklyItemOverlayUi(
                             0.dp
                         }
                     )
+                }
+                .styleable {
+                    background(Color(0x66000000))
+                    shape(
+                        if (isStatusShow) {
+                            RoundedCornerShape(bottomEnd = 4.dp)
+                        } else {
+                            RectangleShape
+                        }
+                    )
+                    contentPadding(horizontal = 6.dp, vertical = 2.dp)
                 }
         )
 

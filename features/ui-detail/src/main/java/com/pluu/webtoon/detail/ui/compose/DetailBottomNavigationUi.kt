@@ -1,14 +1,13 @@
 package com.pluu.webtoon.detail.ui.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -86,15 +85,15 @@ private fun BottomNavigationButton(
     onClicked: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
-    Column(
-        modifier = if (isEnable) {
-            modifier
-        } else {
-            modifier.then(Modifier.background(Color.Gray))
-        }
-    ) {
+    Column(modifier = modifier) {
         TextButton(
-            modifier = Modifier.height(48.dp),
+            modifier = Modifier
+                .styleable {
+                    height(48.dp)
+                    if (!isEnable) {
+                        background(Color.Gray)
+                    }
+                },
             shape = RoundedCornerShape(0.dp),
             enabled = isEnable,
             onClick = onClicked,
@@ -113,7 +112,6 @@ private fun BottomNavigationButton(
 private fun PreviewDetailNavigationUi() {
     AppTheme {
         DetailBottomNavigationUi(
-            modifier = Modifier.height(48.dp),
             isPrevEnabled = false,
             onPrevClicked = {},
             isNextEnabled = true,

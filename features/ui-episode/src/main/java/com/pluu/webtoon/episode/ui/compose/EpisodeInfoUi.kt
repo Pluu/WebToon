@@ -1,9 +1,9 @@
 package com.pluu.webtoon.episode.ui.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.style.fillWidth
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -36,9 +36,10 @@ internal fun EpisodeInfoUi(
     onFirstClicked: () -> Unit
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(backgroundColor)
+        modifier = modifier.styleable {
+            fillWidth()
+            background(backgroundColor)
+        }
     ) {
         CompositionLocalProvider(
             LocalContentColor provides contentColor

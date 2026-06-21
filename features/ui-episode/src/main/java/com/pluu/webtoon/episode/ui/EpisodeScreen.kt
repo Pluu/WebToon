@@ -7,10 +7,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.style.contentPadding
+import androidx.compose.foundation.style.fillWidth
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -94,11 +94,13 @@ private fun EpisodeScreen(
         bottomBar = {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(featureBgColor)
+                    .styleable {
+                        fillWidth()
+                        background(featureBgColor)
+                        height(62.dp)
+                        contentPadding(horizontal = 8.dp, vertical = 2.dp)
+                    }
                     .navigationBarsPadding()
-                    .height(62.dp)
-                    .padding(horizontal = 8.dp, vertical = 2.dp)
             ) {
                 if (isFirstLoaded) {
                     EpisodeInfoUi(

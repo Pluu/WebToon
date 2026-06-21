@@ -1,18 +1,17 @@
 package com.pluu.compose.preference
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.style.contentPadding
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -138,9 +137,11 @@ private fun ContentPreference(
 ) {
     Row(
         modifier = modifier
-            .background(backgroundColor)
-            .sizeIn(minHeight = PreferenceTokens.PreferenceMinHeight)
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .styleable {
+                background(backgroundColor)
+                minHeight(PreferenceTokens.PreferenceMinHeight)
+                contentPadding(horizontal = 16.dp, vertical = 8.dp)
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

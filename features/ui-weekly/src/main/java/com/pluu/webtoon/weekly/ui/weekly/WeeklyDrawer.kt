@@ -1,20 +1,19 @@
 package com.pluu.webtoon.weekly.ui.weekly
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.style.contentPadding
+import androidx.compose.foundation.style.contentPaddingHorizontal
+import androidx.compose.foundation.style.fillWidth
+import androidx.compose.foundation.style.styleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -43,11 +42,15 @@ internal fun WeeklyDrawer(
     selectedMenu: UI_NAV_ITEM,
     onEventAction: (WeeklyMenuEvent) -> Unit
 ) {
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val onBackgroundColor = MaterialTheme.colorScheme.onBackground
+
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .styleable {
+                background(backgroundColor)
+            }
             .navigationBarsPadding()
-            .background(MaterialTheme.colorScheme.background)
     ) {
         Text(
             title,
@@ -55,11 +58,13 @@ internal fun WeeklyDrawer(
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .fillMaxWidth()
-                .background(color = selectedMenu.bgColor)
+                .styleable {
+                    fillWidth()
+                    background(color = selectedMenu.bgColor)
+                    minHeight(56.dp)
+                    contentPaddingHorizontal(16.dp)
+                }
                 .statusBarsPadding()
-                .sizeIn(minHeight = 56.dp)
-                .padding(horizontal = 16.dp)
                 .wrapContentSize(align = Alignment.CenterStart)
         )
 
@@ -68,23 +73,25 @@ internal fun WeeklyDrawer(
         menus.withIndex().forEach { (index, item) ->
             val isSelected = selectedMenu == item
             Text(
-                stringResource(ServiceConst.NAV_DRAWER_TITLE_RES_ID[index]),
+                text = stringResource(ServiceConst.NAV_DRAWER_TITLE_RES_ID[index]),
                 color = if (isSelected) {
                     selectedMenu.color
                 } else {
-                    MaterialTheme.colorScheme.onBackground
+                    onBackgroundColor
                 },
                 fontSize = 14.sp,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .clickable(
                         interactionSource = null,
                         indication = ripple(color = selectedMenu.color)
                     ) {
                         onEventAction(WeeklyMenuEvent.OnMenuClicked(item))
                     }
-                    .sizeIn(minHeight = 48.dp)
-                    .padding(horizontal = 16.dp)
+                    .styleable {
+                        fillWidth()
+                        minHeight(48.dp)
+                        contentPaddingHorizontal(16.dp)
+                    }
                     .wrapContentHeight(align = Alignment.CenterVertically)
             )
         }
@@ -93,15 +100,17 @@ internal fun WeeklyDrawer(
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .clickable(
                     interactionSource = null,
                     indication = ripple(color = selectedMenu.color)
                 ) {
                     onEventAction(WeeklyMenuEvent.OnSettingClicked)
                 }
-                .sizeIn(minHeight = 48.dp)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .styleable {
+                    fillWidth()
+                    minHeight(48.dp)
+                    contentPadding(horizontal = 16.dp, vertical = 8.dp)
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
