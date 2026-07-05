@@ -81,6 +81,8 @@ junit = "junit:junit:4.13.2"
 assertJ = "org.assertj:assertj-core:3.27.7"
 mockito = "org.mockito:mockito-core:5.23.0"
 
+errorprone = "com.google.errorprone:error_prone_annotations:2.50.0"
+
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

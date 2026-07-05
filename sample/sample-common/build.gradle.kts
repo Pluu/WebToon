@@ -23,4 +23,6 @@ dependencies {
     implementation(libs.kotlin.coroutine.android)
 
     api(libs.timber)
+
+    implementation(libs.errorprone)
 }

@@ -29,4 +29,5 @@ dependencies {
     implementation(projects.uiMainContainer)
 
     implementation(libs.timber)
+    implementation(libs.errorprone)
 }
