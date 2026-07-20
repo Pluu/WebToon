@@ -11,9 +11,9 @@ paging = "3.5.0"
 nav3Core = "1.1.4"
 
 # 3rd-party
-dagger = "2.60"
-kotlin = "2.4.0"
-ksp = "2.3.9"
+dagger = "2.60.1"
+kotlin = "2.4.10"
+ksp = "2.3.10"
 kotlin-coroutine = "1.11.0"
 okhttp = "5.4.0"
 
