@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId = "com.pluu.webtoon"
-        versionCode = 72
-        versionName = "1.7.5"
+        versionCode = 73
+        versionName = "1.7.6"
     }
 
     useLibrary("android.test.mock")
