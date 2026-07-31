@@ -35,17 +35,17 @@ internal class WeeklyDayViewModel @AssistedInject constructor(
     getFavoritesUseCase: GetFavoritesUseCase
 ) : ViewModel() {
 
-    private val _listEvent = MutableLiveData<List<ToonInfoWithFavorite>>()
-    val listEvent: LiveData<List<ToonInfoWithFavorite>> get() = _listEvent
+    val listEvent: LiveData<List<ToonInfoWithFavorite>>
+        field = MutableLiveData<List<ToonInfoWithFavorite>>()
 
-    private val _event = MutableLiveData<WeeklyEvent>()
-    val event: LiveData<WeeklyEvent> get() = _event
+    val event: LiveData<WeeklyEvent>
+        field = MutableLiveData<WeeklyEvent>()
 
     private val favorites: Flow<Set<ToonId>> = getFavoritesUseCase(type)
 
     private val ceh = CoroutineExceptionHandler { _, t ->
         Timber.e(t)
-        _event.value = WeeklyEvent.ErrorEvent(t.localizedMessage ?: "Unknown Message")
+        event.value = WeeklyEvent.ErrorEvent(t.localizedMessage ?: "Unknown Message")
     }
 
     private val toonList: Flow<List<ToonInfo>> = flow {
@@ -66,7 +66,7 @@ internal class WeeklyDayViewModel @AssistedInject constructor(
                     it.info.title
                 })
             }.collect {
-                _listEvent.value = it
+                listEvent.value = it
             }
         }
     }

@@ -49,8 +49,8 @@ internal class EpisodeViewModel @AssistedInject constructor(
     private val _event = MutableSharedFlow<EpisodeEvent>()
     val event: Flow<EpisodeEvent> = _event.asSharedFlow()
 
-    private val _favorite = MutableLiveData(item.isFavorite)
-    val favorite: LiveData<Boolean> get() = _favorite
+    val favorite: LiveData<Boolean>
+        field = MutableLiveData(item.isFavorite)
 
     private var firstEpisode: EpisodeInfo? = null
 
@@ -89,7 +89,7 @@ internal class EpisodeViewModel @AssistedInject constructor(
                 delFavoriteUseCase(type, id)
             }
             withContext(dispatchers.main) {
-                _favorite.value = isFavorite
+                favorite.value = isFavorite
                 _event.emit(EpisodeEvent.UPDATE_FAVORITE(id, isFavorite))
             }
         }

@@ -33,11 +33,11 @@ internal class DetailViewModel @AssistedInject constructor(
     private val readUseCase: ReadUseCase,
     private val getShareUseCase: GetShareUseCase
 ) : ViewModel() {
-    private val _event = MutableLiveData<DetailEvent>()
-    val event: LiveData<DetailEvent> get() = _event
+    val event: LiveData<DetailEvent>
+        field = MutableLiveData<DetailEvent>()
 
-    private val _elementUiState = MutableLiveData<UiState<ElementEvent>>()
-    val elementUiState: LiveData<UiState<ElementEvent>> get() = _elementUiState
+    val elementUiState: LiveData<UiState<ElementEvent>>
+        field = MutableLiveData<UiState<ElementEvent>>()
 
     private lateinit var element: ElementEvent
     private var currentItem: DetailResult.Detail? = null
@@ -59,12 +59,12 @@ internal class DetailViewModel @AssistedInject constructor(
     }
 
     private fun loadDetail(episode: EpisodeInfo) {
-        _event.value = DetailEvent.START
+        event.value = DetailEvent.START
 
         viewModelScope.launch {
             var error: DetailEvent? = null
 
-            _elementUiState.value = UiState(loading = true)
+            elementUiState.value = UiState(loading = true)
 
             when (val result: DetailResult = readDetail(episode)) {
                 is DetailResult.Detail -> {
@@ -82,7 +82,7 @@ internal class DetailViewModel @AssistedInject constructor(
                         }
                     )
 
-                    _elementUiState.value = UiState(data = element)
+                    elementUiState.value = UiState(data = element)
                 }
 
                 is DetailResult.ErrorResult -> {
@@ -90,7 +90,7 @@ internal class DetailViewModel @AssistedInject constructor(
                     Timber.e(result.errorType.getLogMessage())
                 }
             }
-            _event.value = error ?: DetailEvent.LOADED
+            event.value = error ?: DetailEvent.LOADED
         }
     }
 
@@ -116,7 +116,7 @@ internal class DetailViewModel @AssistedInject constructor(
 
     fun requestShare() {
         val item = currentItem ?: return
-        _event.value = DetailEvent.SHARE(
+        event.value = DetailEvent.SHARE(
             getShareUseCase(
                 toonId = episode.toonId,
                 episodeId = episode.id,
