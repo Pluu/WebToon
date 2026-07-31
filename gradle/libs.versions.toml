@@ -4,11 +4,11 @@ agp = "9.3.1"
 # AndroiX
 activity = "1.13.0"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2026.07.00"
+compose-bom = "2026.07.01"
 lifecycle = "2.11.0"
 room = "2.8.4"
 paging = "3.5.0"
-nav3Core = "1.1.4"
+nav3Core = "1.1.5"
 
 # 3rd-party
 dagger = "2.60.1"
@@ -39,8 +39,8 @@ androidX-compose-ui = { module = "androidx.compose.ui:ui" }
 androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidX-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidX-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.1"
-androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.9.0-alpha02"
+androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.2"
+androidX-fragment-ktx = "androidx.fragment:fragment-ktx:1.9.0-rc01"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.4.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
