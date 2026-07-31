@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * A [Modifier] that draws a border around elements that are recomposing. The border increases in
@@ -42,7 +43,7 @@ private val recomposeModifier =
         // Start the timeout, and reset everytime there's a recomposition. (Using totalCompositions
         // as the key is really just to cause the timer to restart every composition).
         LaunchedEffect(totalCompositions[0]) {
-            delay(3000)
+            delay(3_000.milliseconds)
             totalCompositionsAtLastTimeout.value = totalCompositions[0]
         }
 
