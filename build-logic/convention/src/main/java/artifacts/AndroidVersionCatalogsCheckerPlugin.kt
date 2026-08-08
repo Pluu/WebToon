@@ -4,18 +4,17 @@ package artifacts
 // Origin : https://github.com/ganadist/minimal-reproducible-example/blob/main/build-logic/convention/src/main/kotlin/AndroidVersionCatalogsCheckerPlugin.kt
 ///////////////////////////////////////////////////////////////////////////
 
+import com.pluu.convention.libs
+import com.pluu.convention.loadLibrary
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.extra
 import org.gradle.util.internal.VersionNumber
 
 class AndroidVersionCatalogsCheckerPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            @Suppress("UNCHECKED_CAST")
-            val modules = rootProject.extra[AndroidVersionCatalogsLoaderPlugin.MODULE_EXTRA]
-                as Map<String, String>
+            val modules = libs.loadLibrary()
 
             configurations.all {
                 val isIntermediatesConfiguration =

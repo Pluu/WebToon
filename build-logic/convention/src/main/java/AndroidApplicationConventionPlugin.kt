@@ -12,6 +12,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
+                apply("versions.checker")
             }
 
             extensions.configure<ApplicationExtension> {

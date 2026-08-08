@@ -11,3 +11,15 @@ import org.gradle.kotlin.dsl.getByType
 
 val Project.libs: VersionCatalog
     get() = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+internal fun VersionCatalog.loadLibrary(): Map<String, String> {
+    val versions = mutableMapOf<String, String>()
+    libraryAliases.forEach { alias ->
+        val dep = findLibrary(alias).get().get()
+        if (dep.version != null) {
+            versions["${dep.group}:${dep.name}"] = dep.version.toString()
+        }
+    }
+
+    return versions
+}

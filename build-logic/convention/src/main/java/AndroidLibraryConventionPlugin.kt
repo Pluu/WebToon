@@ -12,6 +12,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.library")
+                apply("versions.checker")
             }
 
             extensions.configure<LibraryExtension> {

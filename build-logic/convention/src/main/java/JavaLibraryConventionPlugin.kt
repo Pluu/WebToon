@@ -12,6 +12,7 @@ class JavaLibraryConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("java-library")
                 apply("org.jetbrains.kotlin.jvm")
+                apply("versions.checker")
             }
 
             java {
