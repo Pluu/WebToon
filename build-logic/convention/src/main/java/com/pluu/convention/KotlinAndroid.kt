@@ -27,7 +27,7 @@ internal fun Project.configureApplication(
 
         signingConfigs {
             getByName("debug") {
-                storeFile = project.rootProject.file("debug.keystore")
+                storeFile = project.rootDir.resolve("debug.keystore")
                 storePassword = "android"
                 keyAlias = "androiddebugkey"
                 keyPassword = "android"

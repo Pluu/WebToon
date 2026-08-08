@@ -9,7 +9,6 @@ plugins {
     id("versions.checker") apply false
 }
 
-apply(from = "${rootDir}/gradle/jetifier_disable.gradle.kts")
 apply(from = "${rootDir}/gradle/projectInverseDependencyGraph.gradle")
 
 subprojects {

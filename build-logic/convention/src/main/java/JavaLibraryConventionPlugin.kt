@@ -1,4 +1,5 @@
 import com.pluu.convention.Const
+import com.pluu.convention.configureJetifier
 import com.pluu.convention.java
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,6 +18,7 @@ class JavaLibraryConventionPlugin : Plugin<Project> {
                 sourceCompatibility = Const.JAVA_VERSION
                 targetCompatibility = Const.JAVA_VERSION
             }
+            configureJetifier()
         }
 
         project.plugins.forEach { plugin ->

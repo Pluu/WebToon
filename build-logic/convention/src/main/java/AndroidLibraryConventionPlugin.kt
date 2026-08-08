@@ -1,6 +1,7 @@
 
 import com.android.build.api.dsl.LibraryExtension
 import com.pluu.convention.configureAndroid
+import com.pluu.convention.configureJetifier
 import com.pluu.convention.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,6 +18,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 configureAndroid(this)
                 configureKotlin()
             }
+            configureJetifier()
         }
     }
 }
