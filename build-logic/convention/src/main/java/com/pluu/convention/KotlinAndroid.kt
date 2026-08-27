@@ -53,7 +53,7 @@ internal fun Project.configureApplication(
 /**
  * Configure base Kotlin with Android options
  */
-internal fun Project.configureAndroid(
+internal fun configureAndroid(
     commonExtension: CommonExtension
 ) {
     commonExtension.apply {

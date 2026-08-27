@@ -130,7 +130,7 @@ internal class NaverDetailApi @Inject constructor(
         .filter { it.isNotEmpty() && !SKIP_DETAIL.contains(it) }
         .map { DetailView(it) }
 
-    @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
+    @Suppress("RedundantSuspendModifier")
     private suspend fun parseFixed(ret: DetailResult.Detail, doc: Document): TypeResult {
         val list = parseDetailFixedType(doc)
 
@@ -175,7 +175,7 @@ internal class NaverDetailApi @Inject constructor(
         .map { it.attr("data-src") }
         .map { url -> DetailView(url) }
 
-    @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
+    @Suppress("RedundantSuspendModifier")
     private suspend fun parseCutToon(ret: DetailResult.Detail, doc: Document): TypeResult {
         val list = parseDetailCutToonType(doc)
 
@@ -202,7 +202,6 @@ internal class NaverDetailApi @Inject constructor(
         .map { it.attr("data-src") }
         .map { url -> DetailView(url) }
 
-    @Suppress("UNUSED_PARAMETER")
     private suspend fun parseOsLoader(ret: DetailResult.Detail, doc: Document): TypeResult {
         val infoScript = doc.getElementsByTag("script")
             .firstOrNull {

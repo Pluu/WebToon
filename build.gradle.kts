@@ -9,7 +9,3 @@ plugins {
 }
 
 apply(from = "${rootDir}/gradle/projectInverseDependencyGraph.gradle")
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.layout.buildDirectory)
-}
