@@ -75,6 +75,8 @@ internal fun configureAndroid(
             targetCompatibility = Const.JAVA_VERSION
         }
 
+        testOptions.unitTests.isReturnDefaultValues = true
+
         packaging.apply {
             resources {
                 excludes.add("/META-INF/{AL2.0,LGPL2.1}")
