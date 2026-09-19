@@ -2,13 +2,13 @@
 agp = "9.4.1"
 
 # AndroiX
-activity = "1.14.0-alpha01"
+activity = "1.14.0-alpha02"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2026.08.01"
-lifecycle = "2.12.0-alpha02"
-room = "2.8.4"
+compose-bom = "2026.09.00"
+lifecycle = "2.12.0-alpha03"
+room = "2.8.5"
 paging = "3.5.1"
-nav3Core = "1.2.0-beta01"
+nav3Core = "1.2.0-rc01"
 
 # 3rd-party
 dagger = "2.60.1"
