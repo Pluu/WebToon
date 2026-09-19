@@ -13,7 +13,7 @@ nav3Core = "1.2.0-rc01"
 # 3rd-party
 dagger = "2.60.1"
 kotlin = "2.4.20"
-ksp = "2.3.11"
+ksp = "2.3.12"
 kotlin-coroutine = "1.11.0"
 okhttp = "5.5.0"
 
