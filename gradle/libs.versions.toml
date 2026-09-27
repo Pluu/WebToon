@@ -2,13 +2,13 @@
 agp = "9.4.1"
 
 # AndroiX
-activity = "1.14.0-alpha02"
+activity = "1.14.0-alpha03"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2026.09.00"
-lifecycle = "2.12.0-alpha03"
+compose-bom = "2026.09.01"
+lifecycle = "2.12.0-alpha04"
 room = "2.8.5"
 paging = "3.5.1"
-nav3Core = "1.2.0-rc01"
+nav3Core = "1.2.0"
 
 # 3rd-party
 dagger = "2.60.1"
@@ -24,7 +24,7 @@ androidX-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidX-arch-coreTesting = "androidx.arch.core:core-testing:2.2.0"
 androidX-appcompat = "androidx.appcompat:appcompat:1.8.0"
 androidX-browser = "androidx.browser:browser:1.10.0"
-androidX-core-ktx = "androidx.core:core-ktx:1.19.0"
+androidX-core-ktx = "androidx.core:core-ktx:1.19.1"
 androidX-core-splashScreen = "androidx.core:core-splashscreen:1.2.0"
 androidX-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "compose-bom" }
 androidX-compose-foundation = { module = "androidx.compose.foundation:foundation" }
@@ -40,7 +40,7 @@ androidX-compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manife
 androidX-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidX-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidX-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.2"
-androidX-fragment-ktx = "androidx.fragment:fragment:1.9.0"
+androidX-fragment-ktx = "androidx.fragment:fragment:1.9.1"
 androidX-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.4.0"
 androidX-lifecycle-runtimeTesting = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -72,14 +72,14 @@ kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-tes
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
 ## etc
 jsoup = "org.jsoup:jsoup:1.23.2"
-landscapist = "com.github.skydoves:landscapist-coil:2.13.1"
+landscapist = "com.github.skydoves:landscapist-coil:2.13.2"
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 timber = "com.jakewharton.timber:timber:5.0.1"
 
 junit = "junit:junit:4.13.2"
 assertJ = "org.assertj:assertj-core:3.27.7"
-mockito = "org.mockito:mockito-core:5.23.0"
+mockito = "org.mockito:mockito-core:5.24.0"
 
 errorprone = "com.google.errorprone:error_prone_annotations:2.50.0"
 
