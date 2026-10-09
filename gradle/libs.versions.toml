@@ -4,15 +4,15 @@ agp = "9.4.1"
 # AndroiX
 activity = "1.14.0-alpha03"
 ## https://developer.android.com/develop/ui/compose/bom/bom-mapping
-compose-bom = "2026.09.01"
+compose-bom = "2026.10.00"
 lifecycle = "2.12.0-alpha04"
 room = "2.8.5"
-paging = "3.5.1"
+paging = "3.5.2"
 nav3Core = "1.2.0"
 
 # 3rd-party
 dagger = "2.60.1"
-kotlin = "2.4.20"
+kotlin = "2.4.21"
 ksp = "2.3.12"
 kotlin-coroutine = "1.11.0"
 okhttp = "5.5.0"
