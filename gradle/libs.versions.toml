@@ -84,7 +84,7 @@ mockito = "org.mockito:mockito-core:5.24.0"
 errorprone = "com.google.errorprone:error_prone_annotations:2.50.0"
 
 # Dependencies of the included build-logic
-android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+android-gradlePlugin = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "dagger" }
 compose-compiler-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
