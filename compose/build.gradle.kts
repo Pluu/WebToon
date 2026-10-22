@@ -7,12 +7,6 @@ android {
     namespace = "com.pluu.compose"
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-opt-in=androidx.compose.foundation.style.ExperimentalFoundationStyleApi")
-    }
-}
-
 dependencies {
     // AndroidX
     implementation(libs.androidX.core.ktx)

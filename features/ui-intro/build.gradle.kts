@@ -8,12 +8,6 @@ android {
     namespace = "com.pluu.webtoon.intro"
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-opt-in=androidx.compose.foundation.style.ExperimentalFoundationStyleApi")
-    }
-}
-
 dependencies {
     implementation(projects.uiCommon)
     implementation(projects.compose)
