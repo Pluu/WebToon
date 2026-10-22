@@ -102,7 +102,6 @@ internal fun Project.configureKotlin() {
                 "kotlin.RequiresOptIn",
                 "kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "kotlinx.coroutines.FlowPreview",
-                "androidx.compose.foundation.style.ExperimentalFoundationStyleApi"
             )
         }
     }
