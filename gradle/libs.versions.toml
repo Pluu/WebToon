@@ -79,7 +79,7 @@ timber = "com.jakewharton.timber:timber:5.0.1"
 
 junit = "junit:junit:4.13.2"
 assertJ = "org.assertj:assertj-core:3.27.7"
-mockito = "org.mockito:mockito-core:5.24.0"
+mockito = "org.mockito:mockito-core:5.25.0"
 
 errorprone = "com.google.errorprone:error_prone_annotations:2.53.0"
 
